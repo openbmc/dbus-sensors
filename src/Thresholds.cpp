@@ -4,6 +4,7 @@
 #include <boost/lexical_cast.hpp>
 #include <fstream>
 #include <iostream>
+#include <sensor.hpp>
 
 static constexpr bool DEBUG = false;
 constexpr size_t MAX_THRESHOLDS = 4;
@@ -160,6 +161,91 @@ void persistThreshold(const std::string &path, const std::string &baseInterface,
             ENTITY_MANAGER_NAME, path, "org.freedesktop.DBus.Properties",
             "GetAll", thresholdInterface);
     }
+}
+
+void checkThresholds(Sensor *sensor)
+{
+
+    if (sensor->thresholds.empty())
+    {
+        return;
+    }
+    for (auto &threshold : sensor->thresholds)
+    {
+        if (threshold.direction == thresholds::Direction::HIGH)
+        {
+            if (sensor->value > threshold.value && !threshold.asserted)
+            {
+                assertThresholds(sensor, threshold.level, threshold.direction,
+                                 true);
+                threshold.asserted = true;
+            }
+            else if (sensor->value <= threshold.value && threshold.asserted)
+            {
+                assertThresholds(sensor, threshold.level, threshold.direction,
+                                 false);
+                threshold.asserted = false;
+            }
+        }
+        else
+        {
+            if (sensor->value < threshold.value && !threshold.asserted)
+            {
+                assertThresholds(sensor, threshold.level, threshold.direction,
+                                 true);
+                threshold.asserted = true;
+            }
+            else if (sensor->value >= threshold.value && threshold.asserted)
+            {
+                assertThresholds(sensor, threshold.level, threshold.direction,
+                                 false);
+                threshold.asserted = false;
+            }
+        }
+    }
+}
+
+void assertThresholds(Sensor *sensor, thresholds::Level level,
+                      thresholds::Direction direction, bool assert)
+{
+    std::string property;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
+    if (level == thresholds::Level::WARNING &&
+        direction == thresholds::Direction::HIGH)
+    {
+        property = "WarningAlarmHigh";
+        interface = sensor->thresholdInterfaceWarning;
+    }
+    else if (level == thresholds::Level::WARNING &&
+             direction == thresholds::Direction::LOW)
+    {
+        property = "WarningAlarmLow";
+        interface = sensor->thresholdInterfaceWarning;
+    }
+    else if (level == thresholds::Level::CRITICAL &&
+             direction == thresholds::Direction::HIGH)
+    {
+        property = "CriticalAlarmHigh";
+        interface = sensor->thresholdInterfaceCritical;
+    }
+    else if (level == thresholds::Level::CRITICAL &&
+             direction == thresholds::Direction::LOW)
+    {
+        property = "CriticalAlarmLow";
+        interface = sensor->thresholdInterfaceCritical;
+    }
+    else
+    {
+        std::cerr << "Unknown threshold, level " << level << "direction "
+                  << direction << "\n";
+        return;
+    }
+    if (!interface)
+    {
+        std::cout << "trying to set uninitialized interface\n";
+        return;
+    }
+    interface->set_property(property, assert);
 }
 
 static constexpr std::array<const char *, 4> ATTR_TYPES = {"lcrit", "min",

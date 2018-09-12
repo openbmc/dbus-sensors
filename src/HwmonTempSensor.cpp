@@ -37,28 +37,28 @@ HwmonTempSensor::HwmonTempSensor(
     boost::asio::io_service &io, const std::string &sensor_name,
     std::vector<thresholds::Threshold> &&_thresholds,
     const std::string &sensorConfiguration) :
-    path(path),
-    objectType(objectType), configuration(sensorConfiguration),
+    Sensor(),
+    path(path), objectType(objectType), configuration(sensorConfiguration),
     objServer(objectServer),
     name(boost::replace_all_copy(sensor_name, " ", "_")),
-    thresholds(std::move(_thresholds)),
-    sensor_interface(objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        "xyz.openbmc_project.Sensor.Value")),
-    input_dev(io, open(path.c_str(), O_RDONLY)), wait_timer(io),
-    value(std::numeric_limits<double>::quiet_NaN()), err_count(0),
+    input_dev(io, open(path.c_str(), O_RDONLY)), wait_timer(io), err_count(0),
     // todo, get these from config
     max_value(127), min_value(-128)
 {
+    thresholds = std::move(_thresholds);
+    sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + name,
+        "xyz.openbmc_project.Sensor.Value");
+
     if (thresholds::HasWarningInterface(thresholds))
     {
-        threshold_interface_warning = objectServer.add_interface(
+        thresholdInterfaceWarning = objectServer.add_interface(
             "/xyz/openbmc_project/sensors/temperature/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::HasCriticalInterface(thresholds))
     {
-        threshold_interface_critical = objectServer.add_interface(
+        thresholdInterfaceCritical = objectServer.add_interface(
             "/xyz/openbmc_project/sensors/temperature/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
@@ -71,9 +71,9 @@ HwmonTempSensor::~HwmonTempSensor()
     // close the input dev to cancel async operations
     input_dev.close();
     wait_timer.cancel();
-    objServer.remove_interface(threshold_interface_warning);
-    objServer.remove_interface(threshold_interface_critical);
-    objServer.remove_interface(sensor_interface);
+    objServer.remove_interface(thresholdInterfaceWarning);
+    objServer.remove_interface(thresholdInterfaceCritical);
+    objServer.remove_interface(sensorInterface);
 }
 
 void HwmonTempSensor::setup_read(void)
@@ -144,93 +144,23 @@ void HwmonTempSensor::handle_response(const boost::system::error_code &err)
 
 void HwmonTempSensor::check_thresholds(void)
 {
-    if (thresholds.empty())
-        return;
-    for (auto threshold : thresholds)
-    {
-        if (threshold.direction == thresholds::Direction::HIGH)
-        {
-            if (value > threshold.value)
-            {
-                assert_thresholds(threshold.level, threshold.direction, true);
-            }
-            else
-            {
-                assert_thresholds(threshold.level, threshold.direction, false);
-            }
-        }
-        else
-        {
-            if (value < threshold.value)
-            {
-                assert_thresholds(threshold.level, threshold.direction, true);
-            }
-            else
-            {
-                assert_thresholds(threshold.level, threshold.direction, false);
-            }
-        }
-    }
+    thresholds::checkThresholds(this);
 }
 
 void HwmonTempSensor::update_value(const double &new_value)
 {
-    sensor_interface->set_property("Value", new_value);
+    sensorInterface->set_property("Value", new_value);
     value = new_value;
     check_thresholds();
-}
-
-void HwmonTempSensor::assert_thresholds(thresholds::Level level,
-                                        thresholds::Direction direction,
-                                        bool assert)
-{
-    std::string property;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-    if (level == thresholds::Level::WARNING &&
-        direction == thresholds::Direction::HIGH)
-    {
-        property = "WarningAlarmHigh";
-        interface = threshold_interface_warning;
-    }
-    else if (level == thresholds::Level::WARNING &&
-             direction == thresholds::Direction::LOW)
-    {
-        property = "WarningAlarmLow";
-        interface = threshold_interface_warning;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::HIGH)
-    {
-        property = "CriticalAlarmHigh";
-        interface = threshold_interface_critical;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::LOW)
-    {
-        property = "CriticalAlarmLow";
-        interface = threshold_interface_critical;
-    }
-    else
-    {
-        std::cerr << "Unknown threshold, level " << level << "direction "
-                  << direction << "\n";
-        return;
-    }
-    if (!interface)
-    {
-        std::cout << "trying to set uninitialized interface\n";
-        return;
-    }
-    interface->set_property(property, assert);
 }
 
 void HwmonTempSensor::set_initial_properties(
     std::shared_ptr<sdbusplus::asio::connection> &conn)
 {
     // todo, get max and min from configuration
-    sensor_interface->register_property("MaxValue", max_value);
-    sensor_interface->register_property("MinValue", min_value);
-    sensor_interface->register_property("Value", value);
+    sensorInterface->register_property("MaxValue", max_value);
+    sensorInterface->register_property("MinValue", min_value);
+    sensorInterface->register_property("Value", value);
 
     for (auto &threshold : thresholds)
     {
@@ -239,7 +169,7 @@ void HwmonTempSensor::set_initial_properties(
         std::string alarm;
         if (threshold.level == thresholds::Level::CRITICAL)
         {
-            iface = threshold_interface_critical;
+            iface = thresholdInterfaceCritical;
             if (threshold.direction == thresholds::Direction::HIGH)
             {
                 level = "CriticalHigh";
@@ -253,7 +183,7 @@ void HwmonTempSensor::set_initial_properties(
         }
         else if (threshold.level == thresholds::Level::WARNING)
         {
-            iface = threshold_interface_warning;
+            iface = thresholdInterfaceWarning;
             if (threshold.direction == thresholds::Direction::HIGH)
             {
                 level = "WarningHigh";
@@ -286,18 +216,16 @@ void HwmonTempSensor::set_initial_properties(
             });
         iface->register_property(alarm, false);
     }
-    if (!sensor_interface->initialize())
+    if (!sensorInterface->initialize())
     {
         std::cerr << "error initializing value interface\n";
     }
-    if (threshold_interface_warning &&
-        !threshold_interface_warning->initialize())
+    if (thresholdInterfaceWarning && !thresholdInterfaceWarning->initialize())
     {
         std::cerr << "error initializing warning threshold interface\n";
     }
 
-    if (threshold_interface_critical &&
-        !threshold_interface_critical->initialize())
+    if (thresholdInterfaceCritical && !thresholdInterfaceCritical->initialize())
     {
         std::cerr << "error initializing critical threshold interface\n";
     }

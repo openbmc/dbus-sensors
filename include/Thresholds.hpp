@@ -2,6 +2,7 @@
 #include <Utils.hpp>
 #include <nlohmann/json.hpp>
 
+struct Sensor;
 namespace thresholds
 {
 enum Level
@@ -26,6 +27,7 @@ struct Threshold
     Direction direction;
     double value;
     bool writeable;
+    bool asserted = false;
 };
 
 bool ParseThresholdsFromConfig(
@@ -38,10 +40,15 @@ bool ParseThresholdsFromAttr(std::vector<thresholds::Threshold> &thresholds,
                              const double scale_factor);
 bool HasCriticalInterface(
     const std::vector<thresholds::Threshold> &threshold_vector);
+
 bool HasWarningInterface(
     const std::vector<thresholds::Threshold> &threshold_vector);
 
 void persistThreshold(const std::string &baseInterface, const std::string &path,
                       const thresholds::Threshold &threshold,
                       std::shared_ptr<sdbusplus::asio::connection> &conn);
+
+void checkThresholds(Sensor *sensor);
+void assertThresholds(Sensor *sensor, thresholds::Level level,
+                      thresholds::Direction direction, bool assert);
 } // namespace thresholds

@@ -2,8 +2,9 @@
 
 #include <Thresholds.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sensor.hpp>
 
-class TachSensor
+class TachSensor : public Sensor
 {
   public:
     std::string name;
@@ -20,16 +21,9 @@ class TachSensor
     std::string path;
     sdbusplus::asio::object_server &objServer;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
-    std::vector<thresholds::Threshold> thresholds;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> sensor_interface;
-    std::shared_ptr<sdbusplus::asio::dbus_interface>
-        threshold_interface_warning;
-    std::shared_ptr<sdbusplus::asio::dbus_interface>
-        threshold_interface_critical;
     boost::asio::posix::stream_descriptor input_dev;
     boost::asio::deadline_timer wait_timer;
     boost::asio::streambuf read_buf;
-    double value;
     int err_count;
     double max_value;
     double min_value;
@@ -37,8 +31,7 @@ class TachSensor
     void handle_response(const boost::system::error_code &err);
     void check_thresholds(void);
     void update_value(const double &new_value);
-    void assert_thresholds(thresholds::Level level,
-                           thresholds::Direction direction, bool assert);
+
     void set_initial_properties(
         std::shared_ptr<sdbusplus::asio::connection> &conn);
 };
