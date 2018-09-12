@@ -173,7 +173,7 @@ void createSensors(
                       << "\n";
         }
 
-        auto findScaleFactor = baseConfiguration->second.find("scale_factor");
+        auto findScaleFactor = baseConfiguration->second.find("ScaleFactor");
         float scaleFactor = 1.0;
         if (findScaleFactor != baseConfiguration->second.end())
         {
