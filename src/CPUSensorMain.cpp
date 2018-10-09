@@ -102,7 +102,6 @@ bool createSensors(
                                     dbusConnection, sensorConfigurations,
                                     useCache))
         {
-            std::cerr << "error communicating to entity manager\n";
             return false;
         }
         useCache = true;
@@ -232,6 +231,8 @@ bool createSensors(
         }
     }
 
+    std::cout << "Sensor creation completed\n";
+
     return true;
 }
 
@@ -305,6 +306,7 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
                     break;
                 }
             }
+
             if (dimmReady)
             {
                 state = State::READY;
@@ -323,7 +325,13 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
         {
             if (config.state == State::OFF)
             {
+                std::cout << config.ovName << " is detected\n";
                 reloadOverlay(config.ovName);
+            }
+            if (state == State::READY)
+            {
+                std::cout << "DIMM(s) on " << config.ovName
+                          << " is/are detected\n";
             }
             config.state = state;
         }
@@ -391,8 +399,6 @@ void getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
         if (!getSensorConfiguration(CONFIG_PREFIX + std::string(type),
                                     systemBus, sensorConfigurations, useCache))
         {
-            std::cerr
-                << "getCpuConfig: error communicating to entity manager\n";
             return;
         }
         useCache = true;
@@ -446,6 +452,8 @@ void getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
             }
         }
     }
+
+    std::cout << "CPU configs parsed\n";
 }
 
 int main(int argc, char** argv)
