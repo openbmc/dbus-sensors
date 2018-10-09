@@ -37,7 +37,7 @@ bool ParseThresholdsFromConfig(
 
 bool ParseThresholdsFromAttr(std::vector<thresholds::Threshold> &thresholds,
                              const std::string &input_path,
-                             const double scale_factor);
+                             const double &scale_factor);
 bool HasCriticalInterface(
     const std::vector<thresholds::Threshold> &threshold_vector);
 

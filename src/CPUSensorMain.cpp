@@ -212,17 +212,15 @@ void createSensors(
             std::string sensorName = label + " CPU" + std::to_string(cpuId);
             std::vector<thresholds::Threshold> sensorThresholds;
             std::string labelHead = label.substr(0, label.find(" "));
-            if (!ParseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                           &labelHead))
-            {
-                continue;
-            }
+            ParseThresholdsFromConfig(*sensorData, sensorThresholds,
+                                      &labelHead);
             if (!sensorThresholds.size())
             {
                 if (!ParseThresholdsFromAttr(sensorThresholds, inputPathStr,
                                              CPUSensor::SENSOR_SCALE_FACTOR))
                 {
-                    continue;
+                    std::cerr << "error populating thresholds for "
+                              << sensorName << "\n";
                 }
             }
             sensors[sensorName] = std::make_unique<CPUSensor>(

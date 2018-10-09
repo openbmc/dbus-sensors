@@ -253,7 +253,7 @@ static constexpr std::array<const char *, 4> ATTR_TYPES = {"lcrit", "min",
 
 bool ParseThresholdsFromAttr(
     std::vector<thresholds::Threshold> &threshold_vector,
-    const std::string &input_path, const double scale_factor)
+    const std::string &input_path, const double &scale_factor)
 {
     for (auto &type : ATTR_TYPES)
     {
