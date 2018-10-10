@@ -71,7 +71,7 @@ static constexpr std::array<const char*, 3> SENSOR_TYPES = {
 
 const static std::regex ILLEGAL_NAME_REGEX("[^A-Za-z0-9_]");
 
-void createSensors(
+bool createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>&
         sensors,
@@ -89,7 +89,7 @@ void createSensors(
     }
     if (!available)
     {
-        return;
+        return false;
     }
 
     // use new data the first time, then refresh
@@ -102,7 +102,7 @@ void createSensors(
                                     useCache))
         {
             std::cerr << "error communicating to entity manager\n";
-            return;
+            return false;
         }
         useCache = true;
     }
@@ -112,7 +112,7 @@ void createSensors(
                     R"(peci\d+/\d+-.+/of_node/oemname1$)", oemNamePaths, 2))
     {
         std::cerr << "No CPU sensors in system\n";
-        return;
+        return true;
     }
 
     for (fs::path& oemNamePath : oemNamePaths)
@@ -231,6 +231,8 @@ void createSensors(
                           << "\n";
         }
     }
+
+    return true;
 }
 
 void reloadOverlay(const std::string& overlay)
@@ -323,27 +325,28 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
             {
                 reloadOverlay(config.ovName);
             }
-            if (state != State::OFF)
-            {
-                if (state == State::ON)
-                {
-                    rescanDelaySeconds = 1;
-                }
-                else
-                {
-                    rescanDelaySeconds = 5;
-                }
-            }
             config.state = state;
         }
 
-        if (state != State::READY)
+        if (config.state != State::OFF)
+        {
+            if (config.state == State::ON)
+            {
+                rescanDelaySeconds = 1;
+            }
+            else
+            {
+                rescanDelaySeconds = 5;
+            }
+        }
+
+        if (config.state != State::READY)
         {
             keepPinging = true;
         }
 
         if (DEBUG)
-            std::cout << config.ovName << ", state: " << state << "\n";
+            std::cout << config.ovName << ", state: " << config.state << "\n";
     }
 
     close(file);
@@ -351,7 +354,10 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
     if (rescanDelaySeconds)
     {
         std::this_thread::sleep_for(std::chrono::seconds(rescanDelaySeconds));
-        createSensors(io, objectServer, sensors, configs, dbusConnection);
+        if (!createSensors(io, objectServer, sensors, configs, dbusConnection))
+        {
+            keepPinging = true;
+        }
     }
 
     if (keepPinging)
