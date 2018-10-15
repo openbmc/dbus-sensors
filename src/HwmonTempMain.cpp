@@ -31,7 +31,6 @@ namespace fs = std::experimental::filesystem;
 static constexpr std::array<const char*, 2> SENSOR_TYPES = {
     "xyz.openbmc_project.Configuration.TMP75",
     "xyz.openbmc_project.Configuration.TMP421"};
-static std::regex INPUT_REGEX(R"(temp(\d+)_input)");
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -62,74 +61,96 @@ void createSensors(
         return;
     }
 
+    boost::container::flat_set<std::string> directories;
+
     // iterate through all found temp sensors, and try to match them with
     // configuration
     for (auto& path : paths)
     {
         std::smatch match;
-        std::string pathStr = path.string();
-
-        std::regex_search(pathStr, match, INPUT_REGEX);
-        std::string index = *(match.begin() + 1);
-
+        const std::string& pathStr = path.string();
         auto directory = path.parent_path();
-        auto oem_name_path = directory.string() + R"(/of_node/oemname)" + index;
 
-        if (DEBUG)
-            std::cout << "Checking path " << oem_name_path << "\n";
-        std::ifstream nameFile(oem_name_path);
-        if (!nameFile.good())
+        auto ret = directories.insert(directory.string());
+        if (!ret.second)
         {
-            std::cerr << "Failure reading " << oem_name_path << "\n";
+            continue; // already searched this path
+        }
+
+        auto device = fs::path(directory / "device");
+        std::string deviceName = fs::canonical(device).stem();
+        auto findHyphen = deviceName.find("-");
+        if (findHyphen == std::string::npos)
+        {
+            std::cerr << "found bad device " << deviceName << "\n";
             continue;
         }
-        std::string oemName;
-        std::getline(nameFile, oemName);
-        nameFile.close();
-        if (!oemName.size())
+        std::string busStr = deviceName.substr(0, findHyphen);
+        std::string addrStr = deviceName.substr(findHyphen + 1);
+
+        size_t bus = 0;
+        size_t addr = 0;
+        try
         {
-            // shouldn't have an empty name file
+            bus = std::stoi(busStr);
+            addr = std::stoi(addrStr, 0, 16);
+        }
+        catch (std::invalid_argument)
+        {
             continue;
         }
-        oemName.pop_back(); // remove trailing null
-
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;
-        for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigurations)
-        {
-            if (!boost::ends_with(sensor.first.str, oemName))
-            {
-                continue;
-            }
-            sensorData = &(sensor.second);
-            interfacePath = &(sensor.first.str);
-            break;
-        }
-        if (sensorData == nullptr)
-        {
-            std::cerr << "failed to find match for " << oemName << "\n";
-            continue;
-        }
+        const char* sensorType = nullptr;
         const std::pair<std::string, boost::container::flat_map<
                                          std::string, BasicVariantType>>*
             baseConfiguration = nullptr;
-        const char* sensorType = nullptr;
-        for (const char* type : SENSOR_TYPES)
-        {
-            auto sensorBase = sensorData->find(type);
-            if (sensorBase != sensorData->end())
-            {
-                baseConfiguration = &(*sensorBase);
-                sensorType = type;
-                break;
-            }
-        }
 
-        if (baseConfiguration == nullptr)
+        for (const std::pair<sdbusplus::message::object_path, SensorData>&
+                 sensor : sensorConfigurations)
         {
-            std::cerr << "error finding base configuration for" << oemName
-                      << "\n";
+            sensorData = &(sensor.second);
+            for (const char* type : SENSOR_TYPES)
+            {
+                auto sensorBase = sensorData->find(type);
+                if (sensorBase != sensorData->end())
+                {
+                    baseConfiguration = &(*sensorBase);
+                    sensorType = type;
+                    break;
+                }
+            }
+            if (baseConfiguration == nullptr)
+            {
+                std::cerr << "error finding base configuration for "
+                          << deviceName << "\n";
+                continue;
+            }
+            auto configurationBus = baseConfiguration->second.find("Bus");
+            auto configurationAddress =
+                baseConfiguration->second.find("Address");
+
+            if (configurationBus == baseConfiguration->second.end() ||
+                configurationAddress == baseConfiguration->second.end())
+            {
+                std::cerr << "error finding bus or address in configuration";
+                continue;
+            }
+
+            if (sdbusplus::message::variant_ns::get<uint64_t>(
+                    configurationBus->second) != bus ||
+                sdbusplus::message::variant_ns::get<uint64_t>(
+                    configurationAddress->second) != addr)
+            {
+                continue;
+            }
+
+            interfacePath = &(sensor.first.str);
+            break;
+        }
+        if (interfacePath == nullptr)
+        {
+            std::cerr << "failed to find match for " << deviceName << "\n";
             continue;
         }
 
@@ -137,7 +158,7 @@ void createSensors(
         if (findSensorName == baseConfiguration->second.end())
         {
             std::cerr << "could not determine configuration name for "
-                      << oemName << "\n";
+                      << deviceName << "\n";
             continue;
         }
         std::string sensorName =
@@ -172,8 +193,21 @@ void createSensors(
         }
 
         sensors[sensorName] = std::make_unique<HwmonTempSensor>(
-            path.string(), sensorType, objectServer, dbusConnection, io,
-            sensorName, std::move(sensorThresholds), *interfacePath);
+            directory.string() + "/temp1_input", sensorType, objectServer,
+            dbusConnection, io, sensorName, std::move(sensorThresholds),
+            *interfacePath);
+        auto findSecondName = baseConfiguration->second.find("Name1");
+        if (findSecondName == baseConfiguration->second.end())
+        {
+            continue;
+        }
+
+        sensorName = sdbusplus::message::variant_ns::get<std::string>(
+            findSecondName->second);
+        sensors[sensorName] = std::make_unique<HwmonTempSensor>(
+            directory.string() + "/temp2_input", sensorType, objectServer,
+            dbusConnection, io, sensorName,
+            std::vector<thresholds::Threshold>(), *interfacePath);
     }
 }
 
