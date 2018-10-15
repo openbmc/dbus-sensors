@@ -47,11 +47,7 @@ bool getSensorConfiguration(
         {
             sdbusplus::message::message reply =
                 dbusConnection->call(getManagedObjects);
-            err = reply.is_method_error();
-            if (!err)
-            {
-                reply.read(managedObj);
-            }
+            reply.read(managedObj);
         }
         catch (const sdbusplus::exception::exception&)
         {
