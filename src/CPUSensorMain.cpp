@@ -420,9 +420,8 @@ void getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 {
                     continue;
                 }
-                std::string addrStr = mapbox::util::apply_visitor(
-                    VariantToStringVisitor(), findAddress->second);
-                int addr = std::stoi(addrStr, 0, 16);
+                int addr = mapbox::util::apply_visitor(VariantToIntVisitor(),
+                                                       findAddress->second);
 
                 auto findName = config.second.find("Name");
                 if (findName == config.second.end())
