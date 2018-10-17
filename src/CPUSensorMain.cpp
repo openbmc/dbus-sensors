@@ -60,7 +60,7 @@ struct CPUConfig
 
 static constexpr const char* DT_OVERLAY = "/usr/bin/dtoverlay";
 static constexpr const char* OVERLAY_DIR = "/tmp/overlays";
-static constexpr const char* PECI_DEV = "/dev/peci0";
+static constexpr const char* PECI_DEV = "/dev/peci-0";
 static constexpr const unsigned int RANK_NUM_MAX = 8;
 
 namespace fs = std::experimental::filesystem;
