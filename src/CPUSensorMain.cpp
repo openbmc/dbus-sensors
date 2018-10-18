@@ -109,7 +109,7 @@ bool createSensors(
 
     std::vector<fs::path> oemNamePaths;
     if (!find_files(fs::path(R"(/sys/bus/peci/devices)"),
-                    R"(peci\d+/\d+-.+/of_node/oemname1$)", oemNamePaths, 2))
+                    R"(peci-\d+/\d+-.+/of_node/oemname1$)", oemNamePaths, 2))
     {
         std::cerr << "No CPU sensors in system\n";
         return true;
