@@ -29,6 +29,7 @@
 static constexpr bool DEBUG = false;
 
 namespace fs = std::experimental::filesystem;
+namespace variant_ns = sdbusplus::message::variant_ns;
 static constexpr std::array<const char*, 1> SENSOR_TYPES = {
     "xyz.openbmc_project.Configuration.ADC"};
 static std::regex INPUT_REGEX(R"(in(\d+)_input)");
@@ -177,8 +178,8 @@ void createSensors(
         float scaleFactor = 1.0;
         if (findScaleFactor != baseConfiguration->second.end())
         {
-            scaleFactor = mapbox::util::apply_visitor(VariantToFloatVisitor(),
-                                                      findScaleFactor->second);
+            scaleFactor = variant_ns::visit(VariantToFloatVisitor(),
+                                            findScaleFactor->second);
         }
         sensors[sensorName] = std::make_unique<ADCSensor>(
             path.string(), objectServer, dbusConnection, io, sensorName,

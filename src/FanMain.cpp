@@ -31,6 +31,7 @@
 static constexpr bool DEBUG = false;
 
 namespace fs = std::experimental::filesystem;
+namespace variant_ns = sdbusplus::message::variant_ns;
 static constexpr std::array<const char*, 1> SENSOR_TYPES = {
     "xyz.openbmc_project.Configuration.AspeedFan"};
 static std::regex INPUT_REGEX(R"(fan(\d+)_input)");
@@ -117,8 +118,8 @@ void createSensors(
             {
                 continue;
             }
-            uint16_t pwmIndex = mapbox::util::apply_visitor(
-                VariantToUnsignedIntVisitor(), findPwmIndex->second);
+            uint16_t pwmIndex = variant_ns::visit(VariantToUnsignedIntVisitor(),
+                                                  findPwmIndex->second);
             auto oemNamePath = directory.string() + R"(/of_node/oemname)" +
                                std::to_string(pwmIndex);
 
@@ -144,7 +145,7 @@ void createSensors(
                 std::cerr << baseConfiguration->first << " missing index\n";
                 continue;
             }
-            unsigned int configIndex = mapbox::util::apply_visitor(
+            unsigned int configIndex = variant_ns::visit(
                 VariantToUnsignedIntVisitor(), findIndex->second);
 
             if (configIndex != index)
@@ -157,7 +158,7 @@ void createSensors(
             {
                 continue;
             }
-            std::string connectorName = mapbox::util::apply_visitor(
+            std::string connectorName = variant_ns::visit(
                 VariantToStringVisitor(), findConnectorName->second);
             boost::replace_all(connectorName, " ", "_");
             if (connectorName == oemName)

@@ -9,6 +9,7 @@
 static constexpr bool DEBUG = false;
 constexpr size_t MAX_THRESHOLDS = 4;
 
+namespace variant_ns = sdbusplus::message::variant_ns;
 namespace thresholds
 {
 unsigned int toBusValue(const Level &level)
@@ -65,8 +66,8 @@ bool ParseThresholdsFromConfig(
             auto labelFind = item.second.find("Label");
             if (labelFind == item.second.end())
                 continue;
-            if (mapbox::util::apply_visitor(VariantToStringVisitor(),
-                                            labelFind->second) != *matchLabel)
+            if (variant_ns::visit(VariantToStringVisitor(),
+                                  labelFind->second) != *matchLabel)
                 continue;
         }
         auto directionFind = item.second.find("Direction");
@@ -81,8 +82,8 @@ bool ParseThresholdsFromConfig(
         }
         Level level;
         Direction direction;
-        if (mapbox::util::apply_visitor(VariantToUnsignedIntVisitor(),
-                                        severityFind->second) == 0)
+        if (variant_ns::visit(VariantToUnsignedIntVisitor(),
+                              severityFind->second) == 0)
         {
             level = Level::WARNING;
         }
@@ -90,8 +91,8 @@ bool ParseThresholdsFromConfig(
         {
             level = Level::CRITICAL;
         }
-        if (mapbox::util::apply_visitor(VariantToStringVisitor(),
-                                        directionFind->second) == "less than")
+        if (variant_ns::visit(VariantToStringVisitor(),
+                              directionFind->second) == "less than")
         {
             direction = Direction::LOW;
         }
@@ -99,8 +100,8 @@ bool ParseThresholdsFromConfig(
         {
             direction = Direction::HIGH;
         }
-        float val = mapbox::util::apply_visitor(VariantToFloatVisitor(),
-                                                valueFind->second);
+        float val =
+            variant_ns::visit(VariantToFloatVisitor(), valueFind->second);
 
         thresholdVector.emplace_back(level, direction, val);
     }
@@ -134,11 +135,11 @@ void persistThreshold(const std::string &path, const std::string &baseInterface,
                     std::cerr << "Malformed threshold in configuration\n";
                     return;
                 }
-                unsigned int level = mapbox::util::apply_visitor(
+                unsigned int level = variant_ns::visit(
                     VariantToUnsignedIntVisitor(), severityFind->second);
 
-                std::string dir = mapbox::util::apply_visitor(
-                    VariantToStringVisitor(), directionFind->second);
+                std::string dir = variant_ns::visit(VariantToStringVisitor(),
+                                                    directionFind->second);
                 if ((toBusValue(threshold.level) != level) ||
                     (toBusValue(threshold.direction) != dir))
                 {

@@ -64,6 +64,7 @@ static constexpr const char* PECI_DEV = "/dev/peci-0";
 static constexpr const unsigned int RANK_NUM_MAX = 8;
 
 namespace fs = std::experimental::filesystem;
+namespace variant_ns = sdbusplus::message::variant_ns;
 static constexpr const char* CONFIG_PREFIX =
     "xyz.openbmc_project.Configuration.";
 static constexpr std::array<const char*, 3> SENSOR_TYPES = {
@@ -181,8 +182,7 @@ bool createSensors(
             std::cerr << "could not determine CPU ID for " << oemName << "\n";
             continue;
         }
-        int cpuId = mapbox::util::apply_visitor(VariantToIntVisitor(),
-                                                findCpuId->second);
+        int cpuId = variant_ns::visit(VariantToIntVisitor(), findCpuId->second);
 
         auto directory = oemNamePath.parent_path().parent_path();
         std::vector<fs::path> inputPaths;
@@ -420,15 +420,15 @@ void getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 {
                     continue;
                 }
-                int addr = mapbox::util::apply_visitor(VariantToIntVisitor(),
-                                                       findAddress->second);
+                int addr = variant_ns::visit(VariantToIntVisitor(),
+                                             findAddress->second);
 
                 auto findName = config.second.find("Name");
                 if (findName == config.second.end())
                 {
                     continue;
                 }
-                std::string nameRaw = mapbox::util::apply_visitor(
+                std::string nameRaw = variant_ns::visit(
                     VariantToStringVisitor(), findName->second);
                 std::string name =
                     std::regex_replace(nameRaw, ILLEGAL_NAME_REGEX, "_");
