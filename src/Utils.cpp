@@ -98,9 +98,7 @@ bool find_files(const fs::path dir_path, const std::string& match_string,
             if (std::regex_search(path, match, search))
                 found_paths.emplace_back(p.path());
         }
-        // since we're using a recursive iterator, these should only be symlink
-        // dirs
-        else if (symlink_depth)
+        else if (is_symlink(p) && symlink_depth)
         {
             find_files(p.path(), match_string, found_paths, symlink_depth - 1);
         }
