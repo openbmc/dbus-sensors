@@ -42,24 +42,23 @@ enum State
 
 struct CPUConfig
 {
-    CPUConfig(const int& address, const std::string& overlayName,
-              const State& st) :
-        addr(address),
-        ovName(overlayName), state(st)
+    CPUConfig(const uint64_t& bus, const uint64_t& addr,
+              const std::string& name, const State& state) :
+        bus(bus),
+        addr(addr), name(name), state(state)
     {
     }
+    int bus;
     int addr;
-    std::string ovName;
+    std::string name;
     State state;
 
     bool operator<(const CPUConfig& rhs) const
     {
-        return (ovName < rhs.ovName);
+        return (name < rhs.name);
     }
 };
 
-static constexpr const char* DT_OVERLAY = "/usr/bin/dtoverlay";
-static constexpr const char* OVERLAY_DIR = "/tmp/overlays";
 static constexpr const char* PECI_DEV = "/dev/peci-0";
 static constexpr const unsigned int RANK_NUM_MAX = 8;
 
@@ -107,86 +106,140 @@ bool createSensors(
         useCache = true;
     }
 
-    std::vector<fs::path> oemNamePaths;
+    std::vector<fs::path> hwmonNamePaths;
     if (!find_files(fs::path(R"(/sys/bus/peci/devices)"),
-                    R"(peci-\d+/\d+-.+/of_node/oemname1$)", oemNamePaths, 2))
+                    R"(peci-\d+/\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
+                    hwmonNamePaths, 1))
     {
         std::cerr << "No CPU sensors in system\n";
         return true;
     }
 
-    for (fs::path& oemNamePath : oemNamePaths)
+    boost::container::flat_set<std::string> scannedDirectories;
+    boost::container::flat_set<std::string> createdSensors;
+
+    for (fs::path& hwmonNamePath : hwmonNamePaths)
     {
-        std::ifstream nameFile(oemNamePath);
-        if (!nameFile.good())
+        const std::string& pathStr = hwmonNamePath.string();
+        auto hwmonDirectory = hwmonNamePath.parent_path();
+
+        auto ret = scannedDirectories.insert(hwmonDirectory.string());
+        if (!ret.second)
         {
-            std::cerr << "Failure reading " << oemNamePath << "\n";
+            continue; // already searched this path
+        }
+
+        fs::path::iterator it = hwmonNamePath.begin();
+        std::advance(it, 6); // pick the 6th part for a PECI client device name
+        std::string deviceName = *it;
+        auto findHyphen = deviceName.find("-");
+        if (findHyphen == std::string::npos)
+        {
+            std::cerr << "found bad device " << deviceName << "\n";
             continue;
         }
-        std::string oemName;
-        std::getline(nameFile, oemName);
+        std::string busStr = deviceName.substr(0, findHyphen);
+        std::string addrStr = deviceName.substr(findHyphen + 1);
+
+        size_t bus = 0;
+        size_t addr = 0;
+        try
+        {
+            bus = std::stoi(busStr);
+            addr = std::stoi(addrStr, 0, 16);
+        }
+        catch (std::invalid_argument)
+        {
+            continue;
+        }
+
+        std::ifstream nameFile(hwmonNamePath);
+        if (!nameFile.good())
+        {
+            std::cerr << "Failure reading " << hwmonNamePath << "\n";
+            continue;
+        }
+        std::string hwmonName;
+        std::getline(nameFile, hwmonName);
         nameFile.close();
-        if (!oemName.size())
+        if (!hwmonName.size())
         {
             // shouldn't have an empty name file
             continue;
         }
-        oemName.pop_back(); // remove trailing null
         if (DEBUG)
-            std::cout << "Checking: " << oemNamePath << ": " << oemName << "\n";
+        {
+            std::cout << "Checking: " << hwmonNamePath << ": " << hwmonName
+                      << "\n";
+        }
 
+        std::string sensorType;
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;
-        for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigurations)
-        {
-            if (!boost::ends_with(sensor.first.str, oemName))
-            {
-                continue;
-            }
-            sensorData = &(sensor.second);
-            interfacePath = &(sensor.first.str);
-            break;
-        }
-        if (sensorData == nullptr)
-        {
-            std::cerr << "failed to find match for " << oemName << "\n";
-            continue;
-        }
         const std::pair<std::string, boost::container::flat_map<
                                          std::string, BasicVariantType>>*
             baseConfiguration = nullptr;
-        std::string sensorObjectType;
-        for (const char* type : SENSOR_TYPES)
-        {
-            sensorObjectType = CONFIG_PREFIX + std::string(type);
-            auto sensorBase = sensorData->find(sensorObjectType);
-            if (sensorBase != sensorData->end())
-            {
-                baseConfiguration = &(*sensorBase);
-                break;
-            }
-        }
 
-        if (baseConfiguration == nullptr)
+        for (const std::pair<sdbusplus::message::object_path, SensorData>&
+                 sensor : sensorConfigurations)
         {
-            std::cerr << "error finding base configuration for" << oemName
-                      << "\n";
+            sensorData = &(sensor.second);
+            for (const char* type : SENSOR_TYPES)
+            {
+                sensorType = CONFIG_PREFIX + std::string(type);
+                auto sensorBase = sensorData->find(sensorType);
+                if (sensorBase != sensorData->end())
+                {
+                    baseConfiguration = &(*sensorBase);
+                    break;
+                }
+            }
+            if (baseConfiguration == nullptr)
+            {
+                std::cerr << "error finding base configuration for" << hwmonName
+                          << "\n";
+                continue;
+            }
+            auto configurationBus = baseConfiguration->second.find("Bus");
+            auto configurationAddress =
+                baseConfiguration->second.find("Address");
+
+            if (configurationBus == baseConfiguration->second.end() ||
+                configurationAddress == baseConfiguration->second.end())
+            {
+                std::cerr << "error finding bus or address in configuration";
+                continue;
+            }
+
+            if (sdbusplus::message::variant_ns::get<uint64_t>(
+                    configurationBus->second) != bus ||
+                sdbusplus::message::variant_ns::get<uint64_t>(
+                    configurationAddress->second) != addr)
+            {
+                continue;
+            }
+
+            interfacePath = &(sensor.first.str);
+            break;
+        }
+        if (interfacePath == nullptr)
+        {
+            std::cerr << "failed to find match for " << hwmonName << "\n";
             continue;
         }
 
         auto findCpuId = baseConfiguration->second.find("CpuID");
         if (findCpuId == baseConfiguration->second.end())
         {
-            std::cerr << "could not determine CPU ID for " << oemName << "\n";
+            std::cerr << "could not determine CPU ID for " << hwmonName << "\n";
             continue;
         }
-        int cpuId = variant_ns::visit(VariantToIntVisitor(), findCpuId->second);
+        int cpuId =
+            variant_ns::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
 
-        auto directory = oemNamePath.parent_path().parent_path();
+        auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
-        if (!find_files(fs::path(directory),
-                        R"(peci-.+/hwmon/hwmon\d+/temp\d+_input$)", inputPaths,
+        if (!find_files(fs::path(directory), R"(temp\d+_input$)", inputPaths,
                         0))
         {
             std::cerr << "No temperature sensors in system\n";
@@ -209,6 +262,18 @@ bool createSensors(
             std::getline(labelFile, label);
             labelFile.close();
             std::string sensorName = label + " CPU" + std::to_string(cpuId);
+
+            auto findSensor = sensors.find(sensorName);
+            if (findSensor != sensors.end())
+            {
+                if (DEBUG)
+                {
+                    std::cout << "Skipped: " << inputPath << ": " << sensorName
+                              << " is already created\n";
+                }
+                continue;
+            }
+
             std::vector<thresholds::Threshold> sensorThresholds;
             std::string labelHead = label.substr(0, label.find(" "));
             ParseThresholdsFromConfig(*sensorData, sensorThresholds,
@@ -223,42 +288,69 @@ bool createSensors(
                 }
             }
             sensors[sensorName] = std::make_unique<CPUSensor>(
-                inputPathStr, sensorObjectType, objectServer, dbusConnection,
-                io, sensorName, std::move(sensorThresholds), *interfacePath);
+                inputPathStr, sensorType, objectServer, dbusConnection, io,
+                sensorName, std::move(sensorThresholds), *interfacePath);
+            createdSensors.insert(sensorName);
             if (DEBUG)
+            {
                 std::cout << "Mapped: " << inputPath << " to " << sensorName
                           << "\n";
+            }
         }
     }
 
-    std::cout << "Sensor creation completed\n";
+    if (createdSensors.size())
+    {
+        std::cout << "Sensor" << (createdSensors.size() == 1 ? " is" : "s are")
+                  << " created\n";
+    }
 
     return true;
 }
 
-void reloadOverlay(const std::string& overlay)
+void exportDevice(const CPUConfig& config)
 {
-    boost::process::child c1(DT_OVERLAY, "-d", OVERLAY_DIR, "-r", overlay);
-    c1.wait();
-    if (c1.exit_code())
+    std::ostringstream hex;
+    hex << std::hex << config.addr;
+    const std::string& addrHexStr = hex.str();
+    std::string busStr = std::to_string(config.bus);
+
+    std::string parameters = "peci-client 0x" + addrHexStr;
+    std::string device = "/sys/bus/peci/devices/peci-" + busStr + "/new_device";
+
+    std::experimental::filesystem::path devicePath(device);
+    const std::string& dir = devicePath.parent_path().string();
+    for (const auto& path :
+         std::experimental::filesystem::directory_iterator(dir))
     {
-        if (DEBUG)
+        if (!std::experimental::filesystem::is_directory(path))
         {
-            std::cout << "DTOverlay unload error with file " << overlay
-                      << ". error: " << c1.exit_code() << "\n";
+            continue;
         }
 
-        /* fall through anyway */
+        const std::string& directoryName = path.path().filename();
+        if (boost::starts_with(directoryName, busStr) &&
+            boost::ends_with(directoryName, addrHexStr))
+        {
+            if (DEBUG)
+            {
+                std::cout << parameters << " on bus " << busStr
+                          << " is already exported\n";
+            }
+            return;
+        }
     }
 
-    boost::process::child c2(DT_OVERLAY, "-d", OVERLAY_DIR, overlay);
-    c2.wait();
-    if (c2.exit_code())
+    std::ofstream deviceFile(device);
+    if (!deviceFile.good())
     {
-        std::cerr << "DTOverlay load error with file " << overlay
-                  << ". error: " << c2.exit_code() << "\n";
+        std::cerr << "Error writing " << device << "\n";
         return;
     }
+    deviceFile << parameters;
+    deviceFile.close();
+
+    std::cout << parameters << " on bus " << busStr << " is exported\n";
 }
 
 void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
@@ -325,12 +417,12 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
         {
             if (config.state == State::OFF)
             {
-                std::cout << config.ovName << " is detected\n";
-                reloadOverlay(config.ovName);
+                std::cout << config.name << " is detected\n";
+                exportDevice(config);
             }
             if (state == State::READY)
             {
-                std::cout << "DIMM(s) on " << config.ovName
+                std::cout << "DIMM(s) on " << config.name
                           << " is/are detected\n";
             }
             config.state = state;
@@ -354,7 +446,9 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
         }
 
         if (DEBUG)
-            std::cout << config.ovName << ", state: " << config.state << "\n";
+        {
+            std::cout << config.name << ", state: " << config.state << "\n";
+        }
     }
 
     close(file);
@@ -388,7 +482,7 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
     }
 }
 
-void getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                   boost::container::flat_set<CPUConfig>& configs)
 {
     ManagedObjectType sensorConfigurations;
@@ -399,7 +493,7 @@ void getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
         if (!getSensorConfiguration(CONFIG_PREFIX + std::string(type),
                                     systemBus, sensorConfigurations, useCache))
         {
-            return;
+            return false;
         }
         useCache = true;
     }
@@ -421,14 +515,6 @@ void getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                     continue;
                 }
 
-                auto findAddress = config.second.find("Address");
-                if (findAddress == config.second.end())
-                {
-                    continue;
-                }
-                int addr = variant_ns::visit(VariantToIntVisitor(),
-                                             findAddress->second);
-
                 auto findName = config.second.find("Name");
                 if (findName == config.second.end())
                 {
@@ -438,22 +524,47 @@ void getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                     VariantToStringVisitor(), findName->second);
                 std::string name =
                     std::regex_replace(nameRaw, ILLEGAL_NAME_REGEX, "_");
-                std::string overlayName = name + "_" + type;
+
+                auto findBus = config.second.find("Bus");
+                if (findBus == config.second.end())
+                {
+                    std::cerr << "Can't find 'Bus' setting in " << name << "\n";
+                    continue;
+                }
+                uint64_t bus = variant_ns::visit(VariantToUnsignedIntVisitor(),
+                                                 findBus->second);
+
+                auto findAddress = config.second.find("Address");
+                if (findAddress == config.second.end())
+                {
+                    std::cerr << "Can't find 'Address' setting in " << name
+                              << "\n";
+                    continue;
+                }
+                uint64_t addr = variant_ns::visit(VariantToUnsignedIntVisitor(),
+                                                  findAddress->second);
 
                 if (DEBUG)
                 {
+                    std::cout << "bus: " << bus << "\n";
                     std::cout << "addr: " << addr << "\n";
                     std::cout << "name: " << name << "\n";
                     std::cout << "type: " << type << "\n";
-                    std::cout << "overlayName: " << overlayName << "\n";
                 }
 
-                configs.emplace(addr, overlayName, State::OFF);
+                configs.emplace(bus, addr, name, State::OFF);
             }
         }
     }
 
-    std::cout << "CPU configs parsed\n";
+    if (configs.size())
+    {
+        std::cout << "CPU config" << (configs.size() == 1 ? " is" : "s are")
+                  << " parsed\n";
+        return true;
+    }
+
+    return false;
 }
 
 int main(int argc, char** argv)
@@ -467,13 +578,27 @@ int main(int argc, char** argv)
     boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>> sensors;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     boost::asio::deadline_timer pingTimer(io);
-    getCpuConfig(systemBus, configs);
-    if (configs.size())
-    {
-        detectCpu(pingTimer, io, objectServer, sensors, configs, systemBus);
-    }
-
     boost::asio::deadline_timer filterTimer(io);
+
+    filterTimer.expires_from_now(boost::posix_time::seconds(1));
+    filterTimer.async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            /* we were canceled*/
+            return;
+        }
+        else if (ec)
+        {
+            std::cerr << "timer error\n";
+            return;
+        }
+
+        if (getCpuConfig(systemBus, configs))
+        {
+            detectCpu(pingTimer, io, objectServer, sensors, configs, systemBus);
+        }
+    });
+
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
             if (message.is_method_error())
@@ -481,9 +606,14 @@ int main(int argc, char** argv)
                 std::cerr << "callback method error\n";
                 return;
             }
+
+            if (DEBUG)
+            {
+                std::cout << message.get_path() << " is changed\n";
+            }
+
             // this implicitly cancels the timer
             filterTimer.expires_from_now(boost::posix_time::seconds(1));
-
             filterTimer.async_wait([&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
@@ -496,9 +626,7 @@ int main(int argc, char** argv)
                     return;
                 }
 
-                getCpuConfig(systemBus, configs);
-
-                if (configs.size())
+                if (getCpuConfig(systemBus, configs))
                 {
                     detectCpu(pingTimer, io, objectServer, sensors, configs,
                               systemBus);

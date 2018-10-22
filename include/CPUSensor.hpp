@@ -6,12 +6,24 @@
 
 class CPUSensor : public Sensor
 {
+  public:
+    std::string name;
+    std::string configuration;
+    CPUSensor(const std::string &path, const std::string &objectType,
+              sdbusplus::asio::object_server &object_server,
+              std::shared_ptr<sdbusplus::asio::connection> &conn,
+              boost::asio::io_service &io, const std::string &fan_name,
+              std::vector<thresholds::Threshold> &&thresholds,
+              const std::string &configuration);
+    ~CPUSensor();
+    constexpr static unsigned int SENSOR_SCALE_FACTOR = 1000;
+    constexpr static unsigned int SENSOR_POLL_MS = 1000;
+
   private:
     std::string path;
     std::string objectType;
     sdbusplus::asio::object_server &objServer;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
-    std::string name;
     boost::asio::posix::stream_descriptor input_dev;
     boost::asio::deadline_timer wait_timer;
     boost::asio::streambuf read_buf;
@@ -25,16 +37,4 @@ class CPUSensor : public Sensor
 
     void set_initial_properties(
         std::shared_ptr<sdbusplus::asio::connection> &conn);
-
-  public:
-    std::string configuration;
-    CPUSensor(const std::string &path, const std::string &objectType,
-              sdbusplus::asio::object_server &object_server,
-              std::shared_ptr<sdbusplus::asio::connection> &conn,
-              boost::asio::io_service &io, const std::string &fan_name,
-              std::vector<thresholds::Threshold> &&thresholds,
-              const std::string &configuration);
-    ~CPUSensor();
-    constexpr static unsigned int SENSOR_SCALE_FACTOR = 1000;
-    constexpr static unsigned int SENSOR_POLL_MS = 1000;
 };
