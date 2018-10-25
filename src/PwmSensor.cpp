@@ -18,8 +18,8 @@
 #include <iostream>
 #include <sdbusplus/asio/object_server.hpp>
 
-constexpr size_t pwmMax = 255;
-constexpr size_t pwmMin = 0;
+static constexpr size_t pwmMax = 255;
+static constexpr size_t pwmMin = 0;
 
 PwmSensor::PwmSensor(const std::string& sysPath,
                      sdbusplus::asio::object_server& objectServer) :

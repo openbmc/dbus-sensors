@@ -12,7 +12,7 @@ class TachSensor : public Sensor
     TachSensor(const std::string &path,
                sdbusplus::asio::object_server &objectServer,
                std::shared_ptr<sdbusplus::asio::connection> &conn,
-               boost::asio::io_service &io, const std::string &fan_name,
+               boost::asio::io_service &io, const std::string &fanName,
                std::vector<thresholds::Threshold> &&thresholds,
                const std::string &sensorConfiguration);
     ~TachSensor();
@@ -21,17 +21,17 @@ class TachSensor : public Sensor
     std::string path;
     sdbusplus::asio::object_server &objServer;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
-    boost::asio::posix::stream_descriptor input_dev;
-    boost::asio::deadline_timer wait_timer;
-    boost::asio::streambuf read_buf;
-    int err_count;
-    double max_value;
-    double min_value;
-    void setup_read(void);
-    void handle_response(const boost::system::error_code &err);
-    void check_thresholds(void);
-    void update_value(const double &new_value);
+    boost::asio::posix::stream_descriptor inputDev;
+    boost::asio::deadline_timer waitTimer;
+    boost::asio::streambuf readBuf;
+    int errCount;
+    double maxValue;
+    double minValue;
+    void setupRead(void);
+    void handleResponse(const boost::system::error_code &err);
+    void checkThresholds(void);
+    void updateValue(const double &newValue);
 
-    void set_initial_properties(
+    void setInitialProperties(
         std::shared_ptr<sdbusplus::asio::connection> &conn);
 };

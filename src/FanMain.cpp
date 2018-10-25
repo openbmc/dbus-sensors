@@ -32,9 +32,9 @@ static constexpr bool DEBUG = false;
 
 namespace fs = std::experimental::filesystem;
 namespace variant_ns = sdbusplus::message::variant_ns;
-static constexpr std::array<const char*, 1> SENSOR_TYPES = {
+static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.AspeedFan"};
-static std::regex INPUT_REGEX(R"(fan(\d+)_input)");
+static std::regex inputRegex(R"(fan(\d+)_input)");
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -50,7 +50,7 @@ void createSensors(
     // use new data the first time, then refresh
     ManagedObjectType sensorConfigurations;
     bool useCache = false;
-    for (const char* type : SENSOR_TYPES)
+    for (const char* type : sensorTypes)
     {
         if (!getSensorConfiguration(type, dbusConnection, sensorConfigurations,
                                     useCache))
@@ -61,7 +61,7 @@ void createSensors(
         useCache = true;
     }
     std::vector<fs::path> paths;
-    if (!find_files(fs::path("/sys/class/hwmon"), R"(fan\d+_input)", paths))
+    if (!findFiles(fs::path("/sys/class/hwmon"), R"(fan\d+_input)", paths))
     {
         std::cerr << "No temperature sensors in system\n";
         return;
@@ -74,7 +74,7 @@ void createSensors(
         std::smatch match;
         std::string pathStr = path.string();
 
-        std::regex_search(pathStr, match, INPUT_REGEX);
+        std::regex_search(pathStr, match, inputRegex);
         std::string indexStr = *(match.begin() + 1);
 
         auto directory = path.parent_path();
@@ -91,7 +91,7 @@ void createSensors(
                  sensor : sensorConfigurations)
         {
             // find the base of the configuration to see if indexes match
-            for (const char* type : SENSOR_TYPES)
+            for (const char* type : sensorTypes)
             {
                 auto sensorBaseFind = sensor.second.find(type);
                 if (sensorBaseFind != sensor.second.end())
@@ -124,7 +124,9 @@ void createSensors(
                                std::to_string(pwmIndex);
 
             if (DEBUG)
+            {
                 std::cout << "Checking path " << oemNamePath << "\n";
+            }
             std::ifstream nameFile(oemNamePath);
             if (!nameFile.good())
             {
@@ -205,7 +207,7 @@ void createSensors(
             }
         }
         std::vector<thresholds::Threshold> sensorThresholds;
-        if (!ParseThresholdsFromConfig(*sensorData, sensorThresholds))
+        if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
         {
             std::cerr << "error populating thresholds for " << sensorName
                       << "\n";
@@ -216,7 +218,7 @@ void createSensors(
             std::move(sensorThresholds), *interfacePath);
     }
     std::vector<fs::path> pwms;
-    if (!find_files(fs::path("/sys/class/hwmon"), R"(pwm\d+)", pwms))
+    if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm\d+)", pwms))
     {
         std::cerr << "No pwm in system\n";
         return;
@@ -277,12 +279,12 @@ int main(int argc, char** argv)
             });
         };
 
-    for (const char* type : SENSOR_TYPES)
+    for (const char* type : sensorTypes)
     {
         auto match = std::make_unique<sdbusplus::bus::match::match>(
             static_cast<sdbusplus::bus::bus&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(INVENTORY_PATH) + "',arg0namespace='" + type + "'",
+                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
             eventHandler);
         matches.emplace_back(std::move(match));
     }

@@ -30,19 +30,19 @@ struct Threshold
     bool asserted = false;
 };
 
-bool ParseThresholdsFromConfig(
+bool parseThresholdsFromConfig(
     const SensorData &sensorData,
     std::vector<thresholds::Threshold> &thresholdVector,
     const std::string *matchLabel = nullptr);
 
-bool ParseThresholdsFromAttr(std::vector<thresholds::Threshold> &thresholds,
-                             const std::string &input_path,
-                             const double &scale_factor);
-bool HasCriticalInterface(
-    const std::vector<thresholds::Threshold> &threshold_vector);
+bool parseThresholdsFromAttr(std::vector<thresholds::Threshold> &thresholds,
+                             const std::string &inputPath,
+                             const double &scaleFactor);
+bool hasCriticalInterface(
+    const std::vector<thresholds::Threshold> &thresholdVector);
 
-bool HasWarningInterface(
-    const std::vector<thresholds::Threshold> &threshold_vector);
+bool hasWarningInterface(
+    const std::vector<thresholds::Threshold> &thresholdVector);
 
 void persistThreshold(const std::string &baseInterface, const std::string &path,
                       const thresholds::Threshold &threshold,

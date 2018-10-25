@@ -26,140 +26,139 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
 
-static constexpr unsigned int SENSOR_POLL_MS = 500;
-static constexpr unsigned int SENSOR_SCALE_FACTOR = 1000;
-static constexpr size_t WARN_AFTER_ERROR_COUNT = 10;
+static constexpr unsigned int sensorPollMs = 500;
+static constexpr unsigned int sensorScaleFactor = 1000;
+static constexpr size_t warnAfterErrorCount = 10;
 
 HwmonTempSensor::HwmonTempSensor(
     const std::string &path, const std::string &objectType,
     sdbusplus::asio::object_server &objectServer,
     std::shared_ptr<sdbusplus::asio::connection> &conn,
-    boost::asio::io_service &io, const std::string &sensor_name,
+    boost::asio::io_service &io, const std::string &sensorName,
     std::vector<thresholds::Threshold> &&_thresholds,
     const std::string &sensorConfiguration) :
     Sensor(),
     path(path), objectType(objectType), configuration(sensorConfiguration),
     objServer(objectServer),
-    name(boost::replace_all_copy(sensor_name, " ", "_")),
-    input_dev(io, open(path.c_str(), O_RDONLY)), wait_timer(io), err_count(0),
+    name(boost::replace_all_copy(sensorName, " ", "_")),
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     // todo, get these from config
-    max_value(127), min_value(-128)
+    maxValue(127), minValue(-128)
 {
     thresholds = std::move(_thresholds);
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::HasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
             "/xyz/openbmc_project/sensors/temperature/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::HasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
             "/xyz/openbmc_project/sensors/temperature/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    set_initial_properties(conn);
-    setup_read();
+    setInitialProperties(conn);
+    setupRead();
 }
 
 HwmonTempSensor::~HwmonTempSensor()
 {
     // close the input dev to cancel async operations
-    input_dev.close();
-    wait_timer.cancel();
+    inputDev.close();
+    waitTimer.cancel();
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
 }
 
-void HwmonTempSensor::setup_read(void)
+void HwmonTempSensor::setupRead(void)
 {
     boost::asio::async_read_until(
-        input_dev, read_buf, '\n',
+        inputDev, readBuf, '\n',
         [&](const boost::system::error_code &ec,
-            std::size_t /*bytes_transfered*/) { handle_response(ec); });
+            std::size_t /*bytes_transfered*/) { handleResponse(ec); });
 }
 
-void HwmonTempSensor::handle_response(const boost::system::error_code &err)
+void HwmonTempSensor::handleResponse(const boost::system::error_code &err)
 {
     if (err == boost::system::errc::bad_file_descriptor)
     {
         return; // we're being destroyed
     }
-    std::istream response_stream(&read_buf);
+    std::istream responseStream(&readBuf);
     if (!err)
     {
         std::string response;
-        std::getline(response_stream, response);
+        std::getline(responseStream, response);
         try
         {
             float nvalue = std::stof(response);
 
-            nvalue /= SENSOR_SCALE_FACTOR;
+            nvalue /= sensorScaleFactor;
             if (nvalue != value)
             {
-                update_value(nvalue);
+                updateValue(nvalue);
             }
-            err_count = 0;
+            errCount = 0;
         }
         catch (const std::invalid_argument &)
         {
-            err_count++;
+            errCount++;
         }
     }
     else
     {
         std::cerr << "Failure to read sensor " << name << " at " << path
                   << "\n";
-        err_count++;
+        errCount++;
     }
     // only send value update once
-    if (err_count == WARN_AFTER_ERROR_COUNT)
+    if (errCount == warnAfterErrorCount)
     {
-        update_value(0);
+        updateValue(0);
     }
-    response_stream.clear();
-    input_dev.close();
+    responseStream.clear();
+    inputDev.close();
     int fd = open(path.c_str(), O_RDONLY);
     if (fd <= 0)
     {
         return; // we're no longer valid
     }
-    input_dev.assign(fd);
-    wait_timer.expires_from_now(
-        boost::posix_time::milliseconds(SENSOR_POLL_MS));
+    inputDev.assign(fd);
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
     ;
-    wait_timer.async_wait([&](const boost::system::error_code &ec) {
+    waitTimer.async_wait([&](const boost::system::error_code &ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
-        setup_read();
+        setupRead();
     });
 }
 
-void HwmonTempSensor::check_thresholds(void)
+void HwmonTempSensor::checkThresholds(void)
 {
     thresholds::checkThresholds(this);
 }
 
-void HwmonTempSensor::update_value(const double &new_value)
+void HwmonTempSensor::updateValue(const double &newValue)
 {
-    sensorInterface->set_property("Value", new_value);
-    value = new_value;
-    check_thresholds();
+    sensorInterface->set_property("Value", newValue);
+    value = newValue;
+    checkThresholds();
 }
 
-void HwmonTempSensor::set_initial_properties(
+void HwmonTempSensor::setInitialProperties(
     std::shared_ptr<sdbusplus::asio::connection> &conn)
 {
     // todo, get max and min from configuration
-    sensorInterface->register_property("MaxValue", max_value);
-    sensorInterface->register_property("MinValue", min_value);
+    sensorInterface->register_property("MaxValue", maxValue);
+    sensorInterface->register_property("MinValue", minValue);
     sensorInterface->register_property("Value", value);
 
     for (auto &threshold : thresholds)

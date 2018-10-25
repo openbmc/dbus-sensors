@@ -27,8 +27,8 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
 
-static constexpr unsigned int PWM_POLL_MS = 500;
-static constexpr size_t WARN_AFTER_ERROR_COUNT = 10;
+static constexpr unsigned int pwmPollMs = 500;
+static constexpr size_t warnAfterErrorCount = 10;
 
 TachSensor::TachSensor(const std::string &path,
                        sdbusplus::asio::object_server &objectServer,
@@ -40,134 +40,134 @@ TachSensor::TachSensor(const std::string &path,
     path(path), objServer(objectServer), dbusConnection(conn),
     name(boost::replace_all_copy(fanName, " ", "_")),
     configuration(sensorConfiguration),
-    input_dev(io, open(path.c_str(), O_RDONLY)), wait_timer(io), err_count(0),
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     // todo, get these from config
-    max_value(25000), min_value(0)
+    maxValue(25000), minValue(0)
 {
     thresholds = std::move(_thresholds);
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::HasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
             "/xyz/openbmc_project/sensors/fan_tach/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::HasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
             "/xyz/openbmc_project/sensors/fan_tach/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    set_initial_properties(conn);
+    setInitialProperties(conn);
     isPowerOn(dbusConnection); // first call initializes
-    setup_read();
+    setupRead();
 }
 
 TachSensor::~TachSensor()
 {
     // close the input dev to cancel async operations
-    input_dev.close();
-    wait_timer.cancel();
+    inputDev.close();
+    waitTimer.cancel();
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
 }
 
-void TachSensor::setup_read(void)
+void TachSensor::setupRead(void)
 {
     boost::asio::async_read_until(
-        input_dev, read_buf, '\n',
+        inputDev, readBuf, '\n',
         [&](const boost::system::error_code &ec,
-            std::size_t /*bytes_transfered*/) { handle_response(ec); });
+            std::size_t /*bytes_transfered*/) { handleResponse(ec); });
 }
 
-void TachSensor::handle_response(const boost::system::error_code &err)
+void TachSensor::handleResponse(const boost::system::error_code &err)
 {
     if (err == boost::system::errc::bad_file_descriptor)
     {
         return; // we're being destroyed
     }
-    std::istream response_stream(&read_buf);
+    std::istream responseStream(&readBuf);
     if (!err)
     {
         std::string response;
         try
         {
-            std::getline(response_stream, response);
+            std::getline(responseStream, response);
             float nvalue = std::stof(response);
-            response_stream.clear();
+            responseStream.clear();
             if (nvalue != value)
             {
-                update_value(nvalue);
+                updateValue(nvalue);
             }
-            err_count = 0;
+            errCount = 0;
         }
         catch (const std::invalid_argument &)
         {
-            err_count++;
+            errCount++;
         }
     }
     else
     {
 
-        err_count++;
+        errCount++;
     }
     // only send value update once
-    if (err_count == WARN_AFTER_ERROR_COUNT)
+    if (errCount == warnAfterErrorCount)
     {
         // only an error if power is on
         if (isPowerOn(dbusConnection))
         {
             std::cerr << "Failure to read sensor " << name << " at " << path
                       << "\n";
-            update_value(0);
+            updateValue(0);
         }
         else
         {
-            err_count = 0; // check power again in 10 cycles
+            errCount = 0; // check power again in 10 cycles
             sensorInterface->set_property(
                 "Value", std::numeric_limits<double>::quiet_NaN());
         }
     }
-    response_stream.clear();
-    input_dev.close();
+    responseStream.clear();
+    inputDev.close();
     int fd = open(path.c_str(), O_RDONLY);
     if (fd <= 0)
     {
         return; // we're no longer valid
     }
-    input_dev.assign(fd);
-    wait_timer.expires_from_now(boost::posix_time::milliseconds(PWM_POLL_MS));
-    wait_timer.async_wait([&](const boost::system::error_code &ec) {
+    inputDev.assign(fd);
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(pwmPollMs));
+    waitTimer.async_wait([&](const boost::system::error_code &ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
-        setup_read();
+        setupRead();
     });
 }
 
-void TachSensor::check_thresholds(void)
+void TachSensor::checkThresholds(void)
 {
     thresholds::checkThresholds(this);
 }
 
-void TachSensor::update_value(const double &new_value)
+void TachSensor::updateValue(const double &newValue)
 {
-    sensorInterface->set_property("Value", new_value);
-    value = new_value;
-    check_thresholds();
+    sensorInterface->set_property("Value", newValue);
+    value = newValue;
+    checkThresholds();
 }
 
-void TachSensor::set_initial_properties(
+void TachSensor::setInitialProperties(
     std::shared_ptr<sdbusplus::asio::connection> &conn)
 {
     // todo, get max and min from configuration
-    sensorInterface->register_property("MaxValue", max_value);
-    sensorInterface->register_property("MinValue", min_value);
+    sensorInterface->register_property("MaxValue", maxValue);
+    sensorInterface->register_property("MinValue", minValue);
     sensorInterface->register_property("Value", value);
 
     for (auto &threshold : thresholds)

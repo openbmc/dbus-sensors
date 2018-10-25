@@ -28,7 +28,7 @@
 static constexpr bool DEBUG = false;
 
 namespace fs = std::experimental::filesystem;
-static constexpr std::array<const char*, 2> SENSOR_TYPES = {
+static constexpr std::array<const char*, 2> sensorTypes = {
     "xyz.openbmc_project.Configuration.TMP75",
     "xyz.openbmc_project.Configuration.TMP421"};
 
@@ -44,7 +44,7 @@ void createSensors(
     // use new data the first time, then refresh
     ManagedObjectType sensorConfigurations;
     bool useCache = false;
-    for (const char* type : SENSOR_TYPES)
+    for (const char* type : sensorTypes)
     {
         if (!getSensorConfiguration(type, dbusConnection, sensorConfigurations,
                                     useCache))
@@ -55,7 +55,7 @@ void createSensors(
         useCache = true;
     }
     std::vector<fs::path> paths;
-    if (!find_files(fs::path("/sys/class/hwmon"), R"(temp\d+_input)", paths))
+    if (!findFiles(fs::path("/sys/class/hwmon"), R"(temp\d+_input)", paths))
     {
         std::cerr << "No temperature sensors in system\n";
         return;
@@ -110,7 +110,7 @@ void createSensors(
                  sensor : sensorConfigurations)
         {
             sensorData = &(sensor.second);
-            for (const char* type : SENSOR_TYPES)
+            for (const char* type : sensorTypes)
             {
                 auto sensorBase = sensorData->find(type);
                 if (sensorBase != sensorData->end())
@@ -186,7 +186,7 @@ void createSensors(
             }
         }
         std::vector<thresholds::Threshold> sensorThresholds;
-        if (!ParseThresholdsFromConfig(*sensorData, sensorThresholds))
+        if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
         {
             std::cerr << "error populating thresholds for " << sensorName
                       << "\n";
@@ -255,12 +255,12 @@ int main(int argc, char** argv)
             });
         };
 
-    for (const char* type : SENSOR_TYPES)
+    for (const char* type : sensorTypes)
     {
         auto match = std::make_unique<sdbusplus::bus::match::match>(
             static_cast<sdbusplus::bus::bus&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(INVENTORY_PATH) + "',arg0namespace='" + type + "'",
+                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
             eventHandler);
         matches.emplace_back(std::move(match));
     }

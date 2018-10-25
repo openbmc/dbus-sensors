@@ -23,9 +23,9 @@
 #include <sdbusplus/bus/match.hpp>
 
 namespace fs = std::experimental::filesystem;
-const static constexpr char* POWER_INTERFACE_NAME =
+const static constexpr char* powerInterfaceName =
     "xyz.openbmc_project.Chassis.Control.Power";
-const static constexpr char* POWER_OBJECT_NAME =
+const static constexpr char* powerObjectName =
     "/xyz/openbmc_project/Chassis/Control/Power0";
 
 bool getSensorConfiguration(
@@ -40,7 +40,7 @@ bool getSensorConfiguration(
         managedObj.clear();
         sdbusplus::message::message getManagedObjects =
             dbusConnection->new_method_call(
-                ENTITY_MANAGER_NAME, "/", "org.freedesktop.DBus.ObjectManager",
+                entityManagerName, "/", "org.freedesktop.DBus.ObjectManager",
                 "GetManagedObjects");
         bool err = false;
         try
@@ -81,26 +81,25 @@ bool getSensorConfiguration(
     return true;
 }
 
-bool find_files(const fs::path dir_path, const std::string& match_string,
-                std::vector<fs::path>& found_paths, unsigned int symlink_depth)
+bool findFiles(const fs::path dirPath, const std::string& matchString,
+               std::vector<fs::path>& foundPaths, unsigned int symlinkDepth)
 {
-    if (!fs::exists(dir_path))
+    if (!fs::exists(dirPath))
         return false;
 
-    fs::directory_iterator end_itr;
-    std::regex search(match_string);
+    std::regex search(matchString);
     std::smatch match;
-    for (auto& p : fs::recursive_directory_iterator(dir_path))
+    for (auto& p : fs::recursive_directory_iterator(dirPath))
     {
         std::string path = p.path().string();
         if (!is_directory(p))
         {
             if (std::regex_search(path, match, search))
-                found_paths.emplace_back(p.path());
+                foundPaths.emplace_back(p.path());
         }
-        else if (is_symlink(p) && symlink_depth)
+        else if (is_symlink(p) && symlinkDepth)
         {
-            find_files(p.path(), match_string, found_paths, symlink_depth - 1);
+            findFiles(p.path(), matchString, foundPaths, symlinkDepth - 1);
         }
     }
     return true;
@@ -152,8 +151,8 @@ bool isPowerOn(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             }
             powerStatusOn = sdbusplus::message::variant_ns::get<int32_t>(pgood);
         },
-        POWER_INTERFACE_NAME, POWER_OBJECT_NAME,
-        "org.freedesktop.DBus.Properties", "Get", "pgood");
+        powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
+        "Get", "pgood");
 
     return powerStatusOn;
 }

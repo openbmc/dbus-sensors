@@ -59,17 +59,15 @@ struct CPUConfig
     }
 };
 
-static constexpr const char* PECI_DEV = "/dev/peci-0";
-static constexpr const unsigned int RANK_NUM_MAX = 8;
+static constexpr const char* peciDev = "/dev/peci-0";
+static constexpr const unsigned int rankNumMax = 8;
 
 namespace fs = std::experimental::filesystem;
 namespace variant_ns = sdbusplus::message::variant_ns;
-static constexpr const char* CONFIG_PREFIX =
+static constexpr const char* configPrefix =
     "xyz.openbmc_project.Configuration.";
-static constexpr std::array<const char*, 3> SENSOR_TYPES = {
+static constexpr std::array<const char*, 3> sensorTypes = {
     "SkylakeCPU", "BroadwellCPU", "HaswellCPU"};
-
-const static std::regex ILLEGAL_NAME_REGEX("[^A-Za-z0-9_]");
 
 bool createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -95,9 +93,9 @@ bool createSensors(
     // use new data the first time, then refresh
     ManagedObjectType sensorConfigurations;
     bool useCache = false;
-    for (const char* type : SENSOR_TYPES)
+    for (const char* type : sensorTypes)
     {
-        if (!getSensorConfiguration(CONFIG_PREFIX + std::string(type),
+        if (!getSensorConfiguration(configPrefix + std::string(type),
                                     dbusConnection, sensorConfigurations,
                                     useCache))
         {
@@ -107,9 +105,9 @@ bool createSensors(
     }
 
     std::vector<fs::path> hwmonNamePaths;
-    if (!find_files(fs::path(R"(/sys/bus/peci/devices)"),
-                    R"(peci-\d+/\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
-                    hwmonNamePaths, 1))
+    if (!findFiles(fs::path(R"(/sys/bus/peci/devices)"),
+                   R"(peci-\d+/\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
+                   hwmonNamePaths, 1))
     {
         std::cerr << "No CPU sensors in system\n";
         return true;
@@ -184,9 +182,9 @@ bool createSensors(
                  sensor : sensorConfigurations)
         {
             sensorData = &(sensor.second);
-            for (const char* type : SENSOR_TYPES)
+            for (const char* type : sensorTypes)
             {
-                sensorType = CONFIG_PREFIX + std::string(type);
+                sensorType = configPrefix + std::string(type);
                 auto sensorBase = sensorData->find(sensorType);
                 if (sensorBase != sensorData->end())
                 {
@@ -239,8 +237,7 @@ bool createSensors(
 
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
-        if (!find_files(fs::path(directory), R"(temp\d+_input$)", inputPaths,
-                        0))
+        if (!findFiles(fs::path(directory), R"(temp\d+_input$)", inputPaths, 0))
         {
             std::cerr << "No temperature sensors in system\n";
             continue;
@@ -276,12 +273,12 @@ bool createSensors(
 
             std::vector<thresholds::Threshold> sensorThresholds;
             std::string labelHead = label.substr(0, label.find(" "));
-            ParseThresholdsFromConfig(*sensorData, sensorThresholds,
+            parseThresholdsFromConfig(*sensorData, sensorThresholds,
                                       &labelHead);
             if (!sensorThresholds.size())
             {
-                if (!ParseThresholdsFromAttr(sensorThresholds, inputPathStr,
-                                             CPUSensor::SENSOR_SCALE_FACTOR))
+                if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
+                                             CPUSensor::sensorScaleFactor))
                 {
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
@@ -360,10 +357,10 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
                boost::container::flat_set<CPUConfig>& configs,
                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
-    auto file = open(PECI_DEV, O_RDWR);
+    auto file = open(peciDev, O_RDWR);
     if (file < 0)
     {
-        std::cerr << "unable to open " << PECI_DEV << "\n";
+        std::cerr << "unable to open " << peciDev << "\n";
         std::exit(EXIT_FAILURE);
     }
 
@@ -377,7 +374,7 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
         if (!ioctl(file, PECI_IOC_PING, &msg))
         {
             bool dimmReady = false;
-            for (unsigned int rank = 0; rank < RANK_NUM_MAX; rank++)
+            for (unsigned int rank = 0; rank < rankNumMax; rank++)
             {
                 struct peci_rd_pkg_cfg_msg msg;
                 msg.addr = config.addr;
@@ -488,10 +485,10 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
     ManagedObjectType sensorConfigurations;
     bool useCache = false;
     // use new data the first time, then refresh
-    for (const char* type : SENSOR_TYPES)
+    for (const char* type : sensorTypes)
     {
-        if (!getSensorConfiguration(CONFIG_PREFIX + std::string(type),
-                                    systemBus, sensorConfigurations, useCache))
+        if (!getSensorConfiguration(configPrefix + std::string(type), systemBus,
+                                    sensorConfigurations, useCache))
         {
             return false;
         }
@@ -500,7 +497,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
 
     // check PECI client addresses and DT overlay names from CPU configuration
     // before starting ping operation
-    for (const char* type : SENSOR_TYPES)
+    for (const char* type : sensorTypes)
     {
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigurations)
@@ -510,7 +507,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                      boost::container::flat_map<std::string, BasicVariantType>>&
                      config : sensor.second)
             {
-                if ((CONFIG_PREFIX + std::string(type)) != config.first)
+                if ((configPrefix + std::string(type)) != config.first)
                 {
                     continue;
                 }
@@ -523,7 +520,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 std::string nameRaw = variant_ns::visit(
                     VariantToStringVisitor(), findName->second);
                 std::string name =
-                    std::regex_replace(nameRaw, ILLEGAL_NAME_REGEX, "_");
+                    std::regex_replace(nameRaw, illegalDbusRegex, "_");
 
                 auto findBus = config.second.find("Bus");
                 if (findBus == config.second.end())
@@ -634,13 +631,13 @@ int main(int argc, char** argv)
             });
         };
 
-    for (const char* type : SENSOR_TYPES)
+    for (const char* type : sensorTypes)
     {
         auto match = std::make_unique<sdbusplus::bus::match::match>(
             static_cast<sdbusplus::bus::bus&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(INVENTORY_PATH) + "',arg0namespace='" +
-                CONFIG_PREFIX + type + "'",
+                std::string(inventoryPath) + "',arg0namespace='" +
+                configPrefix + type + "'",
             eventHandler);
         matches.emplace_back(std::move(match));
     }

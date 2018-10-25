@@ -10,31 +10,31 @@ class CPUSensor : public Sensor
     std::string name;
     std::string configuration;
     CPUSensor(const std::string &path, const std::string &objectType,
-              sdbusplus::asio::object_server &object_server,
+              sdbusplus::asio::object_server &objectServer,
               std::shared_ptr<sdbusplus::asio::connection> &conn,
-              boost::asio::io_service &io, const std::string &fan_name,
+              boost::asio::io_service &io, const std::string &fanName,
               std::vector<thresholds::Threshold> &&thresholds,
               const std::string &configuration);
     ~CPUSensor();
-    constexpr static unsigned int SENSOR_SCALE_FACTOR = 1000;
-    constexpr static unsigned int SENSOR_POLL_MS = 1000;
+    static constexpr unsigned int sensorScaleFactor = 1000;
+    static constexpr unsigned int sensorPollMs = 1000;
 
   private:
     std::string path;
     std::string objectType;
     sdbusplus::asio::object_server &objServer;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
-    boost::asio::posix::stream_descriptor input_dev;
-    boost::asio::deadline_timer wait_timer;
-    boost::asio::streambuf read_buf;
-    int err_count;
-    double max_value;
-    double min_value;
-    void setup_read(void);
-    void handle_response(const boost::system::error_code &err);
-    void check_thresholds(void);
-    void update_value(const double &new_value);
+    boost::asio::posix::stream_descriptor inputDev;
+    boost::asio::deadline_timer waitTimer;
+    boost::asio::streambuf readBuf;
+    int errCount;
+    double maxValue;
+    double minValue;
+    void setupRead(void);
+    void handleResponse(const boost::system::error_code &err);
+    void checkThresholds(void);
+    void updateValue(const double &newValue);
 
-    void set_initial_properties(
+    void setInitialProperties(
         std::shared_ptr<sdbusplus::asio::connection> &conn);
 };
