@@ -213,8 +213,35 @@ void createSensors(
                       << "\n";
         }
 
+        auto presenceConfig =
+            sensorData->find(baseType + std::string(".Presence"));
+
+        std::unique_ptr<PresenceSensor> presenceSensor(nullptr);
+
+        // presence sensors are optional
+        if (presenceConfig != sensorData->end())
+        {
+            auto findIndex = presenceConfig->second.find("Index");
+            auto findPolarity = presenceConfig->second.find("Polarity");
+
+            if (findIndex == presenceConfig->second.end() ||
+                findPolarity == presenceConfig->second.end())
+            {
+                std::cerr << "Malformed Presence Configuration\n";
+            }
+            else
+            {
+                size_t index = variant_ns::get<uint64_t>(findIndex->second);
+                bool inverted =
+                    variant_ns::get<std::string>(findPolarity->second) == "Low";
+                presenceSensor =
+                    std::make_unique<PresenceSensor>(index, inverted, io);
+            }
+        }
+
         tachSensors[sensorName] = std::make_unique<TachSensor>(
-            path.string(), objectServer, dbusConnection, io, sensorName,
+            path.string(), objectServer, dbusConnection,
+            std::move(presenceSensor), io, sensorName,
             std::move(sensorThresholds), *interfacePath);
     }
     std::vector<fs::path> pwms;

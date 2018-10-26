@@ -21,6 +21,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <sdbusplus/asio/connection.hpp>
@@ -33,11 +34,13 @@ static constexpr size_t warnAfterErrorCount = 10;
 TachSensor::TachSensor(const std::string &path,
                        sdbusplus::asio::object_server &objectServer,
                        std::shared_ptr<sdbusplus::asio::connection> &conn,
+                       std::unique_ptr<PresenceSensor> &&presence,
                        boost::asio::io_service &io, const std::string &fanName,
                        std::vector<thresholds::Threshold> &&_thresholds,
                        const std::string &sensorConfiguration) :
     Sensor(),
     path(path), objServer(objectServer), dbusConnection(conn),
+    presence(std::move(presence)),
     name(boost::replace_all_copy(fanName, " ", "_")),
     configuration(sensorConfiguration),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
@@ -90,46 +93,59 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
     {
         return; // we're being destroyed
     }
+    bool missing = false;
+    if (presence)
+    {
+        if (!presence->getValue())
+        {
+            sensorInterface->set_property(
+                "Value", std::numeric_limits<double>::quiet_NaN());
+            missing = true;
+        }
+    }
     std::istream responseStream(&readBuf);
-    if (!err)
+    if (!missing)
     {
-        std::string response;
-        try
+        if (!err)
         {
-            std::getline(responseStream, response);
-            float nvalue = std::stof(response);
-            responseStream.clear();
-            if (nvalue != value)
+            std::string response;
+            try
             {
-                updateValue(nvalue);
+                std::getline(responseStream, response);
+                float nvalue = std::stof(response);
+                responseStream.clear();
+                if (nvalue != value)
+                {
+                    updateValue(nvalue);
+                }
+                errCount = 0;
             }
-            errCount = 0;
-        }
-        catch (const std::invalid_argument &)
-        {
-            errCount++;
-        }
-    }
-    else
-    {
-
-        errCount++;
-    }
-    // only send value update once
-    if (errCount == warnAfterErrorCount)
-    {
-        // only an error if power is on
-        if (isPowerOn(dbusConnection))
-        {
-            std::cerr << "Failure to read sensor " << name << " at " << path
-                      << "\n";
-            updateValue(0);
+            catch (const std::invalid_argument &)
+            {
+                errCount++;
+            }
         }
         else
         {
-            errCount = 0; // check power again in 10 cycles
-            sensorInterface->set_property(
-                "Value", std::numeric_limits<double>::quiet_NaN());
+
+            errCount++;
+        }
+        // only send value update once
+        if (errCount == warnAfterErrorCount)
+        {
+            // only an error if power is on
+            if (isPowerOn(dbusConnection))
+            {
+                std::cerr << "Failure to read sensor " << name << " at " << path
+                          << "\n";
+                updateValue(0);
+            }
+            else
+            {
+                errCount = 0; // check power again in 10 cycles
+                sensorInterface->set_property(
+                    "Value", std::numeric_limits<double>::quiet_NaN());
+            }
         }
     }
     responseStream.clear();
@@ -140,7 +156,12 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
         return; // we're no longer valid
     }
     inputDev.assign(fd);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(pwmPollMs));
+    size_t pollTime = pwmPollMs;
+    if (missing)
+    {
+        pollTime *= 10;
+    }
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
     waitTimer.async_wait([&](const boost::system::error_code &ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -239,4 +260,86 @@ void TachSensor::setInitialProperties(
     {
         std::cerr << "error initializing critical threshold interface\n";
     }
+}
+
+PresenceSensor::PresenceSensor(const size_t index, bool inverted,
+                               boost::asio::io_service &io) :
+    inverted(inverted),
+    inputDev(io)
+{
+    // todo: use gpiodaemon
+    std::string device = gpioPath + std::string("gpio") + std::to_string(index);
+    fd = open((device + "/value").c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        std::cerr << "Error opening gpio " << index << "\n";
+        return;
+    }
+
+    std::ofstream deviceFile(device + "/edge");
+    if (!deviceFile.good())
+    {
+        std::cerr << "Error setting edge " << device << "\n";
+        return;
+    }
+    deviceFile << "both";
+    deviceFile.close();
+
+    inputDev.assign(boost::asio::ip::tcp::v4(), fd);
+    monitorPresence();
+    read();
+}
+
+PresenceSensor::~PresenceSensor()
+{
+    inputDev.close();
+    close(fd);
+}
+
+void PresenceSensor::monitorPresence(void)
+{
+    inputDev.async_wait(boost::asio::ip::tcp::socket::wait_error,
+                        [this](const boost::system::error_code &ec) {
+                            if (ec == boost::system::errc::bad_file_descriptor)
+                            {
+                                return; // we're being destroyed
+                            }
+                            else if (ec)
+                            {
+                                std::cerr
+                                    << "Error on presence sensor socket\n";
+                            }
+                            else
+                            {
+                                read();
+                            }
+                            monitorPresence();
+                        });
+}
+
+void PresenceSensor::read(void)
+{
+    constexpr size_t readSize = sizeof("0");
+    std::string readBuf;
+    readBuf.resize(readSize);
+    lseek(fd, 0, SEEK_SET);
+    size_t r = ::read(fd, readBuf.data(), readSize);
+    if (r != 1)
+    {
+        std::cerr << "Error reading gpio\n";
+    }
+    else
+    {
+        bool value = std::stoi(readBuf);
+        if (inverted)
+        {
+            value = !value;
+        }
+        status = value;
+    }
+}
+
+bool PresenceSensor::getValue(void)
+{
+    return status;
 }
