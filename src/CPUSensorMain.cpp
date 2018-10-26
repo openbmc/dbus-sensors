@@ -59,7 +59,7 @@ struct CPUConfig
     }
 };
 
-static constexpr const char* peciDev = "/dev/peci-0";
+static constexpr const char* peciDev = "/dev/peci-";
 static constexpr const unsigned int rankNumMax = 8;
 
 namespace fs = std::experimental::filesystem;
@@ -357,17 +357,19 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
                boost::container::flat_set<CPUConfig>& configs,
                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
-    auto file = open(peciDev, O_RDWR);
-    if (file < 0)
-    {
-        std::cerr << "unable to open " << peciDev << "\n";
-        std::exit(EXIT_FAILURE);
-    }
-
     size_t rescanDelaySeconds = 0;
     bool keepPinging = false;
+
     for (CPUConfig& config : configs)
     {
+        std::string peciDevPath = peciDev + std::to_string(config.bus);
+        auto file = open(peciDevPath.c_str(), O_RDWR | O_CLOEXEC);
+        if (file < 0)
+        {
+            std::cerr << "unable to open " << peciDevPath << "\n";
+            std::exit(EXIT_FAILURE);
+        }
+
         State state;
         struct peci_ping_msg msg;
         msg.addr = config.addr;
@@ -410,6 +412,8 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
             state = State::OFF;
         }
 
+        close(file);
+
         if (config.state != state)
         {
             if (config.state == State::OFF)
@@ -447,8 +451,6 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
             std::cout << config.name << ", state: " << config.state << "\n";
         }
     }
-
-    close(file);
 
     if (rescanDelaySeconds)
     {
