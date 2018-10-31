@@ -34,7 +34,12 @@ namespace fs = std::experimental::filesystem;
 namespace variant_ns = sdbusplus::message::variant_ns;
 static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.AspeedFan"};
+constexpr const char* redundancyConfiguration =
+    "xyz.openbmc_project.Configuration.FanRedundancy";
 static std::regex inputRegex(R"(fan(\d+)_input)");
+
+// todo: power supply fan redundancy
+std::unique_ptr<RedundancySensor> systemRedundancy = nullptr;
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -241,7 +246,7 @@ void createSensors(
 
         tachSensors[sensorName] = std::make_unique<TachSensor>(
             path.string(), objectServer, dbusConnection,
-            std::move(presenceSensor), io, sensorName,
+            std::move(presenceSensor), systemRedundancy, io, sensorName,
             std::move(sensorThresholds), *interfacePath);
     }
     std::vector<fs::path> pwms;
@@ -257,6 +262,56 @@ void createSensors(
             pwm.string(),
             std::make_unique<PwmSensor>(pwm.string(), objectServer)));
     }
+}
+
+void createRedundancySensor(
+    const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
+        sensors,
+    std::shared_ptr<sdbusplus::asio::connection> conn,
+    sdbusplus::asio::object_server& objectServer)
+{
+
+    conn->async_method_call(
+        [&objectServer, &sensors](boost::system::error_code& ec,
+                                  const ManagedObjectType managedObj) {
+            if (ec)
+            {
+                std::cerr << "Error calling entity manager \n";
+                return;
+            }
+            for (const auto& pathPair : managedObj)
+            {
+                for (const auto& interfacePair : pathPair.second)
+                {
+                    if (interfacePair.first == redundancyConfiguration)
+                    {
+                        // currently only support one
+                        auto findCount =
+                            interfacePair.second.find("AllowedFailures");
+                        if (findCount == interfacePair.second.end())
+                        {
+                            std::cerr << "Malformed redundancy record \n";
+                            return;
+                        }
+                        std::vector<std::string> sensorList;
+
+                        for (const auto& sensor : sensors)
+                        {
+                            sensorList.push_back(
+                                "/xyz/openbmc_project/sensors/fan_tach/" +
+                                sensor.second->name);
+                        }
+                        systemRedundancy = std::make_unique<RedundancySensor>(
+                            variant_ns::get<uint64_t>(findCount->second),
+                            sensorList, objectServer);
+
+                        return;
+                    }
+                }
+            }
+        },
+        "xyz.openbmc_project.EntityManager", "/",
+        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
 int main(int argc, char** argv)
@@ -276,6 +331,7 @@ int main(int argc, char** argv)
     io.post([&]() {
         createSensors(io, objectServer, tachSensors, pwmSensors, systemBus,
                       nullptr);
+        createRedundancySensor(tachSensors, systemBus, objectServer);
     });
 
     boost::asio::deadline_timer filterTimer(io);
@@ -315,6 +371,20 @@ int main(int argc, char** argv)
             eventHandler);
         matches.emplace_back(std::move(match));
     }
+
+    // redundancy sensor
+    std::function<void(sdbusplus::message::message&)> redundancyHandler =
+        [&tachSensors, &systemBus,
+         &objectServer](sdbusplus::message::message& message) {
+            createRedundancySensor(tachSensors, systemBus, objectServer);
+        };
+    auto match = std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        "type='signal',member='PropertiesChanged',path_namespace='" +
+            std::string(inventoryPath) + "',arg0namespace='" +
+            redundancyConfiguration + "'",
+        redundancyHandler);
+    matches.emplace_back(std::move(match));
 
     io.run();
 }

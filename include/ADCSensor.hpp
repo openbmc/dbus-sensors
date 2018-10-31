@@ -7,7 +7,6 @@
 class ADCSensor : public Sensor
 {
   public:
-    std::string name;
     std::string configuration;
     ADCSensor(const std::string &path,
               sdbusplus::asio::object_server &objectServer,
@@ -18,7 +17,6 @@ class ADCSensor : public Sensor
     ~ADCSensor();
 
   private:
-    std::string path;
     sdbusplus::asio::object_server &objServer;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;

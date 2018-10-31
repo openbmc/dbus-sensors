@@ -7,7 +7,6 @@
 class CPUSensor : public Sensor
 {
   public:
-    std::string name;
     std::string configuration;
     CPUSensor(const std::string &path, const std::string &objectType,
               sdbusplus::asio::object_server &objectServer,
@@ -20,7 +19,6 @@ class CPUSensor : public Sensor
     static constexpr unsigned int sensorPollMs = 1000;
 
   private:
-    std::string path;
     std::string objectType;
     sdbusplus::asio::object_server &objServer;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;

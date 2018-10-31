@@ -37,15 +37,14 @@ HwmonTempSensor::HwmonTempSensor(
     boost::asio::io_service &io, const std::string &sensorName,
     std::vector<thresholds::Threshold> &&_thresholds,
     const std::string &sensorConfiguration) :
-    Sensor(),
-    path(path), objectType(objectType), configuration(sensorConfiguration),
-    objServer(objectServer),
-    name(boost::replace_all_copy(sensorName, " ", "_")),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
+           std::move(_thresholds)),
+    objectType(objectType), configuration(sensorConfiguration),
+    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
+    waitTimer(io), errCount(0),
     // todo, get these from config
     maxValue(127), minValue(-128)
 {
-    thresholds = std::move(_thresholds);
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
@@ -113,12 +112,17 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code &err)
     }
     else
     {
-        std::cerr << "Failure to read sensor " << name << " at " << path
-                  << "\n";
         errCount++;
     }
-    // only send value update once
+
+    // only print once
     if (errCount == warnAfterErrorCount)
+    {
+        std::cerr << "Failure to read sensor " << name << " at " << path
+                  << " ec:" << err << "\n";
+    }
+
+    if (errCount >= warnAfterErrorCount)
     {
         updateValue(0);
     }

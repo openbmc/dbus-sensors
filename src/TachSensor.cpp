@@ -35,19 +35,19 @@ TachSensor::TachSensor(const std::string &path,
                        sdbusplus::asio::object_server &objectServer,
                        std::shared_ptr<sdbusplus::asio::connection> &conn,
                        std::unique_ptr<PresenceSensor> &&presence,
+                       std::unique_ptr<RedundancySensor> &redundancy,
                        boost::asio::io_service &io, const std::string &fanName,
                        std::vector<thresholds::Threshold> &&_thresholds,
                        const std::string &sensorConfiguration) :
-    Sensor(),
-    path(path), objServer(objectServer), dbusConnection(conn),
-    presence(std::move(presence)),
-    name(boost::replace_all_copy(fanName, " ", "_")),
+    Sensor(boost::replace_all_copy(fanName, " ", "_"), path,
+           std::move(_thresholds)),
+    objServer(objectServer), dbusConnection(conn),
+    presence(std::move(presence)), redundancy(redundancy),
     configuration(sensorConfiguration),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     // todo, get these from config
     maxValue(25000), minValue(0)
 {
-    thresholds = std::move(_thresholds);
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         "xyz.openbmc_project.Sensor.Value");
@@ -131,14 +131,17 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
             pollTime = sensorFailedPollTimeMs;
             errCount++;
         }
-        // only send value update once
-        if (errCount == warnAfterErrorCount)
+        if (errCount >= warnAfterErrorCount)
         {
             // only an error if power is on
             if (isPowerOn(dbusConnection))
             {
-                std::cerr << "Failure to read sensor " << name << " at " << path
-                          << "\n";
+                // only print once
+                if (errCount == warnAfterErrorCount)
+                {
+                    std::cerr << "Failure to read sensor " << name << " at "
+                              << path << " ec:" << err << "\n";
+                }
                 updateValue(0);
             }
             else
@@ -168,7 +171,12 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
 
 void TachSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    bool status = thresholds::checkThresholds(this);
+    if (redundancy)
+    {
+        redundancy->update("/xyz/openbmc_project/sensors/fan_tach/" + name,
+                           !status);
+    }
 }
 
 void TachSensor::updateValue(const double &newValue)
@@ -337,4 +345,47 @@ void PresenceSensor::read(void)
 bool PresenceSensor::getValue(void)
 {
     return status;
+}
+
+RedundancySensor::RedundancySensor(
+    size_t count, const std::vector<std::string> &children,
+    sdbusplus::asio::object_server &objectServer) :
+    count(count),
+    iface(objectServer.add_interface(
+        "/xyz/openbmc_project/control/FanRedundancy/Tach",
+        "xyz.openbmc_project.control.FanRedundancy")),
+    objectServer(objectServer)
+{
+    iface->register_property("Collection", children);
+    iface->register_property("Status", std::string("Full"));
+    iface->register_property("AllowedFailures", static_cast<uint8_t>(count));
+    iface->initialize();
+}
+RedundancySensor::~RedundancySensor()
+{
+    objectServer.remove_interface(iface);
+}
+void RedundancySensor::update(const std::string &name, bool failed)
+{
+    statuses[name] = failed;
+    size_t failedCount = 0;
+
+    std::string state = "Full";
+    for (const auto &status : statuses)
+    {
+        if (status.second)
+        {
+            failedCount++;
+        }
+        if (failedCount > count)
+        {
+            state = "Failed";
+            break;
+        }
+        else if (failedCount)
+        {
+            state = "Degraded";
+        }
+    }
+    iface->set_property("Status", state);
 }

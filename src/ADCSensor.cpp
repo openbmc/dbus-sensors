@@ -39,15 +39,14 @@ ADCSensor::ADCSensor(const std::string &path,
                      std::vector<thresholds::Threshold> &&_thresholds,
                      const double scaleFactor,
                      const std::string &sensorConfiguration) :
-    Sensor(),
-    path(path), objServer(objectServer), configuration(sensorConfiguration),
-    name(boost::replace_all_copy(sensorName, " ", "_")),
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
+           std::move(_thresholds)),
+    objServer(objectServer), configuration(sensorConfiguration),
     scaleFactor(scaleFactor), inputDev(io, open(path.c_str(), O_RDONLY)),
     waitTimer(io), errCount(0),
     // todo, get these from config
     maxValue(20), minValue(0)
 {
-    thresholds = std::move(_thresholds);
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
         "xyz.openbmc_project.Sensor.Value");
@@ -118,14 +117,17 @@ void ADCSensor::handleResponse(const boost::system::error_code &err)
     }
     else
     {
-        std::cerr << "Failure to read sensor " << name << " at " << path
-                  << " ec:" << err << "\n";
 
         errCount++;
     }
-
-    // only send value update once
+    // only print once
     if (errCount == warnAfterErrorCount)
+    {
+        std::cerr << "Failure to read sensor " << name << " at " << path
+                  << " ec:" << err << "\n";
+    }
+
+    if (errCount >= warnAfterErrorCount)
     {
         updateValue(0);
     }

@@ -6,7 +6,15 @@
 constexpr size_t sensorFailedPollTimeMs = 5000;
 struct Sensor
 {
+    Sensor(const std::string& name, const std::string& path,
+           std::vector<thresholds::Threshold>&& thresholdData) :
+        name(name),
+        path(path), thresholds(std::move(thresholdData))
+    {
+    }
     virtual ~Sensor() = default;
+    std::string name;
+    std::string path;
     std::vector<thresholds::Threshold> thresholds;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;

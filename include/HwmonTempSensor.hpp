@@ -7,7 +7,6 @@
 class HwmonTempSensor : public Sensor
 {
   public:
-    std::string name;
     std::string configuration;
     HwmonTempSensor(const std::string &path, const std::string &objectType,
                     sdbusplus::asio::object_server &objectServer,
@@ -18,7 +17,6 @@ class HwmonTempSensor : public Sensor
     ~HwmonTempSensor();
 
   private:
-    std::string path;
     std::string objectType;
     sdbusplus::asio::object_server &objServer;
     boost::asio::posix::stream_descriptor inputDev;

@@ -35,16 +35,15 @@ CPUSensor::CPUSensor(const std::string &path, const std::string &objectType,
                      boost::asio::io_service &io, const std::string &sensorName,
                      std::vector<thresholds::Threshold> &&_thresholds,
                      const std::string &sensorConfiguration) :
-    Sensor(),
-    path(path), objectType(objectType), objServer(objectServer),
-    name(boost::replace_all_copy(sensorName, " ", "_")), dbusConnection(conn),
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
+           std::move(_thresholds)),
+    objectType(objectType), objServer(objectServer), dbusConnection(conn),
     configuration(sensorConfiguration),
 
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     // todo, get these from config
     maxValue(127), minValue(-128)
 {
-    thresholds = std::move(_thresholds);
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
@@ -117,14 +116,17 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
         errCount++;
     }
 
-    // only send value update once
-    if (errCount == warnAfterErrorCount)
+    if (errCount >= warnAfterErrorCount)
     {
         // only an error if power is on
         if (isPowerOn(dbusConnection))
         {
-            std::cerr << "Failure to read sensor " << name << " at " << path
-                      << "\n";
+            // only print once
+            if (errCount == warnAfterErrorCount)
+            {
+                std::cerr << "Failure to read sensor " << name << " at " << path
+                          << "\n";
+            }
             updateValue(0);
             errCount++;
         }

@@ -152,7 +152,7 @@ bool isPowerOn(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             powerStatusOn = sdbusplus::message::variant_ns::get<int32_t>(pgood);
         },
         powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
-        "Get", "pgood");
+        "Get", powerInterfaceName, "pgood");
 
     return powerStatusOn;
 }

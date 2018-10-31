@@ -2,6 +2,7 @@
 #include <VariantVisitors.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/lexical_cast.hpp>
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <sensor.hpp>
@@ -163,16 +164,21 @@ void persistThreshold(const std::string &path, const std::string &baseInterface,
     }
 }
 
-void checkThresholds(Sensor *sensor)
+bool checkThresholds(Sensor *sensor)
 {
+    bool status = true;
 
     if (sensor->thresholds.empty())
     {
-        return;
+        return true;
     }
     for (auto &threshold : sensor->thresholds)
     {
-        if (threshold.direction == thresholds::Direction::HIGH)
+        if (std::isnan(sensor->value))
+        {
+            threshold.asserted = false;
+        }
+        else if (threshold.direction == thresholds::Direction::HIGH)
         {
             if (sensor->value > threshold.value && !threshold.asserted)
             {
@@ -202,7 +208,13 @@ void checkThresholds(Sensor *sensor)
                 threshold.asserted = false;
             }
         }
+        if (threshold.level == thresholds::Level::CRITICAL &&
+            threshold.asserted)
+        {
+            status = false;
+        }
     }
+    return status;
 }
 
 void assertThresholds(Sensor *sensor, thresholds::Level level,
