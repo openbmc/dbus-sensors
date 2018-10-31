@@ -89,6 +89,7 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
     {
         return; // we're being destroyed
     }
+    size_t pollTime = CPUSensor::sensorPollMs;
     std::istream responseStream(&readBuf);
     if (!err)
     {
@@ -112,6 +113,7 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
     }
     else
     {
+        pollTime = sensorFailedPollTimeMs;
         errCount++;
     }
 
@@ -129,8 +131,7 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
         else
         {
             errCount = 0; // check power again in 10 cycles
-            sensorInterface->set_property(
-                "Value", std::numeric_limits<double>::quiet_NaN());
+            updateValue(std::numeric_limits<double>::quiet_NaN());
         }
     }
 
@@ -142,8 +143,7 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
         return; // we're no longer valid
     }
     inputDev.assign(fd);
-    waitTimer.expires_from_now(
-        boost::posix_time::milliseconds(CPUSensor::sensorPollMs));
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
     waitTimer.async_wait([&](const boost::system::error_code &ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

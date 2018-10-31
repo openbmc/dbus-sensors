@@ -94,13 +94,14 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
         return; // we're being destroyed
     }
     bool missing = false;
+    size_t pollTime = pwmPollMs;
     if (presence)
     {
         if (!presence->getValue())
         {
-            sensorInterface->set_property(
-                "Value", std::numeric_limits<double>::quiet_NaN());
+            updateValue(std::numeric_limits<double>::quiet_NaN());
             missing = true;
+            pollTime = sensorFailedPollTimeMs;
         }
     }
     std::istream responseStream(&readBuf);
@@ -127,7 +128,7 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
         }
         else
         {
-
+            pollTime = sensorFailedPollTimeMs;
             errCount++;
         }
         // only send value update once
@@ -143,8 +144,7 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
             else
             {
                 errCount = 0; // check power again in 10 cycles
-                sensorInterface->set_property(
-                    "Value", std::numeric_limits<double>::quiet_NaN());
+                updateValue(std::numeric_limits<double>::quiet_NaN());
             }
         }
     }
@@ -156,11 +156,6 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
         return; // we're no longer valid
     }
     inputDev.assign(fd);
-    size_t pollTime = pwmPollMs;
-    if (missing)
-    {
-        pollTime *= 10;
-    }
     waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
     waitTimer.async_wait([&](const boost::system::error_code &ec) {
         if (ec == boost::asio::error::operation_aborted)
