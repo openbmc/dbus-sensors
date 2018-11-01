@@ -69,6 +69,15 @@ static constexpr const char* configPrefix =
 static constexpr std::array<const char*, 3> sensorTypes = {
     "SkylakeCPU", "BroadwellCPU", "HaswellCPU"};
 
+void detectCpuAsync(
+    boost::asio::deadline_timer& pingTimer,
+    boost::asio::deadline_timer& creationTimer, boost::asio::io_service& io,
+    sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>&
+        sensors,
+    boost::container::flat_set<CPUConfig>& configs,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection);
+
 bool createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>&
@@ -350,7 +359,9 @@ void exportDevice(const CPUConfig& config)
     std::cout << parameters << " on bus " << busStr << " is exported\n";
 }
 
-void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
+void detectCpu(boost::asio::deadline_timer& pingTimer,
+               boost::asio::deadline_timer& creationTimer,
+               boost::asio::io_service& io,
                sdbusplus::asio::object_server& objectServer,
                boost::container::flat_map<std::string,
                                           std::unique_ptr<CPUSensor>>& sensors,
@@ -454,31 +465,49 @@ void detectCpu(boost::asio::deadline_timer& timer, boost::asio::io_service& io,
 
     if (rescanDelaySeconds)
     {
-        std::this_thread::sleep_for(std::chrono::seconds(rescanDelaySeconds));
-        if (!createSensors(io, objectServer, sensors, configs, dbusConnection))
-        {
-            keepPinging = true;
-        }
+        creationTimer.expires_from_now(
+            boost::posix_time::seconds(rescanDelaySeconds));
+        creationTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
+
+            if (!createSensors(io, objectServer, sensors, configs,
+                               dbusConnection))
+            {
+                detectCpuAsync(pingTimer, creationTimer, io, objectServer,
+                               sensors, configs, dbusConnection);
+            }
+        });
     }
 
     if (keepPinging)
     {
-        timer.expires_from_now(boost::posix_time::seconds(1));
-        timer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                /* we were canceled*/
-                return;
-            }
-            else if (ec)
-            {
-                std::cerr << "timer error\n";
-                return;
-            }
-            detectCpu(timer, io, objectServer, sensors, configs,
-                      dbusConnection);
-        });
+        detectCpuAsync(pingTimer, creationTimer, io, objectServer, sensors,
+                       configs, dbusConnection);
     }
+}
+
+void detectCpuAsync(
+    boost::asio::deadline_timer& pingTimer,
+    boost::asio::deadline_timer& creationTimer, boost::asio::io_service& io,
+    sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>&
+        sensors,
+    boost::container::flat_set<CPUConfig>& configs,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    pingTimer.expires_from_now(boost::posix_time::seconds(1));
+    pingTimer.async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return; // we're being canceled
+        }
+
+        detectCpu(pingTimer, creationTimer, io, objectServer, sensors, configs,
+                  dbusConnection);
+    });
 }
 
 bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
@@ -577,24 +606,20 @@ int main(int argc, char** argv)
     boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>> sensors;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     boost::asio::deadline_timer pingTimer(io);
+    boost::asio::deadline_timer creationTimer(io);
     boost::asio::deadline_timer filterTimer(io);
 
     filterTimer.expires_from_now(boost::posix_time::seconds(1));
     filterTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            /* we were canceled*/
-            return;
-        }
-        else if (ec)
-        {
-            std::cerr << "timer error\n";
-            return;
+            return; // we're being canceled
         }
 
         if (getCpuConfig(systemBus, configs))
         {
-            detectCpu(pingTimer, io, objectServer, sensors, configs, systemBus);
+            detectCpuAsync(pingTimer, creationTimer, io, objectServer, sensors,
+                           configs, systemBus);
         }
     });
 
@@ -616,19 +641,13 @@ int main(int argc, char** argv)
             filterTimer.async_wait([&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
-                    /* we were canceled*/
-                    return;
-                }
-                else if (ec)
-                {
-                    std::cerr << "timer error\n";
-                    return;
+                    return; // we're being canceled
                 }
 
                 if (getCpuConfig(systemBus, configs))
                 {
-                    detectCpu(pingTimer, io, objectServer, sensors, configs,
-                              systemBus);
+                    detectCpuAsync(pingTimer, creationTimer, io, objectServer,
+                                   sensors, configs, systemBus);
                 }
             });
         };
