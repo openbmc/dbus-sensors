@@ -97,8 +97,11 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code &err)
         try
         {
             float nvalue = std::stof(response);
-
             nvalue /= sensorScaleFactor;
+            if (!isnan(overriddenValue))
+            {
+                nvalue = overriddenValue;
+            }
             if (nvalue != value)
             {
                 updateValue(nvalue);
@@ -135,7 +138,6 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code &err)
     }
     inputDev.assign(fd);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-    ;
     waitTimer.async_wait([&](const boost::system::error_code &ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -152,7 +154,10 @@ void HwmonTempSensor::checkThresholds(void)
 
 void HwmonTempSensor::updateValue(const double &newValue)
 {
+    // Indicate that it is internal set call
+    internalSet = true;
     sensorInterface->set_property("Value", newValue);
+    internalSet = false;
     value = newValue;
     checkThresholds();
 }
@@ -163,7 +168,10 @@ void HwmonTempSensor::setInitialProperties(
     // todo, get max and min from configuration
     sensorInterface->register_property("MaxValue", maxValue);
     sensorInterface->register_property("MinValue", minValue);
-    sensorInterface->register_property("Value", value);
+    sensorInterface->register_property(
+        "Value", value, [&](const double &newValue, double &oldValue) {
+            return setSensorValue(newValue, oldValue);
+        });
 
     for (auto &threshold : thresholds)
     {

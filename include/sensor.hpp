@@ -20,4 +20,17 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
     double value = std::numeric_limits<double>::quiet_NaN();
+    double overriddenValue = std::numeric_limits<double>::quiet_NaN();
+    bool internalSet = false;
+    int setSensorValue(const double& newValue, double& oldValue)
+    {
+        if (internalSet)
+        {
+            internalSet = false;
+            oldValue = newValue;
+            return 1;
+        }
+        overriddenValue = newValue;
+        return 1;
+    }
 };

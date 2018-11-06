@@ -101,9 +101,11 @@ void ADCSensor::handleResponse(const boost::system::error_code &err)
         try
         {
             float nvalue = std::stof(response);
-
             nvalue = (nvalue / sensorScaleFactor) / scaleFactor;
-
+            if (!isnan(overriddenValue))
+            {
+                nvalue = overriddenValue;
+            }
             if (nvalue != value)
             {
                 updateValue(nvalue);
@@ -157,7 +159,10 @@ void ADCSensor::checkThresholds(void)
 
 void ADCSensor::updateValue(const double &newValue)
 {
+    // Indicate that it is internal set call
+    internalSet = true;
     bool ret = sensorInterface->set_property("Value", newValue);
+    internalSet = false;
     value = newValue;
     checkThresholds();
 }
@@ -168,7 +173,10 @@ void ADCSensor::setInitialProperties(
     // todo, get max and min from configuration
     sensorInterface->register_property("MaxValue", maxValue);
     sensorInterface->register_property("MinValue", minValue);
-    sensorInterface->register_property("Value", value);
+    sensorInterface->register_property(
+        "Value", value, [&](const double &newValue, double &oldValue) {
+            return setSensorValue(newValue, oldValue);
+        });
 
     for (auto &threshold : thresholds)
     {

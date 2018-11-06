@@ -99,6 +99,10 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
             float nvalue = std::stof(response);
             responseStream.clear();
             nvalue /= CPUSensor::sensorScaleFactor;
+            if (!isnan(overriddenValue))
+            {
+                nvalue = overriddenValue;
+            }
             if (nvalue != value)
             {
                 updateValue(nvalue);
@@ -162,7 +166,10 @@ void CPUSensor::checkThresholds(void)
 
 void CPUSensor::updateValue(const double &newValue)
 {
+    // Indicate that it is internal set call
+    internalSet = true;
     sensorInterface->set_property("Value", newValue);
+    internalSet = false;
     value = newValue;
     checkThresholds();
 }
@@ -173,7 +180,10 @@ void CPUSensor::setInitialProperties(
     // todo, get max and min from configuration
     sensorInterface->register_property("MaxValue", maxValue);
     sensorInterface->register_property("MinValue", minValue);
-    sensorInterface->register_property("Value", value);
+    sensorInterface->register_property(
+        "Value", value, [&](const double &newValue, double &oldValue) {
+            return setSensorValue(newValue, oldValue);
+        });
 
     for (auto &threshold : thresholds)
     {
