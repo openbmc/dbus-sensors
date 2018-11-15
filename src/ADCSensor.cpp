@@ -32,6 +32,8 @@ static constexpr size_t warnAfterErrorCount = 10;
 // scaling factor from hwmon
 static constexpr unsigned int sensorScaleFactor = 1000;
 
+static constexpr double roundFactor = 10000; // 3 decimal places
+
 ADCSensor::ADCSensor(const std::string &path,
                      sdbusplus::asio::object_server &objectServer,
                      std::shared_ptr<sdbusplus::asio::connection> &conn,
@@ -100,12 +102,16 @@ void ADCSensor::handleResponse(const boost::system::error_code &err)
         // todo read scaling factors from configuration
         try
         {
-            float nvalue = std::stof(response);
+            double nvalue = std::stof(response);
+
             nvalue = (nvalue / sensorScaleFactor) / scaleFactor;
+            nvalue = std::round(nvalue * roundFactor) / roundFactor;
+
             if (!isnan(overriddenValue))
             {
                 nvalue = overriddenValue;
             }
+
             if (nvalue != value)
             {
                 updateValue(nvalue);
@@ -221,8 +227,9 @@ void ADCSensor::setInitialProperties(
             std::cout << "trying to set uninitialized interface\n";
             continue;
         }
+
         iface->register_property(
-            level, threshold.value,
+            level, std::round(threshold.value * roundFactor) / roundFactor,
             [&](const double &request, double &oldValue) {
                 oldValue = request; // todo, just let the config do this?
                 threshold.value = request;
