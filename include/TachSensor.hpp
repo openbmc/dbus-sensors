@@ -50,7 +50,7 @@ class TachSensor : public Sensor
                sdbusplus::asio::object_server &objectServer,
                std::shared_ptr<sdbusplus::asio::connection> &conn,
                std::unique_ptr<PresenceSensor> &&presence,
-               std::unique_ptr<RedundancySensor> &redundancy,
+               const std::shared_ptr<RedundancySensor> &redundancy,
                boost::asio::io_service &io, const std::string &fanName,
                std::vector<thresholds::Threshold> &&thresholds,
                const std::string &sensorConfiguration);
@@ -58,7 +58,7 @@ class TachSensor : public Sensor
 
   private:
     sdbusplus::asio::object_server &objServer;
-    std::unique_ptr<RedundancySensor> &redundancy;
+    std::shared_ptr<RedundancySensor> redundancy;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     std::unique_ptr<PresenceSensor> presence;
     boost::asio::posix::stream_descriptor inputDev;
