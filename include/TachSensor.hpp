@@ -45,8 +45,7 @@ class RedundancySensor
 class TachSensor : public Sensor
 {
   public:
-    std::string configuration;
-    TachSensor(const std::string &path,
+    TachSensor(const std::string &path, const std::string &objectType,
                sdbusplus::asio::object_server &objectServer,
                std::shared_ptr<sdbusplus::asio::connection> &conn,
                std::unique_ptr<PresenceSensor> &&presence,
@@ -65,13 +64,7 @@ class TachSensor : public Sensor
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     int errCount;
-    double maxValue;
-    double minValue;
     void setupRead(void);
     void handleResponse(const boost::system::error_code &err);
-    void checkThresholds(void);
-    void updateValue(const double &newValue);
-
-    void setInitialProperties(
-        std::shared_ptr<sdbusplus::asio::connection> &conn);
+    void checkThresholds(void) override;
 };
