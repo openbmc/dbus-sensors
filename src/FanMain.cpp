@@ -264,7 +264,7 @@ void createSensors(
         }
 
         tachSensors[sensorName] = std::make_unique<TachSensor>(
-            path.string(), objectServer, dbusConnection,
+            path.string(), baseType, objectServer, dbusConnection,
             std::move(presenceSensor), redundancy, io, sensorName,
             std::move(sensorThresholds), *interfacePath);
     }
