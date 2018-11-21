@@ -7,7 +7,6 @@
 class CPUSensor : public Sensor
 {
   public:
-    std::string configuration;
     CPUSensor(const std::string &path, const std::string &objectType,
               sdbusplus::asio::object_server &objectServer,
               std::shared_ptr<sdbusplus::asio::connection> &conn,
@@ -19,20 +18,13 @@ class CPUSensor : public Sensor
     static constexpr unsigned int sensorPollMs = 1000;
 
   private:
-    std::string objectType;
     sdbusplus::asio::object_server &objServer;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     int errCount;
-    double maxValue;
-    double minValue;
     void setupRead(void);
     void handleResponse(const boost::system::error_code &err);
-    void checkThresholds(void);
-    void updateValue(const double &newValue);
-
-    void setInitialProperties(
-        std::shared_ptr<sdbusplus::asio::connection> &conn);
+    void checkThresholds(void) override;
 };

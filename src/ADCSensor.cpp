@@ -33,6 +33,8 @@ static constexpr size_t warnAfterErrorCount = 10;
 static constexpr unsigned int sensorScaleFactor = 1000;
 
 constexpr double roundFactor = 10000; // 3 decimal places
+static constexpr double maxReading = 20;
+static constexpr double minReading = 0;
 
 ADCSensor::ADCSensor(const std::string &path,
                      sdbusplus::asio::object_server &objectServer,
@@ -42,12 +44,10 @@ ADCSensor::ADCSensor(const std::string &path,
                      const double scaleFactor,
                      const std::string &sensorConfiguration) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
-           std::move(_thresholds)),
-    objServer(objectServer), configuration(sensorConfiguration),
-    scaleFactor(scaleFactor), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), errCount(0),
-    // todo, get these from config
-    maxValue(20), minValue(0)
+           std::move(_thresholds), sensorConfiguration,
+           "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
+    objServer(objectServer), scaleFactor(scaleFactor),
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
@@ -161,96 +161,4 @@ void ADCSensor::handleResponse(const boost::system::error_code &err)
 void ADCSensor::checkThresholds(void)
 {
     thresholds::checkThresholds(this);
-}
-
-void ADCSensor::updateValue(const double &newValue)
-{
-    // Indicate that it is internal set call
-    internalSet = true;
-    bool ret = sensorInterface->set_property("Value", newValue);
-    internalSet = false;
-    value = newValue;
-    checkThresholds();
-}
-
-void ADCSensor::setInitialProperties(
-    std::shared_ptr<sdbusplus::asio::connection> &conn)
-{
-    // todo, get max and min from configuration
-    sensorInterface->register_property("MaxValue", maxValue);
-    sensorInterface->register_property("MinValue", minValue);
-    sensorInterface->register_property(
-        "Value", value, [&](const double &newValue, double &oldValue) {
-            return setSensorValue(newValue, oldValue);
-        });
-
-    for (auto &threshold : thresholds)
-    {
-        std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
-        std::string level;
-        std::string alarm;
-        if (threshold.level == thresholds::Level::CRITICAL)
-        {
-            iface = thresholdInterfaceCritical;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                level = "CriticalHigh";
-                alarm = "CriticalAlarmHigh";
-            }
-            else
-            {
-                level = "CriticalLow";
-                alarm = "CriticalAlarmLow";
-            }
-        }
-        else if (threshold.level == thresholds::Level::WARNING)
-        {
-            iface = thresholdInterfaceWarning;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                level = "WarningHigh";
-                alarm = "WarningAlarmHigh";
-            }
-            else
-            {
-                level = "WarningLow";
-                alarm = "WarningAlarmLow";
-            }
-        }
-        else
-        {
-            std::cerr << "Unknown threshold level" << threshold.level << "\n";
-            continue;
-        }
-        if (!iface)
-        {
-            std::cout << "trying to set uninitialized interface\n";
-            continue;
-        }
-
-        iface->register_property(
-            level, std::round(threshold.value * roundFactor) / roundFactor,
-            [&](const double &request, double &oldValue) {
-                oldValue = request; // todo, just let the config do this?
-                threshold.value = request;
-                thresholds::persistThreshold(
-                    configuration, "xyz.openbmc_project.Configuration.ADC",
-                    threshold, conn);
-                return 1;
-            });
-        iface->register_property(alarm, false);
-    }
-    if (!sensorInterface->initialize())
-    {
-        std::cerr << "error initializing value interface\n";
-    }
-    if (thresholdInterfaceWarning && !thresholdInterfaceWarning->initialize())
-    {
-        std::cerr << "error initializing warning threshold interface\n";
-    }
-
-    if (thresholdInterfaceCritical && !thresholdInterfaceCritical->initialize())
-    {
-        std::cerr << "error initializing critical threshold interface\n";
-    }
 }
