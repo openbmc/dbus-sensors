@@ -32,14 +32,33 @@ static constexpr bool DEBUG = false;
 
 namespace fs = std::experimental::filesystem;
 namespace variant_ns = sdbusplus::message::variant_ns;
-static constexpr std::array<const char*, 1> sensorTypes = {
-    "xyz.openbmc_project.Configuration.AspeedFan"};
+static constexpr std::array<const char*, 2> sensorTypes = {
+    "xyz.openbmc_project.Configuration.AspeedFan",
+    "xyz.openbmc_project.Configuration.I2CFan"};
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
 static std::regex inputRegex(R"(fan(\d+)_input)");
 
+enum class FanTypes
+{
+    aspeed,
+    i2c
+};
+
 // todo: power supply fan redundancy
-std::unique_ptr<RedundancySensor> systemRedundancy = nullptr;
+std::shared_ptr<RedundancySensor> systemRedundancy = nullptr;
+
+FanTypes getFanType(const fs::path& parentPath)
+{
+    fs::path linkPath = parentPath / "device";
+    std::string canonical = fs::read_symlink(linkPath);
+    if (boost::ends_with(canonical, "1e786000.pwm-tacho-controller"))
+    {
+        return FanTypes::aspeed;
+    }
+    // todo: will we need to support other types?
+    return FanTypes::i2c;
+}
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -74,7 +93,7 @@ void createSensors(
 
     // iterate through all found fan sensors, and try to match them with
     // configuration
-    for (auto& path : paths)
+    for (const auto& path : paths)
     {
         std::smatch match;
         std::string pathStr = path.string();
@@ -83,6 +102,22 @@ void createSensors(
         std::string indexStr = *(match.begin() + 1);
 
         auto directory = path.parent_path();
+        FanTypes fanType = getFanType(directory);
+        size_t bus = 0;
+        size_t address = 0;
+        if (fanType == FanTypes::i2c)
+        {
+            std::string link =
+                fs::read_symlink(directory / "device").filename();
+
+            size_t findDash = link.find("-");
+            if (findDash == std::string::npos || link.size() <= findDash + 1)
+            {
+                std::cerr << "Error finding device from symlink";
+            }
+            bus = std::stoi(link.substr(0, findDash));
+            address = std::stoi(link.substr(findDash + 1), nullptr, 16);
+        }
         // convert to 0 based
         size_t index = std::stoul(indexStr) - 1;
 
@@ -111,41 +146,6 @@ void createSensors(
             {
                 continue;
             }
-            auto connector =
-                sensor.second.find(baseType + std::string(".Connector"));
-            if (connector == sensor.second.end())
-            {
-                std::cerr << baseConfiguration->first << " missing connector\n";
-                continue;
-            }
-            auto findPwmIndex = connector->second.find("Pwm");
-            if (findPwmIndex == connector->second.end())
-            {
-                continue;
-            }
-            uint16_t pwmIndex = variant_ns::visit(VariantToUnsignedIntVisitor(),
-                                                  findPwmIndex->second);
-            auto oemNamePath = directory.string() + R"(/of_node/oemname)" +
-                               std::to_string(pwmIndex);
-
-            if (DEBUG)
-            {
-                std::cout << "Checking path " << oemNamePath << "\n";
-            }
-            std::ifstream nameFile(oemNamePath);
-            if (!nameFile.good())
-            {
-                continue;
-            }
-            std::string oemName;
-            std::getline(nameFile, oemName);
-            nameFile.close();
-            if (!oemName.size())
-            {
-                // shouldn't have an empty name file
-                continue;
-            }
-            oemName.pop_back(); // remove trailing null
             auto findIndex = baseConfiguration->second.find("Index");
             if (findIndex == baseConfiguration->second.end())
             {
@@ -154,24 +154,38 @@ void createSensors(
             }
             unsigned int configIndex = variant_ns::visit(
                 VariantToUnsignedIntVisitor(), findIndex->second);
-
             if (configIndex != index)
             {
                 continue;
             }
-            // now that the indexes match, verify the connector
-            auto findConnectorName = connector->second.find("Name");
-            if (findConnectorName == connector->second.end())
+            if (fanType == FanTypes::aspeed)
             {
-                continue;
-            }
-            std::string connectorName = variant_ns::visit(
-                VariantToStringVisitor(), findConnectorName->second);
-            boost::replace_all(connectorName, " ", "_");
-            if (connectorName == oemName)
-            {
+                // there will be only 1 aspeed sensor object in sysfs, we found
+                // the fan
                 sensorData = &(sensor.second);
                 break;
+            }
+            else if (baseType == "xyz.openbmc_project.Configuration.I2CFan")
+            {
+                auto findBus = baseConfiguration->second.find("Bus");
+                auto findAddress = baseConfiguration->second.find("Address");
+                if (findBus == baseConfiguration->second.end() ||
+                    findAddress == baseConfiguration->second.end())
+                {
+                    std::cerr << baseConfiguration->first
+                              << " missing bus or address\n";
+                    continue;
+                }
+                unsigned int configBus = variant_ns::visit(
+                    VariantToUnsignedIntVisitor(), findBus->second);
+                unsigned int configAddress = variant_ns::visit(
+                    VariantToUnsignedIntVisitor(), findAddress->second);
+
+                if (configBus == bus && configAddress == configAddress)
+                {
+                    sensorData = &(sensor.second);
+                    break;
+                }
             }
         }
         if (sensorData == nullptr)
@@ -243,10 +257,15 @@ void createSensors(
                     std::make_unique<PresenceSensor>(index, inverted, io);
             }
         }
+        std::shared_ptr<RedundancySensor> redundancy;
+        if (fanType == FanTypes::aspeed)
+        {
+            redundancy = systemRedundancy;
+        }
 
         tachSensors[sensorName] = std::make_unique<TachSensor>(
             path.string(), objectServer, dbusConnection,
-            std::move(presenceSensor), systemRedundancy, io, sensorName,
+            std::move(presenceSensor), redundancy, io, sensorName,
             std::move(sensorThresholds), *interfacePath);
     }
     std::vector<fs::path> pwms;
@@ -257,6 +276,10 @@ void createSensors(
     }
     for (const fs::path& pwm : pwms)
     {
+        if (pwmSensors.find(pwm) != pwmSensors.end())
+        {
+            continue;
+        }
         // only add new elements
         pwmSensors.insert(std::pair<std::string, std::unique_ptr<PwmSensor>>(
             pwm.string(),
