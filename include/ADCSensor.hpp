@@ -7,7 +7,6 @@
 class ADCSensor : public Sensor
 {
   public:
-    std::string configuration;
     ADCSensor(const std::string &path,
               sdbusplus::asio::object_server &objectServer,
               std::shared_ptr<sdbusplus::asio::connection> &conn,
@@ -22,14 +21,8 @@ class ADCSensor : public Sensor
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     int errCount;
-    double maxValue;
-    double minValue;
     double scaleFactor;
     void setupRead(void);
     void handleResponse(const boost::system::error_code &err);
-    void checkThresholds(void);
-    void updateValue(const double &newValue);
-
-    void setInitialProperties(
-        std::shared_ptr<sdbusplus::asio::connection> &conn);
+    void checkThresholds(void) override;
 };

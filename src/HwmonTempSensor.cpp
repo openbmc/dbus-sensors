@@ -30,6 +30,9 @@ static constexpr unsigned int sensorPollMs = 500;
 static constexpr unsigned int sensorScaleFactor = 1000;
 static constexpr size_t warnAfterErrorCount = 10;
 
+static constexpr double maxReading = 127;
+static constexpr double minReading = -128;
+
 HwmonTempSensor::HwmonTempSensor(
     const std::string &path, const std::string &objectType,
     sdbusplus::asio::object_server &objectServer,
@@ -38,12 +41,10 @@ HwmonTempSensor::HwmonTempSensor(
     std::vector<thresholds::Threshold> &&_thresholds,
     const std::string &sensorConfiguration) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
-           std::move(_thresholds)),
-    objectType(objectType), configuration(sensorConfiguration),
+           std::move(_thresholds), sensorConfiguration, objectType, maxReading,
+           minReading),
     objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), errCount(0),
-    // todo, get these from config
-    maxValue(127), minValue(-128)
+    waitTimer(io), errCount(0)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -150,94 +151,4 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code &err)
 void HwmonTempSensor::checkThresholds(void)
 {
     thresholds::checkThresholds(this);
-}
-
-void HwmonTempSensor::updateValue(const double &newValue)
-{
-    // Indicate that it is internal set call
-    internalSet = true;
-    sensorInterface->set_property("Value", newValue);
-    internalSet = false;
-    value = newValue;
-    checkThresholds();
-}
-
-void HwmonTempSensor::setInitialProperties(
-    std::shared_ptr<sdbusplus::asio::connection> &conn)
-{
-    // todo, get max and min from configuration
-    sensorInterface->register_property("MaxValue", maxValue);
-    sensorInterface->register_property("MinValue", minValue);
-    sensorInterface->register_property(
-        "Value", value, [&](const double &newValue, double &oldValue) {
-            return setSensorValue(newValue, oldValue);
-        });
-
-    for (auto &threshold : thresholds)
-    {
-        std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
-        std::string level;
-        std::string alarm;
-        if (threshold.level == thresholds::Level::CRITICAL)
-        {
-            iface = thresholdInterfaceCritical;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                level = "CriticalHigh";
-                alarm = "CriticalAlarmHigh";
-            }
-            else
-            {
-                level = "CriticalLow";
-                alarm = "CriticalAlarmLow";
-            }
-        }
-        else if (threshold.level == thresholds::Level::WARNING)
-        {
-            iface = thresholdInterfaceWarning;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                level = "WarningHigh";
-                alarm = "WarningAlarmHigh";
-            }
-            else
-            {
-                level = "WarningLow";
-                alarm = "WarningAlarmLow";
-            }
-        }
-        else
-        {
-            std::cerr << "Unknown threshold level" << threshold.level << "\n";
-            continue;
-        }
-        if (!iface)
-        {
-            std::cout << "trying to set uninitialized interface\n";
-            continue;
-        }
-        iface->register_property(
-            level, threshold.value,
-            [&](const double &request, double &oldValue) {
-                oldValue = request; // todo, just let the config do this?
-                threshold.value = request;
-                thresholds::persistThreshold(configuration, objectType,
-                                             threshold, conn);
-                return 1;
-            });
-        iface->register_property(alarm, false);
-    }
-    if (!sensorInterface->initialize())
-    {
-        std::cerr << "error initializing value interface\n";
-    }
-    if (thresholdInterfaceWarning && !thresholdInterfaceWarning->initialize())
-    {
-        std::cerr << "error initializing warning threshold interface\n";
-    }
-
-    if (thresholdInterfaceCritical && !thresholdInterfaceCritical->initialize())
-    {
-        std::cerr << "error initializing critical threshold interface\n";
-    }
 }
