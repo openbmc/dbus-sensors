@@ -122,4 +122,12 @@ if (EXTERNAL_PROJECT)
     add_dependencies (cpusensor ${EXTERNAL_PACKAGES})
 endif ()
 
+set (
+    SERVICE_FILES
+    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.adcsensor.service
+    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.cpusensor.service
+    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.fansensor.service
+    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.hwmontempsensor.service
+)
 install (TARGETS fansensor hwmontempsensor cpusensor adcsensor DESTINATION bin)
+install (FILES ${SERVICE_FILES} DESTINATION /lib/systemd/system/)
