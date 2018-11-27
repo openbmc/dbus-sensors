@@ -120,7 +120,7 @@ bool isPowerOn(const std::shared_ptr<sdbusplus::asio::connection>& conn)
     // create a match for powergood changes, first time do a method call to
     // return the correct value
     std::function<void(sdbusplus::message::message & message)> eventHandler =
-        [&powerStatusOn](sdbusplus::message::message& message) {
+        [](sdbusplus::message::message& message) {
             std::string objectName;
             boost::container::flat_map<std::string,
                                        sdbusplus::message::variant<int32_t>>
@@ -142,8 +142,8 @@ bool isPowerOn(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         eventHandler);
 
     conn->async_method_call(
-        [&powerStatusOn](boost::system::error_code ec,
-                         const sdbusplus::message::variant<int32_t>& pgood) {
+        [](boost::system::error_code ec,
+           const sdbusplus::message::variant<int32_t>& pgood) {
             if (ec)
             {
                 std::cerr << "Error getting initial power status\n";
