@@ -12,8 +12,9 @@ const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
 
 using BasicVariantType =
-    sdbusplus::message::variant<std::string, int64_t, uint64_t, double, int32_t,
-                                uint32_t, int16_t, uint16_t, uint8_t, bool>;
+    sdbusplus::message::variant<std::vector<std::string>, std::string, int64_t,
+                                uint64_t, double, int32_t, uint32_t, int16_t,
+                                uint16_t, uint8_t, bool>;
 
 using ManagedObjectType = boost::container::flat_map<
     sdbusplus::message::object_path,
