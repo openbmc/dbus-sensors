@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /* Copyright (c) 2018 Intel Corporation */
 
+// clang-format off
+
 #ifndef __PECI_IOCTL_H
 #define __PECI_IOCTL_H
 
@@ -245,3 +247,4 @@ struct peci_crashdump_get_frame_msg {
 	      struct peci_crashdump_get_frame_msg)
 
 #endif /* __PECI_IOCTL_H */
+// clang-format on

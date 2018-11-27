@@ -1,8 +1,9 @@
 #include <TachSensor.hpp>
 #include <Thresholds.hpp>
 #include <dbus/connection.hpp>
-#include <nlohmann/json.hpp>
 #include <fstream>
+#include <nlohmann/json.hpp>
+
 #include "gtest/gtest.h"
 
 TEST(TachSensor, TestTachSensor)

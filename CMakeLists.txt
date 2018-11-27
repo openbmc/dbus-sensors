@@ -6,6 +6,7 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++fs")
 set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
+option (YOCTO "Enable Building in Yocto" OFF)
 option (HUNTER_ENABLED "Enable hunter package pulling" OFF)
 include ("cmake/HunterGate.cmake")
 
@@ -27,8 +28,7 @@ set (ADC_SRC_FILES src/Utils.cpp src/ADCSensor.cpp src/Thresholds.cpp)
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
 
-option (EXTERNAL_PROJECT "Enable Cloning External Projects" OFF)
-if (EXTERNAL_PROJECT)
+if (NOT YOCTO)
     option (ENABLE_TEST "Enable Google Test" OFF)
     include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include/non-yocto)
 
@@ -115,7 +115,7 @@ add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
 add_dependencies (adcsensor sdbusplus)
 target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
 
-if (EXTERNAL_PROJECT)
+if (NOT YOCTO)
     add_dependencies (fansensor ${EXTERNAL_PACKAGES})
     add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
