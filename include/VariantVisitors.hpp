@@ -15,61 +15,103 @@
 */
 
 #pragma once
-#include <boost/variant.hpp>
+#include <stdexcept>
 #include <string>
-
-struct VariantToFloatVisitor : public boost::static_visitor<float>
+struct VariantToFloatVisitor
 {
-    template <typename T> float operator()(const T &t) const
+    template <typename T>
+    std::enable_if_t<std::is_arithmetic<T>::value, float>
+        operator()(const T &t) const
     {
         return static_cast<float>(t);
     }
-};
-template <>
-inline float VariantToFloatVisitor::
-    operator()<std::string>(const std::string &s) const
-{
-    throw std::invalid_argument("Cannot translate string to float");
-}
 
-struct VariantToIntVisitor : public boost::static_visitor<int>
-{
-    template <typename T> int operator()(const T &t) const
+    template <typename T>
+    std::enable_if_t<!std::is_arithmetic<T>::value, float>
+        operator()(const T &t) const
     {
-        return static_cast<int>(t);
+        throw std::invalid_argument("Cannot translate type to float");
     }
 };
-template <>
-inline int VariantToIntVisitor::
-    operator()<std::string>(const std::string &s) const
-{
-    throw std::invalid_argument("Cannot translate string to int");
-}
 
-struct VariantToUnsignedIntVisitor : public boost::static_visitor<unsigned int>
+struct VariantToIntVisitor
 {
-    template <typename T> unsigned int operator()(const T &t) const
+    template <typename T>
+    std::enable_if_t<std::is_arithmetic<T>::value, int>
+        operator()(const T &t) const
     {
-        return static_cast<int>(t);
+        return static_cast<float>(t);
+    }
+
+    template <typename T>
+    std::enable_if_t<!std::is_arithmetic<T>::value, int>
+        operator()(const T &t) const
+    {
+        throw std::invalid_argument("Cannot translate type to int");
     }
 };
-template <>
-inline unsigned int VariantToUnsignedIntVisitor::
-    operator()<std::string>(const std::string &s) const
-{
-    throw std::invalid_argument("Cannot translate string to unsigned int");
-}
 
-struct VariantToStringVisitor : public boost::static_visitor<std::string>
+struct VariantToUnsignedIntVisitor
 {
-    template <typename T> std::string operator()(const T &t) const
+    template <typename T>
+    std::enable_if_t<std::is_arithmetic<T>::value, unsigned int>
+        operator()(const T &t) const
+    {
+        return static_cast<float>(t);
+    }
+
+    template <typename T>
+    std::enable_if_t<!std::is_arithmetic<T>::value, unsigned int>
+        operator()(const T &t) const
+    {
+        throw std::invalid_argument("Cannot translate type to unsigned int");
+    }
+};
+
+struct VariantToStringVisitor
+{
+    template <typename T>
+    std::enable_if_t<std::is_arithmetic<T>::value, std::string>
+        operator()(const T &t) const
     {
         return std::to_string(t);
     }
+
+    template <typename T>
+    std::enable_if_t<!std::is_arithmetic<T>::value, std::string>
+        operator()(const T &t) const
+    {
+        return returnString(t);
+    }
+
+    template <typename T>
+    std::enable_if_t<std::is_same<T, std::string>::value, std::string>
+        returnString(const T &t) const
+    {
+        return t;
+    }
+
+    template <typename T>
+    std::enable_if_t<!std::is_same<T, std::string>::value, std::string>
+        returnString(const T &t) const
+    {
+        throw std::invalid_argument("Cannot translate type to string");
+    }
 };
-template <>
-inline std::string VariantToStringVisitor::
-    operator()<std::string>(const std::string &s) const
+
+struct VariantToDoubleVisitor
 {
-    return s;
-}
+    template <typename T>
+    std::enable_if_t<std::is_arithmetic<T>::value, double>
+        operator()(const T &t) const
+    {
+        return static_cast<double>(t);
+    }
+
+    template <typename T>
+    std::enable_if_t<!std::is_arithmetic<T>::value, double>
+        operator()(const T &t) const
+    {
+        throw std::invalid_argument("Cannot translate type to double");
+    }
+};
