@@ -44,14 +44,27 @@ PwmSensor::PwmSensor(const std::string& sysPath,
                 throw std::runtime_error("Value out of range");
                 return -1;
             }
+            if (req == resp)
+            {
+                return 1;
+            }
             double value = (req / 100) * pwmMax;
             setValue(static_cast<int>(value));
             resp = req;
+
+            controlInterface->signal_property("Target");
+
             return 1;
         },
         [this](double& curVal) {
             float value = 100.0 * (static_cast<float>(getValue()) / pwmMax);
-            curVal = value;
+            if (curVal != value)
+            {
+                curVal = value;
+                controlInterface->signal_property("Target");
+                sensorInterface->signal_property("Value");
+            }
+
             return curVal;
         });
     // pwm sensor interface is in percent
@@ -69,12 +82,26 @@ PwmSensor::PwmSensor(const std::string& sysPath,
                 throw std::runtime_error("Value out of range");
                 return -1;
             }
+            if (req == resp)
+            {
+                return 1;
+            }
             setValue(req);
             resp = req;
+
+            sensorInterface->signal_property("Value");
+
             return 1;
         },
         [this](uint64_t& curVal) {
-            curVal = getValue();
+            uint64_t value = getValue();
+            if (curVal != value)
+            {
+                curVal = value;
+                controlInterface->signal_property("Target");
+                sensorInterface->signal_property("Value");
+            }
+
             return curVal;
         });
     sensorInterface->initialize();
