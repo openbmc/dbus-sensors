@@ -4,6 +4,10 @@ include (ExternalProject)
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++fs -Werror")
+
+# this is because peci linux header throws #warning
+set (CMAKE_CXX_FLAGS "-Wno-error=#warnings")
+
 set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 option (YOCTO "Enable Building in Yocto" OFF)
