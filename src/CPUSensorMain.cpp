@@ -15,7 +15,6 @@
 */
 
 #include <fcntl.h>
-#include <linux/peci-ioctl.h>
 
 #include <CPUSensor.hpp>
 #include <Utils.hpp>
@@ -30,6 +29,11 @@
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+
+// clang-format off
+// this needs to be included last or we'll have build issues
+#include <linux/peci-ioctl.h>
+// clang-format on
 
 static constexpr bool DEBUG = false;
 
