@@ -38,20 +38,246 @@ constexpr const char* cfmIface = "xyz.openbmc_project.Configuration.CFMSensor";
 
 // todo: this *might* need to be configurable
 constexpr const char* inletTemperatureSensor = "temperature/Front_Panel_Temp";
-static constexpr double maxReading = 127;
-static constexpr double minReading = -128;
 
 static constexpr bool DEBUG = false;
 
+static constexpr double cfmMaxReading = 255;
+static constexpr double cfmMinReading = 0;
+
+static void setupSensorMatch(
+    std::vector<sdbusplus::bus::match::match>& matches,
+    sdbusplus::bus::bus& connection, const std::string& type,
+    std::function<void(const double&, sdbusplus::message::message&)>&& callback)
+{
+
+    std::function<void(sdbusplus::message::message & message)> eventHandler =
+        [callback{std::move(callback)}](sdbusplus::message::message& message) {
+            std::string objectName;
+            boost::container::flat_map<
+                std::string, sdbusplus::message::variant<double, int64_t>>
+                values;
+            message.read(objectName, values);
+            auto findValue = values.find("Value");
+            if (findValue == values.end())
+            {
+                return;
+            }
+            double value = sdbusplus::message::variant_ns::visit(
+                VariantToDoubleVisitor(), findValue->second);
+            callback(value, message);
+        };
+    matches.emplace_back(connection,
+                         "type='signal',"
+                         "member='PropertiesChanged',interface='org."
+                         "freedesktop.DBus.Properties',path_"
+                         "namespace='/xyz/openbmc_project/sensors/" +
+                             std::string(type) +
+                             "',arg0='xyz.openbmc_project.Sensor.Value'",
+                         std::move(eventHandler));
+}
+
+template <typename T>
+static T loadVariant(
+    const boost::container::flat_map<std::string, BasicVariantType>& data,
+    const std::string& key)
+{
+    auto it = data.find(key);
+    if (it == data.end())
+    {
+        std::cerr << "Configuration missing " << key << "\n";
+        throw std::invalid_argument("Key Missing");
+    }
+    if constexpr (std::is_same_v<T, double>)
+    {
+        return sdbusplus::message::variant_ns::visit(VariantToDoubleVisitor(),
+                                                     it->second);
+    }
+    else if constexpr (std::is_same_v<T, std::string>)
+    {
+        return sdbusplus::message::variant_ns::visit(VariantToStringVisitor(),
+                                                     it->second);
+    }
+    else
+    {
+        static_assert("Type Not Implemented");
+    }
+}
+
+CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                     const std::string& sensorName,
+                     const std::string& sensorConfiguration,
+                     sdbusplus::asio::object_server& objectServer,
+                     std::vector<thresholds::Threshold>&& thresholds,
+                     std::shared_ptr<ExitAirTempSensor>& parent) :
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
+           "" /* todo: remove arg from base*/, std::move(thresholds),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
+           cfmMaxReading, cfmMinReading),
+    dbusConnection(conn), parent(parent)
+{
+    sensorInterface =
+        objectServer.add_interface("/xyz/openbmc_project/sensors/cfm/" + name,
+                                   "xyz.openbmc_project.Sensor.Value");
+
+    if (thresholds::hasWarningInterface(thresholds))
+    {
+        thresholdInterfaceWarning = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/cfm/" + name,
+            "xyz.openbmc_project.Sensor.Threshold.Warning");
+    }
+    if (thresholds::hasCriticalInterface(thresholds))
+    {
+        thresholdInterfaceCritical = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/cfm/" + name,
+            "xyz.openbmc_project.Sensor.Threshold.Critical");
+    }
+    setInitialProperties(conn);
+    setupSensorMatch(
+        matches, *dbusConnection, "fan_tach",
+        std::move(
+            [this](const double& value, sdbusplus::message::message& message) {
+                tachReadings[message.get_path()] = value;
+                if (tachRanges.find(message.get_path()) == tachRanges.end())
+                {
+                    // calls update reading after updating ranges
+                    addTachRanges(message.get_sender(), message.get_path());
+                }
+                else
+                {
+                    updateReading();
+                }
+            }));
+}
+
+void CFMSensor::addTachRanges(const std::string& serviceName,
+                              const std::string& path)
+{
+    dbusConnection->async_method_call(
+        [this, path](const boost::system::error_code ec,
+                     const boost::container::flat_map<std::string,
+                                                      BasicVariantType>& data) {
+            if (ec)
+            {
+                std::cerr << "Error getting properties from " << path << "\n";
+            }
+
+            double max = loadVariant<double>(data, "MaxValue");
+            double min = loadVariant<double>(data, "MinValue");
+            tachRanges[path] = std::make_pair(min, max);
+            updateReading();
+        },
+        serviceName, path, "org.freedesktop.DBus.Properties", "GetAll",
+        "xyz.openbmc_project.Sensor.Value");
+}
+
+void CFMSensor::checkThresholds(void)
+{
+    thresholds::checkThresholds(this);
+}
+
+void CFMSensor::updateReading(void)
+{
+    double val = 0.0;
+    if (calculate(val))
+    {
+        if (value != val && parent)
+        {
+            parent->updateReading();
+        }
+        updateValue(val);
+    }
+    else
+    {
+        updateValue(std::numeric_limits<double>::quiet_NaN());
+    }
+}
+
+bool CFMSensor::calculate(double& value)
+{
+    double totalCFM = 0;
+    for (const std::string& tachName : tachs)
+    {
+        auto findReading = std::find_if(
+            tachReadings.begin(), tachReadings.end(), [&](const auto& item) {
+                return boost::ends_with(item.first, tachName);
+            });
+        auto findRange = std::find_if(
+            tachRanges.begin(), tachRanges.end(), [&](const auto& item) {
+                return boost::ends_with(item.first, tachName);
+            });
+        if (findReading == tachReadings.end())
+        {
+            std::cerr << "Can't find " << tachName << "in readings\n";
+            return false; // haven't gotten a reading
+        }
+
+        if (findRange == tachRanges.end())
+        {
+            std::cerr << "Can't find " << tachName << "in ranges\n";
+            return false; // haven't gotten a max / min
+        }
+
+        // avoid divide by 0
+        if (findRange->second.second == 0)
+        {
+            std::cerr << "Tach Max Set to 0 " << tachName << "\n";
+            return false;
+        }
+
+        double rpm = findReading->second;
+
+        // for now assume the min for a fan is always 0, divide by max to get
+        // percent and mult by 100
+        rpm /= findRange->second.second;
+        rpm *= 100;
+
+        if constexpr (DEBUG)
+        {
+            std::cout << "Tach " << tachName << "at " << rpm << "\n";
+        }
+
+        // Do a linear interpolation to get Ci
+        // Ci = C1 + (C2 - C1)/(RPM2 - RPM1) * (TACHi - TACH1)
+
+        double ci = 0;
+        if (rpm == 0)
+        {
+            ci = 0;
+        }
+        else if (rpm < tachMinPercent)
+        {
+            ci = c1;
+        }
+        else if (rpm > tachMaxPercent)
+        {
+            ci = c2;
+        }
+        else
+        {
+            ci = c1 + (((c2 - c1) * (rpm - tachMinPercent)) /
+                       (tachMaxPercent - tachMinPercent));
+        }
+
+        // Now calculate the CFM for this tach
+        // CFMi = Ci * Qmaxi * TACHi
+        totalCFM += ci * maxCFM * rpm;
+    }
+
+    // divide by 100 since rpm is in percent
+    value = totalCFM / 100;
+}
+
+static constexpr double exitAirMaxReading = 127;
+static constexpr double exitAirMinReading = -128;
 ExitAirTempSensor::ExitAirTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
-    const std::string& sensorConfiguration,
+    const std::string& sensorName, const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholds) :
-    Sensor("Exit_Air_Temperature", "" /* todo: remove arg from base*/,
-           std::move(thresholds), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", maxReading,
-           minReading),
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
+           "" /* todo: remove arg from base*/, std::move(thresholds),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
+           exitAirMaxReading, exitAirMinReading),
     dbusConnection(conn)
 {
     sensorInterface = objectServer.add_interface(
@@ -82,47 +308,24 @@ ExitAirTempSensor::~ExitAirTempSensor()
 void ExitAirTempSensor::setupMatches(void)
 {
 
-    constexpr const std::array<const char*, 3> matchTypes = {
-        "power", "fan_pwm", inletTemperatureSensor};
+    constexpr const std::array<const char*, 2> matchTypes = {
+        "power", inletTemperatureSensor};
 
-    for (const auto& type : matchTypes)
+    for (const std::string& type : matchTypes)
     {
-        std::function<void(sdbusplus::message::message & message)>
-            eventHandler = [this, type](sdbusplus::message::message& message) {
-                std::string objectName;
-                boost::container::flat_map<
-                    std::string, sdbusplus::message::variant<double, int64_t>>
-                    values;
-                message.read(objectName, values);
-                auto findValue = values.find("Value");
-                if (findValue == values.end())
-                {
-                    return;
-                }
-                double value = sdbusplus::message::variant_ns::visit(
-                    VariantToDoubleVisitor(), findValue->second);
-                if (type == "power")
-                {
-                    powerReadings[message.get_path()] = value;
-                }
-                else if (type == inletTemperatureSensor)
-                {
-                    inletTemp = value;
-                }
-                else if (type == "fan_pwm")
-                {
-                    pwmReadings[message.get_path()] = value;
-                }
-                updateReading();
-            };
-        matches.emplace_back(static_cast<sdbusplus::bus::bus&>(*dbusConnection),
-                             "type='signal',"
-                             "member='PropertiesChanged',interface='org."
-                             "freedesktop.DBus.Properties',path_"
-                             "namespace='/xyz/openbmc_project/sensors/" +
-                                 std::string(type) +
-                                 "',arg0='xyz.openbmc_project.Sensor.Value'",
-                             std::move(eventHandler));
+        setupSensorMatch(matches, *dbusConnection, type,
+                         [this, type](const double& value,
+                                      sdbusplus::message::message& message) {
+                             if (type == "power")
+                             {
+                                 powerReadings[message.get_path()] = value;
+                             }
+                             else if (type == inletTemperatureSensor)
+                             {
+                                 inletTemp = value;
+                             }
+                             updateReading();
+                         });
     }
 }
 
@@ -140,69 +343,20 @@ void ExitAirTempSensor::updateReading(void)
     }
 }
 
-// todo: break this out into it's own sensor
-int32_t ExitAirTempSensor::getTotalCFM(void)
+double ExitAirTempSensor::getTotalCFM(void)
 {
-    int32_t totalCFM = 0;
-    // todo: rpm instead of pwm
-    for (const auto& zone : cfmData)
+    double sum = 0;
+    for (auto& sensor : cfmSensors)
     {
-        if (zone.pwm.empty())
+        double reading = 0;
+        if (!sensor->calculate(reading))
         {
-            std::cerr << "CFM without PWM";
             return -1;
         }
-
-        const std::string& firstName = zone.pwm[0];
-
-        auto findPwm = std::find_if(
-            pwmReadings.begin(), pwmReadings.end(), [&](const auto& item) {
-                return boost::ends_with(item.first, firstName);
-            });
-        if (findPwm == pwmReadings.end())
-        {
-            std::cerr << "Can't find " << firstName << "in readings\n";
-            return -1; // haven't gotten a reading
-        }
-
-        double pwm = findPwm->second;
-        if constexpr (DEBUG)
-        {
-            std::cout << "Pwm " << firstName << "at " << pwm << "\n";
-        }
-
-        // Do a linear interpolation to get Ci
-        // Ci = C1 + (C2 - C1)/(PWM2 - PWM1) * (PWMi - PWM1)
-
-        int32_t ci = 0;
-        if (pwm == 0)
-        {
-            ci = 0;
-        }
-        else if (pwm < zone.pwmMin)
-        {
-            ci = zone.c1;
-        }
-        else if (pwm > zone.pwmMax)
-        {
-            ci = zone.c2;
-        }
-        else
-        {
-            ci = zone.c1 +
-                 (((zone.c2 - zone.c1) * (pwm - (int32_t)zone.pwmMin)) /
-                  ((int32_t)zone.pwmMax - (int32_t)zone.pwmMin));
-        }
-
-        // Now calculate the CFM for this domain
-        // CFMi = Ci * QTYi * Qmaxi * PWMi
-        totalCFM += ci * zone.pwm.size() * zone.maxCFM * pwm;
+        sum += reading;
     }
-    if constexpr (DEBUG)
-    {
-        std::cout << totalCFM / 100 << " CFM\n";
-    }
-    return totalCFM /= 100; // divide by 100 since PWM is in percent
+
+    return sum;
 }
 
 bool ExitAirTempSensor::calculate(double& val)
@@ -344,20 +498,6 @@ void ExitAirTempSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
-static double loadVariantDouble(
-    const boost::container::flat_map<std::string, BasicVariantType>& data,
-    const std::string& key)
-{
-    auto it = data.find(key);
-    if (it == data.end())
-    {
-        std::cerr << "Configuration missing " << key << "\n";
-        throw std::invalid_argument("Key Missing");
-    }
-    return sdbusplus::message::variant_ns::visit(VariantToDoubleVisitor(),
-                                                 it->second);
-}
-
 static void loadVariantPathArray(
     const boost::container::flat_map<std::string, BasicVariantType>& data,
     const std::string& key, std::vector<std::string>& resp)
@@ -379,7 +519,7 @@ static void loadVariantPathArray(
 }
 
 void createSensor(sdbusplus::asio::object_server& objectServer,
-                  std::shared_ptr<ExitAirTempSensor>& sensor,
+                  std::shared_ptr<ExitAirTempSensor>& exitAirSensor,
                   std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     if (!dbusConnection)
@@ -394,80 +534,88 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                 std::cerr << "Error contacting entity manager\n";
                 return;
             }
-
-            std::vector<CFMInfo> cfmData;
-            bool foundExitAir = false;
+            std::vector<std::unique_ptr<CFMSensor>> cfmSensors;
             for (const auto& pathPair : resp)
             {
                 for (const auto& entry : pathPair.second)
                 {
                     if (entry.first == exitAirIface)
                     {
-                        if (foundExitAir)
-                        {
-                            // Something is very wrong
-                            std::cerr << "More than one exit air configuration "
-                                         "found\n";
-                            std::exit(EXIT_FAILURE);
-                        }
-                        foundExitAir = true;
-
                         // thresholds should be under the same path
                         std::vector<thresholds::Threshold> sensorThresholds;
                         parseThresholdsFromConfig(pathPair.second,
                                                   sensorThresholds);
-                        if (!sensor)
+                        if (!exitAirSensor)
                         {
-                            sensor = std::make_shared<ExitAirTempSensor>(
-                                dbusConnection, pathPair.first.str,
+                            std::string name =
+                                loadVariant<std::string>(entry.second, "Name");
+                            exitAirSensor = std::make_shared<ExitAirTempSensor>(
+                                dbusConnection, name, pathPair.first.str,
                                 objectServer, std::move(sensorThresholds));
                         }
                         else
                         {
-                            sensor->thresholds = sensorThresholds;
+                            exitAirSensor->thresholds = sensorThresholds;
                         }
 
-                        sensor->powerFactorMin =
-                            loadVariantDouble(entry.second, "PowerFactorMin");
-                        sensor->powerFactorMax =
-                            loadVariantDouble(entry.second, "PowerFactorMax");
-                        sensor->qMin = loadVariantDouble(entry.second, "QMin");
-                        sensor->qMax = loadVariantDouble(entry.second, "QMax");
-                        sensor->alphaS =
-                            loadVariantDouble(entry.second, "AlphaS");
-                        sensor->alphaF =
-                            loadVariantDouble(entry.second, "AlphaF");
+                        exitAirSensor->powerFactorMin =
+                            loadVariant<double>(entry.second, "PowerFactorMin");
+                        exitAirSensor->powerFactorMax =
+                            loadVariant<double>(entry.second, "PowerFactorMax");
+                        exitAirSensor->qMin =
+                            loadVariant<double>(entry.second, "QMin");
+                        exitAirSensor->qMax =
+                            loadVariant<double>(entry.second, "QMax");
+                        exitAirSensor->alphaS =
+                            loadVariant<double>(entry.second, "AlphaS");
+                        exitAirSensor->alphaF =
+                            loadVariant<double>(entry.second, "AlphaF");
                     }
                     else if (entry.first == cfmIface)
 
                     {
-
-                        CFMInfo cfm;
-                        loadVariantPathArray(entry.second, "Pwms", cfm.pwm);
-                        cfm.maxCFM = loadVariantDouble(entry.second, "MaxCFM");
+                        // thresholds should be under the same path
+                        std::vector<thresholds::Threshold> sensorThresholds;
+                        parseThresholdsFromConfig(pathPair.second,
+                                                  sensorThresholds);
+                        std::string name =
+                            loadVariant<std::string>(entry.second, "Name");
+                        auto sensor = std::make_unique<CFMSensor>(
+                            dbusConnection, name, pathPair.first.str,
+                            objectServer, std::move(sensorThresholds),
+                            exitAirSensor);
+                        loadVariantPathArray(entry.second, "Tachs",
+                                             sensor->tachs);
+                        sensor->maxCFM =
+                            loadVariant<double>(entry.second, "MaxCFM");
 
                         // change these into percent upon getting the data
-                        cfm.c1 = loadVariantDouble(entry.second, "C1") / 100;
-                        cfm.c2 = loadVariantDouble(entry.second, "C2") / 100;
-                        cfm.pwmMin =
-                            loadVariantDouble(entry.second, "PwmMinPercent") /
+                        sensor->c1 =
+                            loadVariant<double>(entry.second, "C1") / 100;
+                        sensor->c2 =
+                            loadVariant<double>(entry.second, "C2") / 100;
+                        sensor->tachMinPercent =
+                            loadVariant<double>(entry.second,
+                                                "TachMinPercent") /
                             100;
-                        cfm.pwmMax =
-                            loadVariantDouble(entry.second, "PwmMaxPercent") /
+                        sensor->tachMaxPercent =
+                            loadVariant<double>(entry.second,
+                                                "TachMaxPercent") /
                             100;
 
-                        cfmData.emplace_back(cfm);
+                        cfmSensors.emplace_back(std::move(sensor));
                     }
                 }
             }
-            if (sensor)
+            if (exitAirSensor)
             {
-                sensor->cfmData = std::move(cfmData);
+                exitAirSensor->cfmSensors = std::move(cfmSensors);
 
-                // todo: when power sensors are done delete this fake reading
-                sensor->powerReadings["foo"] = 144.0;
+                // todo: when power sensors are done delete this fake
+                // reading
+                exitAirSensor->powerReadings["foo"] = 144.0;
 
-                sensor->updateReading();
+                exitAirSensor->updateReading();
             }
         },
         entityManagerName, "/", "org.freedesktop.DBus.ObjectManager",
