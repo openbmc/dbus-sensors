@@ -1,12 +1,11 @@
 [Unit]
-Description=CPU Sensor
+Description=Exit Air Temp Sensor
 StopWhenUnneeded=false
 
 [Service]
 Restart=always
 RestartSec=5
-StartLimitBurst=10
-ExecStart=/usr/sbin/cpusensor
+ExecStart=/usr/sbin/exitairtempsensor
 
 [Install]
 WantedBy=multi-user.target

@@ -143,5 +143,5 @@ set (
 )
 
 install (TARGETS fansensor hwmontempsensor cpusensor adcsensor
-                 exitairtempsensor DESTINATION bin)
+                 exitairtempsensor DESTINATION sbin)
 install (FILES ${SERVICE_FILES} DESTINATION /lib/systemd/system/)

@@ -5,7 +5,7 @@ StopWhenUnneeded=false
 [Service]
 Restart=always
 RestartSec=5
-ExecStart={bindir}/hwmontempsensor
+ExecStart=/usr/sbin/hwmontempsensor
 
 [Install]
 WantedBy=multi-user.target
