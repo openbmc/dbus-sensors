@@ -133,5 +133,5 @@ set (
     ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.fansensor.service
     ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.hwmontempsensor.service
 )
-install (TARGETS fansensor hwmontempsensor cpusensor adcsensor DESTINATION bin)
+install (TARGETS fansensor hwmontempsensor cpusensor adcsensor DESTINATION sbin)
 install (FILES ${SERVICE_FILES} DESTINATION /lib/systemd/system/)
