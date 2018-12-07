@@ -156,3 +156,26 @@ bool isPowerOn(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 
     return powerStatusOn;
 }
+
+// replaces limits if MinReading and MaxReading are found.
+void findLimits(std::pair<double, double>& limits,
+                 const SensorBaseConfiguration* data)
+{
+    if (!data)
+    {
+        return;
+    }
+    auto maxFind = data->second.find("MaxReading");
+    auto minFind = data->second.find("MinReading");
+
+    if (minFind != data->second.end())
+    {
+        limits.first = sdbusplus::message::variant_ns::visit(
+            VariantToDoubleVisitor(), minFind->second);
+    }
+    if (maxFind != data->second.end())
+    {
+        limits.second = sdbusplus::message::variant_ns::visit(
+            VariantToDoubleVisitor(), maxFind->second);
+    }
+}
