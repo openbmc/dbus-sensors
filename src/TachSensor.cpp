@@ -31,9 +31,6 @@
 static constexpr unsigned int pwmPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;
 
-static constexpr double maxReading = 25000;
-static constexpr double minReading = 0;
-
 TachSensor::TachSensor(const std::string &path, const std::string &objectType,
                        sdbusplus::asio::object_server &objectServer,
                        std::shared_ptr<sdbusplus::asio::connection> &conn,
@@ -41,10 +38,11 @@ TachSensor::TachSensor(const std::string &path, const std::string &objectType,
                        const std::shared_ptr<RedundancySensor> &redundancy,
                        boost::asio::io_service &io, const std::string &fanName,
                        std::vector<thresholds::Threshold> &&_thresholds,
-                       const std::string &sensorConfiguration) :
+                       const std::string &sensorConfiguration,
+                       const std::pair<size_t, size_t> &limits) :
     Sensor(boost::replace_all_copy(fanName, " ", "_"), path,
-           std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading),
+           std::move(_thresholds), sensorConfiguration, objectType,
+           limits.second, limits.first),
     objServer(objectServer), dbusConnection(conn),
     presence(std::move(presence)), redundancy(redundancy),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0)

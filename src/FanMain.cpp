@@ -124,9 +124,7 @@ void createSensors(
         const char* baseType;
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;
-        const std::pair<std::string, boost::container::flat_map<
-                                         std::string, BasicVariantType>>*
-            baseConfiguration = nullptr;
+        const SensorBaseConfiguration* baseConfiguration = nullptr;
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigurations)
         {
@@ -263,10 +261,15 @@ void createSensors(
             redundancy = systemRedundancy;
         }
 
+        constexpr double defaultMaxReading = 25000;
+        constexpr double defaultMinReading = 0;
+        auto limits = std::make_pair(defaultMinReading, defaultMaxReading);
+
+        findLimits(limits, baseConfiguration);
         tachSensors[sensorName] = std::make_unique<TachSensor>(
             path.string(), baseType, objectServer, dbusConnection,
             std::move(presenceSensor), redundancy, io, sensorName,
-            std::move(sensorThresholds), *interfacePath);
+            std::move(sensorThresholds), *interfacePath, limits);
     }
     std::vector<fs::path> pwms;
     if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm\d+)", pwms))
