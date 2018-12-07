@@ -1,4 +1,6 @@
 #pragma once
+#include "VariantVisitors.hpp"
+
 #include <boost/container/flat_map.hpp>
 #include <experimental/filesystem>
 #include <iostream>
@@ -23,6 +25,10 @@ using ManagedObjectType = boost::container::flat_map<
 using SensorData = boost::container::flat_map<
     std::string, boost::container::flat_map<std::string, BasicVariantType>>;
 
+using SensorBaseConfiguration =
+    std::pair<std::string,
+              boost::container::flat_map<std::string, BasicVariantType>>;
+
 bool findFiles(const std::experimental::filesystem::path dirPath,
                const std::string& matchString,
                std::vector<std::experimental::filesystem::path>& foundPaths,
@@ -32,3 +38,7 @@ bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     ManagedObjectType& resp, bool useCache = false);
+
+// replaces limits if MinReading and MaxReading are found.
+void findLimits(std::pair<double, double>& limits,
+                const SensorBaseConfiguration* data);
