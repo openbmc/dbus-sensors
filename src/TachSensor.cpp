@@ -114,7 +114,7 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
                 std::getline(responseStream, response);
                 float nvalue = std::stof(response);
                 responseStream.clear();
-                if (!isnan(overriddenValue))
+                if (overridenState)
                 {
                     nvalue = overriddenValue;
                 }
