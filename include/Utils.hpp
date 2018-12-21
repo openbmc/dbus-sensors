@@ -43,3 +43,30 @@ bool getSensorConfiguration(
 // replaces limits if MinReading and MaxReading are found.
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
+
+template <typename T>
+inline T loadVariant(
+    const boost::container::flat_map<std::string, BasicVariantType>& data,
+    const std::string& key)
+{
+    auto it = data.find(key);
+    if (it == data.end())
+    {
+        std::cerr << "Configuration missing " << key << "\n";
+        throw std::invalid_argument("Key Missing");
+    }
+    if constexpr (std::is_same_v<T, double>)
+    {
+        return sdbusplus::message::variant_ns::visit(VariantToDoubleVisitor(),
+                                                     it->second);
+    }
+    else if constexpr (std::is_same_v<T, std::string>)
+    {
+        return sdbusplus::message::variant_ns::visit(VariantToStringVisitor(),
+                                                     it->second);
+    }
+    else
+    {
+        static_assert("Type Not Implemented");
+    }
+}
