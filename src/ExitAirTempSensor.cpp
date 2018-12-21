@@ -76,33 +76,6 @@ static void setupSensorMatch(
                          std::move(eventHandler));
 }
 
-template <typename T>
-static T loadVariant(
-    const boost::container::flat_map<std::string, BasicVariantType>& data,
-    const std::string& key)
-{
-    auto it = data.find(key);
-    if (it == data.end())
-    {
-        std::cerr << "Configuration missing " << key << "\n";
-        throw std::invalid_argument("Key Missing");
-    }
-    if constexpr (std::is_same_v<T, double>)
-    {
-        return sdbusplus::message::variant_ns::visit(VariantToDoubleVisitor(),
-                                                     it->second);
-    }
-    else if constexpr (std::is_same_v<T, std::string>)
-    {
-        return sdbusplus::message::variant_ns::visit(VariantToStringVisitor(),
-                                                     it->second);
-    }
-    else
-    {
-        static_assert("Type Not Implemented");
-    }
-}
-
 CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      const std::string& sensorName,
                      const std::string& sensorConfiguration,
