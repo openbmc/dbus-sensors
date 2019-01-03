@@ -34,7 +34,8 @@ bool findFiles(const std::experimental::filesystem::path dirPath,
                const std::string& matchString,
                std::vector<std::experimental::filesystem::path>& foundPaths,
                unsigned int symlinkDepth = 1);
-bool isPowerOn(const std::shared_ptr<sdbusplus::asio::connection>& conn);
+bool isPowerOn(void);
+void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,

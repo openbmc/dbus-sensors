@@ -43,9 +43,9 @@ TachSensor::TachSensor(const std::string &path, const std::string &objectType,
     Sensor(boost::replace_all_copy(fanName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration, objectType,
            limits.second, limits.first),
-    objServer(objectServer), dbusConnection(conn),
-    presence(std::move(presence)), redundancy(redundancy),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0)
+    objServer(objectServer), presence(std::move(presence)),
+    redundancy(redundancy), inputDev(io, open(path.c_str(), O_RDONLY)),
+    waitTimer(io), errCount(0)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
@@ -64,7 +64,7 @@ TachSensor::TachSensor(const std::string &path, const std::string &objectType,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
     setInitialProperties(conn);
-    isPowerOn(dbusConnection); // first call initializes
+    setupPowerMatch(conn); // first call initializes
     setupRead();
 }
 
@@ -131,27 +131,26 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
         }
         else
         {
-            pollTime = sensorFailedPollTimeMs;
-            errCount++;
-        }
-        if (errCount >= warnAfterErrorCount)
-        {
-            // only an error if power is on
-            if (isPowerOn(dbusConnection))
+            if (!isPowerOn())
             {
-                // only print once
-                if (errCount == warnAfterErrorCount)
-                {
-                    std::cerr << "Failure to read sensor " << name << " at "
-                              << path << " ec:" << err << "\n";
-                }
-                updateValue(0);
+                errCount = 0;
+                updateValue(std::numeric_limits<double>::quiet_NaN());
             }
             else
             {
-                errCount = 0; // check power again in 10 cycles
-                updateValue(std::numeric_limits<double>::quiet_NaN());
+                pollTime = sensorFailedPollTimeMs;
+                errCount++;
             }
+        }
+        if (errCount >= warnAfterErrorCount)
+        {
+            // only print once
+            if (errCount == warnAfterErrorCount)
+            {
+                std::cerr << "Failure to read sensor " << name << " at " << path
+                          << " ec:" << err << "\n";
+            }
+            updateValue(0);
         }
     }
     responseStream.clear();

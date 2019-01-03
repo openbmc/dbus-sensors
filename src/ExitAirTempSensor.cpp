@@ -271,6 +271,7 @@ ExitAirTempSensor::ExitAirTempSensor(
     }
     setInitialProperties(conn);
     setupMatches();
+    setupPowerMatch(conn);
 }
 
 ExitAirTempSensor::~ExitAirTempSensor()
@@ -351,7 +352,7 @@ bool ExitAirTempSensor::calculate(double& val)
     }
 
     // if fans are off, just make the exit temp equal to inlet
-    if (!isPowerOn(dbusConnection))
+    if (!isPowerOn())
     {
         val = inletTemp;
         return true;
