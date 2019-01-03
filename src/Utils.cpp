@@ -28,6 +28,9 @@ const static constexpr char* powerInterfaceName =
 const static constexpr char* powerObjectName =
     "/xyz/openbmc_project/Chassis/Control/Power0";
 
+bool powerStatusOn = false;
+std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
+
 bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -105,20 +108,20 @@ bool findFiles(const fs::path dirPath, const std::string& matchString,
     return true;
 }
 
-// initially returns false, then sets up matches and returns status
-// should be called once first to initialize
-bool isPowerOn(const std::shared_ptr<sdbusplus::asio::connection>& conn)
+bool isPowerOn(void)
 {
-    static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
-    static bool powerStatusOn = false;
-
-    if (powerMatch != nullptr)
+    if (!powerMatch)
     {
-        return powerStatusOn;
+        throw std::runtime_error("Power Match Not Created");
     }
+    return powerStatusOn;
+}
+
+void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
+{
 
     // create a match for powergood changes, first time do a method call to
-    // return the correct value
+    // cache the correct value
     std::function<void(sdbusplus::message::message & message)> eventHandler =
         [](sdbusplus::message::message& message) {
             std::string objectName;
@@ -153,8 +156,6 @@ bool isPowerOn(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         },
         powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
         "Get", powerInterfaceName, "pgood");
-
-    return powerStatusOn;
 }
 
 // replaces limits if MinReading and MaxReading are found.

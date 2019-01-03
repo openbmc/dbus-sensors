@@ -183,9 +183,23 @@ void createSensors(
             scaleFactor = variant_ns::visit(VariantToFloatVisitor(),
                                             findScaleFactor->second);
         }
+
+        auto findPowerOn = baseConfiguration->second.find("PowerState");
+        PowerState readState = PowerState::always;
+        if (findPowerOn != baseConfiguration->second.end())
+        {
+            std::string powerState = variant_ns::visit(VariantToStringVisitor(),
+                                                       findPowerOn->second);
+            if (powerState == "On")
+            {
+                readState = PowerState::on;
+            };
+        }
+
         sensors[sensorName] = std::make_unique<ADCSensor>(
             path.string(), objectServer, dbusConnection, io, sensorName,
-            std::move(sensorThresholds), scaleFactor, *interfacePath);
+            std::move(sensorThresholds), scaleFactor, readState,
+            *interfacePath);
     }
 }
 

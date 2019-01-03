@@ -41,13 +41,14 @@ ADCSensor::ADCSensor(const std::string &path,
                      std::shared_ptr<sdbusplus::asio::connection> &conn,
                      boost::asio::io_service &io, const std::string &sensorName,
                      std::vector<thresholds::Threshold> &&_thresholds,
-                     const double scaleFactor,
+                     const double scaleFactor, PowerState readState,
                      const std::string &sensorConfiguration) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
     objServer(objectServer), scaleFactor(scaleFactor),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0)
+    readState(std::move(readState)), inputDev(io, open(path.c_str(), O_RDONLY)),
+    waitTimer(io), errCount(0)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
@@ -66,6 +67,9 @@ ADCSensor::ADCSensor(const std::string &path,
     }
     setInitialProperties(conn);
     setupRead();
+
+    // setup match
+    setupPowerMatch(conn);
 }
 
 ADCSensor::~ADCSensor()
@@ -160,5 +164,9 @@ void ADCSensor::handleResponse(const boost::system::error_code &err)
 
 void ADCSensor::checkThresholds(void)
 {
+    if (readState == PowerState::on && !isPowerOn())
+    {
+        return;
+    }
     thresholds::checkThresholds(this);
 }

@@ -19,7 +19,6 @@ class CPUSensor : public Sensor
 
   private:
     sdbusplus::asio::object_server &objServer;
-    std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
