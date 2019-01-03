@@ -40,8 +40,8 @@ CPUSensor::CPUSensor(const std::string &path, const std::string &objectType,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading),
-    objServer(objectServer), dbusConnection(conn),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0)
+    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
+    waitTimer(io), errCount(0)
 
 {
     sensorInterface = objectServer.add_interface(
@@ -60,7 +60,7 @@ CPUSensor::CPUSensor(const std::string &path, const std::string &objectType,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
     setInitialProperties(conn);
-    isPowerOn(dbusConnection); // first call initializes
+    setupPowerMatch(conn);
     setupRead();
 }
 
@@ -123,7 +123,7 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
     if (errCount >= warnAfterErrorCount)
     {
         // only an error if power is on
-        if (isPowerOn(dbusConnection))
+        if (isPowerOn())
         {
             // only print once
             if (errCount == warnAfterErrorCount)
