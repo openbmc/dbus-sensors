@@ -31,6 +31,8 @@ set (ADC_SRC_FILES src/Utils.cpp src/ADCSensor.cpp src/Thresholds.cpp)
 
 set (EXIT_AIR_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 
+set (INTRUSION_SRC_FILES src/Utils.cpp src/ChassisIntrusionSensor.cpp)
+
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
 
@@ -126,12 +128,19 @@ add_executable (exitairtempsensor src/ExitAirTempSensor.cpp
 add_dependencies (exitairtempsensor sdbusplus)
 target_link_libraries (exitairtempsensor ${SENSOR_LINK_LIBS})
 
+add_executable (intrusionsensor src/IntrusionSensorMain.cpp
+                ${INTRUSION_SRC_FILES})
+add_dependencies (intrusionsensor sdbusplus)
+target_link_libraries (intrusionsensor ${SENSOR_LINK_LIBS})
+target_link_libraries (intrusionsensor i2c)
+
 if (NOT YOCTO)
     add_dependencies (fansensor ${EXTERNAL_PACKAGES})
     add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
     add_dependencies (cpusensor ${EXTERNAL_PACKAGES})
     add_dependencies (exitairtempsensor ${EXTERNAL_PACKAGES})
+    add_dependencies (intrusionsensor ${EXTERNAL_PACKAGES})
 endif ()
 
 set (
@@ -141,8 +150,9 @@ set (
     ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.fansensor.service
     ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.hwmontempsensor.service
     ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.exitairsensor.service
+    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.intrusionsensor.service
 )
 
 install (TARGETS fansensor hwmontempsensor cpusensor adcsensor
-                 exitairtempsensor DESTINATION sbin)
+                 exitairtempsensor intrusionsensor DESTINATION sbin)
 install (FILES ${SERVICE_FILES} DESTINATION /lib/systemd/system/)
