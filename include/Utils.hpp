@@ -45,6 +45,12 @@ bool getSensorConfiguration(
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
 
+enum class PowerState : bool
+{
+    on,
+    always
+};
+
 template <typename T>
 inline T loadVariant(
     const boost::container::flat_map<std::string, BasicVariantType>& data,
@@ -60,6 +66,11 @@ inline T loadVariant(
     {
         return sdbusplus::message::variant_ns::visit(VariantToDoubleVisitor(),
                                                      it->second);
+    }
+    else if constexpr (std::is_unsigned_v<T>)
+    {
+        return sdbusplus::message::variant_ns::visit(
+            VariantToUnsignedIntVisitor(), it->second);
     }
     else if constexpr (std::is_same_v<T, std::string>)
     {

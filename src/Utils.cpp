@@ -29,8 +29,8 @@ const static constexpr char* powerInterfaceName =
 const static constexpr char* powerObjectName =
     "/xyz/openbmc_project/Chassis/Control/Power0";
 
-bool powerStatusOn = false;
-std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
+static bool powerStatusOn = false;
+static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
 
 bool getSensorConfiguration(
     const std::string& type,

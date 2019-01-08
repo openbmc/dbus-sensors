@@ -64,7 +64,7 @@ TachSensor::TachSensor(const std::string &path, const std::string &objectType,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
     setInitialProperties(conn);
-    setupPowerMatch(conn); // first call initializes
+    setupPowerMatch(conn);
     setupRead();
 }
 
