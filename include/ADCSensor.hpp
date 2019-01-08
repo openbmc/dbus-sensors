@@ -4,11 +4,6 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
-enum class PowerState : bool
-{
-    on,
-    always
-};
 class ADCSensor : public Sensor
 {
   public:
