@@ -106,24 +106,24 @@ link_directories (${EXTERNAL_INSTALL_LOCATION}/lib)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_executable (fansensor src/FanMain.cpp ${FAN_SRC_FILES})
-add_dependencies (fansensor sdbusplus)
+add_dependencies (fansensor sdbusplus-project)
 target_link_libraries (fansensor ${SENSOR_LINK_LIBS})
 
 add_executable (hwmontempsensor src/HwmonTempMain.cpp ${HWMON_TEMP_SRC_FILES})
-add_dependencies (hwmontempsensor sdbusplus)
+add_dependencies (hwmontempsensor sdbusplus-project)
 target_link_libraries (hwmontempsensor ${SENSOR_LINK_LIBS})
 
 add_executable (cpusensor src/CPUSensorMain.cpp ${CPU_SRC_FILES})
-add_dependencies (cpusensor sdbusplus)
+add_dependencies (cpusensor sdbusplus-project)
 target_link_libraries (cpusensor ${SENSOR_LINK_LIBS})
 
 add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
-add_dependencies (adcsensor sdbusplus)
+add_dependencies (adcsensor sdbusplus-project)
 target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
 
 add_executable (exitairtempsensor src/ExitAirTempSensor.cpp
                 ${EXIT_AIR_SRC_FILES})
-add_dependencies (exitairtempsensor sdbusplus)
+add_dependencies (exitairtempsensor sdbusplus-project)
 target_link_libraries (exitairtempsensor ${SENSOR_LINK_LIBS})
 
 if (NOT YOCTO)

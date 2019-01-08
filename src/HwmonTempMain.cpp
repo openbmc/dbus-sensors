@@ -14,12 +14,13 @@
 // limitations under the License.
 */
 
+#include "filesystem.hpp"
+
 #include <HwmonTempSensor.hpp>
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_set.hpp>
-#include <experimental/filesystem>
 #include <fstream>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
@@ -27,7 +28,7 @@
 
 static constexpr bool DEBUG = false;
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 static constexpr std::array<const char*, 2> sensorTypes = {
     "xyz.openbmc_project.Configuration.TMP75",
     "xyz.openbmc_project.Configuration.TMP421"};

@@ -14,6 +14,8 @@
 // limitations under the License.
 */
 
+#include "filesystem.hpp"
+
 #include <fcntl.h>
 
 #include <CPUSensor.hpp>
@@ -24,7 +26,6 @@
 #include <boost/container/flat_set.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/process/child.hpp>
-#include <experimental/filesystem>
 #include <fstream>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
@@ -66,7 +67,7 @@ struct CPUConfig
 static constexpr const char* peciDev = "/dev/peci-";
 static constexpr const unsigned int rankNumMax = 8;
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 namespace variant_ns = sdbusplus::message::variant_ns;
 static constexpr const char* configPrefix =
     "xyz.openbmc_project.Configuration.";
@@ -328,12 +329,11 @@ void exportDevice(const CPUConfig& config)
     std::string parameters = "peci-client 0x" + addrHexStr;
     std::string device = "/sys/bus/peci/devices/peci-" + busStr + "/new_device";
 
-    std::experimental::filesystem::path devicePath(device);
+    std::filesystem::path devicePath(device);
     const std::string& dir = devicePath.parent_path().string();
-    for (const auto& path :
-         std::experimental::filesystem::directory_iterator(dir))
+    for (const auto& path : std::filesystem::directory_iterator(dir))
     {
-        if (!std::experimental::filesystem::is_directory(path))
+        if (!std::filesystem::is_directory(path))
         {
             continue;
         }

@@ -1,8 +1,8 @@
 #pragma once
 #include "VariantVisitors.hpp"
+#include "filesystem.hpp"
 
 #include <boost/container/flat_map.hpp>
-#include <experimental/filesystem>
 #include <iostream>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
@@ -30,9 +30,9 @@ using SensorBaseConfiguration =
     std::pair<std::string,
               boost::container::flat_map<std::string, BasicVariantType>>;
 
-bool findFiles(const std::experimental::filesystem::path dirPath,
+bool findFiles(const std::filesystem::path dirPath,
                const std::string& matchString,
-               std::vector<std::experimental::filesystem::path>& foundPaths,
+               std::vector<std::filesystem::path>& foundPaths,
                unsigned int symlinkDepth = 1);
 bool isPowerOn(void);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
