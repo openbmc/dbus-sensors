@@ -78,20 +78,22 @@ void detectCpuAsync(
     boost::asio::deadline_timer& pingTimer,
     boost::asio::deadline_timer& creationTimer, boost::asio::io_service& io,
     sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>&
-        sensors,
-    boost::container::flat_set<CPUConfig>& configs,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection);
+        cpuSensors,
+    boost::container::flat_set<CPUConfig>& cpuConfigs,
+    ManagedObjectType& sensorConfigs);
 
 bool createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>&
-        sensors,
-    boost::container::flat_set<CPUConfig>& configs,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+        cpuSensors,
+    boost::container::flat_set<CPUConfig>& cpuConfigs,
+    ManagedObjectType& sensorConfigs)
 {
     bool available = false;
-    for (CPUConfig cpu : configs)
+    for (CPUConfig cpu : cpuConfigs)
     {
         if (cpu.state != State::OFF)
         {
@@ -104,18 +106,9 @@ bool createSensors(
         return false;
     }
 
-    // use new data the first time, then refresh
-    ManagedObjectType sensorConfigurations;
-    bool useCache = false;
-    for (const char* type : sensorTypes)
+    if (!sensorConfigs.size())
     {
-        if (!getSensorConfiguration(configPrefix + std::string(type),
-                                    dbusConnection, sensorConfigurations,
-                                    useCache))
-        {
-            return false;
-        }
-        useCache = true;
+        return false;
     }
 
     std::vector<fs::path> hwmonNamePaths;
@@ -193,7 +186,7 @@ bool createSensors(
             baseConfiguration = nullptr;
 
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigurations)
+                 sensor : sensorConfigs)
         {
             sensorData = &(sensor.second);
             for (const char* type : sensorTypes)
@@ -274,8 +267,8 @@ bool createSensors(
             labelFile.close();
             std::string sensorName = label + " CPU" + std::to_string(cpuId);
 
-            auto findSensor = sensors.find(sensorName);
-            if (findSensor != sensors.end())
+            auto findSensor = cpuSensors.find(sensorName);
+            if (findSensor != cpuSensors.end())
             {
                 if (DEBUG)
                 {
@@ -298,7 +291,7 @@ bool createSensors(
                               << sensorName << "\n";
                 }
             }
-            sensors[sensorName] = std::make_unique<CPUSensor>(
+            cpuSensors[sensorName] = std::make_unique<CPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath);
             createdSensors.insert(sensorName);
@@ -363,19 +356,20 @@ void exportDevice(const CPUConfig& config)
     std::cout << parameters << " on bus " << busStr << " is exported\n";
 }
 
-void detectCpu(boost::asio::deadline_timer& pingTimer,
-               boost::asio::deadline_timer& creationTimer,
-               boost::asio::io_service& io,
-               sdbusplus::asio::object_server& objectServer,
-               boost::container::flat_map<std::string,
-                                          std::unique_ptr<CPUSensor>>& sensors,
-               boost::container::flat_set<CPUConfig>& configs,
-               std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+void detectCpu(
+    boost::asio::deadline_timer& pingTimer,
+    boost::asio::deadline_timer& creationTimer, boost::asio::io_service& io,
+    sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>&
+        cpuSensors,
+    boost::container::flat_set<CPUConfig>& cpuConfigs,
+    ManagedObjectType& sensorConfigs)
 {
     size_t rescanDelaySeconds = 0;
     bool keepPinging = false;
 
-    for (CPUConfig& config : configs)
+    for (CPUConfig& config : cpuConfigs)
     {
         std::string peciDevPath = peciDev + std::to_string(config.bus);
         auto file = open(peciDevPath.c_str(), O_RDWR | O_CLOEXEC);
@@ -477,19 +471,20 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
                 return; // we're being canceled
             }
 
-            if (!createSensors(io, objectServer, sensors, configs,
-                               dbusConnection))
+            if (!createSensors(io, objectServer, dbusConnection, cpuSensors,
+                               cpuConfigs, sensorConfigs))
             {
                 detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                               sensors, configs, dbusConnection);
+                               dbusConnection, cpuSensors, cpuConfigs,
+                               sensorConfigs);
             }
         });
     }
 
     if (keepPinging)
     {
-        detectCpuAsync(pingTimer, creationTimer, io, objectServer, sensors,
-                       configs, dbusConnection);
+        detectCpuAsync(pingTimer, creationTimer, io, objectServer,
+                       dbusConnection, cpuSensors, cpuConfigs, sensorConfigs);
     }
 }
 
@@ -497,10 +492,11 @@ void detectCpuAsync(
     boost::asio::deadline_timer& pingTimer,
     boost::asio::deadline_timer& creationTimer, boost::asio::io_service& io,
     sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>&
-        sensors,
-    boost::container::flat_set<CPUConfig>& configs,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+        cpuSensors,
+    boost::container::flat_set<CPUConfig>& cpuConfigs,
+    ManagedObjectType& sensorConfigs)
 {
     pingTimer.expires_from_now(boost::posix_time::seconds(1));
     pingTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -509,21 +505,22 @@ void detectCpuAsync(
             return; // we're being canceled
         }
 
-        detectCpu(pingTimer, creationTimer, io, objectServer, sensors, configs,
-                  dbusConnection);
+        detectCpu(pingTimer, creationTimer, io, objectServer, dbusConnection,
+                  cpuSensors, cpuConfigs, sensorConfigs);
     });
 }
 
 bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
-                  boost::container::flat_set<CPUConfig>& configs)
+                  boost::container::flat_set<CPUConfig>& cpuConfigs,
+                  ManagedObjectType& sensorConfigs)
 {
-    ManagedObjectType sensorConfigurations;
     bool useCache = false;
+    sensorConfigs.clear();
     // use new data the first time, then refresh
     for (const char* type : sensorTypes)
     {
         if (!getSensorConfiguration(configPrefix + std::string(type), systemBus,
-                                    sensorConfigurations, useCache))
+                                    sensorConfigs, useCache))
         {
             return false;
         }
@@ -535,7 +532,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
     for (const char* type : sensorTypes)
     {
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigurations)
+                 sensor : sensorConfigs)
         {
             for (const std::pair<
                      std::string,
@@ -584,14 +581,14 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                     std::cout << "type: " << type << "\n";
                 }
 
-                configs.emplace(bus, addr, name, State::OFF);
+                cpuConfigs.emplace(bus, addr, name, State::OFF);
             }
         }
     }
 
-    if (configs.size())
+    if (cpuConfigs.size())
     {
-        std::cout << "CPU config" << (configs.size() == 1 ? " is" : "s are")
+        std::cout << "CPU config" << (cpuConfigs.size() == 1 ? " is" : "s are")
                   << " parsed\n";
         return true;
     }
@@ -603,15 +600,17 @@ int main(int argc, char** argv)
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    boost::container::flat_set<CPUConfig> configs;
+    boost::container::flat_set<CPUConfig> cpuConfigs;
 
     systemBus->request_name("xyz.openbmc_project.CPUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
-    boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>> sensors;
+    boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>
+        cpuSensors;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     boost::asio::deadline_timer pingTimer(io);
     boost::asio::deadline_timer creationTimer(io);
     boost::asio::deadline_timer filterTimer(io);
+    ManagedObjectType sensorConfigs;
 
     filterTimer.expires_from_now(boost::posix_time::seconds(1));
     filterTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -620,10 +619,10 @@ int main(int argc, char** argv)
             return; // we're being canceled
         }
 
-        if (getCpuConfig(systemBus, configs))
+        if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs))
         {
-            detectCpuAsync(pingTimer, creationTimer, io, objectServer, sensors,
-                           configs, systemBus);
+            detectCpuAsync(pingTimer, creationTimer, io, objectServer,
+                           systemBus, cpuSensors, cpuConfigs, sensorConfigs);
         }
     });
 
@@ -648,10 +647,11 @@ int main(int argc, char** argv)
                     return; // we're being canceled
                 }
 
-                if (getCpuConfig(systemBus, configs))
+                if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs))
                 {
                     detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                                   sensors, configs, systemBus);
+                                   systemBus, cpuSensors, cpuConfigs,
+                                   sensorConfigs);
                 }
             });
         };
