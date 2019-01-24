@@ -181,7 +181,10 @@ bool CFMSensor::calculate(double& value)
             });
         if (findReading == tachReadings.end())
         {
-            std::cerr << "Can't find " << tachName << "in readings\n";
+            if (DEBUG)
+            {
+                std::cerr << "Can't find " << tachName << "in readings\n";
+            }
             return false; // haven't gotten a reading
         }
 
