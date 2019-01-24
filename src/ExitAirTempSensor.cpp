@@ -132,6 +132,7 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
             if (ec)
             {
                 std::cerr << "Error getting properties from " << path << "\n";
+                return;
             }
 
             double max = loadVariant<double>(data, "MaxValue");
