@@ -7,5 +7,3 @@ Restart=always
 RestartSec=5
 ExecStart=/usr/sbin/exitairtempsensor
 
-[Install]
-WantedBy=multi-user.target
