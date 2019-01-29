@@ -1,0 +1,12 @@
+[Unit]
+Description=IPMB Sensor
+StopWhenUnneeded=false
+
+[Service]
+Restart=always
+RestartSec=5
+ExecStart=/usr/sbin/ipmbsensor
+
+[Install]
+WantedBy=multi-user.target
+

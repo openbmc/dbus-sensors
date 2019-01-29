@@ -149,6 +149,7 @@ set (
     ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.fansensor.service
     ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.hwmontempsensor.service
     ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.exitairsensor.service
+    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.ipmbsensor.service
 )
 
 install (TARGETS fansensor hwmontempsensor cpusensor adcsensor ipmbsensor
