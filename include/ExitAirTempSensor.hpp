@@ -23,7 +23,7 @@ struct CFMSensor : public Sensor
               sdbusplus::asio::object_server &objectServer,
               std::vector<thresholds::Threshold> &&thresholds,
               std::shared_ptr<ExitAirTempSensor> &parent);
-    ~CFMSensor() = default;
+    ~CFMSensor();
 
     bool calculate(double &);
     void updateReading(void);
@@ -35,6 +35,7 @@ struct CFMSensor : public Sensor
     boost::container::flat_map<std::string, std::pair<double, double>>
         tachRanges;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
+    sdbusplus::asio::object_server &objServer;
     void addTachRanges(const std::string &serviceName, const std::string &path);
 };
 

@@ -64,6 +64,11 @@ static void setupSensorMatch(
             }
             double value = sdbusplus::message::variant_ns::visit(
                 VariantToDoubleVisitor(), findValue->second);
+            if (std::isnan(value))
+            {
+                return;
+            }
+
             callback(value, message);
         };
     matches.emplace_back(connection,
@@ -86,7 +91,7 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
            "" /* todo: remove arg from base*/, std::move(thresholds),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            cfmMaxReading, cfmMinReading),
-    dbusConnection(conn), parent(parent)
+    dbusConnection(conn), parent(parent), objServer(objectServer)
 {
     sensorInterface =
         objectServer.add_interface("/xyz/openbmc_project/sensors/cfm/" + name,
@@ -120,6 +125,13 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                     updateReading();
                 }
             }));
+}
+
+CFMSensor::~CFMSensor()
+{
+    objServer.remove_interface(thresholdInterfaceWarning);
+    objServer.remove_interface(thresholdInterfaceCritical);
+    objServer.remove_interface(sensorInterface);
 }
 
 void CFMSensor::addTachRanges(const std::string& serviceName,
@@ -171,6 +183,7 @@ bool CFMSensor::calculate(double& value)
     double totalCFM = 0;
     for (const std::string& tachName : tachs)
     {
+
         auto findReading = std::find_if(
             tachReadings.begin(), tachReadings.end(), [&](const auto& item) {
                 return boost::ends_with(item.first, tachName);
@@ -185,7 +198,7 @@ bool CFMSensor::calculate(double& value)
             {
                 std::cerr << "Can't find " << tachName << "in readings\n";
             }
-            return false; // haven't gotten a reading
+            continue; // haven't gotten a reading
         }
 
         if (findRange == tachRanges.end())
@@ -242,6 +255,7 @@ bool CFMSensor::calculate(double& value)
 
     // divide by 100 since rpm is in percent
     value = totalCFM / 100;
+    return true;
 }
 
 static constexpr double exitAirMaxReading = 127;
@@ -305,6 +319,22 @@ void ExitAirTempSensor::setupMatches(void)
                              updateReading();
                          });
     }
+    dbusConnection->async_method_call(
+        [this](boost::system::error_code ec,
+               const std::variant<double>& value) {
+            if (ec)
+            {
+                // sensor not ready yet
+                return;
+            }
+
+            inletTemp = sdbusplus::message::variant_ns::visit(
+                VariantToDoubleVisitor(), value);
+        },
+        "xyz.openbmc_project.HwmonTempSensor",
+        std::string("/xyz/openbmc_project/sensors/") + inletTemperatureSensor,
+        "org.freedesktop.DBus.Properties", "Get",
+        "xyz.openbmc_project.Sensor.Value", "Value");
 }
 
 void ExitAirTempSensor::updateReading(void)
