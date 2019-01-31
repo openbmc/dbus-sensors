@@ -35,6 +35,24 @@ static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADC"};
 static std::regex inputRegex(R"(in(\d+)_input)");
 
+// filter out adc from any other voltage sensor
+bool isAdc(const fs::path& parentPath)
+{
+    fs::path namePath = parentPath / "name";
+
+    std::ifstream nameFile(namePath);
+    if (!nameFile.good())
+    {
+        std::cerr << "Failure reading " << namePath.string() << "\n";
+        return false;
+    }
+
+    std::string name;
+    std::getline(nameFile, name);
+
+    return name == "iio_hwmon";
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<ADCSensor>>&
@@ -68,6 +86,11 @@ void createSensors(
     // configuration
     for (auto& path : paths)
     {
+        if (!isAdc(path.parent_path()))
+        {
+            std::cout << "not adc: " << path.string() << "\n";
+            continue;
+        }
         std::smatch match;
         std::string pathStr = path.string();
 
@@ -77,63 +100,61 @@ void createSensors(
         auto directory = path.parent_path();
         // convert to 0 based
         size_t index = std::stoul(indexStr) - 1;
-        auto oemNamePath =
-            directory.string() + R"(/of_node/oemname)" + std::to_string(index);
-
-        if (DEBUG)
-        {
-            std::cout << "Checking path " << oemNamePath << "\n";
-        }
-        std::ifstream nameFile(oemNamePath);
-        if (!nameFile.good())
-        {
-            std::cerr << "Failure reading " << oemNamePath << "\n";
-            continue;
-        }
-        std::string oemName;
-        std::getline(nameFile, oemName);
-        nameFile.close();
-        if (!oemName.size())
-        {
-            // shouldn't have an empty name file
-            continue;
-        }
-        oemName.pop_back(); // remove trailing null
 
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;
+        const std::pair<std::string, boost::container::flat_map<
+                                         std::string, BasicVariantType>>*
+            baseConfiguration;
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigurations)
         {
-            if (!boost::ends_with(sensor.first.str, oemName))
+            // clear it out each loop
+            baseConfiguration = nullptr;
+
+            // find base configuration
+            for (const char* type : sensorTypes)
+            {
+                auto sensorBase = sensor.second.find(type);
+                if (sensorBase != sensor.second.end())
+                {
+                    baseConfiguration = &(*sensorBase);
+                    break;
+                }
+            }
+            if (baseConfiguration == nullptr)
             {
                 continue;
             }
+            auto findIndex = baseConfiguration->second.find("Index");
+            if (findIndex == baseConfiguration->second.end())
+            {
+                std::cerr << "Base configuration missing Index"
+                          << baseConfiguration->first << "\n";
+                continue;
+            }
+
+            unsigned int number = sdbusplus::message::variant_ns::visit(
+                VariantToUnsignedIntVisitor(), findIndex->second);
+
+            if (number != index)
+            {
+                continue;
+            }
+
             sensorData = &(sensor.second);
             interfacePath = &(sensor.first.str);
             break;
         }
         if (sensorData == nullptr)
         {
-            std::cerr << "failed to find match for " << oemName << "\n";
+            std::cerr << "failed to find match for " << path.string() << "\n";
             continue;
-        }
-        const std::pair<std::string, boost::container::flat_map<
-                                         std::string, BasicVariantType>>*
-            baseConfiguration = nullptr;
-        for (const char* type : sensorTypes)
-        {
-            auto sensorBase = sensorData->find(type);
-            if (sensorBase != sensorData->end())
-            {
-                baseConfiguration = &(*sensorBase);
-                break;
-            }
         }
 
         if (baseConfiguration == nullptr)
         {
-            std::cerr << "error finding base configuration for" << oemName
+            std::cerr << "error finding base configuration for" << path.string()
                       << "\n";
             continue;
         }
@@ -142,7 +163,7 @@ void createSensors(
         if (findSensorName == baseConfiguration->second.end())
         {
             std::cerr << "could not determine configuration name for "
-                      << oemName << "\n";
+                      << path.string() << "\n";
             continue;
         }
         std::string sensorName =
