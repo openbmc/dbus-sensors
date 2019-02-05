@@ -142,7 +142,7 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         static_cast<sdbusplus::bus::bus&>(*conn),
         "type='signal',interface='org.freedesktop.DBus.Properties',path_"
         "namespace='/xyz/openbmc_project/Chassis/Control/"
-        "power0',arg0='xyz.openbmc_project.Chassis.Control.Power'",
+        "Power0',arg0='xyz.openbmc_project.Chassis.Control.Power'",
         eventHandler);
 
     conn->async_method_call(
