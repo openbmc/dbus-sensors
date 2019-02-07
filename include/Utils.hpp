@@ -35,6 +35,7 @@ bool findFiles(const std::filesystem::path dirPath,
                std::vector<std::filesystem::path>& foundPaths,
                unsigned int symlinkDepth = 1);
 bool isPowerOn(void);
+bool hasBiosPost(void);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     const std::string& type,
@@ -48,6 +49,7 @@ void findLimits(std::pair<double, double>& limits,
 enum class PowerState : bool
 {
     on,
+    biosPost,
     always
 };
 

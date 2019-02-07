@@ -166,6 +166,10 @@ void IpmbSensor::checkThresholds(void)
     {
         return;
     }
+    else if (readState == Powerstate::biosPost && !hasBiosPost())
+    {
+        return;
+    }
     thresholds::checkThresholds(this);
 }
 
@@ -305,6 +309,26 @@ void createSensors(
                     sensor = std::make_unique<IpmbSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
                         std::move(sensorThresholds), deviceAddress);
+
+                    auto findPowerState = entry.second.find("PowerState");
+
+                    if (findPowerState != entry.end())
+                    {
+                        std::string powerState = variant_ns::visit(
+                            VariantToStringVisitor(), findPowerState->second);
+                        if (powerState == "On")
+                        {
+                            sensor->readState = PowerState::on;
+                        }
+                        else if (powerState == "BiosPost")
+                        {
+                            sensor->readState = PowerState::biosPost;
+                        }
+                        else if (powerState == "Always")
+                        {
+                            sensor->readState = PowerState::always;
+                        }
+                    }
 
                     if (sensorClass == "PxeBridgeTemp")
                     {
