@@ -35,6 +35,7 @@ bool findFiles(const std::filesystem::path dirPath,
                std::vector<std::filesystem::path>& foundPaths,
                unsigned int symlinkDepth = 1);
 bool isPowerOn(void);
+bool hasBiosPost(void);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     const std::string& type,
@@ -45,9 +46,10 @@ bool getSensorConfiguration(
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
 
-enum class PowerState : bool
+enum class PowerState
 {
     on,
+    biosPost,
     always
 };
 
@@ -80,5 +82,22 @@ inline T loadVariant(
     else
     {
         static_assert("Type Not Implemented");
+    }
+}
+
+inline void setReadState(const std::string& str, PowerState& val)
+{
+
+    if (str == "On")
+    {
+        val = PowerState::on;
+    }
+    else if (str == "BiosPost")
+    {
+        val = PowerState::biosPost;
+    }
+    else if (str == "Always")
+    {
+        val = PowerState::always;
     }
 }
