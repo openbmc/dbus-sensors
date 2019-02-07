@@ -211,10 +211,7 @@ void createSensors(
         {
             std::string powerState = variant_ns::visit(VariantToStringVisitor(),
                                                        findPowerOn->second);
-            if (powerState == "On")
-            {
-                readState = PowerState::on;
-            };
+            setReadState(powerState, readState);
         }
 
         sensors[sensorName] = std::make_unique<ADCSensor>(

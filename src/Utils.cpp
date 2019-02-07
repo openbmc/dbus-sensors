@@ -30,6 +30,7 @@ const static constexpr char* powerObjectName =
     "/xyz/openbmc_project/Chassis/Control/Power0";
 
 static bool powerStatusOn = false;
+static bool biosHasPost = false;
 static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
 
 bool getSensorConfiguration(
@@ -118,6 +119,15 @@ bool isPowerOn(void)
     return powerStatusOn;
 }
 
+bool hasBiosPost(void)
+{
+    if (!powerMatch)
+    {
+        throw std::runtime_error("Power Match Not Created");
+    }
+    return biosHasPost;
+}
+
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
 
@@ -126,8 +136,8 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
     std::function<void(sdbusplus::message::message & message)> eventHandler =
         [](sdbusplus::message::message& message) {
             std::string objectName;
-            boost::container::flat_map<std::string,
-                                       sdbusplus::message::variant<int32_t>>
+            boost::container::flat_map<
+                std::string, sdbusplus::message::variant<int32_t, bool>>
                 values;
             message.read(objectName, values);
             auto findPgood = values.find("pgood");
@@ -135,6 +145,13 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             {
                 powerStatusOn = sdbusplus::message::variant_ns::get<int32_t>(
                     findPgood->second);
+            }
+            auto findPostComplete = values.find("post_complete");
+            if (findPostComplete != values.end())
+            {
+
+                biosHasPost = sdbusplus::message::variant_ns::get<bool>(
+                    findPostComplete->second);
             }
         };
 
@@ -157,6 +174,20 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         },
         powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
         "Get", powerInterfaceName, "pgood");
+
+    conn->async_method_call(
+        [](boost::system::error_code ec,
+           const sdbusplus::message::variant<int32_t>& postComplete) {
+            if (ec)
+            {
+                std::cerr << "Error getting initial post status\n";
+                return;
+            }
+            biosHasPost =
+                sdbusplus::message::variant_ns::get<int32_t>(postComplete);
+        },
+        powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
+        "Get", powerInterfaceName, "post_complete");
 }
 
 // replaces limits if MinReading and MaxReading are found.
