@@ -31,15 +31,15 @@
 static constexpr unsigned int pwmPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;
 
-TachSensor::TachSensor(const std::string &path, const std::string &objectType,
-                       sdbusplus::asio::object_server &objectServer,
-                       std::shared_ptr<sdbusplus::asio::connection> &conn,
-                       std::unique_ptr<PresenceSensor> &&presence,
-                       const std::shared_ptr<RedundancySensor> &redundancy,
-                       boost::asio::io_service &io, const std::string &fanName,
-                       std::vector<thresholds::Threshold> &&_thresholds,
-                       const std::string &sensorConfiguration,
-                       const std::pair<size_t, size_t> &limits) :
+TachSensor::TachSensor(const std::string& path, const std::string& objectType,
+                       sdbusplus::asio::object_server& objectServer,
+                       std::shared_ptr<sdbusplus::asio::connection>& conn,
+                       std::unique_ptr<PresenceSensor>&& presence,
+                       const std::shared_ptr<RedundancySensor>& redundancy,
+                       boost::asio::io_service& io, const std::string& fanName,
+                       std::vector<thresholds::Threshold>&& _thresholds,
+                       const std::string& sensorConfiguration,
+                       const std::pair<size_t, size_t>& limits) :
     Sensor(boost::replace_all_copy(fanName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration, objectType,
            limits.second, limits.first),
@@ -82,11 +82,11 @@ void TachSensor::setupRead(void)
 {
     boost::asio::async_read_until(
         inputDev, readBuf, '\n',
-        [&](const boost::system::error_code &ec,
+        [&](const boost::system::error_code& ec,
             std::size_t /*bytes_transfered*/) { handleResponse(ec); });
 }
 
-void TachSensor::handleResponse(const boost::system::error_code &err)
+void TachSensor::handleResponse(const boost::system::error_code& err)
 {
     if (err == boost::system::errc::bad_file_descriptor)
     {
@@ -124,7 +124,7 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
                 }
                 errCount = 0;
             }
-            catch (const std::invalid_argument &)
+            catch (const std::invalid_argument&)
             {
                 errCount++;
             }
@@ -162,7 +162,7 @@ void TachSensor::handleResponse(const boost::system::error_code &err)
     }
     inputDev.assign(fd);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
-    waitTimer.async_wait([&](const boost::system::error_code &ec) {
+    waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
@@ -182,7 +182,7 @@ void TachSensor::checkThresholds(void)
 }
 
 PresenceSensor::PresenceSensor(const size_t index, bool inverted,
-                               boost::asio::io_service &io) :
+                               boost::asio::io_service& io) :
     inverted(inverted),
     inputDev(io)
 {
@@ -218,7 +218,7 @@ PresenceSensor::~PresenceSensor()
 void PresenceSensor::monitorPresence(void)
 {
     inputDev.async_wait(boost::asio::ip::tcp::socket::wait_error,
-                        [this](const boost::system::error_code &ec) {
+                        [this](const boost::system::error_code& ec) {
                             if (ec == boost::system::errc::bad_file_descriptor)
                             {
                                 return; // we're being destroyed
@@ -264,8 +264,8 @@ bool PresenceSensor::getValue(void)
 }
 
 RedundancySensor::RedundancySensor(
-    size_t count, const std::vector<std::string> &children,
-    sdbusplus::asio::object_server &objectServer) :
+    size_t count, const std::vector<std::string>& children,
+    sdbusplus::asio::object_server& objectServer) :
     count(count),
     iface(objectServer.add_interface(
         "/xyz/openbmc_project/control/FanRedundancy/Tach",
@@ -281,13 +281,13 @@ RedundancySensor::~RedundancySensor()
 {
     objectServer.remove_interface(iface);
 }
-void RedundancySensor::update(const std::string &name, bool failed)
+void RedundancySensor::update(const std::string& name, bool failed)
 {
     statuses[name] = failed;
     size_t failedCount = 0;
 
     std::string state = "Full";
-    for (const auto &status : statuses)
+    for (const auto& status : statuses)
     {
         if (status.second)
         {

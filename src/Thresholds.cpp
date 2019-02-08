@@ -12,7 +12,7 @@ static constexpr size_t maxThresholds = 4;
 
 namespace thresholds
 {
-unsigned int toBusValue(const Level &level)
+unsigned int toBusValue(const Level& level)
 {
     switch (level)
     {
@@ -31,7 +31,7 @@ unsigned int toBusValue(const Level &level)
     }
 }
 
-std::string toBusValue(const Direction &direction)
+std::string toBusValue(const Direction& direction)
 {
     switch (direction)
     {
@@ -51,11 +51,11 @@ std::string toBusValue(const Direction &direction)
 }
 
 bool parseThresholdsFromConfig(
-    const SensorData &sensorData,
-    std::vector<thresholds::Threshold> &thresholdVector,
-    const std::string *matchLabel)
+    const SensorData& sensorData,
+    std::vector<thresholds::Threshold>& thresholdVector,
+    const std::string* matchLabel)
 {
-    for (const auto &item : sensorData)
+    for (const auto& item : sensorData)
     {
         if (item.first.find("Thresholds") == std::string::npos)
         {
@@ -107,9 +107,9 @@ bool parseThresholdsFromConfig(
     return true;
 }
 
-void persistThreshold(const std::string &path, const std::string &baseInterface,
-                      const thresholds::Threshold &threshold,
-                      std::shared_ptr<sdbusplus::asio::connection> &conn)
+void persistThreshold(const std::string& path, const std::string& baseInterface,
+                      const thresholds::Threshold& threshold,
+                      std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
     for (int ii = 0; ii < maxThresholds; ii++)
     {
@@ -117,9 +117,9 @@ void persistThreshold(const std::string &path, const std::string &baseInterface,
             baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
             [&, path, threshold, thresholdInterface](
-                const boost::system::error_code &ec,
-                const boost::container::flat_map<std::string, BasicVariantType>
-                    &result) {
+                const boost::system::error_code& ec,
+                const boost::container::flat_map<std::string, BasicVariantType>&
+                    result) {
                 if (ec)
                 {
                     return; // threshold not supported
@@ -147,7 +147,7 @@ void persistThreshold(const std::string &path, const std::string &baseInterface,
 
                 std::variant<double> value(threshold.value);
                 conn->async_method_call(
-                    [](const boost::system::error_code &ec) {
+                    [](const boost::system::error_code& ec) {
                         if (ec)
                         {
                             std::cerr << "Error setting threshold " << ec
@@ -162,7 +162,7 @@ void persistThreshold(const std::string &path, const std::string &baseInterface,
     }
 }
 
-bool checkThresholds(Sensor *sensor)
+bool checkThresholds(Sensor* sensor)
 {
     bool status = true;
 
@@ -170,7 +170,7 @@ bool checkThresholds(Sensor *sensor)
     {
         return true;
     }
-    for (auto &threshold : sensor->thresholds)
+    for (auto& threshold : sensor->thresholds)
     {
         if (std::isnan(sensor->value))
         {
@@ -215,7 +215,7 @@ bool checkThresholds(Sensor *sensor)
     return status;
 }
 
-void assertThresholds(Sensor *sensor, thresholds::Level level,
+void assertThresholds(Sensor* sensor, thresholds::Level level,
                       thresholds::Direction direction, bool assert)
 {
     std::string property;
@@ -258,14 +258,14 @@ void assertThresholds(Sensor *sensor, thresholds::Level level,
     interface->set_property(property, assert);
 }
 
-static constexpr std::array<const char *, 4> attrTypes = {"lcrit", "min", "max",
-                                                          "crit"};
+static constexpr std::array<const char*, 4> attrTypes = {"lcrit", "min", "max",
+                                                         "crit"};
 
 bool parseThresholdsFromAttr(
-    std::vector<thresholds::Threshold> &thresholdVector,
-    const std::string &inputPath, const double &scaleFactor)
+    std::vector<thresholds::Threshold>& thresholdVector,
+    const std::string& inputPath, const double& scaleFactor)
 {
-    for (auto &type : attrTypes)
+    for (auto& type : attrTypes)
     {
         auto attrPath = boost::replace_all_copy(inputPath, "input", type);
         std::ifstream attrFile(attrPath);
@@ -309,9 +309,9 @@ bool parseThresholdsFromAttr(
 }
 
 bool hasCriticalInterface(
-    const std::vector<thresholds::Threshold> &thresholdVector)
+    const std::vector<thresholds::Threshold>& thresholdVector)
 {
-    for (auto &threshold : thresholdVector)
+    for (auto& threshold : thresholdVector)
     {
         if (threshold.level == Level::CRITICAL)
         {
@@ -322,9 +322,9 @@ bool hasCriticalInterface(
 }
 
 bool hasWarningInterface(
-    const std::vector<thresholds::Threshold> &thresholdVector)
+    const std::vector<thresholds::Threshold>& thresholdVector)
 {
-    for (auto &threshold : thresholdVector)
+    for (auto& threshold : thresholdVector)
     {
         if (threshold.level == Level::WARNING)
         {

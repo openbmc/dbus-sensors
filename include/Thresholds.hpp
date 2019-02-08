@@ -17,7 +17,7 @@ enum Direction
 };
 struct Threshold
 {
-    Threshold(const Level &lev, const Direction &dir, const double &val,
+    Threshold(const Level& lev, const Direction& dir, const double& val,
               bool write = true) :
         level(lev),
         direction(dir), value(val), writeable(write)
@@ -31,25 +31,25 @@ struct Threshold
 };
 
 bool parseThresholdsFromConfig(
-    const SensorData &sensorData,
-    std::vector<thresholds::Threshold> &thresholdVector,
-    const std::string *matchLabel = nullptr);
+    const SensorData& sensorData,
+    std::vector<thresholds::Threshold>& thresholdVector,
+    const std::string* matchLabel = nullptr);
 
-bool parseThresholdsFromAttr(std::vector<thresholds::Threshold> &thresholds,
-                             const std::string &inputPath,
-                             const double &scaleFactor);
+bool parseThresholdsFromAttr(std::vector<thresholds::Threshold>& thresholds,
+                             const std::string& inputPath,
+                             const double& scaleFactor);
 bool hasCriticalInterface(
-    const std::vector<thresholds::Threshold> &thresholdVector);
+    const std::vector<thresholds::Threshold>& thresholdVector);
 
 bool hasWarningInterface(
-    const std::vector<thresholds::Threshold> &thresholdVector);
+    const std::vector<thresholds::Threshold>& thresholdVector);
 
-void persistThreshold(const std::string &baseInterface, const std::string &path,
-                      const thresholds::Threshold &threshold,
-                      std::shared_ptr<sdbusplus::asio::connection> &conn);
+void persistThreshold(const std::string& baseInterface, const std::string& path,
+                      const thresholds::Threshold& threshold,
+                      std::shared_ptr<sdbusplus::asio::connection>& conn);
 
 // returns false if a critical threshold has been crossed, true otherwise
-bool checkThresholds(Sensor *sensor);
-void assertThresholds(Sensor *sensor, thresholds::Level level,
+bool checkThresholds(Sensor* sensor);
+void assertThresholds(Sensor* sensor, thresholds::Level level,
                       thresholds::Direction direction, bool assert);
 } // namespace thresholds

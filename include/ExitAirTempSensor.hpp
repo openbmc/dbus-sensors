@@ -18,14 +18,14 @@ struct CFMSensor : public Sensor
 
     std::shared_ptr<ExitAirTempSensor> parent;
 
-    CFMSensor(std::shared_ptr<sdbusplus::asio::connection> &conn,
-              const std::string &name, const std::string &sensorConfiguration,
-              sdbusplus::asio::object_server &objectServer,
-              std::vector<thresholds::Threshold> &&thresholds,
-              std::shared_ptr<ExitAirTempSensor> &parent);
+    CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
+              const std::string& name, const std::string& sensorConfiguration,
+              sdbusplus::asio::object_server& objectServer,
+              std::vector<thresholds::Threshold>&& thresholds,
+              std::shared_ptr<ExitAirTempSensor>& parent);
     ~CFMSensor();
 
-    bool calculate(double &);
+    bool calculate(double&);
     void updateReading(void);
     void checkThresholds(void) override;
 
@@ -35,8 +35,8 @@ struct CFMSensor : public Sensor
     boost::container::flat_map<std::string, std::pair<double, double>>
         tachRanges;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
-    sdbusplus::asio::object_server &objServer;
-    void addTachRanges(const std::string &serviceName, const std::string &path);
+    sdbusplus::asio::object_server& objServer;
+    void addTachRanges(const std::string& serviceName, const std::string& path);
 };
 
 struct ExitAirTempSensor : public Sensor
@@ -54,11 +54,11 @@ struct ExitAirTempSensor : public Sensor
     boost::container::flat_map<std::string, double> powerReadings;
 
     std::vector<std::unique_ptr<CFMSensor>> cfmSensors;
-    ExitAirTempSensor(std::shared_ptr<sdbusplus::asio::connection> &conn,
-                      const std::string &name,
-                      const std::string &sensorConfiguration,
-                      sdbusplus::asio::object_server &objectServer,
-                      std::vector<thresholds::Threshold> &&thresholds);
+    ExitAirTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                      const std::string& name,
+                      const std::string& sensorConfiguration,
+                      sdbusplus::asio::object_server& objectServer,
+                      std::vector<thresholds::Threshold>&& thresholds);
     ~ExitAirTempSensor();
 
     void checkThresholds(void) override;
@@ -73,6 +73,6 @@ struct ExitAirTempSensor : public Sensor
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     std::chrono::time_point<std::chrono::system_clock> lastTime;
     double getTotalCFM(void);
-    bool calculate(double &val);
+    bool calculate(double& val);
     void setupMatches(void);
 };

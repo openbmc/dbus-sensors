@@ -6,9 +6,9 @@
 constexpr size_t sensorFailedPollTimeMs = 5000;
 struct Sensor
 {
-    Sensor(const std::string &name, const std::string &path,
-           std::vector<thresholds::Threshold> &&thresholdData,
-           const std::string &configurationPath, const std::string &objectType,
+    Sensor(const std::string& name, const std::string& path,
+           std::vector<thresholds::Threshold>&& thresholdData,
+           const std::string& configurationPath, const std::string& objectType,
            const double max, const double min) :
         name(name),
         path(path), thresholds(std::move(thresholdData)),
@@ -32,7 +32,7 @@ struct Sensor
     bool overridenState = false;
     bool internalSet = false;
 
-    int setSensorValue(const double &newValue, double &oldValue)
+    int setSensorValue(const double& newValue, double& oldValue)
     {
         if (internalSet)
         {
@@ -46,16 +46,16 @@ struct Sensor
     }
 
     void
-        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection> &conn)
+        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn)
     {
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
-            "Value", value, [&](const double &newValue, double &oldValue) {
+            "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
             });
 
-        for (auto &threshold : thresholds)
+        for (auto& threshold : thresholds)
         {
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
             std::string level;
@@ -101,7 +101,7 @@ struct Sensor
             }
             iface->register_property(
                 level, threshold.value,
-                [&](const double &request, double &oldValue) {
+                [&](const double& request, double& oldValue) {
                     oldValue = request; // todo, just let the config do this?
                     threshold.value = request;
                     thresholds::persistThreshold(configurationPath, objectType,
@@ -127,7 +127,7 @@ struct Sensor
         }
     }
 
-    void updateValue(const double &newValue)
+    void updateValue(const double& newValue)
     {
         // Indicate that it is internal set call
         internalSet = true;

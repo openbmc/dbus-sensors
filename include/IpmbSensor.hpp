@@ -17,11 +17,11 @@ enum class IpmbType
 
 struct IpmbSensor : public Sensor
 {
-    IpmbSensor(std::shared_ptr<sdbusplus::asio::connection> &conn,
-               boost::asio::io_service &io, const std::string &name,
-               const std::string &sensorConfiguration,
-               sdbusplus::asio::object_server &objectServer,
-               std::vector<thresholds::Threshold> &&thresholds,
+    IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
+               boost::asio::io_service& io, const std::string& name,
+               const std::string& sensorConfiguration,
+               sdbusplus::asio::object_server& objectServer,
+               std::vector<thresholds::Threshold>&& thresholds,
                uint8_t deviceAddress);
     ~IpmbSensor();
 
@@ -43,7 +43,7 @@ struct IpmbSensor : public Sensor
     PowerState readState = PowerState::on;
 
   private:
-    sdbusplus::asio::object_server &objectServer;
+    sdbusplus::asio::object_server& objectServer;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     boost::asio::deadline_timer waitTimer;
 };

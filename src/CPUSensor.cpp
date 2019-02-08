@@ -31,12 +31,12 @@ static constexpr size_t warnAfterErrorCount = 10;
 static constexpr double maxReading = 127;
 static constexpr double minReading = -128;
 
-CPUSensor::CPUSensor(const std::string &path, const std::string &objectType,
-                     sdbusplus::asio::object_server &objectServer,
-                     std::shared_ptr<sdbusplus::asio::connection> &conn,
-                     boost::asio::io_service &io, const std::string &sensorName,
-                     std::vector<thresholds::Threshold> &&_thresholds,
-                     const std::string &sensorConfiguration) :
+CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
+                     sdbusplus::asio::object_server& objectServer,
+                     std::shared_ptr<sdbusplus::asio::connection>& conn,
+                     boost::asio::io_service& io, const std::string& sensorName,
+                     std::vector<thresholds::Threshold>&& _thresholds,
+                     const std::string& sensorConfiguration) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading),
@@ -78,11 +78,11 @@ void CPUSensor::setupRead(void)
 {
     boost::asio::async_read_until(
         inputDev, readBuf, '\n',
-        [&](const boost::system::error_code &ec,
+        [&](const boost::system::error_code& ec,
             std::size_t /*bytes_transfered*/) { handleResponse(ec); });
 }
 
-void CPUSensor::handleResponse(const boost::system::error_code &err)
+void CPUSensor::handleResponse(const boost::system::error_code& err)
 {
     if (err == boost::system::errc::bad_file_descriptor)
     {
@@ -109,7 +109,7 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
             }
             errCount = 0;
         }
-        catch (const std::invalid_argument &)
+        catch (const std::invalid_argument&)
         {
             errCount++;
         }
@@ -150,7 +150,7 @@ void CPUSensor::handleResponse(const boost::system::error_code &err)
     }
     inputDev.assign(fd);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
-    waitTimer.async_wait([&](const boost::system::error_code &ec) {
+    waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled

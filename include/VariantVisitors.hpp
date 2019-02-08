@@ -22,7 +22,8 @@
 struct VariantToFloatVisitor
 {
 
-    template <typename T> float operator()(const T &t) const
+    template <typename T>
+    float operator()(const T& t) const
     {
         if constexpr (std::is_arithmetic_v<T>)
         {
@@ -34,7 +35,8 @@ struct VariantToFloatVisitor
 
 struct VariantToIntVisitor
 {
-    template <typename T> int operator()(const T &t) const
+    template <typename T>
+    int operator()(const T& t) const
     {
         if constexpr (std::is_arithmetic_v<T>)
         {
@@ -46,7 +48,8 @@ struct VariantToIntVisitor
 
 struct VariantToUnsignedIntVisitor
 {
-    template <typename T> unsigned int operator()(const T &t) const
+    template <typename T>
+    unsigned int operator()(const T& t) const
     {
         if constexpr (std::is_arithmetic_v<T>)
         {
@@ -58,7 +61,8 @@ struct VariantToUnsignedIntVisitor
 
 struct VariantToStringVisitor
 {
-    template <typename T> std::string operator()(const T &t) const
+    template <typename T>
+    std::string operator()(const T& t) const
     {
         if constexpr (std::is_same_v<T, std::string>)
         {
@@ -74,7 +78,8 @@ struct VariantToStringVisitor
 
 struct VariantToDoubleVisitor
 {
-    template <typename T> double operator()(const T &t) const
+    template <typename T>
+    double operator()(const T& t) const
     {
         if constexpr (std::is_arithmetic_v<T>)
         {

@@ -36,13 +36,13 @@ static constexpr double roundFactor = 10000; // 3 decimal places
 static constexpr double maxReading = 20;
 static constexpr double minReading = 0;
 
-ADCSensor::ADCSensor(const std::string &path,
-                     sdbusplus::asio::object_server &objectServer,
-                     std::shared_ptr<sdbusplus::asio::connection> &conn,
-                     boost::asio::io_service &io, const std::string &sensorName,
-                     std::vector<thresholds::Threshold> &&_thresholds,
+ADCSensor::ADCSensor(const std::string& path,
+                     sdbusplus::asio::object_server& objectServer,
+                     std::shared_ptr<sdbusplus::asio::connection>& conn,
+                     boost::asio::io_service& io, const std::string& sensorName,
+                     std::vector<thresholds::Threshold>&& _thresholds,
                      const double scaleFactor, PowerState readState,
-                     const std::string &sensorConfiguration) :
+                     const std::string& sensorConfiguration) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
@@ -86,11 +86,11 @@ void ADCSensor::setupRead(void)
 {
     boost::asio::async_read_until(
         inputDev, readBuf, '\n',
-        [&](const boost::system::error_code &ec,
+        [&](const boost::system::error_code& ec,
             std::size_t /*bytes_transfered*/) { handleResponse(ec); });
 }
 
-void ADCSensor::handleResponse(const boost::system::error_code &err)
+void ADCSensor::handleResponse(const boost::system::error_code& err)
 {
     if (err == boost::system::errc::bad_file_descriptor)
     {
@@ -153,7 +153,7 @@ void ADCSensor::handleResponse(const boost::system::error_code &err)
     }
     inputDev.assign(fd);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-    waitTimer.async_wait([&](const boost::system::error_code &ec) {
+    waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled

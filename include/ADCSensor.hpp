@@ -7,17 +7,17 @@
 class ADCSensor : public Sensor
 {
   public:
-    ADCSensor(const std::string &path,
-              sdbusplus::asio::object_server &objectServer,
-              std::shared_ptr<sdbusplus::asio::connection> &conn,
-              boost::asio::io_service &io, const std::string &sensorName,
-              std::vector<thresholds::Threshold> &&thresholds,
+    ADCSensor(const std::string& path,
+              sdbusplus::asio::object_server& objectServer,
+              std::shared_ptr<sdbusplus::asio::connection>& conn,
+              boost::asio::io_service& io, const std::string& sensorName,
+              std::vector<thresholds::Threshold>&& thresholds,
               const double scaleFactor, PowerState readState,
-              const std::string &sensorConfiguration);
+              const std::string& sensorConfiguration);
     ~ADCSensor();
 
   private:
-    sdbusplus::asio::object_server &objServer;
+    sdbusplus::asio::object_server& objServer;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
@@ -25,6 +25,6 @@ class ADCSensor : public Sensor
     double scaleFactor;
     PowerState readState;
     void setupRead(void);
-    void handleResponse(const boost::system::error_code &err);
+    void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
 };
