@@ -30,7 +30,7 @@
 static constexpr bool DEBUG = false;
 
 namespace fs = std::filesystem;
-namespace variant_ns = sdbusplus::message::variant_ns;
+
 static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADC"};
 static std::regex inputRegex(R"(in(\d+)_input)");
@@ -133,8 +133,8 @@ void createSensors(
                 continue;
             }
 
-            unsigned int number = sdbusplus::message::variant_ns::visit(
-                VariantToUnsignedIntVisitor(), findIndex->second);
+            unsigned int number =
+                std::visit(VariantToUnsignedIntVisitor(), findIndex->second);
 
             if (number != index)
             {
@@ -165,9 +165,7 @@ void createSensors(
                       << path.string() << "\n";
             continue;
         }
-        std::string sensorName =
-            sdbusplus::message::variant_ns::get<std::string>(
-                findSensorName->second);
+        std::string sensorName = std::get<std::string>(findSensorName->second);
 
         // on rescans, only update sensors we were signaled by
         auto findSensor = sensors.find(sensorName);
@@ -201,16 +199,16 @@ void createSensors(
         float scaleFactor = 1.0;
         if (findScaleFactor != baseConfiguration->second.end())
         {
-            scaleFactor = variant_ns::visit(VariantToFloatVisitor(),
-                                            findScaleFactor->second);
+            scaleFactor =
+                std::visit(VariantToFloatVisitor(), findScaleFactor->second);
         }
 
         auto findPowerOn = baseConfiguration->second.find("PowerState");
         PowerState readState = PowerState::always;
         if (findPowerOn != baseConfiguration->second.end())
         {
-            std::string powerState = variant_ns::visit(VariantToStringVisitor(),
-                                                       findPowerOn->second);
+            std::string powerState =
+                std::visit(VariantToStringVisitor(), findPowerOn->second);
             setReadState(powerState, readState);
         }
 

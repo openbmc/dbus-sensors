@@ -14,9 +14,8 @@ const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
 
 using BasicVariantType =
-    sdbusplus::message::variant<std::vector<std::string>, std::string, int64_t,
-                                uint64_t, double, int32_t, uint32_t, int16_t,
-                                uint16_t, uint8_t, bool>;
+    std::variant<std::vector<std::string>, std::string, int64_t, uint64_t,
+                 double, int32_t, uint32_t, int16_t, uint16_t, uint8_t, bool>;
 
 using ManagedObjectType = boost::container::flat_map<
     sdbusplus::message::object_path,
@@ -66,18 +65,15 @@ inline T loadVariant(
     }
     if constexpr (std::is_same_v<T, double>)
     {
-        return sdbusplus::message::variant_ns::visit(VariantToDoubleVisitor(),
-                                                     it->second);
+        return std::visit(VariantToDoubleVisitor(), it->second);
     }
     else if constexpr (std::is_unsigned_v<T>)
     {
-        return sdbusplus::message::variant_ns::visit(
-            VariantToUnsignedIntVisitor(), it->second);
+        return std::visit(VariantToUnsignedIntVisitor(), it->second);
     }
     else if constexpr (std::is_same_v<T, std::string>)
     {
-        return sdbusplus::message::variant_ns::visit(VariantToStringVisitor(),
-                                                     it->second);
+        return std::visit(VariantToStringVisitor(), it->second);
     }
     else
     {
