@@ -17,6 +17,7 @@
 #pragma once
 #include <stdexcept>
 #include <string>
+#include <variant>
 
 struct VariantToFloatVisitor
 {

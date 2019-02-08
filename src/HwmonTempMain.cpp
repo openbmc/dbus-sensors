@@ -138,10 +138,8 @@ void createSensors(
                 continue;
             }
 
-            if (sdbusplus::message::variant_ns::get<uint64_t>(
-                    configurationBus->second) != bus ||
-                sdbusplus::message::variant_ns::get<uint64_t>(
-                    configurationAddress->second) != addr)
+            if (std::get<uint64_t>(configurationBus->second) != bus ||
+                std::get<uint64_t>(configurationAddress->second) != addr)
             {
                 continue;
             }
@@ -162,9 +160,7 @@ void createSensors(
                       << deviceName << "\n";
             continue;
         }
-        std::string sensorName =
-            sdbusplus::message::variant_ns::get<std::string>(
-                findSensorName->second);
+        std::string sensorName = std::get<std::string>(findSensorName->second);
         // on rescans, only update sensors we were signaled by
         auto findSensor = sensors.find(sensorName);
         if (!firstScan && findSensor != sensors.end())
@@ -203,8 +199,7 @@ void createSensors(
             continue;
         }
 
-        sensorName = sdbusplus::message::variant_ns::get<std::string>(
-            findSecondName->second);
+        sensorName = std::get<std::string>(findSecondName->second);
         sensors[sensorName] = std::make_unique<HwmonTempSensor>(
             directory.string() + "/temp2_input", sensorType, objectServer,
             dbusConnection, io, sensorName,

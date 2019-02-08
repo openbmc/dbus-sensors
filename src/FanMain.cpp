@@ -32,7 +32,7 @@
 static constexpr bool DEBUG = false;
 
 namespace fs = std::filesystem;
-namespace variant_ns = sdbusplus::message::variant_ns;
+
 static constexpr std::array<const char*, 2> sensorTypes = {
     "xyz.openbmc_project.Configuration.AspeedFan",
     "xyz.openbmc_project.Configuration.I2CFan"};
@@ -151,8 +151,8 @@ void createSensors(
                 std::cerr << baseConfiguration->first << " missing index\n";
                 continue;
             }
-            unsigned int configIndex = variant_ns::visit(
-                VariantToUnsignedIntVisitor(), findIndex->second);
+            unsigned int configIndex =
+                std::visit(VariantToUnsignedIntVisitor(), findIndex->second);
             if (configIndex != index)
             {
                 continue;
@@ -175,9 +175,9 @@ void createSensors(
                               << " missing bus or address\n";
                     continue;
                 }
-                unsigned int configBus = variant_ns::visit(
-                    VariantToUnsignedIntVisitor(), findBus->second);
-                unsigned int configAddress = variant_ns::visit(
+                unsigned int configBus =
+                    std::visit(VariantToUnsignedIntVisitor(), findBus->second);
+                unsigned int configAddress = std::visit(
                     VariantToUnsignedIntVisitor(), findAddress->second);
 
                 if (configBus == bus && configAddress == configAddress)
@@ -200,9 +200,7 @@ void createSensors(
                       << path.string() << "\n";
             continue;
         }
-        std::string sensorName =
-            sdbusplus::message::variant_ns::get<std::string>(
-                findSensorName->second);
+        std::string sensorName = std::get<std::string>(findSensorName->second);
         // on rescans, only update sensors we were signaled by
         auto findSensor = tachSensors.find(sensorName);
         if (!firstScan && findSensor != tachSensors.end())
@@ -249,9 +247,9 @@ void createSensors(
             }
             else
             {
-                size_t index = variant_ns::get<uint64_t>(findIndex->second);
+                size_t index = std::get<uint64_t>(findIndex->second);
                 bool inverted =
-                    variant_ns::get<std::string>(findPolarity->second) == "Low";
+                    std::get<std::string>(findPolarity->second) == "Low";
                 presenceSensor =
                     std::make_unique<PresenceSensor>(index, inverted, io);
             }
@@ -329,8 +327,8 @@ void createRedundancySensor(
                                 sensor.second->name);
                         }
                         systemRedundancy = std::make_unique<RedundancySensor>(
-                            variant_ns::get<uint64_t>(findCount->second),
-                            sensorList, objectServer);
+                            std::get<uint64_t>(findCount->second), sensorList,
+                            objectServer);
 
                         return;
                     }

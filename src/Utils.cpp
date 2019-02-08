@@ -135,21 +135,18 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
     std::function<void(sdbusplus::message::message & message)> eventHandler =
         [](sdbusplus::message::message& message) {
             std::string objectName;
-            boost::container::flat_map<
-                std::string, sdbusplus::message::variant<int32_t, bool>>
+            boost::container::flat_map<std::string, std::variant<int32_t, bool>>
                 values;
             message.read(objectName, values);
             auto findPgood = values.find("pgood");
             if (findPgood != values.end())
             {
-                powerStatusOn = sdbusplus::message::variant_ns::get<int32_t>(
-                    findPgood->second);
+                powerStatusOn = std::get<int32_t>(findPgood->second);
             }
             auto findPostComplete = values.find("post_complete");
             if (findPostComplete != values.end())
             {
-                biosHasPost = sdbusplus::message::variant_ns::get<bool>(
-                    findPostComplete->second);
+                biosHasPost = std::get<bool>(findPostComplete->second);
             }
         };
 
@@ -161,28 +158,26 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         eventHandler);
 
     conn->async_method_call(
-        [](boost::system::error_code ec,
-           const sdbusplus::message::variant<int32_t>& pgood) {
+        [](boost::system::error_code ec, const std::variant<int32_t>& pgood) {
             if (ec)
             {
                 std::cerr << "Error getting initial power status\n";
                 return;
             }
-            powerStatusOn = sdbusplus::message::variant_ns::get<int32_t>(pgood);
+            powerStatusOn = std::get<int32_t>(pgood);
         },
         powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
         "Get", powerInterfaceName, "pgood");
 
     conn->async_method_call(
         [](boost::system::error_code ec,
-           const sdbusplus::message::variant<int32_t>& postComplete) {
+           const std::variant<int32_t>& postComplete) {
             if (ec)
             {
                 std::cerr << "Error getting initial post status\n";
                 return;
             }
-            biosHasPost =
-                sdbusplus::message::variant_ns::get<int32_t>(postComplete);
+            biosHasPost = std::get<int32_t>(postComplete);
         },
         powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
         "Get", powerInterfaceName, "post_complete");
@@ -201,12 +196,10 @@ void findLimits(std::pair<double, double>& limits,
 
     if (minFind != data->second.end())
     {
-        limits.first = sdbusplus::message::variant_ns::visit(
-            VariantToDoubleVisitor(), minFind->second);
+        limits.first = std::visit(VariantToDoubleVisitor(), minFind->second);
     }
     if (maxFind != data->second.end())
     {
-        limits.second = sdbusplus::message::variant_ns::visit(
-            VariantToDoubleVisitor(), maxFind->second);
+        limits.second = std::visit(VariantToDoubleVisitor(), maxFind->second);
     }
 }

@@ -53,8 +53,8 @@ static void setupSensorMatch(
     std::function<void(sdbusplus::message::message & message)> eventHandler =
         [callback{std::move(callback)}](sdbusplus::message::message& message) {
             std::string objectName;
-            boost::container::flat_map<
-                std::string, sdbusplus::message::variant<double, int64_t>>
+            boost::container::flat_map<std::string,
+                                       std::variant<double, int64_t>>
                 values;
             message.read(objectName, values);
             auto findValue = values.find("Value");
@@ -62,8 +62,8 @@ static void setupSensorMatch(
             {
                 return;
             }
-            double value = sdbusplus::message::variant_ns::visit(
-                VariantToDoubleVisitor(), findValue->second);
+            double value =
+                std::visit(VariantToDoubleVisitor(), findValue->second);
             if (std::isnan(value))
             {
                 return;
@@ -328,8 +328,7 @@ void ExitAirTempSensor::setupMatches(void)
                 return;
             }
 
-            inletTemp = sdbusplus::message::variant_ns::visit(
-                VariantToDoubleVisitor(), value);
+            inletTemp = std::visit(VariantToDoubleVisitor(), value);
         },
         "xyz.openbmc_project.HwmonTempSensor",
         std::string("/xyz/openbmc_project/sensors/") + inletTemperatureSensor,
@@ -517,8 +516,7 @@ static void loadVariantPathArray(
         throw std::invalid_argument("Key Missing");
     }
     BasicVariantType copy = it->second;
-    std::vector<std::string> config =
-        sdbusplus::message::variant_ns::get<std::vector<std::string>>(copy);
+    std::vector<std::string> config = std::get<std::vector<std::string>>(copy);
     for (auto& str : config)
     {
         boost::replace_all(str, " ", "_");
