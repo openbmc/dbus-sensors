@@ -10,7 +10,6 @@
 static constexpr bool DEBUG = false;
 static constexpr size_t maxThresholds = 4;
 
-namespace variant_ns = sdbusplus::message::variant_ns;
 namespace thresholds
 {
 unsigned int toBusValue(const Level &level)
@@ -67,8 +66,8 @@ bool parseThresholdsFromConfig(
             auto labelFind = item.second.find("Label");
             if (labelFind == item.second.end())
                 continue;
-            if (variant_ns::visit(VariantToStringVisitor(),
-                                  labelFind->second) != *matchLabel)
+            if (std::visit(VariantToStringVisitor(), labelFind->second) !=
+                *matchLabel)
                 continue;
         }
         auto directionFind = item.second.find("Direction");
@@ -83,8 +82,8 @@ bool parseThresholdsFromConfig(
         }
         Level level;
         Direction direction;
-        if (variant_ns::visit(VariantToUnsignedIntVisitor(),
-                              severityFind->second) == 0)
+        if (std::visit(VariantToUnsignedIntVisitor(), severityFind->second) ==
+            0)
         {
             level = Level::WARNING;
         }
@@ -92,8 +91,8 @@ bool parseThresholdsFromConfig(
         {
             level = Level::CRITICAL;
         }
-        if (variant_ns::visit(VariantToStringVisitor(),
-                              directionFind->second) == "less than")
+        if (std::visit(VariantToStringVisitor(), directionFind->second) ==
+            "less than")
         {
             direction = Direction::LOW;
         }
@@ -101,8 +100,7 @@ bool parseThresholdsFromConfig(
         {
             direction = Direction::HIGH;
         }
-        float val =
-            variant_ns::visit(VariantToFloatVisitor(), valueFind->second);
+        float val = std::visit(VariantToFloatVisitor(), valueFind->second);
 
         thresholdVector.emplace_back(level, direction, val);
     }
@@ -136,18 +134,18 @@ void persistThreshold(const std::string &path, const std::string &baseInterface,
                     std::cerr << "Malformed threshold in configuration\n";
                     return;
                 }
-                unsigned int level = variant_ns::visit(
-                    VariantToUnsignedIntVisitor(), severityFind->second);
+                unsigned int level = std::visit(VariantToUnsignedIntVisitor(),
+                                                severityFind->second);
 
-                std::string dir = variant_ns::visit(VariantToStringVisitor(),
-                                                    directionFind->second);
+                std::string dir =
+                    std::visit(VariantToStringVisitor(), directionFind->second);
                 if ((toBusValue(threshold.level) != level) ||
                     (toBusValue(threshold.direction) != dir))
                 {
                     return; // not the droid we're looking for
                 }
 
-                sdbusplus::message::variant<double> value(threshold.value);
+                std::variant<double> value(threshold.value);
                 conn->async_method_call(
                     [](const boost::system::error_code &ec) {
                         if (ec)

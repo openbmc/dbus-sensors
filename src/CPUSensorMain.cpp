@@ -68,7 +68,7 @@ static constexpr const char* peciDev = "/dev/peci-";
 static constexpr const unsigned int rankNumMax = 8;
 
 namespace fs = std::filesystem;
-namespace variant_ns = sdbusplus::message::variant_ns;
+
 static constexpr const char* configPrefix =
     "xyz.openbmc_project.Configuration.";
 static constexpr std::array<const char*, 3> sensorTypes = {
@@ -216,10 +216,8 @@ bool createSensors(
                 continue;
             }
 
-            if (sdbusplus::message::variant_ns::get<uint64_t>(
-                    configurationBus->second) != bus ||
-                sdbusplus::message::variant_ns::get<uint64_t>(
-                    configurationAddress->second) != addr)
+            if (std::get<uint64_t>(configurationBus->second) != bus ||
+                std::get<uint64_t>(configurationAddress->second) != addr)
             {
                 continue;
             }
@@ -240,7 +238,7 @@ bool createSensors(
             continue;
         }
         int cpuId =
-            variant_ns::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
+            std::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
 
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
@@ -549,8 +547,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 {
                     continue;
                 }
-                std::string nameRaw = variant_ns::visit(
-                    VariantToStringVisitor(), findName->second);
+                std::string nameRaw =
+                    std::visit(VariantToStringVisitor(), findName->second);
                 std::string name =
                     std::regex_replace(nameRaw, illegalDbusRegex, "_");
 
@@ -560,8 +558,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                     std::cerr << "Can't find 'Bus' setting in " << name << "\n";
                     continue;
                 }
-                uint64_t bus = variant_ns::visit(VariantToUnsignedIntVisitor(),
-                                                 findBus->second);
+                uint64_t bus =
+                    std::visit(VariantToUnsignedIntVisitor(), findBus->second);
 
                 auto findAddress = config.second.find("Address");
                 if (findAddress == config.second.end())
@@ -570,8 +568,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                               << "\n";
                     continue;
                 }
-                uint64_t addr = variant_ns::visit(VariantToUnsignedIntVisitor(),
-                                                  findAddress->second);
+                uint64_t addr = std::visit(VariantToUnsignedIntVisitor(),
+                                           findAddress->second);
 
                 if (DEBUG)
                 {
