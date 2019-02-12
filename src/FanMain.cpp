@@ -92,6 +92,8 @@ void createSensors(
         return;
     }
 
+    std::vector<uint8_t> pwmNumbers;
+
     // iterate through all found fan sensors, and try to match them with
     // configuration
     for (const auto& path : paths)
@@ -269,9 +271,24 @@ void createSensors(
             path.string(), baseType, objectServer, dbusConnection,
             std::move(presenceSensor), redundancy, io, sensorName,
             std::move(sensorThresholds), *interfacePath, limits);
+
+        auto connector = sensorData->find(baseType + std::string(".Connector"));
+        if (connector != sensorData->end())
+        {
+            auto findPwm = connector->second.find("Pwm");
+            if (findPwm == connector->second.end())
+            {
+                std::cerr << "Connector Missing PWM!\n";
+                continue;
+            }
+
+            size_t pwm =
+                std::visit(VariantToUnsignedIntVisitor(), findPwm->second);
+            pwmNumbers.emplace_back(pwm);
+        }
     }
     std::vector<fs::path> pwms;
-    if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm\d+)", pwms))
+    if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm\d+$)", pwms))
     {
         std::cerr << "No pwm in system\n";
         return;
@@ -282,6 +299,21 @@ void createSensors(
         {
             continue;
         }
+        bool inConfig = false;
+        for (uint8_t index : pwmNumbers)
+        {
+            if (boost::ends_with(pwm.string(), std::to_string(index + 1)))
+            {
+                inConfig = true;
+                break;
+            }
+        }
+
+        if (!inConfig)
+        {
+            continue;
+        }
+
         // only add new elements
         pwmSensors.insert(std::pair<std::string, std::unique_ptr<PwmSensor>>(
             pwm.string(),
