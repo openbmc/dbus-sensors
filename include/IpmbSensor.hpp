@@ -29,6 +29,7 @@ struct IpmbSensor : public Sensor
     void read(void);
     void init(void);
     void loadDefaults(void);
+    void runInitCmd(void);
 
     IpmbType type;
     uint8_t commandAddress;
@@ -38,9 +39,11 @@ struct IpmbSensor : public Sensor
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
+    std::unique_ptr<sdbusplus::bus::match::match> powerOnCallback = nullptr;
 
     // to date all ipmb sensors are power on only
     PowerState readState = PowerState::on;
+    bool powerWasOff = true;
 
   private:
     sdbusplus::asio::object_server& objectServer;
