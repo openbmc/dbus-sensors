@@ -45,6 +45,8 @@ static constexpr uint8_t lun = 0;
 using IpmbMethodType =
     std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
 
+boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
+
 IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        boost::asio::io_service& io,
                        const std::string& sensorName,
@@ -92,6 +94,15 @@ void IpmbSensor::init(void)
     loadDefaults();
     if (initCommand)
     {
+        runInitCmd();
+    }
+    read();
+}
+
+void IpmbSensor::runInitCmd()
+{
+    if (initCommand)
+    {
         dbusConnection->async_method_call(
             [this](boost::system::error_code ec,
                    const IpmbMethodType& response) {
@@ -108,10 +119,6 @@ void IpmbSensor::init(void)
             "xyz.openbmc_project.Ipmi.Channel.Ipmb",
             "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
             "sendRequest", commandAddress, netfn, lun, *initCommand, initData);
-    }
-    else
-    {
-        read();
     }
 }
 
@@ -349,6 +356,29 @@ void createSensors(
         "GetManagedObjects");
 }
 
+void reinitSensors(sdbusplus::message::message& message)
+{
+
+    std::string objectName;
+    boost::container::flat_map<std::string, std::variant<int32_t>> values;
+    message.read(objectName, values);
+    auto findPgood = values.find("pgood");
+    if (findPgood != values.end())
+    {
+        int32_t powerStatus = std::get<int32_t>(findPgood->second);
+        if (powerStatus)
+        {
+            for (auto& sensor : sensors)
+            {
+                if (sensor.second)
+                {
+                    sensor.second->runInitCmd();
+                }
+            }
+        }
+    }
+}
+
 int main(int argc, char** argv)
 {
 
@@ -356,8 +386,6 @@ int main(int argc, char** argv)
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.IpmbSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
-    boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>>
-        sensors;
 
     io.post([&]() { createSensors(io, objectServer, sensors, systemBus); });
 
@@ -380,12 +408,19 @@ int main(int argc, char** argv)
             });
         };
 
-    sdbusplus::bus::match::match match(
+    sdbusplus::bus::match::match configMatch(
         static_cast<sdbusplus::bus::bus&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" + configInterface +
             "'",
         eventHandler);
+
+    sdbusplus::bus::match::match powerChangeMatch(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        "type='signal',interface='org.freedesktop.DBus.Properties',path_"
+        "namespace='/xyz/openbmc_project/Chassis/Control/"
+        "Power0',arg0='xyz.openbmc_project.Chassis.Control.Power'",
+        reinitSensors);
 
     io.run();
 }

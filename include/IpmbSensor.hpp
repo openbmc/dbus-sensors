@@ -29,6 +29,7 @@ struct IpmbSensor : public Sensor
     void read(void);
     void init(void);
     void loadDefaults(void);
+    void runInitCmd(void);
 
     IpmbType type;
     uint8_t commandAddress;
