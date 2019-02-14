@@ -92,6 +92,38 @@ void IpmbSensor::init(void)
     loadDefaults();
     if (initCommand)
     {
+        std::function<void(sdbusplus::message::message & message)>
+            eventHandler = [this](sdbusplus::message::message& message) {
+                std::string objectName;
+                boost::container::flat_map<std::string, std::variant<int32_t>>
+                    values;
+                message.read(objectName, values);
+                auto findPgood = values.find("pgood");
+                if (findPgood != values.end())
+                {
+                    int32_t powerStatus = std::get<int32_t>(findPgood->second);
+                    if (powerStatus)
+                    {
+                        runInitCmd();
+                    }
+                }
+            };
+
+        powerOnCallback = std::make_unique<sdbusplus::bus::match::match>(
+            static_cast<sdbusplus::bus::bus&>(*dbusConnection),
+            "type='signal',interface='org.freedesktop.DBus.Properties',path_"
+            "namespace='/xyz/openbmc_project/Chassis/Control/"
+            "Power0',arg0='xyz.openbmc_project.Chassis.Control.Power'",
+            eventHandler);
+        runInitCmd();
+    }
+    read();
+}
+
+void IpmbSensor::runInitCmd()
+{
+    if (initCommand)
+    {
         dbusConnection->async_method_call(
             [this](boost::system::error_code ec,
                    const IpmbMethodType& response) {
@@ -108,10 +140,6 @@ void IpmbSensor::init(void)
             "xyz.openbmc_project.Ipmi.Channel.Ipmb",
             "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
             "sendRequest", commandAddress, netfn, lun, *initCommand, initData);
-    }
-    else
-    {
-        read();
     }
 }
 
