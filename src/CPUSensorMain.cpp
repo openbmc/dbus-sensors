@@ -73,6 +73,8 @@ static constexpr const char* configPrefix =
     "xyz.openbmc_project.Configuration.";
 static constexpr std::array<const char*, 3> sensorTypes = {
     "SkylakeCPU", "BroadwellCPU", "HaswellCPU"};
+static constexpr std::array<const char*, 3> skipProps = {"Tcontrol",
+                                                         "Tthrottle", "Tjmax"};
 
 void detectCpuAsync(
     boost::asio::deadline_timer& pingTimer,
@@ -263,6 +265,22 @@ bool createSensors(
             std::string label;
             std::getline(labelFile, label);
             labelFile.close();
+
+            // skip non-sensor properties
+            bool skipIt = false;
+            for (const char* prop : skipProps)
+            {
+                if (label == prop)
+                {
+                    skipIt = true;
+                    break;
+                }
+            }
+            if (skipIt)
+            {
+                continue;
+            }
+
             std::string sensorName = label + " CPU" + std::to_string(cpuId);
 
             auto findSensor = cpuSensors.find(sensorName);
