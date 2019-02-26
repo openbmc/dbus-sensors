@@ -28,6 +28,12 @@ struct Threshold
     double value;
     bool writeable;
     bool asserted = false;
+
+    bool operator==(const Threshold& rhs) const
+    {
+        return (level == rhs.level && direction == rhs.direction &&
+                value == rhs.value);
+    }
 };
 
 bool parseThresholdsFromConfig(
@@ -48,6 +54,7 @@ void persistThreshold(const std::string& baseInterface, const std::string& path,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn);
 
+void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
 bool checkThresholds(Sensor* sensor);
 void assertThresholds(Sensor* sensor, thresholds::Level level,

@@ -162,6 +162,53 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
     }
 }
 
+void updateThresholds(Sensor* sensor)
+{
+    if (sensor->thresholds.empty())
+    {
+        return;
+    }
+
+    for (const auto& threshold : sensor->thresholds)
+    {
+        std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
+        std::string property;
+        if (threshold.level == thresholds::Level::CRITICAL)
+        {
+            interface = sensor->thresholdInterfaceCritical;
+            if (threshold.direction == thresholds::Direction::HIGH)
+            {
+                property = "CriticalHigh";
+            }
+            else
+            {
+                property = "CriticalLow";
+            }
+        }
+        else if (threshold.level == thresholds::Level::WARNING)
+        {
+            interface = sensor->thresholdInterfaceWarning;
+            if (threshold.direction == thresholds::Direction::HIGH)
+            {
+                property = "WarningHigh";
+            }
+            else
+            {
+                property = "WarningLow";
+            }
+        }
+        else
+        {
+            continue;
+        }
+        if (!interface)
+        {
+            continue;
+        }
+        interface->set_property(property, threshold.value);
+    }
+}
+
 bool checkThresholds(Sensor* sensor)
 {
     bool status = true;
