@@ -107,6 +107,21 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
             {
                 updateValue(nvalue);
             }
+            if (!thresholds.empty())
+            {
+                std::vector<thresholds::Threshold> newThresholds;
+                if (parseThresholdsFromAttr(newThresholds, path,
+                                            CPUSensor::sensorScaleFactor))
+                {
+                    thresholds = newThresholds;
+                    thresholds::updateThresholds(this);
+                }
+                else
+                {
+                    std::cerr << "Failure to update thresholds for " << name
+                              << "\n";
+                }
+            }
             errCount = 0;
         }
         catch (const std::invalid_argument&)

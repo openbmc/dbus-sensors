@@ -48,6 +48,7 @@ void persistThreshold(const std::string& baseInterface, const std::string& path,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn);
 
+void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
 bool checkThresholds(Sensor* sensor);
 void assertThresholds(Sensor* sensor, thresholds::Level level,
