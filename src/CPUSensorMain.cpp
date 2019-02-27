@@ -34,6 +34,9 @@
 // clang-format off
 // this needs to be included last or we'll have build issues
 #include <linux/peci-ioctl.h>
+#if !defined(PECI_MBX_INDEX_DDR_DIMM_TEMP)
+#define PECI_MBX_INDEX_DDR_DIMM_TEMP MBX_INDEX_DDR_DIMM_TEMP
+#endif
 // clang-format on
 
 static constexpr bool DEBUG = false;
@@ -405,7 +408,7 @@ void detectCpu(
             {
                 struct peci_rd_pkg_cfg_msg msg;
                 msg.addr = config.addr;
-                msg.index = MBX_INDEX_DDR_DIMM_TEMP;
+                msg.index = PECI_MBX_INDEX_DDR_DIMM_TEMP;
                 msg.param = rank;
                 msg.rx_len = 4;
                 if (!ioctl(file, PECI_IOC_RD_PKG_CFG, &msg))
