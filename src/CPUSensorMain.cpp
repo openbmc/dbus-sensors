@@ -76,8 +76,9 @@ static constexpr const char* configPrefix =
     "xyz.openbmc_project.Configuration.";
 static constexpr std::array<const char*, 3> sensorTypes = {
     "SkylakeCPU", "BroadwellCPU", "HaswellCPU"};
-static constexpr std::array<const char*, 3> skipProps = {"Tcontrol",
-                                                         "Tthrottle", "Tjmax"};
+static constexpr const char* labelTcontrol = "Tcontrol";
+static constexpr std::array<const char*, 3> hiddenProps = {
+    labelTcontrol, "Tthrottle", "Tjmax"};
 
 void detectCpuAsync(
     boost::asio::deadline_timer& pingTimer,
@@ -269,21 +270,6 @@ bool createSensors(
             std::getline(labelFile, label);
             labelFile.close();
 
-            // skip non-sensor properties
-            bool skipIt = false;
-            for (const char* prop : skipProps)
-            {
-                if (label == prop)
-                {
-                    skipIt = true;
-                    break;
-                }
-            }
-            if (skipIt)
-            {
-                continue;
-            }
-
             std::string sensorName = label + " CPU" + std::to_string(cpuId);
 
             auto findSensor = cpuSensors.find(sensorName);
@@ -295,6 +281,17 @@ bool createSensors(
                               << " is already created\n";
                 }
                 continue;
+            }
+
+            // check hidden properties
+            bool show = true;
+            for (const char* prop : hiddenProps)
+            {
+                if (label == prop)
+                {
+                    show = false;
+                    break;
+                }
             }
 
             std::vector<thresholds::Threshold> sensorThresholds;
@@ -312,7 +309,8 @@ bool createSensors(
             }
             cpuSensors[sensorName] = std::make_unique<CPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
-                sensorName, std::move(sensorThresholds), *interfacePath);
+                sensorName, std::move(sensorThresholds), *interfacePath,
+                cpuSensors, cpuId, show);
             createdSensors.insert(sensorName);
             if (DEBUG)
             {
@@ -613,6 +611,16 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
     }
 
     return false;
+}
+
+double getTcontrol(boost::container::flat_map<
+                       std::string, std::unique_ptr<CPUSensor>>& cpuSensors,
+                   int& cpuId)
+{
+    std::string nameTcontrol = labelTcontrol;
+    nameTcontrol += " CPU" + std::to_string(cpuId);
+
+    return cpuSensors[nameTcontrol]->value;
 }
 
 int main(int argc, char** argv)
