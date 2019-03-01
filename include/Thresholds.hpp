@@ -52,7 +52,8 @@ bool hasWarningInterface(
 
 void persistThreshold(const std::string& baseInterface, const std::string& path,
                       const thresholds::Threshold& threshold,
-                      std::shared_ptr<sdbusplus::asio::connection>& conn);
+                      std::shared_ptr<sdbusplus::asio::connection>& conn,
+                      size_t thresholdCount);
 
 void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise

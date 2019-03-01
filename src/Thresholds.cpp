@@ -8,8 +8,6 @@
 #include <sensor.hpp>
 
 static constexpr bool DEBUG = false;
-static constexpr size_t maxThresholds = 4;
-
 namespace thresholds
 {
 unsigned int toBusValue(const Level& level)
@@ -109,9 +107,10 @@ bool parseThresholdsFromConfig(
 
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
-                      std::shared_ptr<sdbusplus::asio::connection>& conn)
+                      std::shared_ptr<sdbusplus::asio::connection>& conn,
+                      size_t thresholdCount)
 {
-    for (int ii = 0; ii < maxThresholds; ii++)
+    for (int ii = 0; ii < thresholdCount; ii++)
     {
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);

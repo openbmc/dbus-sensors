@@ -11,8 +11,9 @@ struct Sensor
            const std::string& configurationPath, const std::string& objectType,
            const double max, const double min) :
         name(name),
-        path(path), thresholds(std::move(thresholdData)),
-        configurationPath(configurationPath), maxValue(max), minValue(min)
+        path(path), configurationPath(configurationPath),
+        objectType(objectType), thresholds(std::move(thresholdData)),
+        maxValue(max), minValue(min)
     {
     }
     virtual ~Sensor() = default;
@@ -105,7 +106,8 @@ struct Sensor
                     oldValue = request; // todo, just let the config do this?
                     threshold.value = request;
                     thresholds::persistThreshold(configurationPath, objectType,
-                                                 threshold, conn);
+                                                 threshold, conn,
+                                                 thresholds.size());
                     return 1;
                 });
             iface->register_property(alarm, false);
