@@ -27,39 +27,41 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
 
-static constexpr size_t warnAfterErrorCount = 10;
-static constexpr double maxReading = 127;
-static constexpr double minReading = -128;
+float CPUSensor::gTcontrol = std::numeric_limits<double>::quiet_NaN();
 
 CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& _thresholds,
-                     const std::string& sensorConfiguration) :
+                     const std::string& sensorConfiguration, bool& show,
+                     bool& isTcontrol) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading),
     objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), errCount(0)
-
+    waitTimer(io), show(show), isTcontrol(isTcontrol),
+    privTcontrol(std::numeric_limits<double>::quiet_NaN()), errCount(0)
 {
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        "xyz.openbmc_project.Sensor.Value");
-    if (thresholds::hasWarningInterface(thresholds))
+    if (show)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
+        sensorInterface = objectServer.add_interface(
             "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
+            "xyz.openbmc_project.Sensor.Value");
+        if (thresholds::hasWarningInterface(thresholds))
+        {
+            thresholdInterfaceWarning = objectServer.add_interface(
+                "/xyz/openbmc_project/sensors/temperature/" + name,
+                "xyz.openbmc_project.Sensor.Threshold.Warning");
+        }
+        if (thresholds::hasCriticalInterface(thresholds))
+        {
+            thresholdInterfaceCritical = objectServer.add_interface(
+                "/xyz/openbmc_project/sensors/temperature/" + name,
+                "xyz.openbmc_project.Sensor.Threshold.Critical");
+        }
+        setInitialProperties(conn);
     }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
-    }
-    setInitialProperties(conn);
     setupPowerMatch(conn);
     setupRead();
 }
@@ -69,9 +71,12 @@ CPUSensor::~CPUSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(sensorInterface);
+    if (show)
+    {
+        objServer.remove_interface(thresholdInterfaceWarning);
+        objServer.remove_interface(thresholdInterfaceCritical);
+        objServer.remove_interface(sensorInterface);
+    }
 }
 
 void CPUSensor::setupRead(void)
@@ -105,25 +110,46 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
             }
             if (nvalue != value)
             {
-                updateValue(nvalue);
-            }
-            if (!thresholds.empty())
-            {
-                std::vector<thresholds::Threshold> newThresholds;
-                if (parseThresholdsFromAttr(newThresholds, path,
-                                            CPUSensor::sensorScaleFactor))
+                if (show)
                 {
-                    if (!std::equal(thresholds.begin(), thresholds.end(),
-                                    newThresholds.begin(), newThresholds.end()))
-                    {
-                        thresholds = newThresholds;
-                        thresholds::updateThresholds(this);
-                    }
+                    updateValue(nvalue);
                 }
                 else
                 {
-                    std::cerr << "Failure to update thresholds for " << name
-                              << "\n";
+                    value = nvalue;
+
+                    if (isTcontrol)
+                    {
+                        gTcontrol = nvalue;
+                    }
+                }
+            }
+            if (gTcontrol != privTcontrol)
+            {
+                privTcontrol = gTcontrol;
+
+                if (!thresholds.empty())
+                {
+                    std::vector<thresholds::Threshold> newThresholds;
+                    if (parseThresholdsFromAttr(newThresholds, path,
+                                                CPUSensor::sensorScaleFactor))
+                    {
+                        if (!std::equal(thresholds.begin(), thresholds.end(),
+                                        newThresholds.begin(),
+                                        newThresholds.end()))
+                        {
+                            thresholds = newThresholds;
+                            if (show)
+                            {
+                                thresholds::updateThresholds(this);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        std::cerr << "Failure to update thresholds for " << name
+                                  << "\n";
+                    }
                 }
             }
             errCount = 0;
@@ -150,13 +176,27 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                 std::cerr << "Failure to read sensor " << name << " at " << path
                           << "\n";
             }
-            updateValue(0);
+            if (show)
+            {
+                updateValue(0);
+            }
+            else
+            {
+                value = 0;
+            }
             errCount++;
         }
         else
         {
             errCount = 0; // check power again in 10 cycles
-            updateValue(std::numeric_limits<double>::quiet_NaN());
+            if (show)
+            {
+                updateValue(std::numeric_limits<double>::quiet_NaN());
+            }
+            else
+            {
+                value = std::numeric_limits<double>::quiet_NaN();
+            }
         }
     }
 
@@ -180,5 +220,8 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
 
 void CPUSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    if (show)
+    {
+        thresholds::checkThresholds(this);
+    }
 }
