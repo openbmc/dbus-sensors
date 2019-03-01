@@ -12,6 +12,15 @@ set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 option (YOCTO "Enable Building in Yocto" OFF)
 option (HUNTER_ENABLED "Enable hunter package pulling" OFF)
+
+option (DISABLE_ADC "Disable installing ADC sensor" OFF)
+option (DISBALE_CPU "Disable installing CPU sensor" OFF)
+option (DISABLE_EXIT_AIR "Disable installing Exit Air Temp sensor" OFF)
+option (DISABLE_FAN "Disable installing fan sensor" OFF)
+option (DISABLE_HWMON_TEMP "Disable installing hwmon temp sensor" OFF)
+option (DISABLE_INTRUSION "Disable installing intrusion sensor" OFF)
+option (DISABLE_IPMB "Disable installing IPMB sensor" OFF)
+
 include ("cmake/HunterGate.cmake")
 
 huntergate (URL "https://github.com/ruslo/hunter/archive/v0.18.64.tar.gz" SHA1
@@ -19,21 +28,21 @@ huntergate (URL "https://github.com/ruslo/hunter/archive/v0.18.64.tar.gz" SHA1
 
 project (sensors CXX)
 
+set (ADC_SRC_FILES src/Utils.cpp src/ADCSensor.cpp src/Thresholds.cpp)
+
+set (CPU_SRC_FILES src/Utils.cpp src/CPUSensor.cpp src/Thresholds.cpp)
+
+set (EXIT_AIR_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
+
 set (FAN_SRC_FILES src/TachSensor.cpp src/PwmSensor.cpp src/Utils.cpp
      src/Thresholds.cpp)
 
 set (HWMON_TEMP_SRC_FILES src/Utils.cpp src/HwmonTempSensor.cpp
      src/Thresholds.cpp)
 
-set (CPU_SRC_FILES src/Utils.cpp src/CPUSensor.cpp src/Thresholds.cpp)
-
-set (ADC_SRC_FILES src/Utils.cpp src/ADCSensor.cpp src/Thresholds.cpp)
-
-set (EXIT_AIR_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
+set (INTRUSION_SRC_FILES src/Utils.cpp src/ChassisIntrusionSensor.cpp)
 
 set (IPMB_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
-
-set (INTRUSION_SRC_FILES src/Utils.cpp src/ChassisIntrusionSensor.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
@@ -109,6 +118,19 @@ link_directories (${EXTERNAL_INSTALL_LOCATION}/lib)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
+add_dependencies (adcsensor sdbusplus-project)
+target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
+
+add_executable (cpusensor src/CPUSensorMain.cpp ${CPU_SRC_FILES})
+add_dependencies (cpusensor sdbusplus-project)
+target_link_libraries (cpusensor ${SENSOR_LINK_LIBS})
+
+add_executable (exitairtempsensor src/ExitAirTempSensor.cpp
+                ${EXIT_AIR_SRC_FILES})
+add_dependencies (exitairtempsensor sdbusplus-project)
+target_link_libraries (exitairtempsensor ${SENSOR_LINK_LIBS})
+
 add_executable (fansensor src/FanMain.cpp ${FAN_SRC_FILES})
 add_dependencies (fansensor sdbusplus-project)
 target_link_libraries (fansensor ${SENSOR_LINK_LIBS})
@@ -117,51 +139,79 @@ add_executable (hwmontempsensor src/HwmonTempMain.cpp ${HWMON_TEMP_SRC_FILES})
 add_dependencies (hwmontempsensor sdbusplus-project)
 target_link_libraries (hwmontempsensor ${SENSOR_LINK_LIBS})
 
-add_executable (cpusensor src/CPUSensorMain.cpp ${CPU_SRC_FILES})
-add_dependencies (cpusensor sdbusplus-project)
-target_link_libraries (cpusensor ${SENSOR_LINK_LIBS})
-
-add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
-add_dependencies (adcsensor sdbusplus-project)
-target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
-
-add_executable (exitairtempsensor src/ExitAirTempSensor.cpp
-                ${EXIT_AIR_SRC_FILES})
-add_dependencies (exitairtempsensor sdbusplus-project)
-target_link_libraries (exitairtempsensor ${SENSOR_LINK_LIBS})
-
-add_executable (ipmbsensor src/IpmbSensor.cpp
-                ${IPMB_SRC_FILES})
-add_dependencies (ipmbsensor sdbusplus)
-target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
-
 add_executable (intrusionsensor src/IntrusionSensorMain.cpp
                 ${INTRUSION_SRC_FILES})
 add_dependencies (intrusionsensor sdbusplus-project)
 target_link_libraries (intrusionsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (intrusionsensor i2c)
 
+add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
+add_dependencies (ipmbsensor sdbusplus)
+target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
+
 if (NOT YOCTO)
-    add_dependencies (fansensor ${EXTERNAL_PACKAGES})
-    add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
     add_dependencies (cpusensor ${EXTERNAL_PACKAGES})
     add_dependencies (exitairtempsensor ${EXTERNAL_PACKAGES})
-    add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
+    add_dependencies (fansensor ${EXTERNAL_PACKAGES})
+    add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (intrusionsensor ${EXTERNAL_PACKAGES})
+    add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
 endif ()
 
-set (
-    SERVICE_FILES
-    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.adcsensor.service
-    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.cpusensor.service
-    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.fansensor.service
-    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.hwmontempsensor.service
-    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.exitairsensor.service
-    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.ipmbsensor.service
-    ${PROJECT_SOURCE_DIR}/service_files/xyz.openbmc_project.intrusionsensor.service
-)
+set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
+set (SERVICE_FILE_INSTALL_DIR /lib/systemd/system/)
 
-install (TARGETS fansensor hwmontempsensor cpusensor adcsensor ipmbsensor
-                 exitairtempsensor intrusionsensor DESTINATION sbin)
-install (FILES ${SERVICE_FILES} DESTINATION /lib/systemd/system/)
+if (NOT DISABLE_ADC)
+    install (TARGETS adcsensor DESTINATION sbin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.adcsensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
+if (NOT DISABLE_CPU)
+    install (TARGETS cpusensor DESTINATION sbin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.cpusensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
+if (NOT DISABLE_EXIT_AIR)
+    install (TARGETS exitairtempsensor DESTINATION sbin)
+    install (
+        FILES ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.exitairsensor.service
+              DESTINATION ${SERVICE_FILE_INSTALL_DIR}
+    )
+endif ()
+
+if (NOT DISABLE_FAN)
+    install (TARGETS fansensor DESTINATION sbin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.fansensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
+if (NOT DISABLE_HWMON_TEMP)
+    install (TARGETS hwmontempsensor DESTINATION sbin)
+    install (
+        FILES
+            ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.hwmontempsensor.service
+            DESTINATION ${SERVICE_FILE_INSTALL_DIR}
+    )
+endif ()
+
+if (NOT DISABLE_INTRUSION)
+    install (TARGETS intrusionsensor DESTINATION sbin)
+    install (
+        FILES
+            ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.intrusionsensor.service
+            DESTINATION ${SERVICE_FILE_INSTALL_DIR}
+    )
+endif ()
+
+if (NOT DISABLE_IPMB)
+    install (TARGETS ipmbsensor DESTINATION sbin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.ipmbsensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
