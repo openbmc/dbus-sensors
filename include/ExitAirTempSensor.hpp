@@ -71,6 +71,7 @@ struct ExitAirTempSensor : public Sensor
     double inletTemp = std::numeric_limits<double>::quiet_NaN();
 
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
+    sdbusplus::asio::object_server& objServer;
     std::chrono::time_point<std::chrono::system_clock> lastTime;
     double getTotalCFM(void);
     bool calculate(double& val);
