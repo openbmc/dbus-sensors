@@ -203,7 +203,7 @@ bool CFMSensor::calculate(double& value)
 
         if (findRange == tachRanges.end())
         {
-            std::cerr << "Can't find " << tachName << "in ranges\n";
+            std::cerr << "Can't find " << tachName << " in ranges\n";
             return false; // haven't gotten a max / min
         }
 
@@ -269,7 +269,7 @@ ExitAirTempSensor::ExitAirTempSensor(
            "" /* todo: remove arg from base*/, std::move(thresholds),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            exitAirMaxReading, exitAirMinReading),
-    dbusConnection(conn)
+    dbusConnection(conn), objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -294,7 +294,9 @@ ExitAirTempSensor::ExitAirTempSensor(
 
 ExitAirTempSensor::~ExitAirTempSensor()
 {
-    // this sensor currently isn't destroyed so we don't care
+    objServer.remove_interface(thresholdInterfaceWarning);
+    objServer.remove_interface(thresholdInterfaceCritical);
+    objServer.remove_interface(sensorInterface);
 }
 
 void ExitAirTempSensor::setupMatches(void)
@@ -551,19 +553,12 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                         std::vector<thresholds::Threshold> sensorThresholds;
                         parseThresholdsFromConfig(pathPair.second,
                                                   sensorThresholds);
-                        if (!exitAirSensor)
-                        {
-                            std::string name =
-                                loadVariant<std::string>(entry.second, "Name");
-                            exitAirSensor = std::make_shared<ExitAirTempSensor>(
-                                dbusConnection, name, pathPair.first.str,
-                                objectServer, std::move(sensorThresholds));
-                        }
-                        else
-                        {
-                            exitAirSensor->thresholds = sensorThresholds;
-                        }
 
+                        std::string name =
+                            loadVariant<std::string>(entry.second, "Name");
+                        exitAirSensor = std::make_shared<ExitAirTempSensor>(
+                            dbusConnection, name, pathPair.first.str,
+                            objectServer, std::move(sensorThresholds));
                         exitAirSensor->powerFactorMin =
                             loadVariant<double>(entry.second, "PowerFactorMin");
                         exitAirSensor->powerFactorMax =
