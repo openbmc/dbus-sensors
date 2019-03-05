@@ -114,7 +114,6 @@ void IpmbSensor::runInitCmd()
                         << "Error setting init command for device: " << name
                         << "\n";
                 }
-                read();
             },
             "xyz.openbmc_project.Ipmi.Channel.Ipmb",
             "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
@@ -200,9 +199,15 @@ void IpmbSensor::read(void)
             [this](boost::system::error_code ec,
                    const IpmbMethodType& response) {
                 const int& status = std::get<0>(response);
+                static bool firstError = true; // don't print too much
                 if (ec || status)
                 {
-                    std::cerr << "Error reading from device: " << name << "\n";
+                    if (firstError)
+                    {
+                        std::cerr << "Error reading from device: " << name
+                                  << "\n";
+                        firstError = false;
+                    }
                     updateValue(0);
                     read();
                     return;
@@ -228,8 +233,12 @@ void IpmbSensor::read(void)
                 {
                     if (data.empty())
                     {
-                        std::cerr << "Invalid data from device: " << name
-                                  << "\n";
+                        if (firstError)
+                        {
+                            std::cerr << "Invalid data from device: " << name
+                                      << "\n";
+                            firstError = false;
+                        }
                         read();
                         return;
                     }
@@ -240,8 +249,12 @@ void IpmbSensor::read(void)
                 {
                     if (data.size() < 4)
                     {
-                        std::cerr << "Invalid data from device: " << name
-                                  << "\n";
+                        if (firstError)
+                        {
+                            std::cerr << "Invalid data from device: " << name
+                                      << "\n";
+                            firstError = false;
+                        }
                         read();
                         return;
                     }
@@ -252,8 +265,12 @@ void IpmbSensor::read(void)
                 {
                     if (data.size() < 4)
                     {
-                        std::cerr << "Invalid data from device: " << name
-                                  << "\n";
+                        if (firstError)
+                        {
+                            std::cerr << "Invalid data from device: " << name
+                                      << "\n";
+                            firstError = false;
+                        }
                         read();
                         return;
                     }
@@ -263,8 +280,18 @@ void IpmbSensor::read(void)
                 {
                     throw std::runtime_error("Invalid sensor type");
                 }
-                updateValue(value);
+                if (value > ipmbMaxReading || value < ipmbMinReading)
+                {
+                    // sometimes we run the init cmd to early and get bad
+                    // readings
+                    runInitCmd();
+                }
+                else
+                {
+                    updateValue(value);
+                }
                 read();
+                firstError = true; // success
             },
             "xyz.openbmc_project.Ipmi.Channel.Ipmb",
             "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
