@@ -47,6 +47,8 @@ using IpmbMethodType =
 
 boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
 
+std::unique_ptr<boost::asio::deadline_timer> initCmdTimer;
+
 IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        boost::asio::io_service& io,
                        const std::string& sensorName,
@@ -114,7 +116,6 @@ void IpmbSensor::runInitCmd()
                         << "Error setting init command for device: " << name
                         << "\n";
                 }
-                read();
             },
             "xyz.openbmc_project.Ipmi.Channel.Ipmb",
             "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
@@ -200,9 +201,15 @@ void IpmbSensor::read(void)
             [this](boost::system::error_code ec,
                    const IpmbMethodType& response) {
                 const int& status = std::get<0>(response);
+                static bool firstError = true; // don't print too much
                 if (ec || status)
                 {
-                    std::cerr << "Error reading from device: " << name << "\n";
+                    if (firstError)
+                    {
+                        std::cerr << "Error reading from device: " << name
+                                  << "\n";
+                        firstError = false;
+                    }
                     updateValue(0);
                     read();
                     return;
@@ -228,8 +235,12 @@ void IpmbSensor::read(void)
                 {
                     if (data.empty())
                     {
-                        std::cerr << "Invalid data from device: " << name
-                                  << "\n";
+                        if (firstError)
+                        {
+                            std::cerr << "Invalid data from device: " << name
+                                      << "\n";
+                            firstError = false;
+                        }
                         read();
                         return;
                     }
@@ -240,8 +251,12 @@ void IpmbSensor::read(void)
                 {
                     if (data.size() < 4)
                     {
-                        std::cerr << "Invalid data from device: " << name
-                                  << "\n";
+                        if (firstError)
+                        {
+                            std::cerr << "Invalid data from device: " << name
+                                      << "\n";
+                            firstError = false;
+                        }
                         read();
                         return;
                     }
@@ -252,8 +267,12 @@ void IpmbSensor::read(void)
                 {
                     if (data.size() < 4)
                     {
-                        std::cerr << "Invalid data from device: " << name
-                                  << "\n";
+                        if (firstError)
+                        {
+                            std::cerr << "Invalid data from device: " << name
+                                      << "\n";
+                            firstError = false;
+                        }
                         read();
                         return;
                     }
@@ -265,6 +284,7 @@ void IpmbSensor::read(void)
                 }
                 updateValue(value);
                 read();
+                firstError = true; // success
             },
             "xyz.openbmc_project.Ipmi.Channel.Ipmb",
             "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
@@ -358,23 +378,41 @@ void createSensors(
 
 void reinitSensors(sdbusplus::message::message& message)
 {
-
+    constexpr const size_t reinitWaitSeconds = 2;
     std::string objectName;
     boost::container::flat_map<std::string, std::variant<int32_t>> values;
     message.read(objectName, values);
+
     auto findPgood = values.find("pgood");
     if (findPgood != values.end())
     {
         int32_t powerStatus = std::get<int32_t>(findPgood->second);
         if (powerStatus)
         {
-            for (auto& sensor : sensors)
+            if (!initCmdTimer)
             {
-                if (sensor.second)
-                {
-                    sensor.second->runInitCmd();
-                }
+                // this should be impossible
+                return;
             }
+            // we seem to send this command too fast sometimes, wait before
+            // sending
+            initCmdTimer->expires_from_now(
+                boost::posix_time::seconds(reinitWaitSeconds));
+
+            initCmdTimer->async_wait([](const boost::system::error_code ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return; // we're being canceled
+                }
+
+                for (const auto& sensor : sensors)
+                {
+                    if (sensor.second)
+                    {
+                        sensor.second->runInitCmd();
+                    }
+                }
+            });
         }
     }
 }
@@ -386,6 +424,8 @@ int main(int argc, char** argv)
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.IpmbSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
+
+    initCmdTimer = std::make_unique<boost::asio::deadline_timer>(io);
 
     io.post([&]() { createSensors(io, objectServer, sensors, systemBus); });
 
