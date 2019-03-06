@@ -454,7 +454,7 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
         {
             if (config.state == State::ON)
             {
-                rescanDelaySeconds = 1;
+                rescanDelaySeconds = 3;
             }
             else
             {
