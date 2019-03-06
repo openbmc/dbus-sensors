@@ -24,6 +24,7 @@ class ADCSensor : public Sensor
     int errCount;
     double scaleFactor;
     PowerState readState;
+    thresholds::ThresholdTimer thresholdTimer;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
