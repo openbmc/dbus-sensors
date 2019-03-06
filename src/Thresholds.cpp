@@ -208,57 +208,78 @@ void updateThresholds(Sensor* sensor)
     }
 }
 
-bool checkThresholds(Sensor* sensor)
+static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
+                                                               double value)
 {
-    bool status = true;
-
+    std::vector<std::pair<Threshold, bool>> thresholdChanges;
     if (sensor->thresholds.empty())
     {
-        return true;
+        return thresholdChanges;
     }
+
     for (auto& threshold : sensor->thresholds)
     {
-        if (std::isnan(sensor->value))
+        if (threshold.direction == thresholds::Direction::HIGH)
         {
-            threshold.asserted = false;
-        }
-        else if (threshold.direction == thresholds::Direction::HIGH)
-        {
-            if (sensor->value > threshold.value && !threshold.asserted)
+            if (value > threshold.value)
             {
-                assertThresholds(sensor, threshold.level, threshold.direction,
-                                 true);
-                threshold.asserted = true;
+                thresholdChanges.push_back(std::make_pair(threshold, true));
             }
-            else if (sensor->value <= threshold.value && threshold.asserted)
+            else if (value <= threshold.value)
             {
-                assertThresholds(sensor, threshold.level, threshold.direction,
-                                 false);
-                threshold.asserted = false;
+                thresholdChanges.push_back(std::make_pair(threshold, false));
             }
         }
         else
         {
-            if (sensor->value < threshold.value && !threshold.asserted)
+            if (value < threshold.value)
             {
-                assertThresholds(sensor, threshold.level, threshold.direction,
-                                 true);
-                threshold.asserted = true;
+                thresholdChanges.push_back(std::make_pair(threshold, true));
             }
-            else if (sensor->value >= threshold.value && threshold.asserted)
+            else if (value >= threshold.value)
             {
-                assertThresholds(sensor, threshold.level, threshold.direction,
-                                 false);
-                threshold.asserted = false;
+                thresholdChanges.push_back(std::make_pair(threshold, false));
             }
-        }
-        if (threshold.level == thresholds::Level::CRITICAL &&
-            threshold.asserted)
-        {
-            status = false;
         }
     }
+    return thresholdChanges;
+}
+
+bool checkThresholds(Sensor* sensor)
+{
+    bool status = false;
+    std::vector<std::pair<Threshold, bool>> changes =
+        checkThresholds(sensor, sensor->value);
+    for (const auto& [threshold, asserted] : changes)
+    {
+        assertThresholds(sensor, threshold.level, threshold.direction,
+                         asserted);
+        if (threshold.level == thresholds::Level::CRITICAL && asserted)
+        {
+            status = true;
+        }
+    }
+
     return status;
+}
+
+void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
+{
+
+    std::vector<std::pair<Threshold, bool>> changes =
+        checkThresholds(sensor, sensor->value);
+    for (const auto& [threshold, asserted] : changes)
+    {
+        if (asserted)
+        {
+            thresholdTimer.startTimer(threshold);
+        }
+        else
+        {
+            assertThresholds(sensor, threshold.level, threshold.direction,
+                             false);
+        }
+    }
 }
 
 void assertThresholds(Sensor* sensor, thresholds::Level level,
