@@ -98,7 +98,7 @@ bool parseThresholdsFromConfig(
         {
             direction = Direction::HIGH;
         }
-        float val = std::visit(VariantToFloatVisitor(), valueFind->second);
+        double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
 
         thresholdVector.emplace_back(level, direction, val);
     }
