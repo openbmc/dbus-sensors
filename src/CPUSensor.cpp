@@ -62,6 +62,9 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                 "xyz.openbmc_project.Sensor.Threshold.Critical");
         }
         setInitialProperties(conn);
+        association = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + name,
+            "org.openbmc.Associations");
     }
     setupPowerMatch(conn);
     setupRead();
@@ -77,6 +80,7 @@ CPUSensor::~CPUSensor()
         objServer.remove_interface(thresholdInterfaceWarning);
         objServer.remove_interface(thresholdInterfaceCritical);
         objServer.remove_interface(sensorInterface);
+        objServer.remove_interface(association);
     }
 }
 

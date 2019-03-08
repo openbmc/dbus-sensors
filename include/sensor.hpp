@@ -28,6 +28,7 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     double value = std::numeric_limits<double>::quiet_NaN();
     double overriddenValue = std::numeric_limits<double>::quiet_NaN();
     bool overridenState = false;
@@ -49,6 +50,17 @@ struct Sensor
     void
         setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn)
     {
+        if (association)
+        {
+            using Association =
+                std::tuple<std::string, std::string, std::string>;
+            std::vector<Association> associations;
+            associations.push_back(
+                Association("inventory", "sensors", configurationPath));
+            association->register_property("associations", associations);
+            association->initialize();
+        }
+
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
