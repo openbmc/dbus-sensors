@@ -1,6 +1,7 @@
 [Unit]
 Description=Exit Air Temp Sensor
 StopWhenUnneeded=false
+After=xyz.openbmc_project.Settings.service
 
 [Service]
 Restart=always

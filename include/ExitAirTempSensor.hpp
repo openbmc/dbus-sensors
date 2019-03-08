@@ -27,7 +27,9 @@ struct CFMSensor : public Sensor
 
     bool calculate(double&);
     void updateReading(void);
+    void createMaxCFMIface(void);
     void checkThresholds(void) override;
+    uint64_t getMaxRpm(uint64_t cfmMax);
 
   private:
     std::vector<sdbusplus::bus::match::match> matches;
@@ -35,6 +37,8 @@ struct CFMSensor : public Sensor
     boost::container::flat_map<std::string, std::pair<double, double>>
         tachRanges;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> pwmLimitIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> cfmLimitIface;
     sdbusplus::asio::object_server& objServer;
     void addTachRanges(const std::string& serviceName, const std::string& path);
 };
