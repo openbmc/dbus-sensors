@@ -109,6 +109,11 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
             "/xyz/openbmc_project/sensors/cfm/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
+
+    association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/voltage/" + name,
+        "org.openbmc.Associations");
+
     setInitialProperties(conn);
     setupSensorMatch(
         matches, *dbusConnection, "fan_tach",
@@ -132,6 +137,7 @@ CFMSensor::~CFMSensor()
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
+    objServer.remove_interface(association);
 }
 
 void CFMSensor::addTachRanges(const std::string& serviceName,
@@ -287,6 +293,9 @@ ExitAirTempSensor::ExitAirTempSensor(
             "/xyz/openbmc_project/sensors/temperature/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
+    association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + name,
+        "org.openbmc.Associations");
     setInitialProperties(conn);
     setupMatches();
     setupPowerMatch(conn);
@@ -297,6 +306,7 @@ ExitAirTempSensor::~ExitAirTempSensor()
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
+    objServer.remove_interface(association);
 }
 
 void ExitAirTempSensor::setupMatches(void)

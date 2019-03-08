@@ -79,6 +79,9 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
             "/xyz/openbmc_project/sensors/temperature/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
+    association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + name,
+        "org.openbmc.Associations");
     setupPowerMatch(conn);
 }
 
