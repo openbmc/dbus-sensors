@@ -38,6 +38,11 @@ constexpr const char* cfmIface = "xyz.openbmc_project.Configuration.CFMSensor";
 
 // todo: this *might* need to be configurable
 constexpr const char* inletTemperatureSensor = "temperature/Front_Panel_Temp";
+constexpr const char* pidConfigurationType =
+    "xyz.openbmc_project.Configuration.Pid";
+constexpr const char* settingsDaemon = "xyz.openbmc_project.Settings";
+constexpr const char* cfmSettingPath = "/xyz/openbmc_project/control/cfm_limit";
+constexpr const char* cfmSettingIface = "xyz.openbmc_project.Control.CFMLimit";
 
 static constexpr bool DEBUG = false;
 
@@ -79,6 +84,65 @@ static void setupSensorMatch(
                              std::string(type) +
                              "',arg0='xyz.openbmc_project.Sensor.Value'",
                          std::move(eventHandler));
+}
+
+static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                      double value)
+{
+    using GetSubTreeType = std::vector<std::pair<
+        std::string,
+        std::vector<std::pair<std::string, std::vector<std::string>>>>>;
+
+    conn->async_method_call(
+        [conn, value](const boost::system::error_code ec,
+                      const GetSubTreeType& ret) {
+            if (ec)
+            {
+                std::cerr << "Error calling mapper\n";
+                return;
+            }
+            for (const auto& [path, objDict] : ret)
+            {
+                if (objDict.empty())
+                {
+                    return;
+                }
+                const std::string& owner = objDict.begin()->first;
+
+                conn->async_method_call(
+                    [conn, value, owner,
+                     path](const boost::system::error_code ec,
+                           const std::variant<std::string>& classType) {
+                        if (ec)
+                        {
+                            std::cerr << "Error getting pid class\n";
+                            return;
+                        }
+                        auto classStr = std::get_if<std::string>(&classType);
+                        if (classStr == nullptr || *classStr != "fan")
+                        {
+                            return;
+                        }
+                        conn->async_method_call(
+                            [](boost::system::error_code& ec) {
+                                if (ec)
+                                {
+                                    std::cerr << "Error setting pid class\n";
+                                    return;
+                                }
+                            },
+                            owner, path, "org.freedesktop.DBus.Properties",
+                            "Set", pidConfigurationType, "OutLimitMax",
+                            std::variant<double>(value));
+                    },
+                    owner, path, "org.freedesktop.DBus.Properties", "Get",
+                    pidConfigurationType, "Class");
+            }
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetSubTree", "/", 0,
+        std::array<std::string, 1>{pidConfigurationType});
 }
 
 CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -130,6 +194,65 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                     updateReading();
                 }
             }));
+    pwmLimitIface =
+        objectServer.add_interface("/xyz/openbmc_project/control/pwm_limit",
+                                   "xyz.openbmc_project.Control.PWMLimit");
+    cfmLimitIface =
+        objectServer.add_interface("/xyz/openbmc_project/control/MaxCFM",
+                                   "xyz.openbmc_project.Control.CFMLimit");
+
+    conn->async_method_call(
+        [this, conn](const boost::system::error_code ec,
+                     const std::variant<double> cfmVariant) {
+            uint64_t maxRpm = 100;
+            if (!ec)
+            {
+
+                auto cfm = std::get_if<double>(&cfmVariant);
+                if (cfm != nullptr || *cfm >= 50)
+                {
+                    maxRpm = getMaxRpm(*cfm);
+                }
+            }
+            pwmLimitIface->register_property("Limit", maxRpm);
+            pwmLimitIface->initialize();
+            setMaxPWM(conn, maxRpm);
+        },
+        settingsDaemon, cfmSettingPath, "org.freedesktop.DBus.Properties",
+        "Get", cfmSettingIface, "Limit");
+
+    matches.emplace_back(
+        *conn,
+        "type='signal',"
+        "member='PropertiesChanged',interface='org."
+        "freedesktop.DBus.Properties',path='" +
+            std::string(cfmSettingPath) + "',arg0='" +
+            std::string(cfmSettingIface) + "'",
+        [this, conn](sdbusplus::message::message& message) {
+            boost::container::flat_map<std::string, std::variant<double>>
+                values;
+            std::string objectName;
+            message.read(objectName, values);
+            const auto findValue = values.find("Limit");
+            if (findValue == values.end())
+            {
+                return;
+            }
+            const auto reading = std::get_if<double>(&(findValue->second));
+            if (reading == nullptr)
+            {
+                std::cerr << "Got CFM Limit of wrong type\n";
+                return;
+            }
+            if (*reading < 50 && *reading != 0)
+            {
+                // out of range
+                return;
+            }
+            uint64_t maxRpm = getMaxRpm(*reading);
+            pwmLimitIface->set_property("Limit", maxRpm);
+            setMaxPWM(conn, maxRpm);
+        });
 }
 
 CFMSensor::~CFMSensor()
@@ -138,6 +261,15 @@ CFMSensor::~CFMSensor()
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
+    objServer.remove_interface(cfmLimitIface);
+    objServer.remove_interface(pwmLimitIface);
+}
+
+void CFMSensor::createMaxCFMIface(void)
+{
+    cfmLimitIface->register_property("Limit", static_cast<double>(c2) * maxCFM *
+                                                  tachs.size());
+    cfmLimitIface->initialize();
 }
 
 void CFMSensor::addTachRanges(const std::string& serviceName,
@@ -182,6 +314,52 @@ void CFMSensor::updateReading(void)
     {
         updateValue(std::numeric_limits<double>::quiet_NaN());
     }
+}
+
+uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
+{
+    uint64_t rpm = 100;
+    double totalCFM = std::numeric_limits<double>::max();
+    if (cfmMaxSetting == 0)
+    {
+        return rpm;
+    }
+
+    while (totalCFM > cfmMaxSetting)
+    {
+        double ci = 0;
+        if (rpm == 0)
+        {
+            ci = 0;
+        }
+        else if (rpm < tachMinPercent)
+        {
+            ci = c1;
+        }
+        else if (rpm > tachMaxPercent)
+        {
+            ci = c2;
+        }
+        else
+        {
+            ci = c1 + (((c2 - c1) * (rpm - tachMinPercent)) /
+                       (tachMaxPercent - tachMinPercent));
+        }
+
+        // Now calculate the CFM for this tach
+        // CFMi = Ci * Qmaxi * TACHi
+        totalCFM = ci * maxCFM * rpm;
+        totalCFM *= tachs.size();
+        // divide by 100 since rpm is in percent
+        totalCFM /= 100;
+
+        rpm--;
+        if (!rpm)
+        {
+            break;
+        }
+    }
+    return rpm;
 }
 
 bool CFMSensor::calculate(double& value)
@@ -614,6 +792,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                             loadVariant<double>(entry.second,
                                                 "TachMaxPercent") /
                             100;
+                        sensor->createMaxCFMIface();
 
                         cfmSensors.emplace_back(std::move(sensor));
                     }
