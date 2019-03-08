@@ -63,6 +63,9 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
             "/xyz/openbmc_project/sensors/fan_tach/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
+    association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/fan_tach/" + name,
+        "org.openbmc.Associations");
     setInitialProperties(conn);
     setupPowerMatch(conn);
     setupRead();
@@ -76,6 +79,7 @@ TachSensor::~TachSensor()
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
+    objServer.remove_interface(association);
 }
 
 void TachSensor::setupRead(void)
