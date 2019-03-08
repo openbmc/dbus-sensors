@@ -125,6 +125,23 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                     updateReading();
                 }
             }));
+    cfmLimitIface =
+        objectServer.add_interface("/xyz/openbmc_project/control/cfm_limit",
+                                   "xyz.openbmc_project.Control.CFMLimit");
+    cfmLimitIface->register_property(
+        "Limit", uint64_t(0), [this](const uint64_t req, uint64_t& oldValue) {
+            if (req && req < 50)
+            {
+                throw std::invalid_argument("Req out of range");
+                return 0;
+            }
+
+            oldValue = req;
+            cfmLimitIface->set_property("MaxRPM", getMaxRpm(req));
+            return 1;
+        });
+    cfmLimitIface->register_property("MaxRPM", uint64_t(100));
+    cfmLimitIface->initialize();
 }
 
 CFMSensor::~CFMSensor()
@@ -176,6 +193,52 @@ void CFMSensor::updateReading(void)
     {
         updateValue(std::numeric_limits<double>::quiet_NaN());
     }
+}
+
+uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
+{
+    uint64_t rpm = 100;
+    double totalCFM = std::numeric_limits<double>::max();
+    if (cfmMaxSetting == 0)
+    {
+        return rpm;
+    }
+
+    while (totalCFM > cfmMaxSetting)
+    {
+        double ci = 0;
+        if (rpm == 0)
+        {
+            ci = 0;
+        }
+        else if (rpm < tachMinPercent)
+        {
+            ci = c1;
+        }
+        else if (rpm > tachMaxPercent)
+        {
+            ci = c2;
+        }
+        else
+        {
+            ci = c1 + (((c2 - c1) * (rpm - tachMinPercent)) /
+                       (tachMaxPercent - tachMinPercent));
+        }
+
+        // Now calculate the CFM for this tach
+        // CFMi = Ci * Qmaxi * TACHi
+        totalCFM = ci * maxCFM * rpm;
+        totalCFM *= tachs.size();
+        // divide by 100 since rpm is in percent
+        totalCFM /= 100;
+
+        rpm--;
+        if (!rpm)
+        {
+            break;
+        }
+    }
+    return rpm;
 }
 
 bool CFMSensor::calculate(double& value)
