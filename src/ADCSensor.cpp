@@ -65,6 +65,9 @@ ADCSensor::ADCSensor(const std::string& path,
             "/xyz/openbmc_project/sensors/voltage/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
+    association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/voltage/" + name,
+        "org.openbmc.Associations");
     setInitialProperties(conn);
     setupRead();
 
@@ -80,6 +83,7 @@ ADCSensor::~ADCSensor()
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
+    objServer.remove_interface(association);
 }
 
 void ADCSensor::setupRead(void)
