@@ -21,6 +21,7 @@
 #include <fstream>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus/match.hpp>
 
 namespace fs = std::filesystem;
@@ -201,5 +202,19 @@ void findLimits(std::pair<double, double>& limits,
     if (maxFind != data->second.end())
     {
         limits.second = std::visit(VariantToDoubleVisitor(), maxFind->second);
+    }
+}
+
+void createAssociation(
+    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path)
+{
+    if (association)
+    {
+        using Association = std::tuple<std::string, std::string, std::string>;
+        std::vector<Association> associations;
+        associations.push_back(Association("inventory", "sensors", path));
+        association->register_property("associations", associations);
+        association->initialize();
     }
 }

@@ -92,7 +92,7 @@ void createSensors(
         return;
     }
 
-    std::vector<uint8_t> pwmNumbers;
+    std::vector<std::pair<uint8_t, std::string>> pwmNumbers;
 
     // iterate through all found fan sensors, and try to match them with
     // configuration
@@ -284,7 +284,7 @@ void createSensors(
 
             size_t pwm =
                 std::visit(VariantToUnsignedIntVisitor(), findPwm->second);
-            pwmNumbers.emplace_back(pwm);
+            pwmNumbers.emplace_back(pwm, *interfacePath);
         }
     }
     std::vector<fs::path> pwms;
@@ -299,17 +299,17 @@ void createSensors(
         {
             continue;
         }
-        bool inConfig = false;
-        for (uint8_t index : pwmNumbers)
+        const std::string* path = nullptr;
+        for (const auto& [index, configPath] : pwmNumbers)
         {
             if (boost::ends_with(pwm.string(), std::to_string(index + 1)))
             {
-                inConfig = true;
+                path = &configPath;
                 break;
             }
         }
 
-        if (!inConfig)
+        if (path == nullptr)
         {
             continue;
         }
@@ -317,7 +317,7 @@ void createSensors(
         // only add new elements
         pwmSensors.insert(std::pair<std::string, std::unique_ptr<PwmSensor>>(
             pwm.string(),
-            std::make_unique<PwmSensor>(pwm.string(), objectServer)));
+            std::make_unique<PwmSensor>(pwm.string(), objectServer, *path)));
     }
 }
 
