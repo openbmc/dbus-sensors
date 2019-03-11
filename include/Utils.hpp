@@ -6,6 +6,7 @@
 #include <iostream>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/types.hpp>
 
 const constexpr char* jsonStore = "/var/configuration/flattened.json";
@@ -40,6 +41,10 @@ bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     ManagedObjectType& resp, bool useCache = false);
+
+void createAssociation(
+    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path);
 
 // replaces limits if MinReading and MaxReading are found.
 void findLimits(std::pair<double, double>& limits,

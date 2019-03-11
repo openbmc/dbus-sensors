@@ -50,16 +50,7 @@ struct Sensor
     void
         setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn)
     {
-        if (association)
-        {
-            using Association =
-                std::tuple<std::string, std::string, std::string>;
-            std::vector<Association> associations;
-            associations.push_back(
-                Association("inventory", "sensors", configurationPath));
-            association->register_property("associations", associations);
-            association->initialize();
-        }
+        createAssociation(association, configurationPath);
 
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);

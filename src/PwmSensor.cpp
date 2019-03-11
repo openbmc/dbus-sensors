@@ -13,7 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 */
-#include <PwmSensor.hpp>
+#include "PwmSensor.hpp"
+
+#include "Utils.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <sdbusplus/asio/object_server.hpp>
@@ -22,7 +25,8 @@ static constexpr size_t pwmMax = 255;
 static constexpr size_t pwmMin = 0;
 
 PwmSensor::PwmSensor(const std::string& sysPath,
-                     sdbusplus::asio::object_server& objectServer) :
+                     sdbusplus::asio::object_server& objectServer,
+                     const std::string& sensorConfiguration) :
     sysPath(sysPath),
     objectServer(objectServer)
 {
@@ -106,6 +110,11 @@ PwmSensor::PwmSensor(const std::string& sysPath,
         });
     sensorInterface->initialize();
     controlInterface->initialize();
+
+    association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/fan_pwm/" + name,
+        "org.openbmc.Associations");
+    createAssociation(association, sensorConfiguration);
 }
 PwmSensor::~PwmSensor()
 {
