@@ -97,3 +97,5 @@ inline void setReadState(const std::string& str, PowerState& val)
         val = PowerState::always;
     }
 }
+
+uint32_t crc32c(uint8_t* buf, int len);

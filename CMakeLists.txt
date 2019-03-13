@@ -20,6 +20,7 @@ option (DISABLE_FAN "Disable installing fan sensor" OFF)
 option (DISABLE_HWMON_TEMP "Disable installing hwmon temp sensor" OFF)
 option (DISABLE_INTRUSION "Disable installing intrusion sensor" OFF)
 option (DISABLE_IPMB "Disable installing IPMB sensor" OFF)
+option (DISABLE_NVME "Disable installing NVME sensor" OFF)
 
 include ("cmake/HunterGate.cmake")
 
@@ -43,6 +44,8 @@ set (HWMON_TEMP_SRC_FILES src/Utils.cpp src/HwmonTempSensor.cpp
 set (INTRUSION_SRC_FILES src/Utils.cpp src/ChassisIntrusionSensor.cpp)
 
 set (IPMB_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
+
+set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
@@ -149,6 +152,10 @@ add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
 add_dependencies (ipmbsensor sdbusplus)
 target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
 
+add_executable (nvmesensor ${NVME_SRC_FILES})
+add_dependencies (nvmesensor sdbusplus-project)
+target_link_libraries (nvmesensor mctp.a i2c ${SENSOR_LINK_LIBS})
+
 if (NOT YOCTO)
     add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
     add_dependencies (cpusensor ${EXTERNAL_PACKAGES})
@@ -157,6 +164,7 @@ if (NOT YOCTO)
     add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (intrusionsensor ${EXTERNAL_PACKAGES})
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
+    add_dependencies (nvmesensor ${EXTERNAL_PACKAGES})
 endif ()
 
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
@@ -213,5 +221,12 @@ if (NOT DISABLE_IPMB)
     install (TARGETS ipmbsensor DESTINATION sbin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.ipmbsensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
+if (NOT DISABLE_NVME)
+    install (TARGETS nvmesensor DESTINATION sbin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.nvmesensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()

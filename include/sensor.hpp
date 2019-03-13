@@ -100,6 +100,7 @@ struct Sensor
                 std::cout << "trying to set uninitialized interface\n";
                 continue;
             }
+
             iface->register_property(
                 level, threshold.value,
                 [&](const double& request, double& oldValue) {
