@@ -344,6 +344,7 @@ void ExitAirTempSensor::updateReading(void)
     double val = 0.0;
     if (calculate(val))
     {
+        val = std::floor(val + 0.5);
         updateValue(val);
     }
     else
