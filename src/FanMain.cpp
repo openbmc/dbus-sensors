@@ -358,7 +358,8 @@ void createRedundancySensor(
                                 "/xyz/openbmc_project/sensors/fan_tach/" +
                                 sensor.second->name);
                         }
-                        systemRedundancy = std::make_unique<RedundancySensor>(
+                        systemRedundancy = nullptr;
+                        systemRedundancy = std::make_shared<RedundancySensor>(
                             std::get<uint64_t>(findCount->second), sensorList,
                             objectServer);
 
