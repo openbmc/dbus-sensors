@@ -361,7 +361,7 @@ void createRedundancySensor(
                         systemRedundancy = nullptr;
                         systemRedundancy = std::make_shared<RedundancySensor>(
                             std::get<uint64_t>(findCount->second), sensorList,
-                            objectServer);
+                            objectServer, pathPair.first);
 
                         return;
                     }

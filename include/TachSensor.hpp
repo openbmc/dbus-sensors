@@ -30,7 +30,8 @@ class RedundancySensor
 {
   public:
     RedundancySensor(size_t count, const std::vector<std::string>& children,
-                     sdbusplus::asio::object_server& objectServer);
+                     sdbusplus::asio::object_server& objectServer,
+                     const std::string& sensorConfiguration);
     ~RedundancySensor();
 
     void update(const std::string& name, bool failed);
@@ -38,6 +39,7 @@ class RedundancySensor
   private:
     size_t count;
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     sdbusplus::asio::object_server& objectServer;
     boost::container::flat_map<std::string, bool> statuses;
 };

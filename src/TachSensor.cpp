@@ -267,15 +267,20 @@ bool PresenceSensor::getValue(void)
     return status;
 }
 
-RedundancySensor::RedundancySensor(
-    size_t count, const std::vector<std::string>& children,
-    sdbusplus::asio::object_server& objectServer) :
+RedundancySensor::RedundancySensor(size_t count,
+                                   const std::vector<std::string>& children,
+                                   sdbusplus::asio::object_server& objectServer,
+                                   const std::string& sensorConfiguration) :
     count(count),
     iface(objectServer.add_interface(
         "/xyz/openbmc_project/control/FanRedundancy/Tach",
-        "xyz.openbmc_project.control.FanRedundancy")),
+        "xyz.openbmc_project.Control.FanRedundancy")),
+    association(objectServer.add_interface(
+        "/xyz/openbmc_project/control/FanRedundancy/Tach",
+        "org.openbmc.Associations")),
     objectServer(objectServer)
 {
+    createAssociation(association, sensorConfiguration);
     iface->register_property("Collection", children);
     iface->register_property("Status", std::string("Full"));
     iface->register_property("AllowedFailures", static_cast<uint8_t>(count));
@@ -283,6 +288,7 @@ RedundancySensor::RedundancySensor(
 }
 RedundancySensor::~RedundancySensor()
 {
+    objectServer.remove_interface(association);
     objectServer.remove_interface(iface);
 }
 void RedundancySensor::update(const std::string& name, bool failed)
