@@ -34,7 +34,7 @@ static constexpr size_t warnAfterErrorCount = 10;
 TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        sdbusplus::asio::object_server& objectServer,
                        std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       std::unique_ptr<PresenceSensor>&& presence,
+                       std::unique_ptr<PresenceSensor>&& presenceSensor,
                        const std::shared_ptr<RedundancySensor>& redundancy,
                        boost::asio::io_service& io, const std::string& fanName,
                        std::vector<thresholds::Threshold>&& _thresholds,
@@ -43,7 +43,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
     Sensor(boost::replace_all_copy(fanName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration, objectType,
            limits.second, limits.first),
-    objServer(objectServer), presence(std::move(presence)),
+    objServer(objectServer), presence(std::move(presenceSensor)),
     redundancy(redundancy), inputDev(io, open(path.c_str(), O_RDONLY)),
     waitTimer(io), errCount(0)
 {
@@ -66,6 +66,17 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         "org.openbmc.Associations");
+
+    if (presence)
+    {
+        itemIface =
+            objectServer.add_interface("/xyz/openbmc_project/Inventory/" + name,
+                                       "xyz.openbmc_project.Inventory.Item");
+        itemIface->register_property("PrettyName",
+                                     std::string()); // unused property
+        itemIface->register_property("Present", true);
+        itemIface->initialize();
+    }
     setInitialProperties(conn);
     setupPowerMatch(conn);
     setupRead();
@@ -80,6 +91,7 @@ TachSensor::~TachSensor()
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
+    objServer.remove_interface(itemIface);
 }
 
 void TachSensor::setupRead(void)
@@ -106,6 +118,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
             missing = true;
             pollTime = sensorFailedPollTimeMs;
         }
+        itemIface->set_property("Present", !missing);
     }
     std::istream responseStream(&readBuf);
     if (!missing)
