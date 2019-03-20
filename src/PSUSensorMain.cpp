@@ -36,7 +36,7 @@ void createSensors(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>&
         sensors,
-    boost::container::flat_map<SensorType, std::unique_ptr<PSUProperty>>&
+    boost::container::flat_map<std::string, std::unique_ptr<PSUProperty>>&
         sensorTable,
     boost::container::flat_map<std::string, std::string>& labelMatch)
 {
@@ -174,85 +174,125 @@ void createSensors(
             continue;
         }
 
-        std::vector<fs::path> powerPaths;
-        if (!findFiles(fs::path(directory), R"(power\d+_input$)", powerPaths,
-                       0))
+        std::array<std::string, 4> psuSensorPath = {R"(power\d+_input$)",
+                                                    R"(curr\d+_input$)",
+                                                    R"(fan\d+_input$)",
+                                                    R"(temp\d+_input$)"};
+
+        for (auto searchPathStr : psuSensorPath)
         {
-            std::cerr << "No power sensor in PSU\n";
-            continue;
-        }
-
-        for (const auto& powerPath : powerPaths)
-        {
-            auto powerPathStr = powerPath.string();
-            auto labelPath =
-                boost::replace_all_copy(powerPathStr, "input", "label");
-            std::ifstream labelFile(labelPath);
-            if (!labelFile.good())
+            std::vector<fs::path> sensorPaths;
+            if (!findFiles(fs::path(directory), searchPathStr, sensorPaths, 0))
             {
-                std::cerr << "Failure reading " << powerPath << "\n";
-                continue;
-            }
-            std::string label;
-            std::getline(labelFile, label);
-            labelFile.close();
-
-            auto findSensor = sensors.find(label);
-            if (findSensor != sensors.end())
-            {
+                std::cerr << "No PSU non-label sensor in PSU\n";
                 continue;
             }
 
-            std::vector<thresholds::Threshold> sensorThresholds;
-            std::string labelHead = label.substr(0, label.find(" "));
-            parseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                      &labelHead);
-            if (sensorThresholds.empty())
+            for (const auto& sensorPath : sensorPaths)
             {
-                continue;
-            }
 
-            std::string labelName;
-            auto findLabel = labelMatch.find(label);
-            if (findLabel != labelMatch.end())
-            {
-                labelName = findLabel->second;
-            }
-            else
-            {
-                labelName = label;
-            }
-            std::string sensorName =
-                std::get<std::string>(findSensorName->second) + " " + labelName;
+                std::string labelHead;
+                std::string sensorPathStr = sensorPath.string();
+                std::string sensorNameStr = sensorPath.filename();
+                std::string sensorNameSubStr =
+                    sensorNameStr.substr(0, sensorNameStr.find("_") - 1);
 
-            auto findProperty = sensorTable.find(SensorType::powerSensor);
-            if (findProperty == sensorTable.end())
-            {
-                std::cerr << "Cannot find PSU sensorType " << sensorType
-                          << "\n";
-                continue;
-            }
+                std::string labelPathStr =
+                    boost::replace_all_copy(sensorNameStr, "input", "label");
+                std::vector<fs::path> labelPaths;
+                if (!findFiles(fs::path(directory), labelPathStr, labelPaths,
+                               0))
+                {
+                    std::cerr << "No PSU non-label sensor in PSU\n";
+                    continue;
+                }
 
-            sensors[sensorName] = std::make_unique<PSUSensor>(
-                powerPathStr, sensorType, objectServer, dbusConnection, io,
-                sensorName, std::move(sensorThresholds), *interfacePath,
-                findProperty->second->sensorTypeName,
-                findProperty->second->sensorScaleFactor,
-                findProperty->second->maxReading,
-                findProperty->second->minReading);
+                if (labelPaths.empty())
+                {
+                    labelHead =
+                        sensorNameStr.substr(0, sensorNameStr.find("_"));
+                }
+                else
+                {
+                    auto labelPath = boost::replace_all_copy(sensorPathStr,
+                                                             "input", "label");
+                    std::ifstream labelFile(labelPath);
+                    if (!labelFile.good())
+                    {
+                        std::cerr << "Failure reading " << sensorPath << "\n";
+                        continue;
+                    }
+                    std::string label;
+                    std::getline(labelFile, label);
+                    labelFile.close();
+
+                    auto findSensor = sensors.find(label);
+                    if (findSensor != sensors.end())
+                    {
+                        continue;
+                    }
+
+                    labelHead = label.substr(0, label.find(" "));
+                }
+
+                std::vector<thresholds::Threshold> sensorThresholds;
+
+                parseThresholdsFromConfig(*sensorData, sensorThresholds,
+                                          &labelHead);
+                if (sensorThresholds.empty())
+                {
+                    continue;
+                }
+
+                std::string labelName;
+                auto findLabel = labelMatch.find(labelHead);
+                if (findLabel != labelMatch.end())
+                {
+                    labelName = findLabel->second;
+                }
+                else
+                {
+                    labelName = labelHead;
+                }
+
+                std::string sensorName =
+                    std::get<std::string>(findSensorName->second) + " " +
+                    labelName;
+
+                auto findProperty = sensorTable.find(sensorNameSubStr);
+                if (findProperty == sensorTable.end())
+                {
+                    std::cerr << "Cannot find PSU sensorType\n";
+                    continue;
+                }
+
+                sensors[sensorName] = std::make_unique<PSUSensor>(
+                    sensorPathStr, sensorType, objectServer, dbusConnection, io,
+                    sensorName, std::move(sensorThresholds), *interfacePath,
+                    findProperty->second->sensorTypeName,
+                    findProperty->second->sensorScaleFactor,
+                    findProperty->second->maxReading,
+                    findProperty->second->minReading);
+            }
         }
     }
     return;
 }
 
 void propertyInitialize(
-    boost::container::flat_map<SensorType, std::unique_ptr<PSUProperty>>&
+    boost::container::flat_map<std::string, std::unique_ptr<PSUProperty>>&
         sensorTable,
     boost::container::flat_map<std::string, std::string>& labelMatch)
 {
-    sensorTable[SensorType::powerSensor] =
+    sensorTable["power"] =
         std::make_unique<PSUProperty>("power/", 65535, 0, 100000);
+    sensorTable["curr"] =
+        std::make_unique<PSUProperty>("current/", 255, 0, 100);
+    sensorTable["temp"] =
+        std::make_unique<PSUProperty>("temperature/", 255, 0, 1000);
     labelMatch["pin"] = "Input Power";
+    labelMatch["iout1"] = "Output Current";
+    labelMatch["temp1"] = "Inlet Temperature";
 }
 
 int main(int argc, char** argv)
@@ -263,7 +303,7 @@ int main(int argc, char** argv)
     systemBus->request_name("xyz.openbmc_project.PSUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
     boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>> sensors;
-    boost::container::flat_map<SensorType, std::unique_ptr<PSUProperty>>
+    boost::container::flat_map<std::string, std::unique_ptr<PSUProperty>>
         sensorTable;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     boost::container::flat_map<std::string, std::string> labelMatch;
