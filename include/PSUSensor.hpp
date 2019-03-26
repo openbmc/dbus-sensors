@@ -4,14 +4,6 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
-enum class SensorType
-{
-    tempSensor,
-    currSensor,
-    powerSensor,
-    voltSensor
-};
-
 class PSUSensor : public Sensor
 {
   public:
