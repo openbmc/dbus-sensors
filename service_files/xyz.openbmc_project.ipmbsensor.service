@@ -5,7 +5,7 @@ StopWhenUnneeded=false
 [Service]
 Restart=always
 RestartSec=5
-ExecStart=/usr/sbin/ipmbsensor
+ExecStart=/usr/bin/ipmbsensor
 
 [Install]
 WantedBy=multi-user.target

@@ -5,7 +5,7 @@ StopWhenUnneeded=false
 [Service]
 Restart=always
 RestartSec=5
-ExecStart=/usr/sbin/adcsensor
+ExecStart=/usr/bin/adcsensor
 
 [Install]
 WantedBy=multi-user.target

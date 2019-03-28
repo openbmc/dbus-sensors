@@ -5,7 +5,7 @@ StopWhenUnneeded=false
 [Service]
 Restart=always
 RestartSec=5
-ExecStart=/usr/sbin/exitairtempsensor
+ExecStart=/usr/bin/exitairtempsensor
 
 [Install]
 WantedBy=multi-user.target

@@ -6,7 +6,7 @@ StopWhenUnneeded=false
 Restart=always
 RestartSec=5
 StartLimitBurst=10
-ExecStart=/usr/sbin/cpusensor
+ExecStart=/usr/bin/cpusensor
 
 [Install]
 WantedBy=multi-user.target

@@ -167,21 +167,21 @@ set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
 set (SERVICE_FILE_INSTALL_DIR /lib/systemd/system/)
 
 if (NOT DISABLE_ADC)
-    install (TARGETS adcsensor DESTINATION sbin)
+    install (TARGETS adcsensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.adcsensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
 
 if (NOT DISABLE_CPU)
-    install (TARGETS cpusensor DESTINATION sbin)
+    install (TARGETS cpusensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.cpusensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
 
 if (NOT DISABLE_EXIT_AIR)
-    install (TARGETS exitairtempsensor DESTINATION sbin)
+    install (TARGETS exitairtempsensor DESTINATION bin)
     install (
         FILES ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.exitairsensor.service
               DESTINATION ${SERVICE_FILE_INSTALL_DIR}
@@ -189,14 +189,14 @@ if (NOT DISABLE_EXIT_AIR)
 endif ()
 
 if (NOT DISABLE_FAN)
-    install (TARGETS fansensor DESTINATION sbin)
+    install (TARGETS fansensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.fansensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
 
 if (NOT DISABLE_HWMON_TEMP)
-    install (TARGETS hwmontempsensor DESTINATION sbin)
+    install (TARGETS hwmontempsensor DESTINATION bin)
     install (
         FILES
             ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.hwmontempsensor.service
@@ -205,7 +205,7 @@ if (NOT DISABLE_HWMON_TEMP)
 endif ()
 
 if (NOT DISABLE_INTRUSION)
-    install (TARGETS intrusionsensor DESTINATION sbin)
+    install (TARGETS intrusionsensor DESTINATION bin)
     install (
         FILES
             ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.intrusionsensor.service
@@ -214,12 +214,12 @@ if (NOT DISABLE_INTRUSION)
 endif ()
 
 if (NOT DISABLE_IPMB)
-    install (TARGETS ipmbsensor DESTINATION sbin)
+    install (TARGETS ipmbsensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.ipmbsensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
 
 if (NOT DISABLE_PSU)
-    install (TARGETS psusensor DESTINATION sbin)
+    install (TARGETS psusensor DESTINATION bin)
 endif ()
