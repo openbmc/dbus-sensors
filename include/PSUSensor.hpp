@@ -4,14 +4,6 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
-enum class SensorType
-{
-    tempSensor,
-    currSensor,
-    powerSensor,
-    voltSensor
-};
-
 class PSUSensor : public Sensor
 {
   public:
@@ -44,13 +36,13 @@ class PSUProperty
 {
   public:
     PSUProperty(std::string name, double max, double min, unsigned int factor) :
-        sensorTypeName(name), maxReading(max), minReading(min),
+        labelTypeName(name), maxReading(max), minReading(min),
         sensorScaleFactor(factor)
     {
     }
     ~PSUProperty() = default;
 
-    std::string sensorTypeName;
+    std::string labelTypeName;
     double maxReading;
     double minReading;
     unsigned int sensorScaleFactor;
