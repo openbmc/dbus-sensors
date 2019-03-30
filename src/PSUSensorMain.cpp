@@ -31,6 +31,48 @@ static constexpr std::array<const char*, 1> sensorTypes = {
 
 namespace fs = std::filesystem;
 
+static bool checkSensorMax(std::string sensorPathStr, double& value,
+                           unsigned int& factor)
+{
+    if (factor == 0)
+    {
+        std::cerr << "check max failed, factor is 0\n";
+        return false;
+    }
+    auto maxPath = boost::replace_all_copy(sensorPathStr, "input", "max");
+    std::ifstream maxFile(maxPath);
+    if (!maxFile.good())
+    {
+        return false; // no _max file for this sensor in sysfs
+    }
+    std::string max;
+    std::getline(maxFile, max);
+    maxFile.close();
+    value = std::stod(max) / factor;
+    return true;
+}
+
+static bool checkSensorMin(std::string sensorPathStr, double& value,
+                           unsigned int& factor)
+{
+    if (factor == 0)
+    {
+        std::cerr << "check min failed, factor is 0\n";
+        return false;
+    }
+    auto minPath = boost::replace_all_copy(sensorPathStr, "input", "min");
+    std::ifstream minFile(minPath);
+    if (!minFile.good())
+    {
+        return false; // no _min file for this sensor in sysfs
+    }
+    std::string min;
+    std::getline(minFile, min);
+    minFile.close();
+    value = std::stod(min) / factor;
+    return true;
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -233,13 +275,25 @@ void createSensors(
                 continue;
             }
 
+            double maxReading = 0;
+            double minReading = 0;
+            if (!checkSensorMax(sensorPathStr, maxReading,
+                                findProperty->second->sensorScaleFactor))
+            {
+                maxReading = findProperty->second->maxReading;
+            }
+            if (!checkSensorMin(sensorPathStr, minReading,
+                                findProperty->second->sensorScaleFactor))
+            {
+                minReading = findProperty->second->minReading;
+            }
+
             sensors[sensorName] = std::make_unique<PSUSensor>(
                 powerPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findProperty->second->sensorTypeName,
-                findProperty->second->sensorScaleFactor,
-                findProperty->second->maxReading,
-                findProperty->second->minReading);
+                findProperty->second->sensorScaleFactor, maxReading,
+                minReading);
         }
     }
     return;
