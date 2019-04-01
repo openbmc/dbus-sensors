@@ -12,8 +12,8 @@ class ADCSensor : public Sensor
               std::shared_ptr<sdbusplus::asio::connection>& conn,
               boost::asio::io_service& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
-              const double scaleFactor, PowerState readState,
-              const std::string& sensorConfiguration);
+              const double scaleFactor, const int bridgeGpio,
+              PowerState readState, const std::string& sensorConfiguration);
     ~ADCSensor();
 
   private:
@@ -23,6 +23,7 @@ class ADCSensor : public Sensor
     boost::asio::streambuf readBuf;
     int errCount;
     double scaleFactor;
+    const int bridgeGpio;
     PowerState readState;
     thresholds::ThresholdTimer thresholdTimer;
     void setupRead(void);
