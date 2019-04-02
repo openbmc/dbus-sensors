@@ -379,7 +379,7 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
                ManagedObjectType& sensorConfigs)
 {
     size_t rescanDelaySeconds = 0;
-    bool keepPinging = false;
+    static bool keepPinging = false;
 
     for (CPUConfig& config : cpuConfigs)
     {
@@ -391,7 +391,7 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
             std::exit(EXIT_FAILURE);
         }
 
-        State state;
+        State newState;
         struct peci_ping_msg msg;
         msg.addr = config.addr;
         if (!ioctl(file, PECI_IOC_PING, &msg))
@@ -421,45 +421,43 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
 
             if (dimmReady)
             {
-                state = State::READY;
+                newState = State::READY;
             }
             else
             {
-                state = State::ON;
+                newState = State::ON;
             }
         }
         else
         {
-            state = State::OFF;
+            newState = State::OFF;
         }
 
         close(file);
 
-        if (config.state != state)
+        if (config.state != newState)
         {
-            if (config.state == State::OFF)
+            if (newState != State::OFF)
             {
-                std::cout << config.name << " is detected\n";
-                exportDevice(config);
-            }
-            if (state == State::READY)
-            {
-                std::cout << "DIMM(s) on " << config.name
-                          << " is/are detected\n";
-            }
-            config.state = state;
-        }
+                if (config.state == State::OFF)
+                {
+                    std::cout << config.name << " is detected\n";
+                    exportDevice(config);
+                }
 
-        if (config.state != State::OFF)
-        {
-            if (config.state == State::ON)
-            {
-                rescanDelaySeconds = 3;
+                if (newState == State::ON)
+                {
+                    rescanDelaySeconds = 3;
+                }
+                else if (newState == State::READY)
+                {
+                    rescanDelaySeconds = 5;
+                    std::cout << "DIMM(s) on " << config.name
+                              << " is/are detected\n";
+                }
             }
-            else
-            {
-                rescanDelaySeconds = 5;
-            }
+
+            config.state = newState;
         }
 
         if (config.state != State::READY)
@@ -484,15 +482,15 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
             }
 
             if (!createSensors(io, objectServer, dbusConnection, cpuConfigs,
-                               sensorConfigs))
+                               sensorConfigs) ||
+                keepPinging)
             {
                 detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                                dbusConnection, cpuConfigs, sensorConfigs);
             }
         });
     }
-
-    if (keepPinging)
+    else if (keepPinging)
     {
         detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                        dbusConnection, cpuConfigs, sensorConfigs);
