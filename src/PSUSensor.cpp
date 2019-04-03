@@ -92,10 +92,6 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             float nvalue = std::stof(response);
             responseStream.clear();
             nvalue /= sensorFactor;
-            if (overridenState)
-            {
-                nvalue = overriddenValue;
-            }
             if (nvalue != value)
             {
                 updateValue(nvalue);
