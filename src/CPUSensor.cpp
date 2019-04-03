@@ -110,10 +110,6 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
             double nvalue = std::stof(response);
             responseStream.clear();
             nvalue /= CPUSensor::sensorScaleFactor;
-            if (overridenState)
-            {
-                nvalue = overriddenValue;
-            }
             if (nvalue != value)
             {
                 if (show)

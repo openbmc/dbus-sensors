@@ -54,6 +54,7 @@ void ChassisIntrusionSensor::updateValue(const std::string newValue)
     // indicate that it is internal set call
     mInternalSet = true;
     mIface->set_property("Status", newValue);
+    mInternalSet = false;
 
     mValue = newValue;
 
@@ -147,12 +148,6 @@ void ChassisIntrusionSensor::pollSensorStatusByPch()
             int statusValue = i2cReadFromPch(mBusId, mSlaveAddr);
             std::string newValue = statusValue ? "HardwareIntrusion" : "Normal";
 
-            // save value
-            if (mOverridenState)
-            {
-                newValue = mOverriddenValue;
-            }
-
             if (newValue != "unknown" && mValue != newValue)
             {
                 std::cout << "update value from " << mValue << " to "
@@ -200,12 +195,6 @@ void ChassisIntrusionSensor::readGpio()
             std::cout << "Intrusion sensor value is " << newValue << "\n";
         }
 
-        // save value
-        if (mOverridenState)
-        {
-            newValue = mOverriddenValue;
-        }
-
         if (newValue != "unknown" && mValue != newValue)
         {
             std::cout << "update value from " << mValue << " to " << newValue
@@ -251,15 +240,14 @@ void ChassisIntrusionSensor::initGpioDeviceFile(const int index)
 int ChassisIntrusionSensor::setSensorValue(const std::string& req,
                                            std::string& propertyValue)
 {
-    if (mInternalSet)
+    if (!mInternalSet)
     {
-        mInternalSet = false;
         propertyValue = req;
-    }
-    else
-    {
-        mOverriddenValue = req;
         mOverridenState = true;
+    }
+    else if (!mOverridenState)
+    {
+        propertyValue = req;
     }
     return 1;
 }

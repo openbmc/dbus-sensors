@@ -103,10 +103,6 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         {
             float nvalue = std::stof(response);
             nvalue /= sensorScaleFactor;
-            if (overridenState)
-            {
-                nvalue = overriddenValue;
-            }
             if (nvalue != value)
             {
                 updateValue(nvalue);

@@ -115,11 +115,6 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
             nvalue = (nvalue / sensorScaleFactor) / scaleFactor;
             nvalue = std::round(nvalue * roundFactor) / roundFactor;
 
-            if (overridenState)
-            {
-                nvalue = overriddenValue;
-            }
-
             if (nvalue != value)
             {
                 updateValue(nvalue);

@@ -30,20 +30,20 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     double value = std::numeric_limits<double>::quiet_NaN();
-    double overriddenValue = std::numeric_limits<double>::quiet_NaN();
     bool overridenState = false;
     bool internalSet = false;
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
-        if (internalSet)
+        if (!internalSet)
         {
-            internalSet = false;
             oldValue = newValue;
-            return 1;
+            overridenState = true;
         }
-        overriddenValue = newValue;
-        overridenState = true;
+        else if (!overridenState)
+        {
+            oldValue = newValue;
+        }
         return 1;
     }
 

@@ -42,7 +42,6 @@ class ChassisIntrusionSensor
     int mFd;
 
     // common members
-    std::string mOverriddenValue = "unknown";
     bool mOverridenState = false;
     bool mInternalSet = false;
 
