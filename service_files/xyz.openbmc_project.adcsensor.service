@@ -1,5 +1,7 @@
 [Unit]
 Description=Adc Sensor
+Wants=mapper-wait@-xyz-openbmc_project-Chassis-Control-Power0.service
+After=mapper-wait@-xyz-openbmc_project-Chassis-Control-Power0.service
 StopWhenUnneeded=false
 
 [Service]

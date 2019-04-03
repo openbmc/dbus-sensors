@@ -1,7 +1,8 @@
 [Unit]
 Description=Exit Air Temp Sensor
 StopWhenUnneeded=false
-After=xyz.openbmc_project.Settings.service
+Wants=mapper-wait@-xyz-openbmc_project-Chassis-Control-Power0.service
+After=mapper-wait@-xyz-openbmc_project-Chassis-Control-Power0.service xyz.openbmc_project.Settings.service
 
 [Service]
 Restart=always
