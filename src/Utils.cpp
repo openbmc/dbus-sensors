@@ -162,7 +162,8 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         [](boost::system::error_code ec, const std::variant<int32_t>& pgood) {
             if (ec)
             {
-                std::cerr << "Error getting initial power status\n";
+                // we commonly come up before power control, we'll capture the
+                // property change later
                 return;
             }
             powerStatusOn = std::get<int32_t>(pgood);
