@@ -212,9 +212,16 @@ void createSensors(
             setReadState(powerState, readState);
         }
 
+        auto findBridgeGpio = baseConfiguration->second.find("BridgeGpio");
+        int gpioN = 0;
+        if (findBridgeGpio != baseConfiguration->second.end())
+        {
+            gpioN = std::visit(VariantToIntVisitor(), findBridgeGpio->second);
+        }
+
         sensors[sensorName] = std::make_unique<ADCSensor>(
             path.string(), objectServer, dbusConnection, io, sensorName,
-            std::move(sensorThresholds), scaleFactor, readState,
+            std::move(sensorThresholds), scaleFactor, gpioN, readState,
             *interfacePath);
     }
 }
