@@ -327,8 +327,15 @@ uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
         return pwmPercent;
     }
 
+    bool firstLoop = true;
     while (totalCFM > cfmMaxSetting)
     {
+        if (!firstLoop)
+        {
+            pwmPercent--;
+            firstLoop = false;
+        }
+
         double ci = 0;
         if (pwmPercent == 0)
         {
@@ -355,12 +362,12 @@ uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
         // divide by 100 since pwm is in percent
         totalCFM /= 100;
 
-        pwmPercent--;
         if (pwmPercent <= 0)
         {
             break;
         }
     }
+
     return pwmPercent;
 }
 
