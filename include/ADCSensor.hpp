@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Thresholds.hpp>
+#include <optional>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
@@ -13,7 +14,8 @@ class ADCSensor : public Sensor
               boost::asio::io_service& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
               const double scaleFactor, PowerState readState,
-              const std::string& sensorConfiguration);
+              const std::string& sensorConfiguration,
+              std::optional<int> bridgeGpio);
     ~ADCSensor();
 
   private:
@@ -23,6 +25,7 @@ class ADCSensor : public Sensor
     boost::asio::streambuf readBuf;
     int errCount;
     double scaleFactor;
+    std::optional<int> bridgeGpio;
     PowerState readState;
     thresholds::ThresholdTimer thresholdTimer;
     void setupRead(void);
