@@ -1,5 +1,6 @@
 #pragma once
 
+#include <PwmSensor.hpp>
 #include <Thresholds.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
@@ -46,4 +47,17 @@ class PSUProperty
     double maxReading;
     double minReading;
     unsigned int sensorScaleFactor;
+};
+
+class PSUPWMSensor : public PwmSensor
+{
+  public:
+    PSUPWMSensor(const std::string& targetPath,
+                 sdbusplus::asio::object_server& objectServer,
+                 const std::string& sensorConfiguration,
+                 const std::string& pwmName);
+
+    void setValue(uint32_t value) override;
+    uint32_t getValue(bool errThrow) override;
+    std::string targetPath;
 };
