@@ -23,6 +23,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_set.hpp>
 #include <fstream>
+#include <optional>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -212,10 +213,20 @@ void createSensors(
             setReadState(powerState, readState);
         }
 
+        auto findBridgeGpio = baseConfiguration->second.find("BridgeGpio");
+        std::optional<int> gpioNum;
+
+        if (findBridgeGpio != baseConfiguration->second.end())
+        {
+            int gpioPin =
+                std::visit(VariantToIntVisitor(), findBridgeGpio->second);
+            gpioNum = static_cast<std::optional<int>>(gpioPin);
+        }
+
         sensors[sensorName] = std::make_unique<ADCSensor>(
             path.string(), objectServer, dbusConnection, io, sensorName,
-            std::move(sensorThresholds), scaleFactor, readState,
-            *interfacePath);
+            std::move(sensorThresholds), scaleFactor, readState, *interfacePath,
+            gpioNum);
     }
 }
 
