@@ -20,6 +20,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <sdbusplus/asio/connection.hpp>
@@ -140,4 +141,54 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 void PSUSensor::checkThresholds(void)
 {
     thresholds::checkThresholds(this);
+}
+
+PSUPWMSensor::PSUPWMSensor(const std::string& targetPath,
+                           sdbusplus::asio::object_server& objectServer,
+                           const std::string& sensorConfiguration,
+                           const std::string& pwmName) :
+    PwmSensor(boost::replace_all_copy(targetPath, "target", pwmName),
+              objectServer, sensorConfiguration),
+    targetPath(targetPath)
+{
+}
+
+void PSUPWMSensor::setValue(uint32_t value)
+{
+    std::ofstream ref(targetPath);
+    if (!ref.good())
+    {
+        throw std::runtime_error("Bad Write File");
+        return;
+    }
+    ref << value;
+}
+
+uint32_t PSUPWMSensor::getValue(bool errThrow)
+{
+    std::ifstream ref(targetPath);
+    if (!ref.good())
+    {
+        return -1;
+    }
+    std::string line;
+    if (!std::getline(ref, line))
+    {
+        return -1;
+    }
+    try
+    {
+        uint32_t value = std::stoi(line);
+        return value;
+    }
+    catch (std::invalid_argument)
+    {
+        std::cerr << "Error reading pwm at " << targetPath << "\n";
+        // throw if not initial read to be caught by dbus bindings
+        if (errThrow)
+        {
+            throw std::runtime_error("Bad Read");
+        }
+    }
+    return 0;
 }
