@@ -213,9 +213,12 @@ void createAssociation(
 {
     if (association)
     {
+        std::filesystem::path p(path);
+
         using Association = std::tuple<std::string, std::string, std::string>;
         std::vector<Association> associations;
-        associations.push_back(Association("inventory", "sensors", path));
+        associations.push_back(
+            Association("inventory", "sensors", p.parent_path().string()));
         association->register_property("associations", associations);
         association->initialize();
     }
