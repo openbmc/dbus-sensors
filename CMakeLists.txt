@@ -222,4 +222,7 @@ endif ()
 
 if (NOT DISABLE_PSU)
     install (TARGETS psusensor DESTINATION bin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.psusensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
