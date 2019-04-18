@@ -28,9 +28,11 @@
 static constexpr bool DEBUG = false;
 
 namespace fs = std::filesystem;
-static constexpr std::array<const char*, 2> sensorTypes = {
+static constexpr std::array<const char*, 4> sensorTypes = {
     "xyz.openbmc_project.Configuration.TMP75",
-    "xyz.openbmc_project.Configuration.TMP421"};
+    "xyz.openbmc_project.Configuration.TMP421",
+    "xyz.openbmc_project.Configuration.TMP112",
+    "xyz.openbmc_project.Configuration.EMC1413"};
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
