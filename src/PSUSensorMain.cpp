@@ -257,7 +257,9 @@ void createSensors(
                 std::get<std::string>(findPSUName->second) + " " +
                 findProperty->second.labelTypeName;
 
-            sensors[sensorName] = std::make_unique<PSUSensor>(
+            auto& newSensor = sensors[sensorName];
+            newSensor = nullptr; // destroy old one if it exists
+            newSensor = std::make_unique<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, findProperty->second.maxReading,
