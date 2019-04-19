@@ -813,11 +813,6 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
             if (exitAirSensor)
             {
                 exitAirSensor->cfmSensors = std::move(cfmSensors);
-
-                // todo: when power sensors are done delete this fake
-                // reading
-                exitAirSensor->powerReadings["foo"] = 144.0;
-
                 exitAirSensor->updateReading();
             }
         },
