@@ -141,10 +141,8 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                     pidConfigurationType, "Class");
             }
         },
-        "xyz.openbmc_project.ObjectMapper",
-        "/xyz/openbmc_project/object_mapper",
-        "xyz.openbmc_project.ObjectMapper", "GetSubTree", "/", 0,
-        std::array<std::string, 1>{pidConfigurationType});
+        mapper::busName, mapper::path, mapper::interface, mapper::subtree, "/",
+        0, std::array<std::string, 1>{pidConfigurationType});
 }
 
 CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -177,8 +175,7 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     }
 
     association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/voltage/" + name,
-        "org.openbmc.Associations");
+        "/xyz/openbmc_project/sensors/cfm/" + name, "org.openbmc.Associations");
 
     setInitialProperties(conn);
     setupSensorMatch(
@@ -390,7 +387,7 @@ bool CFMSensor::calculate(double& value)
             });
         if (findReading == tachReadings.end())
         {
-            if (DEBUG)
+            if constexpr (DEBUG)
             {
                 std::cerr << "Can't find " << tachName << "in readings\n";
             }
@@ -447,10 +444,22 @@ bool CFMSensor::calculate(double& value)
         // Now calculate the CFM for this tach
         // CFMi = Ci * Qmaxi * TACHi
         totalCFM += ci * maxCFM * rpm;
+        if constexpr (DEBUG)
+        {
+            std::cerr << "totalCFM = " << totalCFM << "\n";
+            std::cerr << "Ci " << ci << " MaxCFM " << maxCFM << " rpm " << rpm
+                      << "\n";
+            std::cerr << "c1 " << c1 << " c2 " << c2 << " max "
+                      << tachMaxPercent << " min " << tachMinPercent << "\n";
+        }
     }
 
     // divide by 100 since rpm is in percent
     value = totalCFM / 100;
+    if constexpr (DEBUG)
+    {
+        std::cerr << "cfm value = " << value << "\n";
+    }
     return true;
 }
 
@@ -501,7 +510,6 @@ ExitAirTempSensor::~ExitAirTempSensor()
 
 void ExitAirTempSensor::setupMatches(void)
 {
-
     constexpr const std::array<const char*, 2> matchTypes = {
         "power", inletTemperatureSensor};
 
@@ -512,7 +520,12 @@ void ExitAirTempSensor::setupMatches(void)
                                       sdbusplus::message::message& message) {
                              if (type == "power")
                              {
-                                 powerReadings[message.get_path()] = value;
+                                 std::string path = message.get_path();
+                                 if (path.find("PS") != std::string::npos &&
+                                     boost::ends_with(path, "Input_Power"))
+                                 {
+                                     powerReadings[message.get_path()] = value;
+                                 }
                              }
                              else if (type == inletTemperatureSensor)
                              {
@@ -534,8 +547,53 @@ void ExitAirTempSensor::setupMatches(void)
         },
         "xyz.openbmc_project.HwmonTempSensor",
         std::string("/xyz/openbmc_project/sensors/") + inletTemperatureSensor,
-        "org.freedesktop.DBus.Properties", "Get",
-        "xyz.openbmc_project.Sensor.Value", "Value");
+        properties::interface, properties::get, sensorValueInterface, "Value");
+    dbusConnection->async_method_call(
+        [this](boost::system::error_code ec, const GetSubTreeType& subtree) {
+            if (ec)
+            {
+                std::cerr << "Error contacting mapper\n";
+                return;
+            }
+            for (const auto& item : subtree)
+            {
+                size_t lastSlash = item.first.rfind("/");
+                if (lastSlash == std::string::npos ||
+                    lastSlash == item.first.size() || !item.second.size())
+                {
+                    continue;
+                }
+                std::string sensorName = item.first.substr(lastSlash + 1);
+                if (boost::starts_with(sensorName, "PS") &&
+                    boost::ends_with(sensorName, "Input_Power"))
+                {
+                    const std::string& path = item.first;
+                    dbusConnection->async_method_call(
+                        [this, path](boost::system::error_code ec,
+                                     const std::variant<double>& value) {
+                            if (ec)
+                            {
+                                std::cerr << "Error getting value from " << path
+                                          << "\n";
+                            }
+
+                            double reading =
+                                std::visit(VariantToDoubleVisitor(), value);
+                            if constexpr (DEBUG)
+                            {
+                                std::cerr << path << "Reading " << reading
+                                          << "\n";
+                            }
+                            powerReadings[path] = reading;
+                        },
+                        item.second[0].first, item.first, properties::interface,
+                        properties::get, sensorValueInterface, "Value");
+                }
+            }
+        },
+        mapper::busName, mapper::path, mapper::interface, mapper::subtree,
+        "/xyz/openbmc_project/sensors/power", 0,
+        std::array<const char*, 1>{sensorValueInterface});
 }
 
 void ExitAirTempSensor::updateReading(void)
@@ -813,11 +871,6 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
             if (exitAirSensor)
             {
                 exitAirSensor->cfmSensors = std::move(cfmSensors);
-
-                // todo: when power sensors are done delete this fake
-                // reading
-                exitAirSensor->powerReadings["foo"] = 144.0;
-
                 exitAirSensor->updateReading();
             }
         },

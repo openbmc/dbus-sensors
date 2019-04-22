@@ -10,9 +10,9 @@ struct ExitAirTempSensor;
 struct CFMSensor : public Sensor
 {
     std::vector<std::string> tachs;
-    int32_t c1;
-    int32_t c2;
-    int32_t maxCFM;
+    double c1;
+    double c2;
+    double maxCFM;
     double tachMinPercent;
     double tachMaxPercent;
 
