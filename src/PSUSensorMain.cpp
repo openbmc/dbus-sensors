@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <PSUEvent.hpp>
 #include <PSUSensor.hpp>
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
@@ -21,6 +22,7 @@
 #include <boost/container/flat_set.hpp>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -30,18 +32,90 @@ static constexpr std::array<const char*, 1> sensorTypes = {
 
 namespace fs = std::filesystem;
 
+// Function CheckEvent will check each attribute from eventMatch table in the
+// sysfs. If the attributes exists in sysfs, then store the complete path
+// of the attribute into eventPathList.
+void checkEvent(
+    std::string directory,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        eventMatch,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        eventPathList)
+{
+    boost::container::flat_map<std::string, std::vector<std::string>>::iterator
+        iter;
+    for (iter = eventMatch.begin(); iter != eventMatch.end(); iter++)
+    {
+        std::vector<std::string>& eventAttrs = iter->second;
+        std::string& eventName = iter->first;
+        for (const auto& eventAttr : eventAttrs)
+        {
+            auto eventPath = directory + "/" + eventAttr;
+
+            std::ifstream eventFile(eventPath);
+            if (!eventFile.good())
+            {
+                continue;
+            }
+            eventFile.close();
+
+            eventPathList[eventName].push_back(eventPath);
+        }
+    }
+}
+
+// Function checkLimitEvent will check all the psu related xxx_input attributes
+// in sysfs to see if xxx_crit_alarm xxx_lcrit_alarm xxx_max_alarm
+// xxx_min_alarm exist, then store the existing paths of the alarm attributes
+// to eventPathList.
+void checkLimitEvent(
+    std::string& sensorPathStr,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        limitEventMatch,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        eventPathList)
+{
+    boost::container::flat_map<std::string, std::vector<std::string>>::iterator
+        iter;
+    for (iter = limitEventMatch.begin(); iter != limitEventMatch.end(); iter++)
+    {
+        std::vector<std::string>& limitEventAttrs = iter->second;
+        std::string& eventName = iter->first;
+        for (auto& limitEventAttr : limitEventAttrs)
+        {
+            auto limitEventPath =
+                boost::replace_all_copy(sensorPathStr, "input", limitEventAttr);
+            std::ifstream eventFile(limitEventPath);
+            if (!eventFile.good())
+            {
+                continue;
+            }
+            eventPathList[eventName].push_back(limitEventPath);
+        }
+    }
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>&
         sensors,
     boost::container::flat_map<std::string, std::string>& sensorTable,
-    boost::container::flat_map<std::string, PSUProperty>& labelMatch)
+    boost::container::flat_map<std::string, PSUProperty>& labelMatch,
+    boost::container::flat_map<std::string, std::unique_ptr<PSUEvent>>& events,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        eventMatch,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        limitEventMatch)
 {
 
     ManagedObjectType sensorConfigs;
     bool useCache = false;
+    boost::container::flat_map<std::string, std::vector<std::string>>
+        eventPathList;
 
+    sensors.clear();
+    events.clear();
     for (const char* type : sensorTypes)
     {
         if (!getSensorConfiguration(type, dbusConnection, sensorConfigs,
@@ -63,13 +137,29 @@ void createSensors(
     boost::container::flat_set<std::string> directories;
     for (const auto& pmbusPath : pmbusPaths)
     {
+        std::ifstream nameFile(pmbusPath);
+        if (!nameFile.good())
+        {
+            std::cerr << "Failure reading " << pmbusPath << "\n";
+            continue;
+        }
+
+        std::string pmbusName;
+        std::getline(nameFile, pmbusName);
+        nameFile.close();
+        if (pmbusName != "pmbus")
+        {
+            continue;
+        }
+
+        const std::string* psuName;
         const std::string pathStr = pmbusPath.string();
         auto directory = pmbusPath.parent_path();
 
         auto ret = directories.insert(directory.string());
         if (!ret.second)
         {
-            continue; // check if path i1 already searched
+            continue; // check if path has already been searched
         }
 
         auto device = fs::path(directory / "device");
@@ -92,21 +182,6 @@ void createSensors(
             addr = std::stoi(addrStr, 0, 16);
         }
         catch (std::invalid_argument)
-        {
-            continue;
-        }
-
-        std::ifstream nameFile(pmbusPath);
-        if (!nameFile.good())
-        {
-            std::cerr << "Failure reading " << pmbusPath << "\n";
-            continue;
-        }
-
-        std::string pmbusName;
-        std::getline(nameFile, pmbusName);
-        nameFile.close();
-        if (pmbusName != "pmbus")
         {
             continue;
         }
@@ -149,8 +224,14 @@ void createSensors(
                 continue;
             }
 
-            if (std::get<uint64_t>(configBus->second) != bus ||
-                std::get<uint64_t>(configAddress->second) != addr)
+            const uint64_t* conf;
+            if (!(conf = std::get_if<uint64_t>(&(configBus->second))) &&
+                *conf != bus)
+            {
+                continue;
+            }
+            if (!(conf = std::get_if<uint64_t>(&(configAddress->second))) &&
+                *conf != addr)
             {
                 continue;
             }
@@ -171,6 +252,12 @@ void createSensors(
                       << deviceName << "\n";
             continue;
         }
+
+        if (!(psuName = std::get_if<std::string>(&(findPSUName->second))))
+        {
+            continue;
+        }
+        checkEvent(directory.string(), eventMatch, eventPathList);
 
         std::vector<fs::path> sensorPaths;
         if (!findFiles(fs::path(directory), R"(\w\d+_input$)", sensorPaths, 0))
@@ -224,6 +311,8 @@ void createSensors(
                 labelHead = label.substr(0, label.find(" "));
             }
 
+            checkLimitEvent(sensorPathStr, limitEventMatch, eventPathList);
+
             std::vector<thresholds::Threshold> sensorThresholds;
 
             parseThresholdsFromConfig(*sensorData, sensorThresholds,
@@ -254,8 +343,7 @@ void createSensors(
             }
 
             std::string sensorName =
-                std::get<std::string>(findPSUName->second) + " " +
-                findProperty->second.labelTypeName;
+                *psuName + " " + findProperty->second.labelTypeName;
 
             sensors[sensorName] = std::make_unique<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
@@ -263,13 +351,27 @@ void createSensors(
                 findSensorType->second, factor, findProperty->second.maxReading,
                 findProperty->second.minReading);
         }
+
+        boost::container::flat_map<std::string,
+                                   std::vector<std::string>>::iterator iter;
+        for (iter = eventPathList.begin(); iter != eventPathList.end(); iter++)
+        {
+            std::string& eventName = iter->first;
+            std::string eventPSUName = eventName + *psuName;
+            events[eventPSUName] = std::make_unique<PSUEvent>(
+                iter->second, objectServer, io, *psuName, eventName);
+        }
     }
     return;
 }
 
 void propertyInitialize(
     boost::container::flat_map<std::string, std::string>& sensorTable,
-    boost::container::flat_map<std::string, PSUProperty>& labelMatch)
+    boost::container::flat_map<std::string, PSUProperty>& labelMatch,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        eventMatch,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        limitEventMatch)
 {
     sensorTable = {{"power", "power/"},
                    {"curr", "current/"},
@@ -285,6 +387,15 @@ void propertyInitialize(
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
                   {"fan1", PSUProperty("Fan Speed 1", 10000, 0, 0)},
                   {"fan2", PSUProperty("Fan Speed 2", 10000, 0, 0)}};
+
+    limitEventMatch = {{"Predictive", {"max_alarm", "min_alarm"}},
+                       {"Failure", {"crit_alarm", "lcrit_alarm"}}};
+
+    eventMatch = {
+        {"Predictive", {"power1_alarm"}},
+        {"Failure", {"in2_alarm"}},
+        {"ACLost", {"in1_alarm"}},
+        {"FanFault", {"fan1_alarm", "fan2_alarm", "fan1_fault", "fan2_fault"}}};
 }
 
 int main(int argc, char** argv)
@@ -295,15 +406,20 @@ int main(int argc, char** argv)
     systemBus->request_name("xyz.openbmc_project.PSUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
     boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>> sensors;
+    boost::container::flat_map<std::string, std::unique_ptr<PSUEvent>> events;
     boost::container::flat_map<std::string, std::string> sensorTable;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     boost::container::flat_map<std::string, PSUProperty> labelMatch;
+    boost::container::flat_map<std::string, std::vector<std::string>>
+        eventMatch;
+    boost::container::flat_map<std::string, std::vector<std::string>>
+        limitEventMatch;
 
-    propertyInitialize(sensorTable, labelMatch);
+    propertyInitialize(sensorTable, labelMatch, eventMatch, limitEventMatch);
 
     io.post([&]() {
         createSensors(io, objectServer, systemBus, sensors, sensorTable,
-                      labelMatch);
+                      labelMatch, events, eventMatch, limitEventMatch);
     });
     boost::asio::deadline_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
@@ -324,7 +440,7 @@ int main(int argc, char** argv)
                     std::cerr << "timer error\n";
                 }
                 createSensors(io, objectServer, systemBus, sensors, sensorTable,
-                              labelMatch);
+                              labelMatch, events, eventMatch, limitEventMatch);
             });
         };
 
