@@ -4,6 +4,8 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 constexpr size_t sensorFailedPollTimeMs = 5000;
+
+constexpr const char* sensorValueInterface = "xyz.openbmc_project.Sensor.Value";
 struct Sensor
 {
     Sensor(const std::string& name, const std::string& path,

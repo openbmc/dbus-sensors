@@ -26,6 +26,9 @@ using ManagedObjectType = boost::container::flat_map<
 using SensorData = boost::container::flat_map<
     std::string, boost::container::flat_map<std::string, BasicVariantType>>;
 
+using GetSubTreeType = std::vector<
+    std::pair<std::string,
+              std::vector<std::pair<std::string, std::vector<std::string>>>>>;
 using SensorBaseConfiguration =
     std::pair<std::string,
               boost::container::flat_map<std::string, BasicVariantType>>;
@@ -56,6 +59,20 @@ enum class PowerState
     biosPost,
     always
 };
+
+namespace mapper
+{
+constexpr const char* busName = "xyz.openbmc_project.ObjectMapper";
+constexpr const char* path = "/xyz/openbmc_project/object_mapper";
+constexpr const char* interface = "xyz.openbmc_project.ObjectMapper";
+constexpr const char* subtree = "GetSubTree";
+} // namespace mapper
+
+namespace properties
+{
+constexpr const char* interface = "org.freedesktop.DBus.Properties";
+constexpr const char* get = "Get";
+} // namespace properties
 
 template <typename T>
 inline T loadVariant(
