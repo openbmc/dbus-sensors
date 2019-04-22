@@ -181,7 +181,7 @@ void createSensors(
                 unsigned int configAddress = std::visit(
                     VariantToUnsignedIntVisitor(), findAddress->second);
 
-                if (configBus == bus && configAddress == configAddress)
+                if (configBus == bus && configAddress == address)
                 {
                     sensorData = &(sensor.second);
                     break;
