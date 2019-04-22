@@ -314,9 +314,12 @@ void createSensors(
         }
 
         // only add new elements
+        const std::string& sysPath = pwm.string();
+        const std::string& pwmName =
+            "Pwm_" + sysPath.substr(sysPath.find_last_of("pwm") + 1);
         pwmSensors.insert(std::pair<std::string, std::unique_ptr<PwmSensor>>(
-            pwm.string(),
-            std::make_unique<PwmSensor>(pwm.string(), objectServer, *path)));
+            sysPath, std::make_unique<PwmSensor>(pwmName, sysPath, objectServer,
+                                                 *path)));
     }
 }
 

@@ -30,13 +30,50 @@ static constexpr std::array<const char*, 1> sensorTypes = {
 
 namespace fs = std::filesystem;
 
-void createSensors(
-    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>&
-        sensors,
-    boost::container::flat_map<std::string, std::string>& sensorTable,
-    boost::container::flat_map<std::string, PSUProperty>& labelMatch)
+boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>> sensors;
+boost::container::flat_map<std::string, std::unique_ptr<PSUPWMSensor>>
+    pwmSensors;
+boost::container::flat_map<std::string, std::string> sensorTable;
+boost::container::flat_map<std::string, PSUProperty> labelMatch;
+boost::container::flat_map<std::string, std::string> pwmTable;
+
+static void checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
+                           const std::string& interfacePath,
+                           sdbusplus::asio::object_server& objectServer,
+                           std::string psuName)
+{
+    for (auto& pwmName : pwmTable)
+    {
+        if (pwmName.first != labelHead)
+        {
+            continue;
+        }
+
+        const std::string& sensorPathStr = sensorPath.string();
+        const std::string& pwmPathStr =
+            boost::replace_all_copy(sensorPathStr, "input", "target");
+        std::ifstream pwmFile(pwmPathStr);
+        if (!pwmFile.good())
+        {
+            continue;
+        }
+
+        auto findPWMSensor = pwmSensors.find(psuName + labelHead);
+        if (findPWMSensor != pwmSensors.end())
+        {
+            continue;
+        }
+
+        pwmSensors[psuName + labelHead] = std::make_unique<PSUPWMSensor>(
+            pwmPathStr, objectServer,
+            interfacePath + "/" + psuName + " " + pwmName.second,
+            "Pwm_" + psuName + "_" + pwmName.second);
+    }
+}
+
+void createSensors(boost::asio::io_service& io,
+                   sdbusplus::asio::object_server& objectServer,
+                   std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
 
     ManagedObjectType sensorConfigs;
@@ -224,6 +261,9 @@ void createSensors(
                 labelHead = label.substr(0, label.find(" "));
             }
 
+            checkPWMSensor(sensorPath, labelHead, *interfacePath, objectServer,
+                           std::get<std::string>(findPSUName->second));
+
             std::vector<thresholds::Threshold> sensorThresholds;
 
             parseThresholdsFromConfig(*sensorData, sensorThresholds,
@@ -267,9 +307,7 @@ void createSensors(
     return;
 }
 
-void propertyInitialize(
-    boost::container::flat_map<std::string, std::string>& sensorTable,
-    boost::container::flat_map<std::string, PSUProperty>& labelMatch)
+void propertyInitialize(void)
 {
     sensorTable = {{"power", "power/"},
                    {"curr", "current/"},
@@ -285,6 +323,8 @@ void propertyInitialize(
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
                   {"fan1", PSUProperty("Fan Speed 1", 10000, 0, 0)},
                   {"fan2", PSUProperty("Fan Speed 2", 10000, 0, 0)}};
+
+    pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"}};
 }
 
 int main(int argc, char** argv)
@@ -294,17 +334,11 @@ int main(int argc, char** argv)
 
     systemBus->request_name("xyz.openbmc_project.PSUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
-    boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>> sensors;
-    boost::container::flat_map<std::string, std::string> sensorTable;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
-    boost::container::flat_map<std::string, PSUProperty> labelMatch;
 
-    propertyInitialize(sensorTable, labelMatch);
+    propertyInitialize();
 
-    io.post([&]() {
-        createSensors(io, objectServer, systemBus, sensors, sensorTable,
-                      labelMatch);
-    });
+    io.post([&]() { createSensors(io, objectServer, systemBus); });
     boost::asio::deadline_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
@@ -323,8 +357,7 @@ int main(int argc, char** argv)
                 {
                     std::cerr << "timer error\n";
                 }
-                createSensors(io, objectServer, systemBus, sensors, sensorTable,
-                              labelMatch);
+                createSensors(io, objectServer, systemBus);
             });
         };
 

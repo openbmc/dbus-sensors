@@ -20,6 +20,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <sdbusplus/asio/connection.hpp>
@@ -140,4 +141,12 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 void PSUSensor::checkThresholds(void)
 {
     thresholds::checkThresholds(this);
+}
+
+PSUPWMSensor::PSUPWMSensor(const std::string& targetPath,
+                           sdbusplus::asio::object_server& objectServer,
+                           const std::string& sensorConfiguration,
+                           const std::string& pwmName) :
+    PwmSensor(pwmName, targetPath, objectServer, sensorConfiguration)
+{
 }
