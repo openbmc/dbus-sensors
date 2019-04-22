@@ -26,6 +26,9 @@ using ManagedObjectType = boost::container::flat_map<
 using SensorData = boost::container::flat_map<
     std::string, boost::container::flat_map<std::string, BasicVariantType>>;
 
+using GetSubTreeType = std::vector<
+    std::pair<std::string,
+              std::vector<std::pair<std::string, std::vector<std::string>>>>>;
 using SensorBaseConfiguration =
     std::pair<std::string,
               boost::container::flat_map<std::string, BasicVariantType>>;
