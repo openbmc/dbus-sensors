@@ -146,11 +146,11 @@ target_link_libraries (intrusionsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (intrusionsensor i2c)
 
 add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
-add_dependencies (ipmbsensor sdbusplus)
+add_dependencies (ipmbsensor sdbusplus-project)
 target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
 
 add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
-add_dependencies (psusensor  sdbusplus-project)
+add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 
 if (NOT YOCTO)
@@ -161,6 +161,7 @@ if (NOT YOCTO)
     add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (intrusionsensor ${EXTERNAL_PACKAGES})
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
+    add_dependencies (psusensor ${EXTERNAL_PACKAGES})
 endif ()
 
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
