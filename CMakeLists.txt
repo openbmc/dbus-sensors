@@ -45,7 +45,8 @@ set (IPMB_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 
 set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp)
 
-set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
+set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp
+     src/Thresholds.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
@@ -86,6 +87,18 @@ if (NOT YOCTO)
                          CONFIGURE_COMMAND "" BUILD_COMMAND "" INSTALL_COMMAND
                          "" LOG_DOWNLOAD ON)
     include_directories (${CMAKE_BINARY_DIR}/nlohmann-json-src/include)
+
+    externalproject_add (libmctp PREFIX ${CMAKE_CURRENT_BINARY_DIR}/libmctp
+                         GIT_REPOSITORY https://github.com/edtanous/libmctp.git
+                         GIT_TAG PR_NVMe SOURCE_DIR
+                         ${CMAKE_BINARY_DIR}/libmctp-src BINARY_DIR
+                         ${CMAKE_BINARY_DIR}/libmctp-build CONFIGURE_COMMAND cd
+                         ${CMAKE_BINARY_DIR}/libmctp-src && cmake .
+                         BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/libmctp-src &&
+                         make -j INSTALL_COMMAND cd ${CMAKE_BINARY_DIR} && ln
+                         -rsf libmctp-src mctp LOG_DOWNLOAD ON)
+    include_directories (${CMAKE_BINARY_DIR})
+    link_directories (${CMAKE_BINARY_DIR}/libmctp-src)
     if (ENABLE_TEST)
         option (HUNTER_ENABLED "Enable hunter package pulling" ON)
         hunter_add_package (GTest)
@@ -149,16 +162,23 @@ target_link_libraries (intrusionsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (intrusionsensor i2c)
 
 add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
-add_dependencies (ipmbsensor sdbusplus)
+add_dependencies (ipmbsensor sdbusplus-project)
 target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
 
 add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
-add_dependencies (psusensor  sdbusplus-project)
+add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 
 add_executable (nvmesensor ${NVME_SRC_FILES})
 add_dependencies (nvmesensor sdbusplus-project)
-target_link_libraries (nvmesensor mctp.a i2c ${SENSOR_LINK_LIBS})
+
+if (YOCTO)
+    target_link_libraries (nvmesensor mctp.a)
+else ()
+    target_link_libraries (nvmesensor libmctp.a)
+endif ()
+
+target_link_libraries (nvmesensor i2c ${SENSOR_LINK_LIBS})
 
 if (NOT YOCTO)
     add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
@@ -168,7 +188,8 @@ if (NOT YOCTO)
     add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (intrusionsensor ${EXTERNAL_PACKAGES})
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
-    add_dependencies (nvmesensor ${EXTERNAL_PACKAGES})
+    add_dependencies (nvmesensor ${EXTERNAL_PACKAGES} libmctp)
+    add_dependencies (psusensor ${EXTERNAL_PACKAGES})
 endif ()
 
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
