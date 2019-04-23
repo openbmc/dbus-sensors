@@ -38,7 +38,7 @@ void readAndProcessNVMeSensor(NVMeSensor& sensorInfo,
                               boost::asio::ip::tcp::socket& nvmeSlaveSocket,
                               boost::asio::deadline_timer& tcpResponseTimer);
 int nvmeMessageTransmit(struct mctp* mctp, uint8_t eid,
-                    struct nvme_mi_msg_request* req);
+                        struct nvme_mi_msg_request* req);
 
 static int verifyIntegrity(uint8_t* msg, size_t len);
 
