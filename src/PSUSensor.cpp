@@ -26,6 +26,8 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
 
+static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
+
 PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -39,22 +41,25 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
     waitTimer(io), errCount(0), sensorFactor(factor)
 {
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/" + sensorTypeName + name,
-        "xyz.openbmc_project.Sensor.Value");
+    sensorInterface =
+        objectServer.add_interface(sensorPathPrefix + sensorTypeName + name,
+                                   "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/" + sensorTypeName + name,
+            sensorPathPrefix + sensorTypeName + name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/" + sensorTypeName + name,
+            sensorPathPrefix + sensorTypeName + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
+    association = objectServer.add_interface(
+        sensorPathPrefix + sensorTypeName + name, "org.openbmc.Associations");
+
     setInitialProperties(conn);
     setupRead();
 }
