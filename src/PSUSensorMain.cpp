@@ -281,7 +281,7 @@ void propertyInitialize(
 
     labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
-                  {"vin", PSUProperty("Input Voltage", 255, 0, 3)},
+                  {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
