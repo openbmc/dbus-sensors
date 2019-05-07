@@ -24,15 +24,12 @@
 static constexpr size_t pwmMax = 255;
 static constexpr size_t pwmMin = 0;
 
-PwmSensor::PwmSensor(const std::string& sysPath,
+PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& sensorConfiguration) :
-    sysPath(sysPath),
-    objectServer(objectServer)
+    name(name),
+    sysPath(sysPath), objectServer(objectServer)
 {
-    // strip off index from path
-    name = "Pwm_" + sysPath.substr(sysPath.find_last_of("pwm") + 1);
-
     // add interface under sensor and Control.FanPwm as Control is used
     // in obmc project, also add sensor so it can be viewed as a sensor
     sensorInterface = objectServer.add_interface(
