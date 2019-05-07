@@ -1,5 +1,6 @@
 #pragma once
 
+#include <PwmSensor.hpp>
 #include <Thresholds.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
