@@ -629,7 +629,10 @@ double ExitAirTempSensor::getTotalCFM(void)
 
 bool ExitAirTempSensor::calculate(double& val)
 {
+    constexpr size_t maxErrorPrint = 1;
     static bool firstRead = false;
+    static size_t errorPrint = maxErrorPrint;
+
     double cfm = getTotalCFM();
     if (cfm <= 0)
     {
@@ -640,7 +643,11 @@ bool ExitAirTempSensor::calculate(double& val)
     // if there is an error getting inlet temp, return error
     if (std::isnan(inletTemp))
     {
-        std::cerr << "Cannot get inlet temp\n";
+        if (errorPrint > 0)
+        {
+            errorPrint--;
+            std::cerr << "Cannot get inlet temp\n";
+        }
         val = 0;
         return false;
     }
@@ -684,7 +691,11 @@ bool ExitAirTempSensor::calculate(double& val)
 
     if (totalPower == 0)
     {
-        std::cerr << "total power 0\n";
+        if (errorPrint > 0)
+        {
+            errorPrint--;
+            std::cerr << "total power 0\n";
+        }
         val = 0;
         return false;
     }
@@ -758,6 +769,7 @@ bool ExitAirTempSensor::calculate(double& val)
     val = reading;
     lastReading = reading;
     lastTime = time;
+    errorPrint = maxErrorPrint;
     return true;
 }
 
