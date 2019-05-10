@@ -12,7 +12,7 @@ class PresenceSensor
 
   public:
     PresenceSensor(const size_t index, bool inverted,
-                   boost::asio::io_service& io);
+                   boost::asio::io_service& io, const std::string& name);
     ~PresenceSensor();
 
     void monitorPresence(void);
@@ -24,6 +24,7 @@ class PresenceSensor
     bool inverted;
     boost::asio::ip::tcp::socket inputDev;
     int fd;
+    std::string name;
 };
 
 class RedundancySensor

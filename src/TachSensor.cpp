@@ -195,9 +195,10 @@ void TachSensor::checkThresholds(void)
 }
 
 PresenceSensor::PresenceSensor(const size_t index, bool inverted,
-                               boost::asio::io_service& io) :
+                               boost::asio::io_service& io,
+                               const std::string& name) :
     inverted(inverted),
-    inputDev(io)
+    inputDev(io), name(name)
 {
     // todo: use gpiodaemon
     std::string device = gpioPath + std::string("gpio") + std::to_string(index);
@@ -267,7 +268,18 @@ void PresenceSensor::read(void)
         {
             value = !value;
         }
-        status = value;
+        if (value != status)
+        {
+            status = value;
+            if (status)
+            {
+                logDeviceAdded(name);
+            }
+            else
+            {
+                logDeviceRemoved(name);
+            }
+        }
     }
 }
 

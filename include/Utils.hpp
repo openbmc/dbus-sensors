@@ -1,6 +1,8 @@
 #pragma once
 #include "VariantVisitors.hpp"
 
+#include <systemd/sd-journal.h>
+
 #include <boost/container/flat_map.hpp>
 #include <filesystem>
 #include <iostream>
@@ -118,4 +120,20 @@ inline void setReadState(const std::string& str, PowerState& val)
     {
         val = PowerState::always;
     }
+}
+
+inline void logDeviceAdded(const std::string& device)
+{
+
+    sd_journal_send("MESSAGE=%s", "Inventory Added", "PRIORITY=%i", LOG_ERR,
+                    "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.InventoryAdded",
+                    "REDFISH_MESSAGE_ARGS=%s", device.c_str(), NULL);
+}
+
+inline void logDeviceRemoved(const std::string& device)
+{
+
+    sd_journal_send("MESSAGE=%s", "Inventory Removed", "PRIORITY=%i", LOG_ERR,
+                    "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.InventoryRemoved",
+                    "REDFISH_MESSAGE_ARGS=%s", device.c_str(), NULL);
 }

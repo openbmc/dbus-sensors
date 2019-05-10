@@ -251,8 +251,8 @@ void createSensors(
                 size_t index = std::get<uint64_t>(findIndex->second);
                 bool inverted =
                     std::get<std::string>(findPolarity->second) == "Low";
-                presenceSensor =
-                    std::make_unique<PresenceSensor>(index, inverted, io);
+                presenceSensor = std::make_unique<PresenceSensor>(
+                    index, inverted, io, sensorName);
             }
         }
         std::shared_ptr<RedundancySensor> redundancy;
