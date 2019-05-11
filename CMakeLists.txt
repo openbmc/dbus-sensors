@@ -43,7 +43,7 @@ set (INTRUSION_SRC_FILES src/Utils.cpp src/ChassisIntrusionSensor.cpp)
 set (IPMB_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 
 set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp
-     src/PwmSensor.cpp)
+     src/PwmSensor.cpp src/PSUEvent.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
