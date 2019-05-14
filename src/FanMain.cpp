@@ -46,7 +46,7 @@ enum class FanTypes
 };
 
 // todo: power supply fan redundancy
-std::shared_ptr<RedundancySensor> systemRedundancy = nullptr;
+std::optional<RedundancySensor> systemRedundancy;
 
 FanTypes getFanType(const fs::path& parentPath)
 {
@@ -255,10 +255,10 @@ void createSensors(
                     std::make_unique<PresenceSensor>(index, inverted, io);
             }
         }
-        std::shared_ptr<RedundancySensor> redundancy;
+        std::optional<RedundancySensor>* redundancy = nullptr;
         if (fanType == FanTypes::aspeed)
         {
-            redundancy = systemRedundancy;
+            redundancy = &systemRedundancy;
         }
 
         constexpr double defaultMaxReading = 25000;
@@ -360,10 +360,10 @@ void createRedundancySensor(
                                 "/xyz/openbmc_project/sensors/fan_tach/" +
                                 sensor.second->name);
                         }
-                        systemRedundancy = nullptr;
-                        systemRedundancy = std::make_shared<RedundancySensor>(
+                        systemRedundancy.reset();
+                        systemRedundancy.emplace(RedundancySensor(
                             std::get<uint64_t>(findCount->second), sensorList,
-                            objectServer, pathPair.first);
+                            objectServer, pathPair.first));
 
                         return;
                     }
