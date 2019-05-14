@@ -39,6 +39,7 @@ class RedundancySensor
 
   private:
     size_t count;
+    std::string state = "Full";
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     sdbusplus::asio::object_server& objectServer;
@@ -52,7 +53,7 @@ class TachSensor : public Sensor
                sdbusplus::asio::object_server& objectServer,
                std::shared_ptr<sdbusplus::asio::connection>& conn,
                std::unique_ptr<PresenceSensor>&& presence,
-               const std::shared_ptr<RedundancySensor>& redundancy,
+               std::optional<RedundancySensor>* redundancy,
                boost::asio::io_service& io, const std::string& fanName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration,
@@ -61,7 +62,7 @@ class TachSensor : public Sensor
 
   private:
     sdbusplus::asio::object_server& objServer;
-    std::shared_ptr<RedundancySensor> redundancy;
+    std::optional<RedundancySensor>* redundancy;
     std::unique_ptr<PresenceSensor> presence;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
     boost::asio::posix::stream_descriptor inputDev;
@@ -72,3 +73,35 @@ class TachSensor : public Sensor
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
 };
+
+inline void logFanInserted(const std::string& device)
+{
+
+    sd_journal_send("MESSAGE=%s", "Fan Inserted", "PRIORITY=%i", LOG_ERR,
+                    "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanInserted",
+                    "REDFISH_MESSAGE_ARGS=%s", device.c_str(), NULL);
+}
+
+inline void logFanRemoved(const std::string& device)
+{
+
+    sd_journal_send("MESSAGE=%s", "Fan Removed", "PRIORITY=%i", LOG_ERR,
+                    "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanRemoved",
+                    "REDFISH_MESSAGE_ARGS=%s", device.c_str(), NULL);
+}
+
+inline void logFanRedundancyLost(void)
+{
+
+    sd_journal_send("MESSAGE=%s", "Fan Inserted", "PRIORITY=%i", LOG_ERR,
+                    "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanRedundancyLost",
+                    NULL);
+}
+
+inline void logFanRedundancyRestored(void)
+{
+
+    sd_journal_send("MESSAGE=%s", "Fan Removed", "PRIORITY=%i", LOG_ERR,
+                    "REDFISH_MESSAGE_ID=%s",
+                    "OpenBMC.0.1.FanRedundancyRestored", NULL);
+}

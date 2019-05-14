@@ -35,7 +35,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        sdbusplus::asio::object_server& objectServer,
                        std::shared_ptr<sdbusplus::asio::connection>& conn,
                        std::unique_ptr<PresenceSensor>&& presenceSensor,
-                       const std::shared_ptr<RedundancySensor>& redundancy,
+                       std::optional<RedundancySensor>* redundancy,
                        boost::asio::io_service& io, const std::string& fanName,
                        std::vector<thresholds::Threshold>&& _thresholds,
                        const std::string& sensorConfiguration,
@@ -187,10 +187,10 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
 void TachSensor::checkThresholds(void)
 {
     bool status = thresholds::checkThresholds(this);
-    if (redundancy)
+    if (redundancy && *redundancy)
     {
-        redundancy->update("/xyz/openbmc_project/sensors/fan_tach/" + name,
-                           !status);
+        (*redundancy)
+            ->update("/xyz/openbmc_project/sensors/fan_tach/" + name, !status);
     }
 }
 
@@ -273,11 +273,11 @@ void PresenceSensor::read(void)
             status = value;
             if (status)
             {
-                logDeviceAdded(name);
+                logFanInserted(name);
             }
             else
             {
-                logDeviceRemoved(name);
+                logFanRemoved(name);
             }
         }
     }
@@ -317,7 +317,7 @@ void RedundancySensor::update(const std::string& name, bool failed)
     statuses[name] = failed;
     size_t failedCount = 0;
 
-    std::string state = "Full";
+    std::string newState = "Full";
     for (const auto& status : statuses)
     {
         if (status.second)
@@ -326,13 +326,25 @@ void RedundancySensor::update(const std::string& name, bool failed)
         }
         if (failedCount > count)
         {
-            state = "Failed";
+            newState = "Failed";
             break;
         }
         else if (failedCount)
         {
-            state = "Degraded";
+            newState = "Degraded";
         }
     }
-    iface->set_property("Status", state);
+    if (state != newState)
+    {
+        if (state == "Full")
+        {
+            logFanRedundancyLost();
+        }
+        else if (newState == "Full")
+        {
+            logFanRedundancyRestored();
+        }
+        state = newState;
+        iface->set_property("Status", state);
+    }
 }
