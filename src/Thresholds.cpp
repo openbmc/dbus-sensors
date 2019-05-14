@@ -247,7 +247,7 @@ static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
 
 bool checkThresholds(Sensor* sensor)
 {
-    bool status = false;
+    bool status = true;
     std::vector<std::pair<Threshold, bool>> changes =
         checkThresholds(sensor, sensor->value);
     for (const auto& [threshold, asserted] : changes)
@@ -256,7 +256,7 @@ bool checkThresholds(Sensor* sensor)
                          asserted);
         if (threshold.level == thresholds::Level::CRITICAL && asserted)
         {
-            status = true;
+            status = false;
         }
     }
 
