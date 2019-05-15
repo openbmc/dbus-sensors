@@ -149,10 +149,10 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      const std::string& sensorName,
                      const std::string& sensorConfiguration,
                      sdbusplus::asio::object_server& objectServer,
-                     std::vector<thresholds::Threshold>&& thresholds,
+                     std::vector<thresholds::Threshold>&& thresholdData,
                      std::shared_ptr<ExitAirTempSensor>& parent) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           "" /* todo: remove arg from base*/, std::move(thresholds),
+           "" /* todo: remove arg from base*/, std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            cfmMaxReading, cfmMinReading),
     dbusConnection(conn), parent(parent), objServer(objectServer)
@@ -469,9 +469,9 @@ ExitAirTempSensor::ExitAirTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::string& sensorName, const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholds) :
+    std::vector<thresholds::Threshold>&& thresholdData) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           "" /* todo: remove arg from base*/, std::move(thresholds),
+           "" /* todo: remove arg from base*/, std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            exitAirMaxReading, exitAirMinReading),
     dbusConnection(conn), objServer(objectServer)
