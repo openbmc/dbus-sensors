@@ -14,6 +14,8 @@
 // limitations under the License.
 */
 
+#include <systemd/sd-journal.h>
+
 #include <PSUEvent.hpp>
 #include <iostream>
 #include <sdbusplus/asio/connection.hpp>
@@ -38,14 +40,20 @@ PSUCombineEvent::PSUCombineEvent(
         std::cerr << "error initializing event interface\n";
     }
 
+    auto psuPos =
+        psuName.find("PSU") + std::string("PSU").size(); // get x from PSUx
+    std::string psuNumStr = psuName.substr(psuPos);
+    int psuNumber = std::stoi(psuNumStr);
+
     std::shared_ptr<std::set<std::string>> combineEvent =
         std::make_shared<std::set<std::string>>();
     for (const auto& pathList : eventPathList)
     {
         const std::string& eventName = pathList.first;
         std::string eventPSUName = eventName + psuName;
-        events[eventPSUName] = std::make_unique<PSUEvent>(
-            pathList.second, eventInterface, io, eventName, combineEvent);
+        events[eventPSUName] =
+            std::make_unique<PSUEvent>(pathList.second, eventInterface, io,
+                                       eventName, combineEvent, psuNumber);
     }
 }
 
@@ -59,7 +67,7 @@ PSUEvent::PSUEvent(
     const std::vector<std::string>& paths,
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
     boost::asio::io_service& io, const std::string& eventName,
-    std::shared_ptr<std::set<std::string>> combineEvent) :
+    std::shared_ptr<std::set<std::string>> combineEvent, int& psuNumber) :
     paths(paths),
     eventName(eventName)
 {
@@ -71,7 +79,8 @@ PSUEvent::PSUEvent(
     for (const auto& path : paths)
     {
         subEvents[index] = std::make_unique<PSUSubEvent>(
-            eventInterface, path, io, eventName, asserts, combineEvent, state);
+            eventInterface, path, io, eventName, asserts, combineEvent, state,
+            psuNumber);
         index++;
     }
 }
@@ -80,18 +89,42 @@ PSUEvent::~PSUEvent()
 {
 }
 
+static boost::container::flat_map<std::string, std::string> logID = {
+    {"PredictiveFailure", "OpenBMC.0.1.PowerSupplyFailurePredicted"},
+    {"Failure", "OpenBMC.0.1.PowerSupplyFailed"},
+    {"ACLost", "OpenBMC.0.1.PowerSupplyACLost"},
+    {"FanFault", "OpenBMC.0.1.PowerSupplyFanFailed"}};
+
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
     const std::string& path, boost::asio::io_service& io,
     const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
-    std::shared_ptr<bool> state) :
+    std::shared_ptr<bool> state, int& psuNumber) :
     eventInterface(eventInterface),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     path(path), eventName(eventName), assertState(state), asserts(asserts),
-    combineEvent(combineEvent)
+    combineEvent(combineEvent), psuNumber(psuNumber)
 {
+    auto found = logID.find(eventName);
+    if (found == logID.end())
+    {
+        messageID = "";
+    }
+    else
+    {
+        messageID = found->second;
+    }
+
+    auto fanPos = path.find("fan");
+    if (fanPos != std::string::npos)
+    {
+        auto fanNumPos =
+            path.find("fan") + std::string("fan").size(); // get x from fanx
+        std::string fanNumStr = path.substr(fanNumPos);
+        fanNumber = std::stoi(fanNumStr.substr(0, 1));
+    }
     setupRead();
 }
 
@@ -187,7 +220,6 @@ void PSUSubEvent::updateValue(const int& newValue)
         if (*assertState == true)
         {
             *assertState = false;
-            // create log eventInterface->set_property(eventName, *assertState);
             auto foundCombine = (*combineEvent).find(eventName);
             if (foundCombine != (*combineEvent).end())
             {
@@ -206,6 +238,26 @@ void PSUSubEvent::updateValue(const int& newValue)
         if (*assertState == false)
         {
             *assertState = true;
+            if (messageID != "")
+            {
+                // Fan Failed has two args
+                std::string sendMessage = eventName + " assert";
+                if (messageID == "OpenBMC.0.1.PowerSupplyFanFailed")
+                {
+                    sd_journal_send("MESSAGE=%s", sendMessage.c_str(),
+                                    "PRIORITY=%i", LOG_ERR,
+                                    "REDFISH_MESSAGE_ID=%s", messageID.c_str(),
+                                    "REDFISH_MESSAGE_ARGS=%d,%d", psuNumber,
+                                    fanNumber, NULL);
+                }
+                else
+                {
+                    sd_journal_send("MESSAGE=%s", sendMessage.c_str(),
+                                    "PRIORITY=%i", LOG_ERR,
+                                    "REDFISH_MESSAGE_ID=%s", messageID.c_str(),
+                                    "REDFISH_MESSAGE_ARGS=%d", psuNumber, NULL);
+                }
+            }
             if ((*combineEvent).empty())
             {
                 eventInterface->set_property("functional", true);
