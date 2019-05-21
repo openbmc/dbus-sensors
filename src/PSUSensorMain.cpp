@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <PSUEvent.hpp>
 #include <PSUSensor.hpp>
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
@@ -21,6 +22,7 @@
 #include <boost/container/flat_set.hpp>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -32,11 +34,76 @@ namespace fs = std::filesystem;
 
 static boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>
     sensors;
+static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
+    combineEvents;
 static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
 static boost::container::flat_map<std::string, std::string> sensorTable;
 static boost::container::flat_map<std::string, PSUProperty> labelMatch;
 static boost::container::flat_map<std::string, std::string> pwmTable;
+static boost::container::flat_map<std::string, std::vector<std::string>>
+    eventMatch;
+static boost::container::flat_map<std::string, std::vector<std::string>>
+    limitEventMatch;
+
+// Function CheckEvent will check each attribute from eventMatch table in the
+// sysfs. If the attributes exists in sysfs, then store the complete path
+// of the attribute into eventPathList.
+void checkEvent(
+    const std::string& directory,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        eventMatch,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        eventPathList)
+{
+    for (const auto& match : eventMatch)
+    {
+        const std::vector<std::string>& eventAttrs = match.second;
+        const std::string& eventName = match.first;
+        for (const auto& eventAttr : eventAttrs)
+        {
+            auto eventPath = directory + "/" + eventAttr;
+
+            std::ifstream eventFile(eventPath);
+            if (!eventFile.good())
+            {
+                continue;
+            }
+            eventFile.close();
+
+            eventPathList[eventName].push_back(eventPath);
+        }
+    }
+}
+
+// Function checkLimitEvent will check all the psu related xxx_input attributes
+// in sysfs to see if xxx_crit_alarm xxx_lcrit_alarm xxx_max_alarm
+// xxx_min_alarm exist, then store the existing paths of the alarm attributes
+// to eventPathList.
+void checkLimitEvent(
+    const std::string& sensorPathStr,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        limitEventMatch,
+    boost::container::flat_map<std::string, std::vector<std::string>>&
+        eventPathList)
+{
+    for (const auto& limitMatch : limitEventMatch)
+    {
+        const std::vector<std::string>& limitEventAttrs = limitMatch.second;
+        const std::string& eventName = limitMatch.first;
+        for (const auto& limitEventAttr : limitEventAttrs)
+        {
+            auto limitEventPath =
+                boost::replace_all_copy(sensorPathStr, "input", limitEventAttr);
+            std::ifstream eventFile(limitEventPath);
+            if (!eventFile.good())
+            {
+                continue;
+            }
+            eventPathList[eventName].push_back(limitEventPath);
+        }
+    }
+}
 
 static void checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
                            const std::string& interfacePath,
@@ -79,6 +146,8 @@ void createSensors(boost::asio::io_service& io,
     ManagedObjectType sensorConfigs;
     bool useCache = false;
 
+    // TODO may need only modify the ones that need to be changed.
+    sensors.clear();
     for (const char* type : sensorTypes)
     {
         if (!getSensorConfiguration(type, dbusConnection, sensorConfigs,
@@ -100,13 +169,31 @@ void createSensors(boost::asio::io_service& io,
     boost::container::flat_set<std::string> directories;
     for (const auto& pmbusPath : pmbusPaths)
     {
-        const std::string pathStr = pmbusPath.string();
+        boost::container::flat_map<std::string, std::vector<std::string>>
+            eventPathList;
+
+        std::ifstream nameFile(pmbusPath);
+        if (!nameFile.good())
+        {
+            std::cerr << "Failure reading " << pmbusPath << "\n";
+            continue;
+        }
+
+        std::string pmbusName;
+        std::getline(nameFile, pmbusName);
+        nameFile.close();
+        if (pmbusName != "pmbus")
+        {
+            continue;
+        }
+
+        const std::string* psuName;
         auto directory = pmbusPath.parent_path();
 
         auto ret = directories.insert(directory.string());
         if (!ret.second)
         {
-            continue; // check if path i1 already searched
+            continue; // check if path has already been searched
         }
 
         auto device = fs::path(directory / "device");
@@ -129,21 +216,6 @@ void createSensors(boost::asio::io_service& io,
             addr = std::stoi(addrStr, 0, 16);
         }
         catch (std::invalid_argument)
-        {
-            continue;
-        }
-
-        std::ifstream nameFile(pmbusPath);
-        if (!nameFile.good())
-        {
-            std::cerr << "Failure reading " << pmbusPath << "\n";
-            continue;
-        }
-
-        std::string pmbusName;
-        std::getline(nameFile, pmbusName);
-        nameFile.close();
-        if (pmbusName != "pmbus")
         {
             continue;
         }
@@ -182,12 +254,21 @@ void createSensors(boost::asio::io_service& io,
             if (configBus == baseConfig->second.end() ||
                 configAddress == baseConfig->second.end())
             {
-                std::cerr << "error finding necessary entry in configuration";
+                std::cerr << "error finding necessary entry in configuration\n";
                 continue;
             }
 
-            if (std::get<uint64_t>(configBus->second) != bus ||
-                std::get<uint64_t>(configAddress->second) != addr)
+            const uint64_t* confBus;
+            const uint64_t* confAddr;
+            if (!(confBus = std::get_if<uint64_t>(&(configBus->second))) ||
+                !(confAddr = std::get_if<uint64_t>(&(configAddress->second))))
+            {
+                std::cerr
+                    << "Canot get bus or address, invalid configuration\n";
+                continue;
+            }
+
+            if ((*confBus != bus) || (*confAddr != addr))
             {
                 continue;
             }
@@ -208,6 +289,13 @@ void createSensors(boost::asio::io_service& io,
                       << deviceName << "\n";
             continue;
         }
+
+        if (!(psuName = std::get_if<std::string>(&(findPSUName->second))))
+        {
+            std::cerr << "Cannot find psu name, invalid configuration\n";
+            continue;
+        }
+        checkEvent(directory.string(), eventMatch, eventPathList);
 
         std::vector<fs::path> sensorPaths;
         if (!findFiles(fs::path(directory), R"(\w\d+_input$)", sensorPaths, 0))
@@ -275,6 +363,8 @@ void createSensors(boost::asio::io_service& io,
                 continue;
             }
 
+            checkLimitEvent(sensorPathStr, limitEventMatch, eventPathList);
+
             unsigned int factor =
                 std::pow(10, findProperty->second.sensorScaleFactor);
             if (sensorThresholds.empty())
@@ -294,17 +384,19 @@ void createSensors(boost::asio::io_service& io,
             }
 
             std::string sensorName =
-                std::get<std::string>(findPSUName->second) + " " +
-                findProperty->second.labelTypeName;
+                *psuName + " " + findProperty->second.labelTypeName;
 
-            auto& newSensor = sensors[sensorName];
-            newSensor = nullptr; // destroy old one if it exists
-            newSensor = std::make_unique<PSUSensor>(
+            sensors[sensorName] = std::make_unique<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, findProperty->second.maxReading,
                 findProperty->second.minReading);
         }
+
+        // OperationalStatus event
+        combineEvents[*psuName + "OperationalStatus"] =
+            std::make_unique<PSUCombineEvent>(
+                objectServer, io, *psuName, eventPathList, "OperationalStatus");
     }
     return;
 }
@@ -327,6 +419,15 @@ void propertyInitialize(void)
                   {"fan2", PSUProperty("Fan Speed 2", 10000, 0, 0)}};
 
     pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"}};
+
+    limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
+                       {"Failure", {"crit_alarm", "lcrit_alarm"}}};
+
+    eventMatch = {
+        {"PredictiveFailure", {"power1_alarm"}},
+        {"Failure", {"in2_alarm"}},
+        {"ACLost", {"in1_alarm", "in1_lcrit_alarm"}},
+        {"FanFault", {"fan1_alarm", "fan2_alarm", "fan1_fault", "fan2_fault"}}};
 }
 
 int main(int argc, char** argv)
