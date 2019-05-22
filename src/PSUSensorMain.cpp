@@ -323,8 +323,8 @@ void propertyInitialize(void)
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
-                  {"fan1", PSUProperty("Fan Speed 1", 10000, 0, 0)},
-                  {"fan2", PSUProperty("Fan Speed 2", 10000, 0, 0)}};
+                  {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0)},
+                  {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0)}};
 
     pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"}};
 }
