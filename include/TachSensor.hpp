@@ -76,6 +76,7 @@ class TachSensor : public Sensor
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
+    std::string path;
     int errCount;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);

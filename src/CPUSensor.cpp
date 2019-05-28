@@ -34,11 +34,11 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration, int cpuId,
                      bool show) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading),
     objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), show(show),
+    path(path), waitTimer(io), show(show),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()), errCount(0)
 {
     nameTcontrol = labelTcontrol;

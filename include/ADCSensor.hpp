@@ -23,6 +23,7 @@ class ADCSensor : public Sensor
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
+    std::string path;
     int errCount;
     double scaleFactor;
     std::optional<int> bridgeGpio;

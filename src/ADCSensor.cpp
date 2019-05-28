@@ -64,10 +64,10 @@ ADCSensor::ADCSensor(const std::string& path,
                      const double scaleFactor, PowerState readState,
                      const std::string& sensorConfiguration,
                      std::optional<int> bridgeGpio) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
-    objServer(objectServer), scaleFactor(scaleFactor),
+    objServer(objectServer), scaleFactor(scaleFactor), path(path),
     readState(std::move(readState)), inputDev(io, open(path.c_str(), O_RDONLY)),
     waitTimer(io), errCount(0), thresholdTimer(io, this), bridgeGpio(bridgeGpio)
 {
