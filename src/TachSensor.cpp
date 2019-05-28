@@ -40,10 +40,9 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        std::vector<thresholds::Threshold>&& _thresholds,
                        const std::string& sensorConfiguration,
                        const std::pair<size_t, size_t>& limits) :
-    Sensor(boost::replace_all_copy(fanName, " ", "_"), path,
-           std::move(_thresholds), sensorConfiguration, objectType,
-           limits.second, limits.first),
-    objServer(objectServer), presence(std::move(presenceSensor)),
+    Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(_thresholds),
+           sensorConfiguration, objectType, limits.second, limits.first),
+    path(path), objServer(objectServer), presence(std::move(presenceSensor)),
     redundancy(redundancy), inputDev(io, open(path.c_str(), O_RDONLY)),
     waitTimer(io), errCount(0)
 {

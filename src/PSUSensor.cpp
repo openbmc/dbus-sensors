@@ -36,10 +36,11 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
                      double max, double min) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
-    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), errCount(0), sensorFactor(factor)
+    path(path), objServer(objectServer),
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
+    sensorFactor(factor)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
 
