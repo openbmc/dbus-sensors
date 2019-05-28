@@ -27,6 +27,7 @@ class CPUSensor : public Sensor
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string nameTcontrol;
+    std::string path;
     double privTcontrol;
     bool show;
     int errCount;

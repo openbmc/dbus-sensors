@@ -57,7 +57,7 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        std::vector<thresholds::Threshold>&& thresholdData,
                        uint8_t deviceAddress) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           "" /* todo: remove arg from base*/, std::move(thresholdData),
+           std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            ipmbMaxReading, ipmbMinReading),
     objectServer(objectServer), dbusConnection(conn), waitTimer(io),
