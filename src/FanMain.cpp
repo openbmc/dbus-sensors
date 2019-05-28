@@ -265,11 +265,14 @@ void createSensors(
         constexpr double defaultMinReading = 0;
         auto limits = std::make_pair(defaultMinReading, defaultMaxReading);
 
+        std::pair<double, double> hysteresis =
+            parseHysteresis(baseConfiguration->second);
+
         findLimits(limits, baseConfiguration);
         tachSensors[sensorName] = std::make_unique<TachSensor>(
             path.string(), baseType, objectServer, dbusConnection,
             std::move(presenceSensor), redundancy, io, sensorName,
-            std::move(sensorThresholds), *interfacePath, limits);
+            std::move(sensorThresholds), *interfacePath, limits, hysteresis);
 
         auto connector = sensorData->find(baseType + std::string(".Connector"));
         if (connector != sensorData->end())

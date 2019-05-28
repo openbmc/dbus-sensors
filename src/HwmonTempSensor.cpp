@@ -39,10 +39,11 @@ HwmonTempSensor::HwmonTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& _thresholds,
-    const std::string& sensorConfiguration) :
+    const std::string& sensorConfiguration,
+    const std::pair<double, double>& hysteresis) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading),
+           minReading, hysteresis.first, hysteresis.second),
     path(path), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0)
 {

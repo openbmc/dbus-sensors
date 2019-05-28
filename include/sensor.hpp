@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Thresholds.hpp>
+#include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 constexpr size_t sensorFailedPollTimeMs = 5000;
@@ -11,10 +12,13 @@ struct Sensor
     Sensor(const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
-           const double max, const double min) :
+           const double max, const double min, const double positiveHysteresis,
+           const double negativeHysteresis) :
         name(name),
         configurationPath(configurationPath), objectType(objectType),
-        thresholds(std::move(thresholdData)), maxValue(max), minValue(min)
+        thresholds(std::move(thresholdData)), maxValue(max), minValue(min),
+        positiveHysteresis(positiveHysteresis),
+        negativeHysteresis(negativeHysteresis)
     {
     }
     virtual ~Sensor() = default;
@@ -24,6 +28,9 @@ struct Sensor
     std::string objectType;
     double maxValue;
     double minValue;
+
+    double positiveHysteresis;
+    double negativeHysteresis;
     std::vector<thresholds::Threshold> thresholds;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
@@ -45,7 +52,15 @@ struct Sensor
         }
         else if (!overriddenState)
         {
-            oldValue = newValue;
+            if (newValue - oldValue > positiveHysteresis)
+            {
+                oldValue = newValue;
+            }
+
+            if (oldValue - newValue > negativeHysteresis)
+            {
+                oldValue = newValue;
+            }
         }
         return 1;
     }
@@ -57,6 +72,22 @@ struct Sensor
 
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property(
+            "PositiveHysteresis", positiveHysteresis,
+            [this, conn](const double newValue, double oldvalue) {
+                persistDouble(conn, configurationPath, objectType,
+                              "PositiveHysteresis", newValue);
+                oldvalue = newValue;
+                return 1;
+            });
+        sensorInterface->register_property(
+            "NegativeHysteresis", negativeHysteresis,
+            [this, conn](const double newValue, double oldvalue) {
+                persistDouble(conn, configurationPath, objectType,
+                              "NegativeHysteresis", newValue);
+                oldvalue = newValue;
+                return 1;
+            });
         sensorInterface->register_property(
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);

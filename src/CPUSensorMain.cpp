@@ -293,6 +293,8 @@ bool createSensors(boost::asio::io_service& io,
             std::string labelHead = label.substr(0, label.find(" "));
             parseThresholdsFromConfig(*sensorData, sensorThresholds,
                                       &labelHead);
+            std::pair<double, double> hysteresis =
+                parseHysteresis(baseConfiguration->second);
             if (sensorThresholds.empty())
             {
                 if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
@@ -305,7 +307,7 @@ bool createSensors(boost::asio::io_service& io,
             gCpuSensors[sensorName] = std::make_unique<CPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show);
+                show, hysteresis);
             createdSensors.insert(sensorName);
             if (DEBUG)
             {

@@ -35,9 +35,11 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
-                     double max, double min) :
+                     double max, double min,
+                     const std::pair<double, double>& hysteresis) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration, objectType, max, min),
+           std::move(_thresholds), sensorConfiguration, objectType, max, min,
+           hysteresis.first, hysteresis.second),
     path(path), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     sensorFactor(factor)

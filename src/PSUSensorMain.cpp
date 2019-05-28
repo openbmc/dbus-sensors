@@ -269,6 +269,8 @@ void createSensors(boost::asio::io_service& io,
             parseThresholdsFromConfig(*sensorData, sensorThresholds,
                                       &labelHead);
 
+            std::pair<double, double> hysteresis =
+                parseHysteresis(baseConfig->second);
             auto findProperty = labelMatch.find(labelHead);
             if (findProperty == labelMatch.end())
             {
@@ -303,7 +305,7 @@ void createSensors(boost::asio::io_service& io,
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, findProperty->second.maxReading,
-                findProperty->second.minReading);
+                findProperty->second.minReading, hysteresis);
         }
     }
     return;

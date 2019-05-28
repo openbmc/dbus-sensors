@@ -39,9 +39,11 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        boost::asio::io_service& io, const std::string& fanName,
                        std::vector<thresholds::Threshold>&& _thresholds,
                        const std::string& sensorConfiguration,
-                       const std::pair<size_t, size_t>& limits) :
+                       const std::pair<size_t, size_t>& limits,
+                       const std::pair<double, double>& hysteresis) :
     Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(_thresholds),
-           sensorConfiguration, objectType, limits.second, limits.first),
+           sensorConfiguration, objectType, limits.second, limits.first,
+           hysteresis.first, hysteresis.second),
     path(path), objServer(objectServer), presence(std::move(presenceSensor)),
     redundancy(redundancy), inputDev(io, open(path.c_str(), O_RDONLY)),
     waitTimer(io), errCount(0)
