@@ -30,6 +30,7 @@
 static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.pmbus"};
 
+static std::vector<std::string> pmbusNames = {"pmbus", "pxe1610"};
 namespace fs = std::filesystem;
 
 static boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>
@@ -181,7 +182,9 @@ void createSensors(boost::asio::io_service& io,
         std::string pmbusName;
         std::getline(nameFile, pmbusName);
         nameFile.close();
-        if (pmbusName != "pmbus")
+
+        if (std::find(pmbusNames.begin(), pmbusNames.end(), pmbusName) ==
+            pmbusNames.end())
         {
             continue;
         }
@@ -296,6 +299,15 @@ void createSensors(boost::asio::io_service& io,
         }
         checkEvent(directory.string(), eventMatch, eventPathList);
 
+        /* Check if there are more sensors in the same interface */
+        int i = 1;
+        std::vector<std::string> psuNames;
+        do
+        {
+            psuNames.push_back(std::get<std::string>(findPSUName->second));
+            findPSUName = baseConfig->second.find("Name" + std::to_string(i++));
+        } while (findPSUName != baseConfig->second.end());
+
         std::vector<fs::path> sensorPaths;
         if (!findFiles(fs::path(directory), R"(\w\d+_input$)", sensorPaths, 0))
         {
@@ -349,12 +361,20 @@ void createSensors(boost::asio::io_service& io,
             }
 
             checkPWMSensor(sensorPath, labelHead, *interfacePath, objectServer,
-                           std::get<std::string>(findPSUName->second));
+                           psuNames[0]);
 
-            std::vector<thresholds::Threshold> sensorThresholds;
-
-            parseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                      &labelHead);
+            /* Find out sensor name index for this label */
+            uint8_t nameIndex = labelHead[labelHead.size() - 1];
+            if (nameIndex > '1' && nameIndex <= '9')
+            {
+                nameIndex -= '1';
+                if (psuNames.size() <= nameIndex)
+                {
+                    continue;
+                }
+            }
+            else
+                nameIndex = 0;
 
             auto findProperty = labelMatch.find(labelHead);
             if (findProperty == labelMatch.end())
@@ -366,13 +386,14 @@ void createSensors(boost::asio::io_service& io,
 
             unsigned int factor =
                 std::pow(10, findProperty->second.sensorScaleFactor);
+
+            std::vector<thresholds::Threshold> sensorThresholds;
+
+            parseThresholdsFromConfig(*sensorData, sensorThresholds,
+                                      &labelHead);
             if (sensorThresholds.empty())
             {
-                if (!parseThresholdsFromAttr(sensorThresholds, sensorPathStr,
-                                             factor))
-                {
-                    std::cerr << "error populating thresholds\n";
-                }
+                continue;
             }
 
             auto findSensorType = sensorTable.find(sensorNameSubStr);
@@ -383,7 +404,7 @@ void createSensors(boost::asio::io_service& io,
             }
 
             std::string sensorName =
-                *psuName + " " + findProperty->second.labelTypeName;
+                psuNames[nameIndex] + " " + findProperty->second.labelTypeName;
 
             sensors[sensorName] = std::make_unique<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
@@ -410,10 +431,19 @@ void propertyInitialize(void)
 
     labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"pout2", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"pout3", PSUProperty("Output Power", 3000, 0, 6)},
                   {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
+                  {"vout1", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout2", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout3", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
+                  {"iout2", PSUProperty("Output Current", 255, 0, 3)},
+                  {"iout3", PSUProperty("Output Current", 255, 0, 3)},
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
+                  {"temp2", PSUProperty("Temperature", 127, -128, 3)},
+                  {"temp3", PSUProperty("Temperature", 127, -128, 3)},
                   {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0)},
                   {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0)}};
 
