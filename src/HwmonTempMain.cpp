@@ -190,10 +190,13 @@ void createSensors(
                       << "\n";
         }
 
+        std::pair<double, double> hysteresis =
+            parseHysteresis(baseConfiguration->second);
+
         sensors[sensorName] = std::make_unique<HwmonTempSensor>(
             directory.string() + "/temp1_input", sensorType, objectServer,
             dbusConnection, io, sensorName, std::move(sensorThresholds),
-            *interfacePath);
+            *interfacePath, hysteresis);
         auto findSecondName = baseConfiguration->second.find("Name1");
         if (findSecondName == baseConfiguration->second.end())
         {
@@ -204,7 +207,7 @@ void createSensors(
         sensors[sensorName] = std::make_unique<HwmonTempSensor>(
             directory.string() + "/temp2_input", sensorType, objectServer,
             dbusConnection, io, sensorName,
-            std::vector<thresholds::Threshold>(), *interfacePath);
+            std::vector<thresholds::Threshold>(), *interfacePath, hysteresis);
     }
 }
 

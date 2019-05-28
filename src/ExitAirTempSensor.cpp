@@ -150,11 +150,12 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      const std::string& sensorConfiguration,
                      sdbusplus::asio::object_server& objectServer,
                      std::vector<thresholds::Threshold>&& thresholdData,
-                     std::shared_ptr<ExitAirTempSensor>& parent) :
+                     std::shared_ptr<ExitAirTempSensor>& parent,
+                     const std::pair<double, double>& hysteresis) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", cfmMaxReading,
-           cfmMinReading),
+           cfmMinReading, hysteresis.first, hysteresis.second),
     dbusConnection(conn), parent(parent), objServer(objectServer)
 {
     sensorInterface =
@@ -469,11 +470,12 @@ ExitAirTempSensor::ExitAirTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::string& sensorName, const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData) :
+    std::vector<thresholds::Threshold>&& thresholdData,
+    const std::pair<double, double>& hysteresis) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", exitAirMaxReading,
-           exitAirMinReading),
+           exitAirMinReading, hysteresis.first, hysteresis.second),
     dbusConnection(conn), objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
@@ -824,12 +826,15 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                         std::vector<thresholds::Threshold> sensorThresholds;
                         parseThresholdsFromConfig(pathPair.second,
                                                   sensorThresholds);
+                        std::pair<double, double> hysteresis =
+                            parseHysteresis(entry.second);
 
                         std::string name =
                             loadVariant<std::string>(entry.second, "Name");
                         exitAirSensor = std::make_shared<ExitAirTempSensor>(
                             dbusConnection, name, pathPair.first.str,
-                            objectServer, std::move(sensorThresholds));
+                            objectServer, std::move(sensorThresholds),
+                            hysteresis);
                         exitAirSensor->powerFactorMin =
                             loadVariant<double>(entry.second, "PowerFactorMin");
                         exitAirSensor->powerFactorMax =
@@ -850,12 +855,14 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                         std::vector<thresholds::Threshold> sensorThresholds;
                         parseThresholdsFromConfig(pathPair.second,
                                                   sensorThresholds);
+                        std::pair<double, double> hysteresis =
+                            parseHysteresis(entry.second);
                         std::string name =
                             loadVariant<std::string>(entry.second, "Name");
                         auto sensor = std::make_unique<CFMSensor>(
                             dbusConnection, name, pathPair.first.str,
                             objectServer, std::move(sensorThresholds),
-                            exitAirSensor);
+                            exitAirSensor, hysteresis);
                         loadVariantPathArray(entry.second, "Tachs",
                                              sensor->tachs);
                         sensor->maxCFM =

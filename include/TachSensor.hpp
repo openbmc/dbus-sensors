@@ -66,7 +66,8 @@ class TachSensor : public Sensor
                boost::asio::io_service& io, const std::string& fanName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration,
-               const std::pair<size_t, size_t>& limits);
+               const std::pair<size_t, size_t>& limits,
+               const std::pair<double, double>& hysteresis);
     ~TachSensor();
 
   private:

@@ -55,11 +55,12 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        const std::string& sensorConfiguration,
                        sdbusplus::asio::object_server& objectServer,
                        std::vector<thresholds::Threshold>&& thresholdData,
-                       uint8_t deviceAddress) :
+                       uint8_t deviceAddress,
+                       const std::pair<double, double>& hysteresis) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdData),
-           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
-           ipmbMaxReading, ipmbMinReading),
+           std::move(thresholdData), sensorConfiguration,
+           "xyz.openbmc_project.Configuration.ExitAirTemp", ipmbMaxReading,
+           ipmbMinReading, hysteresis.first, hysteresis.second),
     objectServer(objectServer), dbusConnection(conn), waitTimer(io),
     deviceAddress(deviceAddress)
 {
@@ -324,6 +325,9 @@ void createSensors(
                     std::string name =
                         loadVariant<std::string>(entry.second, "Name");
 
+                    std::pair<double, double> hysteresis =
+                        parseHysteresis(entry.second);
+
                     std::vector<thresholds::Threshold> sensorThresholds;
                     if (!parseThresholdsFromConfig(pathPair.second,
                                                    sensorThresholds))
@@ -339,7 +343,7 @@ void createSensors(
                     auto& sensor = sensors[name];
                     sensor = std::make_unique<IpmbSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
-                        std::move(sensorThresholds), deviceAddress);
+                        std::move(sensorThresholds), deviceAddress, hysteresis);
 
                     auto findPowerState = entry.second.find("PowerState");
 

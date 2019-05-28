@@ -222,10 +222,13 @@ void createSensors(
             gpioNum = static_cast<std::optional<int>>(gpioPin);
         }
 
+        std::pair<double, double> hysteresis =
+            parseHysteresis(baseConfiguration->second);
+
         sensors[sensorName] = std::make_unique<ADCSensor>(
             path.string(), objectServer, dbusConnection, io, sensorName,
             std::move(sensorThresholds), scaleFactor, readState, *interfacePath,
-            gpioNum);
+            gpioNum, hysteresis);
     }
 }
 

@@ -119,3 +119,42 @@ inline void setReadState(const std::string& str, PowerState& val)
         val = PowerState::always;
     }
 }
+
+inline std::pair<double, double> parseHysteresis(
+    const boost::container::flat_map<std::string, BasicVariantType>& data)
+{
+    double pos = 0;
+    double neg = 0;
+    try
+    {
+        pos = loadVariant<double>(data, "PositiveHysteresis");
+    }
+    catch (std::invalid_argument&)
+    {
+    }
+    try
+    {
+        neg = loadVariant<double>(data, "NegativeHysteresis");
+    }
+    catch (std::invalid_argument&)
+    {
+    }
+    return std::make_pair(pos, neg);
+}
+
+inline void
+    persistDouble(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                  const std::string& path, const std::string& iface,
+                  const std::string& property, const double value)
+{
+
+    conn->async_method_call(
+        [](const boost::system::error_code& ec) {
+            if (ec)
+            {
+                std::cerr << "Error persisting double " << ec << "\n";
+            }
+        },
+        entityManagerName, path, "org.freedesktop.DBus.Properties", "Set",
+        iface, property, value);
+}

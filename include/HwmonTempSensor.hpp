@@ -12,7 +12,8 @@ class HwmonTempSensor : public Sensor
                     std::shared_ptr<sdbusplus::asio::connection>& conn,
                     boost::asio::io_service& io, const std::string& fanName,
                     std::vector<thresholds::Threshold>&& thresholds,
-                    const std::string& sensorConfiguration);
+                    const std::string& sensorConfiguration,
+                    const std::pair<double, double>& hysteresis);
     ~HwmonTempSensor();
 
   private:
