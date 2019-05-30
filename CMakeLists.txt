@@ -123,9 +123,11 @@ add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
 add_dependencies (adcsensor sdbusplus-project)
 target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
 
+
 add_executable (cpusensor src/CPUSensorMain.cpp ${CPU_SRC_FILES})
 add_dependencies (cpusensor sdbusplus-project)
 target_link_libraries (cpusensor ${SENSOR_LINK_LIBS})
+target_link_libraries (cpusensor gpiodcxx)
 
 add_executable (exitairtempsensor src/ExitAirTempSensor.cpp
                 ${EXIT_AIR_SRC_FILES})
