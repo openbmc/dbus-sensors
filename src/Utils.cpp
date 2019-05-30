@@ -31,6 +31,7 @@ const static constexpr char* powerObjectName =
 
 static bool powerStatusOn = false;
 static bool biosHasPost = false;
+
 static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
 
 bool getSensorConfiguration(

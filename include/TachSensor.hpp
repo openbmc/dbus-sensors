@@ -8,7 +8,6 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
-constexpr const char* gpioPath = "/sys/class/gpio/";
 class PresenceSensor
 {
 
