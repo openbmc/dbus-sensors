@@ -9,9 +9,13 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/types.hpp>
 
+constexpr const char* gpioPath = "/sys/class/gpio/";
 const constexpr char* jsonStore = "/var/configuration/flattened.json";
 const constexpr char* inventoryPath = "/xyz/openbmc_project/inventory";
 const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
+
+constexpr const char* cpuInventoryPath =
+    "/xyz/openbmc_project/inventory/system/chassis/motherboard/";
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
 
 using BasicVariantType =
