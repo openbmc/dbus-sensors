@@ -1,6 +1,12 @@
 #pragma once
 
+#include "Utils.hpp"
+
 #include <Thresholds.hpp>
+#include <boost/container/flat_map.hpp>
+#include <filesystem>
+#include <fstream>
+#include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
@@ -38,3 +44,77 @@ class CPUSensor : public Sensor
 
 extern boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>
     gCpuSensors;
+
+// this is added to cpusensor.hpp to avoid having every sensor have to link
+// against libgpiod, if another sensor needs it we may move it to utils
+inline bool hostIsPresent(size_t gpioNum)
+{
+    static boost::container::flat_map<size_t, bool> cpuPresence;
+
+    auto findIndex = cpuPresence.find(gpioNum);
+    if (findIndex != cpuPresence.end())
+    {
+        return findIndex->second;
+    }
+
+    constexpr size_t sgpioBase = 232;
+
+    // check if sysfs has device
+    bool sysfs = std::filesystem::exists(gpioPath + std::string("gpio") +
+                                         std::to_string(gpioNum));
+
+    // todo: delete this when we remove all sysfs code
+    if (sysfs)
+    {
+        // close it, we'll reopen it at the end
+        std::ofstream unexport(gpioPath + std::string("unexport"));
+        if (unexport.good())
+        {
+            unexport << gpioNum;
+        }
+        else
+        {
+            std::cerr << "Error cleaning up sysfs device\n";
+        }
+    }
+
+    size_t chipNum = (gpioNum - sgpioBase) / 8;
+    size_t index = (gpioNum - sgpioBase) % 8;
+    gpiod::chip chip("gpiochip" + std::to_string(chipNum));
+    auto line = chip.get_line(index);
+
+    if (!line)
+    {
+        std::cerr << "Error requesting gpio\n";
+        return true;
+    }
+
+    bool resp = true;
+    try
+    {
+        line.request({"adcsensor", gpiod::line_request::DIRECTION_INPUT});
+        resp = !line.get_value();
+    }
+    catch (std::system_error&)
+    {
+        std::cerr << "Error reading gpio\n";
+        return true;
+    }
+
+    // todo: delete this when we remove all sysfs code
+    if (sysfs)
+    {
+        // reopen it
+        std::ofstream populate(gpioPath + std::string("export"));
+        if (populate.good())
+        {
+            populate << gpioNum;
+        }
+        else
+        {
+            std::cerr << "Error cleaning up sysfs device\n";
+        }
+    }
+    cpuPresence[gpioNum] = resp;
+    return resp;
+}
