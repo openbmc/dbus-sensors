@@ -217,9 +217,19 @@ void createSensors(
 
         if (findBridgeGpio != baseConfiguration->second.end())
         {
+            gpioNum = std::visit(VariantToIntVisitor(), findBridgeGpio->second);
+        }
+
+        auto findCpuGpio = baseConfiguration->second.find("CpuGpio");
+        if (findCpuGpio != baseConfiguration->second.end())
+        {
             int gpioPin =
-                std::visit(VariantToIntVisitor(), findBridgeGpio->second);
-            gpioNum = static_cast<std::optional<int>>(gpioPin);
+                std::visit(VariantToIntVisitor(), findCpuGpio->second);
+            if (!hostIsPresent(gpioPin))
+            {
+                std::cerr << "skipping install of " << path.string() << "\n";
+                continue;
+            }
         }
 
         sensors[sensorName] = std::make_unique<ADCSensor>(

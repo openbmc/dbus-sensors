@@ -122,6 +122,7 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
 add_dependencies (adcsensor sdbusplus-project)
 target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
+target_link_libraries (adcsensor gpiodcxx)
 
 add_executable (cpusensor src/CPUSensorMain.cpp ${CPU_SRC_FILES})
 add_dependencies (cpusensor sdbusplus-project)
