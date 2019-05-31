@@ -41,9 +41,6 @@
 static constexpr bool DEBUG = false;
 
 boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>> gCpuSensors;
-boost::container::flat_map<std::string,
-                           std::shared_ptr<sdbusplus::asio::dbus_interface>>
-    inventoryIfaces;
 
 enum State
 {
@@ -518,10 +515,14 @@ void detectCpuAsync(
     });
 }
 
-bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
-                  boost::container::flat_set<CPUConfig>& cpuConfigs,
-                  ManagedObjectType& sensorConfigs,
-                  sdbusplus::asio::object_server& objectServer)
+bool getCpuConfig(
+    const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+    boost::container::flat_set<CPUConfig>& cpuConfigs,
+    ManagedObjectType& sensorConfigs,
+    sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<
+        std::string, std::shared_ptr<sdbusplus::asio::dbus_interface>>&
+        inventoryIfaces)
 {
     bool useCache = false;
     sensorConfigs.clear();
@@ -640,6 +641,9 @@ int main(int argc, char** argv)
     boost::asio::deadline_timer creationTimer(io);
     boost::asio::deadline_timer filterTimer(io);
     ManagedObjectType sensorConfigs;
+    boost::container::flat_map<std::string,
+                               std::shared_ptr<sdbusplus::asio::dbus_interface>>
+        inventoryIfaces;
 
     filterTimer.expires_from_now(boost::posix_time::seconds(1));
     filterTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -648,7 +652,8 @@ int main(int argc, char** argv)
             return; // we're being canceled
         }
 
-        if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs, objectServer))
+        if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs, objectServer,
+                         inventoryIfaces))
         {
             detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                            systemBus, cpuConfigs, sensorConfigs);
@@ -677,7 +682,7 @@ int main(int argc, char** argv)
                 }
 
                 if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs,
-                                 objectServer))
+                                 objectServer, inventoryIfaces))
                 {
                     detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                                    systemBus, cpuConfigs, sensorConfigs);
