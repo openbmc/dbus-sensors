@@ -17,6 +17,7 @@
 #include <ADCSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_set.hpp>
@@ -34,6 +35,8 @@ namespace fs = std::filesystem;
 static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADC"};
 static std::regex inputRegex(R"(in(\d+)_input)");
+
+static boost::container::flat_map<size_t, bool> cpuPresence;
 
 // filter out adc from any other voltage sensor
 bool isAdc(const fs::path& parentPath)
@@ -212,6 +215,21 @@ void createSensors(
             setReadState(powerState, readState);
         }
 
+        auto findCPU = baseConfiguration->second.find("CPURequired");
+        if (findCPU != baseConfiguration->second.end())
+        {
+            size_t index = std::visit(VariantToIntVisitor(), findCPU->second);
+            auto presenceFind = cpuPresence.find(index);
+            if (presenceFind == cpuPresence.end())
+            {
+                continue; // no such cpu
+            }
+            if (!presenceFind->second)
+            {
+                continue; // cpu not installed
+            }
+        }
+
         auto findBridgeGpio = baseConfiguration->second.find("BridgeGpio");
         std::optional<int> gpioNum;
 
@@ -272,6 +290,35 @@ int main(int argc, char** argv)
             });
         };
 
+    std::function<void(sdbusplus::message::message&)> cpuPresenceHandler =
+        [&](sdbusplus::message::message& message) {
+            std::string path = message.get_path();
+            boost::to_lower(path);
+            if (path.rfind("cpu") == std::string::npos)
+            {
+                return; // not interested
+            }
+            size_t index = 0;
+            try
+            {
+                index = std::stoi(path.substr(path.size() - 2));
+            }
+            catch (std::invalid_argument&)
+            {
+                std::cerr << "Found invalid path " << path << "\n";
+                return;
+            }
+
+            std::string objectName;
+            boost::container::flat_map<std::string, std::variant<bool>> values;
+            message.read(objectName, values);
+            auto findPresence = values.find("Present");
+            if (findPresence != values.end())
+            {
+                cpuPresence[index] = std::get<bool>(findPresence->second);
+            }
+        };
+
     for (const char* type : sensorTypes)
     {
         auto match = std::make_unique<sdbusplus::bus::match::match>(
@@ -281,6 +328,12 @@ int main(int argc, char** argv)
             eventHandler);
         matches.emplace_back(std::move(match));
     }
+    matches.emplace_back(std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        "type='signal',member='PropertiesChanged',path_namespace='" +
+            std::string(cpuInventoryPath) +
+            "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
+        cpuPresenceHandler));
 
     io.run();
 }
