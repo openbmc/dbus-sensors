@@ -105,7 +105,7 @@ void checkEventLimits(
 }
 
 static void checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
-                           const std::string& interfacePath,
+                           const std::string& interfacePathStr,
                            sdbusplus::asio::object_server& objectServer,
                            std::string psuName)
 {
@@ -131,9 +131,12 @@ static void checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
             continue;
         }
 
+        std::filesystem::path interfacePath(interfacePathStr);
+
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
             "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, objectServer,
-            interfacePath + "/" + psuName + " " + pwmName.second);
+            interfacePath.parent_path().string() + "/" + psuName + " " +
+                pwmName.second);
     }
 }
 
