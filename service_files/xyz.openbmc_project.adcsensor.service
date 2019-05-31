@@ -1,6 +1,7 @@
 [Unit]
 Description=Adc Sensor
 StopWhenUnneeded=false
+Before=xyz.openbmc_project.cpusensor.service
 
 [Service]
 Restart=always
