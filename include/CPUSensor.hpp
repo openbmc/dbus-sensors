@@ -78,9 +78,8 @@ inline bool hostIsPresent(size_t gpioNum)
         }
     }
 
-    size_t chipNum = (gpioNum - sgpioBase) / 8;
-    size_t index = (gpioNum - sgpioBase) % 8;
-    gpiod::chip chip("gpiochip" + std::to_string(chipNum));
+    size_t index = gpioNum - sgpioBase;
+    gpiod::chip chip("gpiochip" + std::to_string(sgpioBase));
     auto line = chip.get_line(index);
 
     if (!line)
