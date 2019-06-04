@@ -14,7 +14,8 @@ struct Sensor
            const double max, const double min) :
         name(name),
         configurationPath(configurationPath), objectType(objectType),
-        thresholds(std::move(thresholdData)), maxValue(max), minValue(min)
+        thresholds(std::move(thresholdData)), maxValue(max), minValue(min),
+        hysteresis((max - min) * 0.01)
     {
     }
     virtual ~Sensor() = default;
@@ -32,6 +33,7 @@ struct Sensor
     double value = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
+    double hysteresis;
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
@@ -144,8 +146,11 @@ struct Sensor
             internalSet = true;
             sensorInterface->set_property("Value", newValue);
             internalSet = false;
-            value = newValue;
-            checkThresholds();
+            if (std::abs(value - newValue) > hysteresis)
+            {
+                value = newValue;
+                checkThresholds();
+            }
         }
     }
 };
