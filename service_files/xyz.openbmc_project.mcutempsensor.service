@@ -1,0 +1,12 @@
+[Unit]
+Description=MCU Temp Sensor
+StopWhenUnneeded=false
+
+[Service]
+Restart=always
+RestartSec=5
+ExecStart=/usr/bin/mcutempsensor
+
+[Install]
+WantedBy=multi-user.target
+
