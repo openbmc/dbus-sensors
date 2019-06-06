@@ -241,6 +241,14 @@ bool createSensors(boost::asio::io_service& io,
         int cpuId =
             std::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
 
+        double thrOffset = 0;
+        auto findThrOffset = baseConfiguration->second.find("ThresholdOffset");
+        if (findThrOffset != baseConfiguration->second.end())
+        {
+            thrOffset =
+                std::visit(VariantToDoubleVisitor(), findThrOffset->second);
+        }
+
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
         if (!findFiles(fs::path(directory), R"(temp\d+_input$)", inputPaths, 0))
@@ -296,7 +304,8 @@ bool createSensors(boost::asio::io_service& io,
             if (sensorThresholds.empty())
             {
                 if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
-                                             CPUSensor::sensorScaleFactor))
+                                             CPUSensor::sensorScaleFactor,
+                                             thrOffset))
                 {
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
@@ -305,7 +314,7 @@ bool createSensors(boost::asio::io_service& io,
             gCpuSensors[sensorName] = std::make_unique<CPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show);
+                show, thrOffset);
             createdSensors.insert(sensorName);
             if (DEBUG)
             {
