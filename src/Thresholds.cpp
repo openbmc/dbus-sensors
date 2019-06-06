@@ -330,7 +330,8 @@ static constexpr std::array<const char*, 4> attrTypes = {"lcrit", "min", "max",
 
 bool parseThresholdsFromAttr(
     std::vector<thresholds::Threshold>& thresholdVector,
-    const std::string& inputPath, const double& scaleFactor)
+    const std::string& inputPath, const double& scaleFactor,
+    const double& offset)
 {
     for (auto& type : attrTypes)
     {
@@ -362,6 +363,11 @@ bool parseThresholdsFromAttr(
         else
         {
             direction = Direction::HIGH;
+        }
+
+        if (type == "crit")
+        {
+            val += offset;
         }
 
         if (DEBUG)

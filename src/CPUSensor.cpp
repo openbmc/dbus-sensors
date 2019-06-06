@@ -33,12 +33,12 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration, int cpuId,
-                     bool show) :
+                     bool show, double thrOffset) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading),
     objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    path(path), waitTimer(io), show(show),
+    path(path), waitTimer(io), show(show), thrOffset(thrOffset),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()), errCount(0)
 {
     nameTcontrol = labelTcontrol;
@@ -132,7 +132,8 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                 {
                     std::vector<thresholds::Threshold> newThresholds;
                     if (parseThresholdsFromAttr(newThresholds, path,
-                                                CPUSensor::sensorScaleFactor))
+                                                CPUSensor::sensorScaleFactor,
+                                                thrOffset))
                     {
                         if (!std::equal(thresholds.begin(), thresholds.end(),
                                         newThresholds.begin(),
