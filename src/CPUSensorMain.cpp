@@ -289,6 +289,21 @@ bool createSensors(boost::asio::io_service& io,
                 }
             }
 
+            /*
+             * Find if there is DtsCritOffset is configured in config file
+             * set it if configured or else set it to 0
+             */
+            double dtsOffset = 0;
+            if (label == "DTS")
+            {
+              auto findThrOffset = baseConfiguration->second.find("DtsCritOffset");
+              if (findThrOffset != baseConfiguration->second.end())
+              {
+                dtsOffset =
+                  std::visit(VariantToDoubleVisitor(), findThrOffset->second);
+              }
+            }
+
             std::vector<thresholds::Threshold> sensorThresholds;
             std::string labelHead = label.substr(0, label.find(" "));
             parseThresholdsFromConfig(*sensorData, sensorThresholds,
@@ -296,7 +311,8 @@ bool createSensors(boost::asio::io_service& io,
             if (sensorThresholds.empty())
             {
                 if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
-                                             CPUSensor::sensorScaleFactor))
+                                             CPUSensor::sensorScaleFactor,
+                                             dtsOffset))
                 {
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
@@ -305,7 +321,7 @@ bool createSensors(boost::asio::io_service& io,
             gCpuSensors[sensorName] = std::make_unique<CPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show);
+                show, dtsOffset);
             createdSensors.insert(sensorName);
             if (DEBUG)
             {
