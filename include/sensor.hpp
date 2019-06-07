@@ -146,7 +146,8 @@ struct Sensor
             internalSet = true;
             sensorInterface->set_property("Value", newValue);
             internalSet = false;
-            if (std::abs(value - newValue) > hysteresis)
+            double diff = std::abs(value - newValue);
+            if (std::isnan(diff) || diff > hysteresis)
             {
                 value = newValue;
                 checkThresholds();

@@ -41,7 +41,7 @@ struct IpmbSensor : public Sensor
     std::vector<uint8_t> initData;
 
     // to date all ipmb sensors are power on only
-    PowerState readState = PowerState::on;
+    PowerState readState;
 
   private:
     sdbusplus::asio::object_server& objectServer;

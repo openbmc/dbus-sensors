@@ -61,7 +61,7 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
            "xyz.openbmc_project.Configuration.ExitAirTemp", ipmbMaxReading,
            ipmbMinReading),
     objectServer(objectServer), dbusConnection(conn), waitTimer(io),
-    deviceAddress(deviceAddress)
+    deviceAddress(deviceAddress), readState(PowerState::on)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -195,7 +195,7 @@ void IpmbSensor::read(void)
         {
             return; // we're being canceled
         }
-        if (!isPowerOn() && readState == PowerState::on)
+        if (!isPowerOn() && readState != PowerState::always)
         {
             updateValue(0);
             read();
@@ -218,7 +218,7 @@ void IpmbSensor::read(void)
                     read();
                     return;
                 }
-                if (!isPowerOn() && readState == PowerState::on)
+                if (!isPowerOn() && readState != PowerState::always)
                 {
                     updateValue(0);
                     read();
@@ -384,13 +384,14 @@ void reinitSensors(sdbusplus::message::message& message)
 {
     constexpr const size_t reinitWaitSeconds = 2;
     std::string objectName;
-    boost::container::flat_map<std::string, std::variant<int32_t>> values;
+    boost::container::flat_map<std::string, std::variant<std::string>> values;
     message.read(objectName, values);
 
-    auto findPgood = values.find("pgood");
-    if (findPgood != values.end())
+    auto findStatus = values.find(power::property);
+    if (findStatus != values.end())
     {
-        int32_t powerStatus = std::get<int32_t>(findPgood->second);
+        bool powerStatus = boost::ends_with(
+            std::get<std::string>(findStatus->second), "Running");
         if (powerStatus)
         {
             if (!initCmdTimer)
@@ -461,9 +462,9 @@ int main(int argc, char** argv)
 
     sdbusplus::bus::match::match powerChangeMatch(
         static_cast<sdbusplus::bus::bus&>(*systemBus),
-        "type='signal',interface='org.freedesktop.DBus.Properties',path_"
-        "namespace='/xyz/openbmc_project/Chassis/Control/"
-        "Power0',arg0='xyz.openbmc_project.Chassis.Control.Power'",
+        "type='signal',interface='" + std::string(properties::interface) +
+            "',path='" + std::string(power::path) + "',arg0='" +
+            std::string(power::interface) + "'",
         reinitSensors);
 
     io.run();
