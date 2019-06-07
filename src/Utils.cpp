@@ -24,15 +24,12 @@
 #include <sdbusplus/bus/match.hpp>
 
 namespace fs = std::filesystem;
-const static constexpr char* powerInterfaceName =
-    "xyz.openbmc_project.Chassis.Control.Power";
-const static constexpr char* powerObjectName =
-    "/xyz/openbmc_project/Chassis/Control/Power0";
 
 static bool powerStatusOn = false;
 static bool biosHasPost = false;
 
 static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
+static std::unique_ptr<sdbusplus::bus::match::match> postMatch = nullptr;
 
 bool getSensorConfiguration(
     const std::string& type,
@@ -122,9 +119,9 @@ bool isPowerOn(void)
 
 bool hasBiosPost(void)
 {
-    if (!powerMatch)
+    if (!postMatch)
     {
-        throw std::runtime_error("Power Match Not Created");
+        throw std::runtime_error("Post Match Not Created");
     }
     return biosHasPost;
 }
@@ -133,57 +130,75 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
     // create a match for powergood changes, first time do a method call to
     // cache the correct value
-    std::function<void(sdbusplus::message::message & message)> eventHandler =
-        [](sdbusplus::message::message& message) {
-            std::string objectName;
-            boost::container::flat_map<std::string, std::variant<int32_t, bool>>
-                values;
-            message.read(objectName, values);
-            auto findPgood = values.find("pgood");
-            if (findPgood != values.end())
-            {
-                powerStatusOn = std::get<int32_t>(findPgood->second);
-            }
-            auto findPostComplete = values.find("post_complete");
-            if (findPostComplete != values.end())
-            {
-                biosHasPost = std::get<bool>(findPostComplete->second);
-            }
-        };
+    if (powerMatch)
+    {
+        return;
+    }
 
     powerMatch = std::make_unique<sdbusplus::bus::match::match>(
         static_cast<sdbusplus::bus::bus&>(*conn),
-        "type='signal',interface='org.freedesktop.DBus.Properties',path_"
-        "namespace='/xyz/openbmc_project/Chassis/Control/"
-        "Power0',arg0='xyz.openbmc_project.Chassis.Control.Power'",
-        eventHandler);
-
-    conn->async_method_call(
-        [](boost::system::error_code ec, const std::variant<int32_t>& pgood) {
-            if (ec)
+        "type='signal',interface='" + std::string(properties::interface) +
+            "',path='" + std::string(power::path) + "',arg0='" +
+            std::string(power::interface) + "'",
+        [](sdbusplus::message::message& message) {
+            std::string objectName;
+            boost::container::flat_map<std::string, std::variant<std::string>>
+                values;
+            message.read(objectName, values);
+            auto findState = values.find(power::property);
+            if (findState != values.end())
             {
-                // we commonly come up before power control, we'll capture the
-                // property change later
-                return;
+                powerStatusOn = boost::ends_with(
+                    std::get<std::string>(findState->second), "Running");
             }
-            powerStatusOn = std::get<int32_t>(pgood);
-        },
-        powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
-        "Get", powerInterfaceName, "pgood");
+        });
+
+    postMatch = std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*conn),
+        "type='signal',interface='" + std::string(properties::interface) +
+            "',path='" + std::string(post::path) + "',arg0='" +
+            std::string(post::interface) + "'",
+        [](sdbusplus::message::message& message) {
+            std::string objectName;
+            boost::container::flat_map<std::string, std::variant<std::string>>
+                values;
+            message.read(objectName, values);
+            auto findState = values.find(post::property);
+            if (findState != values.end())
+            {
+                biosHasPost =
+                    std::get<std::string>(findState->second) != "Inactive";
+            }
+        });
 
     conn->async_method_call(
         [](boost::system::error_code ec,
-           const std::variant<int32_t>& postComplete) {
+           const std::variant<std::string>& state) {
             if (ec)
             {
                 // we commonly come up before power control, we'll capture the
                 // property change later
                 return;
             }
-            biosHasPost = std::get<int32_t>(postComplete);
+            powerStatusOn =
+                boost::ends_with(std::get<std::string>(state), "Running");
         },
-        powerInterfaceName, powerObjectName, "org.freedesktop.DBus.Properties",
-        "Get", powerInterfaceName, "post_complete");
+        power::busname, power::path, properties::interface, properties::get,
+        power::interface, power::property);
+
+    conn->async_method_call(
+        [](boost::system::error_code ec,
+           const std::variant<std::string>& state) {
+            if (ec)
+            {
+                // we commonly come up before power control, we'll capture the
+                // property change later
+                return;
+            }
+            biosHasPost = std::get<std::string>(state) != "Inactive";
+        },
+        post::busname, post::path, properties::interface, properties::get,
+        post::interface, post::property);
 }
 
 // replaces limits if MinReading and MaxReading are found.

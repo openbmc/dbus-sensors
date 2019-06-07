@@ -78,6 +78,23 @@ constexpr const char* interface = "org.freedesktop.DBus.Properties";
 constexpr const char* get = "Get";
 } // namespace properties
 
+namespace power
+{
+const static constexpr char* busname = "xyz.openbmc_project.State.Host";
+const static constexpr char* interface = "xyz.openbmc_project.State.Host";
+const static constexpr char* path = "/xyz/openbmc_project/state/host0";
+const static constexpr char* property = "CurrentHostState";
+} // namespace power
+namespace post
+{
+const static constexpr char* busname =
+    "xyz.openbmc_project.State.OperatingSystem";
+const static constexpr char* interface =
+    "xyz.openbmc_project.State.OperatingSystem.Status";
+const static constexpr char* path = "/xyz/openbmc_project/state/os";
+const static constexpr char* property = "OperatingSystemState";
+} // namespace post
+
 template <typename T>
 inline T loadVariant(
     const boost::container::flat_map<std::string, BasicVariantType>& data,
@@ -103,7 +120,7 @@ inline T loadVariant(
     }
     else
     {
-        static_assert("Type Not Implemented");
+        static_assert(!std::is_same_v<T, T>, "Type Not Implemented");
     }
 }
 
