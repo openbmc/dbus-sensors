@@ -133,7 +133,7 @@ static void checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
 
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
             "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, objectServer,
-            interfacePath + "/" + psuName + " " + pwmName.second);
+            interfacePath + "_" + pwmName.second);
     }
 }
 
