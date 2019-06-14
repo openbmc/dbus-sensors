@@ -17,6 +17,7 @@ option (DISABLE_FAN "Disable installing fan sensor" OFF)
 option (DISABLE_HWMON_TEMP "Disable installing hwmon temp sensor" OFF)
 option (DISABLE_INTRUSION "Disable installing intrusion sensor" OFF)
 option (DISABLE_IPMB "Disable installing IPMB sensor" OFF)
+option (DISABLE_MCUTEMP "Disable installing MCU temperature sensor" OFF)
 option (DISABLE_PSU "Disable installing PSU sensor" OFF)
 
 include ("cmake/HunterGate.cmake")
@@ -41,6 +42,8 @@ set (HWMON_TEMP_SRC_FILES src/Utils.cpp src/HwmonTempSensor.cpp
 set (INTRUSION_SRC_FILES src/Utils.cpp src/ChassisIntrusionSensor.cpp)
 
 set (IPMB_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
+
+set (MCUTEMP_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 
 set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp
      src/PwmSensor.cpp src/PSUEvent.cpp)
@@ -151,6 +154,11 @@ add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
 add_dependencies (ipmbsensor sdbusplus-project)
 target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
 
+add_executable (mcutempsensor src/MCUTempSensor.cpp ${MCUTEMP_SRC_FILES})
+add_dependencies (mcutempsensor sdbusplus-project)
+target_link_libraries (mcutempsensor ${SENSOR_LINK_LIBS})
+target_link_libraries (mcutempsensor i2c)
+
 add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
 add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
@@ -163,6 +171,7 @@ if (NOT YOCTO)
     add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (intrusionsensor ${EXTERNAL_PACKAGES})
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
+    add_dependencies (mcutempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (psusensor ${EXTERNAL_PACKAGES})
 endif ()
 
@@ -220,6 +229,13 @@ if (NOT DISABLE_IPMB)
     install (TARGETS ipmbsensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.ipmbsensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
+if (NOT DISABLE_MCUTEMP)
+    install (TARGETS mcutempsensor DESTINATION bin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.mcutempsensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
 
