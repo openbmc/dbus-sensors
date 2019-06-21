@@ -19,6 +19,7 @@ option (DISABLE_INTRUSION "Disable installing intrusion sensor" OFF)
 option (DISABLE_IPMB "Disable installing IPMB sensor" OFF)
 option (DISABLE_MCUTEMP "Disable installing MCU temperature sensor" OFF)
 option (DISABLE_PSU "Disable installing PSU sensor" OFF)
+option (DISABLE_HSC "Disable installing HSC sensor" OFF)
 
 include ("cmake/HunterGate.cmake")
 
@@ -40,6 +41,8 @@ set (HWMON_TEMP_SRC_FILES src/Utils.cpp src/HwmonTempSensor.cpp
      src/Thresholds.cpp)
 
 set (INTRUSION_SRC_FILES src/Utils.cpp src/ChassisIntrusionSensor.cpp)
+
+set (HSC_SRC_FILES src/Utils.cpp src/HSCNodePower.cpp)
 
 set (IPMB_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 
@@ -150,6 +153,12 @@ add_dependencies (intrusionsensor sdbusplus-project)
 target_link_libraries (intrusionsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (intrusionsensor i2c)
 
+add_executable (hscnodepower src/HSCNodePowerMain.cpp
+                ${HSC_SRC_FILES})
+add_dependencies (hscnodepower sdbusplus-project)
+target_link_libraries (hscnodepower ${SENSOR_LINK_LIBS})
+target_link_libraries (hscnodepower i2c)
+
 add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
 add_dependencies (ipmbsensor sdbusplus-project)
 target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
@@ -173,6 +182,7 @@ if (NOT YOCTO)
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
     add_dependencies (mcutempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (psusensor ${EXTERNAL_PACKAGES})
+    add_dependencies (hscnodepower ${EXTERNAL_PACKAGES})
 endif ()
 
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
@@ -224,6 +234,17 @@ if (NOT DISABLE_INTRUSION)
             DESTINATION ${SERVICE_FILE_INSTALL_DIR}
     )
 endif ()
+
+if (NOT DISABLE_HSC)
+    install (TARGETS hscnodepower DESTINATION bin)
+    install (
+        FILES
+            ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.hscnodepower.service
+            DESTINATION ${SERVICE_FILE_INSTALL_DIR}
+    )
+endif ()
+
+
 
 if (NOT DISABLE_IPMB)
     install (TARGETS ipmbsensor DESTINATION bin)
