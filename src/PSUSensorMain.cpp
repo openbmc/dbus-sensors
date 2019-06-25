@@ -393,7 +393,9 @@ void createSensors(boost::asio::io_service& io,
                 }
             }
             else
+            {
                 nameIndex = 0;
+            }
 
             auto findProperty = labelMatch.find(labelHead);
             if (findProperty == labelMatch.end())
@@ -408,11 +410,10 @@ void createSensors(boost::asio::io_service& io,
 
             std::vector<thresholds::Threshold> sensorThresholds;
 
-            parseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                      &labelHead);
-            if (sensorThresholds.empty())
+            if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
             {
-                continue;
+                std::cerr << "error populating thresholds for "
+                          << sensorNameSubStr << "\n";
             }
 
             auto findSensorType = sensorTable.find(sensorNameSubStr);
