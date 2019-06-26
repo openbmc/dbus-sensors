@@ -37,6 +37,8 @@ using SensorBaseConfiguration =
     std::pair<std::string,
               boost::container::flat_map<std::string, BasicVariantType>>;
 
+using Association = std::tuple<std::string, std::string, std::string>;
+
 bool findFiles(const std::filesystem::path dirPath,
                const std::string& matchString,
                std::vector<std::filesystem::path>& foundPaths,

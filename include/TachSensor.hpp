@@ -73,6 +73,7 @@ class TachSensor : public Sensor
     std::optional<RedundancySensor>* redundancy;
     std::unique_ptr<PresenceSensor> presence;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> itemAssoc;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;

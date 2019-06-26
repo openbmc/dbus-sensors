@@ -71,12 +71,21 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
     if (presence)
     {
         itemIface =
-            objectServer.add_interface("/xyz/openbmc_project/Inventory/" + name,
+            objectServer.add_interface("/xyz/openbmc_project/inventory/" + name,
                                        "xyz.openbmc_project.Inventory.Item");
         itemIface->register_property("PrettyName",
                                      std::string()); // unused property
         itemIface->register_property("Present", true);
         itemIface->initialize();
+        itemAssoc =
+            objectServer.add_interface("/xyz/openbmc_project/inventory/" + name,
+                                       "org.openbmc.Associations");
+        itemAssoc->register_property(
+            "associations",
+            std::vector<Association>{
+                {"sensors", "inventory",
+                 "/xyz/openbmc_project/sensors/fan_tach/" + name}});
+        itemAssoc->initialize();
     }
     setInitialProperties(conn);
     setupPowerMatch(conn);
@@ -93,6 +102,7 @@ TachSensor::~TachSensor()
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
     objServer.remove_interface(itemIface);
+    objServer.remove_interface(itemAssoc);
 }
 
 void TachSensor::setupRead(void)
