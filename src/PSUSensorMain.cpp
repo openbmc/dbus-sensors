@@ -30,7 +30,7 @@
 static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.pmbus"};
 
-static std::vector<std::string> pmbusNames = {"pmbus", "pxe1610"};
+static std::vector<std::string> pmbusNames = {"pmbus", "pxe1610", "ina219"};
 namespace fs = std::filesystem;
 
 static boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>
@@ -453,14 +453,17 @@ void propertyInitialize(void)
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
                   {"pout2", PSUProperty("Output Power", 3000, 0, 6)},
                   {"pout3", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"power1", PSUProperty("Output Power", 3000, 0, 6)},
                   {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
                   {"vout1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout2", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout3", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"in1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout2", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout3", PSUProperty("Output Current", 255, 0, 3)},
+                  {"curr1", PSUProperty("Output Current", 255, 0, 3)},
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp2", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp3", PSUProperty("Temperature", 127, -128, 3)},
