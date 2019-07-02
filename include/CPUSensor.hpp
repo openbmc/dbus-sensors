@@ -59,9 +59,7 @@ inline bool hostIsPresent(size_t gpioNum)
         return findIndex->second;
     }
 
-    // todo: need to change this number based setting to name based
     constexpr size_t sgpioBase = 232;
-    constexpr const char* labelSgpiochipIn = "1e780200.sgpio";
 
     // check if sysfs has device
     bool sysfs = std::filesystem::exists(gpioPath + std::string("gpio") +
@@ -82,8 +80,9 @@ inline bool hostIsPresent(size_t gpioNum)
         }
     }
 
-    size_t index = gpioNum - sgpioBase;
-    gpiod::chip chip(labelSgpiochipIn);
+    size_t chipNum = (gpioNum - sgpioBase) / 8;
+    size_t index = (gpioNum - sgpioBase) % 8;
+    gpiod::chip chip("gpiochip" + std::to_string(chipNum));
     auto line = chip.get_line(index);
 
     if (!line)
