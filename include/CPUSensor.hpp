@@ -94,7 +94,7 @@ inline bool hostIsPresent(size_t gpioNum)
     bool resp = true;
     try
     {
-        line.request({"adcsensor", gpiod::line_request::DIRECTION_INPUT});
+        line.request({"adcsensor", gpiod::line_request::DIRECTION_INPUT, 0});
         resp = !line.get_value();
     }
     catch (std::system_error&)

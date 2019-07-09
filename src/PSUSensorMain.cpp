@@ -198,7 +198,7 @@ void createSensors(boost::asio::io_service& io,
             continue; // check if path has already been searched
         }
 
-        auto device = fs::path(directory / "device");
+        fs::path device = directory / "device";
         std::string deviceName = fs::canonical(device).stem();
         auto findHyphen = deviceName.find("-");
         if (findHyphen == std::string::npos)
@@ -217,7 +217,7 @@ void createSensors(boost::asio::io_service& io,
             bus = std::stoi(busStr);
             addr = std::stoi(addrStr, 0, 16);
         }
-        catch (std::invalid_argument)
+        catch (std::invalid_argument&)
         {
             continue;
         }
@@ -309,7 +309,7 @@ void createSensors(boost::asio::io_service& io,
         } while (findPSUName != baseConfig->second.end());
 
         std::vector<fs::path> sensorPaths;
-        if (!findFiles(fs::path(directory), R"(\w\d+_input$)", sensorPaths, 0))
+        if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
         {
             std::cerr << "No PSU non-label sensor in PSU\n";
             continue;
@@ -336,7 +336,7 @@ void createSensors(boost::asio::io_service& io,
             std::string labelPathStr =
                 boost::replace_all_copy(sensorNameStr, "input", "label");
             std::vector<fs::path> labelPaths;
-            if (!findFiles(fs::path(directory), labelPathStr, labelPaths, 0))
+            if (!findFiles(directory, labelPathStr, labelPaths, 0))
             {
                 std::cerr << "No PSU non-label sensor in PSU\n";
                 continue;
@@ -482,7 +482,7 @@ void propertyInitialize(void)
         {"FanFault", {"fan1_alarm", "fan2_alarm", "fan1_fault", "fan2_fault"}}};
 }
 
-int main(int argc, char** argv)
+int main()
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);

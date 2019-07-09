@@ -43,9 +43,6 @@ const static constexpr size_t pchStatusRegIntrusion = 0x04;
 // Status bit field masks
 const static constexpr size_t pchRegMaskIntrusion = 0x01;
 
-// Hold current PCH register values
-static unsigned int intrudeValue;
-
 // gpio sysfs path
 constexpr const char* gpioPath = "/sys/class/gpio/";
 
@@ -104,7 +101,7 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
         return -1;
     }
 
-    unsigned int statusValue;
+    int statusValue;
     unsigned int statusMask = pchRegMaskIntrusion;
     unsigned int statusReg = pchStatusRegIntrusion;
 

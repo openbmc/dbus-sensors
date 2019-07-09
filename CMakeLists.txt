@@ -3,7 +3,33 @@ set (BUILD_SHARED_LIBRARIES OFF)
 include (ExternalProject)
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++fs -Werror")
+set (
+    CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -lstdc++fs \
+    -Werror \
+    -Wall \
+    -Wextra \
+    -Wnon-virtual-dtor \
+    -Wold-style-cast \
+    -Wcast-align \
+    -Wunused \
+    -Woverloaded-virtual \
+    -Wpedantic \
+    -Wmisleading-indentation \
+    -Wduplicated-cond \
+    -Wduplicated-branches \
+    -Wlogical-op \
+    -Wnull-dereference \
+    -Wuseless-cast \
+    -Wdouble-promotion \
+    -Wformat=2 \
+    -Wno-sign-compare \
+    -Wno-reorder \
+"
+)
+# todo: get rid of nos, add the below:
+#  -Wshadow \
+#  -Wconversion \
 
 set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
@@ -53,7 +79,7 @@ set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
 
 if (NOT YOCTO)
     option (ENABLE_TEST "Enable Google Test" OFF)
-    include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include/non-yocto)
+    include_directories (SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include/non-yocto)
 
     externalproject_add (
         Boost URL
@@ -63,7 +89,7 @@ if (NOT YOCTO)
         "${CMAKE_BINARY_DIR}/boost-build" CONFIGURE_COMMAND "" BUILD_COMMAND ""
         INSTALL_COMMAND ""
     )
-    include_directories (${CMAKE_BINARY_DIR}/boost-src)
+    include_directories (SYSTEM ${CMAKE_BINARY_DIR}/boost-src)
     set (CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR}/boost-src ${CMAKE_PREFIX_PATH})
 
     # requires apt install autoconf-archive and autoconf
@@ -76,7 +102,7 @@ if (NOT YOCTO)
                          && ./bootstrap.sh && ./configure --enable-transaction
                          && make -j libsdbusplus.la INSTALL_COMMAND ""
                          LOG_DOWNLOAD ON)
-    include_directories (${CMAKE_BINARY_DIR}/sdbusplus-src)
+    include_directories (SYSTEM ${CMAKE_BINARY_DIR}/sdbusplus-src)
     link_directories (${CMAKE_BINARY_DIR}/sdbusplus-src/.libs)
 
     externalproject_add (nlohmann-json PREFIX
@@ -86,7 +112,7 @@ if (NOT YOCTO)
                          BINARY_DIR ${CMAKE_BINARY_DIR}/nlohmann-json-build
                          CONFIGURE_COMMAND "" BUILD_COMMAND "" INSTALL_COMMAND
                          "" LOG_DOWNLOAD ON)
-    include_directories (${CMAKE_BINARY_DIR}/nlohmann-json-src/include)
+    include_directories (SYSTEM ${CMAKE_BINARY_DIR}/nlohmann-json-src/include)
     if (ENABLE_TEST)
         option (HUNTER_ENABLED "Enable hunter package pulling" ON)
         hunter_add_package (GTest)
@@ -234,9 +260,10 @@ endif ()
 
 if (NOT DISABLE_MCUTEMP)
     install (TARGETS mcutempsensor DESTINATION bin)
-    install (FILES
-                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.mcutempsensor.service
-                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+    install (
+        FILES ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.mcutempsensor.service
+              DESTINATION ${SERVICE_FILE_INSTALL_DIR}
+    )
 endif ()
 
 if (NOT DISABLE_PSU)

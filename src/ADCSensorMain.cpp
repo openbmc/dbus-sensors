@@ -248,7 +248,7 @@ void createSensors(
     }
 }
 
-int main(int argc, char** argv)
+int main()
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);

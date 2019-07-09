@@ -165,7 +165,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
             }
             errCount = 0;
         }
-        catch (std::invalid_argument)
+        catch (std::invalid_argument&)
         {
             errCount++;
         }

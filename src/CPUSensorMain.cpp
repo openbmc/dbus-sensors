@@ -154,7 +154,7 @@ bool createSensors(boost::asio::io_service& io,
             bus = std::stoi(busStr);
             addr = std::stoi(addrStr, 0, 16);
         }
-        catch (std::invalid_argument)
+        catch (std::invalid_argument&)
         {
             continue;
         }
@@ -243,7 +243,7 @@ bool createSensors(boost::asio::io_service& io,
 
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
-        if (!findFiles(fs::path(directory), R"(temp\d+_input$)", inputPaths, 0))
+        if (!findFiles(directory, R"(temp\d+_input$)", inputPaths, 0))
         {
             std::cerr << "No temperature sensors in system\n";
             continue;
@@ -645,7 +645,7 @@ bool getCpuConfig(
     return false;
 }
 
-int main(int argc, char** argv)
+int main()
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);

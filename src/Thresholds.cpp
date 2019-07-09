@@ -333,7 +333,7 @@ bool parseThresholdsFromAttr(
     const std::string& inputPath, const double& scaleFactor,
     const double& offset)
 {
-    for (auto& type : attrTypes)
+    for (const std::string& type : attrTypes)
     {
         auto attrPath = boost::replace_all_copy(inputPath, "input", type);
         std::ifstream attrFile(attrPath);

@@ -31,7 +31,7 @@ PSUCombineEvent::PSUCombineEvent(
         "/xyz/openbmc_project/State/Decorator/" + psuName + "_" +
             combineEventName,
         "xyz.openbmc_project.State.Decorator.OperationalStatus");
-    eventInterface->register_property("functional", bool(true));
+    eventInterface->register_property("functional", true);
 
     if (!eventInterface->initialize())
     {

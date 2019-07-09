@@ -165,7 +165,8 @@ void createSensors(
                 sensorData = &(sensor.second);
                 break;
             }
-            else if (baseType == "xyz.openbmc_project.Configuration.I2CFan")
+            else if (baseType ==
+                     std::string("xyz.openbmc_project.Configuration.I2CFan"))
             {
                 auto findBus = baseConfiguration->second.find("Bus");
                 auto findAddress = baseConfiguration->second.find("Address");
@@ -374,7 +375,7 @@ void createRedundancySensor(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
-int main(int argc, char** argv)
+int main()
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -435,7 +436,7 @@ int main(int argc, char** argv)
     // redundancy sensor
     std::function<void(sdbusplus::message::message&)> redundancyHandler =
         [&tachSensors, &systemBus,
-         &objectServer](sdbusplus::message::message& message) {
+         &objectServer](sdbusplus::message::message&) {
             createRedundancySensor(tachSensors, systemBus, objectServer);
         };
     auto match = std::make_unique<sdbusplus::bus::match::match>(
@@ -443,7 +444,7 @@ int main(int argc, char** argv)
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" +
             redundancyConfiguration + "'",
-        redundancyHandler);
+        std::move(redundancyHandler));
     matches.emplace_back(std::move(match));
 
     io.run();

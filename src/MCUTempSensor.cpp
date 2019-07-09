@@ -105,7 +105,6 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
 {
     std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
     int fd = open(i2cBus.c_str(), O_RDWR);
-    size_t i = 0;
 
     if (fd < 0)
     {
@@ -172,7 +171,7 @@ void MCUTempSensor::read(void)
             double v = static_cast<double>(temp) / 1000;
             if constexpr (debug)
             {
-                std::cerr << "Value update to " << (double)v << "raw reading "
+                std::cerr << "Value update to " << v << "raw reading "
                           << static_cast<int>(temp) << "\n";
             }
             updateValue(v);
@@ -264,7 +263,7 @@ void createSensors(
         "GetManagedObjects");
 }
 
-int main(int argc, char** argv)
+int main()
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -276,7 +275,7 @@ int main(int argc, char** argv)
     boost::asio::deadline_timer configTimer(io);
 
     std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message& message) {
+        [&](sdbusplus::message::message&) {
             configTimer.expires_from_now(boost::posix_time::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait([&](const boost::system::error_code& ec) {

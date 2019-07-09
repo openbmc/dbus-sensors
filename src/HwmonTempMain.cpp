@@ -79,7 +79,7 @@ void createSensors(
             continue; // already searched this path
         }
 
-        auto device = fs::path(directory / "device");
+        fs::path device = directory / "device";
         std::string deviceName = fs::canonical(device).stem();
         auto findHyphen = deviceName.find("-");
         if (findHyphen == std::string::npos)
@@ -97,7 +97,7 @@ void createSensors(
             bus = std::stoi(busStr);
             addr = std::stoi(addrStr, 0, 16);
         }
-        catch (std::invalid_argument)
+        catch (std::invalid_argument&)
         {
             continue;
         }
@@ -208,7 +208,7 @@ void createSensors(
     }
 }
 
-int main(int argc, char** argv)
+int main()
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);

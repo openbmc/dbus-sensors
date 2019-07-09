@@ -422,7 +422,7 @@ void reinitSensors(sdbusplus::message::message& message)
     }
 }
 
-int main(int argc, char** argv)
+int main()
 {
 
     boost::asio::io_service io;
@@ -437,7 +437,7 @@ int main(int argc, char** argv)
     boost::asio::deadline_timer configTimer(io);
 
     std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message& message) {
+        [&](sdbusplus::message::message&) {
             configTimer.expires_from_now(boost::posix_time::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait([&](const boost::system::error_code& ec) {

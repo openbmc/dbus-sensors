@@ -266,8 +266,7 @@ CFMSensor::~CFMSensor()
 
 void CFMSensor::createMaxCFMIface(void)
 {
-    cfmLimitIface->register_property("Limit", static_cast<double>(c2) * maxCFM *
-                                                  tachs.size());
+    cfmLimitIface->register_property("Limit", c2 * maxCFM * tachs.size());
     cfmLimitIface->initialize();
 }
 
@@ -686,7 +685,7 @@ bool ExitAirTempSensor::calculate(double& val)
                                         (qMax - qMin) * (cfm - qMin));
     }
 
-    totalPower *= powerFactor;
+    totalPower *= static_cast<double>(powerFactor);
     totalPower += pOffset;
 
     if (totalPower == 0)
@@ -709,7 +708,7 @@ bool ExitAirTempSensor::calculate(double& val)
 
     // Calculate the exit air temp
     // Texit = Tfp + (1.76 * TotalPower / CFM * Faltitude)
-    double reading = 1.76 * totalPower * altitudeFactor;
+    double reading = 1.76 * totalPower * static_cast<double>(altitudeFactor);
     reading /= cfm;
     reading += inletTemp;
 
@@ -890,7 +889,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         "GetManagedObjects");
 }
 
-int main(int argc, char** argv)
+int main()
 {
 
     boost::asio::io_service io;
@@ -906,7 +905,7 @@ int main(int argc, char** argv)
     boost::asio::deadline_timer configTimer(io);
 
     std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message& message) {
+        [&](sdbusplus::message::message&) {
             configTimer.expires_from_now(boost::posix_time::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait([&](const boost::system::error_code& ec) {

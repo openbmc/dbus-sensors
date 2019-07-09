@@ -22,7 +22,6 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 static constexpr size_t pwmMax = 255;
-static constexpr size_t pwmMin = 0;
 
 PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      sdbusplus::asio::object_server& objectServer,
@@ -36,7 +35,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         "/xyz/openbmc_project/sensors/fan_pwm/" + name,
         "xyz.openbmc_project.Sensor.Value");
     uint32_t pwmValue = getValue(false);
-    double fValue = 100.0 * (static_cast<float>(pwmValue) / pwmMax);
+    double fValue = 100.0 * (static_cast<double>(pwmValue) / pwmMax);
     sensorInterface->register_property(
         "Value", fValue,
         [this](const double& req, double& resp) {
@@ -58,7 +57,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             return 1;
         },
         [this](double& curVal) {
-            float value = 100.0 * (static_cast<float>(getValue()) / pwmMax);
+            double value = 100.0 * (static_cast<double>(getValue()) / pwmMax);
             if (curVal != value)
             {
                 curVal = value;
@@ -78,7 +77,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     controlInterface->register_property(
         "Target", static_cast<uint64_t>(pwmValue),
         [this](const uint64_t& req, uint64_t& resp) {
-            if (req > pwmMax || req < pwmMin)
+            if (req > pwmMax)
             {
                 throw std::runtime_error("Value out of range");
                 return -1;
@@ -149,7 +148,7 @@ uint32_t PwmSensor::getValue(bool errThrow)
         uint32_t value = std::stoi(line);
         return value;
     }
-    catch (std::invalid_argument)
+    catch (std::invalid_argument&)
     {
         std::cerr << "Error reading pwm at " << sysPath << "\n";
         // throw if not initial read to be caught by dbus bindings
