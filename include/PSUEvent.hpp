@@ -26,7 +26,7 @@ class PSUSubEvent
                 const std::string& eventName,
                 std::shared_ptr<std::set<std::string>> asserts,
                 std::shared_ptr<std::set<std::string>> combineEvent,
-                std::shared_ptr<bool> state);
+                std::shared_ptr<bool> state, const std::string& psuName);
     ~PSUSubEvent();
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface;
@@ -47,6 +47,9 @@ class PSUSubEvent
     boost::asio::posix::stream_descriptor inputDev;
     static constexpr unsigned int eventPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
+    std::string psuName;
+    std::string fanName;
+    std::string messageID = "";
 };
 
 class PSUCombineEvent
