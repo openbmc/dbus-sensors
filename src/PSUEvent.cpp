@@ -14,6 +14,8 @@
 // limitations under the License.
 */
 
+#include <systemd/sd-journal.h>
+
 #include <PSUEvent.hpp>
 #include <iostream>
 #include <sdbusplus/asio/connection.hpp>
@@ -51,7 +53,7 @@ PSUCombineEvent::PSUCombineEvent(
             std::shared_ptr<bool> state = std::make_shared<bool>(false);
             events[eventPSUName].emplace_back(std::make_unique<PSUSubEvent>(
                 eventInterface, path, io, eventName, assert, combineEvent,
-                state));
+                state, psuName));
             asserts.emplace_back(assert);
             states.emplace_back(state);
         }
@@ -64,18 +66,39 @@ PSUCombineEvent::~PSUCombineEvent()
     objServer.remove_interface(eventInterface);
 }
 
+static boost::container::flat_map<std::string, std::string> logID = {
+    {"PredictiveFailure", "OpenBMC.0.1.PowerSupplyFailurePredicted"},
+    {"Failure", "OpenBMC.0.1.PowerSupplyFailed"},
+    {"ACLost", "OpenBMC.0.1.PowerSupplyACLost"},
+    {"FanFault", "OpenBMC.0.1.PowerSupplyFanFailed"}};
+
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
     const std::string& path, boost::asio::io_service& io,
     const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
-    std::shared_ptr<bool> state) :
+    std::shared_ptr<bool> state, const std::string& psuName) :
     eventInterface(eventInterface),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     path(path), eventName(eventName), assertState(state), asserts(asserts),
-    combineEvent(combineEvent)
+    combineEvent(combineEvent), psuName(psuName)
 {
+    auto found = logID.find(eventName);
+    if (found == logID.end())
+    {
+        messageID.clear();
+    }
+    else
+    {
+        messageID = found->second;
+    }
+
+    auto fanPos = path.find("fan");
+    if (fanPos != std::string::npos)
+    {
+        fanName = path.substr(fanPos);
+    }
     setupRead();
 }
 
@@ -189,6 +212,26 @@ void PSUSubEvent::updateValue(const int& newValue)
         if (*assertState == false)
         {
             *assertState = true;
+            if (!messageID.empty())
+            {
+                // Fan Failed has two args
+                std::string sendMessage = eventName + " assert";
+                if (messageID == "OpenBMC.0.1.PowerSupplyFanFailed")
+                {
+                    sd_journal_send("MESSAGE=%s", sendMessage.c_str(),
+                                    "PRIORITY=%i", LOG_ERR,
+                                    "REDFISH_MESSAGE_ID=%s", messageID.c_str(),
+                                    "REDFISH_MESSAGE_ARGS=%s,%s",
+                                    psuName.c_str(), fanName.c_str(), NULL);
+                }
+                else
+                {
+                    sd_journal_send(
+                        "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
+                        LOG_ERR, "REDFISH_MESSAGE_ID=%s", messageID.c_str(),
+                        "REDFISH_MESSAGE_ARGS=%s", psuName.c_str(), NULL);
+                }
+            }
             if ((*combineEvent).empty())
             {
                 eventInterface->set_property("functional", false);
