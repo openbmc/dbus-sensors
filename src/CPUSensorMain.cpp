@@ -182,9 +182,7 @@ bool createSensors(boost::asio::io_service& io,
         std::string sensorType;
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;
-        const std::pair<std::string, boost::container::flat_map<
-                                         std::string, BasicVariantType>>*
-            baseConfiguration = nullptr;
+        const SensorBaseConfiguration* baseConfiguration = nullptr;
 
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigs)
@@ -554,17 +552,14 @@ bool getCpuConfig(
         useCache = true;
     }
 
-    // check PECI client addresses and DT overlay names from CPU configuration
+    // check PECI client addresses and names from CPU configuration
     // before starting ping operation
     for (const char* type : sensorTypes)
     {
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigs)
         {
-            for (const std::pair<
-                     std::string,
-                     boost::container::flat_map<std::string, BasicVariantType>>&
-                     config : sensor.second)
+            for (const SensorBaseConfiguration& config : sensor.second)
             {
                 if ((configPrefix + std::string(type)) != config.first)
                 {
@@ -581,26 +576,30 @@ bool getCpuConfig(
                 std::string name =
                     std::regex_replace(nameRaw, illegalDbusRegex, "_");
 
-                auto findCpuGpio = config.second.find("PresenceGpio");
-                if (findCpuGpio != config.second.end())
+                bool present = true;
+                for (const SensorBaseConfiguration& suppConfig : sensor.second)
                 {
-                    size_t gpio = std::visit(VariantToUnsignedIntVisitor(),
-                                             findCpuGpio->second);
-                    bool present = hostIsPresent(gpio);
-                    if (inventoryIfaces.find(name) == inventoryIfaces.end())
+                    if (suppConfig.first.find("PresenceGpio") !=
+                        std::string::npos)
                     {
-                        auto iface = objectServer.add_interface(
-                            cpuInventoryPath + std::string("/") + name,
-                            "xyz.openbmc_project.Inventory.Item");
-                        iface->register_property("PrettyName", name);
-                        iface->register_property("Present", present);
-                        iface->initialize();
-                        inventoryIfaces[name] = std::move(iface);
+                        present = cpuIsPresent(suppConfig.second);
+                        break;
                     }
-                    if (!present)
-                    {
-                        continue; // no reason to look for non present cpu
-                    }
+                }
+
+                if (inventoryIfaces.find(name) == inventoryIfaces.end())
+                {
+                    auto iface = objectServer.add_interface(
+                        cpuInventoryPath + std::string("/") + name,
+                        "xyz.openbmc_project.Inventory.Item");
+                    iface->register_property("PrettyName", name);
+                    iface->register_property("Present", present);
+                    iface->initialize();
+                    inventoryIfaces[name] = std::move(iface);
+                }
+                if (!present)
+                {
+                    continue; // no reason to look for non present cpu
                 }
 
                 auto findBus = config.second.find("Bus");
