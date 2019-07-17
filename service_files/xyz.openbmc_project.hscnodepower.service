@@ -1,0 +1,11 @@
+[Unit]
+Description = HSC Node Power
+StopWhenUnneeded = false
+
+[Service]
+Restart = always
+RestartSec = 5
+ExecStart = /usr/bin/hscnodepower
+
+[Install]
+WantedBy = multi-user.target
