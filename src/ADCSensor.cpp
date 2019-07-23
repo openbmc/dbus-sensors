@@ -37,24 +37,6 @@ static constexpr unsigned int sensorScaleFactor = 1000;
 static constexpr double roundFactor = 10000; // 3 decimal places
 static constexpr double maxReading = 20;
 static constexpr double minReading = 0;
-static constexpr const char* sysGpioPath = "/sys/class/gpio/gpio";
-static constexpr const char* postfixValue = "/value";
-
-void setGpio(int gpioN, int value)
-{
-    std::string device = sysGpioPath + std::to_string(gpioN) + postfixValue;
-    std::fstream gpioFile;
-
-    gpioFile.open(device, std::ios::out);
-
-    if (!gpioFile.good())
-    {
-        std::cerr << "Error opening device " << device << "\n";
-        return;
-    }
-    gpioFile << std::to_string(value);
-    gpioFile.close();
-}
 
 ADCSensor::ADCSensor(const std::string& path,
                      sdbusplus::asio::object_server& objectServer,
@@ -63,7 +45,7 @@ ADCSensor::ADCSensor(const std::string& path,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const double scaleFactor, PowerState readState,
                      const std::string& sensorConfiguration,
-                     std::optional<int> bridgeGpio) :
+                     std::optional<BridgeGpio> bridgeGpio) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
@@ -111,7 +93,7 @@ void ADCSensor::setupRead(void)
 {
     if (bridgeGpio.has_value())
     {
-        setGpio(*bridgeGpio, 1);
+        (*bridgeGpio).set(1);
         // In case a channel has a bridge circuit,we have to turn the bridge on
         // prior to reading a value at least for one scan cycle to get a valid
         // value. Guarantee that the HW signal can be stable, the HW signal
@@ -191,7 +173,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
     inputDev.close();
     if (bridgeGpio.has_value())
     {
-        setGpio(*bridgeGpio, 0);
+        (*bridgeGpio).set(0);
     }
     int fd = open(path.c_str(), O_RDONLY);
     if (fd <= 0)
