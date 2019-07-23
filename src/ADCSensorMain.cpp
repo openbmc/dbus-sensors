@@ -230,21 +230,41 @@ void createSensors(
             }
         }
 
-        auto findBridgeGpio = baseConfiguration->second.find("BridgeGpio");
-        std::optional<int> gpioNum;
-
-        if (findBridgeGpio != baseConfiguration->second.end())
+        std::optional<BridgeGpio> bridgeGpio;
+        for (const SensorBaseConfiguration& suppConfig : *sensorData)
         {
-            int gpioPin =
-                std::visit(VariantToIntVisitor(), findBridgeGpio->second);
-            gpioNum = static_cast<std::optional<int>>(gpioPin);
+            if (suppConfig.first.find("BridgeGpio") != std::string::npos)
+            {
+                auto findName = suppConfig.second.find("Name");
+                if (findName != suppConfig.second.end())
+                {
+                    std::string gpioName =
+                        std::visit(VariantToStringVisitor(), findName->second);
+
+                    int polarity = gpiod::line::ACTIVE_HIGH;
+                    auto findPolarity = suppConfig.second.find("Polarity");
+                    if (findPolarity != suppConfig.second.end())
+                    {
+                        if (std::string("Low") ==
+                            std::visit(VariantToStringVisitor(),
+                                       findPolarity->second))
+                        {
+                            polarity = gpiod::line::ACTIVE_LOW;
+                        }
+                    }
+                    bridgeGpio = BridgeGpio(gpioName, polarity);
+                }
+
+                break;
+            }
         }
+
         auto& sensor = sensors[sensorName];
         sensor = nullptr;
         sensor = std::make_unique<ADCSensor>(
             path.string(), objectServer, dbusConnection, io, sensorName,
             std::move(sensorThresholds), scaleFactor, readState, *interfacePath,
-            gpioNum);
+            bridgeGpio);
     }
 }
 

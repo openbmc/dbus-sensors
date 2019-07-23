@@ -1,9 +1,49 @@
 #pragma once
 
 #include <Thresholds.hpp>
+#include <gpiod.hpp>
 #include <optional>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
+
+class BridgeGpio
+{
+  public:
+    BridgeGpio(const std::string& name, const int polarity)
+    {
+        line = gpiod::find_line(name);
+        if (!line)
+        {
+            std::cerr << "Error finding gpio: " << name << "\n";
+        }
+        else
+        {
+            try
+            {
+                line.request({"adcsensor",
+                              gpiod::line_request::DIRECTION_OUTPUT,
+                              polarity == gpiod::line::ACTIVE_HIGH
+                                  ? 0
+                                  : gpiod::line_request::FLAG_ACTIVE_LOW});
+            }
+            catch (std::system_error&)
+            {
+                std::cerr << "Error requesting gpio: " << name << "\n";
+            }
+        }
+    }
+
+    void set(int value)
+    {
+        if (line)
+        {
+            line.set_value(value);
+        }
+    }
+
+  private:
+    gpiod::line line;
+};
 
 class ADCSensor : public Sensor
 {
@@ -15,7 +55,7 @@ class ADCSensor : public Sensor
               std::vector<thresholds::Threshold>&& thresholds,
               const double scaleFactor, PowerState readState,
               const std::string& sensorConfiguration,
-              std::optional<int> bridgeGpio);
+              std::optional<BridgeGpio> bridgeGpio);
     ~ADCSensor();
 
   private:
@@ -26,7 +66,7 @@ class ADCSensor : public Sensor
     std::string path;
     int errCount;
     double scaleFactor;
-    std::optional<int> bridgeGpio;
+    std::optional<BridgeGpio> bridgeGpio;
     PowerState readState;
     thresholds::ThresholdTimer thresholdTimer;
     void setupRead(void);
