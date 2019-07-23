@@ -408,6 +408,14 @@ void createSensors(boost::asio::io_service& io,
             unsigned int factor =
                 std::pow(10, findProperty->second.sensorScaleFactor);
 
+            auto findScaleFactor =
+                baseConfig->second.find(sensorNameSubStr + "ScaleFactor");
+            if (findScaleFactor != baseConfig->second.end())
+            {
+                factor =
+                    std::visit(VariantToIntVisitor(), findScaleFactor->second);
+            }
+
             std::vector<thresholds::Threshold> sensorThresholds;
 
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
