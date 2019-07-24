@@ -30,7 +30,8 @@
 static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.pmbus"};
 
-static std::vector<std::string> pmbusNames = {"pmbus", "pxe1610", "ina219"};
+static std::vector<std::string> pmbusNames = {"pmbus", "pxe1610", "ina219",
+                                              "ina230"};
 namespace fs = std::filesystem;
 
 static boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>
