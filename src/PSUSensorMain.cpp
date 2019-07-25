@@ -409,8 +409,12 @@ void createSensors(boost::asio::io_service& io,
             unsigned int factor =
                 std::pow(10, findProperty->second.sensorScaleFactor);
 
-            auto findScaleFactor =
-                baseConfig->second.find(sensorNameSubStr + "ScaleFactor");
+            /* Change first char of substring to uppercase */
+            char firstChar = sensorNameSubStr[0] - 0x20;
+            std::string strScaleFactor =
+                firstChar + sensorNameSubStr.substr(1) + "ScaleFactor";
+
+            auto findScaleFactor = baseConfig->second.find(strScaleFactor);
             if (findScaleFactor != baseConfig->second.end())
             {
                 factor =
