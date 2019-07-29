@@ -55,7 +55,7 @@ class ADCSensor : public Sensor
               std::vector<thresholds::Threshold>&& thresholds,
               const double scaleFactor, PowerState readState,
               const std::string& sensorConfiguration,
-              std::optional<BridgeGpio> bridgeGpio);
+              std::optional<BridgeGpio>&& bridgeGpio);
     ~ADCSensor();
 
   private:

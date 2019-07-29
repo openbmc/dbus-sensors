@@ -45,13 +45,14 @@ ADCSensor::ADCSensor(const std::string& path,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const double scaleFactor, PowerState readState,
                      const std::string& sensorConfiguration,
-                     std::optional<BridgeGpio> bridgeGpio) :
+                     std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
     objServer(objectServer), scaleFactor(scaleFactor), path(path),
     readState(std::move(readState)), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), errCount(0), thresholdTimer(io, this), bridgeGpio(bridgeGpio)
+    waitTimer(io), errCount(0), thresholdTimer(io, this),
+    bridgeGpio(std::move(bridgeGpio))
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,

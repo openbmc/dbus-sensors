@@ -230,6 +230,9 @@ void createSensors(
             }
         }
 
+        auto& sensor = sensors[sensorName];
+        sensor = nullptr;
+
         std::optional<BridgeGpio> bridgeGpio;
         for (const SensorBaseConfiguration& suppConfig : *sensorData)
         {
@@ -259,12 +262,10 @@ void createSensors(
             }
         }
 
-        auto& sensor = sensors[sensorName];
-        sensor = nullptr;
         sensor = std::make_unique<ADCSensor>(
             path.string(), objectServer, dbusConnection, io, sensorName,
             std::move(sensorThresholds), scaleFactor, readState, *interfacePath,
-            bridgeGpio);
+            std::move(bridgeGpio));
     }
 }
 
