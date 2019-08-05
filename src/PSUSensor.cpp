@@ -57,10 +57,12 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
         thresholdInterfaceCritical = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
+    setInitialProperties(conn);
+
     association =
         objectServer.add_interface(dbusPath, "org.openbmc.Associations");
 
-    setInitialProperties(conn);
+    createInventoryAssoc(association, configurationPath);
     setupRead();
 }
 

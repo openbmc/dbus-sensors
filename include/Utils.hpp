@@ -142,3 +142,22 @@ inline void setReadState(const std::string& str, PowerState& val)
         val = PowerState::always;
     }
 }
+
+inline void createInventoryAssoc(
+    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path)
+{
+    if (association)
+    {
+        std::filesystem::path p(path);
+
+        std::vector<Association> associations;
+        associations.push_back(
+            Association("inventory", "sensors", p.parent_path().string()));
+        associations.push_back(Association(
+            "chassis", "all_sensors",
+            "/xyz/openbmc_project/inventory/system/chassis/R1000_Chassis"));
+        association->register_property("associations", associations);
+        association->initialize();
+    }
+}
