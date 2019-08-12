@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 */
+#include <systemd/sd-journal.h>
 
 #include <ChassisIntrusionSensor.hpp>
 #include <Utils.hpp>
@@ -173,6 +174,104 @@ static bool getIntrusionSensorConfig(
     return false;
 }
 
+static std::array<bool, 2> isLanConnected = {false, false};
+static void processLanStatusChange(sdbusplus::message::message& message)
+{
+    std::string pathName = message.get_path();
+    std::string interfaceName;
+    boost::container::flat_map<std::string, BasicVariantType> properties;
+    message.read(interfaceName, properties);
+
+    auto findStateProperty = properties.find("OperationalState");
+    if (findStateProperty == properties.end())
+    {
+        return;
+    }
+    std::string* pState = sdbusplus::message::variant_ns::get_if<std::string>(
+        &(findStateProperty->second));
+    bool newLanConnected = (*pState == "routable" || *pState == "carrier" ||
+                            *pState == "degraded");
+
+    // get ethNum from path. /org/freedesktop/network1/link/_32 for eth0
+    int ethNum = 0;
+    int pos = pathName.find("/_");
+    if (pos == std::string::npos)
+    {
+        std::cerr << "unexpected path name " << pathName << "\n";
+        return;
+    }
+    std::string suffixStr = pathName.substr(pos + 2);
+    if (suffixStr == "32")
+    {
+        ethNum = 0;
+    }
+    else if (suffixStr == "33")
+    {
+        ethNum = 1;
+    }
+    else
+    {
+        std::cerr << "unexpected eth for suffixStr " << suffixStr << "\n";
+        return;
+    }
+
+    if (isLanConnected[ethNum] != newLanConnected)
+    {
+        std::string strEthNum = "eth" + std::to_string(ethNum);
+        std::string strEvent = strEthNum + " LAN leash lost";
+        std::string strAssert = newLanConnected ? "de-asserted" : "asserted";
+        std::string strMsg = strEthNum + " is " +
+                             (newLanConnected ? "connected" : "disconnected");
+        std::string strMsgId = "OpenBMC.0.1.PhysicalSecurity";
+        sd_journal_send("MESSAGE=%s", strMsg.c_str(), "PRIORITY=%i", LOG_INFO,
+                        "REDFISH_MESSAGE_ID=%s", strMsgId.c_str(),
+                        "REDFISH_MESSAGE_ARGS=%s,%s", strEvent.c_str(),
+                        strAssert.c_str(), NULL);
+        isLanConnected[ethNum] = newLanConnected;
+    }
+}
+
+static void
+    monitorLanStatusChange(std::shared_ptr<sdbusplus::asio::connection> conn)
+{
+    // init lan connected status
+    for (int ethNum = 0; ethNum < 2; ethNum++)
+    {
+        std::string pathSuffix = (ethNum == 0) ? "_32" : "_33";
+        conn->async_method_call(
+            [ethNum](boost::system::error_code ec,
+                     const std::variant<std::string>& property) {
+                if (ec)
+                {
+                    return;
+                }
+                const std::string* pState = std::get_if<std::string>(&property);
+                if (pState == nullptr)
+                {
+                    std::cerr << "Unable to read lan status value\n";
+                    return;
+                }
+                isLanConnected[ethNum] =
+                    (*pState == "routable" || *pState == "carrier" ||
+                     *pState == "degraded");
+            },
+            "org.freedesktop.network1",
+            "/org/freedesktop/network1/link/" + pathSuffix,
+            "org.freedesktop.DBus.Properties", "Get",
+            "org.freedesktop.network1.Link", "OperationalState");
+    }
+
+    // add match to monitor lan status change
+    static auto matchLanStatusChange =
+        std::make_unique<sdbusplus::bus::match::match>(
+            static_cast<sdbusplus::bus::bus&>(*conn),
+            "type='signal', member='PropertiesChanged',"
+            "arg0namespace='org.freedesktop.network1.Link'",
+            [](sdbusplus::message::message& msg) {
+                processLanStatusChange(msg);
+            });
+}
+
 int main()
 {
     int busId = -1, slaveAddr = -1, gpioIndex = -1;
@@ -224,6 +323,8 @@ int main()
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" + sensorType + "'",
         eventHandler);
+
+    monitorLanStatusChange(systemBus);
 
     io.run();
 
