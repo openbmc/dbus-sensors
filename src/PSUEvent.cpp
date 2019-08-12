@@ -70,7 +70,8 @@ static boost::container::flat_map<std::string, std::string> logID = {
     {"PredictiveFailure", "OpenBMC.0.1.PowerSupplyFailurePredicted"},
     {"Failure", "OpenBMC.0.1.PowerSupplyFailed"},
     {"ACLost", "OpenBMC.0.1.PowerSupplyACLost"},
-    {"FanFault", "OpenBMC.0.1.PowerSupplyFanFailed"}};
+    {"FanFault", "OpenBMC.0.1.PowerSupplyFanFailed"},
+    {"ConfigureError", "OpenBMC.0.1.PowerSupplyConfigurationError"}};
 
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,

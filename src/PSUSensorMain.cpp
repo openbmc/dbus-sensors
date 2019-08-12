@@ -491,8 +491,9 @@ void propertyInitialize(void)
     eventMatch = {
         {"PredictiveFailure", {"power1_alarm"}},
         {"Failure", {"in2_alarm"}},
-        {"ACLost", {"in1_alarm", "in1_lcrit_alarm"}},
-        {"FanFault", {"fan1_alarm", "fan2_alarm", "fan1_fault", "fan2_fault"}}};
+        {"ACLost", {"in1_beep"}},
+        {"FanFault", {"fan1_alarm", "fan2_alarm", "fan1_fault", "fan2_fault"}},
+        {"ConfigureError", {"in1_fault"}}};
 }
 
 int main()
