@@ -22,6 +22,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 static constexpr size_t pwmMax = 255;
+static constexpr double defaultPwm = 30.0;
 
 PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      sdbusplus::asio::object_server& objectServer,
@@ -35,6 +36,12 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         "/xyz/openbmc_project/sensors/fan_pwm/" + name,
         "xyz.openbmc_project.Sensor.Value");
     uint32_t pwmValue = getValue(false);
+    if (!pwmValue)
+    {
+        // default pwm to non 0
+        pwmValue = static_cast<uint32_t>(pwmMax * (defaultPwm / 100));
+        setValue(pwmValue);
+    }
     double fValue = 100.0 * (static_cast<double>(pwmValue) / pwmMax);
     sensorInterface->register_property(
         "Value", fValue,
