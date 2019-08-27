@@ -49,7 +49,8 @@ class PSUSubEvent
     static constexpr size_t warnAfterErrorCount = 10;
     std::string psuName;
     std::string fanName;
-    std::string messageID = "";
+    std::string assertMessage;
+    std::string deassertMessage;
 };
 
 class PSUCombineEvent
