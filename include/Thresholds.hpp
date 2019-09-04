@@ -39,61 +39,58 @@ struct Threshold
 void assertThresholds(Sensor* sensor, thresholds::Level level,
                       thresholds::Direction direction, bool assert);
 
+using TimerPair = std::pair<bool, boost::asio::deadline_timer>;
+
 struct ThresholdTimer
 {
 
-    ThresholdTimer(boost::asio::io_service& io, Sensor* sensor) :
-        criticalTimer(io), warningTimer(io), sensor(sensor)
+    ThresholdTimer(boost::asio::io_service& ioService, Sensor* sensor) :
+        io(ioService), sensor(sensor)
     {
     }
 
     void startTimer(const Threshold& threshold)
     {
-        constexpr const size_t waitTime = 2;
+        constexpr const size_t waitTime = 5;
+        TimerPair* pair = nullptr;
 
-        if (threshold.level == WARNING && !warningRunning)
+        for (TimerPair& timer : timers)
         {
-            warningRunning = true;
-            warningTimer.expires_from_now(boost::posix_time::seconds(waitTime));
-            warningTimer.async_wait(
-                [this, threshold](boost::system::error_code ec) {
-                    if (ec == boost::asio::error::operation_aborted)
-                    {
-                        return; // we're being canceled
-                    }
-                    if (isPowerOn())
-                    {
-                        assertThresholds(sensor, threshold.level,
-                                         threshold.direction, true);
-                    }
-                    warningRunning = false;
-                });
+            if (!timer.first)
+            {
+                pair = &timer;
+                break;
+            }
         }
-        else if (threshold.level == CRITICAL && !criticalRunning)
+        if (pair == nullptr)
         {
-            criticalRunning = true;
-            criticalTimer.expires_from_now(
-                boost::posix_time::seconds(waitTime));
-            criticalTimer.async_wait(
-                [this, threshold](boost::system::error_code ec) {
-                    if (ec == boost::asio::error::operation_aborted)
-                    {
-                        return; // we're being canceled
-                    }
-                    if (isPowerOn())
-                    {
-                        assertThresholds(sensor, threshold.level,
-                                         threshold.direction, true);
-                    }
-                    criticalRunning = false;
-                });
+            pair = &timers.emplace_back(false, boost::asio::deadline_timer(io));
         }
+        pair->first = true;
+        pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
+        pair->second.async_wait(
+            [this, pair, threshold](boost::system::error_code ec) {
+                pair->first = false;
+
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return; // we're being canceled
+                }
+                else if (ec)
+                {
+                    std::cerr << "timer error: " << ec.message() << "\n";
+                    return;
+                }
+                if (isPowerOn())
+                {
+                    assertThresholds(sensor, threshold.level,
+                                     threshold.direction, true);
+                }
+            });
     }
 
-    boost::asio::deadline_timer criticalTimer;
-    boost::asio::deadline_timer warningTimer;
-    bool criticalRunning = false;
-    bool warningRunning = false;
+    boost::asio::io_service& io;
+    std::list<TimerPair> timers;
     Sensor* sensor;
 };
 
