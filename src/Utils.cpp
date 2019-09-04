@@ -128,6 +128,7 @@ bool hasBiosPost(void)
 
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
+    static boost::asio::steady_timer timer(conn->get_io_context());
     // create a match for powergood changes, first time do a method call to
     // cache the correct value
     if (powerMatch)
@@ -148,8 +149,28 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             auto findState = values.find(power::property);
             if (findState != values.end())
             {
-                powerStatusOn = boost::ends_with(
+                bool on = boost::ends_with(
                     std::get<std::string>(findState->second), "Running");
+                if (!on)
+                {
+                    timer.cancel();
+                    powerStatusOn = false;
+                    return;
+                }
+                // on comes too quickly
+                timer.expires_after(std::chrono::seconds(10));
+                timer.async_wait([](boost::system::error_code ec) {
+                    if (ec == boost::asio::error::operation_aborted)
+                    {
+                        return;
+                    }
+                    else if (ec)
+                    {
+                        std::cerr << "Timer error " << ec.message() << "\n";
+                        return;
+                    }
+                    powerStatusOn = true;
+                });
             }
         });
 
