@@ -197,7 +197,13 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
 
 void TachSensor::checkThresholds(void)
 {
+    if (!isPowerOn())
+    {
+        return;
+    }
+
     bool status = thresholds::checkThresholds(this);
+
     if (redundancy && *redundancy)
     {
         (*redundancy)
