@@ -34,7 +34,6 @@ PSUCombineEvent::PSUCombineEvent(
             combineEventName,
         "xyz.openbmc_project.State.Decorator.OperationalStatus");
     eventInterface->register_property("functional", true);
-
     if (!eventInterface->initialize())
     {
         std::cerr << "error initializing event interface\n";
@@ -90,10 +89,17 @@ PSUSubEvent::PSUSubEvent(
     std::shared_ptr<std::set<std::string>> combineEvent,
     std::shared_ptr<bool> state, const std::string& psuName) :
     eventInterface(eventInterface),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
-    path(path), eventName(eventName), assertState(state), asserts(asserts),
-    combineEvent(combineEvent), psuName(psuName)
+    inputDev(io), waitTimer(io), errCount(0), path(path), eventName(eventName),
+    assertState(state), asserts(asserts), combineEvent(combineEvent),
+    psuName(psuName)
 {
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd <= 0)
+    {
+        return;
+    }
+    inputDev.assign(fd);
+
     auto found = logID.find(eventName);
     if (found == logID.end())
     {
@@ -173,13 +179,7 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
         errCount++;
     }
     responseStream.clear();
-    inputDev.close();
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd <= 0)
-    {
-        return;
-    }
-    inputDev.assign(fd);
+    lseek(fd, 0, SEEK_SET);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(eventPollMs));
     waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)

@@ -38,10 +38,16 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      double max, double min) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
-    path(path), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
-    sensorFactor(factor)
+    path(path), objServer(objectServer), inputDev(io), waitTimer(io),
+    errCount(0), sensorFactor(factor)
 {
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd <= 0)
+    {
+        return;
+    }
+    inputDev.assign(fd);
+
     std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
 
     sensorInterface = objectServer.add_interface(
@@ -125,13 +131,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     }
 
     responseStream.clear();
-    inputDev.close();
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd <= 0)
-    {
-        return;
-    }
-    inputDev.assign(fd);
+    lseek(fd, 0, SEEK_SET);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
     waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)

@@ -25,6 +25,7 @@ class PSUSensor : public Sensor
     boost::asio::streambuf readBuf;
     std::string path;
     int errCount;
+    int fd;
     unsigned int sensorFactor;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);

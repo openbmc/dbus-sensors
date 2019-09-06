@@ -45,6 +45,7 @@ class PSUSubEvent
     void handleResponse(const boost::system::error_code& err);
     void updateValue(const int& newValue);
     boost::asio::posix::stream_descriptor inputDev;
+    int fd;
     static constexpr unsigned int eventPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
     std::string psuName;
