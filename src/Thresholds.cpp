@@ -347,37 +347,44 @@ bool parseThresholdsFromAttr(
 
         Level level;
         Direction direction;
-        double val = std::stod(attr) / scaleFactor;
-        if (type == "min" || type == "max")
+        try
         {
-            level = Level::WARNING;
-        }
-        else
-        {
-            level = Level::CRITICAL;
-        }
-        if (type == "min" || type == "lcrit")
-        {
-            direction = Direction::LOW;
-        }
-        else
-        {
-            direction = Direction::HIGH;
-        }
+            double val = std::stod(attr) / scaleFactor;
+            if (type == "min" || type == "max")
+            {
+                level = Level::WARNING;
+            }
+            else
+            {
+                level = Level::CRITICAL;
+            }
+            if (type == "min" || type == "lcrit")
+            {
+                direction = Direction::LOW;
+            }
+            else
+            {
+                direction = Direction::HIGH;
+            }
 
-        if (type == "crit")
-        {
-            val += offset;
-        }
+            if (type == "crit")
+            {
+                val += offset;
+            }
 
-        if (DEBUG)
-        {
-            std::cout << "Threshold: " << attrPath << ": " << val << "\n";
-        }
+            if (DEBUG)
+            {
+                std::cout << "Threshold: " << attrPath << ": " << val << "\n";
+            }
 
-        thresholdVector.emplace_back(level, direction, val);
+            thresholdVector.emplace_back(level, direction, val);
+        }
+        catch (const std::invalid_argument&)
+        {
+            return false;
+        }
     }
-    // no thresholds is allowed, not an error so return true always
+    // no thresholds is allowed, not an error so return true.
     return true;
 }
 
