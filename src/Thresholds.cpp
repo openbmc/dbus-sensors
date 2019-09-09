@@ -347,7 +347,15 @@ bool parseThresholdsFromAttr(
 
         Level level;
         Direction direction;
-        double val = std::stod(attr) / scaleFactor;
+        try
+        {
+            double val = std::stod(attr) / scaleFactor;
+        }
+        catch (const std::invalid_argument&)
+        {
+            return false;
+        }
+
         if (type == "min" || type == "max")
         {
             level = Level::WARNING;
@@ -377,7 +385,7 @@ bool parseThresholdsFromAttr(
 
         thresholdVector.emplace_back(level, direction, val);
     }
-    // no thresholds is allowed, not an error so return true always
+    // no thresholds is allowed, not an error so return true.
     return true;
 }
 
