@@ -36,6 +36,7 @@ static constexpr bool DEBUG = false;
 
 static constexpr const char* sensorType =
     "xyz.openbmc_project.Configuration.ChassisIntrusionSensor";
+static constexpr const char* nicType = "xyz.openbmc_project.Configuration.NIC";
 
 namespace fs = std::filesystem;
 
@@ -171,7 +172,8 @@ static bool getIntrusionSensorConfig(
         }
     }
 
-    std::cerr << "can't find matched I2C or GPIO configuration. \n";
+    std::cerr << "can't find matched I2C or GPIO configuration for intrusion "
+                 "sensor. \n";
     *pBusId = -1;
     *pSlaveAddr = -1;
     *pGpioIndex = -1;
@@ -180,7 +182,70 @@ static bool getIntrusionSensorConfig(
 
 static constexpr bool debugLanLeash = false;
 boost::container::flat_map<int, bool> lanStatusMap;
+boost::container::flat_map<int, std::string> lanInfoMap;
 boost::container::flat_map<std::string, int> pathSuffixMap;
+
+static void
+    getNicNameInfo(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+                   bool useCache)
+{
+    // find matched configuration according to type
+    ManagedObjectType sensorConfigurations;
+    if (!getSensorConfiguration(nicType, dbusConnection, sensorConfigurations,
+                                useCache))
+    {
+        std::cerr << "error in communicating to entity manager\n";
+        return;
+    }
+
+    const SensorData* sensorData = nullptr;
+    const std::pair<std::string,
+                    boost::container::flat_map<std::string, BasicVariantType>>*
+        baseConfiguration = nullptr;
+
+    // Get NIC name and save to map
+    lanInfoMap.clear();
+    for (const std::pair<sdbusplus::message::object_path, SensorData>& sensor :
+         sensorConfigurations)
+    {
+        baseConfiguration = nullptr;
+        sensorData = &(sensor.second);
+
+        // match sensor type
+        auto sensorBase = sensorData->find(nicType);
+        if (sensorBase == sensorData->end())
+        {
+            std::cerr << "error in finding NIC type \n";
+            continue;
+        }
+
+        baseConfiguration = &(*sensorBase);
+
+        auto findEthIndex = baseConfiguration->second.find("EthIndex");
+        auto findName = baseConfiguration->second.find("Name");
+
+        if (findEthIndex != baseConfiguration->second.end() &&
+            findName != baseConfiguration->second.end())
+        {
+            auto* pEthIndex = std::get_if<uint64_t>(&findEthIndex->second);
+            auto* pName = std::get_if<std::string>(&findName->second);
+            if (pEthIndex != nullptr && pName != nullptr)
+            {
+                lanInfoMap[*pEthIndex] = *pName;
+                if (debugLanLeash)
+                {
+                    std::cout << "find name of eth" << *pEthIndex << " is "
+                              << *pName << "\n";
+                }
+            }
+        }
+    }
+
+    if (lanInfoMap.size() == 0)
+    {
+        std::cerr << "can't find matched NIC name. \n";
+    }
+}
 
 static void processLanStatusChange(sdbusplus::message::message& message)
 {
@@ -194,8 +259,8 @@ static void processLanStatusChange(sdbusplus::message::message& message)
     {
         return;
     }
-    std::string* pState = sdbusplus::message::variant_ns::get_if<std::string>(
-        &(findStateProperty->second));
+    std::string* pState =
+        std::get_if<std::string>(&(findStateProperty->second));
     if (pState == nullptr)
     {
         std::cerr << "invalid OperationalState \n";
@@ -221,6 +286,8 @@ static void processLanStatusChange(sdbusplus::message::message& message)
         return;
     }
     int ethNum = findEthNum->second;
+
+    // get lan status from map
     auto findLanStatus = lanStatusMap.find(ethNum);
     if (findLanStatus == lanStatusMap.end())
     {
@@ -228,6 +295,21 @@ static void processLanStatusChange(sdbusplus::message::message& message)
         return;
     }
     bool oldLanConnected = findLanStatus->second;
+
+    // get lan info from map
+    std::string lanInfo = "";
+    if (lanInfoMap.size() > 0)
+    {
+        auto findLanInfo = lanInfoMap.find(ethNum);
+        if (findLanInfo == lanInfoMap.end())
+        {
+            std::cerr << "unexpected eth " << ethNum << " in lanInfoMap \n";
+        }
+        else
+        {
+            lanInfo = "(" + findLanInfo->second + ")";
+        }
+    }
 
     if (debugLanLeash)
     {
@@ -240,20 +322,17 @@ static void processLanStatusChange(sdbusplus::message::message& message)
 
     if (oldLanConnected != newLanConnected)
     {
-        std::string strEthNum = "eth" + std::to_string(ethNum);
-        std::string strEvent = strEthNum + " LAN leash lost";
-        std::string strAssert = newLanConnected ? "de-asserted" : "asserted";
-        std::string strMsg = strEthNum + " is " +
-                             (newLanConnected ? "connected" : "disconnected");
+        std::string strEthNum = "eth" + std::to_string(ethNum) + lanInfo;
+        std::string strEvent = strEthNum + " LAN leash " +
+                               (newLanConnected ? "connected" : "lost");
         std::string strMsgId = "OpenBMC.0.1.PhysicalSecurity";
-        sd_journal_send("MESSAGE=%s", strMsg.c_str(), "PRIORITY=%i", LOG_INFO,
+        sd_journal_send("MESSAGE=%s", strEvent.c_str(), "PRIORITY=%i", LOG_INFO,
                         "REDFISH_MESSAGE_ID=%s", strMsgId.c_str(),
-                        "REDFISH_MESSAGE_ARGS=%s,%s", strEvent.c_str(),
-                        strAssert.c_str(), NULL);
+                        "REDFISH_MESSAGE_ARGS=%s", strEvent.c_str(), NULL);
         lanStatusMap[ethNum] = newLanConnected;
         if (debugLanLeash)
         {
-            std::cout << "log redfish event: " << strMsg << "\n";
+            std::cout << "log redfish event: " << strEvent << "\n";
         }
     }
 }
@@ -261,6 +340,9 @@ static void processLanStatusChange(sdbusplus::message::message& message)
 static void
     monitorLanStatusChange(std::shared_ptr<sdbusplus::asio::connection> conn)
 {
+    // init lan port name from configuration
+    getNicNameInfo(conn, true);
+
     std::vector<fs::path> files;
     if (!findFiles(fs::path("/sys/class/net/"), R"(eth\d+/ifindex)", files))
     {
@@ -348,6 +430,20 @@ static void
         "type='signal', member='PropertiesChanged',"
         "arg0namespace='org.freedesktop.network1.Link'",
         [](sdbusplus::message::message& msg) { processLanStatusChange(msg); });
+
+    // add match to monitor entity manager signal about nic name config change
+    static sdbusplus::bus::match::match match2(
+        static_cast<sdbusplus::bus::bus&>(*conn),
+        "type='signal', member='PropertiesChanged',path_namespace='" +
+            std::string(inventoryPath) + "',arg0namespace='" + nicType + "'",
+        [&conn](sdbusplus::message::message& msg) {
+            if (msg.is_method_error())
+            {
+                std::cerr << "callback method error\n";
+                return;
+            }
+            getNicNameInfo(conn, false);
+        });
 }
 
 int main()
