@@ -258,3 +258,69 @@ void createAssociation(
         association->initialize();
     }
 }
+
+void setAssociation(
+    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path, const std::string& chassisPath)
+{
+    if (association)
+    {
+        std::filesystem::path p(path);
+
+        std::vector<Association> associations;
+        associations.push_back(
+            Association("inventory", "sensors", p.parent_path().string()));
+        associations.push_back(
+            Association("chassis", "all_sensors", chassisPath));
+        association->register_property("associations", associations);
+        association->initialize();
+    }
+}
+
+void createInventoryAssoc(
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path)
+{
+    if (!association)
+    {
+        return;
+    }
+    conn->async_method_call(
+        [&association, &path](const boost::system::error_code ec,
+                              const GetSubTreeType& ret) {
+            if (ec)
+            {
+                std::cerr << "Error calling mapper\n";
+                return;
+            }
+            std::string chassisPath;
+            std::string boardPath;
+            for (const auto& object : ret)
+            {
+                if (object.first.find("Baseboard"))
+                {
+                    boardPath = object.first;
+                }
+                for (const auto& data : object.second)
+                {
+                    for (const auto& type : data.second)
+                    {
+                        if (type ==
+                            "xyz.openbmc_project.Inventory.Item.Chassis")
+                        {
+                            chassisPath = object.first;
+                            setAssociation(association, path, chassisPath);
+                            return;
+                        }
+                    }
+                }
+            }
+            // If no chassis, use baseboard
+            setAssociation(association, path, boardPath);
+        },
+        mapper::busName, mapper::path, mapper::interface, mapper::subtree,
+        "/xyz/openbmc_project/inventory/system", 2,
+        std::array<std::string, 2>{"xyz.openbmc_project.Inventory.Item.Chassis",
+                                   "xyz.openbmc_project.Inventory.Item.Board"});
+}
