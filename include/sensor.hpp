@@ -150,8 +150,8 @@ struct Sensor
             if (std::isnan(diff) || diff > hysteresis)
             {
                 value = newValue;
-                checkThresholds();
             }
+            checkThresholds();
         }
     }
 };
