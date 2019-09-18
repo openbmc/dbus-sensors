@@ -244,7 +244,7 @@ void findLimits(std::pair<double, double>& limits,
 }
 
 void createAssociation(
-    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association,
     const std::string& path)
 {
     if (association)
@@ -257,4 +257,62 @@ void createAssociation(
         association->register_property("associations", associations);
         association->initialize();
     }
+}
+
+void setInventoryAssociation(
+    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path, const std::string& chassisPath)
+{
+    if (association)
+    {
+        std::filesystem::path p(path);
+
+        std::vector<Association> associations;
+        associations.push_back(
+            Association("inventory", "sensors", p.parent_path().string()));
+        associations.push_back(
+            Association("chassis", "all_sensors", chassisPath));
+        association->register_property("associations", associations);
+        association->initialize();
+    }
+}
+
+void createInventoryAssoc(
+    std::shared_ptr<sdbusplus::asio::connection> conn,
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association,
+    const std::string& path)
+{
+    if (!association)
+    {
+        return;
+    }
+    conn->async_method_call(
+        [association, path](const boost::system::error_code ec,
+                            const GetSubTreeType& ret) {
+            if (ec)
+            {
+                std::cerr << "Error calling mapper\n";
+                return;
+            }
+            for (const auto& object : ret)
+            {
+                for (const auto& data : object.second)
+                {
+                    for (const auto& type : data.second)
+                    {
+                        if (type == "xyz.openbmc_project.Inventory.Item.System")
+                        {
+                            std::string chassisPath = object.first;
+                            setInventoryAssociation(association, path,
+                                                    chassisPath);
+                            return;
+                        }
+                    }
+                }
+            }
+        },
+        mapper::busName, mapper::path, mapper::interface, mapper::subtree,
+        "/xyz/openbmc_project/inventory/system", 2,
+        std::array<std::string, 1>{
+            "xyz.openbmc_project.Inventory.Item.System"});
 }
