@@ -64,209 +64,213 @@ void createSensors(
     const std::unique_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged)
 {
-    bool firstScan = sensorsChanged == nullptr;
-    // use new data the first time, then refresh
-    ManagedObjectType sensorConfigurations;
-    bool useCache = false;
-    for (const char* type : sensorTypes)
-    {
-        if (!getSensorConfiguration(type, dbusConnection, sensorConfigurations,
-                                    useCache))
-        {
-            std::cerr << "error communicating to entity manager\n";
-            return;
-        }
-        useCache = true;
-    }
-    std::vector<fs::path> paths;
-    if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)", paths))
-    {
-        std::cerr << "No temperature sensors in system\n";
-        return;
-    }
-
-    // iterate through all found adc sensors, and try to match them with
-    // configuration
-    for (auto& path : paths)
-    {
-        if (!isAdc(path.parent_path()))
-        {
-            continue;
-        }
-        std::smatch match;
-        std::string pathStr = path.string();
-
-        std::regex_search(pathStr, match, inputRegex);
-        std::string indexStr = *(match.begin() + 1);
-
-        auto directory = path.parent_path();
-        // convert to 0 based
-        size_t index = std::stoul(indexStr) - 1;
-
-        const SensorData* sensorData = nullptr;
-        const std::string* interfacePath = nullptr;
-        const std::pair<std::string, boost::container::flat_map<
-                                         std::string, BasicVariantType>>*
-            baseConfiguration;
-        for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigurations)
-        {
-            // clear it out each loop
-            baseConfiguration = nullptr;
-
-            // find base configuration
-            for (const char* type : sensorTypes)
+    auto getter = std::make_shared<GetSensorConfiguration>(
+        dbusConnection,
+        std::move([&io, &objectServer, &sensors, &dbusConnection,
+                   &sensorsChanged](
+                      const ManagedObjectType& sensorConfigurations) {
+            bool firstScan = sensorsChanged == nullptr;
+            std::vector<fs::path> paths;
+            if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)",
+                           paths))
             {
-                auto sensorBase = sensor.second.find(type);
-                if (sensorBase != sensor.second.end())
+                std::cerr << "No temperature sensors in system\n";
+                return;
+            }
+
+            // iterate through all found adc sensors, and try to match them with
+            // configuration
+            for (auto& path : paths)
+            {
+                if (!isAdc(path.parent_path()))
                 {
-                    baseConfiguration = &(*sensorBase);
-                    break;
+                    continue;
                 }
-            }
-            if (baseConfiguration == nullptr)
-            {
-                continue;
-            }
-            auto findIndex = baseConfiguration->second.find("Index");
-            if (findIndex == baseConfiguration->second.end())
-            {
-                std::cerr << "Base configuration missing Index"
-                          << baseConfiguration->first << "\n";
-                continue;
-            }
+                std::smatch match;
+                std::string pathStr = path.string();
 
-            unsigned int number =
-                std::visit(VariantToUnsignedIntVisitor(), findIndex->second);
+                std::regex_search(pathStr, match, inputRegex);
+                std::string indexStr = *(match.begin() + 1);
 
-            if (number != index)
-            {
-                continue;
-            }
+                auto directory = path.parent_path();
+                // convert to 0 based
+                size_t index = std::stoul(indexStr) - 1;
 
-            sensorData = &(sensor.second);
-            interfacePath = &(sensor.first.str);
-            break;
-        }
-        if (sensorData == nullptr)
-        {
-            std::cerr << "failed to find match for " << path.string() << "\n";
-            continue;
-        }
-
-        if (baseConfiguration == nullptr)
-        {
-            std::cerr << "error finding base configuration for" << path.string()
-                      << "\n";
-            continue;
-        }
-
-        auto findSensorName = baseConfiguration->second.find("Name");
-        if (findSensorName == baseConfiguration->second.end())
-        {
-            std::cerr << "could not determine configuration name for "
-                      << path.string() << "\n";
-            continue;
-        }
-        std::string sensorName = std::get<std::string>(findSensorName->second);
-
-        // on rescans, only update sensors we were signaled by
-        auto findSensor = sensors.find(sensorName);
-        if (!firstScan && findSensor != sensors.end())
-        {
-            bool found = false;
-            for (auto it = sensorsChanged->begin(); it != sensorsChanged->end();
-                 it++)
-            {
-                if (boost::ends_with(*it, findSensor->second->name))
+                const SensorData* sensorData = nullptr;
+                const std::string* interfacePath = nullptr;
+                const std::pair<
+                    std::string,
+                    boost::container::flat_map<std::string, BasicVariantType>>*
+                    baseConfiguration;
+                for (const std::pair<sdbusplus::message::object_path,
+                                     SensorData>& sensor : sensorConfigurations)
                 {
-                    sensorsChanged->erase(it);
-                    findSensor->second = nullptr;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                continue;
-            }
-        }
-        std::vector<thresholds::Threshold> sensorThresholds;
-        if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
-        {
-            std::cerr << "error populating thresholds for " << sensorName
-                      << "\n";
-        }
+                    // clear it out each loop
+                    baseConfiguration = nullptr;
 
-        auto findScaleFactor = baseConfiguration->second.find("ScaleFactor");
-        float scaleFactor = 1.0;
-        if (findScaleFactor != baseConfiguration->second.end())
-        {
-            scaleFactor =
-                std::visit(VariantToFloatVisitor(), findScaleFactor->second);
-        }
-
-        auto findPowerOn = baseConfiguration->second.find("PowerState");
-        PowerState readState = PowerState::always;
-        if (findPowerOn != baseConfiguration->second.end())
-        {
-            std::string powerState =
-                std::visit(VariantToStringVisitor(), findPowerOn->second);
-            setReadState(powerState, readState);
-        }
-
-        auto findCPU = baseConfiguration->second.find("CPURequired");
-        if (findCPU != baseConfiguration->second.end())
-        {
-            size_t index = std::visit(VariantToIntVisitor(), findCPU->second);
-            auto presenceFind = cpuPresence.find(index);
-            if (presenceFind == cpuPresence.end())
-            {
-                continue; // no such cpu
-            }
-            if (!presenceFind->second)
-            {
-                continue; // cpu not installed
-            }
-        }
-
-        auto& sensor = sensors[sensorName];
-        sensor = nullptr;
-
-        std::optional<BridgeGpio> bridgeGpio;
-        for (const SensorBaseConfiguration& suppConfig : *sensorData)
-        {
-            if (suppConfig.first.find("BridgeGpio") != std::string::npos)
-            {
-                auto findName = suppConfig.second.find("Name");
-                if (findName != suppConfig.second.end())
-                {
-                    std::string gpioName =
-                        std::visit(VariantToStringVisitor(), findName->second);
-
-                    int polarity = gpiod::line::ACTIVE_HIGH;
-                    auto findPolarity = suppConfig.second.find("Polarity");
-                    if (findPolarity != suppConfig.second.end())
+                    // find base configuration
+                    for (const char* type : sensorTypes)
                     {
-                        if (std::string("Low") ==
-                            std::visit(VariantToStringVisitor(),
-                                       findPolarity->second))
+                        auto sensorBase = sensor.second.find(type);
+                        if (sensorBase != sensor.second.end())
                         {
-                            polarity = gpiod::line::ACTIVE_LOW;
+                            baseConfiguration = &(*sensorBase);
+                            break;
                         }
                     }
-                    bridgeGpio = BridgeGpio(gpioName, polarity);
+                    if (baseConfiguration == nullptr)
+                    {
+                        continue;
+                    }
+                    auto findIndex = baseConfiguration->second.find("Index");
+                    if (findIndex == baseConfiguration->second.end())
+                    {
+                        std::cerr << "Base configuration missing Index"
+                                  << baseConfiguration->first << "\n";
+                        continue;
+                    }
+
+                    unsigned int number = std::visit(
+                        VariantToUnsignedIntVisitor(), findIndex->second);
+
+                    if (number != index)
+                    {
+                        continue;
+                    }
+
+                    sensorData = &(sensor.second);
+                    interfacePath = &(sensor.first.str);
+                    break;
+                }
+                if (sensorData == nullptr)
+                {
+                    std::cerr << "failed to find match for " << path.string()
+                              << "\n";
+                    continue;
                 }
 
-                break;
-            }
-        }
+                if (baseConfiguration == nullptr)
+                {
+                    std::cerr << "error finding base configuration for"
+                              << path.string() << "\n";
+                    continue;
+                }
 
-        sensor = std::make_unique<ADCSensor>(
-            path.string(), objectServer, dbusConnection, io, sensorName,
-            std::move(sensorThresholds), scaleFactor, readState, *interfacePath,
-            std::move(bridgeGpio));
-    }
+                auto findSensorName = baseConfiguration->second.find("Name");
+                if (findSensorName == baseConfiguration->second.end())
+                {
+                    std::cerr << "could not determine configuration name for "
+                              << path.string() << "\n";
+                    continue;
+                }
+                std::string sensorName =
+                    std::get<std::string>(findSensorName->second);
+
+                // on rescans, only update sensors we were signaled by
+                auto findSensor = sensors.find(sensorName);
+                if (!firstScan && findSensor != sensors.end())
+                {
+                    bool found = false;
+                    for (auto it = sensorsChanged->begin();
+                         it != sensorsChanged->end(); it++)
+                    {
+                        if (boost::ends_with(*it, findSensor->second->name))
+                        {
+                            sensorsChanged->erase(it);
+                            findSensor->second = nullptr;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        continue;
+                    }
+                }
+                std::vector<thresholds::Threshold> sensorThresholds;
+                if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
+                {
+                    std::cerr << "error populating thresholds for "
+                              << sensorName << "\n";
+                }
+
+                auto findScaleFactor =
+                    baseConfiguration->second.find("ScaleFactor");
+                float scaleFactor = 1.0;
+                if (findScaleFactor != baseConfiguration->second.end())
+                {
+                    scaleFactor = std::visit(VariantToFloatVisitor(),
+                                             findScaleFactor->second);
+                }
+
+                auto findPowerOn = baseConfiguration->second.find("PowerState");
+                PowerState readState = PowerState::always;
+                if (findPowerOn != baseConfiguration->second.end())
+                {
+                    std::string powerState = std::visit(
+                        VariantToStringVisitor(), findPowerOn->second);
+                    setReadState(powerState, readState);
+                }
+
+                auto findCPU = baseConfiguration->second.find("CPURequired");
+                if (findCPU != baseConfiguration->second.end())
+                {
+                    size_t index =
+                        std::visit(VariantToIntVisitor(), findCPU->second);
+                    auto presenceFind = cpuPresence.find(index);
+                    if (presenceFind == cpuPresence.end())
+                    {
+                        continue; // no such cpu
+                    }
+                    if (!presenceFind->second)
+                    {
+                        continue; // cpu not installed
+                    }
+                }
+
+                auto& sensor = sensors[sensorName];
+                sensor = nullptr;
+
+                std::optional<BridgeGpio> bridgeGpio;
+                for (const SensorBaseConfiguration& suppConfig : *sensorData)
+                {
+                    if (suppConfig.first.find("BridgeGpio") !=
+                        std::string::npos)
+                    {
+                        auto findName = suppConfig.second.find("Name");
+                        if (findName != suppConfig.second.end())
+                        {
+                            std::string gpioName = std::visit(
+                                VariantToStringVisitor(), findName->second);
+
+                            int polarity = gpiod::line::ACTIVE_HIGH;
+                            auto findPolarity =
+                                suppConfig.second.find("Polarity");
+                            if (findPolarity != suppConfig.second.end())
+                            {
+                                if (std::string("Low") ==
+                                    std::visit(VariantToStringVisitor(),
+                                               findPolarity->second))
+                                {
+                                    polarity = gpiod::line::ACTIVE_LOW;
+                                }
+                            }
+                            bridgeGpio = BridgeGpio(gpioName, polarity);
+                        }
+
+                        break;
+                    }
+                }
+
+                sensor = std::make_unique<ADCSensor>(
+                    path.string(), objectServer, dbusConnection, io, sensorName,
+                    std::move(sensorThresholds), scaleFactor, readState,
+                    *interfacePath, std::move(bridgeGpio));
+            }
+        }));
+
+    getter->getConfiguration(
+        std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()});
 }
 
 int main()
