@@ -142,3 +142,8 @@ inline void setReadState(const std::string& str, PowerState& val)
         val = PowerState::always;
     }
 }
+
+void createInventoryAssoc(
+    std::shared_ptr<sdbusplus::asio::connection> conn,
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association,
+    const std::string& path);
