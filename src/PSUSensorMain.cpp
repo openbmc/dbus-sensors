@@ -149,6 +149,7 @@ void createSensors(boost::asio::io_service& io,
 
     // TODO may need only modify the ones that need to be changed.
     sensors.clear();
+    combineEvents.clear();
     for (const char* type : sensorTypes)
     {
         if (!getSensorConfiguration(type, dbusConnection, sensorConfigs,
@@ -433,6 +434,7 @@ void createSensors(boost::asio::io_service& io,
         }
 
         // OperationalStatus event
+        combineEvents[*psuName + "OperationalStatus"] = nullptr;
         combineEvents[*psuName + "OperationalStatus"] =
             std::make_unique<PSUCombineEvent>(
                 objectServer, io, *psuName, eventPathList, "OperationalStatus");
