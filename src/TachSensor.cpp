@@ -66,7 +66,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
-        "org.openbmc.Associations");
+        association::interface);
 
     if (presence)
     {
@@ -77,9 +77,8 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                                      std::string()); // unused property
         itemIface->register_property("Present", true);
         itemIface->initialize();
-        itemAssoc =
-            objectServer.add_interface("/xyz/openbmc_project/inventory/" + name,
-                                       "org.openbmc.Associations");
+        itemAssoc = objectServer.add_interface(
+            "/xyz/openbmc_project/inventory/" + name, association::interface);
         itemAssoc->register_property(
             "associations",
             std::vector<Association>{
@@ -315,7 +314,7 @@ RedundancySensor::RedundancySensor(size_t count,
         "xyz.openbmc_project.Control.FanRedundancy")),
     association(objectServer.add_interface(
         "/xyz/openbmc_project/control/FanRedundancy/Tach",
-        "org.openbmc.Associations")),
+        association::interface)),
     objectServer(objectServer)
 {
     createAssociation(association, sensorConfiguration);

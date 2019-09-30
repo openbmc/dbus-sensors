@@ -63,7 +63,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
         }
         association = objectServer.add_interface(
             "/xyz/openbmc_project/sensors/temperature/" + name,
-            "org.openbmc.Associations");
+            association::interface);
 
         setInitialProperties(conn);
     }

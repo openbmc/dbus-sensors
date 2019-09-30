@@ -254,7 +254,7 @@ void createAssociation(
         std::vector<Association> associations;
         associations.push_back(
             Association("chassis", "all_sensors", p.parent_path().string()));
-        association->register_property("associations", associations);
+        association->register_property("Associations", associations);
         association->initialize();
     }
 }
@@ -272,7 +272,7 @@ void setInventoryAssociation(
             Association("inventory", "sensors", p.parent_path().string()));
         associations.push_back(
             Association("chassis", "all_sensors", chassisPath));
-        association->register_property("associations", associations);
+        association->register_property("Associations", associations);
         association->initialize();
     }
 }

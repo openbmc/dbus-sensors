@@ -80,8 +80,7 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
         thresholdInterfaceCritical = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association =
-        objectServer.add_interface(dbusPath, "org.openbmc.Associations");
+    association = objectServer.add_interface(dbusPath, association::interface);
     setupPowerMatch(conn);
 }
 

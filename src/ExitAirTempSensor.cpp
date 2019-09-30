@@ -175,7 +175,7 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     }
 
     association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/cfm/" + name, "org.openbmc.Associations");
+        "/xyz/openbmc_project/sensors/cfm/" + name, association::interface);
 
     setInitialProperties(conn);
     setupSensorMatch(
@@ -493,7 +493,7 @@ ExitAirTempSensor::ExitAirTempSensor(
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
-        "org.openbmc.Associations");
+        association::interface);
     setInitialProperties(conn);
     setupMatches();
     setupPowerMatch(conn);

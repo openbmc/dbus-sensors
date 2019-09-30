@@ -115,8 +115,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     controlInterface->initialize();
 
     association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/fan_pwm/" + name,
-        "org.openbmc.Associations");
+        "/xyz/openbmc_project/sensors/fan_pwm/" + name, association::interface);
     createAssociation(association, sensorConfiguration);
 }
 PwmSensor::~PwmSensor()

@@ -59,8 +59,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     setInitialProperties(conn);
 
-    association =
-        objectServer.add_interface(dbusPath, "org.openbmc.Associations");
+    association = objectServer.add_interface(dbusPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
     setupRead();

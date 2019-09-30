@@ -98,6 +98,12 @@ const static constexpr char* path = "/xyz/openbmc_project/state/os";
 const static constexpr char* property = "OperatingSystemState";
 } // namespace post
 
+namespace association
+{
+const static constexpr char* interface =
+    "xyz.openbmc_project.Association.Definitions";
+} // namespace association
+
 template <typename T>
 inline T loadVariant(
     const boost::container::flat_map<std::string, BasicVariantType>& data,
