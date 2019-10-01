@@ -1,7 +1,8 @@
 [Unit]
 Description=PSU Sensor
 StopWhenUnneeded=false
-
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
 [Service]
 Restart=always
 RestartSec=5
