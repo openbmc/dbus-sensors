@@ -52,8 +52,12 @@ bool getSensorConfiguration(
                 dbusConnection->call(getManagedObjects);
             reply.read(managedObj);
         }
-        catch (const sdbusplus::exception::exception&)
+        catch (const sdbusplus::exception::exception& e)
         {
+            std::cerr << "While calling GetManagedObjects on service:"
+                      << entityManagerName << " exception name:" << e.name()
+                      << "and description:" << e.description()
+                      << " was thrown\n";
             err = true;
         }
 
