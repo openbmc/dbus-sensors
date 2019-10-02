@@ -13,7 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 */
-
 #include <PSUEvent.hpp>
 #include <PSUSensor.hpp>
 #include <Utils.hpp>
@@ -27,11 +26,12 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
-static constexpr std::array<const char*, 1> sensorTypes = {
-    "xyz.openbmc_project.Configuration.pmbus"};
+static constexpr std::array<const char*, 2> sensorTypes = {
+    "xyz.openbmc_project.Configuration.pmbus",
+    "xyz.openbmc_project.Configuration.MAX34451"};
 
 static std::vector<std::string> pmbusNames = {"pmbus", "pxe1610", "ina219",
-                                              "ina230"};
+                                              "ina230", "max34451"};
 namespace fs = std::filesystem;
 
 static boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>
@@ -326,14 +326,26 @@ void createSensors(boost::asio::io_service& io,
                 std::get<std::vector<std::string>>(findLabelObj->second);
         }
 
+        std::regex sensorNameRegEx("([A-Za-z]+)[0-9]*_");
+        std::smatch matches;
+
         for (const auto& sensorPath : sensorPaths)
         {
 
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
-            std::string sensorNameSubStr =
-                sensorNameStr.substr(0, sensorNameStr.find("_") - 1);
+            std::string sensorNameSubStr{""};
+            if (std::regex_search(sensorNameStr, matches, sensorNameRegEx))
+            {
+                sensorNameSubStr = matches[1];
+            }
+            else
+            {
+                std::cerr << "Couldn't extract the alpha prefix from "
+                          << sensorNameStr;
+                continue;
+            }
 
             auto labelPath =
                 boost::replace_all_copy(sensorPathStr, "input", "label");
@@ -366,28 +378,35 @@ void createSensors(boost::asio::io_service& io,
                 if (std::find(findLabels.begin(), findLabels.end(),
                               labelHead) == findLabels.end())
                 {
+                    std::cerr << "couldn't find " << labelHead
+                              << " in the Labels list\n";
                     continue;
                 }
             }
 
             /* Find out sensor name index for this label */
-            uint8_t nameIndex = labelHead[labelHead.size() - 1];
-            if (nameIndex > '1' && nameIndex <= '9')
+            std::regex rgx("[A-Za-z]+([0-9]+)");
+            int nameIndex{0};
+            if (std::regex_search(labelHead, matches, rgx))
             {
-                nameIndex -= '1';
-                if (psuNames.size() <= nameIndex)
-                {
-                    continue;
-                }
+                nameIndex = std::stoi(matches[1]);
             }
             else
             {
                 nameIndex = 0;
             }
 
+            if (psuNames.size() <= nameIndex)
+            {
+                std::cerr << "Could not pair " << labelHead
+                          << " with a Name field\n";
+                continue;
+            }
+
             auto findProperty = labelMatch.find(labelHead);
             if (findProperty == labelMatch.end())
             {
+                std::cerr << "Could not find " << labelHead << "\n";
                 continue;
             }
 
@@ -419,7 +438,8 @@ void createSensors(boost::asio::io_service& io,
             auto findSensorType = sensorTable.find(sensorNameSubStr);
             if (findSensorType == sensorTable.end())
             {
-                std::cerr << "Cannot find PSU sensorType\n";
+                std::cerr << sensorNameSubStr
+                          << " is not a recognize sensor file\n";
                 continue;
             }
 
@@ -459,6 +479,19 @@ void propertyInitialize(void)
                   {"vout1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout2", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout3", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout4", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout5", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout6", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout7", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout8", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout9", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout10", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout11", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout12", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout13", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout14", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout15", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout16", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"in1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
@@ -468,6 +501,8 @@ void propertyInitialize(void)
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp2", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp3", PSUProperty("Temperature", 127, -128, 3)},
+                  {"temp4", PSUProperty("Temperature", 127, -128, 3)},
+                  {"temp5", PSUProperty("Temperature", 127, -128, 3)},
                   {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0)},
                   {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0)}};
 
