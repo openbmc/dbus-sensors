@@ -56,14 +56,12 @@ struct Sensor
         setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn)
     {
         createAssociation(association, configurationPath);
-
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
             });
-
         for (auto& threshold : thresholds)
         {
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
