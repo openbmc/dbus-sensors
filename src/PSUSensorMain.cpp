@@ -26,6 +26,8 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+static constexpr bool DEBUG = false;
+
 static constexpr std::array<const char*, 2> sensorTypes = {
     "xyz.openbmc_project.Configuration.pmbus",
     "xyz.openbmc_project.Configuration.MAX34451"};
@@ -145,6 +147,7 @@ void createSensors(boost::asio::io_service& io,
 {
 
     ManagedObjectType sensorConfigs;
+    int numCreated = 0;
     bool useCache = false;
 
     // TODO may need only modify the ones that need to be changed.
@@ -177,7 +180,7 @@ void createSensors(boost::asio::io_service& io,
         std::ifstream nameFile(pmbusPath);
         if (!nameFile.good())
         {
-            std::cerr << "Failure reading " << pmbusPath << "\n";
+            std::cerr << "Failure finding pmbus path " << pmbusPath << "\n";
             continue;
         }
 
@@ -188,6 +191,10 @@ void createSensors(boost::asio::io_service& io,
         if (std::find(pmbusNames.begin(), pmbusNames.end(), pmbusName) ==
             pmbusNames.end())
         {
+            // To avoid this error message, add your driver name to
+            // the pmbusNames vector at the top of this file.
+            std::cerr << "Driver name " << pmbusName
+                      << " not found in sensor whitelist\n";
             continue;
         }
 
@@ -197,6 +204,7 @@ void createSensors(boost::asio::io_service& io,
         auto ret = directories.insert(directory.string());
         if (!ret.second)
         {
+            std::cerr << "Duplicate path " << directory.string() << "\n";
             continue; // check if path has already been searched
         }
 
@@ -221,6 +229,8 @@ void createSensors(boost::asio::io_service& io,
         }
         catch (std::invalid_argument&)
         {
+            std::cerr << "Error parsing bus " << busStr << " addr " << addrStr
+                      << "\n";
             continue;
         }
 
@@ -268,12 +278,13 @@ void createSensors(boost::asio::io_service& io,
                 !(confAddr = std::get_if<uint64_t>(&(configAddress->second))))
             {
                 std::cerr
-                    << "Canot get bus or address, invalid configuration\n";
+                    << "Cannot get bus or address, invalid configuration\n";
                 continue;
             }
 
             if ((*confBus != bus) || (*confAddr != addr))
             {
+                std::cerr << "Configuration mismatch of bus or addr\n";
                 continue;
             }
 
@@ -282,6 +293,8 @@ void createSensors(boost::asio::io_service& io,
         }
         if (interfacePath == nullptr)
         {
+            // To avoid this error message, add your export map entry,
+            // from Entity Manager, to sensorTypes at the top of this file.
             std::cerr << "failed to find match for " << deviceName << "\n";
             continue;
         }
@@ -306,6 +319,8 @@ void createSensors(boost::asio::io_service& io,
         std::vector<std::string> psuNames;
         do
         {
+            // Individual string fields: Name, Name1, Name2, Name3, ...
+            // This syntax is questionable, it should have been an array
             psuNames.push_back(std::get<std::string>(findPSUName->second));
             findPSUName = baseConfig->second.find("Name" + std::to_string(i++));
         } while (findPSUName != baseConfig->second.end());
@@ -369,6 +384,8 @@ void createSensors(boost::asio::io_service& io,
                 labelHead = label.substr(0, label.find(" "));
             }
 
+            std::cerr << "Sensor label head " << labelHead << "\n";
+
             checkPWMSensor(sensorPath, labelHead, *interfacePath, objectServer,
                            psuNames[0]);
 
@@ -427,6 +444,12 @@ void createSensors(boost::asio::io_service& io,
                     std::visit(VariantToIntVisitor(), findScaleFactor->second);
             }
 
+            if constexpr (DEBUG)
+            {
+                std::cerr << "Sensor scaling factor " << factor << " string "
+                          << strScaleFactor << "\n";
+            }
+
             std::vector<thresholds::Threshold> sensorThresholds;
 
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
@@ -446,6 +469,13 @@ void createSensors(boost::asio::io_service& io,
             std::string sensorName =
                 psuNames[nameIndex] + " " + findProperty->second.labelTypeName;
 
+            ++numCreated;
+            if constexpr (DEBUG)
+            {
+                std::cerr << "Created " << numCreated
+                          << " sensors so far: " << sensorName << "\n";
+            }
+
             sensors[sensorName] = std::make_unique<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
@@ -458,6 +488,11 @@ void createSensors(boost::asio::io_service& io,
         combineEvents[*psuName + "OperationalStatus"] =
             std::make_unique<PSUCombineEvent>(
                 objectServer, io, *psuName, eventPathList, "OperationalStatus");
+    }
+
+    if constexpr (DEBUG)
+    {
+        std::cerr << "Created total of " << numCreated << " sensors\n";
     }
     return;
 }
