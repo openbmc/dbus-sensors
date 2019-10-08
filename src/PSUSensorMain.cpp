@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 */
+
 #include <PSUEvent.hpp>
 #include <PSUSensor.hpp>
 #include <Utils.hpp>
@@ -26,12 +27,14 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
-static constexpr std::array<const char*, 2> sensorTypes = {
+static constexpr std::array<const char*, 3> sensorTypes = {
     "xyz.openbmc_project.Configuration.pmbus",
-    "xyz.openbmc_project.Configuration.MAX34451"};
+    "xyz.openbmc_project.Configuration.MAX34451",
+    "xyz.openbmc_project.Configuration.ISL68137"};
 
-static std::vector<std::string> pmbusNames = {"pmbus", "pxe1610", "ina219",
-                                              "ina230", "max34451"};
+static std::vector<std::string> pmbusNames = {"pmbus",  "pxe1610",  "ina219",
+                                              "ina230", "max34451", "isl68137"};
+
 namespace fs = std::filesystem;
 
 static boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>
