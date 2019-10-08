@@ -28,6 +28,8 @@
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
+static constexpr bool DEBUG = false;
+
 PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -42,6 +44,17 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     sensorFactor(factor)
 {
+    if constexpr (DEBUG)
+    {
+        std::cerr << "Constructed sensor: path " << path
+                  << " type " << objectType
+                  << " config " << sensorConfiguration
+                  << " typename " << sensorTypeName
+                  << " factor " << factor
+                  << " min " << min << " max " << max
+                  << " name \"" << sensorName << "\"\n";
+    }
+
     std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
 
     sensorInterface = objectServer.add_interface(
@@ -86,6 +99,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 {
     if (err == boost::system::errc::bad_file_descriptor)
     {
+        std::cerr << "Bad file descriptor from " << path << "\n";
         return;
     }
     std::istream responseStream(&readBuf);
@@ -98,6 +112,12 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             float nvalue = std::stof(response);
             responseStream.clear();
             nvalue /= sensorFactor;
+
+            if constexpr (DEBUG)
+            {
+                std::cerr << "Read " << path << " scale " << sensorFactor
+                          << " value " << nvalue << "\n";
+            }
             if (static_cast<double>(nvalue) != value)
             {
                 updateValue(nvalue);
@@ -106,11 +126,14 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         }
         catch (const std::invalid_argument&)
         {
+            std::cerr << "Could not parse " << response
+                      << " from path " << path << "\n";
             errCount++;
         }
     }
     else
     {
+        std::cerr << "System error " << err << " from path " << path << "\n";
         errCount++;
     }
 
@@ -130,6 +153,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     int fd = open(path.c_str(), O_RDONLY);
     if (fd <= 0)
     {
+        std::cerr << "Failed to open path " << path << "\n";
         return;
     }
     inputDev.assign(fd);
@@ -137,6 +161,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
+            std::cerr << "Failed to reschedule wait for " << path << "\n";
             return;
         }
         setupRead();
