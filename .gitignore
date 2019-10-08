@@ -12,7 +12,6 @@ nlohmann-json-src/
 nlohmann-json/
 sdbusplus-project/
 sdbusplus-src/
-
 adcsensor
 cpusensor
 exitairtempsensor
@@ -22,3 +21,5 @@ intrusionsensor
 ipmbsensor
 mcutempsensor
 psusensor
+.idea/
+cmake-build-debug/
