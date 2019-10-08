@@ -2,6 +2,8 @@
 Description=Adc Sensor
 StopWhenUnneeded=false
 Before=xyz.openbmc_project.cpusensor.service
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
 
 [Service]
 Restart=always
