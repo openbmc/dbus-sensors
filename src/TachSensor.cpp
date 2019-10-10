@@ -179,7 +179,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
     responseStream.clear();
     inputDev.close();
     int fd = open(path.c_str(), O_RDONLY);
-    if (fd <= 0)
+    if (fd < 0)
     {
         return; // we're no longer valid
     }

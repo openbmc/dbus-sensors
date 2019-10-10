@@ -176,7 +176,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         (*bridgeGpio).set(0);
     }
     int fd = open(path.c_str(), O_RDONLY);
-    if (fd <= 0)
+    if (fd < 0)
     {
         return; // we're no longer valid
     }
