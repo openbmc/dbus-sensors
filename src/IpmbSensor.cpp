@@ -279,7 +279,7 @@ void IpmbSensor::read(void)
                 else if (type == IpmbType::PXE1410CVR ||
                          type == IpmbType::IR38363VR)
                 {
-                    if (data.size() < 4)
+                    if (data.size() < 5)
                     {
                         if (firstError)
                         {
