@@ -130,7 +130,6 @@ void PwmSensor::setValue(uint32_t value)
     if (!ref.good())
     {
         throw std::runtime_error("Bad Write File");
-        return;
     }
     ref << value;
 }
