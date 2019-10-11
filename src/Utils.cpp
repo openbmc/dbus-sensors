@@ -69,8 +69,6 @@ bool getSensorConfiguration(
     }
     for (const auto& pathPair : managedObj)
     {
-        std::vector<boost::container::flat_map<std::string, BasicVariantType>>
-            sensorData;
         bool correctType = false;
         for (const auto& entry : pathPair.second)
         {
