@@ -114,7 +114,7 @@ void checkEventLimits(
 static void checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
                            const std::string& interfacePath,
                            sdbusplus::asio::object_server& objectServer,
-                           std::string psuName)
+                           const std::string& psuName)
 {
     for (const auto& pwmName : pwmTable)
     {
