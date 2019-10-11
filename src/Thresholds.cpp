@@ -225,7 +225,7 @@ static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
             {
                 thresholdChanges.push_back(std::make_pair(threshold, true));
             }
-            else if (value <= threshold.value)
+            else
             {
                 thresholdChanges.push_back(std::make_pair(threshold, false));
             }
@@ -236,7 +236,7 @@ static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
             {
                 thresholdChanges.push_back(std::make_pair(threshold, true));
             }
-            else if (value >= threshold.value)
+            else
             {
                 thresholdChanges.push_back(std::make_pair(threshold, false));
             }
