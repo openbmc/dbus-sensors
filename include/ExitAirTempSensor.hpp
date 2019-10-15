@@ -7,7 +7,7 @@
 #include <vector>
 
 struct ExitAirTempSensor;
-struct CFMSensor : public Sensor
+struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
 {
     std::vector<std::string> tachs;
     double c1;
@@ -27,7 +27,9 @@ struct CFMSensor : public Sensor
 
     bool calculate(double&);
     void updateReading(void);
+    void setupMatches(void);
     void createMaxCFMIface(void);
+    void addTachRanges(const std::string& serviceName, const std::string& path);
     void checkThresholds(void) override;
     uint64_t getMaxRpm(uint64_t cfmMax);
 
@@ -40,10 +42,10 @@ struct CFMSensor : public Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> pwmLimitIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> cfmLimitIface;
     sdbusplus::asio::object_server& objServer;
-    void addTachRanges(const std::string& serviceName, const std::string& path);
 };
 
-struct ExitAirTempSensor : public Sensor
+struct ExitAirTempSensor : public Sensor,
+                           std::enable_shared_from_this<ExitAirTempSensor>
 {
 
     double powerFactorMin;
@@ -57,7 +59,6 @@ struct ExitAirTempSensor : public Sensor
     // todo: make this private once we don't have to hack in a reading
     boost::container::flat_map<std::string, double> powerReadings;
 
-    std::vector<std::unique_ptr<CFMSensor>> cfmSensors;
     ExitAirTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                       const std::string& name,
                       const std::string& sensorConfiguration,
@@ -67,6 +68,7 @@ struct ExitAirTempSensor : public Sensor
 
     void checkThresholds(void) override;
     void updateReading(void);
+    void setupMatches(void);
 
   private:
     double lastReading;
@@ -79,5 +81,4 @@ struct ExitAirTempSensor : public Sensor
     std::chrono::time_point<std::chrono::system_clock> lastTime;
     double getTotalCFM(void);
     bool calculate(double& val);
-    void setupMatches(void);
 };
