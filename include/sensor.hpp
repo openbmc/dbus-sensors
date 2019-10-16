@@ -142,7 +142,10 @@ struct Sensor
         {
             // Indicate that it is internal set call
             internalSet = true;
-            sensorInterface->set_property("Value", newValue);
+            if (!(sensorInterface->set_property("Value", newValue)))
+            {
+                std::cerr << "error setting property to " << newValue << "\n";
+            }
             internalSet = false;
             double diff = std::abs(value - newValue);
             if (std::isnan(diff) || diff > hysteresis)

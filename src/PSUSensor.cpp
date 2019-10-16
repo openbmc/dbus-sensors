@@ -118,6 +118,11 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             }
             if (static_cast<double>(nvalue) != value)
             {
+                if constexpr (DEBUG)
+                {
+                    std::cerr << "Update " << path << " from " << value
+                              << " to " << nvalue << "\n";
+                }
                 updateValue(nvalue);
             }
             errCount = 0;
