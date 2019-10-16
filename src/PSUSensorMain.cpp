@@ -287,7 +287,9 @@ void createSensors(boost::asio::io_service& io,
 
             if ((*confBus != bus) || (*confAddr != addr))
             {
-                std::cerr << "Configuration mismatch of bus or addr\n";
+                std::cerr << "Configuration skipping " << *confBus << "-"
+                          << *confAddr << " because not " << bus << "-" << addr
+                          << "\n";
                 continue;
             }
 
@@ -369,7 +371,8 @@ void createSensors(boost::asio::io_service& io,
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
-                std::cerr << "Failure reading " << sensorPath << "\n";
+                std::cerr << "Input file " << sensorPath
+                          << " has no corresponding label file\n";
                 labelHead = sensorNameStr.substr(0, sensorNameStr.find("_"));
             }
             else
@@ -384,11 +387,6 @@ void createSensors(boost::asio::io_service& io,
                 }
 
                 labelHead = label.substr(0, label.find(" "));
-            }
-
-            if constexpr (DEBUG)
-            {
-                std::cerr << "Sensor label head " << labelHead << "\n";
             }
 
             checkPWMSensor(sensorPath, labelHead, *interfacePath, objectServer,
@@ -439,6 +437,12 @@ void createSensors(boost::asio::io_service& io,
             {
                 std::cerr << "Could not find " << labelHead << "\n";
                 continue;
+            }
+
+            if constexpr (DEBUG)
+            {
+                std::cerr << "Sensor label head " << labelHead
+                          << " paired with " << psuNames[nameIndex] << "\n";
             }
 
             checkEventLimits(sensorPathStr, limitEventMatch, eventPathList);
