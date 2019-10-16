@@ -412,6 +412,15 @@ void createSensors(boost::asio::io_service& io,
             if (std::regex_search(labelHead, matches, rgx))
             {
                 nameIndex = std::stoi(matches[1]);
+
+                // Decrement to preserve alignment, because hwmon
+                // human-readable filenames and labels use 1-based numbering,
+                // but the "Name", "Name1", "Name2", etc. naming
+                // convention (the psuNames vector) uses 0-based numbering.
+                if (nameIndex > 0)
+                {
+                    --nameIndex;
+                }
             }
             else
             {
