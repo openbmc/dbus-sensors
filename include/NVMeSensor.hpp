@@ -3,19 +3,40 @@
 #include <libmctp-smbus.h>
 #include <libmctp.h>
 
-#include <sensor.hpp>
+#include <boost/asio/io_context.hpp>
+#include <sdbusplus/asio/object_server.hpp>
+//#include <sensor.hpp>
 
-static constexpr double maxReading = 127;
-static constexpr double minReading = -60;
 static int DEBUG = 0;
 
-struct NVMeContext
+class NVMeSensor
 {
-    NVMeContext(boost::asio::io_service& io, int bus, int rootBus);
-    NVMeContext(const NVMeContext&) = default;
-    NVMeContext(NVMeContext&&) = default;
+  public:
+    NVMeSensor(sdbusplus::asio::object_server& objectServer,
+               boost::asio::io_service& io,
+               std::shared_ptr<sdbusplus::asio::connection>& conn,
+               const std::string& sensorName, int bus, int rootBus);
+
+    NVMeSensor(const NVMeSensor&) = default;
+    NVMeSensor(NVMeSensor&&) = default;
+    NVMeSensor& operator=(NVMeSensor&& other) = default;
+    NVMeSensor& operator=(const NVMeSensor& other) = delete;
+
+    boost::asio::steady_timer& getMctpResponseTimer()
+    {
+        return mctpResponseTimer;
+    }
+
+    void setValue(double value);
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association;
+    double tempValue = 0.0;
 
     static void rxMessage(uint8_t eid, void* data, void* msg, size_t len);
+
+    boost::asio::steady_timer mctpResponseTimer;
+
     int bus; // Bus this drive is on
     // MCTP specific
     std::unique_ptr<struct mctp_binding_smbus,
@@ -28,35 +49,8 @@ struct NVMeContext
     int sindex; // passed to callback to update the sensor info
 };
 
-class NVMeSensor : public Sensor
-{
-  public:
-    NVMeSensor(sdbusplus::asio::object_server& objectServer,
-               boost::asio::io_service& io,
-               std::shared_ptr<sdbusplus::asio::connection>& conn,
-               const std::string& sensorName,
-               std::vector<thresholds::Threshold>&& _thresholds,
-               const std::string& sensorConfiguration);
-
-    NVMeSensor(const NVMeSensor&) = default;
-    NVMeSensor(NVMeSensor&&) = default;
-    NVMeSensor& operator=(NVMeSensor&& other) = default;
-    NVMeSensor& operator=(const NVMeSensor& other) = delete;
-
-    boost::asio::deadline_timer* getMctpResponseTimer()
-    {
-        return mctpResponseTimer.get();
-    }
-
-    double value;
-
-  private:
-    std::unique_ptr<boost::asio::deadline_timer> mctpResponseTimer;
-    void checkThresholds(void) override;
-};
-
 void pollNVMeDevices(boost::asio::io_service& io,
-                     boost::asio::deadline_timer& scanTimer);
+                     boost::asio::steady_timer& scanTimer);
 
 int nvmeMessageTransmit(struct mctp* mctp, uint8_t eid,
                         struct nvme_mi_msg_request* req);

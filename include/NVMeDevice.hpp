@@ -1,7 +1,8 @@
 #pragma once
 
-#include <stdint.h>
 #include <stdlib.h>
+
+#include <cstdint>
 
 // NVM Express Management Interface 1.0 section 3.2.1
 const uint8_t NVME_MI_MESSAGE_TYPE = 0x04;

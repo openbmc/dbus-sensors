@@ -21,32 +21,7 @@
 
 #include <boost/algorithm/string/replace.hpp>
 
-int getDeviceInfoToQuery()
-{
-    static int lastQueriedDeviceIndex = -1;
-    if (!nvmeDeviceList.empty())
-    {
-        lastQueriedDeviceIndex++;
-
-        if (lastQueriedDeviceIndex >= nvmeDeviceList.size())
-        {
-            lastQueriedDeviceIndex = 0;
-        }
-    }
-    else
-    {
-        lastQueriedDeviceIndex = -1;
-    }
-
-    return lastQueriedDeviceIndex;
-}
-
-void removeDeviceFromList(int index)
-{
-    nvmeDeviceList.erase(nvmeDeviceList.begin() + index);
-}
-
-void readResponse(NVMeContext& nvmeDevice)
+void readResponse(NVMeSensor& nvmeDevice)
 {
     nvmeDevice.nvmeSlaveSocket->async_wait(
         boost::asio::ip::tcp::socket::wait_error,
@@ -59,97 +34,6 @@ void readResponse(NVMeContext& nvmeDevice)
             mctp_smbus_read(nvmeDevice.smbus.get());
 
             readResponse(nvmeDevice);
-        });
-}
-
-void readAndProcessNVMeSensor(int index)
-{
-    struct nvme_mi_msg_request requestMsg = {};
-    requestMsg.header.opcode = NVME_MI_OPCODE_HEALTH_STATUS_POLL;
-    requestMsg.header.dword0 = 0;
-    requestMsg.header.dword1 = 0;
-
-    int mctpResponseTimeout = 1;
-
-    if (index < 0 || index >= nvmeDeviceList.size())
-    {
-        return;
-    }
-
-    if (nvmeDeviceList[index].second == nullptr)
-    {
-        return;
-    }
-
-    NVMeContext& nvmeDevice = *nvmeDeviceList[index].second;
-    nvmeDevice.sindex = index;
-
-    boost::asio::deadline_timer* responseTimer =
-        nvmeDeviceList[index].first->getMctpResponseTimer();
-
-    if (responseTimer == nullptr)
-    {
-        return;
-    }
-
-    std::shared_ptr<boost::asio::ip::tcp::socket> slaveSocket(
-        nvmeDevice.nvmeSlaveSocket);
-
-    responseTimer->expires_from_now(
-        boost::posix_time::seconds(mctpResponseTimeout));
-    responseTimer->async_wait([&slaveSocket](
-                                  const boost::system::error_code& errorCode) {
-        if (errorCode)
-        {
-            return;
-        }
-        else
-        {
-            if (DEBUG)
-            {
-                std::cout << "Cancelling the request now, past MCTP timeout\n";
-            }
-            slaveSocket->cancel();
-        }
-    });
-
-    readResponse(nvmeDevice);
-
-    if (DEBUG)
-    {
-        std::cout << "Sending message to read data from Drive on bus: "
-                  << nvmeDevice.bus << " , rootBus: " << nvmeDevice.rootBus
-                  << " device index:" << nvmeDevice.sindex << "\n";
-    }
-
-    int rc = nvmeMessageTransmit(nvmeDevice.mctp, nvmeDevice.eid, &requestMsg);
-
-    if (rc != 0)
-    {
-        std::cerr << "Error sending request message to NVMe device\n";
-    }
-}
-
-void pollNVMeDevices(boost::asio::io_service& io,
-                     boost::asio::deadline_timer& scanTimer)
-{
-    scanTimer.expires_from_now(boost::posix_time::seconds(1));
-    scanTimer.async_wait(
-        [&io, &scanTimer](const boost::system::error_code& errorCode) {
-            if (errorCode)
-            {
-                std::cerr << "Error:" << errorCode.message() << "\n";
-            }
-            else
-            {
-                int index = getDeviceInfoToQuery();
-                if (index >= 0)
-                {
-                    readAndProcessNVMeSensor(index);
-                }
-            }
-
-            pollNVMeDevices(io, scanTimer);
         });
 }
 
@@ -233,27 +117,19 @@ int verifyIntegrity(uint8_t* msg, size_t len)
     return 0;
 }
 
-static double getTemperatureReading(int8_t reading)
+static double getTemperatureReading(uint8_t reading)
 {
-    double readingValue = maxReading;
-
-    if (reading <= static_cast<int8_t>(maxReading) ||
-        reading >= static_cast<int8_t>(minReading))
+    // NVMe MI spec figure 87 specifies these are the legal ranges
+    // If the value is out of range, something has gone wrong, so report the max
+    if (reading > 0x7F || reading < 0xC4)
     {
-        readingValue = static_cast<double>(reading);
+        return 127.0;
     }
-    else if (reading == static_cast<int8_t>(0x80) ||
-             reading == static_cast<int8_t>(0x81))
-    {
-        // 0x80 = No temperature data or temperature data is more the 5 s
-        // old 0x81 = Temperature sensor failure
-        readingValue = maxReading;
-    }
-
-    return readingValue;
+    // Otherwise, interpret as an int8 (per nvme-mi)
+    return static_cast<double>(static_cast<int8_t>(reading));
 }
 
-void NVMeContext::rxMessage(uint8_t eid, void* data, void* msg, size_t len)
+void NVMeSensor::rxMessage(uint8_t eid, void* data, void* msg, size_t len)
 {
     struct nvme_mi_msg_response_header header
     {
@@ -334,47 +210,64 @@ void NVMeContext::rxMessage(uint8_t eid, void* data, void* msg, size_t len)
         return;
     }
 
-    int* index = static_cast<int*>(data);
+    NVMeSensor* sensorInfo = static_cast<NVMeSensor*>(data);
 
-    if (*index >= 0 && *index < nvmeDeviceList.size())
+    if (sensorInfo == nullptr)
     {
-        NVMeSensor& sensorInfo = *nvmeDeviceList[*index].first;
-        if (DEBUG)
-        {
-            std::cout << "Temperature Reading: "
-                      << getTemperatureReading(messageData[5])
-                      << " Celsius for device at index: " << *index << "\n";
-        }
-
-        sensorInfo.value = getTemperatureReading(messageData[5]);
-
-        sensorInfo.updateValue(sensorInfo.value);
-
-        if (DEBUG)
-        {
-            std::cout << "Cancelling the timer now\n";
-        }
-
-        boost::asio::deadline_timer* responseTimer =
-            sensorInfo.getMctpResponseTimer();
-
-        if (responseTimer == nullptr)
-        {
-            return;
-        }
-        else
-        {
-            responseTimer->cancel();
-        }
-
-        NVMeContext& nvmeDevice = *nvmeDeviceList[*index].second;
-        nvmeDevice.nvmeSlaveSocket->cancel();
+        return;
     }
+
+    if (DEBUG)
+    {
+        std::cout << "Temperature Reading: "
+                  << getTemperatureReading(messageData[5])
+                  << " Celsius for device at index: " << *index << "\n";
+    }
+
+    sensorInfo.setValue(getTemperatureReading(messageData[5]));
+
+    if (DEBUG)
+    {
+        std::cout << "Cancelling the timer now\n";
+    }
+
+    boost::asio::steady_timer& responseTimer =
+        sensorInfo.getMctpResponseTimer();
+
+    responseTimer.cancel();
+
+    sensorInfo.nvmeSlaveSocket->cancel();
 }
 
-NVMeContext::NVMeContext(boost::asio::io_service& io, int bus, int rootBus) :
-    bus(bus), rootBus(rootBus), eid(0)
+void NVMeSensor::setValue(double value)
 {
+    sensorInterface->set_property("Value", value);
+}
+
+NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
+                       boost::asio::io_service& io,
+                       std::shared_ptr<sdbusplus::asio::connection>& conn,
+                       const std::string& sensorName, int bus, int rootBus) :
+    mctpResponseTimer(io),
+    bus(bus), rootBus(rootBus), eid(0)
+
+{
+    std::string prettyName = boost::replace_all_copy(sensorName, " ", "_");
+    sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + prettyName,
+        "xyz.openbmc_project.Sensor.Value");
+
+    sensorInterface->register_property("MaxValue", 127.0);
+    sensorInterface->register_property("MinValue", -60.0);
+    sensorInterface->register_property(
+        "Value", tempValue, [this](const double& newValue, double& oldValue) {
+            tempValue = newValue;
+            return 1;
+        });
+
+    // setup match
+    setupPowerMatch(conn);
+
     struct mctp_binding_smbus* smbusTmp = mctp_smbus_init();
 
     smbus = std::unique_ptr<struct mctp_binding_smbus,
@@ -400,29 +293,4 @@ NVMeContext::NVMeContext(boost::asio::io_service& io, int bus, int rootBus) :
 
     nvmeSlaveSocket->assign(boost::asio::ip::tcp::v4(),
                             mctp_smbus_get_in_fd(smbus.get()));
-}
-
-NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
-                       boost::asio::io_service& io,
-                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       const std::string& sensorName,
-                       std::vector<thresholds::Threshold>&& _thresholds,
-                       const std::string& sensorConfiguration) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.NVMe", maxReading, minReading)
-{
-    mctpResponseTimer = std::make_unique<boost::asio::deadline_timer>(io);
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        "xyz.openbmc_project.Sensor.Value");
-
-    setInitialProperties(conn);
-    // setup match
-    setupPowerMatch(conn);
-}
-
-void NVMeSensor::checkThresholds(void)
-{
-    return;
 }
