@@ -20,6 +20,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_set.hpp>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -52,6 +53,8 @@ static boost::container::flat_map<std::string, std::vector<std::string>>
     eventMatch;
 static boost::container::flat_map<std::string, std::vector<std::string>>
     limitEventMatch;
+
+static std::vector<PSUProperty> psuProperties;
 
 // Function CheckEvent will check each attribute from eventMatch table in the
 // sysfs. If the attributes exists in sysfs, then store the complete path
@@ -350,18 +353,19 @@ void createSensors(boost::asio::io_service& io,
 
         for (const auto& sensorPath : sensorPaths)
         {
-
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
             std::string sensorNameSubStr{""};
             if (std::regex_search(sensorNameStr, matches, sensorNameRegEx))
             {
+                // hwmon *_input filename without number:
+                // in, curr, power, temp, ...
                 sensorNameSubStr = matches[1];
             }
             else
             {
-                std::cerr << "Couldn't extract the alpha prefix from "
+                std::cerr << "Could not extract the alpha prefix from "
                           << sensorNameStr;
                 continue;
             }
@@ -373,6 +377,9 @@ void createSensors(boost::asio::io_service& io,
             {
                 std::cerr << "Input file " << sensorPath
                           << " has no corresponding label file\n";
+
+                // hwmon *_input filename with number:
+                // temp1, temp2, temp3, ...
                 labelHead = sensorNameStr.substr(0, sensorNameStr.find("_"));
             }
             else
@@ -386,7 +393,15 @@ void createSensors(boost::asio::io_service& io,
                     continue;
                 }
 
+                // hwmon corresponding *_label file contents:
+                // vin1, vout1, ...
                 labelHead = label.substr(0, label.find(" "));
+            }
+
+            if constexpr (DEBUG)
+            {
+                std::cerr << "Sensor type=\"" << sensorNameSubStr
+                          << "\" label=\"" << labelHead << "\"\n";
             }
 
             checkPWMSensor(sensorPath, labelHead, *interfacePath, objectServer,
@@ -398,74 +413,190 @@ void createSensors(boost::asio::io_service& io,
                 if (std::find(findLabels.begin(), findLabels.end(),
                               labelHead) == findLabels.end())
                 {
-                    std::cerr << "couldn't find " << labelHead
+                    std::cerr << "could not find " << labelHead
                               << " in the Labels list\n";
                     continue;
                 }
             }
 
-            /* Find out sensor name index for this label */
-            std::regex rgx("[A-Za-z]+([0-9]+)");
-            int nameIndex{0};
-            if (std::regex_search(labelHead, matches, rgx))
-            {
-                nameIndex = std::stoi(matches[1]);
-
-                // Decrement to preserve alignment, because hwmon
-                // human-readable filenames and labels use 1-based numbering,
-                // but the "Name", "Name1", "Name2", etc. naming
-                // convention (the psuNames vector) uses 0-based numbering.
-                if (nameIndex > 0)
-                {
-                    --nameIndex;
-                }
-            }
-            else
-            {
-                nameIndex = 0;
-            }
-
-            if (psuNames.size() <= nameIndex)
-            {
-                std::cerr << "Could not pair " << labelHead
-                          << " with a Name field\n";
-                continue;
-            }
-
             auto findProperty = labelMatch.find(labelHead);
             if (findProperty == labelMatch.end())
             {
-                std::cerr << "Could not find " << labelHead << "\n";
+                std::cerr << "Could not find matching default property for "
+                          << labelHead << "\n";
                 continue;
             }
 
-            if constexpr (DEBUG)
+            // Protect the hardcoded labelMatch list from changes,
+            // by making a copy and modifying that instead.
+            // Avoid bleedthrough of one device's customizations to
+            // the next device, as each should be independently customizable.
+            psuProperties.push_back(findProperty->second);
+            auto psuProperty = psuProperties.rbegin();
+
+            // Use label head as prefix for reading from config file,
+            // example if temp1: temp1_Name, temp1_Scale, temp1_Min, ...
+            std::string keyName = labelHead + "_Name";
+            std::string keyScale = labelHead + "_Scale";
+            std::string keyMin = labelHead + "_Min";
+            std::string keyMax = labelHead + "_Max";
+
+            bool customizedName = false;
+            auto findCustomName = baseConfig->second.find(keyName);
+            if (findCustomName != baseConfig->second.end())
             {
-                std::cerr << "Sensor label head " << labelHead
-                          << " paired with " << psuNames[nameIndex] << "\n";
+                try
+                {
+                    psuProperty->labelTypeName = std::visit(
+                        VariantToStringVisitor(), findCustomName->second);
+                }
+                catch (std::invalid_argument&)
+                {
+                    std::cerr << "Unable to parse " << keyName << "\n";
+                    continue;
+                }
+
+                // All strings are valid, including empty string
+                customizedName = true;
+            }
+
+            bool customizedScale = false;
+            auto findCustomScale = baseConfig->second.find(keyScale);
+            if (findCustomScale != baseConfig->second.end())
+            {
+                try
+                {
+                    psuProperty->sensorScaleFactor = std::visit(
+                        VariantToUnsignedIntVisitor(), findCustomScale->second);
+                }
+                catch (std::invalid_argument&)
+                {
+                    std::cerr << "Unable to parse " << keyScale << "\n";
+                    continue;
+                }
+
+                // Avoid later division by zero
+                if (psuProperty->sensorScaleFactor > 0)
+                {
+                    customizedScale = true;
+                }
+                else
+                {
+                    std::cerr << "Unable to accept " << keyScale << "\n";
+                    continue;
+                }
+            }
+
+            auto findCustomMin = baseConfig->second.find(keyMin);
+            if (findCustomMin != baseConfig->second.end())
+            {
+                try
+                {
+                    psuProperty->minReading = std::visit(
+                        VariantToDoubleVisitor(), findCustomMin->second);
+                }
+                catch (std::invalid_argument&)
+                {
+                    std::cerr << "Unable to parse " << keyMin << "\n";
+                    continue;
+                }
+            }
+
+            auto findCustomMax = baseConfig->second.find(keyMax);
+            if (findCustomMax != baseConfig->second.end())
+            {
+                try
+                {
+                    psuProperty->maxReading = std::visit(
+                        VariantToDoubleVisitor(), findCustomMax->second);
+                }
+                catch (std::invalid_argument&)
+                {
+                    std::cerr << "Unable to parse " << keyMax << "\n";
+                    continue;
+                }
+            }
+
+            if (!(psuProperty->minReading < psuProperty->maxReading))
+            {
+                std::cerr << "Min must be less than Max\n";
+                continue;
+            }
+
+            // If the sensor name is being customized by config file,
+            // then prefix/suffix composition becomes not necessary,
+            // and in fact not wanted, because it gets in the way.
+            std::string psuNameFromIndex;
+            if (!customizedName)
+            {
+                /* Find out sensor name index for this label */
+                std::regex rgx("[A-Za-z]+([0-9]+)");
+                int nameIndex{0};
+                if (std::regex_search(labelHead, matches, rgx))
+                {
+                    nameIndex = std::stoi(matches[1]);
+
+                    // Decrement to preserve alignment, because hwmon
+                    // human-readable filenames and labels use 1-based
+                    // numbering, but the "Name", "Name1", "Name2", etc. naming
+                    // convention (the psuNames vector) uses 0-based numbering.
+                    if (nameIndex > 0)
+                    {
+                        --nameIndex;
+                    }
+                }
+                else
+                {
+                    nameIndex = 0;
+                }
+
+                if (psuNames.size() <= nameIndex)
+                {
+                    std::cerr << "Could not pair " << labelHead
+                              << " with a Name field\n";
+                    continue;
+                }
+
+                psuNameFromIndex = psuNames[nameIndex];
+
+                if constexpr (DEBUG)
+                {
+                    std::cerr << "Sensor label head " << labelHead
+                              << " paired with " << psuNameFromIndex
+                              << " at index " << nameIndex << "\n";
+                }
             }
 
             checkEventLimits(sensorPathStr, limitEventMatch, eventPathList);
 
-            unsigned int factor =
-                std::pow(10, findProperty->second.sensorScaleFactor);
-
-            /* Change first char of substring to uppercase */
-            char firstChar = sensorNameSubStr[0] - 0x20;
-            std::string strScaleFactor =
-                firstChar + sensorNameSubStr.substr(1) + "ScaleFactor";
-
-            auto findScaleFactor = baseConfig->second.find(strScaleFactor);
-            if (findScaleFactor != baseConfig->second.end())
+            // Similarly, if sensor scaling factor is being customized,
+            // then the below power-of-10 constraint becomes unnecessary,
+            // as config should be able to specify an arbitrary divisor.
+            unsigned int factor = psuProperty->sensorScaleFactor;
+            if (!customizedScale)
             {
-                factor =
-                    std::visit(VariantToIntVisitor(), findScaleFactor->second);
-            }
+                // Preserve existing usage of hardcoded labelMatch table below
+                factor = std::pow(10.0, factor);
 
-            if constexpr (DEBUG)
-            {
-                std::cerr << "Sensor scaling factor " << factor << " string "
-                          << strScaleFactor << "\n";
+                /* Change first char of substring to uppercase */
+                char firstChar = sensorNameSubStr[0] - 0x20;
+                std::string strScaleFactor =
+                    firstChar + sensorNameSubStr.substr(1) + "ScaleFactor";
+
+                // Preserve existing configs by accepting earlier syntax,
+                // example CurrScaleFactor, PowerScaleFactor, ...
+                auto findScaleFactor = baseConfig->second.find(strScaleFactor);
+                if (findScaleFactor != baseConfig->second.end())
+                {
+                    factor = std::visit(VariantToIntVisitor(),
+                                        findScaleFactor->second);
+                }
+
+                if constexpr (DEBUG)
+                {
+                    std::cerr << "Sensor scaling factor " << factor
+                              << " string " << strScaleFactor << "\n";
+                }
             }
 
             std::vector<thresholds::Threshold> sensorThresholds;
@@ -480,25 +611,56 @@ void createSensors(boost::asio::io_service& io,
             if (findSensorType == sensorTable.end())
             {
                 std::cerr << sensorNameSubStr
-                          << " is not a recognize sensor file\n";
+                          << " is not a recognized sensor type\n";
                 continue;
             }
 
-            std::string sensorName =
-                psuNames[nameIndex] + " " + findProperty->second.labelTypeName;
-
-            ++numCreated;
             if constexpr (DEBUG)
             {
-                std::cerr << "Created " << numCreated
-                          << " sensors so far: " << sensorName << "\n";
+                std::cerr << "Sensor properties: Name \""
+                          << psuProperty->labelTypeName << "\" Scale "
+                          << psuProperty->sensorScaleFactor << " Min "
+                          << psuProperty->minReading << " Max "
+                          << psuProperty->maxReading << "\n";
+            }
+
+            std::string sensorName = psuProperty->labelTypeName;
+            if (customizedName)
+            {
+                if (sensorName.empty())
+                {
+                    // Allow selective disabling of an individual sensor,
+                    // by customizing its name to an empty string.
+                    std::cerr << "Sensor disabled, empty string\n";
+                    continue;
+                }
+            }
+            else
+            {
+                // Sensor name not customized, do prefix/suffix composition,
+                // preserving default behavior by using psuNameFromIndex.
+                sensorName =
+                    psuNameFromIndex + " " + psuProperty->labelTypeName;
+            }
+
+            if constexpr (DEBUG)
+            {
+                std::cerr << "Sensor name \"" << sensorName << "\" path \""
+                          << sensorPathStr << "\" type \"" << sensorType
+                          << "\"\n";
             }
 
             sensors[sensorName] = std::make_unique<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
-                findSensorType->second, factor, findProperty->second.maxReading,
-                findProperty->second.minReading);
+                findSensorType->second, factor, psuProperty->maxReading,
+                psuProperty->minReading);
+
+            ++numCreated;
+            if constexpr (DEBUG)
+            {
+                std::cerr << "Created " << numCreated << " sensors so far\n";
+            }
         }
 
         // OperationalStatus event
