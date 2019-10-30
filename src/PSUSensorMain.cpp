@@ -29,9 +29,10 @@
 
 static constexpr bool DEBUG = false;
 
-static constexpr std::array<const char*, 3> sensorTypes = {
+static constexpr std::array<const char*, 4> sensorTypes = {
     "xyz.openbmc_project.Configuration.pmbus",
     "xyz.openbmc_project.Configuration.MAX34451",
+    "xyz.openbmc_project.Configuration.INA230",
     "xyz.openbmc_project.Configuration.ISL68137"};
 
 static std::vector<std::string> pmbusNames = {"pmbus",  "pxe1610",  "ina219",
