@@ -1,14 +1,14 @@
 #pragma once
 
+#include "Thresholds.hpp"
 #include "Utils.hpp"
+#include "sensor.hpp"
 
-#include <Thresholds.hpp>
 #include <boost/container/flat_map.hpp>
 #include <filesystem>
 #include <fstream>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 class CPUSensor : public Sensor
 {

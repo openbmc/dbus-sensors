@@ -14,10 +14,11 @@
 // limitations under the License.
 */
 
+#include "ChassisIntrusionSensor.hpp"
+#include "Utils.hpp"
+
 #include <systemd/sd-journal.h>
 
-#include <ChassisIntrusionSensor.hpp>
-#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio.hpp>
 #include <chrono>

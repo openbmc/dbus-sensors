@@ -14,9 +14,10 @@
 // limitations under the License.
 */
 
-#include <ADCSensor.hpp>
-#include <Utils.hpp>
-#include <VariantVisitors.hpp>
+#include "ADCSensor.hpp"
+#include "Utils.hpp"
+#include "VariantVisitors.hpp"
+
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>

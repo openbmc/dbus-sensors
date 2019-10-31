@@ -1,11 +1,13 @@
-#include <Thresholds.hpp>
-#include <VariantVisitors.hpp>
+#include "Thresholds.hpp"
+
+#include "VariantVisitors.hpp"
+#include "sensor.hpp"
+
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
 #include <fstream>
 #include <iostream>
-#include <sensor.hpp>
 
 static constexpr bool DEBUG = false;
 namespace thresholds
