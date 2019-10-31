@@ -1,0 +1,10 @@
+Code-Review+1: Patrick Venture <venture@google.com>
+Code-Review+1: Peter Lundgren <peterlundgren@google.com>
+Ok-To-Test+1: James Feist <james.feist@linux.intel.com>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+2: James Feist <james.feist@linux.intel.com>
+Submitted-by: Devjit Gopalpur <devjitg@google.com>
+Submitted-at: Thu, 31 Oct 2019 17:40:38 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/26722
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
