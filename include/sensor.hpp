@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Thresholds.hpp>
+#include "Thresholds.hpp"
+
 #include <sdbusplus/asio/object_server.hpp>
 
 constexpr size_t sensorFailedPollTimeMs = 5000;

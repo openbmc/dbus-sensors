@@ -14,9 +14,10 @@
 // limitations under the License.
 */
 
+#include "PSUEvent.hpp"
+
 #include <systemd/sd-journal.h>
 
-#include <PSUEvent.hpp>
 #include <iostream>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>

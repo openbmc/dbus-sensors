@@ -1,10 +1,11 @@
 #pragma once
 
-#include <Thresholds.hpp>
+#include "Thresholds.hpp"
+#include "sensor.hpp"
+
 #include <gpiod.hpp>
 #include <optional>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 class BridgeGpio
 {

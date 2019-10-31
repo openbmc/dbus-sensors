@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Thresholds.hpp"
+#include "sensor.hpp"
+
 #include <systemd/sd-journal.h>
 
-#include <Thresholds.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 class PresenceSensor
 {

@@ -14,8 +14,9 @@
 // limitations under the License.
 */
 
-#include <HwmonTempSensor.hpp>
-#include <Utils.hpp>
+#include "HwmonTempSensor.hpp"
+#include "Utils.hpp"
+
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_set.hpp>

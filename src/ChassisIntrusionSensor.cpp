@@ -14,12 +14,13 @@
 // limitations under the License.
 */
 
+#include "ChassisIntrusionSensor.hpp"
+
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#include <ChassisIntrusionSensor.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <chrono>

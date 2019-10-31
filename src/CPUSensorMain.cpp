@@ -14,11 +14,12 @@
 // limitations under the License.
 */
 
+#include "CPUSensor.hpp"
+#include "Utils.hpp"
+#include "VariantVisitors.hpp"
+
 #include <fcntl.h>
 
-#include <CPUSensor.hpp>
-#include <Utils.hpp>
-#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_set.hpp>

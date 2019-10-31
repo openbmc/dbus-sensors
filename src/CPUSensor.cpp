@@ -14,10 +14,12 @@
 // limitations under the License.
 */
 
+#include "CPUSensor.hpp"
+
+#include "Utils.hpp"
+
 #include <unistd.h>
 
-#include <CPUSensor.hpp>
-#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>

@@ -14,9 +14,10 @@
 // limitations under the License.
 */
 
+#include "HwmonTempSensor.hpp"
+
 #include <unistd.h>
 
-#include <HwmonTempSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
