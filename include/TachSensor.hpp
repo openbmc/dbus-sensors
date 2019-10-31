@@ -16,7 +16,6 @@
 
 class PresenceSensor
 {
-
   public:
     PresenceSensor(const size_t index, bool inverted,
                    boost::asio::io_service& io, const std::string& name);
@@ -92,7 +91,6 @@ class TachSensor : public Sensor
 
 inline void logFanInserted(const std::string& device)
 {
-
     sd_journal_send("MESSAGE=%s", "Fan Inserted", "PRIORITY=%i", LOG_ERR,
                     "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanInserted",
                     "REDFISH_MESSAGE_ARGS=%s", device.c_str(), NULL);
@@ -100,7 +98,6 @@ inline void logFanInserted(const std::string& device)
 
 inline void logFanRemoved(const std::string& device)
 {
-
     sd_journal_send("MESSAGE=%s", "Fan Removed", "PRIORITY=%i", LOG_ERR,
                     "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanRemoved",
                     "REDFISH_MESSAGE_ARGS=%s", device.c_str(), NULL);
@@ -108,7 +105,6 @@ inline void logFanRemoved(const std::string& device)
 
 inline void logFanRedundancyLost(void)
 {
-
     sd_journal_send("MESSAGE=%s", "Fan Inserted", "PRIORITY=%i", LOG_ERR,
                     "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanRedundancyLost",
                     NULL);
@@ -116,7 +112,6 @@ inline void logFanRedundancyLost(void)
 
 inline void logFanRedundancyRestored(void)
 {
-
     sd_journal_send("MESSAGE=%s", "Fan Removed", "PRIORITY=%i", LOG_ERR,
                     "REDFISH_MESSAGE_ID=%s",
                     "OpenBMC.0.1.FanRedundancyRegained", NULL);
