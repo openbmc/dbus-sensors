@@ -3,12 +3,11 @@
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
-#include <systemd/sd-journal.h>
-
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <memory>
 #include <optional>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
 #include <utility>
@@ -91,28 +90,34 @@ class TachSensor : public Sensor
 
 inline void logFanInserted(const std::string& device)
 {
-    sd_journal_send("MESSAGE=%s", "Fan Inserted", "PRIORITY=%i", LOG_ERR,
-                    "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanInserted",
-                    "REDFISH_MESSAGE_ARGS=%s", device.c_str(), NULL);
+    phosphor::logging::log<phosphor::logging::level::ERR>(
+        "Fan Inserted",
+        phosphor::logging::entry("REDFISH_MESSAGE_ID=%s",
+                                 "OpenBMC.0.1.FanInserted"),
+        phosphor::logging::entry("REDFISH_MESSAGE_ARGS=%s", device_c.str()));
 }
 
 inline void logFanRemoved(const std::string& device)
 {
-    sd_journal_send("MESSAGE=%s", "Fan Removed", "PRIORITY=%i", LOG_ERR,
-                    "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanRemoved",
-                    "REDFISH_MESSAGE_ARGS=%s", device.c_str(), NULL);
+    phosphor::logging::log<phosphor::logging::level::ERR>(
+        "Fan Removed",
+        phosphor::logging::entry("REDFISH_MESSAGE_ID=%s",
+                                 "OpenBMC.0.1.FanRemoved"),
+        phosphor::logging::entry("REDFISH_MESSAGE_ARGS=%s", device.c_str()));
 }
 
 inline void logFanRedundancyLost(void)
 {
-    sd_journal_send("MESSAGE=%s", "Fan Inserted", "PRIORITY=%i", LOG_ERR,
-                    "REDFISH_MESSAGE_ID=%s", "OpenBMC.0.1.FanRedundancyLost",
-                    NULL);
+    phosphor::logging::log<phosphor::logging::level::ERR>(
+        "Fan Inserted",
+        phosphor::logging::entry("REDFISH_MESSAGE_ID=%s",
+                                 "OpenBMC.0.1.FanRedundancyLost"));
 }
 
 inline void logFanRedundancyRestored(void)
 {
-    sd_journal_send("MESSAGE=%s", "Fan Removed", "PRIORITY=%i", LOG_ERR,
-                    "REDFISH_MESSAGE_ID=%s",
-                    "OpenBMC.0.1.FanRedundancyRegained", NULL);
+    phosphor::logging::log<phosphor::logging::level::ERR>(
+        "Fan Removed",
+        phosphor::logging::entry("REDFISH_MESSAGE_ID=%s",
+                                 "OpenBMC.0.1.FanRedundancyRegained"));
 }
