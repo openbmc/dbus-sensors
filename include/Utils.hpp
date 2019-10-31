@@ -4,11 +4,18 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/flat_map.hpp>
 #include <filesystem>
+#include <functional>
 #include <iostream>
+#include <memory>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/types.hpp>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <variant>
+#include <vector>
 
 constexpr const char* gpioPath = "/sys/class/gpio/";
 const constexpr char* jsonStore = "/var/configuration/flattened.json";

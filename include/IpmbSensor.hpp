@@ -5,6 +5,9 @@
 #include <boost/container/flat_map.hpp>
 #include <chrono>
 #include <limits>
+#include <memory>
+#include <optional>
+#include <string>
 #include <vector>
 
 enum class IpmbType

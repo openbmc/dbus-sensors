@@ -4,7 +4,9 @@
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
+#include <memory>
 #include <sdbusplus/asio/object_server.hpp>
+#include <string>
 
 class PSUSensor : public Sensor
 {

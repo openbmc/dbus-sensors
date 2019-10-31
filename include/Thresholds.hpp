@@ -2,7 +2,12 @@
 #include "Utils.hpp"
 
 #include <boost/asio/io_service.hpp>
+#include <list>
+#include <memory>
 #include <nlohmann/json.hpp>
+#include <string>
+#include <utility>
+#include <vector>
 
 struct Sensor;
 namespace thresholds

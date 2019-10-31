@@ -8,7 +8,12 @@
 #include <filesystem>
 #include <fstream>
 #include <gpiod.hpp>
+#include <memory>
 #include <sdbusplus/asio/object_server.hpp>
+#include <stdexcept>
+#include <string>
+#include <variant>
+#include <vector>
 
 class CPUSensor : public Sensor
 {

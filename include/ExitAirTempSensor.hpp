@@ -4,6 +4,9 @@
 #include <boost/container/flat_map.hpp>
 #include <chrono>
 #include <limits>
+#include <memory>
+#include <sdbusplus/bus/match.hpp>
+#include <string>
 #include <vector>
 
 struct ExitAirTempSensor;

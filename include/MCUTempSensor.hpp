@@ -5,6 +5,8 @@
 #include <boost/container/flat_map.hpp>
 #include <chrono>
 #include <limits>
+#include <memory>
+#include <string>
 #include <vector>
 
 struct MCUTempSensor : public Sensor

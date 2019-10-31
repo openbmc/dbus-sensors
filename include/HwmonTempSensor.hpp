@@ -4,6 +4,8 @@
 #include "sensor.hpp"
 
 #include <sdbusplus/asio/object_server.hpp>
+#include <string>
+#include <vector>
 
 class HwmonTempSensor : public Sensor
 {

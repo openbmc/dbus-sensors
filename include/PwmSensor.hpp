@@ -1,6 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <sdbusplus/asio/object_server.hpp>
+#include <string>
 
 class PwmSensor
 {
