@@ -363,18 +363,19 @@ void createSensors(boost::asio::io_service& io,
 
         for (const auto& sensorPath : sensorPaths)
         {
-
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
             std::string sensorNameSubStr{""};
             if (std::regex_search(sensorNameStr, matches, sensorNameRegEx))
             {
+                // hwmon *_input filename without number:
+                // in, curr, power, temp, ...
                 sensorNameSubStr = matches[1];
             }
             else
             {
-                std::cerr << "Couldn't extract the alpha prefix from "
+                std::cerr << "Could not extract the alpha prefix from "
                           << sensorNameStr;
                 continue;
             }
@@ -386,6 +387,9 @@ void createSensors(boost::asio::io_service& io,
             {
                 std::cerr << "Input file " << sensorPath
                           << " has no corresponding label file\n";
+
+                // hwmon *_input filename with number:
+                // temp1, temp2, temp3, ...
                 labelHead = sensorNameStr.substr(0, sensorNameStr.find("_"));
             }
             else
@@ -399,6 +403,8 @@ void createSensors(boost::asio::io_service& io,
                     continue;
                 }
 
+                // hwmon corresponding *_label file contents:
+                // vin1, vout1, ...
                 labelHead = label.substr(0, label.find(" "));
             }
 
@@ -417,7 +423,7 @@ void createSensors(boost::asio::io_service& io,
                 if (std::find(findLabels.begin(), findLabels.end(),
                               labelHead) == findLabels.end())
                 {
-                    std::cerr << "couldn't find " << labelHead
+                    std::cerr << "could not find " << labelHead
                               << " in the Labels list\n";
                     continue;
                 }
@@ -618,7 +624,7 @@ void createSensors(boost::asio::io_service& io,
             if (findSensorType == sensorTable.end())
             {
                 std::cerr << sensorNameSubStr
-                          << " is not a recognize sensor file\n";
+                          << " is not a recognized sensor type\n";
                 continue;
             }
 
