@@ -20,16 +20,27 @@
 
 #include <fcntl.h>
 
+#include <array>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/process/child.hpp>
 #include <filesystem>
 #include <fstream>
+#include <functional>
+#include <memory>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus/match.hpp>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <variant>
+#include <vector>
 
 // clang-format off
 // this needs to be included last or we'll have build issues

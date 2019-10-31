@@ -23,12 +23,17 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/container/flat_map.hpp>
 #include <chrono>
+#include <functional>
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <numeric>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus/match.hpp>
+#include <string>
 #include <vector>
 
 extern "C" {

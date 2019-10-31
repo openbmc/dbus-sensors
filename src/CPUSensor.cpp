@@ -24,10 +24,14 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <iostream>
+#include <istream>
 #include <limits>
+#include <memory>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <stdexcept>
 #include <string>
+#include <vector>
 
 CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,

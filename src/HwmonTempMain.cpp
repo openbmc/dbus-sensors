@@ -17,14 +17,24 @@
 #include "HwmonTempSensor.hpp"
 #include "Utils.hpp"
 
+#include <array>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <filesystem>
 #include <fstream>
+#include <functional>
+#include <memory>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus/match.hpp>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <variant>
+#include <vector>
 
 static constexpr bool DEBUG = false;
 

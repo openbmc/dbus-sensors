@@ -25,6 +25,7 @@
 #include <boost/bind.hpp>
 #include <chrono>
 #include <iostream>
+#include <memory>
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
 #include <thread>

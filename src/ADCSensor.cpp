@@ -21,14 +21,17 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <optional>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
+#include <vector>
 static constexpr unsigned int sensorPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;
 static constexpr unsigned int gpioBridgeEnableMs = 20;

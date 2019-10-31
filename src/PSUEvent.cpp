@@ -18,9 +18,16 @@
 
 #include <systemd/sd-journal.h>
 
+#include <boost/container/flat_map.hpp>
 #include <iostream>
+#include <memory>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <variant>
+#include <vector>
 
 PSUCombineEvent::PSUCombineEvent(
     sdbusplus::asio::object_server& objectServer, boost::asio::io_service& io,

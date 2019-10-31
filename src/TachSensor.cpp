@@ -25,10 +25,16 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <fstream>
 #include <iostream>
+#include <istream>
 #include <limits>
+#include <memory>
+#include <optional>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <stdexcept>
 #include <string>
+#include <utility>
+#include <vector>
 
 static constexpr unsigned int pwmPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;

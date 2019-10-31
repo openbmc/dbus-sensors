@@ -3,11 +3,19 @@
 #include "VariantVisitors.hpp"
 #include "sensor.hpp"
 
+#include <array>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/container/flat_map.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <variant>
+#include <vector>
 
 static constexpr bool DEBUG = false;
 namespace thresholds

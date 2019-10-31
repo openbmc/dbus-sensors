@@ -22,10 +22,13 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <iostream>
+#include <istream>
 #include <limits>
+#include <memory>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
+#include <vector>
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 

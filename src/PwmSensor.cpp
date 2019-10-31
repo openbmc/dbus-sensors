@@ -20,6 +20,8 @@
 #include <fstream>
 #include <iostream>
 #include <sdbusplus/asio/object_server.hpp>
+#include <stdexcept>
+#include <string>
 
 static constexpr size_t pwmMax = 255;
 static constexpr double defaultPwm = 30.0;

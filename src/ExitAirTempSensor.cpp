@@ -21,14 +21,23 @@
 
 #include <math.h>
 
+#include <array>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/container/flat_map.hpp>
 #include <chrono>
+#include <cmath>
+#include <functional>
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <numeric>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus/match.hpp>
+#include <stdexcept>
+#include <utility>
+#include <variant>
 #include <vector>
 
 constexpr const float altitudeFactor = 1.14;
