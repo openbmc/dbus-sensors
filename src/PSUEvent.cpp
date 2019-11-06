@@ -43,6 +43,21 @@ PSUCombineEvent::PSUCombineEvent(
         "xyz.openbmc_project.State.Decorator.OperationalStatus");
     eventInterface->register_property("functional", true);
 
+    eventAssociation =
+        objectServer.add_interface("/xyz/openbmc_project/State/Decorator/" +
+                                       psuName + "_" + combineEventName,
+                                   association::interface);
+
+    std::vector<Association> associations;
+    associations.push_back(Association(
+        "psuevent", "Ok", "/xyz/openbmc_project/State/Decorator/" + psuName));
+    eventAssociation->register_property("Associations", associations);
+
+    if (!eventAssociation->initialize())
+    {
+        std::cerr << "error initializing assoc interface\n";
+    }
+
     if (!eventInterface->initialize())
     {
         std::cerr << "error initializing event interface\n";
@@ -61,7 +76,7 @@ PSUCombineEvent::PSUCombineEvent(
             std::shared_ptr<bool> state = std::make_shared<bool>(false);
             events[eventPSUName].emplace_back(std::make_unique<PSUSubEvent>(
                 eventInterface, path, io, eventName, assert, combineEvent,
-                state, psuName));
+                state, psuName, eventAssociation));
             asserts.emplace_back(assert);
             states.emplace_back(state);
         }
@@ -72,6 +87,7 @@ PSUCombineEvent::~PSUCombineEvent()
 {
     events.clear();
     objServer.remove_interface(eventInterface);
+    objServer.remove_interface(eventAssociation);
 }
 
 static boost::container::flat_map<std::string,
@@ -96,11 +112,13 @@ PSUSubEvent::PSUSubEvent(
     const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
-    std::shared_ptr<bool> state, const std::string& psuName) :
+    std::shared_ptr<bool> state, const std::string& psuName,
+    std::shared_ptr<sdbusplus::asio::dbus_interface> eventAssociation) :
     eventInterface(eventInterface),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
     path(path), eventName(eventName), assertState(state), asserts(asserts),
-    combineEvent(combineEvent), psuName(psuName)
+    combineEvent(combineEvent), psuName(psuName),
+    eventAssociation(eventAssociation)
 {
     auto found = logID.find(eventName);
     if (found == logID.end())
@@ -124,6 +142,14 @@ PSUSubEvent::PSUSubEvent(
             fanName = fanName.substr(0, fanNamePos);
         }
     }
+
+    associationsOk.emplace_back("", "", "");
+
+    associationsCrit.emplace_back(
+        "", "critical", "/xyz/openbmc_project/State/Decorator/" + psuName);
+    associationsCrit.emplace_back("", "warning",
+                                  "/xyz/openbmc_project/CallbackManager");
+
     setupRead();
 }
 
@@ -250,6 +276,8 @@ void PSUSubEvent::updateValue(const int& newValue)
             if ((*combineEvent).empty())
             {
                 eventInterface->set_property("functional", true);
+
+                eventAssociation->set_property("Associations", associationsOk);
             }
         }
     }
@@ -282,6 +310,8 @@ void PSUSubEvent::updateValue(const int& newValue)
             if ((*combineEvent).empty())
             {
                 eventInterface->set_property("functional", false);
+                eventAssociation->set_property("Associations",
+                                               associationsCrit);
             }
             (*combineEvent).emplace(eventName);
         }

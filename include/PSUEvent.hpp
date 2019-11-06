@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <Utils.hpp>
 #include <boost/container/flat_map.hpp>
 #include <memory>
 #include <sdbusplus/asio/object_server.hpp>
@@ -26,18 +27,21 @@
 class PSUSubEvent
 {
   public:
-    PSUSubEvent(std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
-                const std::string& path, boost::asio::io_service& io,
-                const std::string& eventName,
-                std::shared_ptr<std::set<std::string>> asserts,
-                std::shared_ptr<std::set<std::string>> combineEvent,
-                std::shared_ptr<bool> state, const std::string& psuName);
+    PSUSubEvent(
+        std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
+        const std::string& path, boost::asio::io_service& io,
+        const std::string& eventName,
+        std::shared_ptr<std::set<std::string>> asserts,
+        std::shared_ptr<std::set<std::string>> combineEvent,
+        std::shared_ptr<bool> state, const std::string& psuName,
+        std::shared_ptr<sdbusplus::asio::dbus_interface> eventAssociation);
     ~PSUSubEvent();
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface;
     std::shared_ptr<std::set<std::string>> asserts;
     std::shared_ptr<std::set<std::string>> combineEvent;
     std::shared_ptr<bool> assertState;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> eventAssociation;
 
   private:
     int value = 0;
@@ -56,6 +60,8 @@ class PSUSubEvent
     std::string fanName;
     std::string assertMessage;
     std::string deassertMessage;
+    std::vector<Association> associationsOk;
+    std::vector<Association> associationsCrit;
 };
 
 class PSUCombineEvent
@@ -71,6 +77,7 @@ class PSUCombineEvent
 
     sdbusplus::asio::object_server& objServer;
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> eventAssociation;
     boost::container::flat_map<std::string,
                                std::vector<std::unique_ptr<PSUSubEvent>>>
         events;
