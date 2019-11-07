@@ -52,7 +52,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     size_t errCount;
     std::string path;
     std::string eventName;
-    std::string groupEventName;
+
     boost::asio::deadline_timer waitTimer;
     std::shared_ptr<boost::asio::streambuf> readBuf;
     void handleResponse(const boost::system::error_code& err);
@@ -63,6 +63,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     static constexpr unsigned int eventPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
     std::string psuName;
+    std::string groupEventName;
     std::string fanName;
     std::string assertMessage;
     std::string deassertMessage;

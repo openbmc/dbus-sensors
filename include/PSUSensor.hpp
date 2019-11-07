@@ -30,8 +30,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     boost::asio::deadline_timer waitTimer;
     std::shared_ptr<boost::asio::streambuf> readBuf;
     std::string path;
-    std::string pathRatedMin;
     std::string pathRatedMax;
+    std::string pathRatedMin;
     size_t errCount;
     unsigned int sensorFactor;
     uint8_t minMaxReadCounter;

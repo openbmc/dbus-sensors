@@ -470,7 +470,7 @@ static void createSensorsCallback(
             std::string labelPath;
 
             /* find and differentiate _max and _input to replace "label" */
-            int pos = sensorPathStr.find("_");
+            size_t pos = sensorPathStr.find("_");
             if (pos != std::string::npos)
             {
 
