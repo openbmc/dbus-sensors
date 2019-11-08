@@ -544,7 +544,7 @@ void createSensors(boost::asio::io_service& io,
             {
                 /* Find out sensor name index for this label */
                 std::regex rgx("[A-Za-z]+([0-9]+)");
-                int nameIndex{0};
+                size_t nameIndex{0};
                 if (std::regex_search(labelHead, matches, rgx))
                 {
                     nameIndex = std::stoi(matches[1]);

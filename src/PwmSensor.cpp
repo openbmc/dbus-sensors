@@ -29,8 +29,8 @@ static constexpr double defaultPwm = 30.0;
 PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& sensorConfiguration) :
-    name(name),
-    sysPath(sysPath), objectServer(objectServer)
+    sysPath(sysPath),
+    objectServer(objectServer), name(name)
 {
     // add interface under sensor and Control.FanPwm as Control is used
     // in obmc project, also add sensor so it can be viewed as a sensor

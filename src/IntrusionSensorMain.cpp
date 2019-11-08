@@ -275,7 +275,7 @@ static void processLanStatusChange(sdbusplus::message::message& message)
                             *pState == "degraded");
 
     // get ethNum from path. /org/freedesktop/network1/link/_32 for eth0
-    int pos = pathName.find("/_");
+    size_t pos = pathName.find("/_");
     if (pos == std::string::npos || pathName.length() <= pos + 2)
     {
         std::cerr << "unexpected path name " << pathName << "\n";

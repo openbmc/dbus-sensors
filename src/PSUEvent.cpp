@@ -98,9 +98,9 @@ PSUSubEvent::PSUSubEvent(
     std::shared_ptr<std::set<std::string>> combineEvent,
     std::shared_ptr<bool> state, const std::string& psuName) :
     eventInterface(eventInterface),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0),
-    path(path), eventName(eventName), assertState(state), asserts(asserts),
-    combineEvent(combineEvent), psuName(psuName)
+    asserts(asserts), combineEvent(combineEvent), assertState(state),
+    errCount(0), path(path), eventName(eventName), waitTimer(io),
+    inputDev(io, open(path.c_str(), O_RDONLY)), psuName(psuName)
 {
     auto found = logID.find(eventName);
     if (found == logID.end())

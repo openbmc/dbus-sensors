@@ -339,10 +339,10 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
 ChassisIntrusionSensor::ChassisIntrusionSensor(
     boost::asio::io_service& io,
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface) :
-    mPollTimer(io),
-    mIface(iface), mInputDev(io), mType(IntrusionSensorType::gpio), mBusId(-1),
-    mSlaveAddr(-1), mGpioIndex(-1), mGpioInverted(false), mValue("unknown"),
-    mOldValue("unknown")
+    mIface(iface),
+    mType(IntrusionSensorType::gpio), mValue("unknown"), mOldValue("unknown"),
+    mBusId(-1), mSlaveAddr(-1), mPollTimer(io), mGpioIndex(-1),
+    mGpioInverted(false), mInputDev(io)
 {
 }
 

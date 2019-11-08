@@ -43,7 +43,7 @@ class CPUSensor : public Sensor
     double privTcontrol;
     double dtsOffset;
     bool show;
-    int errCount;
+    size_t errCount;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;

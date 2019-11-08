@@ -50,9 +50,10 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        const std::pair<size_t, size_t>& limits) :
     Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(_thresholds),
            sensorConfiguration, objectType, limits.second, limits.first),
-    path(path), objServer(objectServer), presence(std::move(presenceSensor)),
-    redundancy(redundancy), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), errCount(0)
+    objServer(objectServer), redundancy(redundancy),
+    presence(std::move(presenceSensor)),
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    errCount(0)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,

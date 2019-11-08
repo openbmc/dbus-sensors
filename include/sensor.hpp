@@ -19,7 +19,7 @@ struct Sensor
            const double max, const double min) :
         name(name),
         configurationPath(configurationPath), objectType(objectType),
-        thresholds(std::move(thresholdData)), maxValue(max), minValue(min),
+        maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
         hysteresis((max - min) * 0.01)
     {
     }

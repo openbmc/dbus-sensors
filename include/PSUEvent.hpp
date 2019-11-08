@@ -41,7 +41,7 @@ class PSUSubEvent
 
   private:
     int value = 0;
-    int errCount;
+    size_t errCount;
     std::string path;
     std::string eventName;
     boost::asio::deadline_timer waitTimer;

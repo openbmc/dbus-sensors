@@ -120,7 +120,7 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
                       size_t thresholdCount)
 {
-    for (int ii = 0; ii < thresholdCount; ii++)
+    for (size_t ii = 0; ii < thresholdCount; ii++)
     {
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);

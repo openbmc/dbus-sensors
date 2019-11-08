@@ -83,7 +83,7 @@ class TachSensor : public Sensor
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string path;
-    int errCount;
+    size_t errCount;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;

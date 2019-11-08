@@ -44,8 +44,9 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading),
     objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    path(path), waitTimer(io), show(show), dtsOffset(dtsOffset),
-    privTcontrol(std::numeric_limits<double>::quiet_NaN()), errCount(0)
+    waitTimer(io), path(path),
+    privTcontrol(std::numeric_limits<double>::quiet_NaN()),
+    dtsOffset(dtsOffset), show(show), errCount(0)
 {
     nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);

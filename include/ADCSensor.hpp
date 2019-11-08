@@ -69,7 +69,7 @@ class ADCSensor : public Sensor
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string path;
-    int errCount;
+    size_t errCount;
     double scaleFactor;
     std::optional<BridgeGpio> bridgeGpio;
     PowerState readState;
