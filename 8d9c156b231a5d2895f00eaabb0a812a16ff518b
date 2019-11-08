@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89bae29c_97e01731",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2019-11-08T20:43:58Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "8d9c156b231a5d2895f00eaabb0a812a16ff518b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e86e60ac_8e0dd631",
+        "filename": "service_files/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2019-11-08T20:43:58Z",
+      "side": 1,
+      "message": "weird whitespace",
+      "revId": "8d9c156b231a5d2895f00eaabb0a812a16ff518b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e797e78_70da2f5b",
+        "filename": "tests/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2019-11-08T20:43:58Z",
+      "side": 1,
+      "message": "indent",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 5
+      },
+      "revId": "8d9c156b231a5d2895f00eaabb0a812a16ff518b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
