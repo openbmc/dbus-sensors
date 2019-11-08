@@ -8,11 +8,11 @@ struct Sensor
 {
     Sensor(const std::string &name, const std::string &path,
            std::vector<thresholds::Threshold> &&thresholdData,
-           const std::string &configurationPath, const std::string &objectType,
+           const std::string &configurationPath, const std::string &,
            const double max, const double min) :
         name(name),
-        path(path), thresholds(std::move(thresholdData)),
-        configurationPath(configurationPath), maxValue(max), minValue(min)
+        path(path), configurationPath(configurationPath), maxValue(max),
+        minValue(min), thresholds(std::move(thresholdData))
     {
     }
     virtual ~Sensor() = default;

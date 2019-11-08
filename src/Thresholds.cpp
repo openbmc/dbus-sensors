@@ -113,7 +113,7 @@ void persistThreshold(const std::string &path, const std::string &baseInterface,
                       const thresholds::Threshold &threshold,
                       std::shared_ptr<sdbusplus::asio::connection> &conn)
 {
-    for (int ii = 0; ii < maxThresholds; ii++)
+    for (size_t ii = 0; ii < maxThresholds; ii++)
     {
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);
@@ -267,6 +267,7 @@ bool parseThresholdsFromAttr(
     std::vector<thresholds::Threshold> &thresholdVector,
     const std::string &inputPath, const double &scaleFactor)
 {
+    using namespace std::string_literals;
     for (auto &type : attrTypes)
     {
         auto attrPath = boost::replace_all_copy(inputPath, "input", type);
@@ -282,7 +283,7 @@ bool parseThresholdsFromAttr(
         Level level;
         Direction direction;
         double val = std::stod(attr) / scaleFactor;
-        if (type == "min" || type == "max")
+        if (type == "min"s || type == "max"s)
         {
             level = Level::WARNING;
         }
@@ -290,7 +291,7 @@ bool parseThresholdsFromAttr(
         {
             level = Level::CRITICAL;
         }
-        if (type == "min" || type == "lcrit")
+        if (type == "min"s || type == "lcrit"s)
         {
             direction = Direction::LOW;
         }

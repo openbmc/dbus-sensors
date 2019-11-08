@@ -46,8 +46,8 @@ ADCSensor::ADCSensor(const std::string &path,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"), path,
            std::move(_thresholds), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
-    objServer(objectServer), scaleFactor(scaleFactor),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), errCount(0)
+    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
+    waitTimer(io), scaleFactor(scaleFactor), errCount(0)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
@@ -118,7 +118,7 @@ void ADCSensor::handleResponse(const boost::system::error_code &err)
             }
             errCount = 0;
         }
-        catch (std::invalid_argument)
+        catch (std::invalid_argument &)
         {
             errCount++;
         }

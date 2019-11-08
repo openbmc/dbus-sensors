@@ -143,7 +143,7 @@ uint32_t PwmSensor::getValue(bool errThrow)
         uint32_t value = std::stoi(line);
         return value;
     }
-    catch (std::invalid_argument)
+    catch (std::invalid_argument&)
     {
         std::cerr << "Error reading pwm at " << sysPath << "\n";
         // throw if not initial read to be caught by dbus bindings

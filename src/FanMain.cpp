@@ -70,6 +70,7 @@ void createSensors(
     const std::unique_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged)
 {
+    using namespace std::string_literals;
     bool firstScan = sensorsChanged == nullptr;
     // use new data the first time, then refresh
     ManagedObjectType sensorConfigurations;
@@ -104,7 +105,6 @@ void createSensors(
         auto directory = path.parent_path();
         FanTypes fanType = getFanType(directory);
         size_t bus = 0;
-        size_t address = 0;
         if (fanType == FanTypes::i2c)
         {
             std::string link =
@@ -116,7 +116,6 @@ void createSensors(
                 std::cerr << "Error finding device from symlink";
             }
             bus = std::stoi(link.substr(0, findDash));
-            address = std::stoi(link.substr(findDash + 1), nullptr, 16);
         }
         // convert to 0 based
         size_t index = std::stoul(indexStr) - 1;
@@ -163,7 +162,7 @@ void createSensors(
                 sensorData = &(sensor.second);
                 break;
             }
-            else if (baseType == "xyz.openbmc_project.Configuration.I2CFan")
+            else if (baseType == "xyz.openbmc_project.Configuration.I2CFan"s)
             {
                 auto findBus = baseConfiguration->second.find("Bus");
                 auto findAddress = baseConfiguration->second.find("Address");
@@ -176,10 +175,8 @@ void createSensors(
                 }
                 unsigned int configBus = variant_ns::visit(
                     VariantToUnsignedIntVisitor(), findBus->second);
-                unsigned int configAddress = variant_ns::visit(
-                    VariantToUnsignedIntVisitor(), findAddress->second);
 
-                if (configBus == bus && configAddress == configAddress)
+                if (configBus == bus)
                 {
                     sensorData = &(sensor.second);
                     break;
@@ -340,7 +337,7 @@ void createRedundancySensor(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
-int main(int argc, char** argv)
+int main(int, char**)
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -401,7 +398,7 @@ int main(int argc, char** argv)
     // redundancy sensor
     std::function<void(sdbusplus::message::message&)> redundancyHandler =
         [&tachSensors, &systemBus,
-         &objectServer](sdbusplus::message::message& message) {
+         &objectServer](sdbusplus::message::message&) {
             createRedundancySensor(tachSensors, systemBus, objectServer);
         };
     auto match = std::make_unique<sdbusplus::bus::match::match>(

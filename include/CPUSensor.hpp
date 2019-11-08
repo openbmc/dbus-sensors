@@ -23,7 +23,7 @@ class CPUSensor : public Sensor
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
-    int errCount;
+    size_t errCount;
     void setupRead(void);
     void handleResponse(const boost::system::error_code &err);
     void checkThresholds(void) override;

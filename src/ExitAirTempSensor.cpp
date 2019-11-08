@@ -113,7 +113,7 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
            "" /* todo: remove arg from base*/, std::move(thresholds),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            cfmMaxReading, cfmMinReading),
-    dbusConnection(conn), parent(parent)
+    parent(parent), dbusConnection(conn)
 {
     sensorInterface =
         objectServer.add_interface("/xyz/openbmc_project/sensors/cfm/" + name,
@@ -265,6 +265,8 @@ bool CFMSensor::calculate(double& value)
 
     // divide by 100 since rpm is in percent
     value = totalCFM / 100;
+
+    return true;
 }
 
 static constexpr double exitAirMaxReading = 127;
@@ -622,7 +624,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         "GetManagedObjects");
 }
 
-int main(int argc, char** argv)
+int main(int, char**)
 {
 
     boost::asio::io_service io;
@@ -638,7 +640,7 @@ int main(int argc, char** argv)
     boost::asio::deadline_timer configTimer(io);
 
     std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message& message) {
+        [&](sdbusplus::message::message&) {
             configTimer.expires_from_now(boost::posix_time::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait([&](const boost::system::error_code& ec) {
