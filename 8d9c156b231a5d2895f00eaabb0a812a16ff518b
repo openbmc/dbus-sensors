@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2d89f2a4_cc344a22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2019-11-08T21:23:14Z",
+      "side": 1,
+      "message": "any reason it can\u0027t do both? It\u0027s not a substantial time increase",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "8d9c156b231a5d2895f00eaabb0a812a16ff518b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89bae29c_97e01731",
         "filename": "meson.build",
         "patchSetId": 1
