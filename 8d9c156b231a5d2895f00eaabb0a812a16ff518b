@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "79d34d40_ea0766d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2019-11-11T21:24:57Z",
+      "side": 1,
+      "message": "Then I\u0027d be fine dropping Cmake",
+      "parentUuid": "3e576716_243295ef",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "8d9c156b231a5d2895f00eaabb0a812a16ff518b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef836e9c_2099399c",
         "filename": "meson.build",
         "patchSetId": 1
