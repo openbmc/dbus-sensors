@@ -53,6 +53,9 @@
 static constexpr bool DEBUG = false;
 
 boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>> gCpuSensors;
+boost::container::flat_map<std::string,
+                           std::shared_ptr<sdbusplus::asio::dbus_interface>>
+    inventoryIfaces;
 
 enum State
 {
@@ -111,7 +114,18 @@ bool createSensors(boost::asio::io_service& io,
         if (cpu.state != State::OFF)
         {
             available = true;
-            break;
+            std::shared_ptr<sdbusplus::asio::dbus_interface> iface =
+                inventoryIfaces[cpu.name];
+            if (iface != nullptr)
+            {
+                continue;
+            }
+            iface = objectServer.add_interface(
+                cpuInventoryPath + std::string("/") + cpu.name,
+                "xyz.openbmc_project.Inventory.Item");
+            iface->register_property("PrettyName", cpu.name);
+            iface->register_property("Present", true);
+            iface->initialize();
         }
     }
     if (!available)
@@ -329,7 +343,10 @@ bool createSensors(boost::asio::io_service& io,
                               << sensorName << "\n";
                 }
             }
-            gCpuSensors[sensorName] = std::make_unique<CPUSensor>(
+            auto& sensorPtr = gCpuSensors[sensorName];
+            // make sure destructor fires before creating a new one
+            sensorPtr = nullptr;
+            sensorPtr = std::make_unique<CPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
                 show, dtsOffset);
@@ -542,14 +559,10 @@ void detectCpuAsync(
     });
 }
 
-bool getCpuConfig(
-    const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
-    boost::container::flat_set<CPUConfig>& cpuConfigs,
-    ManagedObjectType& sensorConfigs,
-    sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<
-        std::string, std::shared_ptr<sdbusplus::asio::dbus_interface>>&
-        inventoryIfaces)
+bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+                  boost::container::flat_set<CPUConfig>& cpuConfigs,
+                  ManagedObjectType& sensorConfigs,
+                  sdbusplus::asio::object_server& objectServer)
 {
     bool useCache = false;
     sensorConfigs.clear();
@@ -588,7 +601,8 @@ bool getCpuConfig(
                 std::string name =
                     std::regex_replace(nameRaw, illegalDbusRegex, "_");
 
-                bool present = true;
+                auto present = std::optional<bool>();
+                // if we can't detect it via gpio, we set presence later
                 for (const SensorBaseConfiguration& suppConfig : sensor.second)
                 {
                     if (suppConfig.first.find("PresenceGpio") !=
@@ -599,19 +613,16 @@ bool getCpuConfig(
                     }
                 }
 
-                if (inventoryIfaces.find(name) == inventoryIfaces.end())
+                if (inventoryIfaces.find(name) == inventoryIfaces.end() &&
+                    present)
                 {
                     auto iface = objectServer.add_interface(
                         cpuInventoryPath + std::string("/") + name,
                         "xyz.openbmc_project.Inventory.Item");
                     iface->register_property("PrettyName", name);
-                    iface->register_property("Present", present);
+                    iface->register_property("Present", *present);
                     iface->initialize();
                     inventoryIfaces[name] = std::move(iface);
-                }
-                if (!present)
-                {
-                    continue; // no reason to look for non present cpu
                 }
 
                 auto findBus = config.second.find("Bus");
@@ -669,9 +680,6 @@ int main()
     boost::asio::deadline_timer creationTimer(io);
     boost::asio::deadline_timer filterTimer(io);
     ManagedObjectType sensorConfigs;
-    boost::container::flat_map<std::string,
-                               std::shared_ptr<sdbusplus::asio::dbus_interface>>
-        inventoryIfaces;
 
     filterTimer.expires_from_now(boost::posix_time::seconds(1));
     filterTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -680,8 +688,7 @@ int main()
             return; // we're being canceled
         }
 
-        if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs, objectServer,
-                         inventoryIfaces))
+        if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs, objectServer))
         {
             detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                            systemBus, cpuConfigs, sensorConfigs);
@@ -710,7 +717,7 @@ int main()
                 }
 
                 if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs,
-                                 objectServer, inventoryIfaces))
+                                 objectServer))
                 {
                     detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                                    systemBus, cpuConfigs, sensorConfigs);
