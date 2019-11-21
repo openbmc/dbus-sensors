@@ -614,7 +614,8 @@ void createSensors(boost::asio::io_service& io,
 
             std::vector<thresholds::Threshold> sensorThresholds;
 
-            if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
+            if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
+                                           &labelHead))
             {
                 std::cerr << "error populating thresholds for "
                           << sensorNameSubStr << "\n";
