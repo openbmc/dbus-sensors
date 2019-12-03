@@ -88,7 +88,9 @@ static boost::container::flat_map<std::string,
         {"FanFault",
          {"OpenBMC.0.1.PowerSupplyFanFailed",
           "OpenBMC.0.1.PowerSupplyFanRecovered"}},
-        {"ConfigureError", {"OpenBMC.0.1.PowerSupplyConfigurationError", ""}}};
+        {"ConfigureError",
+         {"OpenBMC.0.1.PowerSupplyConfigurationError",
+          "OpenBMC.0.1.PowerSupplyConfigurationErrorRecovered"}}};
 
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
