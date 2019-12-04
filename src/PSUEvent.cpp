@@ -222,6 +222,7 @@ void PSUSubEvent::updateValue(const int& newValue)
             auto foundCombine = (*combineEvent).find(eventName);
             if (foundCombine == (*combineEvent).end())
             {
+                value = newValue;
                 return;
             }
             (*combineEvent).erase(eventName);
@@ -259,6 +260,12 @@ void PSUSubEvent::updateValue(const int& newValue)
         if (*assertState == false)
         {
             *assertState = true;
+            auto foundCombine = (*combineEvent).find(eventName);
+            if (foundCombine != (*combineEvent).end())
+            {
+                value = newValue;
+                return;
+            }
             if (!assertMessage.empty())
             {
                 // Fan Failed has two args
