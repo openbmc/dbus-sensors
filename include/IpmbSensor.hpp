@@ -42,6 +42,7 @@ struct IpmbSensor : public Sensor
     void init(void);
     void loadDefaults(void);
     void runInitCmd(void);
+    void processError(void);
 
     IpmbType type;
     IpmbSubType subType;
@@ -51,6 +52,7 @@ struct IpmbSensor : public Sensor
     uint8_t netfn;
     uint8_t command;
     uint8_t deviceAddress;
+    uint8_t errorCount;
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
