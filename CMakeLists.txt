@@ -165,6 +165,7 @@ target_link_libraries (exitairtempsensor ${SENSOR_LINK_LIBS})
 add_executable (fansensor src/FanMain.cpp ${FAN_SRC_FILES})
 add_dependencies (fansensor sdbusplus-project)
 target_link_libraries (fansensor ${SENSOR_LINK_LIBS})
+target_link_libraries (fansensor gpiodcxx)
 
 add_executable (hwmontempsensor src/HwmonTempMain.cpp ${HWMON_TEMP_SRC_FILES})
 add_dependencies (hwmontempsensor sdbusplus-project)

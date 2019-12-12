@@ -159,6 +159,7 @@ void createSensors(
                     {
                         continue;
                     }
+
                     auto findIndex = baseConfiguration->second.find("Index");
                     if (findIndex == baseConfiguration->second.end())
                     {
@@ -214,6 +215,7 @@ void createSensors(
                 }
 
                 auto findSensorName = baseConfiguration->second.find("Name");
+
                 if (findSensorName == baseConfiguration->second.end())
                 {
                     std::cerr << "could not determine configuration name for "
@@ -222,6 +224,7 @@ void createSensors(
                 }
                 std::string sensorName =
                     std::get<std::string>(findSensorName->second);
+
                 // on rescans, only update sensors we were signaled by
                 auto findSensor = tachSensors.find(sensorName);
                 if (!firstScan && findSensor != tachSensors.end())
@@ -258,21 +261,30 @@ void createSensors(
                 // presence sensors are optional
                 if (presenceConfig != sensorData->end())
                 {
-                    auto findIndex = presenceConfig->second.find("Index");
                     auto findPolarity = presenceConfig->second.find("Polarity");
+                    auto findPinName = presenceConfig->second.find("PinName");
 
-                    if (findIndex == presenceConfig->second.end() ||
+                    if (findPinName == presenceConfig->second.end() ||
                         findPolarity == presenceConfig->second.end())
                     {
                         std::cerr << "Malformed Presence Configuration\n";
                     }
                     else
                     {
-                        size_t index = std::get<uint64_t>(findIndex->second);
                         bool inverted = std::get<std::string>(
                                             findPolarity->second) == "Low";
-                        presenceSensor = std::make_unique<PresenceSensor>(
-                            index, inverted, io, sensorName);
+                        if (auto pinName =
+                                std::get_if<std::string>(&findPinName->second))
+                        {
+                            presenceSensor = std::make_unique<PresenceSensor>(
+                                *pinName, inverted, io, sensorName);
+                        }
+                        else
+                        {
+                            std::cerr
+                                << "Malformed Presence pinName for sensor "
+                                << sensorName << " \n";
+                        }
                     }
                 }
                 std::optional<RedundancySensor>* redundancy = nullptr;

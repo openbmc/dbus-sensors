@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
@@ -7,6 +6,7 @@
 
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
+#include <gpiod.hpp>
 #include <memory>
 #include <optional>
 #include <sdbusplus/asio/object_server.hpp>
@@ -17,7 +17,7 @@
 class PresenceSensor
 {
   public:
-    PresenceSensor(const size_t index, bool inverted,
+    PresenceSensor(const std::string& pinName, bool inverted,
                    boost::asio::io_service& io, const std::string& name);
     ~PresenceSensor();
 
@@ -28,8 +28,8 @@ class PresenceSensor
   private:
     bool status = true;
     bool inverted;
-    boost::asio::ip::tcp::socket inputDev;
-    int fd;
+    gpiod::line gpioLine;
+    boost::asio::posix::stream_descriptor gpioFd;
     std::string name;
 };
 
