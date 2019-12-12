@@ -24,6 +24,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <fstream>
+#include <gpiod.hpp>
 #include <iostream>
 #include <istream>
 #include <limits>
@@ -217,92 +218,84 @@ void TachSensor::checkThresholds(void)
     }
 }
 
-PresenceSensor::PresenceSensor(const size_t index, bool inverted,
+PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
                                boost::asio::io_service& io,
                                const std::string& name) :
     inverted(inverted),
-    inputDev(io), name(name)
+    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name)
 {
-    // todo: use gpiodaemon
-    std::string device = gpioPath + std::string("gpio") + std::to_string(index);
-    fd = open((device + "/value").c_str(), O_RDONLY);
-    if (fd < 0)
+    if (!gpioLine)
     {
-        std::cerr << "Error opening gpio " << index << "\n";
+        std::cerr << "Error requesting gpio: " << gpioName << "\n";
+        status = false;
         return;
     }
 
-    std::ofstream deviceFile(device + "/edge");
-    if (!deviceFile.good())
+    try
     {
-        std::cerr << "Error setting edge " << device << "\n";
+        gpioLine.request({"FanSensor", gpiod::line_request::EVENT_BOTH_EDGES,
+                          inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+        status = gpioLine.get_value();
+
+        int gpioLineFd = gpioLine.event_get_fd();
+        if (gpioLineFd < 0)
+        {
+            std::cerr << "Failed to get " << gpioName << " fd\n";
+            return;
+        }
+
+        gpioFd.assign(gpioLineFd);
+    }
+    catch (std::system_error&)
+    {
+        std::cerr << "Error reading gpio: " << gpioName << "\n";
+        status = false;
         return;
     }
-    deviceFile << "both";
-    deviceFile.close();
 
-    inputDev.assign(boost::asio::ip::tcp::v4(), fd);
     monitorPresence();
-    read();
 }
 
 PresenceSensor::~PresenceSensor()
 {
-    inputDev.close();
-    close(fd);
+    gpioFd.close();
+    gpioLine.release();
 }
 
 void PresenceSensor::monitorPresence(void)
 {
-    inputDev.async_wait(boost::asio::ip::tcp::socket::wait_error,
-                        [this](const boost::system::error_code& ec) {
-                            if (ec == boost::system::errc::bad_file_descriptor)
-                            {
-                                return; // we're being destroyed
-                            }
-                            else if (ec)
-                            {
-                                std::cerr
-                                    << "Error on presence sensor socket\n";
-                            }
-                            else
-                            {
-                                read();
-                            }
-                            monitorPresence();
-                        });
+    gpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
+                      [this](const boost::system::error_code& ec) {
+                          if (ec == boost::system::errc::bad_file_descriptor)
+                          {
+                              return; // we're being destroyed
+                          }
+                          else if (ec)
+                          {
+                              std::cerr << "Error on presence sensor " << name
+                                        << " \n";
+                              ;
+                          }
+                          else
+                          {
+                              read();
+                          }
+                          monitorPresence();
+                      });
 }
 
 void PresenceSensor::read(void)
 {
-    constexpr size_t readSize = sizeof("0");
-    std::string readBuf;
-    readBuf.resize(readSize);
-    lseek(fd, 0, SEEK_SET);
-    size_t r = ::read(fd, readBuf.data(), readSize);
-    if (r != readSize)
+    gpioLine.event_read();
+    status = gpioLine.get_value();
+    // Read is invoked when an edge event is detected by monitorPresence
+    if (status)
     {
-        std::cerr << "Error reading gpio\n";
+        logFanInserted(name);
     }
     else
     {
-        bool value = std::stoi(readBuf);
-        if (inverted)
-        {
-            value = !value;
-        }
-        if (value != status)
-        {
-            status = value;
-            if (status)
-            {
-                logFanInserted(name);
-            }
-            else
-            {
-                logFanRemoved(name);
-            }
-        }
+        logFanRemoved(name);
     }
 }
 
