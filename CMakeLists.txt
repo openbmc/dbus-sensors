@@ -79,7 +79,6 @@ set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
 
 if (NOT YOCTO)
     option (ENABLE_TEST "Enable Google Test" OFF)
-    include_directories (SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include/non-yocto)
 
     externalproject_add (
         Boost URL
