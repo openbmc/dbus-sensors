@@ -52,12 +52,13 @@ PSUCombineEvent::PSUCombineEvent(
         std::make_shared<std::set<std::string>>();
     for (const auto& pathList : eventPathList)
     {
+        std::shared_ptr<std::set<std::string>> assert =
+            std::make_shared<std::set<std::string>>();
+
         const std::string& eventName = pathList.first;
         std::string eventPSUName = eventName + psuName;
         for (const auto& path : pathList.second)
         {
-            std::shared_ptr<std::set<std::string>> assert =
-                std::make_shared<std::set<std::string>>();
             std::shared_ptr<bool> state = std::make_shared<bool>(false);
             events[eventPSUName].emplace_back(std::make_unique<PSUSubEvent>(
                 eventInterface, path, io, eventName, assert, combineEvent,
@@ -207,15 +208,16 @@ void PSUSubEvent::updateValue(const int& newValue)
 {
     if (newValue == 0)
     {
-        auto found = (*asserts).find(path);
-        if (found == (*asserts).end())
-        {
-            return;
-        }
-        (*asserts).erase(path);
-
+        // log deassert only after all asserts are gone
         if (!(*asserts).empty())
         {
+            auto found = (*asserts).find(path);
+            if (found == (*asserts).end())
+            {
+                return;
+            }
+            (*asserts).erase(path);
+
             return;
         }
         if (*assertState == true)
@@ -224,7 +226,6 @@ void PSUSubEvent::updateValue(const int& newValue)
             auto foundCombine = (*combineEvent).find(eventName);
             if (foundCombine == (*combineEvent).end())
             {
-                value = newValue;
                 return;
             }
             (*combineEvent).erase(eventName);
@@ -236,7 +237,7 @@ void PSUSubEvent::updateValue(const int& newValue)
                 {
                     sd_journal_send(
                         "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
-                        LOG_ERR, "REDFISH_MESSAGE_ID=%s",
+                        LOG_INFO, "REDFISH_MESSAGE_ID=%s",
                         deassertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s,%s",
                         psuName.c_str(), fanName.c_str(), NULL);
                 }
@@ -244,7 +245,7 @@ void PSUSubEvent::updateValue(const int& newValue)
                 {
                     sd_journal_send(
                         "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
-                        LOG_ERR, "REDFISH_MESSAGE_ID=%s",
+                        LOG_INFO, "REDFISH_MESSAGE_ID=%s",
                         deassertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
                         psuName.c_str(), NULL);
                 }
@@ -258,16 +259,9 @@ void PSUSubEvent::updateValue(const int& newValue)
     }
     else
     {
-        (*asserts).emplace(path);
-        if (*assertState == false)
+        if ((*assertState == false) && ((*asserts).empty()))
         {
             *assertState = true;
-            auto foundCombine = (*combineEvent).find(eventName);
-            if (foundCombine != (*combineEvent).end())
-            {
-                value = newValue;
-                return;
-            }
             if (!assertMessage.empty())
             {
                 // Fan Failed has two args
@@ -276,7 +270,7 @@ void PSUSubEvent::updateValue(const int& newValue)
                 {
                     sd_journal_send(
                         "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
-                        LOG_ERR, "REDFISH_MESSAGE_ID=%s", assertMessage.c_str(),
+                        LOG_WARNING, "REDFISH_MESSAGE_ID=%s", assertMessage.c_str(),
                         "REDFISH_MESSAGE_ARGS=%s,%s", psuName.c_str(),
                         fanName.c_str(), NULL);
                 }
@@ -284,7 +278,7 @@ void PSUSubEvent::updateValue(const int& newValue)
                 {
                     sd_journal_send(
                         "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
-                        LOG_ERR, "REDFISH_MESSAGE_ID=%s", assertMessage.c_str(),
+                        LOG_WARNING, "REDFISH_MESSAGE_ID=%s", assertMessage.c_str(),
                         "REDFISH_MESSAGE_ARGS=%s", psuName.c_str(), NULL);
                 }
             }
@@ -294,6 +288,7 @@ void PSUSubEvent::updateValue(const int& newValue)
             }
             (*combineEvent).emplace(eventName);
         }
+        (*asserts).emplace(path);
     }
     value = newValue;
 }
