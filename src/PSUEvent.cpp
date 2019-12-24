@@ -103,7 +103,7 @@ PSUSubEvent::PSUSubEvent(
     eventInterface(eventInterface),
     asserts(asserts), combineEvent(combineEvent), assertState(state),
     errCount(0), path(path), eventName(eventName), waitTimer(io),
-    inputDev(io, open(path.c_str(), O_RDONLY)), psuName(psuName)
+    inputDev(io, open(path.c_str(), O_RDONLY)), psuName(psuName), fanName("")
 {
     auto found = logID.find(eventName);
     if (found == logID.end())
@@ -206,29 +206,58 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
 // deasserted.
 void PSUSubEvent::updateValue(const int& newValue)
 {
+    value = newValue;
+
     if (newValue == 0)
     {
-        // log deassert only after all asserts are gone
-        if (!(*asserts).empty())
-        {
-            auto found = (*asserts).find(path);
-            if (found == (*asserts).end())
-            {
-                return;
-            }
-            (*asserts).erase(path);
+        bool findFanName = false;
+        bool assertsEmpty = false;
 
+        // log deassert only after all asserts are gone
+        for (const auto& assertPath : *asserts)
+        {
+            if (path == assertPath)
+            {
+                (*asserts).erase(path);
+                break;
+            }
+        }
+
+        assertsEmpty = (*asserts).empty();
+
+        if (!assertsEmpty && (eventName == "FanFault"))
+        {
+            for (const auto& assertPath : *asserts)
+            {
+                auto fanPos = assertPath.find(fanName);
+                if (fanPos != std::string::npos)
+                {
+                    findFanName = true;
+                    break;
+                }
+            }
+
+            if (findFanName == false)
+            {
+                assertsEmpty = true;
+            }
+        }
+
+        if (!assertsEmpty)
+        {
             return;
         }
+
         if (*assertState == true)
         {
             *assertState = false;
-            auto foundCombine = (*combineEvent).find(eventName);
+            auto foundCombine = (*combineEvent).find(eventName + fanName);
             if (foundCombine == (*combineEvent).end())
             {
                 return;
             }
-            (*combineEvent).erase(eventName);
+            (*combineEvent).erase(eventName + fanName);
+
             if (!deassertMessage.empty())
             {
                 // Fan Failed has two args
@@ -259,9 +288,29 @@ void PSUSubEvent::updateValue(const int& newValue)
     }
     else
     {
-        if ((*assertState == false) && ((*asserts).empty()))
+        bool findFanName = false;
+        bool assertsEmpty = (*asserts).empty();
+
+        if (eventName == "FanFault")
         {
-            *assertState = true;
+            for (const auto& assertPath : *asserts)
+            {
+                auto fanPos = assertPath.find(fanName);
+                if (fanPos != std::string::npos)
+                {
+                    findFanName = true;
+                    break;
+                }
+            }
+
+            if (findFanName == false)
+            {
+                assertsEmpty = true;
+            }
+        }
+
+        if ((*assertState == false) && assertsEmpty)
+        {
             if (!assertMessage.empty())
             {
                 // Fan Failed has two args
@@ -287,9 +336,10 @@ void PSUSubEvent::updateValue(const int& newValue)
             {
                 eventInterface->set_property("functional", false);
             }
-            (*combineEvent).emplace(eventName);
+            (*combineEvent).emplace(eventName + fanName);
         }
+
+        *assertState = true;
         (*asserts).emplace(path);
     }
-    value = newValue;
 }
