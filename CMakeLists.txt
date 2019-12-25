@@ -38,6 +38,7 @@ option (HUNTER_ENABLED "Enable hunter package pulling" OFF)
 
 option (DISABLE_ADC "Disable installing ADC sensor" OFF)
 option (DISBALE_CPU "Disable installing CPU sensor" OFF)
+option (DISABLE_OEM "Disable installing OEM sensor" OFF)
 option (DISABLE_EXIT_AIR "Disable installing Exit Air Temp sensor" OFF)
 option (DISABLE_FAN "Disable installing fan sensor" OFF)
 option (DISABLE_HWMON_TEMP "Disable installing hwmon temp sensor" OFF)
@@ -56,6 +57,8 @@ project (sensors CXX)
 set (ADC_SRC_FILES src/Utils.cpp src/ADCSensor.cpp src/Thresholds.cpp)
 
 set (CPU_SRC_FILES src/Utils.cpp src/CPUSensor.cpp src/Thresholds.cpp)
+
+set (OEM_SRC_FILES src/Utils.cpp src/OEMSensor.cpp)
 
 set (EXIT_AIR_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 
@@ -157,6 +160,11 @@ add_dependencies (cpusensor sdbusplus-project)
 target_link_libraries (cpusensor ${SENSOR_LINK_LIBS})
 target_link_libraries (cpusensor gpiodcxx)
 
+add_executable (oemsensor src/OEMSensorMain.cpp ${OEM_SRC_FILES})
+add_dependencies (oemsensor sdbusplus-project)
+target_link_libraries (oemsensor ${SENSOR_LINK_LIBS})
+target_link_libraries (oemsensor i2c)
+
 add_executable (exitairtempsensor src/ExitAirTempSensor.cpp
                 ${EXIT_AIR_SRC_FILES})
 add_dependencies (exitairtempsensor sdbusplus-project)
@@ -192,6 +200,7 @@ target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 if (NOT YOCTO)
     add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
     add_dependencies (cpusensor ${EXTERNAL_PACKAGES})
+    add_dependencies (oemsensor ${EXTERNAL_PACKAGES})
     add_dependencies (exitairtempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (fansensor ${EXTERNAL_PACKAGES})
     add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
@@ -215,6 +224,13 @@ if (NOT DISABLE_CPU)
     install (TARGETS cpusensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.cpusensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
+if (NOT DISABLE_OEM)
+    install (TARGETS oemsensor DESTINATION bin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.oemsensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
 
