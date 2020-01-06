@@ -29,22 +29,16 @@ const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
 using BasicVariantType =
     std::variant<std::vector<std::string>, std::string, int64_t, uint64_t,
                  double, int32_t, uint32_t, int16_t, uint16_t, uint8_t, bool>;
-
-using ManagedObjectType = boost::container::flat_map<
-    sdbusplus::message::object_path,
-    boost::container::flat_map<
-        std::string,
-        boost::container::flat_map<std::string, BasicVariantType>>>;
-using SensorData = boost::container::flat_map<
-    std::string, boost::container::flat_map<std::string, BasicVariantType>>;
+using SensorBaseConfigMap =
+    boost::container::flat_map<std::string, BasicVariantType>;
+using SensorBaseConfiguration = std::pair<std::string, SensorBaseConfigMap>;
+using SensorData = boost::container::flat_map<std::string, SensorBaseConfigMap>;
+using ManagedObjectType =
+    boost::container::flat_map<sdbusplus::message::object_path, SensorData>;
 
 using GetSubTreeType = std::vector<
     std::pair<std::string,
               std::vector<std::pair<std::string, std::vector<std::string>>>>>;
-using SensorBaseConfiguration =
-    std::pair<std::string,
-              boost::container::flat_map<std::string, BasicVariantType>>;
-
 using Association = std::tuple<std::string, std::string, std::string>;
 
 bool findFiles(const std::filesystem::path dirPath,
