@@ -39,14 +39,15 @@
 static constexpr bool DEBUG = false;
 
 namespace fs = std::filesystem;
-static constexpr std::array<const char*, 7> sensorTypes = {
-    "xyz.openbmc_project.Configuration.TMP75",
-    "xyz.openbmc_project.Configuration.TMP421",
-    "xyz.openbmc_project.Configuration.TMP441",
+static constexpr std::array<const char*, 8> sensorTypes = {
+    "xyz.openbmc_project.Configuration.EMC1413",
+    "xyz.openbmc_project.Configuration.MAX31725",
+    "xyz.openbmc_project.Configuration.MAX31730",
     "xyz.openbmc_project.Configuration.TMP112",
     "xyz.openbmc_project.Configuration.TMP175",
-    "xyz.openbmc_project.Configuration.EMC1413",
-    "xyz.openbmc_project.Configuration.MAX31725"};
+    "xyz.openbmc_project.Configuration.TMP421",
+    "xyz.openbmc_project.Configuration.TMP441",
+    "xyz.openbmc_project.Configuration.TMP75"};
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -112,10 +113,8 @@ void createSensors(
                 const SensorData* sensorData = nullptr;
                 const std::string* interfacePath = nullptr;
                 const char* sensorType = nullptr;
-                const std::pair<
-                    std::string,
-                    boost::container::flat_map<std::string, BasicVariantType>>*
-                    baseConfiguration = nullptr;
+                const SensorBaseConfiguration* baseConfiguration = nullptr;
+                const SensorBaseConfigMap* baseConfigMap = nullptr;
 
                 for (const std::pair<sdbusplus::message::object_path,
                                      SensorData>& sensor : sensorConfigurations)
@@ -137,16 +136,15 @@ void createSensors(
                                   << deviceName << "\n";
                         continue;
                     }
-                    auto configurationBus =
-                        baseConfiguration->second.find("Bus");
-                    auto configurationAddress =
-                        baseConfiguration->second.find("Address");
+                    baseConfigMap = &baseConfiguration->second;
+                    auto configurationBus = baseConfigMap->find("Bus");
+                    auto configurationAddress = baseConfigMap->find("Address");
 
-                    if (configurationBus == baseConfiguration->second.end() ||
-                        configurationAddress == baseConfiguration->second.end())
+                    if (configurationBus == baseConfigMap->end() ||
+                        configurationAddress == baseConfigMap->end())
                     {
-                        std::cerr
-                            << "error finding bus or address in configuration";
+                        std::cerr << "error finding bus or address in "
+                                     "configuration\n";
                         continue;
                     }
 
@@ -167,8 +165,8 @@ void createSensors(
                     continue;
                 }
 
-                auto findSensorName = baseConfiguration->second.find("Name");
-                if (findSensorName == baseConfiguration->second.end())
+                auto findSensorName = baseConfigMap->find("Name");
+                if (findSensorName == baseConfigMap->end())
                 {
                     std::cerr << "could not determine configuration name for "
                               << deviceName << "\n";
@@ -203,24 +201,37 @@ void createSensors(
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
                 }
-                auto& sensor1 = sensors[sensorName];
-                sensor1 = nullptr;
-                sensor1 = std::make_unique<HwmonTempSensor>(
+                auto& sensor = sensors[sensorName];
+                sensor = nullptr;
+                sensor = std::make_unique<HwmonTempSensor>(
                     directory.string() + "/temp1_input", sensorType,
                     objectServer, dbusConnection, io, sensorName,
                     std::move(sensorThresholds), *interfacePath);
-                auto findSecondName = baseConfiguration->second.find("Name1");
-                if (findSecondName == baseConfiguration->second.end())
+
+                // Looking for keys like "Name1" for temp2_input,
+                // "Name2" for temp3_input, etc.
+                int i = 0;
+                while (true)
                 {
-                    continue;
+                    ++i;
+                    auto findKey =
+                        baseConfigMap->find("Name" + std::string(1, '0' + i));
+                    if (findKey == baseConfigMap->end())
+                    {
+                        break;
+                    }
+
+                    std::string sensorName =
+                        std::get<std::string>(findKey->second);
+                    auto& sensor = sensors[sensorName];
+                    sensor = nullptr;
+                    sensor = std::make_unique<HwmonTempSensor>(
+                        directory.string() + "/temp" + std::string(1, '1' + i) +
+                            "_input",
+                        sensorType, objectServer, dbusConnection, io,
+                        sensorName, std::vector<thresholds::Threshold>(),
+                        *interfacePath);
                 }
-                sensorName = std::get<std::string>(findSecondName->second);
-                auto& sensor2 = sensors[sensorName];
-                sensor2 = nullptr;
-                sensor2 = std::make_unique<HwmonTempSensor>(
-                    directory.string() + "/temp2_input", sensorType,
-                    objectServer, dbusConnection, io, sensorName,
-                    std::vector<thresholds::Threshold>(), *interfacePath);
             }
         }));
     getter->getConfiguration(
