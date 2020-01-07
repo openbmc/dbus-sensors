@@ -61,6 +61,10 @@ static boost::container::flat_map<std::string, PSUProperty> labelMatch;
 static boost::container::flat_map<std::string, std::string> pwmTable;
 static boost::container::flat_map<std::string, std::vector<std::string>>
     eventMatch;
+static boost::container::flat_map<
+    std::string,
+    boost::container::flat_map<std::string, std::vector<std::string>>>
+    groupEventMatch;
 static boost::container::flat_map<std::string, std::vector<std::string>>
     limitEventMatch;
 
@@ -92,6 +96,46 @@ void checkEvent(
 
             eventPathList[eventName].push_back(eventPath);
         }
+    }
+}
+
+// Check Group Events which contains more than one targets in each combine
+// events.
+void checkGroupEvent(
+    const std::string& directory,
+    const boost::container::flat_map<
+        std::string,
+        boost::container::flat_map<std::string, std::vector<std::string>>>&
+        groupEventMatch,
+    boost::container::flat_map<
+        std::string,
+        boost::container::flat_map<std::string, std::vector<std::string>>>&
+        groupEventPathList)
+{
+    for (const auto& match : groupEventMatch)
+    {
+        const std::string& groupEventName = match.first;
+        const boost::container::flat_map<std::string, std::vector<std::string>>
+            events = match.second;
+        boost::container::flat_map<std::string, std::vector<std::string>>
+            pathList;
+        for (const auto& match : events)
+        {
+            const std::string& eventName = match.first;
+            const std::vector<std::string>& eventAttrs = match.second;
+            for (const auto& eventAttr : eventAttrs)
+            {
+                auto eventPath = directory + "/" + eventAttr;
+                std::ifstream eventFile(eventPath);
+                if (!eventFile.good())
+                {
+                    continue;
+                }
+
+                pathList[eventName].push_back(eventPath);
+            }
+        }
+        groupEventPathList[groupEventName] = pathList;
     }
 }
 
@@ -192,6 +236,10 @@ void createSensors(boost::asio::io_service& io,
     {
         boost::container::flat_map<std::string, std::vector<std::string>>
             eventPathList;
+        boost::container::flat_map<
+            std::string,
+            boost::container::flat_map<std::string, std::vector<std::string>>>
+            groupEventPathList;
 
         std::ifstream nameFile(pmbusPath);
         if (!nameFile.good())
@@ -331,6 +379,8 @@ void createSensors(boost::asio::io_service& io,
             continue;
         }
         checkEvent(directory.string(), eventMatch, eventPathList);
+        checkGroupEvent(directory.string(), groupEventMatch,
+                        groupEventPathList);
 
         /* Check if there are more sensors in the same interface */
         int i = 1;
@@ -680,8 +730,9 @@ void createSensors(boost::asio::io_service& io,
         // OperationalStatus event
         combineEvents[*psuName + "OperationalStatus"] = nullptr;
         combineEvents[*psuName + "OperationalStatus"] =
-            std::make_unique<PSUCombineEvent>(
-                objectServer, io, *psuName, eventPathList, "OperationalStatus");
+            std::make_unique<PSUCombineEvent>(objectServer, io, *psuName,
+                                              eventPathList, groupEventPathList,
+                                              "OperationalStatus");
     }
 
     if constexpr (DEBUG)
@@ -740,12 +791,14 @@ void propertyInitialize(void)
     limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
                        {"Failure", {"crit_alarm", "lcrit_alarm"}}};
 
-    eventMatch = {
-        {"PredictiveFailure", {"power1_alarm"}},
-        {"Failure", {"in2_alarm"}},
-        {"ACLost", {"in1_beep"}},
-        {"FanFault", {"fan1_alarm", "fan2_alarm", "fan1_fault", "fan2_fault"}},
-        {"ConfigureError", {"in1_fault"}}};
+    eventMatch = {{"PredictiveFailure", {"power1_alarm"}},
+                  {"Failure", {"in2_alarm"}},
+                  {"ACLost", {"in1_beep"}},
+                  {"ConfigureError", {"in1_fault"}}};
+
+    groupEventMatch = {{"FanFault",
+                        {{"fan1", {"fan1_alarm", "fan1_fault"}},
+                         {"fan2", {"fan2_alarm", "fan2_fault"}}}}};
 }
 
 int main()
