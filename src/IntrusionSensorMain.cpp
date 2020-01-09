@@ -53,7 +53,7 @@ namespace fs = std::filesystem;
 
 static bool getIntrusionSensorConfig(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    IntrusionSensorType* pType, int* pBusId, int* pSlaveAddr, int* pGpioIndex,
+    IntrusionSensorType* pType, int* pBusId, int* pSlaveAddr,
     bool* pGpioInverted)
 {
     // find matched configuration according to sensor type
@@ -105,30 +105,17 @@ static bool getIntrusionSensorConfig(
         // case to find GPIO info
         if (*pType == IntrusionSensorType::gpio)
         {
-            auto gpioConfig =
-                sensorData->find(sensorType + std::string(".GpioIntrusion"));
+            auto findGpioPolarity =
+                baseConfiguration->second.find("GpioPolarity");
 
-            if (gpioConfig == sensorData->end())
+            if (findGpioPolarity == baseConfiguration->second.end())
             {
-                std::cerr
-                    << "error finding GpioIntrusion info in configuration \n";
-                continue;
-            }
-
-            auto findGpioIndex = gpioConfig->second.find("Index");
-            auto findGpioPolarity = gpioConfig->second.find("Polarity");
-
-            if (findGpioIndex == gpioConfig->second.end() ||
-                findGpioPolarity == gpioConfig->second.end())
-            {
-                std::cerr << "error finding gpio info in configuration \n";
+                std::cerr << "error finding gpio polarity in configuration \n";
                 continue;
             }
 
             try
             {
-                *pGpioIndex = sdbusplus::message::variant_ns::get<uint64_t>(
-                    findGpioIndex->second);
                 *pGpioInverted =
                     (sdbusplus::message::variant_ns::get<std::string>(
                          findGpioPolarity->second) == "Low");
@@ -141,9 +128,9 @@ static bool getIntrusionSensorConfig(
 
             if (DEBUG)
             {
-                std::cout << "find matched GPIO index " << *pGpioIndex
-                          << ", polarity inverted flag is " << *pGpioInverted
-                          << "\n";
+                std::cout << "find chassis intrusion sensor polarity inverted "
+                             "flag is "
+                          << *pGpioInverted << "\n";
             }
 
             return true;
@@ -187,7 +174,6 @@ static bool getIntrusionSensorConfig(
                  "sensor. \n";
     *pBusId = -1;
     *pSlaveAddr = -1;
-    *pGpioIndex = -1;
     return false;
 }
 
@@ -457,7 +443,7 @@ static void
 
 int main()
 {
-    int busId = -1, slaveAddr = -1, gpioIndex = -1;
+    int busId = -1, slaveAddr = -1;
     bool gpioInverted = false;
     IntrusionSensorType type = IntrusionSensorType::gpio;
 
@@ -477,10 +463,9 @@ int main()
     ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
 
     if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                 &gpioIndex, &gpioInverted))
+                                 &gpioInverted))
     {
-        chassisIntrusionSensor.start(type, busId, slaveAddr, gpioIndex,
-                                     gpioInverted);
+        chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
     }
 
     // callback to handle configuration change
@@ -494,9 +479,9 @@ int main()
 
             std::cout << "rescan due to configuration change \n";
             if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                         &gpioIndex, &gpioInverted))
+                                         &gpioInverted))
             {
-                chassisIntrusionSensor.start(type, busId, slaveAddr, gpioIndex,
+                chassisIntrusionSensor.start(type, busId, slaveAddr,
                                              gpioInverted);
             }
         };

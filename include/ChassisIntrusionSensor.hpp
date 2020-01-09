@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gpiod.hpp>
 #include <memory>
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
@@ -20,7 +21,7 @@ class ChassisIntrusionSensor
     ~ChassisIntrusionSensor();
 
     void start(IntrusionSensorType type, int busId, int slaveAddr,
-               int gpioIndex, bool gpioInverted);
+               bool gpioInverted);
 
   private:
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
@@ -38,10 +39,10 @@ class ChassisIntrusionSensor
     boost::asio::deadline_timer mPollTimer;
 
     // valid if it is via GPIO
-    int mGpioIndex;
     bool mGpioInverted;
-    boost::asio::ip::tcp::socket mInputDev;
-    int mFd;
+    std::string mPinName = "CHASSIS_INTRUSION";
+    gpiod::line mGpioLine;
+    boost::asio::posix::stream_descriptor mGpioFd;
 
     // common members
     bool mOverridenState = false;
@@ -54,6 +55,6 @@ class ChassisIntrusionSensor
     void pollSensorStatusByPch();
     void readGpio();
     void pollSensorStatusByGpio();
-    void initGpioDeviceFile(const int index);
+    void initGpioDeviceFile();
     int setSensorValue(const std::string& req, std::string& propertyValue);
 };
