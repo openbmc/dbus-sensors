@@ -34,6 +34,10 @@ PSUCombineEvent::PSUCombineEvent(
     const std::string& psuName,
     boost::container::flat_map<std::string, std::vector<std::string>>&
         eventPathList,
+    boost::container::flat_map<
+        std::string,
+        boost::container::flat_map<std::string, std::vector<std::string>>>&
+        groupEventPathList,
     const std::string& combineEventName) :
     objServer(objectServer)
 {
@@ -54,23 +58,52 @@ PSUCombineEvent::PSUCombineEvent(
     {
         std::shared_ptr<std::set<std::string>> assert =
             std::make_shared<std::set<std::string>>();
+        std::shared_ptr<bool> state = std::make_shared<bool>(false);
 
         const std::string& eventName = pathList.first;
         std::string eventPSUName = eventName + psuName;
         for (const auto& path : pathList.second)
         {
-            std::shared_ptr<bool> state = std::make_shared<bool>(false);
             events[eventPSUName].emplace_back(std::make_unique<PSUSubEvent>(
-                eventInterface, path, io, eventName, assert, combineEvent,
-                state, psuName));
+                eventInterface, path, io, eventName, eventName, assert,
+                combineEvent, state, psuName));
             asserts.emplace_back(assert);
             states.emplace_back(state);
+        }
+    }
+
+    for (const auto& groupPathList : groupEventPathList)
+    {
+        for (const auto& pathList : groupPathList.second)
+        {
+            std::shared_ptr<std::set<std::string>> assert =
+                std::make_shared<std::set<std::string>>();
+            std::shared_ptr<bool> state = std::make_shared<bool>(false);
+
+            const std::string& groupEventName = pathList.first;
+            std::string eventPSUName = groupEventName + psuName;
+            for (const auto& path : pathList.second)
+            {
+                events[eventPSUName].emplace_back(std::make_unique<PSUSubEvent>(
+                    eventInterface, path, io, groupEventName,
+                    groupPathList.first, assert, combineEvent, state, psuName));
+                asserts.emplace_back(assert);
+                states.emplace_back(state);
+            }
         }
     }
 }
 
 PSUCombineEvent::~PSUCombineEvent()
 {
+    // Clear unique_ptr first
+    for (auto& event : events)
+    {
+        for (auto& subEventPtr : event.second)
+        {
+            subEventPtr.reset();
+        }
+    }
     events.clear();
     objServer.remove_interface(eventInterface);
 }
@@ -96,14 +129,15 @@ static boost::container::flat_map<std::string,
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
     const std::string& path, boost::asio::io_service& io,
-    const std::string& eventName,
+    const std::string& groupEventName, const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
     std::shared_ptr<bool> state, const std::string& psuName) :
     eventInterface(eventInterface),
     asserts(asserts), combineEvent(combineEvent), assertState(state),
     errCount(0), path(path), eventName(eventName), waitTimer(io),
-    inputDev(io, open(path.c_str(), O_RDONLY)), psuName(psuName)
+    inputDev(io, open(path.c_str(), O_RDONLY)), psuName(psuName),
+    groupEventName(groupEventName)
 {
     auto found = logID.find(eventName);
     if (found == logID.end())
@@ -223,12 +257,12 @@ void PSUSubEvent::updateValue(const int& newValue)
         if (*assertState == true)
         {
             *assertState = false;
-            auto foundCombine = (*combineEvent).find(eventName);
+            auto foundCombine = (*combineEvent).find(groupEventName);
             if (foundCombine == (*combineEvent).end())
             {
                 return;
             }
-            (*combineEvent).erase(eventName);
+            (*combineEvent).erase(groupEventName);
             if (!deassertMessage.empty())
             {
                 // Fan Failed has two args
@@ -287,7 +321,7 @@ void PSUSubEvent::updateValue(const int& newValue)
             {
                 eventInterface->set_property("functional", false);
             }
-            (*combineEvent).emplace(eventName);
+            (*combineEvent).emplace(groupEventName);
         }
         (*asserts).emplace(path);
     }
