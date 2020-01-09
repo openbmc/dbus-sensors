@@ -181,6 +181,7 @@ add_executable (intrusionsensor src/IntrusionSensorMain.cpp
 add_dependencies (intrusionsensor sdbusplus-project)
 target_link_libraries (intrusionsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (intrusionsensor i2c)
+target_link_libraries (intrusionsensor gpiodcxx)
 
 add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
 add_dependencies (ipmbsensor sdbusplus-project)

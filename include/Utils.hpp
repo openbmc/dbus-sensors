@@ -17,7 +17,6 @@
 #include <variant>
 #include <vector>
 
-constexpr const char* gpioPath = "/sys/class/gpio/";
 const constexpr char* jsonStore = "/var/configuration/flattened.json";
 const constexpr char* inventoryPath = "/xyz/openbmc_project/inventory";
 const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
