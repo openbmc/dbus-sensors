@@ -28,7 +28,7 @@ class PSUSubEvent
   public:
     PSUSubEvent(std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
                 const std::string& path, boost::asio::io_service& io,
-                const std::string& eventName,
+                const std::string& groupEventName, const std::string& eventName,
                 std::shared_ptr<std::set<std::string>> asserts,
                 std::shared_ptr<std::set<std::string>> combineEvent,
                 std::shared_ptr<bool> state, const std::string& psuName);
@@ -44,6 +44,7 @@ class PSUSubEvent
     size_t errCount;
     std::string path;
     std::string eventName;
+    std::string groupEventName;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     void setupRead(void);
@@ -66,6 +67,10 @@ class PSUCombineEvent
         boost::asio::io_service& io, const std::string& psuName,
         boost::container::flat_map<std::string, std::vector<std::string>>&
             eventPathList,
+        boost::container::flat_map<
+            std::string,
+            boost::container::flat_map<std::string, std::vector<std::string>>>&
+            groupEventPathList,
         const std::string& combineEventName);
     ~PSUCombineEvent();
 
