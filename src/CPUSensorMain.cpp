@@ -673,7 +673,6 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     boost::container::flat_set<CPUConfig> cpuConfigs;
 
-    systemBus->request_name("xyz.openbmc_project.CPUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     boost::asio::deadline_timer pingTimer(io);
@@ -681,19 +680,15 @@ int main()
     boost::asio::deadline_timer filterTimer(io);
     ManagedObjectType sensorConfigs;
 
-    filterTimer.expires_from_now(boost::posix_time::seconds(1));
-    filterTimer.async_wait([&](const boost::system::error_code& ec) {
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            return; // we're being canceled
-        }
-
+    io.post([&]() {
         if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs, objectServer))
         {
             detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                            systemBus, cpuConfigs, sensorConfigs);
         }
     });
+    io.post(
+        [&]() { systemBus->request_name("xyz.openbmc_project.CPUSensor"); });
 
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
