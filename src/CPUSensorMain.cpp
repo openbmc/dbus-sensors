@@ -673,7 +673,6 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     boost::container::flat_set<CPUConfig> cpuConfigs;
 
-    systemBus->request_name("xyz.openbmc_project.CPUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     boost::asio::deadline_timer pingTimer(io);
@@ -736,5 +735,6 @@ int main()
         matches.emplace_back(std::move(match));
     }
 
+    systemBus->request_name("xyz.openbmc_project.CPUSensor");
     io.run();
 }
