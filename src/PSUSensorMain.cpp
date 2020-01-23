@@ -39,14 +39,18 @@
 
 static constexpr bool DEBUG = false;
 
-static constexpr std::array<const char*, 4> sensorTypes = {
-    "xyz.openbmc_project.Configuration.pmbus",
-    "xyz.openbmc_project.Configuration.MAX34451",
+static constexpr std::array<const char*, 7> sensorTypes = {
     "xyz.openbmc_project.Configuration.INA230",
-    "xyz.openbmc_project.Configuration.ISL68137"};
+    "xyz.openbmc_project.Configuration.ISL68137",
+    "xyz.openbmc_project.Configuration.MAX20730",
+    "xyz.openbmc_project.Configuration.MAX20734",
+    "xyz.openbmc_project.Configuration.MAX20796",
+    "xyz.openbmc_project.Configuration.MAX34451",
+    "xyz.openbmc_project.Configuration.pmbus"};
 
-static std::vector<std::string> pmbusNames = {"pmbus",  "pxe1610",  "ina219",
-                                              "ina230", "max34451", "isl68137"};
+static std::vector<std::string> pmbusNames = {
+    "isl68137", "ina219",   "ina230", "max20730", "max20734",
+    "max20796", "max34451", "pmbus",  "pxe1610"};
 
 namespace fs = std::filesystem;
 
