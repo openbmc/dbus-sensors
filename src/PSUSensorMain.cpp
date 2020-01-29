@@ -39,9 +39,10 @@
 
 static constexpr bool DEBUG = false;
 
-static constexpr std::array<const char*, 7> sensorTypes = {
+static constexpr std::array<const char*, 8> sensorTypes = {
     "xyz.openbmc_project.Configuration.INA230",
     "xyz.openbmc_project.Configuration.ISL68137",
+    "xyz.openbmc_project.Configuration.MAX16601",
     "xyz.openbmc_project.Configuration.MAX20730",
     "xyz.openbmc_project.Configuration.MAX20734",
     "xyz.openbmc_project.Configuration.MAX20796",
@@ -49,7 +50,7 @@ static constexpr std::array<const char*, 7> sensorTypes = {
     "xyz.openbmc_project.Configuration.pmbus"};
 
 static std::vector<std::string> pmbusNames = {
-    "isl68137", "ina219",   "ina230", "max20730", "max20734",
+    "isl68137", "ina219",   "ina230", "max16601", "max20730", "max20734",
     "max20796", "max34451", "pmbus",  "pxe1610"};
 
 namespace fs = std::filesystem;
@@ -811,6 +812,7 @@ void propertyInitialize(void)
                   {"temp3", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp4", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp5", PSUProperty("Temperature", 127, -128, 3)},
+                  {"temp6", PSUProperty("Temperature", 127, -128, 3)},
                   {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0)},
                   {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0)}};
 
