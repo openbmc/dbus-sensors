@@ -228,6 +228,12 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
             constexpr const size_t errorThreshold = 5;
             if (errorCode)
             {
+                sensor->errorCount = 0;
+                return;
+            }
+            if (!isPowerOn())
+            {
+                sensor->errorCount = 0;
                 return;
             }
             if (sensor->errorCount < errorThreshold)
@@ -474,5 +480,9 @@ NVMeSensor::~NVMeSensor()
 
 void NVMeSensor::checkThresholds(void)
 {
+    if (!isPowerOn())
+    {
+        return;
+    }
     thresholds::checkThresholds(this);
 }
