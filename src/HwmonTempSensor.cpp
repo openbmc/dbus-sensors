@@ -43,12 +43,12 @@ HwmonTempSensor::HwmonTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& _thresholds,
-    const std::string& sensorConfiguration) :
+    const std::string& sensorConfiguration, const PowerState powerState) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading),
     objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), path(path), errCount(0)
+    waitTimer(io), path(path), errCount(0), readState(powerState)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -70,6 +70,7 @@ HwmonTempSensor::HwmonTempSensor(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);
     setInitialProperties(conn);
+    setupPowerMatch(conn);
     setupRead();
 }
 
@@ -154,5 +155,9 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
 
 void HwmonTempSensor::checkThresholds(void)
 {
+    if (readState == PowerState::on && !isPowerOn())
+    {
+        return;
+    }
     thresholds::checkThresholds(this);
 }

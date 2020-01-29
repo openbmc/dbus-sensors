@@ -201,12 +201,20 @@ void createSensors(
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
                 }
+                auto findPowerOn = baseConfiguration->second.find("PowerState");
+                PowerState readState = PowerState::always;
+                if (findPowerOn != baseConfiguration->second.end())
+                {
+                    std::string powerState = std::visit(
+                        VariantToStringVisitor(), findPowerOn->second);
+                    setReadState(powerState, readState);
+                }
                 auto& sensor = sensors[sensorName];
                 sensor = nullptr;
                 sensor = std::make_unique<HwmonTempSensor>(
                     directory.string() + "/temp1_input", sensorType,
                     objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), *interfacePath);
+                    std::move(sensorThresholds), *interfacePath, readState);
 
                 // Looking for keys like "Name1" for temp2_input,
                 // "Name2" for temp3_input, etc.
@@ -230,7 +238,7 @@ void createSensors(
                             "_input",
                         sensorType, objectServer, dbusConnection, io,
                         sensorName, std::vector<thresholds::Threshold>(),
-                        *interfacePath);
+                        *interfacePath, readState);
                 }
             }
         }));

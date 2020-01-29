@@ -15,7 +15,8 @@ class HwmonTempSensor : public Sensor
                     std::shared_ptr<sdbusplus::asio::connection>& conn,
                     boost::asio::io_service& io, const std::string& fanName,
                     std::vector<thresholds::Threshold>&& thresholds,
-                    const std::string& sensorConfiguration);
+                    const std::string& sensorConfiguration,
+                    const PowerState powerState);
     ~HwmonTempSensor();
 
   private:
@@ -24,6 +25,7 @@ class HwmonTempSensor : public Sensor
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string path;
+    PowerState readState;
     size_t errCount;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
