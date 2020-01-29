@@ -228,9 +228,15 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
             constexpr const size_t errorThreshold = 5;
             if (errorCode)
             {
+                sensor->errorCount = 0;
                 return;
             }
-            if (sensor->errorCount < errorThreshold)
+            if (!isPowerOn())
+            {
+                sensor->errorCount = 0;
+                sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
+            }
+            else if (sensor->errorCount < errorThreshold)
             {
                 std::cerr << "MCTP timeout device " << sensor->name << "\n";
                 sensor->errorCount++;
@@ -474,5 +480,9 @@ NVMeSensor::~NVMeSensor()
 
 void NVMeSensor::checkThresholds(void)
 {
+    if (!isPowerOn())
+    {
+        return;
+    }
     thresholds::checkThresholds(this);
 }
