@@ -474,5 +474,9 @@ NVMeSensor::~NVMeSensor()
 
 void NVMeSensor::checkThresholds(void)
 {
+    if (!isPowerOn())
+    {
+        return;
+    }
     thresholds::checkThresholds(this);
 }
