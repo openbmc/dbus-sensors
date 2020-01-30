@@ -157,9 +157,13 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
             errCount++;
         }
     }
+    else if (readState == PowerState::on && !isPowerOn())
+    {
+        errCount = 0;
+        updateValue(std::numeric_limits<double>::quiet_NaN());
+    }
     else
     {
-
         errCount++;
     }
     // only print once
