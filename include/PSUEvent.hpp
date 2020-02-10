@@ -41,6 +41,7 @@ class PSUSubEvent
 
   private:
     int value = 0;
+    int fd;
     size_t errCount;
     std::string path;
     std::string eventName;
