@@ -836,7 +836,7 @@ int main()
                 std::cerr << "callback method error\n";
                 return;
             }
-            filterTimer.expires_from_now(boost::posix_time::seconds(1));
+            filterTimer.expires_from_now(boost::posix_time::seconds(3));
             filterTimer.async_wait([&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {

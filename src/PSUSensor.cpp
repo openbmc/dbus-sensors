@@ -44,8 +44,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      double max, double min) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
-    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), path(path), errCount(0),
+    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
+    errCount(0),
 
     sensorFactor(factor)
 {
@@ -57,6 +57,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                   << " min " << min << " max " << max << " name \""
                   << sensorName << "\"\n";
     }
+
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        std::cerr << "PSU sensor failed to open file\n";
+        return;
+    }
+    inputDev.assign(fd);
 
     std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
 
@@ -83,8 +91,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
 
 PSUSensor::~PSUSensor()
 {
-    inputDev.close();
     waitTimer.cancel();
+    inputDev.close();
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
@@ -156,15 +164,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         errCount++;
     }
 
-    responseStream.clear();
-    inputDev.close();
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd < 0)
-    {
-        std::cerr << "Failed to open path " << path << "\n";
-        return;
-    }
-    inputDev.assign(fd);
+    lseek(fd, 0, SEEK_SET);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
     waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
