@@ -33,7 +33,8 @@ class PSUSensor : public Sensor
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
 
-    static constexpr unsigned int sensorPollMs = 500;
+    int fd;
+    static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
 };
 
