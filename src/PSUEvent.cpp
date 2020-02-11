@@ -135,10 +135,17 @@ PSUSubEvent::PSUSubEvent(
     std::shared_ptr<bool> state, const std::string& psuName) :
     eventInterface(eventInterface),
     asserts(asserts), combineEvent(combineEvent), assertState(state),
-    errCount(0), path(path), eventName(eventName), waitTimer(io),
-    inputDev(io, open(path.c_str(), O_RDONLY)), psuName(psuName),
-    groupEventName(groupEventName)
+    errCount(0), path(path), eventName(eventName), waitTimer(io), inputDev(io),
+    psuName(psuName), groupEventName(groupEventName)
 {
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        std::cerr << "PSU sub event failed to open file\n";
+        return;
+    }
+    inputDev.assign(fd);
+
     auto found = logID.find(eventName);
     if (found == logID.end())
     {
@@ -174,8 +181,8 @@ void PSUSubEvent::setupRead(void)
 
 PSUSubEvent::~PSUSubEvent()
 {
-    inputDev.close();
     waitTimer.cancel();
+    inputDev.close();
 }
 
 void PSUSubEvent::handleResponse(const boost::system::error_code& err)
@@ -217,14 +224,7 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
         updateValue(0);
         errCount++;
     }
-    responseStream.clear();
-    inputDev.close();
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd < 0)
-    {
-        return;
-    }
-    inputDev.assign(fd);
+    lseek(fd, 0, SEEK_SET);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(eventPollMs));
     waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
