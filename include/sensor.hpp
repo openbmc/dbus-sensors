@@ -39,6 +39,8 @@ struct Sensor
     bool overriddenState = false;
     bool internalSet = false;
     double hysteresis;
+    std::string thresLabel = "";
+    size_t thresSize;
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
@@ -58,7 +60,9 @@ struct Sensor
     }
 
     void
-        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn)
+        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                             std::string* label = nullptr,
+                             std::shared_ptr<size_t> thresholdSize = nullptr)
     {
         createAssociation(association, configurationPath);
         sensorInterface->register_property("MaxValue", maxValue);
@@ -111,16 +115,41 @@ struct Sensor
                 std::cout << "trying to set uninitialized interface\n";
                 continue;
             }
-            iface->register_property(
-                level, threshold.value,
-                [&](const double& request, double& oldValue) {
-                    oldValue = request; // todo, just let the config do this?
-                    threshold.value = request;
-                    thresholds::persistThreshold(configurationPath, objectType,
-                                                 threshold, conn,
-                                                 thresholds.size());
-                    return 1;
-                });
+
+            if (thresholdSize == nullptr)
+            {
+                std::string emptyString = "";
+                iface->register_property(
+                    level, threshold.value,
+                    [&](const double& request, double& oldValue) {
+                        oldValue =
+                            request; // todo, just let the config do this?
+                        threshold.value = request;
+                        thresholds::persistThreshold(
+                            configurationPath, objectType, threshold, conn,
+                            thresholds.size(), emptyString);
+                        return 1;
+                    });
+            }
+            else
+            {
+                thresSize = *thresholdSize;
+                if (label != nullptr)
+                {
+                    thresLabel = *label;
+                }
+                iface->register_property(
+                    level, threshold.value,
+                    [&](const double& request, double& oldValue) {
+                        oldValue = request;
+                        threshold.value = request;
+                        thresholds::persistThreshold(
+                            configurationPath, objectType, threshold, conn,
+                            thresSize, thresLabel);
+                        return 1;
+                    });
+            }
+
             iface->register_property(alarm, false);
         }
         if (!sensorInterface->initialize())

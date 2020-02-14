@@ -41,13 +41,12 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
-                     double max, double min) :
+                     double max, double min, std::string* label,
+                     std::unique_ptr<size_t> tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
-    errCount(0),
-
-    sensorFactor(factor)
+    errCount(0), label(label), sensorFactor(factor)
 {
     if constexpr (DEBUG)
     {
@@ -83,7 +82,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(conn);
+    if (label != nullptr)
+    {
+        setInitialProperties(conn, label, std::move(tSize));
+    }
+    else
+    {
+        setInitialProperties(conn);
+    }
 
     createInventoryAssoc(conn, association, configurationPath);
     setupRead();
@@ -93,6 +99,7 @@ PSUSensor::~PSUSensor()
 {
     waitTimer.cancel();
     inputDev.close();
+    objServer.remove_interface(association);
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);

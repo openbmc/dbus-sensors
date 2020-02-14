@@ -216,7 +216,7 @@ void createSensors(boost::asio::io_service& io,
 
     // TODO may need only modify the ones that need to be changed.
     sensors.clear();
-    combineEvents.clear();
+    // combineEvents.clear();
     for (const char* type : sensorTypes)
     {
         if (!getSensorConfiguration(type, dbusConnection, sensorConfigs,
@@ -308,6 +308,8 @@ void createSensors(boost::asio::io_service& io,
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;
         const char* sensorType = nullptr;
+        std::unique_ptr<size_t> thresholdSize = nullptr;
+        const uint64_t* thresholdConfSize = nullptr;
 
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigs)
@@ -356,6 +358,13 @@ void createSensors(boost::asio::io_service& io,
                           << *confAddr << " because not " << bus << "-" << addr
                           << "\n";
                 continue;
+            }
+
+            auto configTSize = baseConfig->second.find("ThresholdSize");
+            if (configTSize != baseConfig->second.end())
+            {
+                thresholdConfSize =
+                    std::get_if<uint64_t>(&(configTSize->second));
             }
 
             interfacePath = &(sensor.first.str);
@@ -439,9 +448,11 @@ void createSensors(boost::asio::io_service& io,
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
-                std::cerr << "Input file " << sensorPath
-                          << " has no corresponding label file\n";
-
+                if constexpr (DEBUG)
+                {
+                    std::cerr << "Input file " << sensorPath
+                              << " has no corresponding label file\n";
+                }
                 // hwmon *_input filename with number:
                 // temp1, temp2, temp3, ...
                 labelHead = sensorNameStr.substr(0, sensorNameStr.find("_"));
@@ -477,8 +488,11 @@ void createSensors(boost::asio::io_service& io,
                 if (std::find(findLabels.begin(), findLabels.end(),
                               labelHead) == findLabels.end())
                 {
-                    std::cerr << "could not find " << labelHead
-                              << " in the Labels list\n";
+                    if constexpr (DEBUG)
+                    {
+                        std::cerr << "could not find " << labelHead
+                                  << " in the Labels list\n";
+                    }
                     continue;
                 }
             }
@@ -667,12 +681,16 @@ void createSensors(boost::asio::io_service& io,
             }
 
             std::vector<thresholds::Threshold> sensorThresholds;
-
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
                                            &labelHead))
             {
                 std::cerr << "error populating thresholds for "
                           << sensorNameSubStr << "\n";
+            }
+
+            if ((thresholdConfSize != nullptr) && (!labelHead.empty()))
+            {
+                thresholdSize = std::make_unique<size_t>(*thresholdConfSize);
             }
 
             auto findSensorType = sensorTable.find(sensorNameSubStr);
@@ -722,7 +740,7 @@ void createSensors(boost::asio::io_service& io,
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, psuProperty->maxReading,
-                psuProperty->minReading);
+                psuProperty->minReading, &labelHead, std::move(thresholdSize));
 
             ++numCreated;
             if constexpr (DEBUG)

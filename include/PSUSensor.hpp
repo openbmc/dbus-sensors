@@ -18,7 +18,7 @@ class PSUSensor : public Sensor
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
-              double min);
+              double min, std::string* label, std::unique_ptr<size_t> tSize);
     ~PSUSensor();
 
   private:
@@ -26,6 +26,7 @@ class PSUSensor : public Sensor
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
+    bool hasSize = false;
     std::string path;
     size_t errCount;
     unsigned int sensorFactor;
@@ -36,6 +37,7 @@ class PSUSensor : public Sensor
     int fd;
     static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
+    std::string* label;
 };
 
 class PSUProperty
