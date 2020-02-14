@@ -118,10 +118,14 @@ bool hasWarningInterface(
 void persistThreshold(const std::string& baseInterface, const std::string& path,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount);
+                      size_t thresholdCount, std::string* label);
 
 void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
 bool checkThresholds(Sensor* sensor);
 void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer);
+
+std::unique_ptr<size_t>
+    checkThresholdSize(const SensorData& sensorData,
+                       std::vector<thresholds::Threshold>& thresholdVector);
 } // namespace thresholds

@@ -58,7 +58,9 @@ struct Sensor
     }
 
     void
-        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn)
+        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                             std::string* label = nullptr,
+                             std::unique_ptr<size_t> thresholdSize = nullptr)
     {
         createAssociation(association, configurationPath);
         sensorInterface->register_property("MaxValue", maxValue);
@@ -111,16 +113,37 @@ struct Sensor
                 std::cout << "trying to set uninitialized interface\n";
                 continue;
             }
-            iface->register_property(
-                level, threshold.value,
-                [&](const double& request, double& oldValue) {
-                    oldValue = request; // todo, just let the config do this?
-                    threshold.value = request;
-                    thresholds::persistThreshold(configurationPath, objectType,
-                                                 threshold, conn,
-                                                 thresholds.size());
-                    return 1;
-                });
+
+            if (thresholdSize == nullptr)
+            {
+                iface->register_property(
+                    level, threshold.value,
+                    [&](const double& request, double& oldValue) {
+                        oldValue =
+                            request; // todo, just let the config do this?
+                        threshold.value = request;
+                        thresholds::persistThreshold(
+                            configurationPath, objectType, threshold, conn,
+                            thresholds.size(), nullptr);
+                        return 1;
+                    });
+            }
+            else
+            {
+                size_t thresSize = *thresholdSize;
+                iface->register_property(
+                    level, threshold.value,
+                    [&, thresSize, label](const double& request,
+                                          double& oldValue) {
+                        oldValue = request;
+                        threshold.value = request;
+                        thresholds::persistThreshold(configurationPath,
+                                                     objectType, threshold,
+                                                     conn, thresSize, label);
+                        return 1;
+                    });
+            }
+
             iface->register_property(alarm, false);
         }
         if (!sensorInterface->initialize())

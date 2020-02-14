@@ -41,7 +41,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
-                     double max, double min) :
+                     double max, double min, std::string* label,
+                     std::unique_ptr<size_t> tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
@@ -57,6 +58,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                   << " min " << min << " max " << max << " name \""
                   << sensorName << "\"\n";
     }
+
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        std::cerr << "PSU sensor failed to open file\n";
+        return;
+    }
+    inputDev.assign(fd);
 
     fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
@@ -83,7 +92,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(conn);
+    if (label != nullptr)
+    {
+        setInitialProperties(conn, label, std::move(tSize));
+    }
+    else
+    {
+        setInitialProperties(conn);
+    }
 
     createInventoryAssoc(conn, association, configurationPath);
     setupRead();
