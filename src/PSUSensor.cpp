@@ -66,6 +66,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     inputDev.assign(fd);
 
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        std::cerr << "PSU sensor failed to open file\n";
+        return;
+    }
+    inputDev.assign(fd);
+
     std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
 
     sensorInterface = objectServer.add_interface(
@@ -83,7 +91,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(conn);
+    if (label != nullptr)
+    {
+        setInitialProperties(conn, label, std::move(tSize));
+    }
+    else
+    {
+        setInitialProperties(conn);
+    }
 
     createInventoryAssoc(conn, association, configurationPath);
     setupRead();
