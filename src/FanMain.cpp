@@ -65,7 +65,8 @@ FanTypes getFanType(const fs::path& parentPath)
 {
     fs::path linkPath = parentPath / "device";
     std::string canonical = fs::read_symlink(linkPath);
-    if (boost::ends_with(canonical, "1e786000.pwm-tacho-controller"))
+    if (boost::ends_with(canonical, "1e786000.pwm-tacho-controller") ||
+        boost::ends_with(canonical, "1e610000.pwm-tacho-controller"))
     {
         return FanTypes::aspeed;
     }
