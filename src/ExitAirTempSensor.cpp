@@ -228,7 +228,7 @@ void CFMSensor::setupMatches()
             {
 
                 auto cfm = std::get_if<double>(&cfmVariant);
-                if (cfm != nullptr || *cfm >= minSystemCfm)
+                if (cfm != nullptr && *cfm >= minSystemCfm)
                 {
                     maxRpm = self->getMaxRpm(*cfm);
                 }
