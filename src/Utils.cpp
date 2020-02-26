@@ -271,17 +271,24 @@ void createAssociation(
 
 void setInventoryAssociation(
     std::shared_ptr<sdbusplus::asio::dbus_interface> association,
-    const std::string& path, const std::string& chassisPath)
+    const std::string& path,
+    const std::vector<std::string>& chassisPaths = std::vector<std::string>())
 {
     if (association)
     {
         std::filesystem::path p(path);
-
         std::vector<Association> associations;
-        associations.push_back(
-            Association("inventory", "sensors", p.parent_path().string()));
-        associations.push_back(
-            Association("chassis", "all_sensors", chassisPath));
+        std::string objPath(p.parent_path().string());
+
+        associations.push_back(Association("inventory", "sensors", objPath));
+        associations.push_back(Association("chassis", "all_sensors", objPath));
+
+        for (const std::string& chassisPath : chassisPaths)
+        {
+            associations.push_back(
+                Association("chassis", "all_sensors", chassisPath));
+        }
+
         association->register_property("Associations", associations);
         association->initialize();
     }
@@ -296,18 +303,18 @@ void createInventoryAssoc(
     {
         return;
     }
+
     conn->async_method_call(
         [association, path](const boost::system::error_code ec,
-                            const std::vector<std::string>& ret) {
+                            const std::vector<std::string>& invSysObjPaths) {
             if (ec)
             {
-                std::cerr << "Error calling mapper\n";
+                // In case of error, set the default associations and
+                // initialize the association Interface.
+                setInventoryAssociation(association, path);
                 return;
             }
-            for (const auto& object : ret)
-            {
-                setInventoryAssociation(association, path, object);
-            }
+            setInventoryAssociation(association, path, invSysObjPaths);
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTreePaths",
         "/xyz/openbmc_project/inventory/system", 2,

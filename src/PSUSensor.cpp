@@ -81,9 +81,13 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
         thresholdInterfaceCritical = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(dbusPath, association::interface);
 
+    // This should be called before initializing association.
+    // createInventoryAssoc() does add more associations before doing
+    // register and initialize "Associations" property.
     setInitialProperties(conn);
+
+    association = objectServer.add_interface(dbusPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
     setupRead();
@@ -96,6 +100,7 @@ PSUSensor::~PSUSensor()
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
+    objServer.remove_interface(association);
 }
 
 void PSUSensor::setupRead(void)
