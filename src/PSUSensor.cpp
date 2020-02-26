@@ -83,7 +83,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(conn);
+    setInitialProperties(conn, true);
 
     createInventoryAssoc(conn, association, configurationPath);
     setupRead();

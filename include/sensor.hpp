@@ -58,9 +58,13 @@ struct Sensor
     }
 
     void
-        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn)
+        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                             const bool skipAssociation = false)
     {
-        createAssociation(association, configurationPath);
+        if (!skipAssociation)
+        {
+            createAssociation(association, configurationPath);
+        }
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
