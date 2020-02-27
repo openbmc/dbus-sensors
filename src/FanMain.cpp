@@ -356,7 +356,8 @@ void createSensors(
                 pwmSensors.insert(
                     std::pair<std::string, std::unique_ptr<PwmSensor>>(
                         sysPath, std::make_unique<PwmSensor>(
-                                     pwmName, sysPath, objectServer, *path)));
+                                     pwmName, sysPath, dbusConnection,
+                                     objectServer, *path, "Fan")));
             }
         }));
     getter->getConfiguration(

@@ -27,8 +27,10 @@ static constexpr size_t pwmMax = 255;
 static constexpr double defaultPwm = 30.0;
 
 PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
+                     std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
-                     const std::string& sensorConfiguration) :
+                     const std::string& sensorConfiguration,
+                     const std::string& sensorType) :
     sysPath(sysPath),
     objectServer(objectServer), name(name)
 {
@@ -118,12 +120,23 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
 
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_pwm/" + name, association::interface);
-    createAssociation(association, sensorConfiguration);
+
+    // PowerSupply sensors should be associated with chassis board path
+    // and inventory along with psu object.
+    if (sensorType == "PSU")
+    {
+        createInventoryAssoc(conn, association, sensorConfiguration);
+    }
+    else
+    {
+        createAssociation(association, sensorConfiguration);
+    }
 }
 PwmSensor::~PwmSensor()
 {
     objectServer.remove_interface(sensorInterface);
     objectServer.remove_interface(controlInterface);
+    objectServer.remove_interface(association);
 }
 
 void PwmSensor::setValue(uint32_t value)
