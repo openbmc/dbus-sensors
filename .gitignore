@@ -23,3 +23,4 @@ mcutempsensor
 psusensor
 .idea/
 cmake-build-debug/
+sensors.cbp
