@@ -20,7 +20,8 @@ struct Sensor
         name(name),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
-        hysteresis((max - min) * 0.01)
+        hysteresisThresh((max - min) * 0.01),
+        hysteresisUpdate((max - min) * 0.0001)
     {
     }
     virtual ~Sensor() = default;
@@ -36,9 +37,11 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     double value = std::numeric_limits<double>::quiet_NaN();
+    double valuePrevThresh = value;
     bool overriddenState = false;
     bool internalSet = false;
-    double hysteresis;
+    double hysteresisThresh;
+    double hysteresisUpdate;
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
@@ -117,6 +120,11 @@ struct Sensor
                 [&](const double& request, double& oldValue) {
                     oldValue = request; // todo, just let the config do this?
                     threshold.value = request;
+
+                    // If threshold change, invalidate previously saved
+                    // value, so next update causes immediate check.
+                    valuePrevThresh = std::numeric_limits<double>::quiet_NaN();
+
                     thresholds::persistThreshold(configurationPath, objectType,
                                                  threshold, conn,
                                                  thresholds.size());
@@ -141,6 +149,24 @@ struct Sensor
         }
     }
 
+    // Returns true if value differs enough to be worth publishing to D-Bus
+    bool isValueUpdateNeeded(const double& newValue) const
+    {
+        // If thresholds not checked yet, always return true,
+        // to ensure threshold gets checked when the next reading comes in.
+        if (std::isnan(valuePrevThresh))
+        {
+            return true;
+        }
+
+        double diff = std::abs(value - newValue);
+        if (std::isnan(diff) || diff > hysteresisUpdate)
+        {
+            return true;
+        }
+        return false;
+    }
+
     void updateValue(const double& newValue)
     {
         // Ignore if overriding is enabled
@@ -153,12 +179,17 @@ struct Sensor
                 std::cerr << "error setting property to " << newValue << "\n";
             }
             internalSet = false;
-            double diff = std::abs(value - newValue);
-            if (std::isnan(diff) || diff > hysteresis)
+
+            // Always update value from newValue,
+            // but only update valuePrevThresh if big enough from previous
+            // to be worth re-checking the thresholds.
+            value = newValue;
+            double diff = std::abs(valuePrevThresh - newValue);
+            if (std::isnan(diff) || diff > hysteresisThresh)
             {
-                value = newValue;
+                valuePrevThresh = newValue;
+                checkThresholds();
             }
-            checkThresholds();
         }
     }
 };
