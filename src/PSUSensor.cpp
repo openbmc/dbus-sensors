@@ -120,7 +120,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             std::getline(responseStream, response);
-            float nvalue = std::stof(response);
+            double nvalue = std::stod(response);
             responseStream.clear();
             nvalue /= sensorFactor;
 
@@ -129,7 +129,9 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
                 std::cerr << "Read " << path << " scale " << sensorFactor
                           << " value " << nvalue << "\n";
             }
-            if (static_cast<double>(nvalue) != value)
+
+            // If new value is different enough to warrant publishing, do so
+            if (isValueUpdateNeeded(nvalue))
             {
                 if constexpr (DEBUG)
                 {
