@@ -20,7 +20,8 @@ struct Sensor
         name(name),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
-        hysteresis((max - min) * 0.01)
+        hysteresisTrigger((max - min) * 0.01),
+        hysteresisPublish((max - min) * 0.0001)
     {
     }
     virtual ~Sensor() = default;
@@ -38,7 +39,8 @@ struct Sensor
     double value = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
-    double hysteresis;
+    double hysteresisTrigger;
+    double hysteresisPublish;
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
@@ -120,6 +122,15 @@ struct Sensor
                     thresholds::persistThreshold(configurationPath, objectType,
                                                  threshold, conn,
                                                  thresholds.size());
+                    // Invalidate previously remembered value,
+                    // so new thresholds will be checked during next update,
+                    // even if sensor reading remains unchanged.
+                    value = std::numeric_limits<double>::quiet_NaN();
+
+                    // Although tempting, don't call checkThresholds() from here
+                    // directly. Let the regular sensor monitor call the same
+                    // using updateValue(), which can check conditions like
+                    // poweron, etc., before raising any event.
                     return 1;
                 });
             iface->register_property(alarm, false);
@@ -144,21 +155,56 @@ struct Sensor
     void updateValue(const double& newValue)
     {
         // Ignore if overriding is enabled
-        if (!overriddenState)
+        if (overriddenState)
         {
-            // Indicate that it is internal set call
-            internalSet = true;
-            if (!(sensorInterface->set_property("Value", newValue)))
-            {
-                std::cerr << "error setting property to " << newValue << "\n";
-            }
-            internalSet = false;
-            double diff = std::abs(value - newValue);
-            if (std::isnan(diff) || diff > hysteresis)
-            {
-                value = newValue;
-            }
-            checkThresholds();
+            return;
         }
+
+        bool isChanged = false;
+
+        // Avoid floating-point equality comparison,
+        // by instead comparing against a very small hysteresis range.
+        if (std::isnan(value) || std::isnan(newValue))
+        {
+            // If one or the other is NAN,
+            // either we are intentionally invalidating a sensor reading,
+            // or initializing for the very first time,
+            // either way we should always publish this.
+            isChanged = true;
+        }
+        else
+        {
+            // This essentially does "if (value != newValue)",
+            // but safely against floating-point background noise.
+            double diff = std::abs(value - newValue);
+            if (diff > hysteresisPublish)
+            {
+                isChanged = true;
+            }
+        }
+
+        // Ignore if the change is so small as to be deemed unchanged
+        if (!isChanged)
+        {
+            return;
+        }
+
+        // The value will be changed, keep track of it for next time
+        value = newValue;
+
+        // Indicate that it is internal set call
+        internalSet = true;
+        if (!(sensorInterface->set_property("Value", newValue)))
+        {
+            std::cerr << "error setting property to " << newValue << "\n";
+        }
+        internalSet = false;
+
+        // Always check thresholds after changing the value,
+        // as the test against hysteresisTrigger now takes place in
+        // the thresholds::checkThresholds() method,
+        // which is called by checkThresholds() below,
+        // in all current implementations of sensors that have thresholds.
+        checkThresholds();
     }
 };

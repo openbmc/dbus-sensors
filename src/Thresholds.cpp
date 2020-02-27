@@ -218,6 +218,15 @@ void updateThresholds(Sensor* sensor)
     }
 }
 
+// Debugging counters
+static int cHiTrue = 0;
+static int cHiFalse = 0;
+static int cHiMidstate = 0;
+static int cLoTrue = 0;
+static int cLoFalse = 0;
+static int cLoMidstate = 0;
+static int cDebugThrottle = 0;
+
 static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
                                                                double value)
 {
@@ -229,29 +238,65 @@ static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
 
     for (auto& threshold : sensor->thresholds)
     {
+        // Use "Schmitt trigger" logic to avoid threshold trigger spam,
+        // if value is noisy while hovering very close to a threshold.
+        // When a threshold is crossed, indicate true immediately,
+        // but require more distance to be crossed the other direction,
+        // before resetting the indicator back to false.
         if (threshold.direction == thresholds::Direction::HIGH)
         {
             if (value >= threshold.value)
             {
                 thresholdChanges.push_back(std::make_pair(threshold, true));
+                ++cHiTrue;
+            }
+            else if (value < (threshold.value - sensor->hysteresisTrigger))
+            {
+                thresholdChanges.push_back(std::make_pair(threshold, false));
+                ++cHiFalse;
             }
             else
             {
-                thresholdChanges.push_back(std::make_pair(threshold, false));
+                ++cHiMidstate;
             }
         }
-        else
+        else if (threshold.direction == thresholds::Direction::LOW)
         {
             if (value <= threshold.value)
             {
                 thresholdChanges.push_back(std::make_pair(threshold, true));
+                ++cLoTrue;
+            }
+            else if (value > (threshold.value + sensor->hysteresisTrigger))
+            {
+                thresholdChanges.push_back(std::make_pair(threshold, false));
+                ++cLoFalse;
             }
             else
             {
-                thresholdChanges.push_back(std::make_pair(threshold, false));
+                ++cLoMidstate;
             }
         }
+        else
+        {
+            std::cerr << "Error determining threshold direction\n";
+        }
     }
+
+    if constexpr (DEBUG)
+    {
+        // Throttle debug output, so that it does not continuously spam
+        ++cDebugThrottle;
+        if (cDebugThrottle >= 1000)
+        {
+            cDebugThrottle = 0;
+            std::cerr << "checkThresholds: High T=" << cHiTrue
+                      << " F=" << cHiFalse << " M=" << cHiMidstate
+                      << ", Low T=" << cLoTrue << " F=" << cLoFalse
+                      << " M=" << cLoMidstate << "\n";
+        }
+    }
+
     return thresholdChanges;
 }
 
