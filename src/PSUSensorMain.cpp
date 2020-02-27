@@ -172,10 +172,12 @@ void checkEventLimits(
     }
 }
 
-static void checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
-                           const std::string& interfacePath,
-                           sdbusplus::asio::object_server& objectServer,
-                           const std::string& psuName)
+static void
+    checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
+                   const std::string& interfacePath,
+                   std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+                   sdbusplus::asio::object_server& objectServer,
+                   const std::string& psuName)
 {
     for (const auto& pwmName : pwmTable)
     {
@@ -200,8 +202,8 @@ static void checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
         }
 
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, objectServer,
-            interfacePath + "_" + pwmName.second);
+            "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
+            objectServer, interfacePath + "_" + pwmName.second, "PSU");
     }
 }
 
@@ -468,8 +470,8 @@ void createSensors(boost::asio::io_service& io,
                           << "\" label=\"" << labelHead << "\"\n";
             }
 
-            checkPWMSensor(sensorPath, labelHead, *interfacePath, objectServer,
-                           psuNames[0]);
+            checkPWMSensor(sensorPath, labelHead, *interfacePath,
+                           dbusConnection, objectServer, psuNames[0]);
 
             if (!findLabels.empty())
             {
