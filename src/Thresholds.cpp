@@ -118,20 +118,36 @@ bool parseThresholdsFromConfig(
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount)
+                      size_t thresholdCount, const std::string& labelMatch)
 {
     for (size_t ii = 0; ii < thresholdCount; ii++)
     {
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
-            [&, path, threshold, thresholdInterface](
+            [&, path, threshold, thresholdInterface, labelMatch](
                 const boost::system::error_code& ec,
                 const boost::container::flat_map<std::string, BasicVariantType>&
                     result) {
                 if (ec)
                 {
                     return; // threshold not supported
+                }
+
+                if (!labelMatch.empty())
+                {
+                    auto labelFind = result.find("Label");
+                    if (labelFind == result.end())
+                    {
+                        std::cerr << "No label in threshold configuration\n";
+                        return;
+                    }
+                    std::string label =
+                        std::visit(VariantToStringVisitor(), labelFind->second);
+                    if (label != labelMatch)
+                    {
+                        return;
+                    }
                 }
 
                 auto directionFind = result.find("Direction");
