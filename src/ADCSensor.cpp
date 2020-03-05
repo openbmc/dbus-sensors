@@ -141,15 +141,12 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         // todo read scaling factors from configuration
         try
         {
-            double nvalue = std::stof(response);
+            double nvalue = std::stod(response);
 
             nvalue = (nvalue / sensorScaleFactor) / scaleFactor;
             nvalue = std::round(nvalue * roundFactor) / roundFactor;
 
-            if (nvalue != value)
-            {
-                updateValue(nvalue);
-            }
+            updateValue(nvalue);
             errCount = 0;
         }
         catch (std::invalid_argument&)

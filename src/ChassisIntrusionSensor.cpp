@@ -47,6 +47,13 @@ const static constexpr size_t pchRegMaskIntrusion = 0x01;
 
 void ChassisIntrusionSensor::updateValue(const std::string newValue)
 {
+    // Take no action if value already equal
+    // Same semantics as Sensor::updateValue(const double&)
+    if (newValue == mValue)
+    {
+        return;
+    }
+
     // indicate that it is internal set call
     mInternalSet = true;
     mIface->set_property("Status", newValue);

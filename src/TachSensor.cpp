@@ -147,12 +147,9 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
             try
             {
                 std::getline(responseStream, response);
-                float nvalue = std::stof(response);
+                double nvalue = std::stod(response);
                 responseStream.clear();
-                if (static_cast<double>(nvalue) != value)
-                {
-                    updateValue(nvalue);
-                }
+                updateValue(nvalue);
                 errCount = 0;
             }
             catch (const std::invalid_argument&)

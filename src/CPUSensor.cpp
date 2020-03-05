@@ -114,20 +114,19 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             std::getline(responseStream, response);
-            double nvalue = std::stof(response);
+            double nvalue = std::stod(response);
             responseStream.clear();
             nvalue /= CPUSensor::sensorScaleFactor;
-            if (nvalue != value)
+
+            if (show)
             {
-                if (show)
-                {
-                    updateValue(nvalue);
-                }
-                else
-                {
-                    value = nvalue;
-                }
+                updateValue(nvalue);
             }
+            else
+            {
+                value = nvalue;
+            }
+
             double gTcontrol = gCpuSensors[nameTcontrol]
                                    ? gCpuSensors[nameTcontrol]->value
                                    : std::numeric_limits<double>::quiet_NaN();

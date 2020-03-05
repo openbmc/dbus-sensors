@@ -106,12 +106,9 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         std::getline(responseStream, response);
         try
         {
-            float nvalue = std::stof(response);
+            double nvalue = std::stod(response);
             nvalue /= sensorScaleFactor;
-            if (static_cast<double>(nvalue) != value)
-            {
-                updateValue(nvalue);
-            }
+            updateValue(nvalue);
             errCount = 0;
         }
         catch (const std::invalid_argument&)
