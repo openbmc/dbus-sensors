@@ -198,12 +198,10 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
         try
         {
             std::getline(responseStream, response);
-            int nvalue = std::stof(response);
+            int nvalue = std::stoi(response);
             responseStream.clear();
-            if (nvalue != value)
-            {
-                updateValue(nvalue);
-            }
+
+            updateValue(nvalue);
             errCount = 0;
         }
         catch (const std::invalid_argument&)
@@ -240,6 +238,13 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
 // deasserted.
 void PSUSubEvent::updateValue(const int& newValue)
 {
+    // Take no action if value already equal
+    // Same semantics as Sensor::updateValue(const double&)
+    if (newValue == value)
+    {
+        return;
+    {
+
     if (newValue == 0)
     {
         // log deassert only after all asserts are gone
