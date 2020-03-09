@@ -60,7 +60,9 @@ struct Sensor
     }
 
     void
-        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn)
+        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                             const std::string label = std::string(),
+                             size_t thresholdSize = 0)
     {
         createAssociation(association, configurationPath);
 
@@ -114,14 +116,17 @@ struct Sensor
                 std::cout << "trying to set uninitialized interface\n";
                 continue;
             }
+
+            size_t thresSize =
+                label.empty() ? thresholds.size() : thresholdSize;
             iface->register_property(
                 level, threshold.value,
-                [&](const double& request, double& oldValue) {
+                [&, label, thresSize](const double& request, double& oldValue) {
                     oldValue = request; // todo, just let the config do this?
                     threshold.value = request;
                     thresholds::persistThreshold(configurationPath, objectType,
-                                                 threshold, conn,
-                                                 thresholds.size());
+                                                 threshold, conn, thresSize,
+                                                 label);
                     // Invalidate previously remembered value,
                     // so new thresholds will be checked during next update,
                     // even if sensor reading remains unchanged.

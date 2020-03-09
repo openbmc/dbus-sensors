@@ -18,7 +18,7 @@ class PSUSensor : public Sensor
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
-              double min);
+              double min, const std::string& label, size_t tSize);
     ~PSUSensor();
 
   private:

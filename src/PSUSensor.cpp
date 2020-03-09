@@ -41,13 +41,12 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
-                     double max, double min) :
+                     double max, double min, const std::string& label,
+                     size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
-    errCount(0),
-
-    sensorFactor(factor)
+    errCount(0), sensorFactor(factor)
 {
     if constexpr (DEBUG)
     {
@@ -85,7 +84,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     // This should be called before initializing association.
     // createInventoryAssoc() does add more associations before doing
     // register and initialize "Associations" property.
-    setInitialProperties(conn);
+    if (label.empty() || tSize == _thresholds.size())
+    {
+        setInitialProperties(conn);
+    }
+    else
+    {
+        setInitialProperties(conn, label, tSize);
+    }
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
@@ -97,6 +103,7 @@ PSUSensor::~PSUSensor()
 {
     waitTimer.cancel();
     inputDev.close();
+    objServer.remove_interface(association);
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
@@ -115,7 +122,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 {
     if (err == boost::system::errc::bad_file_descriptor)
     {
-        std::cerr << "Bad file descriptor from " << path << "\n";
+        std::cerr << "Bad file descriptor from\n";
         return;
     }
     std::istream responseStream(&readBuf);
@@ -134,14 +141,13 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         }
         catch (const std::invalid_argument&)
         {
-            std::cerr << "Could not parse " << response << " from path " << path
-                      << "\n";
+            std::cerr << "Could not parse " << response << "\n";
             errCount++;
         }
     }
     else
     {
-        std::cerr << "System error " << err << " from path " << path << "\n";
+        std::cerr << "System error " << err << "\n";
         errCount++;
     }
 
@@ -149,8 +155,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     {
         if (errCount == warnAfterErrorCount)
         {
-            std::cerr << "Failure to read sensor " << name << " at " << path
-                      << "\n";
+            std::cerr << "Failure to read sensor " << name << "\n";
         }
         updateValue(0);
         errCount++;
@@ -161,7 +166,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     waitTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            std::cerr << "Failed to reschedule wait for " << path << "\n";
+            std::cerr << "Failed to reschedule\n";
             return;
         }
         setupRead();
