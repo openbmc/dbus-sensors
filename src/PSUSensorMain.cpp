@@ -23,6 +23,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -38,6 +39,8 @@
 #include <vector>
 
 static constexpr bool DEBUG = false;
+
+static constexpr unsigned int sensorPollMs = 1000;
 
 static constexpr std::array<const char*, 7> sensorTypes = {
     "xyz.openbmc_project.Configuration.INA230",
@@ -73,6 +76,12 @@ static boost::container::flat_map<std::string, std::vector<std::string>>
     limitEventMatch;
 
 static std::vector<PSUProperty> psuProperties;
+
+// TODO(): A lot of other code within dbus-sensors uses deadline_timer,
+//  when steady_timer probably is more appropriate. Refactor other code.
+static std::unique_ptr<boost::asio::steady_timer> masterTimer = nullptr;
+
+static bool firstTimer = true;
 
 // Function CheckEvent will check each attribute from eventMatch table in the
 // sysfs. If the attributes exists in sysfs, then store the complete path
@@ -211,12 +220,12 @@ void createSensors(boost::asio::io_service& io,
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
-
     ManagedObjectType sensorConfigs;
     int numCreated = 0;
     bool useCache = false;
 
     // TODO may need only modify the ones that need to be changed.
+    // TODO(): Verify pending async I/O is truly cancelled and done with
     sensors.clear();
     for (const char* type : sensorTypes)
     {
@@ -829,6 +838,110 @@ void propertyInitialize(void)
                          {"fan2", {"fan2_alarm", "fan2_fault"}}}}};
 }
 
+static void finishMasterTimer()
+{
+    int countTotal = 0;
+    int countNew = 0;
+    int countSlow = 0;
+    int countGood = 0;
+    int countBad = 0;
+
+    // Rewind all input files and schedule all async reading
+    for (auto& sensor : sensors)
+    {
+        // Count sensors by outcome, merely for diagnostics
+        PSUDisposition disposition = sensor.second->prepareInput();
+        switch (disposition)
+        {
+            case PSUDisposition::dispNew:
+                ++countNew;
+                break;
+            case PSUDisposition::dispSlow:
+                ++countSlow;
+                break;
+            case PSUDisposition::dispGood:
+                ++countGood;
+                break;
+            case PSUDisposition::dispBad:
+                ++countBad;
+                break;
+        }
+
+        ++countTotal;
+    }
+
+    // Avoid showing misleading warning if all sensors are newly constructed
+    if ((countTotal > 0) && (countNew == countTotal))
+    {
+        std::cerr << "Sensors initialized: " << countTotal << " sensors\n";
+    }
+    else
+    {
+        if (countGood != countTotal)
+        {
+            std::cerr << "Sensor anomaly: only " << countGood << " of "
+                      << countTotal << " sensors good: " << countNew << " new, "
+                      << countSlow << " slow, " << countBad << " bad\n";
+        }
+    }
+
+    // Calculate how long it took to perform this sensor collection pass
+    auto now = std::chrono::steady_clock::now();
+    auto durCollect = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now - masterTimer->expiry());
+    int msCollect = durCollect.count();
+
+    // If greater than sensorPollMs, big problem, we are not keeping up
+    if (msCollect > sensorPollMs)
+    {
+        std::cerr << "Sensor anomaly: taking too long to read, " << msCollect
+                  << " ms taken, only " << sensorPollMs << " ms allowed\n";
+
+        // We are falling behind, special case, begin next pass immediately
+        // Otherwise, we would fall further and further behind
+        masterTimer->expires_at(now);
+    }
+    else
+    {
+        // Increment timer, based on exact interval from previous timer
+        // Avoid using expires_after(), because processing time would skew
+        masterTimer->expires_at(masterTimer->expiry() +
+                                std::chrono::milliseconds(sensorPollMs));
+    }
+
+    if constexpr (DEBUG)
+    {
+        std::cerr << "Sensor timer tick: " << msCollect << " ms, " << countGood
+                  << " good, " << countTotal << " total, " << countNew
+                  << " new, " << countSlow << " slow, " << countBad << " bad\n";
+    }
+}
+
+static void rescheduleMasterTimer()
+{
+    // Avoid calling completion function if it is the very first time
+    if (firstTimer)
+    {
+        firstTimer = false;
+    }
+    else
+    {
+        // Finish and restart any previous processing
+        finishMasterTimer();
+    }
+
+    // Reschedule timer during this callback, to keep going perpetually
+    masterTimer->async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Sensor anomaly: Previous timer operation aborted\n";
+        }
+
+        // This will be called when this lambda executes, when timer expires
+        rescheduleMasterTimer();
+    });
+}
+
 int main()
 {
     boost::asio::io_service io;
@@ -841,7 +954,7 @@ int main()
     propertyInitialize();
 
     io.post([&]() { createSensors(io, objectServer, systemBus); });
-    boost::asio::deadline_timer filterTimer(io);
+    boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
             if (message.is_method_error())
@@ -849,7 +962,7 @@ int main()
                 std::cerr << "callback method error\n";
                 return;
             }
-            filterTimer.expires_from_now(boost::posix_time::seconds(3));
+            filterTimer.expires_after(std::chrono::seconds(3));
             filterTimer.async_wait([&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
@@ -872,5 +985,12 @@ int main()
             eventHandler);
         matches.emplace_back(std::move(match));
     }
+
+    // Schedule the first reading of all sensors
+    masterTimer = std::make_unique<boost::asio::steady_timer>(io);
+    masterTimer->expires_after(std::chrono::milliseconds(sensorPollMs));
+    rescheduleMasterTimer();
+
+    // The boost::asio library is now in the driver's seat
     io.run();
 }
