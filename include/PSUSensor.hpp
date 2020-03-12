@@ -4,9 +4,19 @@
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
+#include <unistd.h>
+
 #include <memory>
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
+
+enum class PSUDisposition
+{
+    dispNew,
+    dispSlow,
+    dispBad,
+    dispGood,
+};
 
 class PSUSensor : public Sensor
 {
@@ -21,21 +31,36 @@ class PSUSensor : public Sensor
               double min, const std::string& label, size_t tSize);
     ~PSUSensor();
 
+    PSUDisposition prepareInput();
+
+    bool isDeleteQuiescent() const;
+    void requestDelete();
+
   private:
     sdbusplus::asio::object_server& objServer;
-    boost::asio::posix::stream_descriptor inputDev;
-    boost::asio::deadline_timer waitTimer;
-    boost::asio::streambuf readBuf;
+    boost::asio::posix::stream_descriptor inputStream;
+
+    // Limit streambuf size to prevent buggy sensor from endless loop reading
+    boost::asio::streambuf inputBuf{static_cast<size_t>(getpagesize())};
+
     std::string path;
-    size_t errCount;
+
+    // These counters are used only to generate human-readable logging text
+    int errCount = 0;
+    int slowCount = 0;
+    int readCount = 0;
+    int goodCount = 0;
+
     unsigned int sensorFactor;
-    void setupRead(void);
+    PSUDisposition disposition;
+    bool pendingRead = false;
+    bool deleteRequested = false;
+    bool deleteQuiescent = false;
+
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
 
-    int fd;
-    static constexpr unsigned int sensorPollMs = 1000;
-    static constexpr size_t warnAfterErrorCount = 10;
+    static constexpr int warnAfterErrorCount = 10;
 };
 
 class PSUProperty

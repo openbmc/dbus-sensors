@@ -41,6 +41,9 @@ class PSUSubEvent
     std::shared_ptr<std::set<std::string>> combineEvent;
     std::shared_ptr<bool> assertState;
 
+    bool isDeleteQuiescent() const;
+    void requestDelete();
+
   private:
     int value = 0;
     int fd;
@@ -50,7 +53,7 @@ class PSUSubEvent
     std::string groupEventName;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
-    void setupRead(void);
+    void setupRead(const boost::system::error_code& err);
     void handleResponse(const boost::system::error_code& err);
     void updateValue(const int& newValue);
     void beep(const uint8_t& beepPriority);
@@ -63,6 +66,10 @@ class PSUSubEvent
     std::string assertMessage;
     std::string deassertMessage;
     std::shared_ptr<sdbusplus::asio::connection> systemBus;
+    bool pendingTime = false;
+    bool pendingRead = false;
+    bool deleteRequested = false;
+    bool deleteQuiescent = false;
 };
 
 class PSUCombineEvent
@@ -88,4 +95,7 @@ class PSUCombineEvent
         events;
     std::vector<std::shared_ptr<std::set<std::string>>> asserts;
     std::vector<std::shared_ptr<bool>> states;
+
+    bool isDeleteQuiescent() const;
+    void requestDelete();
 };

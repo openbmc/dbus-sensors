@@ -20,7 +20,6 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <iostream>
 #include <istream>
 #include <limits>
@@ -45,8 +44,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
-    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
-    errCount(0), sensorFactor(factor)
+    objServer(objectServer), inputStream(io), path(path), sensorFactor(factor),
+    disposition(PSUDisposition::dispNew)
 {
     if constexpr (DEBUG)
     {
@@ -57,13 +56,12 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                   << sensorName << "\"\n";
     }
 
-    fd = open(path.c_str(), O_RDONLY);
+    int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
         std::cerr << "PSU sensor failed to open file\n";
         return;
     }
-    inputDev.assign(fd);
 
     std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
 
@@ -96,84 +94,190 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     association = objectServer.add_interface(dbusPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
-    setupRead();
+
+    inputStream.assign(fd);
+    inputStream.non_blocking(true);
+
+    // The sensor is now ready to read. Do not schedule input here, because
+    // input now scheduled simultaneously by rescheduleMasterTimer() in main.
 }
 
 PSUSensor::~PSUSensor()
 {
-    waitTimer.cancel();
-    inputDev.close();
+    if (inputStream.is_open())
+    {
+        inputStream.close();
+    }
     objServer.remove_interface(association);
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(association);
+    objServer.remove_interface(thresholdInterfaceWarning);
+    objServer.remove_interface(sensorInterface);
 }
 
-void PSUSensor::setupRead(void)
+PSUDisposition PSUSensor::prepareInput()
 {
+    // Avoid crash by not using inputStream if constructor failed to open file
+    if (!(inputStream.is_open()))
+    {
+        std::cerr << "Sensor file not open: " << path << "\n";
+
+        // Override whatever previous result the sensor had, it is now bad
+        return PSUDisposition::dispBad;
+    }
+
+    // If previous async read did not complete, note it and keep waiting
+    if (pendingRead)
+    {
+        ++slowCount;
+        if (slowCount == warnAfterErrorCount)
+        {
+            std::cerr << "Slow sensor is missing readings: " << path << "\n";
+        }
+
+        // Callback never called, replace anything earlier set by it
+        disposition = PSUDisposition::dispSlow;
+
+        if constexpr (DEBUG)
+        {
+            // Show this every time a reading was missed, hopefully rare
+            std::cerr << "Slow sensor: slow=" << slowCount
+                      << " read=" << readCount << " good=" << goodCount
+                      << " name=" << name << " path=" << path << "\n";
+        }
+
+        // Take early return if previous async read still pending
+        return disposition;
+    }
+
+    if (deleteRequested)
+    {
+        deleteQuiescent = true;
+
+        // Do not begin another reading, let it drain to idle
+        return disposition;
+    }
+
+    pendingRead = true;
+
+    // Rewind hwmon file input stream to start
+    lseek(inputStream.native_handle(), 0, SEEK_SET);
+
+    // Initiate another async read
     boost::asio::async_read_until(
-        inputDev, readBuf, '\n',
+        inputStream, inputBuf, '\n',
         [&](const boost::system::error_code& ec,
-            std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+            std::size_t /*bytes_transferred*/) { handleResponse(ec); });
+
+    return disposition;
 }
 
 void PSUSensor::handleResponse(const boost::system::error_code& err)
 {
-    if (err == boost::system::errc::bad_file_descriptor)
+    // Note this async read as having completed, regardless of success
+    pendingRead = false;
+    disposition = PSUDisposition::dispBad;
+
+    // This is a cancellation point, after reading (timer permanent in main)
+    if (deleteQuiescent)
     {
-        std::cerr << "Bad file descriptor from\n";
+        std::cerr << "Sensor anomaly: Response called but already quiescent\n";
+    }
+    if (deleteRequested)
+    {
+        deleteQuiescent = true;
         return;
     }
-    std::istream responseStream(&readBuf);
+
+    // It is OK to stop processing this reading upon any error,
+    // because rescheduleMasterTimer() in main will schedule a retry later.
+    if (err != boost::system::errc::success)
+    {
+        // This reading is deemed bad, discard any pending input
+        inputBuf.consume(inputBuf.size());
+
+        std::cerr << "Sensor reading " << path << " error: " << err.message()
+                  << "\n";
+        return;
+    }
+
+    std::istream responseStream(&inputBuf);
     if (!err)
     {
         std::string response;
         try
         {
+            // Read one line, discard newline and all thereafter
             std::getline(responseStream, response);
-            double nvalue = std::stod(response);
-            responseStream.clear();
-            nvalue /= sensorFactor;
+            inputBuf.consume(inputBuf.size());
 
+            // Convert text to double, and scale appropriately
+            double nvalue = std::stod(response);
+            nvalue /= sensorFactor;
             updateValue(nvalue);
+
+            // Note this is the only good path within this function
+            disposition = PSUDisposition::dispGood;
             errCount = 0;
+            ++goodCount;
         }
         catch (const std::invalid_argument&)
         {
-            std::cerr << "Could not parse " << response << "\n";
+            std::cerr << name << ": Could not parse " << response << "\n";
             errCount++;
         }
     }
     else
     {
-        std::cerr << "System error " << err << "\n";
+        std::cerr << name << ": System error " << err << "\n";
         errCount++;
     }
 
-    if (errCount >= warnAfterErrorCount)
+    // Throttle to avoid doing this every pass if errors keep happening
+    if ((errCount != 0) && ((errCount % warnAfterErrorCount) == 0))
     {
-        if (errCount == warnAfterErrorCount)
-        {
-            std::cerr << "Failure to read sensor " << name << "\n";
-        }
+        std::cerr << "Failure to read sensor " << path << "\n";
+
+        // Force misbehaving sensor to hardcoded value of zero
+        // TODO(): I am not sure this is the correct approach,
+        //  but this was already the behavior of existing code here.
+        // IMO, I would rather have the sensor's last known good value
+        //  be correctly retained, but I want to avoid breaking existing
+        //  behavior, in case somebody else had a good reason for it.
         updateValue(0);
-        errCount++;
     }
 
-    lseek(fd, 0, SEEK_SET);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
-        if (ec == boost::asio::error::operation_aborted)
+    // Do not reschedule input here, because input is now all rescheduled
+    // simultaneously by sensorScheduleAll() in main.
+    ++readCount;
+    if constexpr (DEBUG)
+    {
+        // Throttle to avoid debug output flood
+        if ((readCount % warnAfterErrorCount) == 0)
         {
-            std::cerr << "Failed to reschedule\n";
-            return;
+            std::cerr << "Sensor: slow=" << slowCount << " read=" << readCount
+                      << " good=" << goodCount << " value=" << value
+                      << " name=" << name << " path=" << path << "\n";
         }
-        setupRead();
-    });
+    }
 }
 
 void PSUSensor::checkThresholds(void)
 {
     thresholds::checkThresholds(this);
+}
+
+bool PSUSensor::isDeleteQuiescent() const
+{
+    return deleteQuiescent;
+}
+
+void PSUSensor::requestDelete()
+{
+    deleteRequested = true;
+
+    // If this sensor is currently idle, it can stay idle
+    if (!pendingRead)
+    {
+        deleteQuiescent = true;
+    }
 }
