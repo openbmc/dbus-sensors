@@ -20,7 +20,6 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <iostream>
 #include <istream>
 #include <limits>
@@ -45,8 +44,9 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
-    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
-    errCount(0), sensorFactor(factor)
+    objServer(objectServer), inputStream(io), path(path), errCount(0),
+    slowCount(0), readCount(0), goodCount(0), sensorFactor(factor),
+    disposition(DISPOSITION_NEW), readPending(false)
 {
     if constexpr (DEBUG)
     {
@@ -57,13 +57,12 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                   << sensorName << "\"\n";
     }
 
-    fd = open(path.c_str(), O_RDONLY);
+    int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
         std::cerr << "PSU sensor failed to open file\n";
         return;
     }
-    inputDev.assign(fd);
 
     std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
 
@@ -96,13 +95,17 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     association = objectServer.add_interface(dbusPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
-    setupRead();
+
+    inputStream.assign(fd);
+    inputStream.non_blocking(true);
+    // The sensor is now ready to read. Do not schedule input here, because
+    // input is now all scheduled simultaneously by sensorScheduleAll() in main.
 }
 
 PSUSensor::~PSUSensor()
 {
-    waitTimer.cancel();
-    inputDev.close();
+    inputStream.cancel();
+    inputStream.close();
     objServer.remove_interface(association);
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(thresholdInterfaceWarning);
@@ -110,34 +113,75 @@ PSUSensor::~PSUSensor()
     objServer.remove_interface(association);
 }
 
-void PSUSensor::setupRead(void)
+PSUDisposition PSUSensor::prepareInput()
 {
+    // If previous async read did not complete, note and cancel it
+    if (readPending)
+    {
+        inputStream.cancel();
+
+        ++slowCount;
+        if (slowCount == warnAfterErrorCount)
+        {
+            std::cerr << "Slow sensor is missing readings: " << path << "\n";
+        }
+
+        // Callback never called, replace anything earlier set by it
+        disposition = DISPOSITION_SLOW;
+
+        if constexpr (DEBUG)
+        {
+            // Show this every time a reading was missed, hopefully rare
+            std::cerr << "Slow sensor: slow=" << slowCount
+                      << " read=" << readCount << " good=" << goodCount
+                      << " path=" << path << "\n";
+        }
+    }
+
+    // Rewind hwmon file input stream to start
+    lseek(inputStream.native_handle(), 0, SEEK_SET);
+
+    // Initiate another async read
+    readPending = true;
     boost::asio::async_read_until(
-        inputDev, readBuf, '\n',
+        inputStream, inputBuf, '\n',
         [&](const boost::system::error_code& ec,
-            std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+            std::size_t /*bytes_transferred*/) { handleResponse(ec); });
+
+    return disposition;
 }
 
 void PSUSensor::handleResponse(const boost::system::error_code& err)
 {
+    // Note the async read as having completed, regardless of success
+    readPending = false;
+    disposition = DISPOSITION_BAD;
+
     if (err == boost::system::errc::bad_file_descriptor)
     {
         std::cerr << "Bad file descriptor from\n";
         return;
     }
-    std::istream responseStream(&readBuf);
+
+    std::istream responseStream(&inputBuf);
     if (!err)
     {
         std::string response;
         try
         {
+            // Read one line, discard newline and all thereafter
             std::getline(responseStream, response);
-            double nvalue = std::stod(response);
-            responseStream.clear();
-            nvalue /= sensorFactor;
+            inputBuf.consume(inputBuf.size());
 
+            // Convert text to double, and scale appropriately
+            double nvalue = std::stod(response);
+            nvalue /= sensorFactor;
             updateValue(nvalue);
+
+            // Note this is the only good path within this function
+            disposition = DISPOSITION_GOOD;
             errCount = 0;
+            ++goodCount;
         }
         catch (const std::invalid_argument&)
         {
@@ -161,16 +205,19 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         errCount++;
     }
 
-    lseek(fd, 0, SEEK_SET);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
-        if (ec == boost::asio::error::operation_aborted)
+    // Do not reschedule input here, because input is now all rescheduled
+    // simultaneously by sensorScheduleAll() in main.
+    ++readCount;
+    if constexpr (DEBUG)
+    {
+        // Throttle to avoid debug output flood
+        if ((readCount % warnAfterErrorCount) == 0)
         {
-            std::cerr << "Failed to reschedule\n";
-            return;
+            std::cerr << "Sensor: slow=" << slowCount << " read=" << readCount
+                      << " good=" << goodCount << " value=" << value
+                      << " path=" << path << "\n";
         }
-        setupRead();
-    });
+    }
 }
 
 void PSUSensor::checkThresholds(void)
