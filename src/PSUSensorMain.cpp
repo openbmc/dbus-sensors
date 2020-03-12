@@ -23,6 +23,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -38,6 +39,8 @@
 #include <vector>
 
 static constexpr bool DEBUG = false;
+
+static constexpr unsigned int sensorPollMs = 1000;
 
 static constexpr std::array<const char*, 8> sensorTypes = {
     "xyz.openbmc_project.Configuration.INA230",
@@ -74,6 +77,14 @@ static boost::container::flat_map<std::string, std::vector<std::string>>
     limitEventMatch;
 
 static std::vector<PSUProperty> psuProperties;
+static std::vector<std::unique_ptr<PSUSensor>> trashSensors;
+static std::vector<std::unique_ptr<PSUCombineEvent>> trashEvents;
+
+// TODO(): A lot of other code within dbus-sensors uses deadline_timer,
+// when steady_timer probably is more appropriate. Refactor other code.
+static std::unique_ptr<boost::asio::steady_timer> masterTimer = nullptr;
+
+static std::chrono::steady_clock::time_point priorReading;
 
 // Function CheckEvent will check each attribute from eventMatch table in the
 // sysfs. If the attributes exists in sysfs, then store the complete path
@@ -81,11 +92,11 @@ static std::vector<PSUProperty> psuProperties;
 void checkEvent(
     const std::string& directory,
     const boost::container::flat_map<std::string, std::vector<std::string>>&
-        eventMatch,
+        eventMatchLocal,
     boost::container::flat_map<std::string, std::vector<std::string>>&
         eventPathList)
 {
-    for (const auto& match : eventMatch)
+    for (const auto& match : eventMatchLocal)
     {
         const std::vector<std::string>& eventAttrs = match.second;
         const std::string& eventName = match.first;
@@ -99,6 +110,7 @@ void checkEvent(
                 continue;
             }
 
+            eventFile.close();
             eventPathList[eventName].push_back(eventPath);
         }
     }
@@ -111,23 +123,23 @@ void checkGroupEvent(
     const boost::container::flat_map<
         std::string,
         boost::container::flat_map<std::string, std::vector<std::string>>>&
-        groupEventMatch,
+        groupEventMatchLocal,
     boost::container::flat_map<
         std::string,
         boost::container::flat_map<std::string, std::vector<std::string>>>&
         groupEventPathList)
 {
-    for (const auto& match : groupEventMatch)
+    for (const auto& match : groupEventMatchLocal)
     {
         const std::string& groupEventName = match.first;
         const boost::container::flat_map<std::string, std::vector<std::string>>
             events = match.second;
         boost::container::flat_map<std::string, std::vector<std::string>>
             pathList;
-        for (const auto& match : events)
+        for (const auto& matchInner : events)
         {
-            const std::string& eventName = match.first;
-            const std::vector<std::string>& eventAttrs = match.second;
+            const std::string& eventName = matchInner.first;
+            const std::vector<std::string>& eventAttrs = matchInner.second;
             for (const auto& eventAttr : eventAttrs)
             {
                 auto eventPath = directory + "/" + eventAttr;
@@ -137,6 +149,7 @@ void checkGroupEvent(
                     continue;
                 }
 
+                eventFile.close();
                 pathList[eventName].push_back(eventPath);
             }
         }
@@ -151,11 +164,11 @@ void checkGroupEvent(
 void checkEventLimits(
     const std::string& sensorPathStr,
     const boost::container::flat_map<std::string, std::vector<std::string>>&
-        limitEventMatch,
+        limitEventMatchLocal,
     boost::container::flat_map<std::string, std::vector<std::string>>&
         eventPathList)
 {
-    for (const auto& limitMatch : limitEventMatch)
+    for (const auto& limitMatch : limitEventMatchLocal)
     {
         const std::vector<std::string>& limitEventAttrs = limitMatch.second;
         const std::string& eventName = limitMatch.first;
@@ -168,6 +181,8 @@ void checkEventLimits(
             {
                 continue;
             }
+
+            eventFile.close();
             eventPathList[eventName].push_back(limitEventPath);
         }
     }
@@ -196,6 +211,11 @@ static void
             continue;
         }
 
+        pwmFile.close();
+
+        // Unlike sensors and combineEvents, pwmSensors are simply
+        // left in place if they already exist. They are not deleted
+        // or reallocated, so they do not need trash management.
         auto findPWMSensor = pwmSensors.find(psuName + labelHead);
         if (findPWMSensor != pwmSensors.end())
         {
@@ -208,14 +228,33 @@ static void
     }
 }
 
+// QA advice:
+// You can force this function to be called, by giving this command:
+// dbus-send --system /xyz/openbmc_project/inventory x.x.x.PropertiesChanged
+//           string:xyz.openbmc_project.Configuration.pmbus
+// Give this command repeatedly, at random intervals:
+// There should be no crashes or deadlocks or memory leaks,
+// as old sensors and events are trashed (to be later deleted when safe),
+// and new sensors and events are allocated.
 void createSensors(boost::asio::io_service& io,
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
-
     ManagedObjectType sensorConfigs;
     int numCreated = 0;
     bool useCache = false;
+
+    // As async events could still be outstanding,
+    // carefully move previous sensors to trash can, do not delete them yet.
+    for (auto& oldSensor : sensors)
+    {
+        auto& sensorPtr = oldSensor.second;
+        if (sensorPtr != nullptr)
+        {
+            sensorPtr->requestDelete();
+            trashSensors.emplace_back(std::move(sensorPtr));
+        }
+    }
 
     // TODO may need only modify the ones that need to be changed.
     sensors.clear();
@@ -463,6 +502,7 @@ void createSensors(boost::asio::io_service& io,
                 std::string label;
                 std::getline(labelFile, label);
                 labelFile.close();
+
                 auto findSensor = sensors.find(label);
                 if (findSensor != sensors.end())
                 {
@@ -745,19 +785,32 @@ void createSensors(boost::asio::io_service& io,
             }
         }
 
+        // Old events are not deleted yet, move to trash can for later
+        auto eventName{*psuName + "OperationalStatus"};
+        auto oldEvent = combineEvents.find(eventName);
+        if (oldEvent != combineEvents.end())
+        {
+            auto& eventPtr = oldEvent->second;
+            if (eventPtr != nullptr)
+            {
+                eventPtr->requestDelete();
+                trashEvents.emplace_back(std::move(eventPtr));
+            }
+        }
+
         // OperationalStatus event
-        combineEvents[*psuName + "OperationalStatus"] = nullptr;
-        combineEvents[*psuName + "OperationalStatus"] =
-            std::make_unique<PSUCombineEvent>(
-                objectServer, dbusConnection, io, *psuName, eventPathList,
-                groupEventPathList, "OperationalStatus");
+        combineEvents[eventName] = nullptr;
+        combineEvents[eventName] = std::make_unique<PSUCombineEvent>(
+            objectServer, dbusConnection, io, *psuName, eventPathList,
+            groupEventPathList, "OperationalStatus");
     }
 
     if constexpr (DEBUG)
     {
-        std::cerr << "Created total of " << numCreated << " sensors\n";
+        std::cerr << "Created " << numCreated << " new sensors\n";
+        std::cerr << "Trashed " << trashSensors.size() << " old sensors\n";
+        std::cerr << "Trashed " << trashEvents.size() << " old events\n";
     }
-    return;
 }
 
 void propertyInitialize(void)
@@ -831,6 +884,176 @@ void propertyInitialize(void)
                          {"fan2", {"fan2_alarm", "fan2_fault"}}}}};
 }
 
+static void finishMasterTimer()
+{
+    int countTotal = 0;
+    int countNew = 0;
+    int countSlow = 0;
+    int countGood = 0;
+    int countBad = 0;
+
+    // Rewind all input files and schedule all async reading
+    for (auto& sensor : sensors)
+    {
+        // Count sensors by outcome, merely for diagnostics
+        PSUDisposition disposition = sensor.second->prepareInput();
+        switch (disposition)
+        {
+            case PSUDisposition::dispNew:
+                ++countNew;
+                break;
+            case PSUDisposition::dispSlow:
+                ++countSlow;
+                break;
+            case PSUDisposition::dispGood:
+                ++countGood;
+                break;
+            case PSUDisposition::dispBad:
+                ++countBad;
+                break;
+        }
+
+        ++countTotal;
+    }
+
+    // See if it is safe to take out the trash for old sensors
+    if (!(trashSensors.empty()))
+    {
+        bool allQuiescent = true;
+        for (auto& trashSensor : trashSensors)
+        {
+            if (!(trashSensor->isDeleteQuiescent()))
+            {
+                allQuiescent = false;
+                break;
+            }
+        }
+
+        if constexpr (DEBUG)
+        {
+            std::cerr << "Waiting for " << trashSensors.size()
+                      << " trashed sensors: "
+                      << (allQuiescent ? "quiescent" : "dangerous") << "\n";
+        }
+
+        if (allQuiescent)
+        {
+            for (auto& trashSensor : trashSensors)
+            {
+                trashSensor.reset(nullptr);
+            }
+            trashSensors.clear();
+        }
+    }
+
+    // See if it is safe to take out the trash for old events
+    if (!(trashEvents.empty()))
+    {
+        bool allQuiescent = true;
+        for (auto& trashEvent : trashEvents)
+        {
+            if (!(trashEvent->isDeleteQuiescent()))
+            {
+                allQuiescent = false;
+                break;
+            }
+        }
+
+        if constexpr (DEBUG)
+        {
+            std::cerr << "Waiting for " << trashEvents.size()
+                      << " trashed events: "
+                      << (allQuiescent ? "quiescent" : "dangerous") << "\n";
+        }
+
+        if (allQuiescent)
+        {
+            for (auto& trashEvent : trashEvents)
+            {
+                trashEvent.reset(nullptr);
+            }
+            trashEvents.clear();
+        }
+    }
+
+    // Avoid showing misleading warning if all sensors are newly constructed
+    if ((countTotal > 0) && (countNew == countTotal))
+    {
+        std::cerr << "Sensors initialized: " << countTotal << " sensors\n";
+    }
+    else if (countGood != countTotal)
+    {
+        std::cerr << "Sensor anomaly: only " << countGood << " of "
+                  << countTotal << " sensors good: " << countNew << " new, "
+                  << countSlow << " slow, " << countBad << " bad\n";
+    }
+
+    // Calculate how long it took the system to respond to this timer,
+    // because if Boost is still busy dealing with queued-up file I/O,
+    // it will not trigger the timer until reaching that in its queue,
+    // giving us a chance to detect that we are falling behind.
+    auto nowReading = std::chrono::steady_clock::now();
+    auto durProcess = std::chrono::duration_cast<std::chrono::milliseconds>(
+        nowReading - masterTimer->expiry());
+    auto durInterval = std::chrono::duration_cast<std::chrono::milliseconds>(
+        nowReading - priorReading);
+
+    priorReading = nowReading;
+    int msProcess = durProcess.count();
+    int msInterval = durInterval.count();
+
+    // Normally, msInterval should hover close to sensorPollMs,
+    // depending on random jitter, and msProcess should be close to zero,
+    // depending on processing time of reading all sensors on your system.
+    // If msProcess exceeds sensorPollMs, or msInterval double that (this
+    // is a heuristic), this indicates a big problem, as we are not
+    // keeping up, as the time taken is at least double what was intended.
+    if ((msProcess > sensorPollMs) || (msInterval > (sensorPollMs * 2)))
+    {
+        std::cerr << "Sensor anomaly: taking too long to read, " << msProcess
+                  << " ms processing, " << msInterval << " ms interval, "
+                  << sensorPollMs << " ms desired\n";
+
+        // We don't want the timer expiration time to fall into the past,
+        // so, as a special case, correct the expiration to now.
+        // This will begin the next pass immediately,
+        // otherwise, we would fall further and further behind.
+        masterTimer->expires_at(nowReading);
+    }
+    else
+    {
+        // Increment timer, based on exact interval from previous timer
+        // Avoid using expires_after(), because processing time would skew
+        masterTimer->expires_at(masterTimer->expiry() +
+                                std::chrono::milliseconds(sensorPollMs));
+    }
+
+    if constexpr (DEBUG)
+    {
+        std::cerr << "Sensor timer tick: " << msProcess << " ms processing, "
+                  << msInterval << " ms interval, " << countGood << " good, "
+                  << countTotal << " total, " << countNew << " new, "
+                  << countSlow << " slow, " << countBad << " bad\n";
+    }
+}
+
+static void rescheduleMasterTimer()
+{
+    // Finish any previous processing, and reset timer forward in time
+    finishMasterTimer();
+
+    // Reschedule timer during this callback, to keep going perpetually
+    masterTimer->async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Sensor anomaly: Previous timer operation aborted\n";
+        }
+
+        // This will be called when this lambda executes, when timer expires
+        rescheduleMasterTimer();
+    });
+}
+
 int main()
 {
     boost::asio::io_service io;
@@ -843,7 +1066,7 @@ int main()
     propertyInitialize();
 
     io.post([&]() { createSensors(io, objectServer, systemBus); });
-    boost::asio::deadline_timer filterTimer(io);
+    boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
             if (message.is_method_error())
@@ -851,7 +1074,7 @@ int main()
                 std::cerr << "callback method error\n";
                 return;
             }
-            filterTimer.expires_from_now(boost::posix_time::seconds(3));
+            filterTimer.expires_after(std::chrono::seconds(3));
             filterTimer.async_wait([&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
@@ -874,5 +1097,13 @@ int main()
             eventHandler);
         matches.emplace_back(std::move(match));
     }
+
+    // Immediately schedule the first reading of all sensors
+    masterTimer = std::make_unique<boost::asio::steady_timer>(io);
+    priorReading = std::chrono::steady_clock::now();
+    masterTimer->expires_at(priorReading);
+    rescheduleMasterTimer();
+
+    // The boost::asio library is now in the driver's seat
     io.run();
 }
