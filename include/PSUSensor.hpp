@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unistd.h>
+
 #include "PwmSensor.hpp"
 #include "Thresholds.hpp"
 #include "sensor.hpp"
@@ -7,6 +9,14 @@
 #include <memory>
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
+
+enum PSUDisposition
+{
+  DISPOSITION_NEW = 0,
+  DISPOSITION_SLOW,
+  DISPOSITION_BAD,
+  DISPOSITION_GOOD
+};
 
 class PSUSensor : public Sensor
 {
@@ -21,20 +31,27 @@ class PSUSensor : public Sensor
               double min, const std::string& label, size_t tSize);
     ~PSUSensor();
 
+    PSUDisposition prepareInput();
+
   private:
     sdbusplus::asio::object_server& objServer;
-    boost::asio::posix::stream_descriptor inputDev;
-    boost::asio::deadline_timer waitTimer;
-    boost::asio::streambuf readBuf;
+    boost::asio::posix::stream_descriptor inputStream;
+
+    // Limit streambuf size to prevent buggy sensor from endless loop reading
+    boost::asio::streambuf inputBuf{static_cast<size_t>(getpagesize())};
+
     std::string path;
     size_t errCount;
+    size_t slowCount;
+    size_t readCount;
+    size_t goodCount;
     unsigned int sensorFactor;
-    void setupRead(void);
+    PSUDisposition disposition;
+    bool readPending;
+
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
 
-    int fd;
-    static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
 };
 

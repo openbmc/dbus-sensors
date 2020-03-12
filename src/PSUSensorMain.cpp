@@ -23,6 +23,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -38,6 +39,8 @@
 #include <vector>
 
 static constexpr bool DEBUG = false;
+
+static constexpr unsigned int sensorPollMs = 1000;
 
 static constexpr std::array<const char*, 7> sensorTypes = {
     "xyz.openbmc_project.Configuration.INA230",
@@ -73,6 +76,8 @@ static boost::container::flat_map<std::string, std::vector<std::string>>
     limitEventMatch;
 
 static std::vector<PSUProperty> psuProperties;
+
+static std::unique_ptr<boost::asio::deadline_timer> masterTimer = nullptr;
 
 // Function CheckEvent will check each attribute from eventMatch table in the
 // sysfs. If the attributes exists in sysfs, then store the complete path
@@ -829,6 +834,70 @@ void propertyInitialize(void)
                          {"fan2", {"fan2_alarm", "fan2_fault"}}}}};
 }
 
+static void rescheduleMasterTimer()
+{
+    size_t countTotal = 0;
+    size_t countNew = 0;
+    size_t countSlow = 0;
+    size_t countGood = 0;
+    size_t countBad = 0;
+
+    // Rewind all input files and schedule all async reading
+    for (auto& sensor : sensors)
+    {
+        // Count sensors by outcome, merely for diagnostics
+        PSUDisposition disposition = sensor.second->prepareInput();
+        switch (disposition)
+        {
+            case DISPOSITION_NEW:
+                ++countNew;
+                break;
+            case DISPOSITION_SLOW:
+                ++countSlow;
+                break;
+            case DISPOSITION_GOOD:
+                ++countGood;
+                break;
+            case DISPOSITION_BAD:
+                ++countBad;
+                break;
+        }
+
+        ++countTotal;
+    }
+
+    if (countGood != countTotal)
+    {
+        std::cerr << "Sensor anomaly: only " << countGood << " of "
+                  << countTotal << " sensors good: " << countNew << " new, "
+                  << countSlow << " slow, " << countBad << " bad\n";
+    }
+
+    if constexpr (DEBUG)
+    {
+        std::cerr << "Sensor timer tick: "
+                  << boost::posix_time::to_iso_extended_string(
+                         masterTimer->expires_at())
+                  << " time, " << countGood << " good, " << countTotal
+                  << " total, " << countNew << " new, " << countSlow
+                  << " slow, " << countBad << " bad\n";
+    }
+
+    // Increment time duration, avoid using expires_from_now() because skew
+    masterTimer->expires_at(masterTimer->expires_at() +
+                            boost::posix_time::millisec(sensorPollMs));
+
+    masterTimer->async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Previous timer operation was aborted\n";
+        }
+
+        // Reschedule timer during timer callback, to keep going perpetually
+        rescheduleMasterTimer();
+    });
+}
+
 int main()
 {
     boost::asio::io_service io;
@@ -872,5 +941,12 @@ int main()
             eventHandler);
         matches.emplace_back(std::move(match));
     }
+
+    // Schedule the first reading of all sensors
+    masterTimer = std::make_unique<boost::asio::deadline_timer>(io);
+    masterTimer->expires_from_now(boost::posix_time::millisec(sensorPollMs));
+    rescheduleMasterTimer();
+
+    // The boost::asio library is now in the driver's seat
     io.run();
 }
