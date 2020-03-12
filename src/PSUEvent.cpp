@@ -102,7 +102,7 @@ PSUCombineEvent::~PSUCombineEvent()
     {
         for (auto& subEventPtr : event.second)
         {
-            subEventPtr.reset();
+            subEventPtr.reset(nullptr);
         }
     }
     events.clear();
@@ -147,6 +147,7 @@ PSUSubEvent::PSUSubEvent(
         return;
     }
     inputDev.assign(fd);
+    inputDev.non_blocking(true);
 
     auto found = logID.find(eventName);
     if (found == logID.end())
@@ -175,6 +176,21 @@ PSUSubEvent::PSUSubEvent(
 
 void PSUSubEvent::setupRead(void)
 {
+    pendingTime = false;
+
+    // This is a cancellation point, after timer, before reading
+    if (deleteQuiescent)
+    {
+        std::cerr << "Event anomaly: Setup called but already quiescent\n";
+    }
+    if (deleteRequested)
+    {
+        deleteQuiescent = true;
+        return;
+    }
+
+    pendingRead = true;
+
     boost::asio::async_read_until(
         inputDev, readBuf, '\n',
         [&](const boost::system::error_code& ec,
@@ -183,16 +199,43 @@ void PSUSubEvent::setupRead(void)
 
 PSUSubEvent::~PSUSubEvent()
 {
-    waitTimer.cancel();
+    // Do not call waitTimer.cancel() here, timer should already be idle,
+    // as caller must wait until deleteQuiescent before destructing this.
     inputDev.close();
 }
 
 void PSUSubEvent::handleResponse(const boost::system::error_code& err)
 {
+    if (err.value() != 0)
+    {
+        std::cerr << "Sensor event " << path << " error: " << err.message()
+                  << "\n";
+    }
+
+    pendingRead = false;
+
+    // This is a cancellation point, after reading, before timer
+    if (deleteQuiescent)
+    {
+        std::cerr << "Event anomaly: Response called but already quiescent\n";
+    }
+    if (deleteRequested)
+    {
+        deleteQuiescent = true;
+        return;
+    }
+
+    // Continue processing, except for these two fatal errors,
+    // because otherwise, the timer would not be rescheduled.
+    if (err == boost::asio::error::operation_aborted)
+    {
+        return;
+    }
     if (err == boost::system::errc::bad_file_descriptor)
     {
         return;
     }
+
     std::istream responseStream(&readBuf);
     if (!err)
     {
@@ -224,15 +267,13 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
         updateValue(0);
         errCount++;
     }
+
+    pendingTime = true;
+
     lseek(fd, 0, SEEK_SET);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(eventPollMs));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            return;
-        }
-        setupRead();
-    });
+    waitTimer.async_wait(
+        [&](const boost::system::error_code& ec) { setupRead(); });
 }
 
 // Any of the sub events of one event is asserted, then the event will be
@@ -356,4 +397,48 @@ void PSUSubEvent::beep(const uint8_t& beepPriority)
         },
         "xyz.openbmc_project.BeepCode", "/xyz/openbmc_project/BeepCode",
         "xyz.openbmc_project.BeepCode", "Beep", uint8_t(beepPriority));
+}
+
+bool PSUSubEvent::isDeleteQuiescent() const
+{
+    return deleteQuiescent;
+}
+
+void PSUSubEvent::requestDelete()
+{
+    deleteRequested = true;
+
+    // If this event is currently idle, it can stay idle
+    if (!(pendingTime || pendingRead))
+    {
+        deleteQuiescent = true;
+    }
+}
+
+bool PSUCombineEvent::isDeleteQuiescent() const
+{
+    for (const auto& eventPair : events)
+    {
+        for (const auto& event : eventPair.second)
+        {
+            // If one not quiescent, entire object not quiescent
+            if (!(event->isDeleteQuiescent()))
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void PSUCombineEvent::requestDelete()
+{
+    for (const auto& eventPair : events)
+    {
+        for (const auto& event : eventPair.second)
+        {
+            event->requestDelete();
+        }
+    }
 }
