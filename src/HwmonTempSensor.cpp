@@ -146,12 +146,18 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
     }
     inputDev.assign(fd);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
+
+    std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
+
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
+
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
-        setupRead();
+        if (self)
+            self->setupRead();
     });
 }
 

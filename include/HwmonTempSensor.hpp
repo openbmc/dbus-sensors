@@ -7,7 +7,8 @@
 #include <string>
 #include <vector>
 
-class HwmonTempSensor : public Sensor
+class HwmonTempSensor : public Sensor,
+                        std::enable_shared_from_this<HwmonTempSensor>
 {
   public:
     HwmonTempSensor(const std::string& path, const std::string& objectType,
