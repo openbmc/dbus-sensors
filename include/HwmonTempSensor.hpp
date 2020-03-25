@@ -7,7 +7,8 @@
 #include <string>
 #include <vector>
 
-class HwmonTempSensor : public Sensor
+class HwmonTempSensor : public Sensor,
+                        public std::enable_shared_from_this<HwmonTempSensor>
 {
   public:
     HwmonTempSensor(const std::string& path, const std::string& objectType,
@@ -18,6 +19,7 @@ class HwmonTempSensor : public Sensor
                     const std::string& sensorConfiguration,
                     const PowerState powerState);
     ~HwmonTempSensor();
+    void setupRead(void);
 
   private:
     sdbusplus::asio::object_server& objServer;
@@ -27,7 +29,7 @@ class HwmonTempSensor : public Sensor
     std::string path;
     PowerState readState;
     size_t errCount;
-    void setupRead(void);
+
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
 };
