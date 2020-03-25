@@ -47,8 +47,9 @@ HwmonTempSensor::HwmonTempSensor(
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading),
-    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), path(path), errCount(0), readState(powerState)
+    std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    errCount(0), readState(powerState)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -71,7 +72,6 @@ HwmonTempSensor::HwmonTempSensor(
         association::interface);
     setInitialProperties(conn);
     setupPowerMatch(conn);
-    setupRead();
 }
 
 HwmonTempSensor::~HwmonTempSensor()
@@ -87,15 +87,24 @@ HwmonTempSensor::~HwmonTempSensor()
 
 void HwmonTempSensor::setupRead(void)
 {
-    boost::asio::async_read_until(
-        inputDev, readBuf, '\n',
-        [&](const boost::system::error_code& ec,
-            std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+    std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
+
+    boost::asio::async_read_until(inputDev, readBuf, '\n',
+                                  [weakRef](const boost::system::error_code& ec,
+                                            std::size_t /*bytes_transfered*/) {
+                                      std::shared_ptr<HwmonTempSensor> self =
+                                          weakRef.lock();
+                                      if (self)
+                                      {
+                                          self->handleResponse(ec);
+                                      }
+                                  });
 }
 
 void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
 {
-    if (err == boost::system::errc::bad_file_descriptor)
+    if ((err == boost::system::errc::bad_file_descriptor) ||
+        (err == boost::asio::error::misc_errors::not_found))
     {
         return; // we're being destroyed
     }
@@ -146,12 +155,17 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
     }
     inputDev.assign(fd);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
+    std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
-        setupRead();
+        if (self)
+        {
+            self->setupRead();
+        }
     });
 }
 
