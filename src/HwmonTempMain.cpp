@@ -51,7 +51,7 @@ static constexpr std::array<const char*, 8> sensorTypes = {
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::unique_ptr<HwmonTempSensor>>&
+    boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::unique_ptr<boost::container::flat_set<std::string>>&
@@ -211,11 +211,11 @@ void createSensors(
                 }
                 auto& sensor = sensors[sensorName];
                 sensor = nullptr;
-                sensor = std::make_unique<HwmonTempSensor>(
+                sensor = std::make_shared<HwmonTempSensor>(
                     directory.string() + "/temp1_input", sensorType,
                     objectServer, dbusConnection, io, sensorName,
                     std::move(sensorThresholds), *interfacePath, readState);
-
+                sensor->setupRead();
                 // Looking for keys like "Name1" for temp2_input,
                 // "Name2" for temp3_input, etc.
                 int i = 0;
@@ -233,12 +233,13 @@ void createSensors(
                         std::get<std::string>(findKey->second);
                     auto& sensor = sensors[sensorName];
                     sensor = nullptr;
-                    sensor = std::make_unique<HwmonTempSensor>(
+                    sensor = std::make_shared<HwmonTempSensor>(
                         directory.string() + "/temp" + std::string(1, '1' + i) +
                             "_input",
                         sensorType, objectServer, dbusConnection, io,
                         sensorName, std::vector<thresholds::Threshold>(),
                         *interfacePath, readState);
+                    sensor->setupRead();
                 }
             }
         }));
@@ -252,7 +253,7 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.HwmonTempSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
-    boost::container::flat_map<std::string, std::unique_ptr<HwmonTempSensor>>
+    boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>
         sensors;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     std::unique_ptr<boost::container::flat_set<std::string>> sensorsChanged =
