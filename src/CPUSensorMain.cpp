@@ -102,6 +102,101 @@ void detectCpuAsync(
     boost::container::flat_set<CPUConfig>& cpuConfigs,
     ManagedObjectType& sensorConfigs);
 
+using CreateSensorCallback =
+    std::function<void(std::string& inputPathStr, std::string& sensorName,
+                       std::vector<thresholds::Threshold>&& thresholds,
+                       bool& show, double& dtsOffset)>;
+
+void parseTempSensors(const fs::path& directory, int& cpuId,
+                      const SensorBaseConfiguration* baseConfiguration,
+                      const SensorData* sensorData,
+                      CreateSensorCallback&& createSensorCallback)
+{
+    std::vector<fs::path> inputPaths;
+    if (!findFiles(directory, R"(temp\d+_input$)", inputPaths, 0))
+    {
+        std::cerr << "No temperature sensors in system\n";
+        return;
+    }
+    // iterate through all found temp sensors
+    for (const auto& inputPath : inputPaths)
+    {
+        auto inputPathStr = inputPath.string();
+        auto labelPath =
+            boost::replace_all_copy(inputPathStr, "input", "label");
+        std::ifstream labelFile(labelPath);
+        if (!labelFile.good())
+        {
+            std::cerr << "Failure reading " << labelPath << "\n";
+            continue;
+        }
+        std::string label;
+        std::getline(labelFile, label);
+        labelFile.close();
+
+        std::string sensorName = label + " CPU" + std::to_string(cpuId);
+
+        auto findSensor = gCpuSensors.find(sensorName);
+        if (findSensor != gCpuSensors.end())
+        {
+            if (DEBUG)
+            {
+                std::cout << "Skipped: " << inputPath << ": " << sensorName
+                          << " is already created\n";
+            }
+            continue;
+        }
+
+        // check hidden properties
+        bool show = true;
+        for (const char* prop : hiddenProps)
+        {
+            if (label == prop)
+            {
+                show = false;
+                break;
+            }
+        }
+
+        /*
+         * Find if there is DtsCritOffset is configured in config file
+         * set it if configured or else set it to 0
+         */
+        double dtsOffset = 0;
+        if (label == "DTS")
+        {
+            auto findThrOffset =
+                baseConfiguration->second.find("DtsCritOffset");
+            if (findThrOffset != baseConfiguration->second.end())
+            {
+                dtsOffset =
+                    std::visit(VariantToDoubleVisitor(), findThrOffset->second);
+            }
+        }
+
+        std::vector<thresholds::Threshold> sensorThresholds;
+        std::string labelHead = label.substr(0, label.find(" "));
+        parseThresholdsFromConfig(*sensorData, sensorThresholds, &labelHead);
+        if (sensorThresholds.empty())
+        {
+            if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
+                                         CPUSensor::sensorScaleFactor,
+                                         dtsOffset))
+            {
+                std::cerr << "error populating thresholds for " << sensorName
+                          << "\n";
+            }
+        }
+        createSensorCallback(inputPathStr, sensorName,
+                             std::move(sensorThresholds), show, dtsOffset);
+        if (DEBUG)
+        {
+            std::cout << "Mapped: " << inputPath << " to " << sensorName
+                      << "\n";
+        }
+    }
+}
+
 bool createSensors(boost::asio::io_service& io,
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -266,97 +361,21 @@ bool createSensors(boost::asio::io_service& io,
             std::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
 
         auto directory = hwmonNamePath.parent_path();
-        std::vector<fs::path> inputPaths;
-        if (!findFiles(directory, R"(temp\d+_input$)", inputPaths, 0))
-        {
-            std::cerr << "No temperature sensors in system\n";
-            continue;
-        }
 
-        // iterate through all found temp sensors
-        for (const auto& inputPath : inputPaths)
-        {
-            auto inputPathStr = inputPath.string();
-            auto labelPath =
-                boost::replace_all_copy(inputPathStr, "input", "label");
-            std::ifstream labelFile(labelPath);
-            if (!labelFile.good())
-            {
-                std::cerr << "Failure reading " << labelPath << "\n";
-                continue;
-            }
-            std::string label;
-            std::getline(labelFile, label);
-            labelFile.close();
-
-            std::string sensorName = label + " CPU" + std::to_string(cpuId);
-
-            auto findSensor = gCpuSensors.find(sensorName);
-            if (findSensor != gCpuSensors.end())
-            {
-                if (DEBUG)
-                {
-                    std::cout << "Skipped: " << inputPath << ": " << sensorName
-                              << " is already created\n";
-                }
-                continue;
-            }
-
-            // check hidden properties
-            bool show = true;
-            for (const char* prop : hiddenProps)
-            {
-                if (label == prop)
-                {
-                    show = false;
-                    break;
-                }
-            }
-
-            /*
-             * Find if there is DtsCritOffset is configured in config file
-             * set it if configured or else set it to 0
-             */
-            double dtsOffset = 0;
-            if (label == "DTS")
-            {
-                auto findThrOffset =
-                    baseConfiguration->second.find("DtsCritOffset");
-                if (findThrOffset != baseConfiguration->second.end())
-                {
-                    dtsOffset = std::visit(VariantToDoubleVisitor(),
-                                           findThrOffset->second);
-                }
-            }
-
-            std::vector<thresholds::Threshold> sensorThresholds;
-            std::string labelHead = label.substr(0, label.find(" "));
-            parseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                      &labelHead);
-            if (sensorThresholds.empty())
-            {
-                if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
-                                             CPUSensor::sensorScaleFactor,
-                                             dtsOffset))
-                {
-                    std::cerr << "error populating thresholds for "
-                              << sensorName << "\n";
-                }
-            }
-            auto& sensorPtr = gCpuSensors[sensorName];
-            // make sure destructor fires before creating a new one
-            sensorPtr = nullptr;
-            sensorPtr = std::make_unique<CPUSensor>(
-                inputPathStr, sensorType, objectServer, dbusConnection, io,
-                sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show, dtsOffset);
-            createdSensors.insert(sensorName);
-            if (DEBUG)
-            {
-                std::cout << "Mapped: " << inputPath << " to " << sensorName
-                          << "\n";
-            }
-        }
+        parseTempSensors(
+            directory, cpuId, baseConfiguration, sensorData,
+            [&](std::string& inputPathStr, std::string& sensorName,
+                std::vector<thresholds::Threshold>&& sensorThresholds,
+                bool& show, double& dtsOffset) {
+                auto& sensorPtr = gCpuSensors[sensorName];
+                // make sure destructor fires before creating a new one
+                sensorPtr = nullptr;
+                sensorPtr = std::make_unique<CPUSensor>(
+                    inputPathStr, sensorType, objectServer, dbusConnection, io,
+                    sensorName, std::move(sensorThresholds), *interfacePath,
+                    cpuId, show, dtsOffset);
+                createdSensors.insert(sensorName);
+            });
     }
 
     if (createdSensors.size())
