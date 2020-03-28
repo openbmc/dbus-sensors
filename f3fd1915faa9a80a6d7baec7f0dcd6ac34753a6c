@@ -1,0 +1,8 @@
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+2: James Feist <james.feist@linux.intel.com>
+Submitted-by: Yong Li <yong.b.li@intel.com>
+Submitted-at: Sat, 28 Mar 2020 04:32:58 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/30627
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
