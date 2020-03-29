@@ -64,9 +64,12 @@ PSUCombineEvent::PSUCombineEvent(
         std::string eventPSUName = eventName + psuName;
         for (const auto& path : pathList.second)
         {
-            events[eventPSUName].emplace_back(std::make_unique<PSUSubEvent>(
+            auto p = std::make_shared<PSUSubEvent>(
                 eventInterface, path, io, eventName, eventName, assert,
-                combineEvent, state, psuName));
+                combineEvent, state, psuName);
+            p->setupRead();
+
+            events[eventPSUName].emplace_back(p);
             asserts.emplace_back(assert);
             states.emplace_back(state);
         }
@@ -84,9 +87,12 @@ PSUCombineEvent::PSUCombineEvent(
             std::string eventPSUName = groupEventName + psuName;
             for (const auto& path : pathList.second)
             {
-                events[eventPSUName].emplace_back(std::make_unique<PSUSubEvent>(
+                auto p = std::make_shared<PSUSubEvent>(
                     eventInterface, path, io, groupEventName,
-                    groupPathList.first, assert, combineEvent, state, psuName));
+                    groupPathList.first, assert, combineEvent, state, psuName);
+                p->setupRead();
+                events[eventPSUName].emplace_back(p);
+
                 asserts.emplace_back(assert);
                 states.emplace_back(state);
             }
@@ -133,10 +139,11 @@ PSUSubEvent::PSUSubEvent(
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
     std::shared_ptr<bool> state, const std::string& psuName) :
-    eventInterface(eventInterface),
-    asserts(asserts), combineEvent(combineEvent), assertState(state),
-    errCount(0), path(path), eventName(eventName), waitTimer(io), inputDev(io),
-    psuName(psuName), groupEventName(groupEventName)
+    std::enable_shared_from_this<PSUSubEvent>(),
+    eventInterface(eventInterface), asserts(asserts),
+    combineEvent(combineEvent), assertState(state), errCount(0), path(path),
+    eventName(eventName), waitTimer(io), inputDev(io), psuName(psuName),
+    groupEventName(groupEventName)
 {
     fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
@@ -168,15 +175,29 @@ PSUSubEvent::PSUSubEvent(
             fanName = fanName.substr(0, fanNamePos);
         }
     }
-    setupRead();
 }
 
 void PSUSubEvent::setupRead(void)
 {
+    std::shared_ptr<PSUEventReadBuffer> buffer =
+        std::make_shared<PSUEventReadBuffer>();
+    std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
+
     boost::asio::async_read_until(
-        inputDev, readBuf, '\n',
-        [&](const boost::system::error_code& ec,
-            std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+        inputDev, buffer->readBuf, '\n',
+        [weakRef, buffer](const boost::system::error_code& ec,
+                          std::size_t /*bytes_transfered*/) {
+            std::string response(
+                boost::asio::buffers_begin(buffer->readBuf.data()),
+                boost::asio::buffers_end(buffer->readBuf.data()));
+            std::shared_ptr<PSUSubEvent> self = weakRef.lock();
+            if (self)
+            {
+                std::ostream output(&self->readBuf);
+                output << response;
+                self->handleResponse(ec);
+            }
+        });
 }
 
 PSUSubEvent::~PSUSubEvent()
@@ -187,7 +208,8 @@ PSUSubEvent::~PSUSubEvent()
 
 void PSUSubEvent::handleResponse(const boost::system::error_code& err)
 {
-    if (err == boost::system::errc::bad_file_descriptor)
+    if ((err == boost::system::errc::bad_file_descriptor) ||
+        (err == boost::asio::error::misc_errors::not_found))
     {
         return;
     }
@@ -224,12 +246,18 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
     }
     lseek(fd, 0, SEEK_SET);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(eventPollMs));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
+
+    std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<PSUSubEvent> self = weakRef.lock();
         if (ec == boost::asio::error::operation_aborted)
         {
             return;
         }
-        setupRead();
+        if (self)
+        {
+            self->setupRead();
+        }
     });
 }
 
