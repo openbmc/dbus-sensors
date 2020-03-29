@@ -55,7 +55,7 @@ static std::vector<std::string> pmbusNames = {
 
 namespace fs = std::filesystem;
 
-static boost::container::flat_map<std::string, std::unique_ptr<PSUSensor>>
+static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
     sensors;
 static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
     combineEvents;
@@ -732,12 +732,12 @@ void createSensors(boost::asio::io_service& io,
                           << "\"\n";
             }
 
-            sensors[sensorName] = std::make_unique<PSUSensor>(
+            sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, psuProperty->maxReading,
                 psuProperty->minReading, labelHead, thresholdConfSize);
-
+            sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (DEBUG)
             {
