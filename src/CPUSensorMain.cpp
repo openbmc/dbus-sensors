@@ -31,6 +31,7 @@
 #include <fstream>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <regex>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -102,97 +103,127 @@ void detectCpuAsync(
     boost::container::flat_set<CPUConfig>& cpuConfigs,
     ManagedObjectType& sensorConfigs);
 
-using CreateSensorCallback =
-    std::function<void(std::string& inputPathStr, std::string& sensorName,
-                       std::vector<thresholds::Threshold>&& thresholds,
-                       bool& show, double& dtsOffset)>;
+using CreateSensorCallback = std::function<void(
+    const std::string& inputPathStr, const std::string& sensorName,
+    std::vector<thresholds::Threshold>&& thresholds, bool& show,
+    double& dtsOffset)>;
+
+/**
+ * Reads file sensorFileBase + "_label" and returns its value.
+ */
+std::optional<std::string> getLabel(const fs::path& sensorFileBase)
+{
+    const auto labelPath = sensorFileBase.string() + sysfsScheme::itemLabel;
+    std::string line;
+    std::ifstream labelFile(labelPath);
+    if (labelFile.good())
+    {
+        std::getline(labelFile, line);
+        labelFile.close();
+        return std::make_optional(line);
+    }
+    return std::nullopt;
+}
+
+std::optional<double>
+    findDtsCritOffset(const std::string& label,
+                      const SensorBaseConfiguration* baseConfiguration)
+{
+    if (label == "DTS")
+    {
+        auto findThrOffset = baseConfiguration->second.find("DtsCritOffset");
+        if (findThrOffset != baseConfiguration->second.end())
+        {
+            return std::make_optional(
+                std::visit(VariantToDoubleVisitor(), findThrOffset->second));
+        }
+    }
+    return std::nullopt;
+}
+
+/**
+ * For given 'directory' returns all sesnor file types.
+ * (removes from filename any suffixes like _label, _input, etc to get only tye
+ * type)
+ */
+auto sensorPaths(const fs::path& directory, const std::string& sensorType)
+{
+    auto regex = sensorType + R"(\d+_\w+$)";
+    std::vector<fs::path> output;
+    if (findFiles(directory, regex, output, 0))
+    {
+        for (auto& filePath : output)
+        {
+            if (filePath.has_filename())
+            {
+                auto fieleName = filePath.filename().string();
+                std::string newFieleName =
+                    fieleName.substr(0, fieleName.find_first_of("_"));
+                filePath.replace_filename(newFieleName);
+            }
+        }
+        std::sort(output.begin(), output.end());
+        auto last = std::unique(output.begin(), output.end());
+        output.erase(last, output.end());
+    }
+    return output;
+}
+
+bool isSensorHidden(const std::string& label)
+{
+    return std::find(std::begin(hiddenProps), std::end(hiddenProps), label) !=
+           std::end(hiddenProps);
+}
 
 void parseTempSensors(const fs::path& directory, int& cpuId,
                       const SensorBaseConfiguration* baseConfiguration,
                       const SensorData* sensorData,
                       CreateSensorCallback&& createSensorCallback)
 {
-    std::vector<fs::path> inputPaths;
-    if (!findFiles(directory, R"(temp\d+_input$)", inputPaths, 0))
+    for (const auto& inputPath : sensorPaths(directory, sysfsScheme::typeTemp))
     {
-        std::cerr << "No temperature sensors in system\n";
-        return;
-    }
-    // iterate through all found temp sensors
-    for (const auto& inputPath : inputPaths)
-    {
-        auto inputPathStr = inputPath.string();
-        auto labelPath =
-            boost::replace_all_copy(inputPathStr, "input", "label");
-        std::ifstream labelFile(labelPath);
-        if (!labelFile.good())
+        const auto inputPathStr = inputPath.string() + sysfsScheme::itemInput;
+        if (const auto label = getLabel(inputPath))
         {
-            std::cerr << "Failure reading " << labelPath << "\n";
-            continue;
-        }
-        std::string label;
-        std::getline(labelFile, label);
-        labelFile.close();
+            const std::string sensorName =
+                *label + " CPU" + std::to_string(cpuId);
 
-        std::string sensorName = label + " CPU" + std::to_string(cpuId);
+            if (gCpuSensors.count(sensorName))
+            {
+                if (DEBUG)
+                {
+                    std::cout << "Skipped: " << inputPath << ": " << sensorName
+                              << " is already created\n";
+                }
+                continue;
+            }
 
-        auto findSensor = gCpuSensors.find(sensorName);
-        if (findSensor != gCpuSensors.end())
-        {
+            bool show = !isSensorHidden(*label);
+
+            double dtsOffset =
+                findDtsCritOffset(*label, baseConfiguration).value_or(0);
+
+            std::vector<thresholds::Threshold> sensorThresholds;
+            std::string labelHead = label->substr(0, label->find(" "));
+            parseThresholdsFromConfig(*sensorData, sensorThresholds,
+                                      &labelHead);
+            if (sensorThresholds.empty())
+            {
+                if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
+                                             CPUSensor::sensorScaleFactor,
+                                             dtsOffset))
+                {
+                    std::cerr << "error populating thresholds for "
+                              << sensorName << "\n";
+                }
+            }
+            createSensorCallback(inputPathStr, sensorName,
+                                 std::move(sensorThresholds), show, dtsOffset);
             if (DEBUG)
             {
-                std::cout << "Skipped: " << inputPath << ": " << sensorName
-                          << " is already created\n";
-            }
-            continue;
-        }
-
-        // check hidden properties
-        bool show = true;
-        for (const char* prop : hiddenProps)
-        {
-            if (label == prop)
-            {
-                show = false;
-                break;
-            }
-        }
-
-        /*
-         * Find if there is DtsCritOffset is configured in config file
-         * set it if configured or else set it to 0
-         */
-        double dtsOffset = 0;
-        if (label == "DTS")
-        {
-            auto findThrOffset =
-                baseConfiguration->second.find("DtsCritOffset");
-            if (findThrOffset != baseConfiguration->second.end())
-            {
-                dtsOffset =
-                    std::visit(VariantToDoubleVisitor(), findThrOffset->second);
-            }
-        }
-
-        std::vector<thresholds::Threshold> sensorThresholds;
-        std::string labelHead = label.substr(0, label.find(" "));
-        parseThresholdsFromConfig(*sensorData, sensorThresholds, &labelHead);
-        if (sensorThresholds.empty())
-        {
-            if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
-                                         CPUSensor::sensorScaleFactor,
-                                         dtsOffset))
-            {
-                std::cerr << "error populating thresholds for " << sensorName
+                std::cout << "Mapped: " << inputPath << " to " << sensorName
                           << "\n";
             }
-        }
-        createSensorCallback(inputPathStr, sensorName,
-                             std::move(sensorThresholds), show, dtsOffset);
-        if (DEBUG)
-        {
-            std::cout << "Mapped: " << inputPath << " to " << sensorName
-                      << "\n";
         }
     }
 }
@@ -364,7 +395,7 @@ bool createSensors(boost::asio::io_service& io,
 
         parseTempSensors(
             directory, cpuId, baseConfiguration, sensorData,
-            [&](std::string& inputPathStr, std::string& sensorName,
+            [&](const std::string& inputPathStr, const std::string& sensorName,
                 std::vector<thresholds::Threshold>&& sensorThresholds,
                 bool& show, double& dtsOffset) {
                 auto& sensorPtr = gCpuSensors[sensorName];

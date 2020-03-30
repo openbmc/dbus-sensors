@@ -10,6 +10,19 @@
 
 constexpr size_t sensorFailedPollTimeMs = 5000;
 
+/**
+ * The common scheme for sysfs files naming is: <type><number>_<item>.
+ * This namespace defines possible sensor type and item values used in this
+ * implementation.
+ */
+namespace sysfsScheme
+{
+constexpr const char* itemLabel = "_label";
+constexpr const char* itemInput = "_input";
+
+constexpr const char* typeTemp = "temp";
+} // namespace sysfsScheme
+
 constexpr const char* sensorValueInterface = "xyz.openbmc_project.Sensor.Value";
 struct Sensor
 {
