@@ -100,6 +100,11 @@ struct ThresholdTimer
     Sensor* sensor;
 };
 
+// The common scheme for sysfs files naming is: <type><number>_<item>.
+// This function returns optionally these 3 elements as a tuple.
+std::optional<std::tuple<std::string, std::string, std::string>>
+    splitFileName(const std::filesystem::path& filePath);
+
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
