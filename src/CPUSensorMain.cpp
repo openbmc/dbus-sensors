@@ -267,7 +267,8 @@ bool createSensors(boost::asio::io_service& io,
 
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
-        if (!findFiles(directory, R"(temp\d+_input$)", inputPaths, 0))
+        if (!findFiles(directory, R"((temp|power)\d+_(input|average)$)",
+                       inputPaths, 0))
         {
             std::cerr << "No temperature sensors in system\n";
             continue;
@@ -276,9 +277,15 @@ bool createSensors(boost::asio::io_service& io,
         // iterate through all found temp sensors
         for (const auto& inputPath : inputPaths)
         {
+            auto fileParts = thresholds::splitFileName(inputPath);
+            if (!fileParts)
+            {
+                continue;
+            }
+            auto [type, nr, item] = *fileParts;
             auto inputPathStr = inputPath.string();
             auto labelPath =
-                boost::replace_all_copy(inputPathStr, "input", "label");
+                boost::replace_all_copy(inputPathStr, item, "label");
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {

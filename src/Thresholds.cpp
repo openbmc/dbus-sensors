@@ -13,6 +13,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -396,68 +397,94 @@ void assertThresholds(Sensor* sensor, thresholds::Level level,
     interface->set_property(property, assert);
 }
 
-static constexpr std::array<const char*, 4> attrTypes = {"lcrit", "min", "max",
-                                                         "crit"};
+/**
+ * Reads file sensorFile and optianlly returns its value divided by the
+ * scaleFactor.
+ */
+std::optional<double> readFile(const std::string& thresholdFile,
+                               const double& scaleFactor)
+{
+    std::string line;
+    std::ifstream labelFile(thresholdFile);
+    if (labelFile.good())
+    {
+        std::getline(labelFile, line);
+        labelFile.close();
+
+        try
+        {
+            return std::stod(line) / scaleFactor;
+        }
+        catch (const std::invalid_argument&)
+        {
+            return std::nullopt;
+        }
+    }
+    return std::nullopt;
+}
+
+std::optional<std::tuple<std::string, std::string, std::string>>
+    splitFileName(const std::filesystem::path& filePath)
+{
+    if (filePath.has_filename())
+    {
+        const auto fileName = filePath.filename().string();
+        const std::regex rx(R"((\w+)(\d+)_(.*))");
+        std::smatch mr;
+
+        if (std::regex_search(fileName, mr, rx))
+        {
+            if (mr.size() == 4)
+            {
+                return std::make_optional(std::make_tuple(mr[1], mr[2], mr[3]));
+            }
+        }
+    }
+    return std::nullopt;
+}
 
 bool parseThresholdsFromAttr(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string& inputPath, const double& scaleFactor,
     const double& offset)
 {
-    for (const std::string& type : attrTypes)
+    auto averageTypeThresholds = {
+        std::make_tuple("average_min", Level::WARNING, Direction::LOW, 0.0),
+        std::make_tuple("average_max", Level::WARNING, Direction::HIGH, 0.0),
+    };
+
+    auto inputTypeThresholds = {
+        std::make_tuple("min", Level::WARNING, Direction::LOW, 0.0),
+        std::make_tuple("max", Level::WARNING, Direction::HIGH, 0.0),
+        std::make_tuple("lcrit", Level::CRITICAL, Direction::LOW, 0.0),
+        std::make_tuple("crit", Level::CRITICAL, Direction::HIGH, offset),
+    };
+
+    if (auto fileParts = splitFileName(inputPath))
     {
-        auto attrPath = boost::replace_all_copy(inputPath, "input", type);
-        std::ifstream attrFile(attrPath);
-        if (!attrFile.good())
+        auto [type, nr, item] = *fileParts;
+        auto& thresholdDefs = inputTypeThresholds;
+        if (item.compare("average") == 0)
         {
-            continue;
+            thresholdDefs = averageTypeThresholds;
         }
-        std::string attr;
-        std::getline(attrFile, attr);
-        attrFile.close();
-
-        Level level;
-        Direction direction;
-        double val;
-        try
-        {
-            val = std::stod(attr) / scaleFactor;
-        }
-        catch (const std::invalid_argument&)
-        {
-            return false;
-        }
-
-        if (type == "min" || type == "max")
-        {
-            level = Level::WARNING;
-        }
-        else
-        {
-            level = Level::CRITICAL;
-        }
-        if (type == "min" || type == "lcrit")
-        {
-            direction = Direction::LOW;
-        }
-        else
-        {
-            direction = Direction::HIGH;
-        }
-
-        if (type == "crit")
-        {
-            val += offset;
-        }
-
-        if (DEBUG)
-        {
-            std::cout << "Threshold: " << attrPath << ": " << val << "\n";
-        }
-
-        thresholdVector.emplace_back(level, direction, val);
+        std::for_each(
+            thresholdDefs.begin(), thresholdDefs.end(), [&](const auto& t) {
+                auto [suffix, level, direction, offset] = t;
+                auto attrPath =
+                    boost::replace_all_copy(inputPath, item, suffix);
+                if (auto val = readFile(attrPath, scaleFactor))
+                {
+                    *val += offset;
+                    if (DEBUG)
+                    {
+                        std::cout << "Threshold: " << attrPath << ": " << *val
+                                  << "\n";
+                    }
+                    thresholdVector.emplace_back(level, direction, *val);
+                }
+            });
     }
-    // no thresholds is allowed, not an error so return true.
     return true;
 }
 
