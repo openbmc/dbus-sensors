@@ -53,26 +53,35 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
 
     if (show)
     {
-        sensorInterface = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Value");
-        if (thresholds::hasWarningInterface(thresholds))
+        if (auto fileParts = thresholds::splitFileName(path))
         {
-            thresholdInterfaceWarning = objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name,
-                "xyz.openbmc_project.Sensor.Threshold.Warning");
-        }
-        if (thresholds::hasCriticalInterface(thresholds))
-        {
-            thresholdInterfaceCritical = objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name,
-                "xyz.openbmc_project.Sensor.Threshold.Critical");
-        }
-        association = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            association::interface);
+            auto [type, nr, item] = *fileParts;
+            auto interfacePath =
+                "/xyz/openbmc_project/sensors/temperature/" + name;
+            if (type.compare("power") == 0)
+            {
+                interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
+            }
 
-        setInitialProperties(conn);
+            sensorInterface = objectServer.add_interface(
+                interfacePath, "xyz.openbmc_project.Sensor.Value");
+            if (thresholds::hasWarningInterface(thresholds))
+            {
+                thresholdInterfaceWarning = objectServer.add_interface(
+                    interfacePath,
+                    "xyz.openbmc_project.Sensor.Threshold.Warning");
+            }
+            if (thresholds::hasCriticalInterface(thresholds))
+            {
+                thresholdInterfaceCritical = objectServer.add_interface(
+                    interfacePath,
+                    "xyz.openbmc_project.Sensor.Threshold.Critical");
+            }
+            association = objectServer.add_interface(interfacePath,
+                                                     association::interface);
+
+            setInitialProperties(conn);
+        }
     }
     setupPowerMatch(conn);
     setupRead();
