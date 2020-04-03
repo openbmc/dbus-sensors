@@ -37,7 +37,7 @@ option (YOCTO "Enable Building in Yocto" OFF)
 option (HUNTER_ENABLED "Enable hunter package pulling" OFF)
 
 option (DISABLE_ADC "Disable installing ADC sensor" OFF)
-option (DISBALE_CPU "Disable installing CPU sensor" OFF)
+option (DISABLE_CPU "Disable installing CPU sensor" OFF)
 option (DISABLE_EXIT_AIR "Disable installing Exit Air Temp sensor" OFF)
 option (DISABLE_FAN "Disable installing fan sensor" OFF)
 option (DISABLE_HWMON_TEMP "Disable installing hwmon temp sensor" OFF)
