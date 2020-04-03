@@ -27,8 +27,10 @@ class PSUSubEvent
 {
   public:
     PSUSubEvent(std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
-                const std::string& path, boost::asio::io_service& io,
-                const std::string& groupEventName, const std::string& eventName,
+                const std::string& path,
+                std::shared_ptr<sdbusplus::asio::connection>& conn,
+                boost::asio::io_service& io, const std::string& groupEventName,
+                const std::string& eventName,
                 std::shared_ptr<std::set<std::string>> asserts,
                 std::shared_ptr<std::set<std::string>> combineEvent,
                 std::shared_ptr<bool> state, const std::string& psuName);
@@ -51,6 +53,8 @@ class PSUSubEvent
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void updateValue(const int& newValue);
+    void beep(const uint8_t& beepPriority);
+    static constexpr uint8_t beepPSUFailure = 2;
     boost::asio::posix::stream_descriptor inputDev;
     static constexpr unsigned int eventPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
@@ -58,6 +62,7 @@ class PSUSubEvent
     std::string fanName;
     std::string assertMessage;
     std::string deassertMessage;
+    std::shared_ptr<sdbusplus::asio::connection> systemBus;
 };
 
 class PSUCombineEvent
@@ -65,6 +70,7 @@ class PSUCombineEvent
   public:
     PSUCombineEvent(
         sdbusplus::asio::object_server& objectSever,
+        std::shared_ptr<sdbusplus::asio::connection>& conn,
         boost::asio::io_service& io, const std::string& psuName,
         boost::container::flat_map<std::string, std::vector<std::string>>&
             eventPathList,
