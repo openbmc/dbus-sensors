@@ -747,9 +747,9 @@ void createSensors(boost::asio::io_service& io,
         // OperationalStatus event
         combineEvents[*psuName + "OperationalStatus"] = nullptr;
         combineEvents[*psuName + "OperationalStatus"] =
-            std::make_unique<PSUCombineEvent>(objectServer, io, *psuName,
-                                              eventPathList, groupEventPathList,
-                                              "OperationalStatus");
+            std::make_unique<PSUCombineEvent>(
+                objectServer, dbusConnection, io, *psuName, eventPathList,
+                groupEventPathList, "OperationalStatus");
     }
 
     if constexpr (DEBUG)
