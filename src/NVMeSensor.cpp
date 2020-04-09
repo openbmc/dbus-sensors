@@ -51,6 +51,7 @@ int getInFd(int rootBus)
     if (fd < 0)
     {
         std::cerr << "Error opening IN Bus " << rootBus << "\n";
+        return fd;
     }
     inFds[rootBus] = fd;
     return fd;
@@ -67,6 +68,7 @@ int getOutFd(int bus)
     if (fd < 0)
     {
         std::cerr << "Error opening Out Bus " << bus << "\n";
+        return fd;
     }
     outFds[bus] = fd;
     return fd;
