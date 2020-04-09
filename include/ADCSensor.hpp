@@ -42,7 +42,14 @@ class BridgeGpio
     {
         if (line)
         {
-            line.set_value(value);
+            try
+            {
+                line.set_value(value);
+            }
+            catch (std::system_error& exc)
+            {
+                std::cerr << "Error set_value: " << exc.what() << "\n";
+            }
         }
     }
 
