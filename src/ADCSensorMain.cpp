@@ -65,7 +65,7 @@ bool isAdc(const fs::path& parentPath)
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::unique_ptr<ADCSensor>>&
+    boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::unique_ptr<boost::container::flat_set<std::string>>&
@@ -269,10 +269,11 @@ void createSensors(
                     }
                 }
 
-                sensor = std::make_unique<ADCSensor>(
+                sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
                     std::move(sensorThresholds), scaleFactor, readState,
                     *interfacePath, std::move(bridgeGpio));
+                sensor->setupRead();
             }
         }));
 
@@ -286,7 +287,7 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.ADCSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
-    boost::container::flat_map<std::string, std::unique_ptr<ADCSensor>> sensors;
+    boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>> sensors;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     std::unique_ptr<boost::container::flat_set<std::string>> sensorsChanged =
         std::make_unique<boost::container::flat_set<std::string>>();
