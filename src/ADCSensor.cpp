@@ -54,10 +54,10 @@ ADCSensor::ADCSensor(const std::string& path,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
-    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), path(path), errCount(0), scaleFactor(scaleFactor),
-    bridgeGpio(std::move(bridgeGpio)), readState(std::move(readState)),
-    thresholdTimer(io, this)
+    std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    errCount(0), scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
+    readState(std::move(readState)), thresholdTimer(io, this)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
@@ -77,7 +77,6 @@ ADCSensor::ADCSensor(const std::string& path,
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
     setInitialProperties(conn);
-    setupRead();
 
     // setup match
     setupPowerMatch(conn);
@@ -96,6 +95,11 @@ ADCSensor::~ADCSensor()
 
 void ADCSensor::setupRead(void)
 {
+    std::shared_ptr<ADCSensorReadBuffer> buffer =
+        std::make_shared<ADCSensorReadBuffer>();
+
+    std::weak_ptr<ADCSensor> weakRef = weak_from_this();
+
     if (bridgeGpio.has_value())
     {
         (*bridgeGpio).set(1);
@@ -105,28 +109,61 @@ void ADCSensor::setupRead(void)
         // could be instability.
         waitTimer.expires_from_now(
             boost::posix_time::milliseconds(gpioBridgeEnableMs));
-        waitTimer.async_wait([&](const boost::system::error_code& ec) {
+        waitTimer.async_wait([weakRef,
+                              buffer](const boost::system::error_code& ec) {
+            std::shared_ptr<ADCSensor> self = weakRef.lock();
+
             if (ec == boost::asio::error::operation_aborted)
             {
                 return; // we're being canceled
             }
-            boost::asio::async_read_until(
-                inputDev, readBuf, '\n',
-                [&](const boost::system::error_code& ec,
-                    std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+
+            if (self)
+            {
+                boost::asio::async_read_until(
+                    self->inputDev, buffer->readBuf, '\n',
+                    [weakRef, buffer](const boost::system::error_code& ec,
+                                      std::size_t /*bytes_transfered*/) {
+                        std::shared_ptr<ADCSensor> self = weakRef.lock();
+                        std::string response(
+                            boost::asio::buffers_begin(buffer->readBuf.data()),
+                            boost::asio::buffers_end(buffer->readBuf.data()));
+
+                        if (self)
+                        {
+                            std::ostream output(&self->readBuf);
+                            output << response;
+                            self->handleResponse(ec);
+                        }
+                    });
+            }
         });
     }
     else
     {
         boost::asio::async_read_until(
-            inputDev, readBuf, '\n',
-            [&](const boost::system::error_code& ec,
-                std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+            inputDev, buffer->readBuf, '\n',
+            [weakRef, buffer](const boost::system::error_code& ec,
+                              std::size_t /*bytes_transfered*/) {
+                std::shared_ptr<ADCSensor> self = weakRef.lock();
+                std::string response(
+                    boost::asio::buffers_begin(buffer->readBuf.data()),
+                    boost::asio::buffers_end(buffer->readBuf.data()));
+
+                if (self)
+                {
+                    std::ostream output(&self->readBuf);
+                    output << response;
+                    self->handleResponse(ec);
+                }
+            });
     }
 }
 
 void ADCSensor::handleResponse(const boost::system::error_code& err)
 {
+    std::weak_ptr<ADCSensor> weakRef = weak_from_this();
+
     if (err == boost::system::errc::bad_file_descriptor)
     {
         return; // we're being destroyed
@@ -188,12 +225,17 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
     }
     inputDev.assign(fd);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<ADCSensor> self = weakRef.lock();
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
-        setupRead();
+
+        if (self)
+        {
+            self->setupRead();
+        }
     });
 }
 
