@@ -8,7 +8,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <string>
 
-class PSUSensor : public Sensor
+class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 {
   public:
     PSUSensor(const std::string& path, const std::string& objectType,
@@ -20,6 +20,7 @@ class PSUSensor : public Sensor
               std::string& sensorTypeName, unsigned int factor, double max,
               double min, const std::string& label, size_t tSize);
     ~PSUSensor();
+    void setupRead(void);
 
   private:
     sdbusplus::asio::object_server& objServer;
@@ -29,7 +30,6 @@ class PSUSensor : public Sensor
     std::string path;
     size_t errCount;
     unsigned int sensorFactor;
-    void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
 

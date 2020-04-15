@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 
-class PSUSubEvent
+class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
 {
   public:
     PSUSubEvent(std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
@@ -40,6 +40,7 @@ class PSUSubEvent
     std::shared_ptr<std::set<std::string>> asserts;
     std::shared_ptr<std::set<std::string>> combineEvent;
     std::shared_ptr<bool> assertState;
+    void setupRead(void);
 
   private:
     int value = 0;
@@ -50,7 +51,6 @@ class PSUSubEvent
     std::string groupEventName;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
-    void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void updateValue(const int& newValue);
     void beep(const uint8_t& beepPriority);
@@ -84,7 +84,7 @@ class PSUCombineEvent
     sdbusplus::asio::object_server& objServer;
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface;
     boost::container::flat_map<std::string,
-                               std::vector<std::unique_ptr<PSUSubEvent>>>
+                               std::vector<std::shared_ptr<PSUSubEvent>>>
         events;
     std::vector<std::shared_ptr<std::set<std::string>>> asserts;
     std::vector<std::shared_ptr<bool>> states;
