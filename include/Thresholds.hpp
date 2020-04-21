@@ -45,7 +45,14 @@ struct Threshold
 void assertThresholds(Sensor* sensor, thresholds::Level level,
                       thresholds::Direction direction, bool assert);
 
-using TimerPair = std::pair<bool, boost::asio::deadline_timer>;
+struct TimerUsed
+{
+    bool used;
+    Level level;
+    Direction direction;
+};
+
+using TimerPair = std::pair<struct TimerUsed, boost::asio::deadline_timer>;
 
 struct ThresholdTimer
 {
@@ -55,14 +62,32 @@ struct ThresholdTimer
     {
     }
 
+    void stopTimer(const Threshold& threshold)
+    {
+        struct TimerUsed timerUsed = {};
+        for (TimerPair& timer : timers)
+        {
+            timerUsed = timer.first;
+            if (timerUsed.used)
+            {
+                if ((timerUsed.level == threshold.level) &&
+                    (timerUsed.direction == threshold.direction))
+                {
+                    timer.second.cancel();
+                }
+            }
+        }
+    }
+
     void startTimer(const Threshold& threshold)
     {
+        struct TimerUsed timerUsed = {};
         constexpr const size_t waitTime = 5;
         TimerPair* pair = nullptr;
 
         for (TimerPair& timer : timers)
         {
-            if (!timer.first)
+            if (!timer.first.used)
             {
                 pair = &timer;
                 break;
@@ -70,13 +95,16 @@ struct ThresholdTimer
         }
         if (pair == nullptr)
         {
-            pair = &timers.emplace_back(false, boost::asio::deadline_timer(io));
+            pair = &timers.emplace_back(timerUsed,
+                                        boost::asio::deadline_timer(io));
         }
-        pair->first = true;
+        pair->first.used = true;
+        pair->first.level = threshold.level;
+        pair->first.direction = threshold.direction;
         pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
         pair->second.async_wait(
             [this, pair, threshold](boost::system::error_code ec) {
-                pair->first = false;
+                pair->first.used = false;
 
                 if (ec == boost::asio::error::operation_aborted)
                 {

@@ -348,6 +348,7 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
         }
         else
         {
+            thresholdTimer.stopTimer(threshold);
             assertThresholds(sensor, threshold.level, threshold.direction,
                              false);
         }
