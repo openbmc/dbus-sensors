@@ -145,13 +145,13 @@ struct Sensor
             std::cerr << "error initializing value interface\n";
         }
         if (thresholdInterfaceWarning &&
-            !thresholdInterfaceWarning->initialize())
+            !thresholdInterfaceWarning->initialize(true))
         {
             std::cerr << "error initializing warning threshold interface\n";
         }
 
         if (thresholdInterfaceCritical &&
-            !thresholdInterfaceCritical->initialize())
+            !thresholdInterfaceCritical->initialize(true))
         {
             std::cerr << "error initializing critical threshold interface\n";
         }
