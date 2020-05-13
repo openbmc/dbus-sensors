@@ -92,8 +92,7 @@ static bool getIntrusionSensorConfig(
         // judge class, "Gpio" or "I2C"
         auto findClass = baseConfiguration->second.find("Class");
         if (findClass != baseConfiguration->second.end() &&
-            sdbusplus::message::variant_ns::get<std::string>(
-                findClass->second) == "Gpio")
+            std::get<std::string>(findClass->second) == "Gpio")
         {
             *pType = IntrusionSensorType::gpio;
         }
@@ -117,8 +116,7 @@ static bool getIntrusionSensorConfig(
             try
             {
                 *pGpioInverted =
-                    (sdbusplus::message::variant_ns::get<std::string>(
-                         findGpioPolarity->second) == "Low");
+                    (std::get<std::string>(findGpioPolarity->second) == "Low");
             }
             catch (const std::bad_variant_access& e)
             {
@@ -150,10 +148,8 @@ static bool getIntrusionSensorConfig(
 
             try
             {
-                *pBusId = sdbusplus::message::variant_ns::get<uint64_t>(
-                    findBus->second);
-                *pSlaveAddr = sdbusplus::message::variant_ns::get<uint64_t>(
-                    findAddress->second);
+                *pBusId = std::get<uint64_t>(findBus->second);
+                *pSlaveAddr = std::get<uint64_t>(findAddress->second);
             }
             catch (const std::bad_variant_access& e)
             {
