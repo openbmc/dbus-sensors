@@ -37,9 +37,10 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool DEBUG = true;
+//static constexpr bool DEBUG = false;
 
-static constexpr std::array<const char*, 8> sensorTypes = {
+static constexpr std::array<const char*, 9> sensorTypes = {
     "xyz.openbmc_project.Configuration.INA230",
     "xyz.openbmc_project.Configuration.ISL68137",
     "xyz.openbmc_project.Configuration.MAX16601",
@@ -47,11 +48,13 @@ static constexpr std::array<const char*, 8> sensorTypes = {
     "xyz.openbmc_project.Configuration.MAX20734",
     "xyz.openbmc_project.Configuration.MAX20796",
     "xyz.openbmc_project.Configuration.MAX34451",
+    "xyz.openbmc_project.Configuration.ADM1278",
     "xyz.openbmc_project.Configuration.pmbus"};
 
 static std::vector<std::string> pmbusNames = {
     "isl68137", "ina219",   "ina230",   "max16601", "max20730",
-    "max20734", "max20796", "max34451", "pmbus",    "pxe1610"};
+    "max20734", "max20796", "max34451", "pmbus",    "pxe1610",
+    "adm1278"};
 
 namespace fs = std::filesystem;
 
@@ -407,7 +410,7 @@ void createSensors(boost::asio::io_service& io,
         } while (findPSUName != baseConfig->second.end());
 
         std::vector<fs::path> sensorPaths;
-        if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
+        if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
         {
             std::cerr << "No PSU non-label sensor in PSU\n";
             continue;
@@ -773,6 +776,8 @@ void propertyInitialize(void)
                   {"pout2", PSUProperty("Output Power", 3000, 0, 6)},
                   {"pout3", PSUProperty("Output Power", 3000, 0, 6)},
                   {"power1", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"power1", PSUProperty("Peak Output Power", 3000, 0, 6)}, 
+                  {"pin", PSUProperty("Peak Input Power", 3000, 0, 6)},
                   {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
                   {"vout1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout2", PSUProperty("Output Voltage", 255, 0, 3)},
@@ -793,6 +798,7 @@ void propertyInitialize(void)
                   {"in1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
+		  {"iout1", PSUProperty("Peak Output Current", 255, 0, 3)},
                   {"iout2", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout3", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout4", PSUProperty("Output Current", 255, 0, 3)},
