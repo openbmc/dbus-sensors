@@ -38,7 +38,6 @@
 #include <vector>
 
 static constexpr bool DEBUG = true;
-//static constexpr bool DEBUG = false;
 
 static constexpr std::array<const char*, 9> sensorTypes = {
     "xyz.openbmc_project.Configuration.INA230",
@@ -448,7 +447,7 @@ void createSensors(boost::asio::io_service& io,
             }
 
             auto labelPath =
-                boost::replace_all_copy(sensorPathStr, "input", "label");
+                boost::replace_all_copy(sensorPathStr, "max", "label");
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
@@ -475,6 +474,7 @@ void createSensors(boost::asio::io_service& io,
                 // hwmon corresponding *_label file contents:
                 // vin1, vout1, ...
                 labelHead = label.substr(0, label.find(" "));
+                labelHead = "peak" + labelHead;
             }
 
             if constexpr (DEBUG)
@@ -776,8 +776,7 @@ void propertyInitialize(void)
                   {"pout2", PSUProperty("Output Power", 3000, 0, 6)},
                   {"pout3", PSUProperty("Output Power", 3000, 0, 6)},
                   {"power1", PSUProperty("Output Power", 3000, 0, 6)},
-                  {"power1", PSUProperty("Peak Output Power", 3000, 0, 6)}, 
-                  {"pin", PSUProperty("Peak Input Power", 3000, 0, 6)},
+                  {"peakpin", PSUProperty("Peak Input Power", 3000, 0, 6)},
                   {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
                   {"vout1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout2", PSUProperty("Output Voltage", 255, 0, 3)},
@@ -798,7 +797,6 @@ void propertyInitialize(void)
                   {"in1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
-		  {"iout1", PSUProperty("Peak Output Current", 255, 0, 3)},
                   {"iout2", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout3", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout4", PSUProperty("Output Current", 255, 0, 3)},
@@ -813,6 +811,7 @@ void propertyInitialize(void)
                   {"iout13", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout14", PSUProperty("Output Current", 255, 0, 3)},
                   {"curr1", PSUProperty("Output Current", 255, 0, 3)},
+                  {"peakiout1", PSUProperty("Peak Output Current", 255, 0, 3)},
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp2", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp3", PSUProperty("Temperature", 127, -128, 3)},
