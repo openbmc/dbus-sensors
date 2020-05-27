@@ -313,6 +313,7 @@ void createSensors(boost::asio::io_service& io,
         const std::string* interfacePath = nullptr;
         const char* sensorType = nullptr;
         size_t thresholdConfSize = 0;
+        bool peakLabel = false;
 
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigs)
@@ -409,7 +410,14 @@ void createSensors(boost::asio::io_service& io,
         } while (findPSUName != baseConfig->second.end());
 
         std::vector<fs::path> sensorPaths;
-        if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
+        if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
+        {
+            std::cerr << "No PSU non-label sensor in PSU\n";
+            continue;
+        }
+
+	/* read peak value in sysfs for in, curr, power, temp, ... */
+	if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
         {
             std::cerr << "No PSU non-label sensor in PSU\n";
             continue;
@@ -432,6 +440,9 @@ void createSensors(boost::asio::io_service& io,
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
+
+	    std::cerr << "sensorPathStr : "<< sensorPathStr << "   sensorNameStr : "  << sensorNameStr <<"\n";
+
             std::string sensorNameSubStr{""};
             if (std::regex_search(sensorNameStr, matches, sensorNameRegEx))
             {
@@ -446,8 +457,22 @@ void createSensors(boost::asio::io_service& io,
                 continue;
             }
 
-            auto labelPath =
-                boost::replace_all_copy(sensorPathStr, "max", "label");
+            std::string labelPath;
+
+            /* find and differentiate _max and _input to replace "label" */
+            std::size_t pos = sensorPathStr.find("_");
+            std::string sensorPathStrMax = sensorPathStr.substr (pos);
+            if(sensorPathStrMax.compare("_max") == 0)
+             {
+                 labelPath = boost::replace_all_copy(sensorPathStr, "max", "label");
+                 peakLabel = true;
+             }
+            else
+             {
+                 labelPath = boost::replace_all_copy(sensorPathStr, "input", "label");
+                 peakLabel = false;
+             }
+
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
@@ -474,7 +499,13 @@ void createSensors(boost::asio::io_service& io,
                 // hwmon corresponding *_label file contents:
                 // vin1, vout1, ...
                 labelHead = label.substr(0, label.find(" "));
-                labelHead = "peak" + labelHead;
+
+                /* append "peak" for labelMatch */
+                if(peakLabel)
+                 {
+                     labelHead = "peak" + labelHead;
+                     peakLabel = false;
+                 }
             }
 
             if constexpr (DEBUG)
