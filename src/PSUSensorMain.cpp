@@ -37,7 +37,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = true;
+static constexpr bool DEBUG = false;
 
 static constexpr std::array<const char*, 9> sensorTypes = {
     "xyz.openbmc_project.Configuration.INA230",
@@ -440,8 +440,6 @@ void createSensors(boost::asio::io_service& io,
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
-
-	    std::cerr << "sensorPathStr : "<< sensorPathStr << "   sensorNameStr : "  << sensorNameStr <<"\n";
 
             std::string sensorNameSubStr{""};
             if (std::regex_search(sensorNameStr, matches, sensorNameRegEx))
