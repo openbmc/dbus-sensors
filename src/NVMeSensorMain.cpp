@@ -17,6 +17,7 @@
 #include "NVMeSensor.hpp"
 
 #include <boost/asio/deadline_timer.hpp>
+
 #include <regex>
 
 static constexpr const char* sensorType =

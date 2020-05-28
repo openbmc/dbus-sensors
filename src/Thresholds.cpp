@@ -3,10 +3,11 @@
 #include "VariantVisitors.hpp"
 #include "sensor.hpp"
 
-#include <array>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/lexical_cast.hpp>
+
+#include <array>
 #include <cmath>
 #include <fstream>
 #include <iostream>

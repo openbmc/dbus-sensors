@@ -2,9 +2,10 @@
 
 #include "Thresholds.hpp"
 
+#include <sdbusplus/asio/object_server.hpp>
+
 #include <limits>
 #include <memory>
-#include <sdbusplus/asio/object_server.hpp>
 #include <string>
 #include <vector>
 
@@ -22,8 +23,7 @@ struct Sensor
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001)
-    {
-    }
+    {}
     virtual ~Sensor() = default;
     virtual void checkThresholds(void) = 0;
     std::string name;

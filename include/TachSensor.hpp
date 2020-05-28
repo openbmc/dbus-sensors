@@ -7,9 +7,10 @@
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <gpiod.hpp>
+#include <sdbusplus/asio/object_server.hpp>
+
 #include <memory>
 #include <optional>
-#include <sdbusplus/asio/object_server.hpp>
 #include <string>
 #include <utility>
 #include <vector>

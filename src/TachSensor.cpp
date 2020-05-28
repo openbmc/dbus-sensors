@@ -23,15 +23,16 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <fstream>
 #include <gpiod.hpp>
+#include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/asio/object_server.hpp>
+
+#include <fstream>
 #include <iostream>
 #include <istream>
 #include <limits>
 #include <memory>
 #include <optional>
-#include <sdbusplus/asio/connection.hpp>
-#include <sdbusplus/asio/object_server.hpp>
 #include <stdexcept>
 #include <string>
 #include <utility>

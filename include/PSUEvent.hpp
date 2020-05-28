@@ -17,8 +17,9 @@
 #pragma once
 
 #include <boost/container/flat_map.hpp>
-#include <memory>
 #include <sdbusplus/asio/object_server.hpp>
+
+#include <memory>
 #include <set>
 #include <string>
 #include <vector>

@@ -20,21 +20,22 @@
 
 #include <fcntl.h>
 
-#include <array>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/process/child.hpp>
+#include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus/match.hpp>
+
+#include <array>
 #include <filesystem>
 #include <fstream>
 #include <functional>
 #include <memory>
 #include <regex>
-#include <sdbusplus/asio/connection.hpp>
-#include <sdbusplus/asio/object_server.hpp>
-#include <sdbusplus/bus/match.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -70,8 +71,7 @@ struct CPUConfig
               const std::string& name, const State& state) :
         bus(bus),
         addr(addr), name(name), state(state)
-    {
-    }
+    {}
     int bus;
     int addr;
     std::string name;

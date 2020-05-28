@@ -3,14 +3,15 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/flat_map.hpp>
+#include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/types.hpp>
+
 #include <filesystem>
 #include <functional>
 #include <iostream>
 #include <memory>
 #include <regex>
-#include <sdbusplus/asio/connection.hpp>
-#include <sdbusplus/asio/object_server.hpp>
-#include <sdbusplus/message/types.hpp>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -155,16 +156,15 @@ void createInventoryAssoc(
     std::shared_ptr<sdbusplus::asio::dbus_interface> association,
     const std::string& path);
 
-struct GetSensorConfiguration
-    : std::enable_shared_from_this<GetSensorConfiguration>
+struct GetSensorConfiguration :
+    std::enable_shared_from_this<GetSensorConfiguration>
 {
     GetSensorConfiguration(
         std::shared_ptr<sdbusplus::asio::connection> connection,
         std::function<void(ManagedObjectType& resp)>&& callbackFunc) :
         dbusConnection(connection),
         callback(std::move(callbackFunc))
-    {
-    }
+    {}
     void getConfiguration(const std::vector<std::string>& interfaces)
     {
         std::shared_ptr<GetSensorConfiguration> self = shared_from_this();

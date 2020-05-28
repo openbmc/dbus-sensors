@@ -4,11 +4,13 @@
 #include "sensor.hpp"
 
 #include <sdbusplus/asio/object_server.hpp>
+
 #include <string>
 #include <vector>
 
-class HwmonTempSensor : public Sensor,
-                        public std::enable_shared_from_this<HwmonTempSensor>
+class HwmonTempSensor :
+    public Sensor,
+    public std::enable_shared_from_this<HwmonTempSensor>
 {
   public:
     HwmonTempSensor(const std::string& path, const std::string& objectType,

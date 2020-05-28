@@ -4,9 +4,10 @@
 #include "sensor.hpp"
 
 #include <gpiod.hpp>
+#include <sdbusplus/asio/object_server.hpp>
+
 #include <memory>
 #include <optional>
-#include <sdbusplus/asio/object_server.hpp>
 #include <stdexcept>
 #include <string>
 #include <vector>

@@ -1,8 +1,9 @@
 #pragma once
 
 #include <gpiod.hpp>
-#include <memory>
 #include <sdbusplus/asio/object_server.hpp>
+
+#include <memory>
 #include <string>
 
 enum IntrusionSensorType

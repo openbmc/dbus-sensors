@@ -4,8 +4,9 @@
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
-#include <memory>
 #include <sdbusplus/asio/object_server.hpp>
+
+#include <memory>
 #include <string>
 
 class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
@@ -44,8 +45,7 @@ class PSUProperty
     PSUProperty(std::string name, double max, double min, unsigned int factor) :
         labelTypeName(name), maxReading(max), minReading(min),
         sensorScaleFactor(factor)
-    {
-    }
+    {}
     ~PSUProperty() = default;
 
     std::string labelTypeName;

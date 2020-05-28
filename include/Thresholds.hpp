@@ -2,9 +2,10 @@
 #include "Utils.hpp"
 
 #include <boost/asio/io_service.hpp>
+#include <nlohmann/json.hpp>
+
 #include <list>
 #include <memory>
-#include <nlohmann/json.hpp>
 #include <string>
 #include <utility>
 #include <vector>
@@ -28,8 +29,7 @@ struct Threshold
               bool write = true) :
         level(lev),
         direction(dir), value(val), writeable(write)
-    {
-    }
+    {}
     Level level;
     Direction direction;
     double value;
@@ -59,8 +59,7 @@ struct ThresholdTimer
 
     ThresholdTimer(boost::asio::io_service& ioService, Sensor* sensor) :
         io(ioService), sensor(sensor)
-    {
-    }
+    {}
 
     void stopTimer(const Threshold& threshold)
     {

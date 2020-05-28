@@ -19,10 +19,11 @@
 #include <systemd/sd-journal.h>
 
 #include <boost/container/flat_map.hpp>
-#include <iostream>
-#include <memory>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+
+#include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <utility>

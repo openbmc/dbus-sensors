@@ -23,14 +23,16 @@
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <sdbusplus/asio/object_server.hpp>
+
 #include <chrono>
 #include <iostream>
 #include <memory>
-#include <sdbusplus/asio/object_server.hpp>
 #include <string>
 #include <thread>
 
-extern "C" {
+extern "C"
+{
 #include <i2c/smbus.h>
 #include <linux/i2c-dev.h>
 }
@@ -363,8 +365,7 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
     mType(IntrusionSensorType::gpio), mValue("unknown"), mOldValue("unknown"),
     mBusId(-1), mSlaveAddr(-1), mPollTimer(io), mGpioInverted(false),
     mGpioFd(io)
-{
-}
+{}
 
 ChassisIntrusionSensor::~ChassisIntrusionSensor()
 {

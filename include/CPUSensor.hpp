@@ -5,11 +5,12 @@
 #include "sensor.hpp"
 
 #include <boost/container/flat_map.hpp>
+#include <gpiod.hpp>
+#include <sdbusplus/asio/object_server.hpp>
+
 #include <filesystem>
 #include <fstream>
-#include <gpiod.hpp>
 #include <memory>
-#include <sdbusplus/asio/object_server.hpp>
 #include <stdexcept>
 #include <string>
 #include <variant>

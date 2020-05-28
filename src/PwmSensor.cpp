@@ -17,9 +17,10 @@
 
 #include "Utils.hpp"
 
+#include <sdbusplus/asio/object_server.hpp>
+
 #include <fstream>
 #include <iostream>
-#include <sdbusplus/asio/object_server.hpp>
 #include <stdexcept>
 #include <string>
 

@@ -23,6 +23,7 @@
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/ip/tcp.hpp>
+
 #include <iostream>
 
 static constexpr double maxReading = 127;
@@ -288,8 +289,7 @@ static double getTemperatureReading(int8_t reading)
 void rxMessage(uint8_t eid, void*, void* msg, size_t len)
 {
     struct nvme_mi_msg_response_header header
-    {
-    };
+    {};
 
     int inFd = mctp_smbus_get_in_fd(nvmeMCTP::smbus);
     int rootBus = nvmeMCTP::getRootBus(inFd);

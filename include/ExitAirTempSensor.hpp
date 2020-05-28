@@ -2,10 +2,11 @@
 #include "sensor.hpp"
 
 #include <boost/container/flat_map.hpp>
+#include <sdbusplus/bus/match.hpp>
+
 #include <chrono>
 #include <limits>
 #include <memory>
-#include <sdbusplus/bus/match.hpp>
 #include <string>
 #include <vector>
 
@@ -47,8 +48,9 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
     sdbusplus::asio::object_server& objServer;
 };
 
-struct ExitAirTempSensor : public Sensor,
-                           std::enable_shared_from_this<ExitAirTempSensor>
+struct ExitAirTempSensor :
+    public Sensor,
+    std::enable_shared_from_this<ExitAirTempSensor>
 {
 
     double powerFactorMin;
