@@ -267,7 +267,7 @@ bool createSensors(boost::asio::io_service& io,
 
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
-        if (!findFiles(directory, R"((temp|power)\d+_(input|average)$)",
+        if (!findFiles(directory, R"((temp|power)\d+_(input|average|cap)$)",
                        inputPaths, 0))
         {
             std::cerr << "No temperature sensors in system\n";

@@ -51,7 +51,6 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
 {
     nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);
-
     if (show)
     {
         if (auto fileParts = thresholds::splitFileName(path))
@@ -114,6 +113,82 @@ void CPUSensor::setupRead(void)
             std::size_t /*bytes_transfered*/) { handleResponse(ec); });
 }
 
+void CPUSensor::updateMinMaxValues(void)
+{
+    const boost::container::flat_map<
+        std::string,
+        std::vector<std::tuple<const char*, std::reference_wrapper<double>,
+                               const char*>>>
+        map = {
+            {
+                "cap",
+                {
+                    std::make_tuple("cap_max", std::ref(maxValue), "MaxValue"),
+                    std::make_tuple("cap_min", std::ref(minValue), "MinValue"),
+                },
+            },
+        };
+
+    if (auto fileParts = thresholds::splitFileName(path))
+    {
+        auto [fileType, fileNr, fileItem] = *fileParts;
+        if (map.count(fileItem) != 0)
+        {
+            for (const auto& t : map.at(fileItem))
+            {
+                auto [suffix, oldValue, dbusName] = t;
+                auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
+                if (auto newVal = thresholds::readFile(
+                        attrPath, CPUSensor::sensorScaleFactor))
+                {
+                    genericUpdateValue(oldValue, *newVal, dbusName);
+                }
+                else
+                {
+                    if (isPowerOn())
+                    {
+                        genericUpdateValue(oldValue, 0, dbusName);
+                    }
+                    else
+                    {
+                        genericUpdateValue(
+                            oldValue, std::numeric_limits<double>::quiet_NaN(),
+                            dbusName);
+                    }
+                }
+            }
+        }
+    }
+}
+
+bool CPUSensor::areDifferent(const double& lVal, const double& rVal)
+{
+    if (std::isnan(lVal) || std::isnan(rVal))
+    {
+        return true;
+    }
+    double diff = std::abs(lVal - rVal);
+    if (diff > hysteresisPublish)
+    {
+        return true;
+    }
+    return false;
+}
+
+void CPUSensor::genericUpdateValue(double& oldValue, const double& newValue,
+                                   const char* dbusParamName)
+{
+    if (areDifferent(oldValue, newValue))
+    {
+        oldValue = newValue;
+        if (!(sensorInterface->set_property(dbusParamName, newValue)))
+        {
+            std::cerr << "Error setting property " << dbusParamName << " to "
+                      << newValue << "\n";
+        }
+    }
+}
+
 void CPUSensor::handleResponse(const boost::system::error_code& err)
 {
     if (err == boost::system::errc::bad_file_descriptor)
@@ -140,6 +215,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
             {
                 value = nvalue;
             }
+            updateMinMaxValues();
 
             double gTcontrol = gCpuSensors[nameTcontrol]
                                    ? gCpuSensors[nameTcontrol]->value
