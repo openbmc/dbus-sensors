@@ -48,11 +48,14 @@ static constexpr std::array<const char*, 8> sensorTypes = {
     "xyz.openbmc_project.Configuration.MAX20734",
     "xyz.openbmc_project.Configuration.MAX20796",
     "xyz.openbmc_project.Configuration.MAX34451",
+    "xyz.openbmc_project.Configuration.MAX34451",
+    "xyz.openbmc_project.Configuration.ADM1278",
     "xyz.openbmc_project.Configuration.pmbus"};
 
 static std::vector<std::string> pmbusNames = {
     "isl68137", "ina219",   "ina230",   "max16601", "max20730",
-    "max20734", "max20796", "max34451", "pmbus",    "pxe1610"};
+    "max20734", "max20796", "max34451", "pmbus",    "pxe1610",
+    "adm1278"};
 
 namespace fs = std::filesystem;
 
