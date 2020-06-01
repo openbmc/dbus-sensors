@@ -48,6 +48,7 @@ static constexpr std::array<const char*, 8> sensorTypes = {
     "xyz.openbmc_project.Configuration.MAX20734",
     "xyz.openbmc_project.Configuration.MAX20796",
     "xyz.openbmc_project.Configuration.MAX34451",
+    "xyz.openbmc_project.Configuration.ADM1278",
     "xyz.openbmc_project.Configuration.pmbus"};
 
 static std::vector<std::string> pmbusNames = {
