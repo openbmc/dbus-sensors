@@ -312,6 +312,7 @@ void createSensors(boost::asio::io_service& io,
         const std::string* interfacePath = nullptr;
         const char* sensorType = nullptr;
         size_t thresholdConfSize = 0;
+        bool peakLabel = false;
 
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigs)
@@ -414,6 +415,13 @@ void createSensors(boost::asio::io_service& io,
             continue;
         }
 
+	/* read peak value in sysfs for in, curr, power, temp, ... */
+	if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
+        {
+            std::cerr << "No PSU non-label sensor in PSU\n";
+            continue;
+        }
+
         /* Find array of labels to be exposed if it is defined in config */
         std::vector<std::string> findLabels;
         auto findLabelObj = baseConfig->second.find("Labels");
@@ -445,8 +453,22 @@ void createSensors(boost::asio::io_service& io,
                 continue;
             }
 
-            auto labelPath =
-                boost::replace_all_copy(sensorPathStr, "input", "label");
+            std::string labelPath;
+
+            /* find and differentiate _max and _input to replace "label" */
+            std::size_t pos = sensorPathStr.find("_");
+            std::string sensorPathStrMax = sensorPathStr.substr (pos);
+            if(sensorPathStrMax.compare("_max") == 0)
+             {
+                 labelPath = boost::replace_all_copy(sensorPathStr, "max", "label");
+                 peakLabel = true;
+             }
+            else
+             {
+                 labelPath = boost::replace_all_copy(sensorPathStr, "input", "label");
+                 peakLabel = false;
+             }
+
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
@@ -473,6 +495,13 @@ void createSensors(boost::asio::io_service& io,
                 // hwmon corresponding *_label file contents:
                 // vin1, vout1, ...
                 labelHead = label.substr(0, label.find(" "));
+
+                /* append "peak" for labelMatch */
+                if(peakLabel)
+                {
+                    labelHead = "peak" + labelHead;
+                    peakLabel = false;
+                }
             }
 
             if constexpr (DEBUG)
@@ -774,6 +803,7 @@ void propertyInitialize(void)
                   {"pout2", PSUProperty("Output Power", 3000, 0, 6)},
                   {"pout3", PSUProperty("Output Power", 3000, 0, 6)},
                   {"power1", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"peakpin", PSUProperty("Peak Input Power", 3000, 0, 6)},
                   {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
                   {"vout1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout2", PSUProperty("Output Voltage", 255, 0, 3)},
@@ -808,6 +838,7 @@ void propertyInitialize(void)
                   {"iout13", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout14", PSUProperty("Output Current", 255, 0, 3)},
                   {"curr1", PSUProperty("Output Current", 255, 0, 3)},
+                  {"peakiout1", PSUProperty("Peak Output Current", 255, 0, 3)},
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp2", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp3", PSUProperty("Temperature", 127, -128, 3)},
