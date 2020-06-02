@@ -312,6 +312,7 @@ void createSensors(boost::asio::io_service& io,
         const std::string* interfacePath = nullptr;
         const char* sensorType = nullptr;
         size_t thresholdConfSize = 0;
+        bool peakLabel = false;
 
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigs)
@@ -409,6 +410,13 @@ void createSensors(boost::asio::io_service& io,
 
         std::vector<fs::path> sensorPaths;
         if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
+        {
+            std::cerr << "No PSU non-label sensor in PSU\n";
+            continue;
+        }
+
+	/* read peak value in sysfs for in, curr, power, temp, ... */
+	if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
         {
             std::cerr << "No PSU non-label sensor in PSU\n";
             continue;
