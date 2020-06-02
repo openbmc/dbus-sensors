@@ -18,7 +18,7 @@ struct Sensor
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
            const double max, const double min) :
-        name(name),
+        name(std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_")),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
