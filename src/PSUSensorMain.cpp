@@ -51,8 +51,9 @@ static constexpr std::array<const char*, 8> sensorTypes = {
     "xyz.openbmc_project.Configuration.pmbus"};
 
 static std::vector<std::string> pmbusNames = {
-    "adm1272",  "isl68137", "ina219",   "ina230", "max16601", "max20730",
-    "max20734", "max20796", "max34451", "pmbus",  "pxe1610",  "raa228228"};
+    "adm1272",  "adm1278",  "isl68137", "ina219",   "ina230",
+    "max16601", "max20730", "max20734", "max20796", "max34451",
+    "pmbus",    "pxe1610",  "raa228228"};
 
 namespace fs = std::filesystem;
 
