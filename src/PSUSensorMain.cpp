@@ -414,6 +414,15 @@ void createSensors(boost::asio::io_service& io,
             continue;
         }
 
+        /* read max value in sysfs for in, curr, power, temp, ... */
+        if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
+        {
+            if constexpr (DEBUG)
+            {
+                std::cerr << "No max name in PSU \n";
+            }
+        }
+
         /* Find array of labels to be exposed if it is defined in config */
         std::vector<std::string> findLabels;
         auto findLabelObj = baseConfig->second.find("Labels");
@@ -428,6 +437,7 @@ void createSensors(boost::asio::io_service& io,
 
         for (const auto& sensorPath : sensorPaths)
         {
+            bool maxLabel = false;
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
@@ -445,8 +455,32 @@ void createSensors(boost::asio::io_service& io,
                 continue;
             }
 
-            auto labelPath =
-                boost::replace_all_copy(sensorPathStr, "input", "label");
+            std::string labelPath;
+
+            /* find and differentiate _max and _input to replace "label" */
+            int pos = sensorPathStr.find("_");
+            if (pos != std::string::npos)
+            {
+
+                std::string sensorPathStrMax = sensorPathStr.substr(pos);
+                if (sensorPathStrMax.compare("_max") == 0)
+                {
+                    labelPath =
+                        boost::replace_all_copy(sensorPathStr, "max", "label");
+                    maxLabel = true;
+                }
+                else
+                {
+                    labelPath = boost::replace_all_copy(sensorPathStr, "input",
+                                                        "label");
+                    maxLabel = false;
+                }
+            }
+            else
+            {
+                continue;
+            }
+
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
@@ -473,6 +507,12 @@ void createSensors(boost::asio::io_service& io,
                 // hwmon corresponding *_label file contents:
                 // vin1, vout1, ...
                 labelHead = label.substr(0, label.find(" "));
+            }
+
+            /* append "max" for labelMatch */
+            if (maxLabel)
+            {
+                labelHead = "max" + labelHead;
             }
 
             if constexpr (DEBUG)
@@ -774,7 +814,9 @@ void propertyInitialize(void)
                   {"pout2", PSUProperty("Output Power", 3000, 0, 6)},
                   {"pout3", PSUProperty("Output Power", 3000, 0, 6)},
                   {"power1", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6)},
                   {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
+                  {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3)},
                   {"vout1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout2", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout3", PSUProperty("Output Voltage", 255, 0, 3)},
@@ -808,12 +850,14 @@ void propertyInitialize(void)
                   {"iout13", PSUProperty("Output Current", 255, 0, 3)},
                   {"iout14", PSUProperty("Output Current", 255, 0, 3)},
                   {"curr1", PSUProperty("Output Current", 255, 0, 3)},
+                  {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3)},
                   {"temp1", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp2", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp3", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp4", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp5", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp6", PSUProperty("Temperature", 127, -128, 3)},
+                  {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3)},
                   {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0)},
                   {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0)}};
 
