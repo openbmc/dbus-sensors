@@ -103,8 +103,8 @@ IpmbSensor::~IpmbSensor()
 
 void IpmbSensor::init(void)
 {
-    setInitialProperties(dbusConnection);
     loadDefaults();
+    setInitialProperties(dbusConnection);
     if (initCommand)
     {
         runInitCmd();
@@ -203,6 +203,13 @@ void IpmbSensor::loadDefaults()
     else
     {
         throw std::runtime_error("Invalid sensor type");
+    }
+
+    if (subType == IpmbSubType::util)
+    {
+        // Utilization need to be scaled to percent
+        maxValue = 100;
+        minValue = 0;
     }
 }
 
@@ -320,6 +327,7 @@ void IpmbSensor::read(void)
                             break;
                         case IpmbSubType::power:
                         case IpmbSubType::volt:
+                        case IpmbSubType::util:
                             value = data[0];
                             break;
                     }
@@ -451,7 +459,8 @@ void createSensors(
                     {
                         sensor->type = IpmbType::mpsVR;
                     }
-                    else if (sensorClass == "METemp")
+                    else if (sensorClass == "METemp" ||
+                             sensorClass == "MESensor")
                     {
                         sensor->type = IpmbType::meSensor;
                     }
@@ -472,6 +481,10 @@ void createSensors(
                     else if (sensorTypeName == "current")
                     {
                         sensor->subType = IpmbSubType::curr;
+                    }
+                    else if (sensorTypeName == "utilization")
+                    {
+                        sensor->subType = IpmbSubType::util;
                     }
                     else
                     {
