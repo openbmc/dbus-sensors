@@ -65,11 +65,11 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        const std::string& sensorConfiguration,
                        sdbusplus::asio::object_server& objectServer,
                        std::vector<thresholds::Threshold>&& thresholdData,
-                       uint8_t deviceAddress, std::string& sensorTypeName) :
+                       uint8_t deviceAddress, std::string& sensorTypeName,
+                       const double maxValue, const double minValue) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", ipmbMaxReading,
-           ipmbMinReading),
+           "xyz.openbmc_project.Configuration.ExitAirTemp", maxValue, minValue),
     deviceAddress(deviceAddress), readState(PowerState::on),
     objectServer(objectServer), dbusConnection(conn), waitTimer(io)
 {
@@ -341,6 +341,13 @@ void IpmbSensor::read(void)
 
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;
+
+                /* Scale to percent */
+                if (type == IpmbType::meSensor && subType == IpmbSubType::util)
+                {
+                    value = value * 100 / ipmbMaxReading;
+                }
+
                 updateValue(value);
                 read();
                 errorCount = 0; // success
@@ -402,10 +409,21 @@ void createSensors(
                     }
 
                     auto& sensor = sensors[name];
+
+                    double maxValue = ipmbMaxReading;
+                    double minValue = ipmbMinReading;
+                    if (sensorClass == "MESensor" &&
+                        sensorTypeName == "utilization")
+                    {
+                        // Utilization need to be scaled back to percent
+                        maxValue = 100;
+                        minValue = 0;
+                    }
+
                     sensor = std::make_unique<IpmbSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
                         std::move(sensorThresholds), deviceAddress,
-                        sensorTypeName);
+                        sensorTypeName, maxValue, minValue);
 
                     /* Initialize scale and offset value */
                     sensor->scaleVal = 1;
@@ -451,7 +469,8 @@ void createSensors(
                     {
                         sensor->type = IpmbType::mpsVR;
                     }
-                    else if (sensorClass == "METemp")
+                    else if (sensorClass == "METemp" ||
+                             sensorClass == "MESensor")
                     {
                         sensor->type = IpmbType::meSensor;
                     }
@@ -472,6 +491,10 @@ void createSensors(
                     else if (sensorTypeName == "current")
                     {
                         sensor->subType = IpmbSubType::curr;
+                    }
+                    else if (sensorTypeName == "utilization")
+                    {
+                        sensor->subType = IpmbSubType::util;
                     }
                     else
                     {

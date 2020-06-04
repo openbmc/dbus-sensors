@@ -25,7 +25,8 @@ enum class IpmbSubType
     temp,
     curr,
     power,
-    volt
+    volt,
+    util
 };
 
 struct IpmbSensor : public Sensor
@@ -35,7 +36,8 @@ struct IpmbSensor : public Sensor
                const std::string& sensorConfiguration,
                sdbusplus::asio::object_server& objectServer,
                std::vector<thresholds::Threshold>&& thresholds,
-               uint8_t deviceAddress, std::string& sensorTypeName);
+               uint8_t deviceAddress, std::string& sensorTypeName,
+               const double maxValue, const double minValue);
     ~IpmbSensor();
 
     void checkThresholds(void) override;
