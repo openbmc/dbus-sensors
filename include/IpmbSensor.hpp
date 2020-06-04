@@ -25,7 +25,8 @@ enum class IpmbSubType
     temp,
     curr,
     power,
-    volt
+    volt,
+    util
 };
 
 struct IpmbSensor : public Sensor
