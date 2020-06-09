@@ -49,9 +49,6 @@ class CPUSensor : public Sensor
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
-    bool areDifferent(const double& lVal, const double& rVal);
-    void genericUpdateValue(double& oldValue, const double& newValue,
-                            const char* dbusParamName);
 };
 
 extern boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>
