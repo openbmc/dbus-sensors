@@ -142,50 +142,22 @@ void CPUSensor::updateMinMaxValues(void)
                 if (auto newVal = thresholds::readFile(
                         attrPath, CPUSensor::sensorScaleFactor))
                 {
-                    genericUpdateValue(oldValue, *newVal, dbusName);
+                    updateProperty(oldValue, *newVal, dbusName);
                 }
                 else
                 {
                     if (isPowerOn())
                     {
-                        genericUpdateValue(oldValue, 0, dbusName);
+                        updateProperty(oldValue, 0, dbusName);
                     }
                     else
                     {
-                        genericUpdateValue(
-                            oldValue, std::numeric_limits<double>::quiet_NaN(),
-                            dbusName);
+                        updateProperty(oldValue,
+                                       std::numeric_limits<double>::quiet_NaN(),
+                                       dbusName);
                     }
                 }
             }
-        }
-    }
-}
-
-bool CPUSensor::areDifferent(const double& lVal, const double& rVal)
-{
-    if (std::isnan(lVal) || std::isnan(rVal))
-    {
-        return !(std::isnan(lVal) && std::isnan(rVal));
-    }
-    double diff = std::abs(lVal - rVal);
-    if (diff > hysteresisPublish)
-    {
-        return true;
-    }
-    return false;
-}
-
-void CPUSensor::genericUpdateValue(double& oldValue, const double& newValue,
-                                   const char* dbusParamName)
-{
-    if (areDifferent(oldValue, newValue))
-    {
-        oldValue = newValue;
-        if (!(sensorInterface->set_property(dbusParamName, newValue)))
-        {
-            std::cerr << "Error setting property " << dbusParamName << " to "
-                      << newValue << "\n";
         }
     }
 }
