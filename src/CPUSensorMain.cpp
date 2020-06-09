@@ -277,7 +277,7 @@ bool createSensors(boost::asio::io_service& io,
         // iterate through all found temp sensors
         for (const auto& inputPath : inputPaths)
         {
-            auto fileParts = thresholds::splitFileName(inputPath);
+            auto fileParts = splitFileName(inputPath);
             if (!fileParts)
             {
                 continue;

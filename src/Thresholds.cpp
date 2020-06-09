@@ -399,48 +399,6 @@ void assertThresholds(Sensor* sensor, thresholds::Level level,
     interface->set_property(property, assert);
 }
 
-std::optional<double> readFile(const std::string& thresholdFile,
-                               const double& scaleFactor)
-{
-    std::string line;
-    std::ifstream labelFile(thresholdFile);
-    if (labelFile.good())
-    {
-        std::getline(labelFile, line);
-        labelFile.close();
-
-        try
-        {
-            return std::stod(line) / scaleFactor;
-        }
-        catch (const std::invalid_argument&)
-        {
-            return std::nullopt;
-        }
-    }
-    return std::nullopt;
-}
-
-std::optional<std::tuple<std::string, std::string, std::string>>
-    splitFileName(const std::filesystem::path& filePath)
-{
-    if (filePath.has_filename())
-    {
-        const auto fileName = filePath.filename().string();
-        const std::regex rx(R"((\w+)(\d+)_(.*))");
-        std::smatch mr;
-
-        if (std::regex_search(fileName, mr, rx))
-        {
-            if (mr.size() == 4)
-            {
-                return std::make_optional(std::make_tuple(mr[1], mr[2], mr[3]));
-            }
-        }
-    }
-    return std::nullopt;
-}
-
 bool parseThresholdsFromAttr(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string& inputPath, const double& scaleFactor,
