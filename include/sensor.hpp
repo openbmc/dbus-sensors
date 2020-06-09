@@ -165,44 +165,9 @@ struct Sensor
             return;
         }
 
-        bool isChanged = false;
-
-        // Avoid floating-point equality comparison,
-        // by instead comparing against a very small hysteresis range.
-        if (std::isnan(value) || std::isnan(newValue))
-        {
-            // If one or the other is NAN,
-            // either we are intentionally invalidating a sensor reading,
-            // or initializing for the very first time,
-            // either way we should always publish this.
-            isChanged = true;
-        }
-        else
-        {
-            // This essentially does "if (value != newValue)",
-            // but safely against floating-point background noise.
-            double diff = std::abs(value - newValue);
-            if (diff > hysteresisPublish)
-            {
-                isChanged = true;
-            }
-        }
-
-        // Ignore if the change is so small as to be deemed unchanged
-        if (!isChanged)
-        {
-            return;
-        }
-
-        // The value will be changed, keep track of it for next time
-        value = newValue;
-
         // Indicate that it is internal set call
         internalSet = true;
-        if (!(sensorInterface->set_property("Value", newValue)))
-        {
-            std::cerr << "error setting property to " << newValue << "\n";
-        }
+        updateProperty(value, newValue, "Value");
         internalSet = false;
 
         // Always check thresholds after changing the value,
@@ -211,5 +176,33 @@ struct Sensor
         // which is called by checkThresholds() below,
         // in all current implementations of sensors that have thresholds.
         checkThresholds();
+    }
+
+    void updateProperty(double& oldValue, const double& newValue,
+                        const char* dbusPropertyName)
+    {
+        if (areDifferent(oldValue, newValue))
+        {
+            oldValue = newValue;
+            if (!(sensorInterface->set_property(dbusPropertyName, newValue)))
+            {
+                std::cerr << "error setting property " << dbusPropertyName
+                          << " to " << newValue << "\n";
+            }
+        }
+    }
+
+    bool areDifferent(const double& lVal, const double& rVal)
+    {
+        if (std::isnan(lVal) || std::isnan(rVal))
+        {
+            return !(std::isnan(lVal) && std::isnan(rVal));
+        }
+        double diff = std::abs(lVal - rVal);
+        if (diff > hysteresisPublish)
+        {
+            return true;
+        }
+        return false;
     }
 };
