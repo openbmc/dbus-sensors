@@ -53,7 +53,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     nameTcontrol += " CPU" + std::to_string(cpuId);
     if (show)
     {
-        if (auto fileParts = thresholds::splitFileName(path))
+        if (auto fileParts = splitFileName(path))
         {
             auto [type, nr, item] = *fileParts;
             std::string interfacePath;
@@ -129,7 +129,7 @@ void CPUSensor::updateMinMaxValues(void)
             },
         };
 
-    if (auto fileParts = thresholds::splitFileName(path))
+    if (auto fileParts = splitFileName(path))
     {
         auto [fileType, fileNr, fileItem] = *fileParts;
         const auto mapIt = map.find(fileItem);
@@ -139,8 +139,8 @@ void CPUSensor::updateMinMaxValues(void)
             {
                 auto [suffix, oldValue, dbusName] = vectorItem;
                 auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
-                if (auto newVal = thresholds::readFile(
-                        attrPath, CPUSensor::sensorScaleFactor))
+                if (auto newVal =
+                        readFile(attrPath, CPUSensor::sensorScaleFactor))
                 {
                     genericUpdateValue(oldValue, *newVal, dbusName);
                 }

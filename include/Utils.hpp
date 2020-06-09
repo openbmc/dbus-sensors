@@ -230,3 +230,10 @@ struct GetSensorConfiguration :
     std::function<void(ManagedObjectType& resp)> callback;
     ManagedObjectType respData;
 };
+
+// The common scheme for sysfs files naming is: <type><number>_<item>.
+// This function returns optionally these 3 elements as a tuple.
+std::optional<std::tuple<std::string, std::string, std::string>>
+    splitFileName(const std::filesystem::path& filePath);
+std::optional<double> readFile(const std::string& thresholdFile,
+                               const double& scaleFactor);
