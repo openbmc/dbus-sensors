@@ -1,0 +1,10 @@
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+1: Patrick Williams <patrick@stwcx.xyz>
+Code-Review+2: James Feist <james.feist@linux.intel.com>
+Code-Review+1: Vijay Khemka <vijaykhemka@fb.com>
+Submitted-by: <manikandan.hcl.ers.epl@gmail.com>
+Submitted-at: Wed, 10 Jun 2020 06:22:47 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/33148
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
