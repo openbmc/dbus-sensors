@@ -12,6 +12,8 @@
 constexpr size_t sensorFailedPollTimeMs = 5000;
 
 constexpr const char* sensorValueInterface = "xyz.openbmc_project.Sensor.Value";
+constexpr const char* availableInterfaceName =
+    "xyz.openbmc_project.State.Decorator.Availability";
 struct Sensor
 {
     Sensor(const std::string& name,
@@ -36,9 +38,11 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     double value = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
+    bool available = true;
     double hysteresisTrigger;
     double hysteresisPublish;
 
@@ -155,12 +159,35 @@ struct Sensor
         {
             std::cerr << "error initializing critical threshold interface\n";
         }
+
+        if (!availableInterface)
+        {
+            availableInterface =
+                std::make_shared<sdbusplus::asio::dbus_interface>(
+                    conn, sensorInterface->get_object_path(),
+                    availableInterfaceName);
+            availableInterface->register_property(
+                "Available", true, [this](const bool propIn, bool& old) {
+                    if (propIn == old)
+                    {
+                        return 1;
+                    }
+                    if (!propIn)
+                    {
+                        updateValue(std::numeric_limits<double>::quiet_NaN());
+                    }
+                    old = propIn;
+                    available = propIn;
+                    return 1;
+                });
+            availableInterface->initialize();
+        }
     }
 
     void updateValue(const double& newValue)
     {
         // Ignore if overriding is enabled
-        if (overriddenState)
+        if (overriddenState || !available)
         {
             return;
         }
