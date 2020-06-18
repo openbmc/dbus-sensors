@@ -48,7 +48,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), sensorFactor(factor)
+    inputDev(io), waitTimer(io), path(path), path_rated_max(""),
+    path_rated_min(""), sensorFactor(factor), minMaxReadCounter(0)
 {
     if constexpr (DEBUG)
     {
@@ -98,6 +99,23 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     association = objectServer.add_interface(dbusPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
+
+    if (auto fileParts = splitFileName(path))
+    {
+        auto [type, nr, item] = *fileParts;
+        if (item.compare("input") == 0)
+        {
+            path_rated_max = boost::replace_all_copy(path, item, "rated_max");
+            path_rated_min = boost::replace_all_copy(path, item, "rated_min");
+        }
+    }
+    if constexpr (DEBUG)
+    {
+        std::cerr << "File: " << path_rated_max
+                  << " will be used to update MaxValue\n";
+        std::cerr << "File: " << path_rated_min
+                  << " will be used to update MinValue\n";
+    }
 }
 
 PSUSensor::~PSUSensor()
@@ -128,6 +146,19 @@ void PSUSensor::setupRead(void)
         });
 }
 
+void PSUSensor::updateMinMaxValues(void)
+{
+    if (auto newVal = readFile(path_rated_min, sensorFactor))
+    {
+        updateProperty(sensorInterface, minValue, *newVal, "MinValue");
+    }
+
+    if (auto newVal = readFile(path_rated_max, sensorFactor))
+    {
+        updateProperty(sensorInterface, maxValue, *newVal, "MaxValue");
+    }
+}
+
 void PSUSensor::handleResponse(const boost::system::error_code& err)
 {
     if ((err == boost::system::errc::bad_file_descriptor) ||
@@ -148,6 +179,11 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             nvalue /= sensorFactor;
 
             updateValue(nvalue);
+
+            if (minMaxReadCounter++ % 8 == 0)
+            {
+                updateMinMaxValues();
+            }
         }
         catch (const std::invalid_argument&)
         {
