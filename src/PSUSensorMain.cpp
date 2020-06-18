@@ -409,7 +409,7 @@ void createSensors(boost::asio::io_service& io,
         } while (findPSUName != baseConfig->second.end());
 
         std::vector<fs::path> sensorPaths;
-        if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
+        if (!findFiles(directory, R"(\w\d+_(input|cap)$)", sensorPaths, 0))
         {
             std::cerr << "No PSU non-label sensor in PSU\n";
             continue;
@@ -433,21 +433,19 @@ void createSensors(boost::asio::io_service& io,
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
             std::string sensorNameSubStr{""};
-            if (std::regex_search(sensorNameStr, matches, sensorNameRegEx))
-            {
-                // hwmon *_input filename without number:
-                // in, curr, power, temp, ...
-                sensorNameSubStr = matches[1];
-            }
-            else
+
+            auto fileParts = splitFileName(sensorPath.filename());
+            if (!fileParts)
             {
                 std::cerr << "Could not extract the alpha prefix from "
-                          << sensorNameStr;
+                          << sensorPath.filename();
                 continue;
             }
+            auto [type, nr, item] = *fileParts;
+            sensorNameSubStr = type;
 
             auto labelPath =
-                boost::replace_all_copy(sensorPathStr, "input", "label");
+                boost::replace_all_copy(sensorPathStr, item, "label");
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
@@ -458,7 +456,7 @@ void createSensors(boost::asio::io_service& io,
                 }
                 // hwmon *_input filename with number:
                 // temp1, temp2, temp3, ...
-                labelHead = sensorNameStr.substr(0, sensorNameStr.find("_"));
+                labelHead = type + nr;
             }
             else
             {
@@ -725,6 +723,10 @@ void createSensors(boost::asio::io_service& io,
                 // preserving default behavior by using psuNameFromIndex.
                 sensorName =
                     psuNameFromIndex + " " + psuProperty->labelTypeName;
+            }
+            if (item.compare("input") != 0)
+            {
+                sensorName += "_" + item;
             }
 
             if constexpr (DEBUG)

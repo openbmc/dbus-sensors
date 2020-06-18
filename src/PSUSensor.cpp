@@ -127,6 +127,46 @@ void PSUSensor::setupRead(void)
         });
 }
 
+void PSUSensor::updateMinMaxValues(void)
+{
+    const boost::container::flat_map<
+        std::string,
+        std::vector<std::tuple<const char*, std::reference_wrapper<double>,
+                               const char*>>>
+        map = {
+            {
+                "cap",
+                {
+                    std::make_tuple("cap_max", std::ref(maxValue), "MaxValue"),
+                    std::make_tuple("cap_min", std::ref(minValue), "MinValue"),
+                },
+            },
+        };
+
+    if (auto fileParts = splitFileName(path))
+    {
+        auto [fileType, fileNr, fileItem] = *fileParts;
+        const auto mapIt = map.find(fileItem);
+        if (mapIt != map.cend())
+        {
+            for (const auto& vectorItem : mapIt->second)
+            {
+                auto [suffix, oldValue, dbusName] = vectorItem;
+                auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
+                if (auto newVal = readFile(attrPath, sensorFactor))
+                {
+                    updateProperty(sensorInterface, oldValue, *newVal,
+                                   dbusName);
+                }
+                else
+                {
+                    updateProperty(sensorInterface, oldValue, 0, dbusName);
+                }
+            }
+        }
+    }
+}
+
 void PSUSensor::handleResponse(const boost::system::error_code& err)
 {
     if ((err == boost::system::errc::bad_file_descriptor) ||
@@ -148,6 +188,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 
             updateValue(nvalue);
             errCount = 0;
+            updateMinMaxValues();
         }
         catch (const std::invalid_argument&)
         {

@@ -33,6 +33,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     unsigned int sensorFactor;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
+    void updateMinMaxValues(void);
 
     int fd;
     static constexpr unsigned int sensorPollMs = 1000;
