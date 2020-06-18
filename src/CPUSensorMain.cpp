@@ -102,6 +102,36 @@ void detectCpuAsync(
     boost::container::flat_set<CPUConfig>& cpuConfigs,
     ManagedObjectType& sensorConfigs);
 
+std::string createSensorName(const std::string& label, const std::string& item,
+                             const int& cpuId)
+{
+    std::string sensorName = label;
+    if (item.compare("input") != 0)
+    {
+        sensorName += " " + item;
+    }
+    sensorName += " CPU" + std::to_string(cpuId);
+    // converting to Upper Camel case whole name
+    bool isWordEnd = true;
+    std::transform(sensorName.begin(), sensorName.end(), sensorName.begin(),
+                   [&isWordEnd](int c) {
+                       if (std::isspace(c))
+                       {
+                           isWordEnd = true;
+                       }
+                       else
+                       {
+                           if (isWordEnd)
+                           {
+                               isWordEnd = false;
+                               return std::toupper(c);
+                           }
+                       }
+                       return c;
+                   });
+    return sensorName;
+}
+
 bool createSensors(boost::asio::io_service& io,
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -296,7 +326,7 @@ bool createSensors(boost::asio::io_service& io,
             std::getline(labelFile, label);
             labelFile.close();
 
-            std::string sensorName = label + " CPU" + std::to_string(cpuId);
+            std::string sensorName = createSensorName(label, item, cpuId);
 
             auto findSensor = gCpuSensors.find(sensorName);
             if (findSensor != gCpuSensors.end())
