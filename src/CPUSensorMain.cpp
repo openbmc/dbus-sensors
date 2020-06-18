@@ -296,7 +296,8 @@ bool createSensors(boost::asio::io_service& io,
             std::getline(labelFile, label);
             labelFile.close();
 
-            std::string sensorName = label + " CPU" + std::to_string(cpuId);
+            std::string sensorName =
+                label + "_" + item + " CPU" + std::to_string(cpuId);
 
             auto findSensor = gCpuSensors.find(sensorName);
             if (findSensor != gCpuSensors.end())
