@@ -49,7 +49,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
            std::move(_thresholds), sensorConfiguration, objectType, max, min,
            conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), sensorFactor(factor)
+    inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
+    sensorFactor(factor), minMaxReadCounter(0)
 {
     if constexpr (DEBUG)
     {
@@ -99,6 +100,23 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     association = objectServer.add_interface(dbusPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
+
+    if (auto fileParts = splitFileName(path))
+    {
+        auto [type, nr, item] = *fileParts;
+        if (item.compare("input") == 0)
+        {
+            pathRatedMax = boost::replace_all_copy(path, item, "rated_max");
+            pathRatedMin = boost::replace_all_copy(path, item, "rated_min");
+        }
+    }
+    if constexpr (DEBUG)
+    {
+        std::cerr << "File: " << pathRatedMax
+                  << " will be used to update MaxValue\n";
+        std::cerr << "File: " << pathRatedMin
+                  << " will be used to update MinValue\n";
+    }
 }
 
 PSUSensor::~PSUSensor()
@@ -129,6 +147,19 @@ void PSUSensor::setupRead(void)
         });
 }
 
+void PSUSensor::updateMinMaxValues(void)
+{
+    if (auto newVal = readFile(pathRatedMin, sensorFactor))
+    {
+        updateProperty(sensorInterface, minValue, *newVal, "MinValue");
+    }
+
+    if (auto newVal = readFile(pathRatedMax, sensorFactor))
+    {
+        updateProperty(sensorInterface, maxValue, *newVal, "MaxValue");
+    }
+}
+
 void PSUSensor::handleResponse(const boost::system::error_code& err)
 {
     if ((err == boost::system::errc::bad_file_descriptor) ||
@@ -149,6 +180,11 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             double nvalue = rawValue / sensorFactor;
 
             updateValue(nvalue);
+
+            if (minMaxReadCounter++ % 8 == 0)
+            {
+                updateMinMaxValues();
+            }
         }
         catch (const std::invalid_argument&)
         {
