@@ -40,7 +40,10 @@
 
 static constexpr bool DEBUG = false;
 
-static constexpr std::array<const char*, 8> sensorTypes = {
+static constexpr std::array<const char*, 13> sensorTypes = {
+    "xyz.openbmc_project.Configuration.ADM1272",
+    "xyz.openbmc_project.Configuration.ADM1278",
+    "xyz.openbmc_project.Configuration.INA219",
     "xyz.openbmc_project.Configuration.INA230",
     "xyz.openbmc_project.Configuration.ISL68137",
     "xyz.openbmc_project.Configuration.MAX16601",
@@ -48,10 +51,12 @@ static constexpr std::array<const char*, 8> sensorTypes = {
     "xyz.openbmc_project.Configuration.MAX20734",
     "xyz.openbmc_project.Configuration.MAX20796",
     "xyz.openbmc_project.Configuration.MAX34451",
-    "xyz.openbmc_project.Configuration.pmbus"};
+    "xyz.openbmc_project.Configuration.pmbus",
+    "xyz.openbmc_project.Configuration.PXE1610",
+    "xyz.openbmc_project.Configuration.RAA228228"};
 
 static std::vector<std::string> pmbusNames = {
-    "adm1272",  "adm1278",  "isl68137", "ina219",   "ina230",
+    "adm1272",  "adm1278",  "ina219",   "ina230",   "isl68137",
     "max16601", "max20730", "max20734", "max20796", "max34451",
     "pmbus",    "pxe1610",  "raa228228"};
 
