@@ -182,7 +182,8 @@ void createSensors(
                     for (auto it = sensorsChanged->begin();
                          it != sensorsChanged->end(); it++)
                     {
-                        if (boost::ends_with(*it, findSensor->second->name))
+                        if (findSensor->second &&
+                            boost::ends_with(*it, findSensor->second->name))
                         {
                             sensorsChanged->erase(it);
                             findSensor->second = nullptr;
