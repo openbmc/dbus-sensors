@@ -143,17 +143,6 @@ void IpmbSensor::loadDefaults()
         command = 0x2d; // get sensor reading
         commandData = {deviceAddress};
     }
-    else if (type == IpmbType::PXE1410CVR)
-    {
-        commandAddress = meAddress;
-        netfn = 0x2e;       // me bridge
-        command = 0xd9;     // send raw pmbus
-        initCommand = 0xd9; // send raw pmbus
-        commandData = {0x57, 0x01, 0x00, 0x16, 0x03, deviceAddress, 00,
-                       0x00, 0x00, 0x00, 0x01, 0x02, 0x29};
-        initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
-                    0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x60};
-    }
     else if (type == IpmbType::IR38363VR)
     {
         commandAddress = meAddress;
@@ -189,14 +178,16 @@ void IpmbSensor::loadDefaults()
                 throw std::runtime_error("Invalid sensor type");
         }
     }
-    else if (type == IpmbType::mpsVR)
+    else if (type == IpmbType::mpsVR || type == IpmbType::PXE1410CVR)
     {
         commandAddress = meAddress;
         netfn = 0x2e;       // me bridge
         command = 0xd9;     // send raw pmbus
         initCommand = 0xd9; // send raw pmbus
+        // pmbus read temperature
         commandData = {0x57, 0x01, 0x00, 0x16, 0x3,  deviceAddress, 0x00,
                        0x00, 0x00, 0x00, 0x01, 0x02, 0x8d};
+        // goto page 0
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
                     0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
     }
@@ -298,8 +289,7 @@ void IpmbSensor::read(void)
                     }
                     value = data[0];
                 }
-                else if (type == IpmbType::PXE1410CVR ||
-                         type == IpmbType::IR38363VR)
+                else if (type == IpmbType::IR38363VR)
                 {
                     if (data.size() < 5)
                     {
@@ -332,7 +322,8 @@ void IpmbSensor::read(void)
                             break;
                     }
                 }
-                else if (type == IpmbType::mpsVR)
+                else if (type == IpmbType::PXE1410CVR ||
+                         type == IpmbType::mpsVR)
                 {
                     if (data.size() < 4)
                     {
