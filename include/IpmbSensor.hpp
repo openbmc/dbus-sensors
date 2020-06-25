@@ -29,6 +29,14 @@ enum class IpmbSubType
     util
 };
 
+enum class ReadingFormat
+{
+    byte0,
+    byte3,
+    elevenBit,
+    elevenBitShift,
+};
+
 struct IpmbSensor : public Sensor
 {
     IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -45,6 +53,7 @@ struct IpmbSensor : public Sensor
     void loadDefaults(void);
     void runInitCmd(void);
     void processError(void);
+    double processReading(const std::vector<uint8_t>& data);
 
     IpmbType type;
     IpmbSubType subType;
@@ -61,6 +70,7 @@ struct IpmbSensor : public Sensor
 
     // to date all ipmb sensors are power on only
     PowerState readState;
+    ReadingFormat readingFormat;
 
   private:
     sdbusplus::asio::object_server& objectServer;
