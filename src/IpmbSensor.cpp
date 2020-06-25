@@ -142,6 +142,7 @@ void IpmbSensor::loadDefaults()
         netfn = 0x4;    // sensor
         command = 0x2d; // get sensor reading
         commandData = {deviceAddress};
+        readingFormat = ReadingFormat::byte0;
     }
     else if (type == IpmbType::PXE1410CVR)
     {
@@ -149,18 +150,23 @@ void IpmbSensor::loadDefaults()
         netfn = 0x2e;       // me bridge
         command = 0xd9;     // send raw pmbus
         initCommand = 0xd9; // send raw pmbus
-        commandData = {0x57, 0x01, 0x00, 0x16, 0x03, deviceAddress, 00,
-                       0x00, 0x00, 0x00, 0x01, 0x02, 0x29};
+        // pmbus read temp
+        commandData = {0x57, 0x01, 0x00, 0x16, 0x3,  deviceAddress, 0x00,
+                       0x00, 0x00, 0x00, 0x01, 0x02, 0x8d};
+        // goto page 0
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
-                    0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x60};
+                    0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
+        readingFormat = ReadingFormat::byte3;
     }
     else if (type == IpmbType::IR38363VR)
     {
         commandAddress = meAddress;
         netfn = 0x2e;   // me bridge
         command = 0xd9; // send raw pmbus
+        // pmbus read temp
         commandData = {0x57, 0x01, 0x00, 0x16, 0x03, deviceAddress, 00,
                        0x00, 0x00, 0x00, 0x01, 0x02, 0x8D};
+        readingFormat = ReadingFormat::elevenBitShift;
     }
     else if (type == IpmbType::ADM1278HSC)
     {
@@ -178,12 +184,14 @@ void IpmbSensor::loadDefaults()
                 command = 0xd9; // send raw pmbus
                 commandData = {0x57, 0x01, 0x00, 0x86, deviceAddress,
                                0x00, 0x00, 0x01, 0x02, snsNum};
+                readingFormat = ReadingFormat::elevenBit;
                 break;
             case IpmbSubType::power:
             case IpmbSubType::volt:
                 netfn = 0x4;    // sensor
                 command = 0x2d; // get sensor reading
                 commandData = {deviceAddress};
+                readingFormat = ReadingFormat::byte0;
                 break;
             default:
                 throw std::runtime_error("Invalid sensor type");
@@ -195,10 +203,13 @@ void IpmbSensor::loadDefaults()
         netfn = 0x2e;       // me bridge
         command = 0xd9;     // send raw pmbus
         initCommand = 0xd9; // send raw pmbus
+        // pmbus read temp
         commandData = {0x57, 0x01, 0x00, 0x16, 0x3,  deviceAddress, 0x00,
                        0x00, 0x00, 0x00, 0x01, 0x02, 0x8d};
+        // goto page 0
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
                     0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
+        readingFormat = ReadingFormat::byte3;
     }
     else
     {
@@ -241,6 +252,44 @@ void IpmbSensor::processError(void)
     if (errorCount < std::numeric_limits<uint8_t>::max())
     {
         errorCount++;
+    }
+}
+
+double IpmbSensor::processReading(const std::vector<uint8_t>& data)
+{
+
+    switch (readingFormat)
+    {
+        case (ReadingFormat::byte0):
+            return data[0];
+        case (ReadingFormat::byte3):
+            if (data.size() < 4)
+            {
+                std::cerr << "Invalid data length returned for " << name
+                          << "\n";
+                return 0;
+            }
+            return data[3];
+        case (ReadingFormat::elevenBit):
+            if (data.size() < 5)
+            {
+                std::cerr << "Invalid data length returned for " << name
+                          << "\n";
+                return 0;
+            }
+
+            return ((data[4] << 8) | data[3]);
+        case (ReadingFormat::elevenBitShift):
+            if (data.size() < 5)
+            {
+                std::cerr << "Invalid data length returned for " << name
+                          << "\n";
+                return 0;
+            }
+
+            return ((data[4] << 8) | data[3]) >> 3;
+        default:
+            throw std::runtime_error("Invalid reading type");
     }
 }
 
@@ -287,65 +336,13 @@ void IpmbSensor::read(void)
                     }
                     std::cout << "\n";
                 }
-                double value = 0;
-                if (type == IpmbType::meSensor)
+                if (data.empty())
                 {
-                    if (data.empty())
-                    {
-                        processError();
-                        read();
-                        return;
-                    }
-                    value = data[0];
+                    processError();
+                    read();
+                    return;
                 }
-                else if (type == IpmbType::PXE1410CVR ||
-                         type == IpmbType::IR38363VR)
-                {
-                    if (data.size() < 5)
-                    {
-                        processError();
-                        read();
-                        return;
-                    }
-                    // format based on the 11 bit linear data format
-                    value = ((data[4] << 8) | data[3]) >> 3;
-                }
-                else if (type == IpmbType::ADM1278HSC)
-                {
-                    if (data.empty())
-                    {
-                        processError();
-                        read();
-                        return;
-                    }
-                    switch (subType)
-                    {
-                        case IpmbSubType::temp:
-                        case IpmbSubType::curr:
-                            // format based on the 11 bit linear data format
-                            value = ((data[4] << 8) | data[3]);
-                            break;
-                        case IpmbSubType::power:
-                        case IpmbSubType::volt:
-                        case IpmbSubType::util:
-                            value = data[0];
-                            break;
-                    }
-                }
-                else if (type == IpmbType::mpsVR)
-                {
-                    if (data.size() < 4)
-                    {
-                        processError();
-                        read();
-                        return;
-                    }
-                    value = data[3];
-                }
-                else
-                {
-                    throw std::runtime_error("Invalid sensor type");
-                }
+                double value = processReading(data);
 
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;
