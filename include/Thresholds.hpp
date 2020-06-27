@@ -42,8 +42,9 @@ struct Threshold
     }
 };
 
-void assertThresholds(Sensor* sensor, thresholds::Level level,
-                      thresholds::Direction direction, bool assert);
+void assertThresholds(Sensor* sensor, double assertValue,
+                      thresholds::Level level, thresholds::Direction direction,
+                      bool assert);
 
 struct TimerUsed
 {
@@ -78,7 +79,7 @@ struct ThresholdTimer
         }
     }
 
-    void startTimer(const Threshold& threshold)
+    void startTimer(const Threshold& threshold, double assertValue)
     {
         struct TimerUsed timerUsed = {};
         constexpr const size_t waitTime = 5;
@@ -102,7 +103,7 @@ struct ThresholdTimer
         pair->first.direction = threshold.direction;
         pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
         pair->second.async_wait(
-            [this, pair, threshold](boost::system::error_code ec) {
+            [this, pair, threshold, assertValue](boost::system::error_code ec) {
                 pair->first.used = false;
 
                 if (ec == boost::asio::error::operation_aborted)
@@ -116,7 +117,7 @@ struct ThresholdTimer
                 }
                 if (isPowerOn())
                 {
-                    assertThresholds(sensor, threshold.level,
+                    assertThresholds(sensor, assertValue, threshold.level,
                                      threshold.direction, true);
                 }
             });
