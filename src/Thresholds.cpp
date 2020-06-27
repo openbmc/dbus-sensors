@@ -245,10 +245,10 @@ static int cLoFalse = 0;
 static int cLoMidstate = 0;
 static int cDebugThrottle = 0;
 
-static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
-                                                               double value)
+static std::vector<std::tuple<Threshold, bool, double>>
+    checkThresholds(Sensor* sensor, double value)
 {
-    std::vector<std::pair<Threshold, bool>> thresholdChanges;
+    std::vector<std::tuple<Threshold, bool, double>> thresholdChanges;
     if (sensor->thresholds.empty())
     {
         return thresholdChanges;
@@ -265,12 +265,14 @@ static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
         {
             if (value >= threshold.value)
             {
-                thresholdChanges.push_back(std::make_pair(threshold, true));
+                thresholdChanges.push_back(
+                    std::make_tuple(threshold, true, value));
                 ++cHiTrue;
             }
             else if (value < (threshold.value - sensor->hysteresisTrigger))
             {
-                thresholdChanges.push_back(std::make_pair(threshold, false));
+                thresholdChanges.push_back(
+                    std::make_tuple(threshold, false, value));
                 ++cHiFalse;
             }
             else
@@ -282,12 +284,14 @@ static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
         {
             if (value <= threshold.value)
             {
-                thresholdChanges.push_back(std::make_pair(threshold, true));
+                thresholdChanges.push_back(
+                    std::make_tuple(threshold, true, value));
                 ++cLoTrue;
             }
             else if (value > (threshold.value + sensor->hysteresisTrigger))
             {
-                thresholdChanges.push_back(std::make_pair(threshold, false));
+                thresholdChanges.push_back(
+                    std::make_tuple(threshold, false, value));
                 ++cLoFalse;
             }
             else
@@ -321,12 +325,12 @@ static std::vector<std::pair<Threshold, bool>> checkThresholds(Sensor* sensor,
 bool checkThresholds(Sensor* sensor)
 {
     bool status = true;
-    std::vector<std::pair<Threshold, bool>> changes =
+    std::vector<std::tuple<Threshold, bool, double>> changes =
         checkThresholds(sensor, sensor->value);
-    for (const auto& [threshold, asserted] : changes)
+    for (const auto& [threshold, asserted, assertValue] : changes)
     {
-        assertThresholds(sensor, threshold.level, threshold.direction,
-                         asserted);
+        assertThresholds(sensor, assertValue, threshold.level,
+                         threshold.direction, asserted);
         if (threshold.level == thresholds::Level::CRITICAL && asserted)
         {
             status = false;
@@ -339,25 +343,26 @@ bool checkThresholds(Sensor* sensor)
 void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
 {
 
-    std::vector<std::pair<Threshold, bool>> changes =
+    std::vector<std::tuple<Threshold, bool, double>> changes =
         checkThresholds(sensor, sensor->value);
-    for (const auto& [threshold, asserted] : changes)
+    for (const auto& [threshold, asserted, assertValue] : changes)
     {
         if (asserted)
         {
-            thresholdTimer.startTimer(threshold);
+            thresholdTimer.startTimer(threshold, assertValue);
         }
         else
         {
             thresholdTimer.stopTimer(threshold);
-            assertThresholds(sensor, threshold.level, threshold.direction,
-                             false);
+            assertThresholds(sensor, assertValue, threshold.level,
+                             threshold.direction, false);
         }
     }
 }
 
-void assertThresholds(Sensor* sensor, thresholds::Level level,
-                      thresholds::Direction direction, bool assert)
+void assertThresholds(Sensor* sensor, double assertValue,
+                      thresholds::Level level, thresholds::Direction direction,
+                      bool assert)
 {
     std::string property;
     std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
@@ -396,7 +401,25 @@ void assertThresholds(Sensor* sensor, thresholds::Level level,
         std::cout << "trying to set uninitialized interface\n";
         return;
     }
-    interface->set_property(property, assert);
+
+    if (interface->set_property_change(property, assert))
+    {
+        try
+        {
+            // msg.get_path() is interface->get_object_path()
+            sdbusplus::message::message msg =
+                interface->new_signal("thresholdAsserted");
+
+            msg.append(sensor->name, interface->get_interface_name(), property,
+                       assert, assertValue);
+            msg.signal_send();
+        }
+        catch (const sdbusplus::exception::exception& e)
+        {
+            std::cerr
+                << "Failed to send thresholdAsserted signal with assertValue\n";
+        }
+    }
 }
 
 bool parseThresholdsFromAttr(
