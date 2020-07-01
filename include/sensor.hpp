@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Thresholds.hpp"
+#include "Utils.hpp"
 
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -14,17 +15,23 @@ constexpr size_t sensorFailedPollTimeMs = 5000;
 constexpr const char* sensorValueInterface = "xyz.openbmc_project.Sensor.Value";
 constexpr const char* availableInterfaceName =
     "xyz.openbmc_project.State.Decorator.Availability";
+constexpr const char* operationalInterfaceName =
+    "xyz.openbmc_project.State.Decorator.OperationalStatus";
+constexpr const size_t errorThreshold = 5;
+
 struct Sensor
 {
     Sensor(const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
-           const double max, const double min) :
+           const double max, const double min,
+           PowerState readState = PowerState::always) :
         name(std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_")),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
-        hysteresisPublish((max - min) * 0.0001)
+        hysteresisPublish((max - min) * 0.0001), readState(readState),
+        errCount(0)
     {}
     virtual ~Sensor() = default;
     virtual void checkThresholds(void) = 0;
@@ -39,12 +46,14 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
     double value = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
-    bool available = true;
     double hysteresisTrigger;
     double hysteresisPublish;
+    PowerState readState;
+    size_t errCount;
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
@@ -68,6 +77,11 @@ struct Sensor
                              const std::string label = std::string(),
                              size_t thresholdSize = 0)
     {
+        if (readState == PowerState::on || readState == PowerState::biosPost)
+        {
+            setupPowerMatch(conn);
+        }
+
         createAssociation(association, configurationPath);
 
         sensorInterface->register_property("MaxValue", maxValue);
@@ -172,23 +186,99 @@ struct Sensor
                     {
                         return 1;
                     }
+                    old = propIn;
                     if (!propIn)
                     {
                         updateValue(std::numeric_limits<double>::quiet_NaN());
                     }
-                    old = propIn;
-                    available = propIn;
                     return 1;
                 });
             availableInterface->initialize();
+        }
+        if (!operationalInterface)
+        {
+            operationalInterface =
+                std::make_shared<sdbusplus::asio::dbus_interface>(
+                    conn, sensorInterface->get_object_path(),
+                    operationalInterfaceName);
+            operationalInterface->register_property("Functional", true);
+            operationalInterface->initialize();
+        }
+    }
+
+    bool readingStateGood()
+    {
+        if (readState == PowerState::on && !isPowerOn())
+        {
+            return false;
+        }
+        if (readState == PowerState::biosPost &&
+            (!hasBiosPost() || !isPowerOn()))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    void markFunctional(bool isFunctional)
+    {
+        if (operationalInterface)
+        {
+            operationalInterface->set_property("Functional", isFunctional);
+        }
+        if (isFunctional)
+        {
+            errCount = 0;
+        }
+        else
+        {
+            updateValue(std::numeric_limits<double>::quiet_NaN());
+;
+        }
+    }
+
+    void markAvailable(bool isAvailable)
+    {
+        if (availableInterface)
+        {
+            availableInterface->set_property("Available", isAvailable);
+            errCount = 0;
+        }
+    }
+
+    void incrementError()
+    {
+        if (!readingStateGood())
+        {
+            markAvailable(false);
+            return;
+        }
+
+        if (errCount >= errorThreshold)
+        {
+            return;
+        }
+
+        errCount++;
+        if (errCount == errorThreshold)
+        {
+            std::cerr << "Sensor " << name << " reading error!\n";
+            markFunctional(false);
         }
     }
 
     void updateValue(const double& newValue)
     {
         // Ignore if overriding is enabled
-        if (overriddenState || !available)
+        if (overriddenState)
         {
+            return;
+        }
+
+        if (!readingStateGood())
+        {
+            markAvailable(false);
             return;
         }
 
@@ -203,6 +293,11 @@ struct Sensor
         // which is called by checkThresholds() below,
         // in all current implementations of sensors that have thresholds.
         checkThresholds();
+        if (!std::isnan(newValue))
+        {
+            markFunctional(true);
+            markAvailable(true);
+        }
     }
 
     void updateProperty(
