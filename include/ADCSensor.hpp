@@ -78,10 +78,8 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
     boost::asio::deadline_timer waitTimer;
     std::shared_ptr<boost::asio::streambuf> readBuf;
     std::string path;
-    size_t errCount;
     double scaleFactor;
     std::optional<BridgeGpio> bridgeGpio;
-    PowerState readState;
     thresholds::ThresholdTimer thresholdTimer;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;

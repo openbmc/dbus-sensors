@@ -51,11 +51,11 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        const std::string& sensorConfiguration,
                        const std::pair<size_t, size_t>& limits) :
     Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(_thresholds),
-           sensorConfiguration, objectType, limits.second, limits.first),
+           sensorConfiguration, objectType, limits.second, limits.first,
+           PowerState::on),
     objServer(objectServer), redundancy(redundancy),
     presence(std::move(presenceSensor)),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    errCount(0)
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
@@ -96,7 +96,6 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
         itemAssoc->initialize();
     }
     setInitialProperties(conn);
-    setupPowerMatch(conn);
     setupRead();
 }
 
@@ -133,7 +132,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
     {
         if (!presence->getValue())
         {
-            updateValue(std::numeric_limits<double>::quiet_NaN());
+            markAvailable(false);
             missing = true;
             pollTime = sensorFailedPollTimeMs;
         }
@@ -151,35 +150,17 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
                 double nvalue = std::stod(response);
                 responseStream.clear();
                 updateValue(nvalue);
-                errCount = 0;
             }
             catch (const std::invalid_argument&)
             {
-                errCount++;
+                incrementError();
+                pollTime = sensorFailedPollTimeMs;
             }
         }
         else
         {
-            if (!isPowerOn())
-            {
-                errCount = 0;
-                updateValue(std::numeric_limits<double>::quiet_NaN());
-            }
-            else
-            {
-                pollTime = sensorFailedPollTimeMs;
-                errCount++;
-            }
-        }
-        if (errCount >= warnAfterErrorCount)
-        {
-            // only print once
-            if (errCount == warnAfterErrorCount)
-            {
-                std::cerr << "Failure to read sensor " << name << " at " << path
-                          << " ec:" << err << "\n";
-            }
-            updateValue(0);
+            incrementError();
+            pollTime = sensorFailedPollTimeMs;
         }
     }
     responseStream.clear();
@@ -202,11 +183,6 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
 
 void TachSensor::checkThresholds(void)
 {
-    if (!isPowerOn())
-    {
-        return;
-    }
-
     bool status = thresholds::checkThresholds(this);
 
     if (redundancy && *redundancy)

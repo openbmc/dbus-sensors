@@ -52,8 +52,7 @@ struct IpmbSensor : public Sensor
     void init(void);
     void loadDefaults(void);
     void runInitCmd(void);
-    void processError(void);
-    double processReading(const std::vector<uint8_t>& data);
+    bool processReading(const std::vector<uint8_t>& data, double& resp);
 
     IpmbType type;
     IpmbSubType subType;
@@ -68,8 +67,6 @@ struct IpmbSensor : public Sensor
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
 
-    // to date all ipmb sensors are power on only
-    PowerState readState;
     ReadingFormat readingFormat;
 
   private:
