@@ -43,11 +43,11 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      bool show, double dtsOffset) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading),
+           minReading, PowerState::on),
     objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
     waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
-    dtsOffset(dtsOffset), show(show), errCount(0)
+    dtsOffset(dtsOffset), show(show)
 {
     nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);
@@ -87,6 +87,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             setInitialProperties(conn);
         }
     }
+
+    // call setup always as not all sensors call setInitialProperties
     setupPowerMatch(conn);
     setupRead();
 }
@@ -223,52 +225,16 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                     }
                 }
             }
-            errCount = 0;
         }
         catch (const std::invalid_argument&)
         {
-            errCount++;
+            incrementError();
         }
     }
     else
     {
         pollTime = sensorFailedPollTimeMs;
-        errCount++;
-    }
-
-    if (errCount >= warnAfterErrorCount)
-    {
-        // only an error if power is on
-        if (isPowerOn())
-        {
-            // only print once
-            if (errCount == warnAfterErrorCount)
-            {
-                std::cerr << "Failure to read sensor " << name << " at " << path
-                          << "\n";
-            }
-            if (show)
-            {
-                updateValue(0);
-            }
-            else
-            {
-                value = 0;
-            }
-            errCount++;
-        }
-        else
-        {
-            errCount = 0; // check power again in 10 cycles
-            if (show)
-            {
-                updateValue(std::numeric_limits<double>::quiet_NaN());
-            }
-            else
-            {
-                value = std::numeric_limits<double>::quiet_NaN();
-            }
-        }
+        incrementError();
     }
 
     responseStream.clear();

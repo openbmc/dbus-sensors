@@ -18,7 +18,6 @@ class NVMeSensor : public Sensor
 
     NVMeSensor& operator=(const NVMeSensor& other) = delete;
 
-    size_t errorCount;
     int bus;
 
   private:
