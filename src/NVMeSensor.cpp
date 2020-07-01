@@ -229,23 +229,11 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
             constexpr const size_t errorThreshold = 5;
             if (errorCode)
             {
-                sensor->errorCount = 0;
+                // timer cancelled successfully
                 return;
             }
-            if (!isPowerOn())
-            {
-                sensor->errorCount = 0;
-                sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
-            }
-            else if (sensor->errorCount < errorThreshold)
-            {
-                std::cerr << "MCTP timeout device " << sensor->name << "\n";
-                sensor->errorCount++;
-            }
-            else
-            {
-                sensor->updateValue(0);
-            }
+
+            sensor->incrementError();
 
             // cycle it back
             nvmeDevice->sensors.pop_front();
@@ -441,8 +429,9 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
                        const int busNumber) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.NVMe", maxReading, minReading),
-    objServer(objectServer), errorCount(0), bus(busNumber)
+           "xyz.openbmc_project.Configuration.NVMe", maxReading, minReading,
+           PowerState::on),
+    objServer(objectServer), bus(busNumber)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -465,8 +454,6 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
         association::interface);
 
     setInitialProperties(conn);
-    // setup match
-    setupPowerMatch(conn);
 }
 
 NVMeSensor::~NVMeSensor()
@@ -480,9 +467,5 @@ NVMeSensor::~NVMeSensor()
 
 void NVMeSensor::checkThresholds(void)
 {
-    if (!isPowerOn())
-    {
-        return;
-    }
     thresholds::checkThresholds(this);
 }

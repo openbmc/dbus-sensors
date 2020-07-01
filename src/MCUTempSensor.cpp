@@ -186,7 +186,7 @@ void MCUTempSensor::read(void)
         else
         {
             std::cerr << "Invalid read getMCURegsInfoWord\n";
-            updateValue(-1);
+            incrementError();
         }
         read();
     });

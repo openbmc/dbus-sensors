@@ -47,10 +47,9 @@ HwmonTempSensor::HwmonTempSensor(
     const std::string& sensorConfiguration, const PowerState powerState) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading),
+           minReading, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    errCount(0), readState(powerState)
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -72,7 +71,6 @@ HwmonTempSensor::HwmonTempSensor(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);
     setInitialProperties(conn);
-    setupPowerMatch(conn);
 }
 
 HwmonTempSensor::~HwmonTempSensor()
@@ -119,34 +117,17 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
             double nvalue = std::stod(response);
             nvalue /= sensorScaleFactor;
             updateValue(nvalue);
-            errCount = 0;
         }
         catch (const std::invalid_argument&)
         {
-            errCount++;
+            incrementError();
         }
-    }
-    else if (readState == PowerState::on && !isPowerOn())
-    {
-        errCount = 0;
-        updateValue(std::numeric_limits<double>::quiet_NaN());
     }
     else
     {
-        errCount++;
+        incrementError();
     }
 
-    // only print once
-    if (errCount == warnAfterErrorCount)
-    {
-        std::cerr << "Failure to read sensor " << name << " at " << path
-                  << " ec:" << err << "\n";
-    }
-
-    if (errCount >= warnAfterErrorCount)
-    {
-        updateValue(0);
-    }
     responseStream.clear();
     inputDev.close();
     int fd = open(path.c_str(), O_RDONLY);
@@ -172,9 +153,5 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
 
 void HwmonTempSensor::checkThresholds(void)
 {
-    if (readState == PowerState::on && !isPowerOn())
-    {
-        return;
-    }
     thresholds::checkThresholds(this);
 }
