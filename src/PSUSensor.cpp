@@ -47,7 +47,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), errCount(0), sensorFactor(factor)
+    inputDev(io), waitTimer(io), path(path), sensorFactor(factor)
 {
     if constexpr (DEBUG)
     {
@@ -147,28 +147,17 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             nvalue /= sensorFactor;
 
             updateValue(nvalue);
-            errCount = 0;
         }
         catch (const std::invalid_argument&)
         {
             std::cerr << "Could not parse " << response << "\n";
-            errCount++;
+            incrementError();
         }
     }
     else
     {
         std::cerr << "System error " << err << "\n";
-        errCount++;
-    }
-
-    if (errCount >= warnAfterErrorCount)
-    {
-        if (errCount == warnAfterErrorCount)
-        {
-            std::cerr << "Failure to read sensor " << name << "\n";
-        }
-        updateValue(0);
-        errCount++;
+        incrementError();
     }
 
     lseek(fd, 0, SEEK_SET);

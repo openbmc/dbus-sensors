@@ -29,7 +29,6 @@ class HwmonTempSensor :
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string path;
-    PowerState readState;
     size_t errCount;
 
     void handleResponse(const boost::system::error_code& err);
