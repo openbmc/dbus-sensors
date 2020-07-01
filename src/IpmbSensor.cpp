@@ -69,9 +69,9 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", ipmbMaxReading,
-           ipmbMinReading),
-    deviceAddress(deviceAddress), readState(PowerState::on),
-    objectServer(objectServer), dbusConnection(conn), waitTimer(io)
+           ipmbMinReading, PowerState::on),
+    deviceAddress(deviceAddress), objectServer(objectServer),
+    dbusConnection(conn), waitTimer(io)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
 
@@ -89,7 +89,6 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
             dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
     association = objectServer.add_interface(dbusPath, association::interface);
-    setupPowerMatch(conn);
 }
 
 IpmbSensor::~IpmbSensor()
@@ -226,68 +225,48 @@ void IpmbSensor::loadDefaults()
 
 void IpmbSensor::checkThresholds(void)
 {
-    if (readState == PowerState::on && !isPowerOn())
-    {
-        return;
-    }
-    else if (readState == PowerState::biosPost && !hasBiosPost())
-    {
-        return;
-    }
     thresholds::checkThresholds(this);
 }
 
-void IpmbSensor::processError(void)
-{
-    static constexpr size_t errorFilter = 2;
-
-    if (!errorCount)
-    {
-        std::cerr << "Invalid data from device: " << name << "\n";
-    }
-    else if (errorCount > errorFilter)
-    {
-        updateValue(0);
-    }
-    if (errorCount < std::numeric_limits<uint8_t>::max())
-    {
-        errorCount++;
-    }
-}
-
-double IpmbSensor::processReading(const std::vector<uint8_t>& data)
+bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
 {
 
     switch (readingFormat)
     {
         case (ReadingFormat::byte0):
-            return data[0];
+            resp = data[0];
+            return true;
         case (ReadingFormat::byte3):
             if (data.size() < 4)
             {
                 std::cerr << "Invalid data length returned for " << name
                           << "\n";
-                return 0;
+                return false;
             }
-            return data[3];
+            resp = data[3];
+            return true;
         case (ReadingFormat::elevenBit):
             if (data.size() < 5)
             {
+                incrementError();
                 std::cerr << "Invalid data length returned for " << name
                           << "\n";
-                return 0;
+                return false;
+                ;
             }
 
-            return ((data[4] << 8) | data[3]);
+            resp = ((data[4] << 8) | data[3]);
+            return true;
         case (ReadingFormat::elevenBitShift):
             if (data.size() < 5)
             {
                 std::cerr << "Invalid data length returned for " << name
                           << "\n";
-                return 0;
+                return false;
             }
 
-            return ((data[4] << 8) | data[3]) >> 3;
+            resp = ((data[4] << 8) | data[3]) >> 3;
+            return true;
         default:
             throw std::runtime_error("Invalid reading type");
     }
@@ -305,7 +284,6 @@ void IpmbSensor::read(void)
         }
         if (!isPowerOn() && readState != PowerState::always)
         {
-            updateValue(0);
             read();
             return;
         }
@@ -315,14 +293,7 @@ void IpmbSensor::read(void)
                 const int& status = std::get<0>(response);
                 if (ec || status)
                 {
-                    processError();
-                    updateValue(0);
-                    read();
-                    return;
-                }
-                if (!isPowerOn() && readState != PowerState::always)
-                {
-                    updateValue(0);
+                    incrementError();
                     read();
                     return;
                 }
@@ -338,11 +309,19 @@ void IpmbSensor::read(void)
                 }
                 if (data.empty())
                 {
-                    processError();
+                    incrementError();
                     read();
                     return;
                 }
-                double value = processReading(data);
+
+                double value = 0;
+
+                if (!processReading(data, value))
+                {
+                    incrementError();
+                    read();
+                    return;
+                }
 
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;
