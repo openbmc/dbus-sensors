@@ -54,11 +54,12 @@ ADCSensor::ADCSensor(const std::string& path,
                      std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ADC", maxReading, minReading),
+           "xyz.openbmc_project.Configuration.ADC", maxReading, minReading,
+           readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    errCount(0), scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
-    readState(std::move(readState)), thresholdTimer(io, this)
+    scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
+    thresholdTimer(io, this)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
@@ -78,9 +79,6 @@ ADCSensor::ADCSensor(const std::string& path,
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
     setInitialProperties(conn);
-
-    // setup match
-    setupPowerMatch(conn);
 }
 
 ADCSensor::~ADCSensor()
@@ -174,32 +172,15 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
             nvalue = std::round(nvalue * roundFactor) / roundFactor;
 
             updateValue(nvalue);
-            errCount = 0;
         }
         catch (std::invalid_argument&)
         {
-            errCount++;
+            incrementError();
         }
-    }
-    else if (readState == PowerState::on && !isPowerOn())
-    {
-        errCount = 0;
-        updateValue(std::numeric_limits<double>::quiet_NaN());
     }
     else
     {
-        errCount++;
-    }
-    // only print once
-    if (errCount == warnAfterErrorCount)
-    {
-        std::cerr << "Failure to read sensor " << name << " at " << path
-                  << " ec:" << err << "\n";
-    }
-
-    if (errCount >= warnAfterErrorCount)
-    {
-        updateValue(0);
+        incrementError();
     }
 
     responseStream.clear();
@@ -231,7 +212,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
 
 void ADCSensor::checkThresholds(void)
 {
-    if (readState == PowerState::on && !isPowerOn())
+    if (!readingStateGood())
     {
         return;
     }
