@@ -51,6 +51,7 @@ struct TimerUsed
     bool used;
     Level level;
     Direction direction;
+    bool assert;
 };
 
 using TimerPair = std::pair<struct TimerUsed, boost::asio::deadline_timer>;
@@ -62,7 +63,24 @@ struct ThresholdTimer
         io(ioService), sensor(sensor)
     {}
 
-    void stopTimer(const Threshold& threshold)
+    bool hasActiveTimer(const Threshold& threshold, bool assert)
+    {
+        for (TimerPair& timer : timers)
+        {
+            if (timer.first.used)
+            {
+                if ((timer.first.level == threshold.level) &&
+                    (timer.first.direction == threshold.direction) &&
+                    (timer.first.assert == assert))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    void stopTimer(const Threshold& threshold, bool assert)
     {
         struct TimerUsed timerUsed = {};
         for (TimerPair& timer : timers)
@@ -71,7 +89,8 @@ struct ThresholdTimer
             if (timerUsed.used)
             {
                 if ((timerUsed.level == threshold.level) &&
-                    (timerUsed.direction == threshold.direction))
+                    (timerUsed.direction == threshold.direction) &&
+                    (timerUsed.assert == assert))
                 {
                     timer.second.cancel();
                 }
@@ -79,7 +98,7 @@ struct ThresholdTimer
         }
     }
 
-    void startTimer(const Threshold& threshold, double assertValue)
+    void startTimer(const Threshold& threshold, bool assert, double assertValue)
     {
         struct TimerUsed timerUsed = {};
         constexpr const size_t waitTime = 5;
@@ -98,29 +117,31 @@ struct ThresholdTimer
             pair = &timers.emplace_back(timerUsed,
                                         boost::asio::deadline_timer(io));
         }
+
         pair->first.used = true;
         pair->first.level = threshold.level;
         pair->first.direction = threshold.direction;
+        pair->first.assert = assert;
         pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
-        pair->second.async_wait(
-            [this, pair, threshold, assertValue](boost::system::error_code ec) {
-                pair->first.used = false;
+        pair->second.async_wait([this, pair, threshold, assert,
+                                 assertValue](boost::system::error_code ec) {
+            pair->first.used = false;
 
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
-                else if (ec)
-                {
-                    std::cerr << "timer error: " << ec.message() << "\n";
-                    return;
-                }
-                if (isPowerOn())
-                {
-                    assertThresholds(sensor, assertValue, threshold.level,
-                                     threshold.direction, true);
-                }
-            });
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
+            else if (ec)
+            {
+                std::cerr << "timer error: " << ec.message() << "\n";
+                return;
+            }
+            if (isPowerOn())
+            {
+                assertThresholds(sensor, assertValue, threshold.level,
+                                 threshold.direction, assert);
+            }
+        });
     }
 
     boost::asio::io_service& io;
