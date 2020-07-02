@@ -352,16 +352,27 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
     for (const auto& change : changes)
     {
-        if (change.asserted)
+        // When CPU is powered off, some volatges are expected to
+        // go below low thresholds. Filter these events with thresholdTimer.
+        // 1. always delay the assertion of low events to see if they are
+        //   caused by power off event.
+        // 2. conditional delay the de-assertion of low events if there is
+        //   an existing timer for assertion.
+        // 3. no delays for de-assert of low events if there is an existing
+        //   de-assert for low event. This means 2nd de-assert would happen
+        //   first and when timer expires for the previous one, no additional
+        //   signal will be logged.
+        // 4. no delays for all high events.
+        if (threshold.direction == thresholds::Direction::LOW)
         {
-            thresholdTimer.startTimer(change.threshold, change.assertValue);
+            if (asserted || thresholdTimer.hasActiveTimer(threshold, !asserted))
+            {
+                thresholdTimer.startTimer(threshold, asserted, assertValue);
+                continue;
+            }
         }
-        else
-        {
-            thresholdTimer.stopTimer(change.threshold);
-            assertThresholds(sensor, change.assertValue, change.threshold.level,
-                             change.threshold.direction, false);
-        }
+        assertThresholds(sensor, assertValue, threshold.level,
+                         threshold.direction, asserted);
     }
 }
 
