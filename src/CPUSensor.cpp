@@ -44,10 +44,9 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading, PowerState::on),
-    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
-    waitTimer(io), path(path),
+    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
-    dtsOffset(dtsOffset), show(show)
+    dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs)
 {
     nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);
@@ -106,10 +105,38 @@ CPUSensor::~CPUSensor()
 
 void CPUSensor::setupRead(void)
 {
-    boost::asio::async_read_until(
-        inputDev, readBuf, '\n',
-        [&](const boost::system::error_code& ec,
-            std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+    if (readingStateGood())
+    {
+        inputDev.close();
+        int fd = open(path.c_str(), O_RDONLY);
+        if (fd >= 0)
+        {
+            inputDev.assign(fd);
+
+            boost::asio::async_read_until(
+                inputDev, readBuf, '\n',
+                [&](const boost::system::error_code& ec,
+                    std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+        }
+        else
+        {
+            std::cerr << name << " unable to open fd!\n";
+            pollTime = sensorFailedPollTimeMs;
+        }
+    }
+    else
+    {
+        pollTime = sensorFailedPollTimeMs;
+        markAvailable(false);
+    }
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
+    waitTimer.async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return; // we're being canceled
+        }
+        setupRead();
+    });
 }
 
 void CPUSensor::updateMinMaxValues(void)
@@ -168,7 +195,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     {
         return; // we're being destroyed
     }
-    size_t pollTime = CPUSensor::sensorPollMs;
+    pollTime = CPUSensor::sensorPollMs;
     std::istream responseStream(&readBuf);
     if (!err)
     {
@@ -235,21 +262,6 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     }
 
     responseStream.clear();
-    inputDev.close();
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd < 0)
-    {
-        return; // we're no longer valid
-    }
-    inputDev.assign(fd);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            return; // we're being canceled
-        }
-        setupRead();
-    });
 }
 
 void CPUSensor::checkThresholds(void)
