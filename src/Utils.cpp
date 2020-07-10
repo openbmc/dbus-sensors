@@ -351,15 +351,16 @@ std::optional<std::tuple<std::string, std::string, std::string>>
     if (filePath.has_filename())
     {
         const auto fileName = filePath.filename().string();
-        const std::regex rx(R"((\w+)(\d+)_(.*))");
-        std::smatch mr;
 
-        if (std::regex_search(fileName, mr, rx))
+        size_t numberPos = std::strcspn(fileName.c_str(), "1234567890");
+        size_t itemPos = std::strcspn(fileName.c_str(), "_");
+
+        if (numberPos > 0 && itemPos > numberPos && fileName.size() > itemPos)
         {
-            if (mr.size() == 4)
-            {
-                return std::make_optional(std::make_tuple(mr[1], mr[2], mr[3]));
-            }
+            return std::make_optional(
+                std::make_tuple(fileName.substr(0, numberPos),
+                                fileName.substr(numberPos, itemPos - numberPos),
+                                fileName.substr(itemPos + 1, fileName.size())));
         }
     }
     return std::nullopt;
