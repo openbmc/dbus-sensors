@@ -104,7 +104,9 @@ void createSensors(
                 return;
             }
 
-            std::vector<std::pair<uint8_t, std::string>> pwmNumbers;
+            // pwm index, sysfs path, pwm name
+            std::vector<std::tuple<uint8_t, std::string, std::string>>
+                pwmNumbers;
 
             // iterate through all found fan sensors, and try to match them with
             // configuration
@@ -316,10 +318,22 @@ void createSensors(
                         std::cerr << "Connector Missing PWM!\n";
                         continue;
                     }
-
                     size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
                                             findPwm->second);
-                    pwmNumbers.emplace_back(pwm, *interfacePath);
+                    /* use pwm name override if found in configuration else use
+                     * default */
+                    auto find_override = connector->second.find("PwmName");
+                    std::string pwmName;
+                    if (find_override != connector->second.end())
+                    {
+                        pwmName = std::visit(VariantToStringVisitor(),
+                                             find_override->second);
+                    }
+                    else
+                    {
+                        pwmName = "Pwm_" + std::to_string(pwm + 1);
+                    }
+                    pwmNumbers.emplace_back(pwm, *interfacePath, pwmName);
                 }
             }
             std::vector<fs::path> pwms;
@@ -335,12 +349,15 @@ void createSensors(
                     continue;
                 }
                 const std::string* path = nullptr;
-                for (const auto& [index, configPath] : pwmNumbers)
+                const std::string* pwmName = nullptr;
+
+                for (const auto& [index, configPath, name] : pwmNumbers)
                 {
                     if (boost::ends_with(pwm.string(),
                                          std::to_string(index + 1)))
                     {
                         path = &configPath;
+                        pwmName = &name;
                         break;
                     }
                 }
@@ -352,12 +369,10 @@ void createSensors(
 
                 // only add new elements
                 const std::string& sysPath = pwm.string();
-                const std::string& pwmName =
-                    "Pwm_" + sysPath.substr(sysPath.find_last_of("pwm") + 1);
                 pwmSensors.insert(
                     std::pair<std::string, std::unique_ptr<PwmSensor>>(
                         sysPath, std::make_unique<PwmSensor>(
-                                     pwmName, sysPath, dbusConnection,
+                                     *pwmName, sysPath, dbusConnection,
                                      objectServer, *path, "Fan")));
             }
         }));
