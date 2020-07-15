@@ -58,13 +58,13 @@ void createSensors(
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    const std::unique_ptr<boost::container::flat_set<std::string>>&
+    const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
         std::move([&io, &objectServer, &sensors, &dbusConnection,
-                   &sensorsChanged](
+                   sensorsChanged](
                       const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
 
@@ -260,8 +260,8 @@ int main()
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>
         sensors;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
-    std::unique_ptr<boost::container::flat_set<std::string>> sensorsChanged =
-        std::make_unique<boost::container::flat_set<std::string>>();
+    auto sensorsChanged =
+        std::make_shared<boost::container::flat_set<std::string>>();
 
     io.post([&]() {
         createSensors(io, objectServer, sensors, systemBus, nullptr);
