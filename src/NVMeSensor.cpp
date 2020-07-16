@@ -412,12 +412,17 @@ void NVMeContext::pollNVMeDevices()
         });
 }
 
-NVMeContext::~NVMeContext()
+void NVMeContext::close()
 {
     scanTimer.cancel();
     mctpResponseTimer.cancel();
     nvmeSlaveSocket.cancel();
     nvmeMCTP::closeInFd(rootBus);
+}
+
+NVMeContext::~NVMeContext()
+{
+    close();
 }
 
 NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
