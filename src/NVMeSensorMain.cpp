@@ -42,6 +42,13 @@ void createSensors(boost::asio::io_service& io,
         std::move([&io, &objectServer, &dbusConnection](
                       const ManagedObjectType& sensorConfigurations) {
             // todo: it'd be better to only update the ones we care about
+            for (const auto& [_, nvmeContextPtr] : nvmeDeviceMap)
+            {
+                if (nvmeContextPtr)
+                {
+                    nvmeContextPtr->close();
+                }
+            }
             nvmeDeviceMap.clear();
 
             // iterate through all found configurations

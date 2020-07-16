@@ -33,6 +33,7 @@ struct NVMeContext : std::enable_shared_from_this<NVMeContext>
     virtual ~NVMeContext();
 
     void pollNVMeDevices();
+    void close();
 
     boost::asio::deadline_timer scanTimer;
     int rootBus; // Root bus for this drive
