@@ -89,7 +89,6 @@ void createSensors(
     const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged)
 {
-
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
         std::move([&io, &objectServer, &tachSensors, &pwmSensors,
@@ -386,7 +385,6 @@ void createRedundancySensor(
     std::shared_ptr<sdbusplus::asio::connection> conn,
     sdbusplus::asio::object_server& objectServer)
 {
-
     conn->async_method_call(
         [&objectServer, &sensors](boost::system::error_code& ec,
                                   const ManagedObjectType managedObj) {
@@ -431,6 +429,79 @@ void createRedundancySensor(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
+void startCreateSensors(
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
+        tachSensors,
+    boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>&
+        pwmSensors,
+    std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+    boost::asio::deadline_timer& timerCreateSensors, bool& bEntityManagerOK,
+    bool bFanSensor, bool bRedundancySensor)
+{
+    timerCreateSensors.expires_from_now(boost::posix_time::seconds(15));
+    timerCreateSensors.async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return;
+        }
+        else if (ec)
+        {
+            std::cerr << "timer error\n";
+        }
+        if (bEntityManagerOK)
+        {
+            if (bFanSensor)
+            {
+                createSensors(io, objectServer, tachSensors, pwmSensors,
+                              systemBus, nullptr);
+            }
+            if (bRedundancySensor)
+            {
+                createRedundancySensor(tachSensors, systemBus, objectServer);
+            }
+            return;
+        }
+
+        systemBus->async_method_call(
+            [&objectServer,
+             &bEntityManagerOK](boost::system::error_code& ec,
+                                const ManagedObjectType managedObj) {
+                if (ec)
+                {
+                    std::cerr
+                        << "timerCreateSensors Error calling entity manager \n";
+                    bEntityManagerOK = false;
+                    return;
+                }
+                for (const auto& pathPair : managedObj)
+                {
+                    for (const auto& interfacePair : pathPair.second)
+                    {
+                        for (const char* type : sensorTypes)
+                        {
+                            if (interfacePair.first == type)
+                            {
+                                bEntityManagerOK = true;
+                                return;
+                            }
+                        }
+                    }
+                }
+            },
+            "xyz.openbmc_project.EntityManager", "/",
+            "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+
+        if (!bEntityManagerOK)
+        {
+            std::cerr << "repeat tartCreateSensors \n";
+            startCreateSensors(io, objectServer, tachSensors, pwmSensors,
+                               systemBus, timerCreateSensors, bEntityManagerOK,
+                               bFanSensor, bRedundancySensor);
+        }
+    });
+}
+
 int main()
 {
     boost::asio::io_service io;
@@ -444,11 +515,12 @@ int main()
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
+    boost::asio::deadline_timer timerCreateSensors(io);
+    bool bEntityManagerOK = false;
 
     io.post([&]() {
-        createSensors(io, objectServer, tachSensors, pwmSensors, systemBus,
-                      nullptr);
-        createRedundancySensor(tachSensors, systemBus, objectServer);
+        startCreateSensors(io, objectServer, tachSensors, pwmSensors, systemBus,
+                           timerCreateSensors, bEntityManagerOK, true, true);
     });
 
     boost::asio::deadline_timer filterTimer(io);
@@ -474,8 +546,9 @@ int main()
                     std::cerr << "timer error\n";
                     return;
                 }
-                createSensors(io, objectServer, tachSensors, pwmSensors,
-                              systemBus, sensorsChanged);
+                startCreateSensors(io, objectServer, tachSensors, pwmSensors,
+                                   systemBus, timerCreateSensors,
+                                   bEntityManagerOK, true, false);
             });
         };
 
@@ -491,9 +564,10 @@ int main()
 
     // redundancy sensor
     std::function<void(sdbusplus::message::message&)> redundancyHandler =
-        [&tachSensors, &systemBus,
-         &objectServer](sdbusplus::message::message&) {
-            createRedundancySensor(tachSensors, systemBus, objectServer);
+        [&](sdbusplus::message::message&) {
+            startCreateSensors(io, objectServer, tachSensors, pwmSensors,
+                               systemBus, timerCreateSensors, bEntityManagerOK,
+                               false, true);
         };
     auto match = std::make_unique<sdbusplus::bus::match::match>(
         static_cast<sdbusplus::bus::bus&>(*systemBus),
