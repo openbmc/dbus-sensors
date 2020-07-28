@@ -234,7 +234,14 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
     switch (readingFormat)
     {
         case (ReadingFormat::byte0):
+            // from node manager app-note, response of 0 means scanning disabled
+            // for get sensor reading command
+            if (data[0] == 0)
+            {
+                return false;
+            }
             resp = data[0];
+
             return true;
         case (ReadingFormat::byte3):
             if (data.size() < 4)
