@@ -291,6 +291,7 @@ void IpmbSensor::read(void)
         }
         if (!isPowerOn() && readState != PowerState::always)
         {
+            markFunctional(false);
             read();
             return;
         }

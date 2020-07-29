@@ -275,16 +275,16 @@ struct Sensor
             return;
         }
 
+        // Indicate that it is internal set call
+        internalSet = true;
+        updateProperty(sensorInterface, value, newValue, "Value");
+        internalSet = false;
+
         if (!readingStateGood())
         {
             markAvailable(false);
             return;
         }
-
-        // Indicate that it is internal set call
-        internalSet = true;
-        updateProperty(sensorInterface, value, newValue, "Value");
-        internalSet = false;
 
         // Always check thresholds after changing the value,
         // as the test against hysteresisTrigger now takes place in
