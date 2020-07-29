@@ -57,8 +57,8 @@ static constexpr std::array<const char*, 13> sensorTypes = {
 
 static std::vector<std::string> pmbusNames = {
     "adm1272",  "adm1278",  "ina219",   "ina230",   "isl68137",
-    "max16601", "max20730", "max20734", "max20796", "max34451",
-    "pmbus",    "pxe1610",  "raa228228"};
+    "isl68220", "max16601", "max20730", "max20734", "max20796",
+    "max34451", "pmbus",    "pxe1610",  "raa228228"};
 
 namespace fs = std::filesystem;
 
