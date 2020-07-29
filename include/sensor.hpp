@@ -278,13 +278,11 @@ struct Sensor
         if (!readingStateGood())
         {
             markAvailable(false);
+            updateValueProperty(std::numeric_limits<double>::quiet_NaN());
             return;
         }
 
-        // Indicate that it is internal set call
-        internalSet = true;
-        updateProperty(sensorInterface, value, newValue, "Value");
-        internalSet = false;
+        updateValueProperty(newValue);
 
         // Always check thresholds after changing the value,
         // as the test against hysteresisTrigger now takes place in
@@ -326,5 +324,14 @@ struct Sensor
             return true;
         }
         return false;
+    }
+
+  private:
+    void updateValueProperty(const double& newValue)
+    {
+        // Indicate that it is internal set call, not an external overwrite
+        internalSet = true;
+        updateProperty(sensorInterface, value, newValue, "Value");
+        internalSet = false;
     }
 };
