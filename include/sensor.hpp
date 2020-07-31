@@ -304,7 +304,8 @@ struct Sensor
         if (requiresUpdate(oldValue, newValue))
         {
             oldValue = newValue;
-            if (!(interface->set_property(dbusPropertyName, newValue)))
+            if (interface &&
+                !(interface->set_property(dbusPropertyName, newValue)))
             {
                 std::cerr << "error setting property " << dbusPropertyName
                           << " to " << newValue << "\n";
