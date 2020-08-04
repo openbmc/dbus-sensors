@@ -163,17 +163,34 @@ struct GetSensorConfiguration :
         std::shared_ptr<sdbusplus::asio::connection> connection,
         std::function<void(ManagedObjectType& resp)>&& callbackFunc) :
         dbusConnection(connection),
-        callback(std::move(callbackFunc))
+        callback(std::move(callbackFunc)),
+        timer(dbusConnection->get_io_context())
     {}
-    void getConfiguration(const std::vector<std::string>& interfaces)
+    void getConfiguration(const std::vector<std::string>& interfaces,
+                          size_t retries = 0)
     {
         std::shared_ptr<GetSensorConfiguration> self = shared_from_this();
         dbusConnection->async_method_call(
-            [self, interfaces](const boost::system::error_code ec,
-                               const GetSubTreeType& ret) {
+            [self, interfaces, retries](const boost::system::error_code ec,
+                                        const GetSubTreeType& ret) {
                 if (ec)
                 {
                     std::cerr << "Error calling mapper\n";
+                    if (retries)
+                    {
+                        self->timer.expires_after(std::chrono::seconds(10));
+                        self->timer.async_wait(
+                            [self, interfaces,
+                             retries](boost::system::error_code ec) {
+                                if (ec)
+                                {
+                                    std::cerr << "Timer error!\n";
+                                    return;
+                                }
+                                self->getConfiguration(interfaces, retries - 1);
+                            });
+                    }
+
                     return;
                 }
                 for (const auto& [path, objDict] : ret)
@@ -229,6 +246,8 @@ struct GetSensorConfiguration :
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     std::function<void(ManagedObjectType& resp)> callback;
     ManagedObjectType respData;
+
+    boost::asio::steady_timer timer;
 };
 
 // The common scheme for sysfs files naming is: <type><number>_<item>.
