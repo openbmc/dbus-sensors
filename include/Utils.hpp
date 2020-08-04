@@ -165,15 +165,69 @@ struct GetSensorConfiguration :
         dbusConnection(connection),
         callback(std::move(callbackFunc))
     {}
-    void getConfiguration(const std::vector<std::string>& interfaces)
+
+    void getPath(const std::string& path, const std::string& interface,
+                 const std::string& owner, size_t retries = 5)
+    {
+        std::shared_ptr<GetSensorConfiguration> self = shared_from_this();
+
+        self->dbusConnection->async_method_call(
+            [self, path, interface, owner,
+             retries](const boost::system::error_code ec,
+                      boost::container::flat_map<std::string, BasicVariantType>&
+                          data) {
+                if (ec)
+                {
+                    std::cerr << "Error getting " << path << ": retries left"
+                              << retries - 1 << "\n";
+                    auto timer = std::make_shared<boost::asio::steady_timer>(
+                        self->dbusConnection->get_io_context());
+                    timer->expires_after(std::chrono::seconds(10));
+                    timer->async_wait([self, timer, path, interface, owner,
+                                       retries](boost::system::error_code ec) {
+                        if (ec)
+                        {
+                            std::cerr << "Timer error!\n";
+                            return;
+                        }
+                        self->getPath(path, interface, owner, retries - 1);
+                    });
+                    return;
+                }
+
+                self->respData[path][interface] = std::move(data);
+            },
+            owner, path, "org.freedesktop.DBus.Properties", "GetAll",
+            interface);
+    }
+
+    void getConfiguration(const std::vector<std::string>& interfaces,
+                          size_t retries = 0)
     {
         std::shared_ptr<GetSensorConfiguration> self = shared_from_this();
         dbusConnection->async_method_call(
-            [self, interfaces](const boost::system::error_code ec,
-                               const GetSubTreeType& ret) {
+            [self, interfaces, retries](const boost::system::error_code ec,
+                                        const GetSubTreeType& ret) {
                 if (ec)
                 {
                     std::cerr << "Error calling mapper\n";
+                    if (retries)
+                    {
+                        auto timer =
+                            std::make_shared<boost::asio::steady_timer>(
+                                self->dbusConnection->get_io_context());
+                        timer->expires_after(std::chrono::seconds(10));
+                        timer->async_wait([self, timer, interfaces, retries](
+                                              boost::system::error_code ec) {
+                            if (ec)
+                            {
+                                std::cerr << "Timer error!\n";
+                                return;
+                            }
+                            self->getConfiguration(interfaces, retries - 1);
+                        });
+                    }
+
                     return;
                 }
                 for (const auto& [path, objDict] : ret)
@@ -197,23 +251,7 @@ struct GetSensorConfiguration :
                         {
                             continue;
                         }
-
-                        self->dbusConnection->async_method_call(
-                            [self, path, interface](
-                                const boost::system::error_code ec,
-                                boost::container::flat_map<
-                                    std::string, BasicVariantType>& data) {
-                                if (ec)
-                                {
-                                    std::cerr << "Error getting " << path
-                                              << "\n";
-                                    return;
-                                }
-                                self->respData[path][interface] =
-                                    std::move(data);
-                            },
-                            owner, path, "org.freedesktop.DBus.Properties",
-                            "GetAll", interface);
+                        self->getPath(path, interface, owner);
                     }
                 }
             },

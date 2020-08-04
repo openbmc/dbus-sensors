@@ -87,7 +87,8 @@ void createSensors(
         pwmSensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged,
+    size_t retries = 0)
 {
 
     auto getter = std::make_shared<GetSensorConfiguration>(
@@ -377,7 +378,8 @@ void createSensors(
             }
         }));
     getter->getConfiguration(
-        std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()});
+        std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()},
+        retries);
 }
 
 void createRedundancySensor(
@@ -475,7 +477,7 @@ int main()
                     return;
                 }
                 createSensors(io, objectServer, tachSensors, pwmSensors,
-                              systemBus, sensorsChanged);
+                              systemBus, sensorsChanged, 5);
             });
         };
 
