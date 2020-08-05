@@ -32,7 +32,7 @@ enum class IpmbSubType
 enum class ReadingFormat
 {
     byte0,
-    byte3,
+    direct,
     elevenBit,
     elevenBitShift,
 };

@@ -155,7 +155,7 @@ void IpmbSensor::loadDefaults()
         // goto page 0
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
                     0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
-        readingFormat = ReadingFormat::byte3;
+        readingFormat = ReadingFormat::direct;
     }
     else if (type == IpmbType::IR38363VR)
     {
@@ -208,7 +208,7 @@ void IpmbSensor::loadDefaults()
         // goto page 0
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
                     0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
-        readingFormat = ReadingFormat::byte3;
+        readingFormat = ReadingFormat::direct;
     }
     else
     {
@@ -243,8 +243,8 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             resp = data[0];
 
             return true;
-        case (ReadingFormat::byte3):
-            if (data.size() < 4)
+        case (ReadingFormat::direct):
+            if (data.size() < 5)
             {
                 if (!errCount)
                 {
@@ -253,7 +253,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 }
                 return false;
             }
-            resp = data[3];
+            resp = static_cast<int16_t>((data[4] << 8) | data[3]);
             return true;
         case (ReadingFormat::elevenBit):
             if (data.size() < 5)
