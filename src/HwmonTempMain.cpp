@@ -227,7 +227,7 @@ void createSensors(
                 {
                     ++i;
                     auto findKey =
-                        baseConfigMap->find("Name" + std::string(1, '0' + i));
+                        baseConfigMap->find("Name" + std::to_string(i));
                     if (findKey == baseConfigMap->end())
                     {
                         break;
@@ -238,7 +238,7 @@ void createSensors(
                     auto& sensor = sensors[sensorName];
                     sensor = nullptr;
                     sensor = std::make_shared<HwmonTempSensor>(
-                        directory.string() + "/temp" + std::string(1, '1' + i) +
+                        directory.string() + "/temp" + std::to_string(i + 1) +
                             "_input",
                         sensorType, objectServer, dbusConnection, io,
                         sensorName, std::vector<thresholds::Threshold>(),
