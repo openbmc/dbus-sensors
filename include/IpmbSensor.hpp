@@ -37,6 +37,42 @@ enum class ReadingFormat
     elevenBitShift,
 };
 
+namespace ipmi
+{
+namespace sensor
+{
+constexpr uint8_t netFn = 0x04;
+constexpr uint8_t getSensorReading = 0x2d;
+
+static bool isValid(const std::vector<uint8_t>& data)
+{
+    constexpr auto ReadingUnavailableBit = 5;
+
+    // Proper 'Get Sensor Reading' response has at least 4 bytes, including
+    // Completion Code. Our IPMB stack strips Completion Code from payload so we
+    // compare here against the rest of payload
+    if (data.size() < 3)
+    {
+        return false;
+    }
+
+    // Per IPMI 'Get Sensor Reading' specification
+    if (data[1] & (1 << ReadingUnavailableBit))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+} // namespace sensor
+namespace me_bridge
+{
+constexpr uint8_t netFn = 0x2e;
+constexpr uint8_t sendRawPmbus = 0xd9;
+} // namespace me_bridge
+} // namespace ipmi
+
 struct IpmbSensor : public Sensor
 {
     IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
