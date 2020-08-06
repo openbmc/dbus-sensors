@@ -138,17 +138,17 @@ void IpmbSensor::loadDefaults()
     if (type == IpmbType::meSensor)
     {
         commandAddress = meAddress;
-        netfn = 0x4;    // sensor
-        command = 0x2d; // get sensor reading
+        netfn = ipmi::sensor::netFn;
+        command = ipmi::sensor::getSensorReading;
         commandData = {deviceAddress};
         readingFormat = ReadingFormat::byte0;
     }
     else if (type == IpmbType::PXE1410CVR)
     {
         commandAddress = meAddress;
-        netfn = 0x2e;       // me bridge
-        command = 0xd9;     // send raw pmbus
-        initCommand = 0xd9; // send raw pmbus
+        netfn = ipmi::me_bridge::netFn;
+        command = ipmi::me_bridge::sendRawPmbus;
+        initCommand = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
         commandData = {0x57, 0x01, 0x00, 0x16, 0x3,  deviceAddress, 0x00,
                        0x00, 0x00, 0x00, 0x01, 0x02, 0x8d};
@@ -160,8 +160,8 @@ void IpmbSensor::loadDefaults()
     else if (type == IpmbType::IR38363VR)
     {
         commandAddress = meAddress;
-        netfn = 0x2e;   // me bridge
-        command = 0xd9; // send raw pmbus
+        netfn = ipmi::me_bridge::netFn;
+        command = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
         commandData = {0x57, 0x01, 0x00, 0x16, 0x03, deviceAddress, 00,
                        0x00, 0x00, 0x00, 0x01, 0x02, 0x8D};
@@ -179,16 +179,16 @@ void IpmbSensor::loadDefaults()
                     snsNum = 0x8d;
                 else
                     snsNum = 0x8c;
-                netfn = 0x2e;   // me bridge
-                command = 0xd9; // send raw pmbus
+                netfn = ipmi::me_bridge::netFn;
+                command = ipmi::me_bridge::sendRawPmbus;
                 commandData = {0x57, 0x01, 0x00, 0x86, deviceAddress,
                                0x00, 0x00, 0x01, 0x02, snsNum};
                 readingFormat = ReadingFormat::elevenBit;
                 break;
             case IpmbSubType::power:
             case IpmbSubType::volt:
-                netfn = 0x4;    // sensor
-                command = 0x2d; // get sensor reading
+                netfn = ipmi::sensor::netFn;
+                command = ipmi::sensor::getSensorReading;
                 commandData = {deviceAddress};
                 readingFormat = ReadingFormat::byte0;
                 break;
@@ -199,9 +199,9 @@ void IpmbSensor::loadDefaults()
     else if (type == IpmbType::mpsVR)
     {
         commandAddress = meAddress;
-        netfn = 0x2e;       // me bridge
-        command = 0xd9;     // send raw pmbus
-        initCommand = 0xd9; // send raw pmbus
+        netfn = ipmi::me_bridge::netFn;
+        command = ipmi::me_bridge::sendRawPmbus;
+        initCommand = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
         commandData = {0x57, 0x01, 0x00, 0x16, 0x3,  deviceAddress, 0x00,
                        0x00, 0x00, 0x00, 0x01, 0x02, 0x8d};
@@ -234,9 +234,8 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
     switch (readingFormat)
     {
         case (ReadingFormat::byte0):
-            // from node manager app-note, response of 0 means scanning disabled
-            // for get sensor reading command
-            if (data[0] == 0)
+            if (command == ipmi::sensor::getSensorReading &&
+                !ipmi::sensor::isValid(data))
             {
                 return false;
             }
