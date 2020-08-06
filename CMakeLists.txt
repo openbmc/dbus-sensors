@@ -78,7 +78,8 @@ set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp
 set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
-set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
+
+set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus pthread)
 
 if (NOT YOCTO)
     set (DISABLE_NVME ON) # todo allow this to build out of tree
@@ -146,7 +147,12 @@ add_definitions (-DBOOST_SYSTEM_NO_DEPRECATED)
 add_definitions (-DBOOST_ALL_NO_LIB)
 add_definitions (-DBOOST_NO_RTTI)
 add_definitions (-DBOOST_NO_TYPEID)
-add_definitions (-DBOOST_ASIO_DISABLE_THREADS)
+
+if (WORKER_THREADS LESS_EQUAL 0)
+    add_definitions (-DBOOST_ASIO_DISABLE_THREADS)
+else()
+    add_definitions (-DWORKER_THREADS=${WORKER_THREADS})
+endif()
 
 link_directories (${EXTERNAL_INSTALL_LOCATION}/lib)
 
