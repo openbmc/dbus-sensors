@@ -50,6 +50,7 @@ struct Sensor
     double value = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
+    bool allowUpdateBadPowerNoThresh = false;
     double hysteresisTrigger;
     double hysteresisPublish;
     PowerState readState;
@@ -267,6 +268,11 @@ struct Sensor
         }
     }
 
+    // Even if the value is the same as before,
+    // this function should still be called periodically,
+    // to check thresholds and power states.
+    // If the value is unchanged from before,
+    // updateProperty() will notice this, and make no changes.
     void updateValue(const double& newValue)
     {
         // Ignore if overriding is enabled
@@ -275,11 +281,26 @@ struct Sensor
             return;
         }
 
+        bool powerStateGood = true;
         if (!readingStateGood())
         {
+            powerStateGood = false;
             markAvailable(false);
-            updateValueProperty(std::numeric_limits<double>::quiet_NaN());
-            return;
+            if (!allowUpdateBadPowerNoThresh)
+            {
+                // If allowUpdateBadPowerNoThresh is true,
+                // do not force NaN, and do not return.
+                // Allow updates to continue to be published,
+                // but without checking their thresholds,
+                // to avoid false alerts as fans spin down.
+                // Chassis fans on some platforms use host power,
+                // so their RPM will fall to 0 when host powered off.
+                // However, other platforms have independent power,
+                // even when host powered off,
+                // so allow their fan RPM to continue to be monitored.
+                updateValueProperty(std::numeric_limits<double>::quiet_NaN());
+                return;
+            }
         }
 
         updateValueProperty(newValue);
@@ -289,7 +310,12 @@ struct Sensor
         // the thresholds::checkThresholds() method,
         // which is called by checkThresholds() below,
         // in all current implementations of sensors that have thresholds.
-        checkThresholds();
+        if (powerStateGood)
+        {
+            // Only check the thresholds if power state is good,
+            // as per allowUpdateBadPowerNoThresh explanation above.
+            checkThresholds();
+        }
         if (!std::isnan(newValue))
         {
             markFunctional(true);

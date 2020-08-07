@@ -57,6 +57,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
     presence(std::move(presenceSensor)),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path)
 {
+    allowUpdateBadPowerNoThresh = true;
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         "xyz.openbmc_project.Sensor.Value");
