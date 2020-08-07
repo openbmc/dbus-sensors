@@ -298,6 +298,18 @@ void createSensors(
                     redundancy = &systemRedundancy;
                 }
 
+                PowerState powerState = PowerState::on;
+                auto findPower = baseConfiguration->second.find("PowerState");
+                if (findPower != baseConfiguration->second.end())
+                {
+                    auto ptrPower =
+                        std::get_if<std::string>(&(findPower->second));
+                    if (ptrPower)
+                    {
+                        setReadState(*ptrPower, powerState);
+                    }
+                }
+
                 constexpr double defaultMaxReading = 25000;
                 constexpr double defaultMinReading = 0;
                 auto limits =
@@ -307,7 +319,8 @@ void createSensors(
                 tachSensors[sensorName] = std::make_unique<TachSensor>(
                     path.string(), baseType, objectServer, dbusConnection,
                     std::move(presenceSensor), redundancy, io, sensorName,
-                    std::move(sensorThresholds), *interfacePath, limits);
+                    std::move(sensorThresholds), *interfacePath, limits,
+                    powerState);
 
                 auto connector =
                     sensorData->find(baseType + std::string(".Connector"));
