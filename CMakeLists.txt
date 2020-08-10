@@ -46,6 +46,7 @@ option (DISABLE_IPMB "Disable installing IPMB sensor" OFF)
 option (DISABLE_MCUTEMP "Disable installing MCU temperature sensor" OFF)
 option (DISABLE_PSU "Disable installing PSU sensor" OFF)
 option (DISABLE_NVME "Disable installing NVME sensor" ON)
+option (DISABLE_HOST "Disable installing Host sensor" OFF)
 
 include ("cmake/HunterGate.cmake")
 
@@ -77,8 +78,11 @@ set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp
 
 set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
 
+set (HOST_SRC_FILES src/Utils.cpp src/HostSensor.cpp  src/HostSensorMain.cpp src/Thresholds.cpp)
+
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
+
 
 if (NOT YOCTO)
     set (DISABLE_NVME ON) # todo allow this to build out of tree
@@ -196,6 +200,10 @@ add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
 add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 
+add_executable (hostsensor src/HostSensor.cpp ${HOST_SRC_FILES})
+add_dependencies (hostsensor sdbusplus-project)
+target_link_libraries (hostsensor ${SENSOR_LINK_LIBS})
+
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
     add_dependencies (nvmesensor sdbusplus-project)
@@ -290,5 +298,12 @@ if (NOT DISABLE_NVME)
     install (TARGETS nvmesensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.nvmesensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
+if (NOT DISABLE_HOST)
+    install (TARGETS hostsensor DESTINATION bin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.hostsensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
