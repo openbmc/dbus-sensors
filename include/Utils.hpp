@@ -42,6 +42,12 @@ using GetSubTreeType = std::vector<
               std::vector<std::pair<std::string, std::vector<std::string>>>>>;
 using Association = std::tuple<std::string, std::string, std::string>;
 
+std::optional<std::string> openAndRead(const std::string& hwmonFile);
+std::optional<std::string>
+    getFullHwmonFilePath(const std::string& directory,
+                         const std::string& hwmonBaseName,
+                         const std::set<std::string>& permitSet);
+std::set<std::string> getPermitSet(const SensorBaseConfigMap& config);
 bool findFiles(const std::filesystem::path dirPath,
                const std::string& matchString,
                std::vector<std::filesystem::path>& foundPaths,
