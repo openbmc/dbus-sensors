@@ -53,6 +53,94 @@ static constexpr std::array<const char*, 11> sensorTypes = {
     "xyz.openbmc_project.Configuration.TMP441",
     "xyz.openbmc_project.Configuration.TMP75"};
 
+/**
+ * return the contents of a file
+ * @param[in] hwmonFile - the path to the file to read
+ * @return the contents of the file as a string or nullopt if the file could not
+ * be opened.
+ */
+
+std::optional<std::string> openAndRead(const std::string& hwmonFile)
+{
+    std::string fileVal;
+    std::ifstream fileStream(hwmonFile);
+    if (!fileStream.is_open())
+    {
+        return std::nullopt;
+    }
+    std::getline(fileStream, fileVal);
+    return fileVal;
+}
+
+/**
+ * given a hwmon temperature base name if valid return the full path else
+ * nullopt
+ * @param[in] directory - the hwmon sysfs directory
+ * @param[in] permitSet - a set of labels or hwmon basenames to permit. If this
+ * is empty then nothing should be omitted.
+ * @return a string to the full path of the file to create a temp sensor with or
+ * nullopt to indicate that no sensor should be created for this basename.
+ */
+std::optional<std::string>
+    getFullHwmonFilePath(const std::string& directory,
+                         const std::string& hwmonBaseName,
+                         const std::set<std::string>& permitSet)
+{
+    std::optional<std::string> result;
+    std::string filename;
+    if (permitSet.empty())
+    {
+        result = directory + "/" + hwmonBaseName + "_input";
+        return result;
+    }
+    filename = directory + "/" + hwmonBaseName + "_label";
+    auto searchVal = openAndRead(filename);
+    if (!searchVal)
+    {
+        /* if the hwmon temp doesn't have a corresponding label file
+         * then use the hwmon temperature base name
+         */
+        searchVal = hwmonBaseName;
+    }
+    if (permitSet.find(*searchVal) != permitSet.end())
+    {
+        result = directory + "/" + hwmonBaseName + "_input";
+    }
+    return result;
+}
+
+/**
+ * retrieve a set of basenames and labels to allow sensor creation for.
+ * @param[in] config - a map representing the configuration for a specific
+ * device
+ * @return a set of basenames and labels to allow sensor creation for. An empty
+ * set indicates that everything is permitted.
+ */
+std::set<std::string> getPermitSet(const SensorBaseConfigMap& config)
+{
+    auto permitAttribute = config.find("Labels");
+    std::set<std::string> permitSet;
+    if (permitAttribute != config.end())
+    {
+        try
+        {
+            auto val =
+                std::get<std::vector<std::string>>(permitAttribute->second);
+
+            permitSet.insert(std::make_move_iterator(val.begin()),
+                             std::make_move_iterator(val.end()));
+        }
+        catch (const std::bad_variant_access& err)
+        {
+            std::cerr << err.what()
+                      << ":PermitList does not contain a list, wrong "
+                         "variant type."
+                      << std::endl;
+        }
+    }
+    return permitSet;
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
@@ -213,13 +301,20 @@ void createSensors(
                         VariantToStringVisitor(), findPowerOn->second);
                     setReadState(powerState, readState);
                 }
+
+                auto permitSet = getPermitSet(*baseConfigMap);
                 auto& sensor = sensors[sensorName];
                 sensor = nullptr;
-                sensor = std::make_shared<HwmonTempSensor>(
-                    directory.string() + "/temp1_input", sensorType,
-                    objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), *interfacePath, readState);
-                sensor->setupRead();
+                auto hwmonFile = getFullHwmonFilePath(directory.string(),
+                                                      "temp1", permitSet);
+                if (hwmonFile)
+                {
+                    sensor = std::make_shared<HwmonTempSensor>(
+                        *hwmonFile, sensorType, objectServer, dbusConnection,
+                        io, sensorName, std::move(sensorThresholds),
+                        *interfacePath, readState);
+                    sensor->setupRead();
+                }
                 // Looking for keys like "Name1" for temp2_input,
                 // "Name2" for temp3_input, etc.
                 int i = 0;
@@ -232,18 +327,22 @@ void createSensors(
                     {
                         break;
                     }
-
                     std::string sensorName =
                         std::get<std::string>(findKey->second);
-                    auto& sensor = sensors[sensorName];
-                    sensor = nullptr;
-                    sensor = std::make_shared<HwmonTempSensor>(
-                        directory.string() + "/temp" + std::to_string(i + 1) +
-                            "_input",
-                        sensorType, objectServer, dbusConnection, io,
-                        sensorName, std::vector<thresholds::Threshold>(),
-                        *interfacePath, readState);
-                    sensor->setupRead();
+                    hwmonFile = getFullHwmonFilePath(
+                        directory.string(), "temp" + std::to_string(i + 1),
+                        permitSet);
+                    if (hwmonFile)
+                    {
+                        auto& sensor = sensors[sensorName];
+                        sensor = nullptr;
+                        sensor = std::make_shared<HwmonTempSensor>(
+                            *hwmonFile, sensorType, objectServer,
+                            dbusConnection, io, sensorName,
+                            std::vector<thresholds::Threshold>(),
+                            *interfacePath, readState);
+                        sensor->setupRead();
+                    }
                 }
             }
         }));
