@@ -40,6 +40,94 @@ static bool biosHasPost = false;
 static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match::match> postMatch = nullptr;
 
+/**
+ * return the contents of a file
+ * @param[in] hwmonFile - the path to the file to read
+ * @return the contents of the file as a string or nullopt if the file could not
+ * be opened.
+ */
+
+std::optional<std::string> openAndRead(const std::string& hwmonFile)
+{
+    std::string fileVal;
+    std::ifstream fileStream(hwmonFile);
+    if (!fileStream.is_open())
+    {
+        return std::nullopt;
+    }
+    std::getline(fileStream, fileVal);
+    return fileVal;
+}
+
+/**
+ * given a hwmon temperature base name if valid return the full path else
+ * nullopt
+ * @param[in] directory - the hwmon sysfs directory
+ * @param[in] permitSet - a set of labels or hwmon basenames to permit. If this
+ * is empty then *everything* is permitted.
+ * @return a string to the full path of the file to create a temp sensor with or
+ * nullopt to indicate that no sensor should be created for this basename.
+ */
+std::optional<std::string>
+    getFullHwmonFilePath(const std::string& directory,
+                         const std::string& hwmonBaseName,
+                         const std::set<std::string>& permitSet)
+{
+    std::optional<std::string> result;
+    std::string filename;
+    if (permitSet.empty())
+    {
+        result = directory + "/" + hwmonBaseName + "_input";
+        return result;
+    }
+    filename = directory + "/" + hwmonBaseName + "_label";
+    auto searchVal = openAndRead(filename);
+    if (!searchVal)
+    {
+        /* if the hwmon temp doesn't have a corresponding label file
+         * then use the hwmon temperature base name
+         */
+        searchVal = hwmonBaseName;
+    }
+    if (permitSet.find(*searchVal) != permitSet.end())
+    {
+        result = directory + "/" + hwmonBaseName + "_input";
+    }
+    return result;
+}
+
+/**
+ * retrieve a set of basenames and labels to allow sensor creation for.
+ * @param[in] config - a map representing the configuration for a specific
+ * device
+ * @return a set of basenames and labels to allow sensor creation for. An empty
+ * set indicates that everything is permitted.
+ */
+std::set<std::string> getPermitSet(const SensorBaseConfigMap& config)
+{
+    auto permitAttribute = config.find("Labels");
+    std::set<std::string> permitSet;
+    if (permitAttribute != config.end())
+    {
+        try
+        {
+            auto val =
+                std::get<std::vector<std::string>>(permitAttribute->second);
+
+            permitSet.insert(std::make_move_iterator(val.begin()),
+                             std::make_move_iterator(val.end()));
+        }
+        catch (const std::bad_variant_access& err)
+        {
+            std::cerr << err.what()
+                      << ":PermitList does not contain a list, wrong "
+                         "variant type."
+                      << std::endl;
+        }
+    }
+    return permitSet;
+}
+
 bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
