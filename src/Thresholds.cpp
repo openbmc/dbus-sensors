@@ -244,6 +244,7 @@ static int cLoTrue = 0;
 static int cLoFalse = 0;
 static int cLoMidstate = 0;
 static int cDebugThrottle = 0;
+static constexpr int assertLogCount = 10;
 
 struct ChangeParam
 {
@@ -276,7 +277,12 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             if (value >= threshold.value)
             {
                 thresholdChanges.emplace_back(threshold, true, value);
-                ++cHiTrue;
+                if (++cHiTrue < assertLogCount)
+                {
+                    std::cerr << "Sensor " << sensor->name << " high threshold "
+                              << threshold.value << " assert: value " << value
+                              << " raw data " << sensor->rawValue << "\n";
+                }
             }
             else if (value < (threshold.value - sensor->hysteresisTrigger))
             {
@@ -293,7 +299,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             if (value <= threshold.value)
             {
                 thresholdChanges.emplace_back(threshold, true, value);
-                ++cLoTrue;
+                if (++cLoTrue < assertLogCount)
+                {
+                    std::cerr << "Sensor " << sensor->name << " low threshold "
+                              << threshold.value << " assert: value "
+                              << sensor->value << " raw data "
+                              << sensor->rawValue << "\n";
+                }
             }
             else if (value > (threshold.value + sensor->hysteresisTrigger))
             {
