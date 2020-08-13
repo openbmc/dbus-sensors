@@ -143,9 +143,9 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             std::getline(responseStream, response);
-            double nvalue = std::stod(response);
+            rawValue = std::stod(response);
             responseStream.clear();
-            nvalue /= sensorFactor;
+            double nvalue = rawValue / sensorFactor;
 
             updateValue(nvalue);
         }
