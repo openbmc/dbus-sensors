@@ -252,6 +252,13 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 }
                 return false;
             }
+            if (data[3] == 0 && value > 0)
+            {
+                std::cerr << name << " current value " << value
+                          << "new value 0 data size " << data.size()
+                          << " data[0]=" << data[0] << " data[1]=" << data[1]
+                          << " data[2]=" << data[2] << "\n";
+            }
             resp = data[3];
             return true;
         case (ReadingFormat::elevenBit):
