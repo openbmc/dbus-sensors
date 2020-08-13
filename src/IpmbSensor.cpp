@@ -241,7 +241,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
             resp = data[0];
-
+            rawValue = resp;
             return true;
         }
         case (ReadingFormat::byte3):
@@ -255,7 +255,10 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 }
                 return false;
             }
-            resp = data[3];
+            uint32_t rawData = data[0] | static_cast<uint32_t>(data[1]) << 8 |
+                               static_cast<uint32_t>(data[2]) << 16 |
+                               static_cast<uint32_t>(data[3]) << 24;
+            rawValue = static_cast<double>(rawData);
             return true;
         }
         case (ReadingFormat::elevenBit):
@@ -271,6 +274,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             }
 
             int16_t value = ((data[4] << 8) | data[3]);
+            rawValue = static_cast<double>(resp);
             constexpr const size_t shift = 16 - 11; // 11bit into 16bit
             value <<= shift;
             value >>= shift;
@@ -290,6 +294,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             }
 
             resp = ((data[4] << 8) | data[3]) >> 3;
+            rawValue = resp;
             return true;
         }
         default:
