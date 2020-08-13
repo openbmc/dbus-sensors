@@ -276,7 +276,12 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             if (value >= threshold.value)
             {
                 thresholdChanges.emplace_back(threshold, true, value);
-                ++cHiTrue;
+                if (++cHiTrue < 30)
+                {
+                    std::cerr << "Sensor " << sensor->name << " high threshold "
+                              << threshold.value << " assert: value " << value
+                              << " raw data " << sensor->rawValue << "\n";
+                }
             }
             else if (value < (threshold.value - sensor->hysteresisTrigger))
             {
@@ -293,7 +298,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             if (value <= threshold.value)
             {
                 thresholdChanges.emplace_back(threshold, true, value);
-                ++cLoTrue;
+                if (++cLoTrue < 30)
+                {
+                    std::cerr << "Sensor " << sensor->name << " low threshold "
+                              << threshold.value << " assert: value "
+                              << sensor->value << " raw data "
+                              << sensor->rawValue << "\n";
+                }
             }
             else if (value > (threshold.value + sensor->hysteresisTrigger))
             {
