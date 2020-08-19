@@ -155,7 +155,7 @@ void IpmbSensor::loadDefaults()
         // goto page 0
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
                     0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
-        readingFormat = ReadingFormat::byte3;
+        readingFormat = ReadingFormat::elevenBit;
     }
     else if (type == IpmbType::IR38363VR)
     {
@@ -234,6 +234,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
     switch (readingFormat)
     {
         case (ReadingFormat::byte0):
+        {
             if (command == ipmi::sensor::getSensorReading &&
                 !ipmi::sensor::isValid(data))
             {
@@ -242,7 +243,9 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             resp = data[0];
 
             return true;
+        }
         case (ReadingFormat::byte3):
+        {
             if (data.size() < 4)
             {
                 if (!errCount)
@@ -254,7 +257,9 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             }
             resp = data[3];
             return true;
+        }
         case (ReadingFormat::elevenBit):
+        {
             if (data.size() < 5)
             {
                 if (!errCount)
@@ -265,9 +270,15 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
 
-            resp = ((data[4] << 8) | data[3]);
+            int16_t value = ((data[4] << 8) | data[3]);
+            constexpr const size_t shift = 16 - 11; // 11bit into 16bit
+            value <<= shift;
+            value >>= shift;
+            resp = value;
             return true;
+        }
         case (ReadingFormat::elevenBitShift):
+        {
             if (data.size() < 5)
             {
                 if (!errCount)
@@ -280,6 +291,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
 
             resp = ((data[4] << 8) | data[3]) >> 3;
             return true;
+        }
         default:
             throw std::runtime_error("Invalid reading type");
     }
