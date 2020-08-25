@@ -1,5 +1,6 @@
 #pragma once
 
+#include <boost/asio/io_service.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
