@@ -1,6 +1,7 @@
 #pragma once
 #include "Utils.hpp"
 
+#include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
 #include <nlohmann/json.hpp>
 
