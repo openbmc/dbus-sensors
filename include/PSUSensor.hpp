@@ -4,6 +4,7 @@
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
+#include <boost/asio/streambuf.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <memory>
