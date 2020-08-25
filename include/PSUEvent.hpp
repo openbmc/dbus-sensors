@@ -16,6 +16,9 @@
 
 #pragma once
 
+#include <boost/asio/deadline_timer.hpp>
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 

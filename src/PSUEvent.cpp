@@ -18,6 +18,8 @@
 
 #include <systemd/sd-journal.h>
 
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
