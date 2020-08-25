@@ -86,8 +86,8 @@ if (NOT YOCTO)
 
     externalproject_add (
         Boost URL
-        https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.gz
-        URL_MD5 d275cd85b00022313c171f602db59fc5 SOURCE_DIR
+        https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.gz
+        URL_MD5 4036cd27ef7548b8d29c30ea10956196 SOURCE_DIR
         "${CMAKE_BINARY_DIR}/boost-src" BINARY_DIR
         "${CMAKE_BINARY_DIR}/boost-build" CONFIGURE_COMMAND "" BUILD_COMMAND ""
         INSTALL_COMMAND ""
