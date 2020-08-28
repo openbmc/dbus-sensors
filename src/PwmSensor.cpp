@@ -24,7 +24,8 @@
 #include <stdexcept>
 #include <string>
 
-static constexpr size_t pwmMax = 255;
+static constexpr size_t sysPwmMax = 255;
+static constexpr size_t psuPwmMax = 100;
 static constexpr double defaultPwm = 30.0;
 
 PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
@@ -41,6 +42,15 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         "/xyz/openbmc_project/sensors/fan_pwm/" + name,
         "xyz.openbmc_project.Sensor.Value");
     uint32_t pwmValue = getValue(false);
+    if (sensorType == "PSU")
+    {
+        pwmMax = psuPwmMax;
+    }
+    else
+    {
+        pwmMax = sysPwmMax;
+    }
+
     if (!pwmValue)
     {
         // default pwm to non 0
