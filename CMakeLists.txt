@@ -45,6 +45,7 @@ option (DISABLE_INTRUSION "Disable installing intrusion sensor" OFF)
 option (DISABLE_IPMB "Disable installing IPMB sensor" OFF)
 option (DISABLE_MCUTEMP "Disable installing MCU temperature sensor" OFF)
 option (DISABLE_PSU "Disable installing PSU sensor" OFF)
+option (DISABLE_EXTERNAL "Disable installing external sensor" OFF)
 option (DISABLE_NVME "Disable installing NVME sensor" ON)
 
 include ("cmake/HunterGate.cmake")
@@ -75,7 +76,11 @@ set (MCUTEMP_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp
      src/PwmSensor.cpp src/PSUEvent.cpp)
 
-set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
+set (EXTERNAL_SRC_FILES src/Utils.cpp src/ExternalSensorMain.cpp
+     src/ExternalSensor.cpp src/Thresholds.cpp)
+
+set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp
+     src/NVMeSensor.cpp src/Thresholds.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
@@ -196,6 +201,12 @@ add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
 add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 
+if (NOT DISABLE_EXTERNAL)
+    add_executable (externalsensor ${EXTERNAL_SRC_FILES})
+    add_dependencies (externalsensor sdbusplus-project)
+    target_link_libraries (externalsensor ${SENSOR_LINK_LIBS})
+endif()
+
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
     add_dependencies (nvmesensor sdbusplus-project)
@@ -212,6 +223,12 @@ if (NOT YOCTO)
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
     add_dependencies (mcutempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (psusensor ${EXTERNAL_PACKAGES})
+    if (NOT DISABLE_EXTERNAL)
+        add_dependencies (externalsensor ${EXTERNAL_PACKAGES})
+    endif ()
+    if (NOT DISABLE_NVME)
+        add_dependencies (nvmesensor ${EXTERNAL_PACKAGES})
+    endif ()
 endif ()
 
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
@@ -283,6 +300,13 @@ if (NOT DISABLE_PSU)
     install (TARGETS psusensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.psusensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
+if (NOT DISABLE_EXTERNAL)
+    install (TARGETS externalsensor DESTINATION bin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.externalsensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
 
