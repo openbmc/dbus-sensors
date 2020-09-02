@@ -45,6 +45,7 @@ option (DISABLE_INTRUSION "Disable installing intrusion sensor" OFF)
 option (DISABLE_IPMB "Disable installing IPMB sensor" OFF)
 option (DISABLE_MCUTEMP "Disable installing MCU temperature sensor" OFF)
 option (DISABLE_PSU "Disable installing PSU sensor" OFF)
+option (DISABLE_EXTERNAL "Disable installing external sensor" OFF)
 option (DISABLE_NVME "Disable installing NVME sensor" ON)
 
 include ("cmake/HunterGate.cmake")
@@ -75,7 +76,11 @@ set (MCUTEMP_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp
      src/PwmSensor.cpp src/PSUEvent.cpp)
 
-set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
+set (EXTERNAL_SRC_FILES src/Utils.cpp src/ExternalSensorMain.cpp
+     src/ExternalSensor.cpp src/Thresholds.cpp)
+
+set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp
+     src/NVMeSensor.cpp src/Thresholds.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
@@ -196,28 +201,23 @@ add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
 add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 
+if (NOT DISABLE_EXTERNAL)
+    add_executable (externalsensor ${EXTERNAL_SRC_FILES})
+    add_dependencies (externalsensor sdbusplus-project)
+    target_link_libraries (externalsensor ${SENSOR_LINK_LIBS})
+endif()
+
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
     add_dependencies (nvmesensor sdbusplus-project)
     target_link_libraries (nvmesensor liblibmctp.a i2c ${SENSOR_LINK_LIBS})
 endif()
 
-if (NOT YOCTO)
-    add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
-    add_dependencies (cpusensor ${EXTERNAL_PACKAGES})
-    add_dependencies (exitairtempsensor ${EXTERNAL_PACKAGES})
-    add_dependencies (fansensor ${EXTERNAL_PACKAGES})
-    add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
-    add_dependencies (intrusionsensor ${EXTERNAL_PACKAGES})
-    add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
-    add_dependencies (mcutempsensor ${EXTERNAL_PACKAGES})
-    add_dependencies (psusensor ${EXTERNAL_PACKAGES})
-endif ()
-
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
 set (SERVICE_FILE_INSTALL_DIR /lib/systemd/system/)
 
 if (NOT DISABLE_ADC)
+    add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
     install (TARGETS adcsensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.adcsensor.service
@@ -225,6 +225,7 @@ if (NOT DISABLE_ADC)
 endif ()
 
 if (NOT DISABLE_CPU)
+    add_dependencies (cpusensor ${EXTERNAL_PACKAGES})
     install (TARGETS cpusensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.cpusensor.service
@@ -232,6 +233,7 @@ if (NOT DISABLE_CPU)
 endif ()
 
 if (NOT DISABLE_EXIT_AIR)
+    add_dependencies (exitairtempsensor ${EXTERNAL_PACKAGES})
     install (TARGETS exitairtempsensor DESTINATION bin)
     install (
         FILES ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.exitairsensor.service
@@ -240,6 +242,7 @@ if (NOT DISABLE_EXIT_AIR)
 endif ()
 
 if (NOT DISABLE_FAN)
+    add_dependencies (fansensor ${EXTERNAL_PACKAGES})
     install (TARGETS fansensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.fansensor.service
@@ -247,6 +250,7 @@ if (NOT DISABLE_FAN)
 endif ()
 
 if (NOT DISABLE_HWMON_TEMP)
+    add_dependencies (hwmontempsensor ${EXTERNAL_PACKAGES})
     install (TARGETS hwmontempsensor DESTINATION bin)
     install (
         FILES
@@ -256,6 +260,7 @@ if (NOT DISABLE_HWMON_TEMP)
 endif ()
 
 if (NOT DISABLE_INTRUSION)
+    add_dependencies (intrusionsensor ${EXTERNAL_PACKAGES})
     install (TARGETS intrusionsensor DESTINATION bin)
     install (
         FILES
@@ -265,6 +270,7 @@ if (NOT DISABLE_INTRUSION)
 endif ()
 
 if (NOT DISABLE_IPMB)
+    add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
     install (TARGETS ipmbsensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.ipmbsensor.service
@@ -272,6 +278,7 @@ if (NOT DISABLE_IPMB)
 endif ()
 
 if (NOT DISABLE_MCUTEMP)
+    add_dependencies (mcutempsensor ${EXTERNAL_PACKAGES})
     install (TARGETS mcutempsensor DESTINATION bin)
     install (
         FILES ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.mcutempsensor.service
@@ -280,13 +287,23 @@ if (NOT DISABLE_MCUTEMP)
 endif ()
 
 if (NOT DISABLE_PSU)
+    add_dependencies (psusensor ${EXTERNAL_PACKAGES})
     install (TARGETS psusensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.psusensor.service
                  DESTINATION ${SERVICE_FILE_INSTALL_DIR})
 endif ()
 
+if (NOT DISABLE_EXTERNAL)
+    add_dependencies (externalsensor ${EXTERNAL_PACKAGES})
+    install (TARGETS externalsensor DESTINATION bin)
+    install (FILES
+                 ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.externalsensor.service
+                 DESTINATION ${SERVICE_FILE_INSTALL_DIR})
+endif ()
+
 if (NOT DISABLE_NVME)
+    add_dependencies (nvmesensor ${EXTERNAL_PACKAGES})
     install (TARGETS nvmesensor DESTINATION bin)
     install (FILES
                  ${SERVICE_FILE_SRC_DIR}/xyz.openbmc_project.nvmesensor.service
