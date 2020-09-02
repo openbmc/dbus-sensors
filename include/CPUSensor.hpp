@@ -4,6 +4,7 @@
 #include "Utils.hpp"
 #include "sensor.hpp"
 
+#include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <gpiod.hpp>
@@ -37,7 +38,7 @@ class CPUSensor : public Sensor
 
   private:
     sdbusplus::asio::object_server& objServer;
-    boost::asio::posix::stream_descriptor inputDev;
+    boost::asio::ip::tcp::socket inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string nameTcontrol;

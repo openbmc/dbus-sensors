@@ -115,8 +115,7 @@ void CPUSensor::setupRead(void)
         int fd = open(path.c_str(), O_RDONLY);
         if (fd >= 0)
         {
-            inputDev.assign(fd);
-
+            inputDev.assign(boost::asio::ip::tcp::v4(), fd);
             boost::asio::async_read_until(
                 inputDev, readBuf, '\n',
                 [&](const boost::system::error_code& ec,
