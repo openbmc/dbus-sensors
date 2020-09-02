@@ -159,7 +159,7 @@ int main()
     boost::asio::deadline_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&filterTimer, &io, &objectServer,
-         &systemBus](sdbusplus::message::message& message) {
+         &systemBus](sdbusplus::message::message&) {
             // this implicitly cancels the timer
             filterTimer.expires_from_now(boost::posix_time::seconds(1));
 

@@ -112,8 +112,6 @@ void init()
 
 } // namespace nvmeMCTP
 
-static int lastQueriedDeviceIndex = -1;
-
 void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
 {
     nvmeDevice->nvmeSlaveSocket.async_wait(
@@ -226,7 +224,6 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
 
     nvmeDevice->mctpResponseTimer.async_wait(
         [sensor, nvmeDevice](const boost::system::error_code errorCode) {
-            constexpr const size_t errorThreshold = 5;
             if (errorCode)
             {
                 // timer cancelled successfully
@@ -426,7 +423,7 @@ NVMeContext::~NVMeContext()
 }
 
 NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
-                       boost::asio::io_service& io,
+                       boost::asio::io_service&,
                        std::shared_ptr<sdbusplus::asio::connection>& conn,
                        const std::string& sensorName,
                        std::vector<thresholds::Threshold>&& _thresholds,
