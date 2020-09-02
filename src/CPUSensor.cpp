@@ -195,10 +195,26 @@ void CPUSensor::updateMinMaxValues(void)
 
 void CPUSensor::handleResponse(const boost::system::error_code& err)
 {
+
     if (err == boost::system::errc::bad_file_descriptor)
     {
         return; // we're being destroyed
     }
+    else if (err == boost::system::errc::operation_canceled)
+    {
+        if (readingStateGood())
+        {
+            if (!loggedInterfaceDown)
+            {
+                std::cerr << name << " interface down!\n";
+                loggedInterfaceDown = true;
+            }
+            pollTime = 10000 + rand() % 10000;
+            markFunctional(false);
+        }
+        return;
+    }
+    loggedInterfaceDown = false;
     pollTime = CPUSensor::sensorPollMs;
     std::istream responseStream(&readBuf);
     if (!err)
