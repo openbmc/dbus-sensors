@@ -46,6 +46,7 @@ class CPUSensor : public Sensor
     double dtsOffset;
     bool show;
     size_t pollTime;
+    bool loggedInterfaceDown = false;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
