@@ -332,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "20f943be_de39da9a",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000100
+      },
+      "writtenOn": "2020-09-03T20:52:51Z",
+      "side": 1,
+      "message": "The extsensor path is meant to convey that a sensor is populated directly from the host (via ipmi or other means), whereas all other sensors are populated by the BMC.  I think it\u0027s fine to change this here, but changing this in phosphor-pid-control would be a configuration breaking change - and it\u0027s only used for the json configurations - so perhaps that distinction should be kept - here though, in this code - it doesn\u0027t need to follow that appr",
+      "parentUuid": "c2b0a81f_88cf7655",
+      "range": {
+        "startLine": 46,
+        "startChar": 17,
+        "endLine": 46,
+        "endChar": 65
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fbd8bc1_deaa5c8d",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
