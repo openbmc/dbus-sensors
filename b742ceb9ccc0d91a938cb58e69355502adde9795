@@ -22,6 +22,52 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "829998ad_e3d0f456",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-03T15:59:59Z",
+      "side": 1,
+      "message": "nit: I think you can skip the things it\u0027s not, and just start this with\n\nExternalSensor is a sensor intended to be settable.....",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2700648d_828fb06e",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-03T15:59:59Z",
+      "side": 1,
+      "message": "Technically on dbus this isn\u0027t a valid sensor.  Sensors have to go in the /xyz/openbmc_project/sensors path.\n\nAlso, \"margin\" is not a valid sensor type today.\n\nI think I get what you\u0027re wanting here, but we\u0027d have to roll this through as a phosphor-dbus-interfaces change.\n\nI suspect we just want this in the normal /xyz/openbmc_project/sensors/temperature path.",
+      "range": {
+        "startLine": 46,
+        "startChar": 17,
+        "endLine": 46,
+        "endChar": 65
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
