@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9fab1dbe_52a53bb4",
+        "filename": "CMakeLists.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-03T20:46:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure, honestly. I\u0027m not great at the CMakeLists syntax, and wanted to just follow the existing model of what was there already. It would be worth making a separate change to clean up the CMakeLists file.",
+      "parentUuid": "2edffa31_c9ce2767",
+      "range": {
+        "startLine": 226,
+        "startChar": 3,
+        "endLine": 228,
+        "endChar": 12
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "321564bf_e96978b7",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4962716_17302679",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-03T20:46:37Z",
+      "side": 1,
+      "message": "This somewhat unusual path is documented here: https://github.com/openbmc/phosphor-pid-control/blob/master/sensors/README\n\nThe intent is to use these external sensors as inputs, from the host, into phosphor-pid-control, so I\u0027m following that design.",
+      "parentUuid": "321564bf_e96978b7",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "8fa10c84_577a6c5f",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-03T20:46:37Z",
+      "side": 1,
+      "message": "It\u0027s populated externally from the host, using IPMI. Or, you can manually update it from the BMC using busctl set-property commands. The purpose of this daemon is just to be a placeholder, to be orthogonal to the other sensor types supported in dbus-sensors: recognize the sensor type from entity-manager, set it up in the usual way (thresholds, range, etc.), and register it with the IPMI SDR.",
+      "parentUuid": "8df2f98a_8fe90d4d",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 41,
+        "endChar": 56
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cd09708_473faa1d",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 4
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "c9b4b6dd_a36366da",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-03T20:46:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this, but I wanted to handle it as orthogonal as possible to the way it\u0027s done for the other sensors. If the host writes a wild value to this sensor, it should trigger the thresholds in the usual way, just as if it came from hwmon and the hardware sensed a wild value.",
+      "parentUuid": "4cd09708_473faa1d",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "829998ad_e3d0f456",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -138,6 +234,30 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34310dd4_55538938",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-03T20:46:37Z",
+      "side": 1,
+      "message": "OK, I can clean up the wording, but wanted to make it clear what\u0027s unique about it and why this daemon does not poll the local hardware in the usual way.",
+      "parentUuid": "829998ad_e3d0f456",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -188,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "c2b0a81f_88cf7655",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-03T20:46:37Z",
+      "side": 1,
+      "message": "Hmm. This is a good point. I tried to follow the (somewhat unusual) sensor object path syntax required by phosphor-pid-control design. It might be worth going the other way, adapting phosphor-pid-control to use more normal object paths, instead of trying to bend the rest of the system to adapt to it instead.",
+      "parentUuid": "952e93f7_88db33b7",
+      "range": {
+        "startLine": 46,
+        "startChar": 17,
+        "endLine": 46,
+        "endChar": 65
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fbd8bc1_deaa5c8d",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -205,6 +349,24 @@
     },
     {
       "key": {
+        "uuid": "b90a4276_9e67f385",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-03T20:46:37Z",
+      "side": 1,
+      "message": "It would. I wanted to copy what was known good in HwmonTempSensor, though, to minimize risk of this change. It does seem strange how the original authors of HwmonTempSensor wanted to obfuscate this block into a lambda, I disagree with that as well. Something simple and iterative, like walking D-Bus paths during sensor discovery, doesn\u0027t necessarily need to be a lambda.",
+      "parentUuid": "5fbd8bc1_deaa5c8d",
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d73896_d8c87bee",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -219,6 +381,24 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37e831fd_155223c5",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-03T20:46:37Z",
+      "side": 1,
+      "message": "Again, I wanted to minimize risk and differences between this and HwmonTempSensor. This also makes it trivial to add more recognized type strings in the future if needed.",
+      "parentUuid": "63d73896_d8c87bee",
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
