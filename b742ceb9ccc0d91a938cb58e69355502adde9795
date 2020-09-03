@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "2edffa31_c9ce2767",
+        "filename": "CMakeLists.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-09-03T17:30:43Z",
+      "side": 1,
+      "message": "can we do this for all sensors? or maybe just move these into the line 237 and below sections?",
+      "range": {
+        "startLine": 226,
+        "startChar": 3,
+        "endLine": 228,
+        "endChar": 12
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "321564bf_e96978b7",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-09-03T17:30:43Z",
+      "side": 1,
+      "message": "this documented somewhere? These won\u0027t show in bmcweb I\u0027d think",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4b2e4e3_714da7b9",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-09-03T17:30:43Z",
+      "side": 1,
+      "message": "how is the value populated?",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 41,
+        "endChar": 56
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cd09708_473faa1d",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 4
@@ -59,6 +128,30 @@
       "writtenOn": "2020-09-03T15:59:59Z",
       "side": 1,
       "message": "Technically on dbus this isn\u0027t a valid sensor.  Sensors have to go in the /xyz/openbmc_project/sensors path.\n\nAlso, \"margin\" is not a valid sensor type today.\n\nI think I get what you\u0027re wanting here, but we\u0027d have to roll this through as a phosphor-dbus-interfaces change.\n\nI suspect we just want this in the normal /xyz/openbmc_project/sensors/temperature path.",
+      "range": {
+        "startLine": 46,
+        "startChar": 17,
+        "endLine": 46,
+        "endChar": 65
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "952e93f7_88db33b7",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-09-03T17:30:43Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "2700648d_828fb06e",
       "range": {
         "startLine": 46,
         "startChar": 17,
