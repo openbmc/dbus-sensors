@@ -391,6 +391,24 @@
     },
     {
       "key": {
+        "uuid": "2feb8b72_7385e529",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000539
+      },
+      "writtenOn": "2020-09-03T20:59:32Z",
+      "side": 1,
+      "message": "I see. Thx!",
+      "parentUuid": "b90a4276_9e67f385",
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d73896_d8c87bee",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -420,6 +438,24 @@
       "side": 1,
       "message": "Again, I wanted to minimize risk and differences between this and HwmonTempSensor. This also makes it trivial to add more recognized type strings in the future if needed.",
       "parentUuid": "63d73896_d8c87bee",
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b35acb28_edbda664",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000539
+      },
+      "writtenOn": "2020-09-03T20:59:32Z",
+      "side": 1,
+      "message": "I see. Thx!",
+      "parentUuid": "37e831fd_155223c5",
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
