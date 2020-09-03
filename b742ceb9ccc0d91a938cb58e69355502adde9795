@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cd09708_473faa1d",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-03T15:55:02Z",
+      "side": 1,
+      "message": "This was one thing I wondered, should the BMC itself be doing the thresholding, or should we defer that to dbus.  There\u0027s probably use cases for both, so this is fine as is, just something I wondered about.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
