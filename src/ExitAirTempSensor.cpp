@@ -165,8 +165,8 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      std::shared_ptr<ExitAirTempSensor>& parent) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", cfmMaxReading,
-           cfmMinReading, PowerState::on),
+           "xyz.openbmc_project.Configuration.ExitAirTemp", false,
+           cfmMaxReading, cfmMinReading, PowerState::on),
     std::enable_shared_from_this<CFMSensor>(), parent(parent),
     dbusConnection(conn), objServer(objectServer)
 {
@@ -493,8 +493,8 @@ ExitAirTempSensor::ExitAirTempSensor(
     std::vector<thresholds::Threshold>&& thresholdData) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", exitAirMaxReading,
-           exitAirMinReading, PowerState::on),
+           "xyz.openbmc_project.Configuration.ExitAirTemp", false,
+           exitAirMaxReading, exitAirMinReading, PowerState::on),
     std::enable_shared_from_this<ExitAirTempSensor>(), dbusConnection(conn),
     objServer(objectServer)
 {

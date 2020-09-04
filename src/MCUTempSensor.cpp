@@ -62,8 +62,8 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              uint8_t tempReg) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", mcuTempMaxReading,
-           mcuTempMinReading),
+           "xyz.openbmc_project.Configuration.ExitAirTemp", false,
+           mcuTempMaxReading, mcuTempMinReading),
     busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
     objectServer(objectServer), dbusConnection(conn), waitTimer(io)
 {

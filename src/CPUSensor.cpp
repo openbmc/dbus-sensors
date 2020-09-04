@@ -43,8 +43,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      const std::string& sensorConfiguration, int cpuId,
                      bool show, double dtsOffset) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading, PowerState::on),
+           std::move(_thresholds), sensorConfiguration, objectType, false,
+           maxReading, minReading, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs)

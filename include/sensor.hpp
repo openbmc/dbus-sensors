@@ -24,12 +24,12 @@ struct Sensor
     Sensor(const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
-           const double max, const double min,
+           bool externalMutable, const double max, const double min,
            PowerState readState = PowerState::always) :
         name(std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_")),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
-        hysteresisTrigger((max - min) * 0.01),
+        externalMutable(externalMutable), hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), readState(readState),
         errCount(0)
     {}
@@ -50,6 +50,7 @@ struct Sensor
     double value = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
+    bool externalMutable;
     double hysteresisTrigger;
     double hysteresisPublish;
     PowerState readState;
@@ -86,6 +87,7 @@ struct Sensor
 
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property("Mutable", externalMutable);
         sensorInterface->register_property(
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
