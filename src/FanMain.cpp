@@ -370,6 +370,18 @@ void createSensors(
                     }
                 }
 
+                // The Mutable parameter is optional, defaulting to false
+                bool externalMutable = false;
+                auto findMutable = baseConfiguration->second.find("Mutable");
+                if (findMutable != baseConfiguration->second.end())
+                {
+                    auto ptrMutable = std::get_if<bool>(&(findMutable->second));
+                    if (ptrMutable)
+                    {
+                        externalMutable = *ptrMutable;
+                    }
+                }
+
                 constexpr double defaultMaxReading = 25000;
                 constexpr double defaultMinReading = 0;
                 auto limits =
@@ -443,7 +455,7 @@ void createSensors(
                 {
                     pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
                         pwmName, pwmPath, dbusConnection, objectServer,
-                        *interfacePath, "Fan");
+                        *interfacePath, "Fan", externalMutable);
                 }
             }
 
