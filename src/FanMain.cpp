@@ -175,6 +175,11 @@ void createSensors(
                 return;
             }
 
+            // pwm index, sysfs path, pwm name, externally mutable flag, LED
+            std::vector<std::tuple<uint8_t, std::string, std::string, bool,
+                                   std::optional<std::string>>>
+                pwmConfigs;
+
             // iterate through all found fan sensors, and try to match them with
             // configuration
             for (const auto& path : paths)
@@ -378,12 +383,11 @@ void createSensors(
                 auto connector =
                     sensorData->find(baseType + std::string(".Connector"));
 
-                std::optional<std::string> led;
-                std::string pwmName;
-                fs::path pwmPath;
-
                 if (connector != sensorData->end())
                 {
+                    std::string pwmName;
+                    fs::path pwmPath;
+
                     auto findPwm = connector->second.find("Pwm");
                     if (findPwm != connector->second.end())
                     {
@@ -414,6 +418,19 @@ void createSensors(
                                   << " missing pwm!\n";
                     }
 
+                    bool extMutable = false;
+                    auto findMutable = connector->second.find("Mutable");
+                    if (findMutable != connector->second.end())
+                    {
+                        auto ptrBool =
+                            std::get_if<bool>(&(findMutable->second));
+                        if (ptrBool)
+                        {
+                            extMutable = *ptrBool;
+                        }
+                    }
+
+                    std::optional<std::string> led;
                     auto findLED = connector->second.find("LED");
                     if (findLED != connector->second.end())
                     {
@@ -428,6 +445,42 @@ void createSensors(
                         {
                             led = *ledName;
                         }
+                    }
+
+                    pwmConfigs.emplace_back(pwmPath, *interfacePath, pwmName,
+                                            extMutable, led);
+                }
+            }
+
+            std::vector<fs::path> pwms;
+            if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm\d+$)", pwms))
+            {
+                std::cerr << "No pwm in system\n";
+                return;
+            }
+            for (const fs::path& pwm : pwms)
+            {
+                if (pwmSensors.find(pwm) != pwmSensors.end())
+                {
+                    continue;
+                }
+                const std::string* path = nullptr;
+                const std::string* pwmName = nullptr;
+                bool extMutable = false;
+                std::optional<std::string> led;
+
+                for (const auto& [index, configPath, name, foundMutable,
+                                  foundLed] : pwmConfigs)
+                {
+
+                    if (boost::ends_with(pwm.string(),
+                                         std::to_string(index + 1)))
+                    {
+                        path = &configPath;
+                        pwmName = &name;
+                        extMutable = foundMutable;
+                        led = foundLed;
+                        break;
                     }
                 }
 
@@ -445,6 +498,14 @@ void createSensors(
                         pwmName, pwmPath, dbusConnection, objectServer,
                         *interfacePath, "Fan");
                 }
+
+                // only add new elements
+                const std::string& sysPath = pwm.string();
+                pwmSensors.insert(
+                    std::pair<std::string, std::unique_ptr<PwmSensor>>(
+                        sysPath, std::make_unique<PwmSensor>(
+                                     *pwmName, sysPath, dbusConnection,
+                                     objectServer, *path, "Fan", extMutable)));
             }
 
             createRedundancySensor(tachSensors, dbusConnection, objectServer);
