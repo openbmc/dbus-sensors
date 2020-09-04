@@ -31,7 +31,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& sensorConfiguration,
-                     const std::string& sensorType) :
+                     const std::string& sensorType, bool externalMutable) :
     sysPath(sysPath),
     objectServer(objectServer), name(name)
 {
@@ -108,6 +108,14 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     sensorInterface->register_property("MaxValue", static_cast<int64_t>(100));
     sensorInterface->register_property("MinValue", static_cast<int64_t>(0));
     sensorInterface->register_property("Unit", sensor_paths::unitPercent);
+
+    // The "Value" property of most sensors is internally writable,
+    // from within the BMC, via D-Bus set-property commands.
+    // However, relatively few sensors should have this externally writable,
+    // from outside the BMC, via services such as IPMI.
+    // The "Mutable" property can inform these external-facing services,
+    // so they know whether or not to grant write permission to their users.
+    sensorInterface->register_property("Mutable", externalMutable);
 
     controlInterface = objectServer.add_interface(
         "/xyz/openbmc_project/control/fanpwm/" + name,

@@ -39,13 +39,13 @@ struct Sensor
     Sensor(const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
-           const double max, const double min,
+           bool externalMutable, const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
-        hysteresisTrigger((max - min) * 0.01),
+        externalMutable(externalMutable), hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState), errCount(0),
         instrumentation(enableInstrumentation
@@ -70,6 +70,7 @@ struct Sensor
     double rawValue = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
+    bool externalMutable;
     double hysteresisTrigger;
     double hysteresisPublish;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
@@ -206,6 +207,7 @@ struct Sensor
         createAssociation(association, configurationPath);
 
         sensorInterface->register_property("Unit", unit);
+        sensorInterface->register_property("Mutable", externalMutable);
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
