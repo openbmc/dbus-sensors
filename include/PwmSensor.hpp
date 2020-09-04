@@ -12,7 +12,7 @@ class PwmSensor
               std::shared_ptr<sdbusplus::asio::connection>& conn,
               sdbusplus::asio::object_server& objectServer,
               const std::string& sensorConfiguration,
-              const std::string& sensorType);
+              const std::string& sensorType, bool extSettable = false);
     ~PwmSensor();
 
   private:

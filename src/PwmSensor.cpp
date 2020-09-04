@@ -32,7 +32,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& sensorConfiguration,
-                     const std::string& sensorType) :
+                     const std::string& sensorType, bool extSettable) :
     sysPath(sysPath),
     objectServer(objectServer), name(name)
 {
@@ -92,6 +92,17 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     // pwm sensor interface is in percent
     sensorInterface->register_property("MaxValue", static_cast<int64_t>(100));
     sensorInterface->register_property("MinValue", static_cast<int64_t>(0));
+
+    // All sensors are internally settable,
+    // via D-Bus set-property commands.
+    // However, very few sensors should be externally settable,
+    // so caller must opt into this, when calling this function.
+    // This property can teach external-facing services, such as IPMI,
+    // to know whether or not to grant write permission to their users.
+    if (extSettable)
+    {
+        sensorInterface->register_property("ExtSettable", extSettable);
+    }
 
     controlInterface = objectServer.add_interface(
         "/xyz/openbmc_project/control/fanpwm/" + name,
