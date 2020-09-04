@@ -105,9 +105,9 @@ void createSensors(
                 return;
             }
 
-            // pwm index, sysfs path, pwm name
-            std::vector<std::tuple<uint8_t, std::string, std::string>>
-                pwmNumbers;
+            // pwm index, sysfs path, pwm name, externally settable flag
+            std::vector<std::tuple<uint8_t, std::string, std::string, bool>>
+                pwmConfigs;
 
             // iterate through all found fan sensors, and try to match them with
             // configuration
@@ -334,7 +334,21 @@ void createSensors(
                     {
                         pwmName = "Pwm_" + std::to_string(pwm + 1);
                     }
-                    pwmNumbers.emplace_back(pwm, *interfacePath, pwmName);
+
+                    bool extSettable = false;
+                    auto findSettable = connector->second.find("ExtSettable");
+                    if (findSettable != connector->second.end())
+                    {
+                        auto ptrBool =
+                            std::get_if<bool>(&(findSettable->second));
+                        if (ptrBool)
+                        {
+                            extSettable = *ptrBool;
+                        }
+                    }
+
+                    pwmConfigs.emplace_back(pwm, *interfacePath, pwmName,
+                                            extSettable);
                 }
             }
             std::vector<fs::path> pwms;
@@ -351,14 +365,17 @@ void createSensors(
                 }
                 const std::string* path = nullptr;
                 const std::string* pwmName = nullptr;
+                bool extSettable = false;
 
-                for (const auto& [index, configPath, name] : pwmNumbers)
+                for (const auto& [index, configPath, name, foundSettable] :
+                     pwmConfigs)
                 {
                     if (boost::ends_with(pwm.string(),
                                          std::to_string(index + 1)))
                     {
                         path = &configPath;
                         pwmName = &name;
+                        extSettable = foundSettable;
                         break;
                     }
                 }
@@ -374,7 +391,7 @@ void createSensors(
                     std::pair<std::string, std::unique_ptr<PwmSensor>>(
                         sysPath, std::make_unique<PwmSensor>(
                                      *pwmName, sysPath, dbusConnection,
-                                     objectServer, *path, "Fan")));
+                                     objectServer, *path, "Fan", extSettable)));
             }
         }));
     getter->getConfiguration(
