@@ -432,6 +432,12 @@ void assertThresholds(Sensor* sensor, double assertValue,
         return;
     }
 
+    // TODO(krellan): Temporarily disabling signal functionality,
+    // as it requires sdbusplus API update:
+    // https://gerrit.openbmc-project.xyz/c/openbmc/sdbusplus/+/34158
+    // Unfortunately, our sdbusplus library is too old,
+    // and to SRCREV bump it up to date would rock the boat too much.
+#if 0
     if (interface->set_property<bool, true>(property, assert))
     {
         try
@@ -450,6 +456,13 @@ void assertThresholds(Sensor* sensor, double assertValue,
                 << "Failed to send thresholdAsserted signal with assertValue\n";
         }
     }
+#else
+    if (assert)
+    {
+        std::cerr << "Asserted " << sensor->name << " is " << assertValue
+                  << " triggering " << property << " but signal not sent!\n";
+    }
+#endif
 }
 
 bool parseThresholdsFromAttr(
