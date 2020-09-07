@@ -235,7 +235,13 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
             {
                 value = nvalue;
             }
-            updateMinMaxValues();
+            static uint8_t minMaxReadCounter = 0;
+            if (minMaxReadCounter % 10 == 0)
+            {
+                minMaxReadCounter = 0;
+                updateMinMaxValues();
+            }
+            minMaxReadCounter++;
 
             double gTcontrol = gCpuSensors[nameTcontrol]
                                    ? gCpuSensors[nameTcontrol]->value
