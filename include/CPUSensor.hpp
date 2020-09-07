@@ -47,6 +47,7 @@ class CPUSensor : public Sensor
     bool show;
     size_t pollTime;
     bool loggedInterfaceDown = false;
+    uint8_t minMaxReadCounter;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
