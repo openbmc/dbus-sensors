@@ -47,7 +47,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
            minReading, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
-    dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs)
+    dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
+    minMaxReadCounter(0)
 {
     nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);
@@ -235,7 +236,10 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
             {
                 value = nvalue;
             }
-            updateMinMaxValues();
+            if (minMaxReadCounter++ % 8 == 0)
+            {
+                updateMinMaxValues();
+            }
 
             double gTcontrol = gCpuSensors[nameTcontrol]
                                    ? gCpuSensors[nameTcontrol]->value
