@@ -330,6 +330,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6856111f_d625c11b",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000502
+      },
+      "writtenOn": "2020-09-08T20:23:19Z",
+      "side": 1,
+      "message": "Ed, would you prefer if this was IPMI specific (e.g. calling it IPMISettable)? Or should we keep it general purpose?\n\nLooks like you\u0027ve come to an understanding of why we want this, but I\u0027ll restate it again just to be clear. We\u0027re looking for a way to configure which sensors should be advertised as settable in the IPMI SDR. We have a pretty hacky patch to add write support to intel-ipmi-oem/src/sensorcommands.cpp. This property would allow opting in to IPMI sensor writes.",
+      "parentUuid": "b684fded_8ac2e8c0",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
