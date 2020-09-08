@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6d2c0533_afa3864b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-08T05:10:44Z",
+      "side": 1,
+      "message": "Because phosphor-dbus-interfaces is the projects documentation for DBus APIs.  Also, as written, I\u0027m guessing it\u0027s not going to be accepted, as you\u0027d have to implement it in all sensors (given that you\u0027ve made it non-optional).  I suspect it needs to go into its own API.",
+      "parentUuid": "fa22ef0e_bbc87d3d",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "They wouldn\u0027t, but I needed some variable I could set to indicate presence of this choice, and bool is the simplest.",
       "parentUuid": "48911e11_784923cc",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bad6f54_a7cec9b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-08T05:10:44Z",
+      "side": 1,
+      "message": "I get it now.  This is driving the SDR.",
+      "parentUuid": "02891986_414561de",
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
