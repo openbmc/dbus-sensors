@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "e78a4654_b134f9ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-08T16:55:36Z",
+      "side": 1,
+      "message": "Cool, thanks for telling me about phosphor-dbus-interfaces, didn\u0027t know about that one. I\u0027m happy to add it to the YAML documentation there, it looks straightforward. Also, it\u0027s completely optional: if that parameter is missing, the assumption is that it\u0027s false (the sensor is read-only, not read-write, from IPMI\u0027s point of view).",
+      "parentUuid": "6d2c0533_afa3864b",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -126,6 +150,24 @@
     },
     {
       "key": {
+        "uuid": "42a89d53_7f00575a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-08T16:55:36Z",
+      "side": 1,
+      "message": "Cool, good. It also isn\u0027t tied only to IPMI, it\u0027s a general thing that could also inform Redfish permissions in the future, if desired.",
+      "parentUuid": "7bad6f54_a7cec9b5",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea6cc23_cf17b297",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -170,6 +212,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c459ef1_b96fb72f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-08T16:55:36Z",
+      "side": 1,
+      "message": "An example is here: https://github.com/openbmc/phosphor-host-ipmid/blob/a8be7dc839e1dbf561dd255a4ee1e7b6fb091c8e/sensorhandler.cpp#L959\nI could change the name of \"ExtSettable\" to \"Mutability\" or \"Mutable\" if desired, it would make more sense against the naming in the code here.",
+      "parentUuid": "f909238c_9e230b1d",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 57
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
