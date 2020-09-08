@@ -286,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "088c8fcf_49335717",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-08T23:15:21Z",
+      "side": 1,
+      "message": "This is also to help entity-manager achieve feature parity with the old YAML configuration files. YAML had a setting \"Mutability\" that would achieve this, but as of now, entity-manager does not, so this will help add it, in such a way that it\u0027s both readable by IPMI now and Redfish in the future.",
+      "parentUuid": "53342969_e5940d4e",
+      "range": {
+        "startLine": 98,
+        "startChar": 16,
+        "endLine": 98,
+        "endChar": 63
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32160ed1_181a34ca",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -354,6 +378,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7aa482_ecde1cea",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-08T23:15:21Z",
+      "side": 1,
+      "message": "I would keep it general-purpose as there\u0027s nothing here that specifically limits it to IPMI. I believe Redfish will have the same concerns.",
+      "parentUuid": "6856111f_d625c11b",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
