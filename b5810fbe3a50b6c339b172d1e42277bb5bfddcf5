@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9096654a_6c54d294",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:19:07Z",
+      "side": 1,
+      "message": "Thanks, I should take this out of the example. It is merely an implementation detail. In our case, it\u0027s parsed by intel-ipmi-oem, and it\u0027s transparent to dbus-sensors, so it doesn\u0027t really belong in this example.\n\nThat\u0027s the beauty of these JSON stanzas: some are parsed by dbus-sensors but other modules, such as entity-manager and intel-ipmi-oem, can also see the same stanzas. Aren\u0027t optional parameters convenient?",
+      "parentUuid": "d8a80e8c_4bebf5d4",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "b5810fbe3a50b6c339b172d1e42277bb5bfddcf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "faefadf2_00d288df",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "b5810fbe3a50b6c339b172d1e42277bb5bfddcf5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "786b5428_c2cd73a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:19:07Z",
+      "side": 1,
+      "message": "Yes, in our case these fields are parsed by intel-ipmi-oem and they\u0027re used to override what would be placed there by entity-manager by default (it would re-use the entity ID/instance tuple of the underlying motherboard, but I needed a separate entity ID/instance tuple for each fan).\n\nI\u0027ll remove these from this example, because they\u0027re confusing and not relevant to dbus-sensors.",
+      "parentUuid": "faefadf2_00d288df",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "b5810fbe3a50b6c339b172d1e42277bb5bfddcf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
