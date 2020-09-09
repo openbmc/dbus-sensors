@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "aa1a3c37_f48d9565",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-09-09T02:59:03Z",
+      "side": 1,
+      "message": "What are these used for?",
+      "range": {
+        "startLine": 34,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2edffa31_c9ce2767",
         "filename": "CMakeLists.txt",
         "patchSetId": 4
@@ -46,6 +69,23 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7f2020a_ec7b5e65",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-09-09T02:59:03Z",
+      "side": 1,
+      "message": "Header here and other files?",
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
@@ -483,6 +523,52 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffe9b1ae_5bacb2b4",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-09-09T02:59:03Z",
+      "side": 1,
+      "message": "Are these defaults good for the extsensors also?",
+      "range": {
+        "startLine": 94,
+        "startChar": 1,
+        "endLine": 96,
+        "endChar": 69
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c6bf99b_243f0c6f",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-09-09T02:59:03Z",
+      "side": 1,
+      "message": "I could be misunderstanding, but I thought some of the comments hinted that \"Measure\" is going to be used as Prefix?",
+      "range": {
+        "startLine": 118,
+        "startChar": 15,
+        "endLine": 118,
+        "endChar": 64
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
