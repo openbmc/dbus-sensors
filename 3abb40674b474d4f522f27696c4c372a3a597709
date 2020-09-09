@@ -460,6 +460,30 @@
     },
     {
       "key": {
+        "uuid": "b0aec25a_af2ad634",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T05:25:37Z",
+      "side": 1,
+      "message": "fair point.",
+      "parentUuid": "088c8fcf_49335717",
+      "range": {
+        "startLine": 98,
+        "startChar": 16,
+        "endLine": 98,
+        "endChar": 63
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32160ed1_181a34ca",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -648,6 +672,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2067e43_5d94451a",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T05:25:37Z",
+      "side": 1,
+      "message": "This is making me start to wonder if we need to invent a \"Sensor Writer\" interface for testing rather than just using SetProperty, so we can differentiate between \"I was to set this for testing\" and \"I want to set this for real\"\n\n\"This is safe and secure, because it\u0027s only internally within the BMC.\"\nNot on most systems.  DBus is a public (outside the box) facing API through REST on most setups today.\n\n\"This is safe and secure, because it keeps a sensor value from being maliciously updated by something outside the BMC\"\nThis is the problem space that Special Mode Manager is indented to solve.  Sensors are only settable if in Manufacturing, or Test modes, which require some gymnastics to get into, thus proving physical presence.  With that said, I\u0027m not an expert here, but as-written, dbus should be considered external for the time being.",
+      "parentUuid": "25e19d6f_92cc9607",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
