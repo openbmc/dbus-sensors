@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "e0d11e32_e3e2a7b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T19:10:12Z",
+      "side": 1,
+      "message": "Gotcha.  I was a little surprised because one of the core tennents of these config files is that they don\u0027t contain protocol-specific data, and when they need something like that, they use an indirection that we can define the behavior of and constrain as needed, so we don\u0027t have to break the API going forward, and we don\u0027t have to duplicate the information for IPMI/Redfish/Dbus/new protocol of the year.  Putting EntityID in the config file breaks that idea a bit.\n\nWith that said, that\u0027s a tangent, and not related to that patch.",
+      "parentUuid": "a0efe100_d0dd50e3",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "b5810fbe3a50b6c339b172d1e42277bb5bfddcf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "faefadf2_00d288df",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "We had a similar discussion about sensors early. We relate instance numbers with physical locations / silkscreens, so being able to configure them has been necessary.",
       "parentUuid": "bb8a370b_2fa9210e",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "b5810fbe3a50b6c339b172d1e42277bb5bfddcf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f61702b_33cc16d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T19:10:12Z",
+      "side": 1,
+      "message": "In theory that\u0027s what the fan connector object is for, so you can directly reference the silkscreen port on the baseboard and map it to an entity.  The entity itself never holds an \"index\".\n\nWith that said, again, unrelated to this patch.",
+      "parentUuid": "09f7b6be_e7d71b64",
       "range": {
         "startLine": 35,
         "startChar": 0,
