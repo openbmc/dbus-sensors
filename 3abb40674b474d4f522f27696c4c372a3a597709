@@ -402,6 +402,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7193950f_9e251a69",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-09-09T00:39:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand the statement of this being a hint to IPMI.\nWill it be enforced and who would be responsible to enforce this, i.e. block the write when it is not settable, which is default? Will IPMI do it? And redfish also has to do it independently?",
+      "parentUuid": "be7aa482_ecde1cea",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
