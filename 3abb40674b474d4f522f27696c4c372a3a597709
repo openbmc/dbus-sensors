@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "5ab18d19_a8003bbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T05:19:19Z",
+      "side": 1,
+      "message": "yep, all properties are required.  This is a convention of how a dbus interfaces works, the YAML is just implementing what dbus recommends.\n\nIn terms of \"enforcement\", some of the bindings enforce it (and have no way to pull out interface properties optionally) and some don\u0027t.\n\n\"Having \"ExtSettable\" exist in some sensors, but not in other sensors, seemed just fine during my testing. No errors from D-Bus.\"\nYep, because nobody is trying to use it, and ipmi uses one of the libraries that lets you decide on the \"the client has broken the dbus schema, what do you want to do\".\n\n\"If there\u0027s no way to cleanly have an optional property\"\nThere is, just declare a new interface with that property on it.  That\u0027s how we handle this in other places.  Your use case is similar to things like thresholds.",
+      "parentUuid": "5b470f5b_4429e12a",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -249,6 +273,24 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63058ac1_ad15691e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T05:19:19Z",
+      "side": 1,
+      "message": "bmcweb doesn\u0027t implement the Sensor or SensorCollection schemas today.  They\u0027re relatively new.  We implement Thermal and Power schemas, which are similar.\n\nYeah, generic is fine, I\u0027m just letting you know that redfish doesn\u0027t have a way to describe that that I\u0027m aware of.\n\nIn terms of Redfish being used to WRITE sensor values, it\u0027s a fairly uncommon use case, although I believe Richard was looking into changing the redfish schema to that effect.",
+      "parentUuid": "dbfce6e4_89e538ae",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
