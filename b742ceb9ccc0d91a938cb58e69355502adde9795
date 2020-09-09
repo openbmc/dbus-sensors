@@ -89,6 +89,29 @@
     },
     {
       "key": {
+        "uuid": "ca4b01aa_4fe71d91",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T03:55:12Z",
+      "side": 1,
+      "message": "James and I argued a lot about using inheritance here instead of composition.  Clearly he won, but I\u0027m still bitter about it :)",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "321564bf_e96978b7",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 4
@@ -301,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "f6422d73_7e3d2976",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T03:55:12Z",
+      "side": 1,
+      "message": "Idk, there are plenty of sensors that don\u0027t poll hardware.  This isn\u0027t that unique in that regard.",
+      "parentUuid": "34310dd4_55538938",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2700648d_828fb06e",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -473,6 +520,24 @@
     },
     {
       "key": {
+        "uuid": "f72d8473_a4d2539d",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T03:55:12Z",
+      "side": 1,
+      "message": "\"It does seem strange how the original authors of HwmonTempSensor wanted to obfuscate this block into a lambda\"\n\nJames wrote the first version of this sensor, and he\u0027s a big fan of lambdas.  As a project, OpenBMC probably overuses them.",
+      "parentUuid": "2feb8b72_7385e529",
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63d73896_d8c87bee",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -537,6 +602,30 @@
       "writtenOn": "2020-09-09T02:59:03Z",
       "side": 1,
       "message": "Are these defaults good for the extsensors also?",
+      "range": {
+        "startLine": 94,
+        "startChar": 1,
+        "endLine": 96,
+        "endChar": 69
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c67b150_68d10f71",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T03:55:12Z",
+      "side": 1,
+      "message": "They look like it.",
+      "parentUuid": "ffe9b1ae_5bacb2b4",
       "range": {
         "startLine": 94,
         "startChar": 1,
