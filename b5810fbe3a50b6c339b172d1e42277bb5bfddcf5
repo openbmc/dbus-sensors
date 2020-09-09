@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "91ecbe47_444e3078",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T05:33:00Z",
+      "side": 1,
+      "message": "It\u0027s parsed by intel-ipmi-oem?  I don\u0027t remember writing something to parse that, I thought we hardcoded everything to 1.  That behavior must be newish.\n\n\"That\u0027s the beauty of these JSON stanzas: some are parsed by dbus-sensors but other modules, such as entity-manager and intel-ipmi-oem, can also see the same stanzas. Aren\u0027t optional parameters convenient?\"\nTell the guys that invented DBus :)",
+      "parentUuid": "9096654a_6c54d294",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "b5810fbe3a50b6c339b172d1e42277bb5bfddcf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "faefadf2_00d288df",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -93,6 +117,30 @@
       "revId": "b5810fbe3a50b6c339b172d1e42277bb5bfddcf5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb8a370b_2fa9210e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T05:33:00Z",
+      "side": 1,
+      "message": "\"a separate entity ID/instance tuple for each fan\" I wonder if this logic can just be coded, rather than making it a config parameter, as hardcoding the entity here wouldn\u0027t support multiple chassis types.",
+      "parentUuid": "786b5428_c2cd73a9",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "b5810fbe3a50b6c339b172d1e42277bb5bfddcf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
