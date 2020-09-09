@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "dfce2a82_dd34f2e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T03:41:53Z",
+      "side": 1,
+      "message": "If it\u0027s optional, you need to define it on its own interface that can be optionally included.  As written, it\u0027s required.",
+      "parentUuid": "e78a4654_b134f9ed",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -168,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "7de2cf4f_a0d001f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T03:41:53Z",
+      "side": 1,
+      "message": "I don\u0027t think that Redfish has a read-only property that we normally define at runtime.  Normally it\u0027s declared in CSDL schema.  Technically in the sensor write case, we\u0027re breaking the redfish standard, but that\u0027s another story.",
+      "parentUuid": "42a89d53_7f00575a",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fea6cc23_cf17b297",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -227,6 +269,30 @@
       "side": 1,
       "message": "An example is here: https://github.com/openbmc/phosphor-host-ipmid/blob/a8be7dc839e1dbf561dd255a4ee1e7b6fb091c8e/sensorhandler.cpp#L959\nI could change the name of \"ExtSettable\" to \"Mutability\" or \"Mutable\" if desired, it would make more sense against the naming in the code here.",
       "parentUuid": "f909238c_9e230b1d",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 57
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd523348_4e7fa516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T03:41:53Z",
+      "side": 1,
+      "message": "Yep, I gotcha now.",
+      "parentUuid": "9c459ef1_b96fb72f",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -450,6 +516,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abc4fcc1_349a061b",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T03:41:53Z",
+      "side": 1,
+      "message": "Agreed, I\u0027d like to keep this general purpose.  I\u0027d like the \"blocking\" behavior to be enforced in the individual sensors, as there are APIs that operate directly on dbus, and they should obey this parameter too.\n\nWith that said, I think there\u0027s another track we need to go here: DBus has an \"access\" attribute that can declare a property read or read/write.  I suspect that\u0027s the mechanism we should be using here, not a separate property to declare the permissions.\n\nhttps://www.gnu.org/software/emacs/manual/html_node/dbus/Introspection.html\n\n\"A property element has no arg child element. It just has the attributes name, type and access, which are all mandatory. The access attribute allows the values ‘readwrite’, ‘read’, and ‘write’.\"",
+      "parentUuid": "899b3585_8a3b37dc",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
