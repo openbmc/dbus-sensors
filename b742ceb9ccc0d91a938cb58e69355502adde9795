@@ -348,6 +348,30 @@
     },
     {
       "key": {
+        "uuid": "4ea17d02_3d29ca92",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:19:07Z",
+      "side": 1,
+      "message": "Interesting. I see that every other sensor in dbus-sensors does poll physical hardware, except for PwmSensor (and PwmSensor is tied to TachSensor). Are there any other sensors that do not poll physical hardware?",
+      "parentUuid": "f6422d73_7e3d2976",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2700648d_828fb06e",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -467,6 +491,30 @@
     },
     {
       "key": {
+        "uuid": "903b3105_03832857",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:19:07Z",
+      "side": 1,
+      "message": "I cleaned up this wording in the later patchset.",
+      "parentUuid": "1676ef31_a0dbbab2",
+      "range": {
+        "startLine": 46,
+        "startChar": 17,
+        "endLine": 46,
+        "endChar": 65
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fbd8bc1_deaa5c8d",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -535,6 +583,24 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed052cbc_f36291cd",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:19:07Z",
+      "side": 1,
+      "message": "Thanks for the background. It hurts readability, especially in cases like this where there\u0027s no real need to defer execution or capture variables into a different context for later use (two very good reasons to use lambda). To declare a lambda and then call it immediately, this kind of defeats the purpose of a lambda, it should have been an ordinary function instead. However, what\u0027s done is done, and I didn\u0027t want to deviate too much from the standard \"look and feel\" of a dbus-sensors sensor module.",
+      "parentUuid": "f72d8473_a4d2539d",
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -638,6 +704,30 @@
     },
     {
       "key": {
+        "uuid": "18a9fce9_67fa44ba",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:19:07Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll keep using a signed byte. The JSON can always specify a different range if desired.",
+      "parentUuid": "3c67b150_68d10f71",
+      "range": {
+        "startLine": 94,
+        "startChar": 1,
+        "endLine": 96,
+        "endChar": 69
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c6bf99b_243f0c6f",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 4
@@ -658,6 +748,30 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7fd77df_cc5ce15e",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:19:07Z",
+      "side": 1,
+      "message": "This is an old patchset, see the later patchset in which I changed it to \"Measure\".",
+      "parentUuid": "9c6bf99b_243f0c6f",
+      "range": {
+        "startLine": 118,
+        "startChar": 15,
+        "endLine": 118,
+        "endChar": 64
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
