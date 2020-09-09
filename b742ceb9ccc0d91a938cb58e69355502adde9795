@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6546ed51_516d9546",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:25:12Z",
+      "side": 1,
+      "message": "They\u0027re configuration for another module, intel-ipmi-oem, that shouldn\u0027t be in this example. I will remove them.",
+      "parentUuid": "aa1a3c37_f48d9565",
+      "range": {
+        "startLine": 34,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2edffa31_c9ce2767",
         "filename": "CMakeLists.txt",
         "patchSetId": 4
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "fdfaf2cd_ce23d376",
+        "filename": "CMakeLists.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:25:12Z",
+      "side": 1,
+      "message": "In the latest patchset, I was able to find a way to clean this up.",
+      "parentUuid": "9fab1dbe_52a53bb4",
+      "range": {
+        "startLine": 226,
+        "startChar": 3,
+        "endLine": 228,
+        "endChar": 12
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7f2020a_ec7b5e65",
         "filename": "include/ExternalSensor.hpp",
         "patchSetId": 4
@@ -86,6 +134,24 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac78383_479e2e00",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:25:12Z",
+      "side": 1,
+      "message": "Not sure what you mean? I followed the existing design of HwmonTempSensor.",
+      "parentUuid": "d7f2020a_ec7b5e65",
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -109,6 +175,30 @@
       "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07f98bea_664d9ccf",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:25:12Z",
+      "side": 1,
+      "message": "I copied the existing design of HwmonTempSensor. However, like you, I prefer composition (has-a), as it is easier and clearer to read and understand than inheritance. Plus, there are no constructor-destructor gotchas with composition, unlike with inheritance....",
+      "parentUuid": "ca4b01aa_4fe71d91",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "b742ceb9ccc0d91a938cb58e69355502adde9795",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
