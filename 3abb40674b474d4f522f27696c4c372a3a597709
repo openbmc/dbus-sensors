@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "5b470f5b_4429e12a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T04:56:58Z",
+      "side": 1,
+      "message": "Wow, all properties are required? Is this enforced by D-Bus, or merely by documentation convention in the YAML? https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/xyz/openbmc_project/Sensor/Value.interface.yaml\n\nHaving \"ExtSettable\" exist in some sensors, but not in other sensors, seemed just fine during my testing. No errors from D-Bus.\n\nIf there\u0027s no way to cleanly have an optional property, then I\u0027m happy adding something to the Sensor.hpp base class that would always instantiate this property (defaulting to false, of course). Would this be acceptable?",
+      "parentUuid": "dfce2a82_dd34f2e6",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -207,6 +231,24 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbfce6e4_89e538ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T04:56:58Z",
+      "side": 1,
+      "message": "Interesting. I took a quick look at the Sensor schema in Redfish, and it might be something they\u0027ve overlooked altogether? I couldn\u0027t find any reference to read-only or read-write properties of sensors, or a \"write to sensor value\" command.\n\nThe idea is not to tie it to IPMI, but rather, to be general enough that it would apply to whatever protocol would be used to serve sensors up to those outside the BMC.",
+      "parentUuid": "7de2cf4f_a0d001f2",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -540,6 +582,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e19d6f_92cc9607",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T04:56:58Z",
+      "side": 1,
+      "message": "I thought about that, but I don\u0027t want to enforce it at the D-Bus layer. As it is now, by default all sensor values on D-Bus are read-write, which can be handy for testing things by stuffing false values into the sensor readings. This is safe and secure, because it\u0027s only internally within the BMC. Conversely, by default all sensor values served over IPMI are read-only from the perspective of those outside the BMC. This is safe and secure, because it keeps a sensor value from being maliciously updated by something outside the BMC. So, there\u0027s two different layers here. I don\u0027t want to tie one layer to the other, because it can be very useful to have something read-only from the outside world but read-write when inside.",
+      "parentUuid": "abc4fcc1_349a061b",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
