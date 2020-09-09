@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "a8fa5589_8b9d7566",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T14:31:22Z",
+      "side": 1,
+      "message": "They support optional parameters just fine, and we do it all the time, you just have to put it in its own interface.\n\n\"I think it\u0027s appropriate to have \"Mutable\" still be in the Value interface, since it\u0027s an important characteristic of the value, just like MinValue and MaxValue.\"\n\nDisagree that they\u0027re the same.  Min/Max Value parameters are in the Value interface because they\u0027re required for the implementation to function (intel-ipmi-oem needs them).  Your mutable property is not required on every sensor, so it needs to go into another interface.\n\nIt should be noted that if you wanted to put that in the Value interface, and found a good reason to do so, you would be required to update ALL sensors in the project to expose it.  I\u0027m guessing you\u0027re not wanting to sign up to do that.",
+      "parentUuid": "1d5f8eb6_e1cd9b36",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -333,6 +357,24 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2485bf_2e48653f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T14:31:22Z",
+      "side": 1,
+      "message": "I expected it would get added when the in-band redfish spec came out, but it hasn\u0027t seemed to.",
+      "parentUuid": "f25900f3_a7ee7094",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
@@ -762,6 +804,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "132a13e9_20d20834",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-09T14:31:22Z",
+      "side": 1,
+      "message": "Eh, kinda insecure.  Yes, it\u0027s enabled by default, because prior to me writing bmcweb, that was the projects only user-facing API.  It requires root, so it\u0027s not any more insecure than it is without, as you could just as easily SSH in and do all the same stuff.\n\n\"Having \"Sensor Writer\" for testing, or \"Special Mode Manager\", sounds like good ideas for the future, but beyond the scope of this patch.\"\n\nWe need to make sure we haven\u0027t broken the sensor override semantics.  So long as we haven\u0027t done that, I\u0027m fine with doing it this way.",
+      "parentUuid": "fd4c74fd_f0c89ba3",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
