@@ -426,6 +426,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899b3585_8a3b37dc",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T02:36:15Z",
+      "side": 1,
+      "message": "The purpose of it is to achieve feature parity with the existing \"mutability\" parameter that can be set in the YAML files for static phosphor-host-ipmid configuration. https://github.com/openbmc/phosphor-host-ipmid/blob/master/scripts/sensor-example.yaml#L16\n\nThere\u0027s currently no parameter in entity-manager JSON files that can provide the equivalent, to my knowledge. I\u0027m considering renaming \"ExtSettable\" to \"Mutable\".\n\nIt would be enforced by the IPMI server (or Redfish server), as per their respective protocols. If an external user tries to use IPMI to set a sensor that is read-only, then this action should be disallowed, and conversely, if the sensor is read-write, this action should be allowed. https://github.com/openbmc/phosphor-host-ipmid/blob/a8be7dc839e1dbf561dd255a4ee1e7b6fb091c8e/sensorhandler.cpp#L376",
+      "parentUuid": "7193950f_9e251a69",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
