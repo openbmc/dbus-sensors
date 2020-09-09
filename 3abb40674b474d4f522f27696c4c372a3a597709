@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "1d5f8eb6_e1cd9b36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:43:25Z",
+      "side": 1,
+      "message": "Hmm, interesting point, thanks. It\u0027s unfortunate that D-Bus schemas don\u0027t cleanly support optional parameters cleanly, but it looks like those are the cards we have been dealt.\n\nI think it\u0027s appropriate to have \"Mutable\" still be in the Value interface, since it\u0027s an important characteristic of the value, just like MinValue and MaxValue.",
+      "parentUuid": "5ab18d19_a8003bbf",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -291,6 +315,24 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f25900f3_a7ee7094",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:43:25Z",
+      "side": 1,
+      "message": "OK, thanks. It does seem bizarre, almost an oversight, that Redfish doesn\u0027t have the concept of an external user wanting to write, not just read, a sensor value.",
+      "parentUuid": "63058ac1_ad15691e",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -696,6 +738,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd4c74fd_f0c89ba3",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-09T05:43:25Z",
+      "side": 1,
+      "message": "Wow, did not know D-Bus was given an external interface so that outsiders could play with the bus. That seems rather insecure to me, it opens up a large new attack surface inside. Hopefully that isn\u0027t enabled by default?\n\nHaving \"Sensor Writer\" for testing, or \"Special Mode Manager\", sounds like good ideas for the future, but beyond the scope of this patch.",
+      "parentUuid": "d2067e43_5d94451a",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
