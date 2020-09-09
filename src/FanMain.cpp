@@ -79,6 +79,57 @@ FanTypes getFanType(const fs::path& parentPath)
     return FanTypes::i2c;
 }
 
+void createRedundancySensor(
+    const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
+        sensors,
+    std::shared_ptr<sdbusplus::asio::connection> conn,
+    sdbusplus::asio::object_server& objectServer)
+{
+
+    conn->async_method_call(
+        [&objectServer, &sensors](boost::system::error_code& ec,
+                                  const ManagedObjectType managedObj) {
+            if (ec)
+            {
+                std::cerr << "Error calling entity manager \n";
+                return;
+            }
+            for (const auto& pathPair : managedObj)
+            {
+                for (const auto& interfacePair : pathPair.second)
+                {
+                    if (interfacePair.first == redundancyConfiguration)
+                    {
+                        // currently only support one
+                        auto findCount =
+                            interfacePair.second.find("AllowedFailures");
+                        if (findCount == interfacePair.second.end())
+                        {
+                            std::cerr << "Malformed redundancy record \n";
+                            return;
+                        }
+                        std::vector<std::string> sensorList;
+
+                        for (const auto& sensor : sensors)
+                        {
+                            sensorList.push_back(
+                                "/xyz/openbmc_project/sensors/fan_tach/" +
+                                sensor.second->name);
+                        }
+                        systemRedundancy.reset();
+                        systemRedundancy.emplace(RedundancySensor(
+                            std::get<uint64_t>(findCount->second), sensorList,
+                            objectServer, pathPair.first));
+
+                        return;
+                    }
+                }
+            }
+        },
+        "xyz.openbmc_project.EntityManager", "/",
+        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
@@ -350,6 +401,7 @@ void createSensors(
                     pwmNumbers.emplace_back(pwm, *interfacePath, pwmName);
                 }
             }
+            createRedundancySensor(tachSensors, dbusConnection, objectServer);
             std::vector<fs::path> pwms;
             if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm\d+$)", pwms))
             {
@@ -395,57 +447,6 @@ void createSensors(
         retries);
 }
 
-void createRedundancySensor(
-    const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
-        sensors,
-    std::shared_ptr<sdbusplus::asio::connection> conn,
-    sdbusplus::asio::object_server& objectServer)
-{
-
-    conn->async_method_call(
-        [&objectServer, &sensors](boost::system::error_code& ec,
-                                  const ManagedObjectType managedObj) {
-            if (ec)
-            {
-                std::cerr << "Error calling entity manager \n";
-                return;
-            }
-            for (const auto& pathPair : managedObj)
-            {
-                for (const auto& interfacePair : pathPair.second)
-                {
-                    if (interfacePair.first == redundancyConfiguration)
-                    {
-                        // currently only support one
-                        auto findCount =
-                            interfacePair.second.find("AllowedFailures");
-                        if (findCount == interfacePair.second.end())
-                        {
-                            std::cerr << "Malformed redundancy record \n";
-                            return;
-                        }
-                        std::vector<std::string> sensorList;
-
-                        for (const auto& sensor : sensors)
-                        {
-                            sensorList.push_back(
-                                "/xyz/openbmc_project/sensors/fan_tach/" +
-                                sensor.second->name);
-                        }
-                        systemRedundancy.reset();
-                        systemRedundancy.emplace(RedundancySensor(
-                            std::get<uint64_t>(findCount->second), sensorList,
-                            objectServer, pathPair.first));
-
-                        return;
-                    }
-                }
-            }
-        },
-        "xyz.openbmc_project.EntityManager", "/",
-        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
-}
-
 int main()
 {
     boost::asio::io_service io;
@@ -463,7 +464,6 @@ int main()
     io.post([&]() {
         createSensors(io, objectServer, tachSensors, pwmSensors, systemBus,
                       nullptr);
-        createRedundancySensor(tachSensors, systemBus, objectServer);
     });
 
     boost::asio::deadline_timer filterTimer(io);
