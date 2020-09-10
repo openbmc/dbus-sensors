@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b0df986_a0fb00f7",
+        "filename": "CMakeLists.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-10T22:50:24Z",
+      "side": 1,
+      "message": "When built in yocto, does the \"real\" cmake targets show up now?  They didn\u0027t in the past, which is why these were under \"if not yocto\" checks.",
+      "range": {
+        "startLine": 220,
+        "startChar": 4,
+        "endLine": 220,
+        "endChar": 20
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78b7fedc_cb12e597",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-10T22:50:24Z",
+      "side": 1,
+      "message": "This needs some kind of validation to ensure I\u0027m not setting this to an invalid dbus path, or anything nefarious like that.  Usually simply limiting this to isalpha and isdigit for the name is enough.\n\nYou probably can use a lookup of valid types for sensorMeasure.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf802293_4352e35b",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-10T22:50:24Z",
+      "side": 1,
+      "message": "nit, I don\u0027t ever see this supporting other sensor types, we\u0027d just add new properties to the config for new use cases, so I suspect this can just be inlined.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 0
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "479b53ad_2b5ab89c",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-10T22:50:24Z",
+      "side": 1,
+      "message": "We don\u0027t have a scan loop, so does the power state handling do anything here?  I suspect it\u0027s unneeded.",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 0
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d8b064_13f6b0d8",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-10T22:50:24Z",
+      "side": 1,
+      "message": "nit/comment.  Now that we have c++17, I wonder if try_emplace would make this hack less nasty.  This exists because on a config change, the old ExternalSensor is still holding the dbus path, so you need the old one to be destroyed before you create the new one.  Unfortunately, operator\u003d here will create the shared_ptr rvalue, THEN destroy the old one with a move, and cause a dbus conflict",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 38
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
