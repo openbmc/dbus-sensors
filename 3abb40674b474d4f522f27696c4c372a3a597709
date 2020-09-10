@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "13f14b42_aaaeba4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-10T05:51:27Z",
+      "side": 1,
+      "message": "The intel-ipmi-oem also needs the Mutable bit, as it\u0027s a mandatory part of each SDR entry. Just like the coefficients (as derived from MinValue and MaxValue bounds), the write-permission bit is something that needs to be filled in, for each SDR entry. So, logically, it belongs alongside MinValue and MaxValue, as parameters that influence the creation of the SDR. Although, until now, this bit has always just been hardcoded to false, so it wasn\u0027t a concern until now.\n\nI like the idea of putting it in another interface, \"xyz.openbmc_project.Sensor.Mutable\", that would have a single property, Mutable, boolean. Then, since it\u0027s a different interface, it would be optional, as evidently interfaces are optional but properties (within the interface) are not.",
+      "parentUuid": "a8fa5589_8b9d7566",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -375,6 +399,24 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5295d709_156c4204",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-10T05:51:27Z",
+      "side": 1,
+      "message": "Hmm, this does seem like an oversight, I should ask around. Would be a shame if the Redfish standard got locked in without supporting this feature, as it would be a step backward from IPMI.",
+      "parentUuid": "5c2485bf_2e48653f",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -828,6 +870,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f57c6122_3023e2e6",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-10T05:51:27Z",
+      "side": 1,
+      "message": "Yep, if somebody can SSH in, all bets are off, that\u0027s understood.\n\nWhat are the \"sensor override semantics\" that you speak of? Not sure what you mean.",
+      "parentUuid": "132a13e9_20d20834",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
