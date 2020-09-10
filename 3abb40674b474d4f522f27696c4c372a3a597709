@@ -241,6 +241,30 @@
     },
     {
       "key": {
+        "uuid": "6bd50d9f_3fecaf9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-10T23:17:01Z",
+      "side": 1,
+      "message": "\u003e The intel-ipmi-oem also needs the Mutable bit, as it\u0027s a mandatory part of each SDR entry. Just like the coefficients (as derived from MinValue and MaxValue bounds), the write-permission bit is something that needs to be filled in, for each SDR entry. So, logically, it belongs alongside MinValue and MaxValue, as parameters that influence the creation of the SDR. Although, until now, this bit has always just been hardcoded to false, so it wasn\u0027t a concern until now.\n\nBeing in the SDR doesn\u0027t make it mandatory on DBus if there\u0027s a reasonable default.  Considering that this is the first sensor that would actually set that bit, and likely the only sensor that will need it, it seems like the the default should be off, with the optional interface able to set it to ON.\n\nAlso, that bit was added in a later version of the spec, so technically it\u0027s not \"required\" from a compatibility standpoint either.  I believe reserved bits are meant to be set to 0.\n\nIf you really want to make it mandatory, you can, but it\u0027s going to force you to make a lot of changes to multiple projects (all the sensor repos) and the last couple times we did that (with reading to double, or adding MinValue and MaxValue) it took a long time to get that breaking change through.  I\u0027m trying to help you avoid that pain here.\n\n\u003e \n\u003e I like the idea of putting it in another interface, \"xyz.openbmc_project.Sensor.Mutable\", that would have a single property, Mutable, boolean. Then, since it\u0027s a different interface, it would be optional, as evidently interfaces are optional but properties (within the interface) are not.\n\n\nSo would that mean that MaxValue and MinValue are mutable too?  In terms of sensors, I think we know the meaning: reading is mutable, but in the context of other things and as a generic openbmc concept (which is what we\u0027re trying to get here) I think you need to specify which properties are mutable.",
+      "parentUuid": "13f14b42_aaaeba4d",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -417,6 +441,24 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1b6e63e_597f276c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-10T23:17:01Z",
+      "side": 1,
+      "message": "Redfish is never \"locked in\".  It evolves and gets changed 2-3 times a year.  So long as changes are backward compatible (which going from read only to read/write on a parameter would be) they\u0027re generally acceptable, so long as there\u0027s a value use case.",
+      "parentUuid": "5295d709_156c4204",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
@@ -894,6 +936,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d1ace10_73127a67",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-10T23:17:01Z",
+      "side": 1,
+      "message": "Doing a SetProperty on the Value interface is what constitutes a \"sensor override\" today, and is used for testing pathological sensor cases that couldn\u0027t be created in practice (or would require destroying the platform to do so).  At this point, you\u0027ve overloaded that definition to also include the golden path, which makes me wonder if we need to differentiate \"this is expected\" from \"we\u0027re in test mode\" in any case.  I know for the other sensors, the distinction is used to disable the scan loop, but this doesn\u0027t have a scan loop.\n\nOn the first sensor override, there\u0027s usually something logged to the system log, and depending on where you\u0027ve injected this, I\u0027m not sure if you\u0027ll get that log on the first IPMI set.  I don\u0027t recall the semantics there.",
+      "parentUuid": "f57c6122_3023e2e6",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
