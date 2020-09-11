@@ -48,7 +48,6 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
     double value = std::numeric_limits<double>::quiet_NaN();
-    double rawValue = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
     double hysteresisTrigger;

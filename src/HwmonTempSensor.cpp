@@ -106,8 +106,6 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
-        std::cerr << "Hwmon temp sensor " << name << " removed " << path
-                  << "\n";
         return; // we're being destroyed
     }
     std::istream responseStream(&readBuf);
@@ -117,8 +115,8 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         std::getline(responseStream, response);
         try
         {
-            rawValue = std::stod(response);
-            double nvalue = rawValue / sensorScaleFactor;
+            double nvalue = std::stod(response);
+            nvalue /= sensorScaleFactor;
             updateValue(nvalue);
         }
         catch (const std::invalid_argument&)
@@ -136,8 +134,6 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
-        std::cerr << "Hwmon temp sensor " << name << " not valid " << path
-                  << "\n";
         return; // we're no longer valid
     }
     inputDev.assign(fd);
@@ -147,15 +143,6 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
         if (ec == boost::asio::error::operation_aborted)
         {
-            if (self)
-            {
-                std::cerr << "Hwmon temp sensor " << self->name
-                          << " read cancelled " << self->path << "\n";
-            }
-            else
-            {
-                std::cerr << "Hwmon sensor read cancelled, no self\n";
-            }
             return; // we're being canceled
         }
         if (self)

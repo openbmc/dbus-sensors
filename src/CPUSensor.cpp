@@ -223,9 +223,9 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             std::getline(responseStream, response);
-            rawValue = std::stod(response);
+            double nvalue = std::stod(response);
             responseStream.clear();
-            double nvalue = rawValue / CPUSensor::sensorScaleFactor;
+            nvalue /= CPUSensor::sensorScaleFactor;
 
             if (show)
             {
