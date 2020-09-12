@@ -241,7 +241,6 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
             resp = data[0];
-
             return true;
         }
         case (ReadingFormat::byte3):
@@ -347,6 +346,18 @@ void IpmbSensor::read(void)
                     incrementError();
                     read();
                     return;
+                }
+                else
+                {
+                    // rawValue only used in debug logging
+                    // up to 5th byte in data are used to derive value
+                    size_t end = std::min(sizeof(uint64_t), data.size());
+                    uint64_t rawData = 0;
+                    for (size_t i = 0; i < end; i++)
+                    {
+                        reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
+                    }
+                    rawValue = static_cast<double>(rawData);
                 }
 
                 /* Adjust value as per scale and offset */
