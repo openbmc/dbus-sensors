@@ -137,6 +137,71 @@ bool hasBiosPost(void)
     return biosHasPost;
 }
 
+static void
+    getPowerStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                   size_t retries = 2)
+{
+    conn->async_method_call(
+        [conn, retries](boost::system::error_code ec,
+                        const std::variant<std::string>& state) {
+            if (ec)
+            {
+                if (retries)
+                {
+                    auto timer = std::make_shared<boost::asio::steady_timer>(
+                        conn->get_io_context());
+                    timer->expires_after(std::chrono::seconds(15));
+                    timer->async_wait(
+                        [timer, conn, retries](boost::system::error_code) {
+                            getPowerStatus(conn, retries - 1);
+                        });
+                    return;
+                }
+
+                // we commonly come up before power control, we'll capture the
+                // property change later
+                std::cerr << "error getting power status " << ec.message()
+                          << "\n";
+                return;
+            }
+            powerStatusOn =
+                boost::ends_with(std::get<std::string>(state), "Running");
+        },
+        power::busname, power::path, properties::interface, properties::get,
+        power::interface, power::property);
+}
+
+static void
+    getPostStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                  size_t retries = 2)
+{
+    conn->async_method_call(
+        [conn, retries](boost::system::error_code ec,
+                        const std::variant<std::string>& state) {
+            if (ec)
+            {
+                if (retries)
+                {
+                    auto timer = std::make_shared<boost::asio::steady_timer>(
+                        conn->get_io_context());
+                    timer->expires_after(std::chrono::seconds(15));
+                    timer->async_wait(
+                        [timer, conn, retries](boost::system::error_code) {
+                            getPostStatus(conn, retries - 1);
+                        });
+                    return;
+                }
+                // we commonly come up before power control, we'll capture the
+                // property change later
+                std::cerr << "error getting post status " << ec.message() << "\n";
+                return;
+            }
+            biosHasPost = std::get<std::string>(state) != "Inactive";
+        },
+        post::busname, post::path, properties::interface, properties::get,
+        post::interface, post::property);
+}
+
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
     static boost::asio::steady_timer timer(conn->get_io_context());
@@ -203,34 +268,8 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             }
         });
 
-    conn->async_method_call(
-        [](boost::system::error_code ec,
-           const std::variant<std::string>& state) {
-            if (ec)
-            {
-                // we commonly come up before power control, we'll capture the
-                // property change later
-                return;
-            }
-            powerStatusOn =
-                boost::ends_with(std::get<std::string>(state), "Running");
-        },
-        power::busname, power::path, properties::interface, properties::get,
-        power::interface, power::property);
-
-    conn->async_method_call(
-        [](boost::system::error_code ec,
-           const std::variant<std::string>& state) {
-            if (ec)
-            {
-                // we commonly come up before power control, we'll capture the
-                // property change later
-                return;
-            }
-            biosHasPost = std::get<std::string>(state) != "Inactive";
-        },
-        post::busname, post::path, properties::interface, properties::get,
-        post::interface, post::property);
+    getPowerStatus(conn);
+    getPostStatus(conn);
 }
 
 // replaces limits if MinReading and MaxReading are found.
