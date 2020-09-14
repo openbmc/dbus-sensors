@@ -1,0 +1,9 @@
+Code-Review+1: Zhikui Ren <zhikui.ren@intel.com>
+Ok-To-Test+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: James Feist <james.feist@linux.intel.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Ed Tanous <ed@tanous.net>
+Submitted-at: Mon, 14 Sep 2020 18:02:41 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/36440
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
