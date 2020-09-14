@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "71939af0_e5c69051",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-14T04:52:20Z",
+      "side": 1,
+      "message": "OK, will keep that in mind. Adding a lookup here would make it brittle if more types were added in the future, but I can easily add a filter to make sure they are using sane filenames.",
+      "parentUuid": "78b7fedc_cb12e597",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf802293_4352e35b",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 8
