@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48804777_f06e0630",
+        "filename": "CMakeLists.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-14T04:52:20Z",
+      "side": 1,
+      "message": "Not sure. I didn\u0027t check the cmake targets.\n\nThe reason I made this edit is to make the large \"if (NOT YOCTO)\" block above, no longer necessary. The contents of this block have been scattered to their own individual \"if (NOT DISABLE_*)\" sections below. This is so that, if disabled, their dependencies will also be disabled.",
+      "parentUuid": "2b0df986_a0fb00f7",
+      "range": {
+        "startLine": 220,
+        "startChar": 4,
+        "endLine": 220,
+        "endChar": 20
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78b7fedc_cb12e597",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 8
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "157e1f59_d791cd4b",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-14T04:52:20Z",
+      "side": 1,
+      "message": "Makes sense, I thought that too. Wanted to match the existing \"look and feel\" of the other sensors, though, and this was copied from HwmonTempSensor.",
+      "parentUuid": "cf802293_4352e35b",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 0
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "479b53ad_2b5ab89c",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 8
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "e9462ae6_e0a9c293",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-14T04:52:20Z",
+      "side": 1,
+      "message": "I wanted to keep the power state initialized in the same way the other sensors are, to prevent some kind of breakage or incompatibility.",
+      "parentUuid": "479b53ad_2b5ab89c",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 0
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08d8b064_13f6b0d8",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 8
@@ -114,6 +186,30 @@
       "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cad5d34_be314445",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-14T04:52:20Z",
+      "side": 1,
+      "message": "Thanks for the background. It is a bummer that operator\u003d gets them in the wrong order. I like the obviousness of setting it to nullptr, but will add a comment explaining why.",
+      "parentUuid": "08d8b064_13f6b0d8",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 38
+      },
+      "revId": "731a46cd2afbece4f4f6f0297f473a3f460b289e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
