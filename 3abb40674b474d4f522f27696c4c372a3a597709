@@ -265,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "4b8451d8_5204087f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-14T05:08:25Z",
+      "side": 1,
+      "message": "Yes, other properties should be mutable. Not sure about MinValue and MaxValue, these are used to set the IPMI SDR coefficients, and these aren\u0027t changeable at runtime once they are set. However, the IPMI \"set sensor value\" command has many optional parameters, and things like thresholds are certainly settable or not. These would be good candidates to also receive Mutable flags.",
+      "parentUuid": "6bd50d9f_3fecaf9a",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48911e11_784923cc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -459,6 +483,24 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a65da3b_9e4718d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-14T05:08:25Z",
+      "side": 1,
+      "message": "OK, good. I think this is a good use case, to be able to have sensors be read-write as well as read-only (of course, they should still be read-only by default). It would help Redfish achieve feature parity with IPMI.",
+      "parentUuid": "f1b6e63e_597f276c",
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -960,6 +1002,30 @@
       "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f94716_7ecae409",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2020-09-14T05:08:25Z",
+      "side": 1,
+      "message": "Not sure if we\u0027re talking about the same thing or not. As for sensor override, I thought it was always OK to send a D-Bus command to the sensor and change its value manually. It\u0027s really two different things: the D-Bus permissions internally, and the IPMI SDR permissions externally. I think it\u0027s good to maintain this separation, instead of trying to bleed one layer into another.",
+      "parentUuid": "9d1ace10_73127a67",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "3abb40674b474d4f522f27696c4c372a3a597709",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
