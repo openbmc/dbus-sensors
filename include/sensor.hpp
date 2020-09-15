@@ -25,13 +25,14 @@ struct Sensor
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
            const double max, const double min,
+           std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
         name(std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_")),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
-        hysteresisPublish((max - min) * 0.0001), readState(readState),
-        errCount(0)
+        hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
+        readState(readState), errCount(0)
     {}
     virtual ~Sensor() = default;
     virtual void checkThresholds(void) = 0;
@@ -53,6 +54,7 @@ struct Sensor
     bool internalSet = false;
     double hysteresisTrigger;
     double hysteresisPublish;
+    std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
     size_t errCount;
 

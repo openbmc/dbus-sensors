@@ -69,9 +69,8 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", ipmbMaxReading,
-           ipmbMinReading, PowerState::on),
-    deviceAddress(deviceAddress), objectServer(objectServer),
-    dbusConnection(conn), waitTimer(io)
+           ipmbMinReading, conn, PowerState::on),
+    deviceAddress(deviceAddress), objectServer(objectServer), waitTimer(io)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
 

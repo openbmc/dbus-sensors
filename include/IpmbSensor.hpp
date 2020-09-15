@@ -107,6 +107,5 @@ struct IpmbSensor : public Sensor
 
   private:
     sdbusplus::asio::object_server& objectServer;
-    std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     boost::asio::deadline_timer waitTimer;
 };
