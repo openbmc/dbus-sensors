@@ -366,40 +366,63 @@ void createSensors(
                 auto limits =
                     std::make_pair(defaultMinReading, defaultMaxReading);
 
+                auto connector =
+                    sensorData->find(baseType + std::string(".Connector"));
+
+                std::optional<std::string> led;
+
+                if (connector != sensorData->end())
+                {
+                    auto findPwm = connector->second.find("Pwm");
+                    if (findPwm != connector->second.end())
+                    {
+
+                        size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
+                                                findPwm->second);
+                        /* use pwm name override if found in configuration else
+                         * use default */
+                        auto findOverride = connector->second.find("PwmName");
+                        std::string pwmName;
+                        if (findOverride != connector->second.end())
+                        {
+                            pwmName = std::visit(VariantToStringVisitor(),
+                                                 findOverride->second);
+                        }
+                        else
+                        {
+                            pwmName = "Pwm_" + std::to_string(pwm + 1);
+                        }
+                        pwmNumbers.emplace_back(pwm, *interfacePath, pwmName);
+                    }
+                    else
+                    {
+                        std::cerr << "Connector for " << sensorName
+                                  << " missing pwm!\n";
+                    }
+
+                    auto findLED = connector->second.find("LED");
+                    if (findLED != connector->second.end())
+                    {
+                        auto ledName =
+                            std::get_if<std::string>(&(findLED->second));
+                        if (ledName == nullptr)
+                        {
+                            std::cerr << "Wrong format for LED of "
+                                      << sensorName << "\n";
+                        }
+                        else
+                        {
+                            led = *ledName;
+                        }
+                    }
+                }
+
                 findLimits(limits, baseConfiguration);
                 tachSensors[sensorName] = std::make_unique<TachSensor>(
                     path.string(), baseType, objectServer, dbusConnection,
                     std::move(presenceSensor), redundancy, io, sensorName,
                     std::move(sensorThresholds), *interfacePath, limits,
-                    powerState);
-
-                auto connector =
-                    sensorData->find(baseType + std::string(".Connector"));
-                if (connector != sensorData->end())
-                {
-                    auto findPwm = connector->second.find("Pwm");
-                    if (findPwm == connector->second.end())
-                    {
-                        std::cerr << "Connector Missing PWM!\n";
-                        continue;
-                    }
-                    size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
-                                            findPwm->second);
-                    /* use pwm name override if found in configuration else use
-                     * default */
-                    auto findOverride = connector->second.find("PwmName");
-                    std::string pwmName;
-                    if (findOverride != connector->second.end())
-                    {
-                        pwmName = std::visit(VariantToStringVisitor(),
-                                             findOverride->second);
-                    }
-                    else
-                    {
-                        pwmName = "Pwm_" + std::to_string(pwm + 1);
-                    }
-                    pwmNumbers.emplace_back(pwm, *interfacePath, pwmName);
-                }
+                    powerState, led);
             }
             createRedundancySensor(tachSensors, dbusConnection, objectServer);
             std::vector<fs::path> pwms;

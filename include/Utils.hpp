@@ -81,6 +81,7 @@ namespace properties
 {
 constexpr const char* interface = "org.freedesktop.DBus.Properties";
 constexpr const char* get = "Get";
+constexpr const char* set = "Set";
 } // namespace properties
 
 namespace power
@@ -150,6 +151,22 @@ inline void setReadState(const std::string& str, PowerState& val)
     {
         val = PowerState::always;
     }
+}
+
+inline void setLed(std::shared_ptr<sdbusplus::asio::connection> conn,
+                   const std::string& name, bool on)
+{
+    conn->async_method_call(
+        [name](const boost::system::error_code ec) {
+            if (ec)
+            {
+                std::cerr << "Failed to set LED " << name << "\n";
+            }
+        },
+        "xyz.openbmc_project.LED.GroupManager",
+        "/xyz/openbmc_project/led/groups/" + name,
+        properties::interface, properties::set,
+        "xyz.openbmc_project.Led.Group", "Asserted", std::variant<bool>(on));
 }
 
 void createInventoryAssoc(

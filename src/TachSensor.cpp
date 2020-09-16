@@ -51,13 +51,15 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        std::vector<thresholds::Threshold>&& _thresholds,
                        const std::string& sensorConfiguration,
                        const std::pair<size_t, size_t>& limits,
-                       const PowerState& powerState) :
+                       const PowerState& powerState,
+                       const std::optional<std::string>& ledIn) :
     Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(_thresholds),
            sensorConfiguration, objectType, limits.second, limits.first, conn,
            powerState),
     objServer(objectServer), redundancy(redundancy),
     presence(std::move(presenceSensor)),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path)
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    led(ledIn)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
@@ -191,6 +193,13 @@ void TachSensor::checkThresholds(void)
     {
         (*redundancy)
             ->update("/xyz/openbmc_project/sensors/fan_tach/" + name, !status);
+    }
+
+    bool curLed = !status;
+    if (led && ledState != curLed)
+    {
+        ledState = curLed;
+        setLed(dbusConnection, *led, curLed);
     }
 }
 
