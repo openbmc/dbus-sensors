@@ -73,7 +73,8 @@ class TachSensor : public Sensor
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration,
                const std::pair<size_t, size_t>& limits,
-               const PowerState& powerState = PowerState::on);
+               const PowerState& powerState,
+               const std::optional<std::string>& led);
     ~TachSensor();
 
   private:
@@ -86,6 +87,8 @@ class TachSensor : public Sensor
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string path;
+    std::optional<std::string> led;
+    bool ledState = false;
     size_t errCount;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
