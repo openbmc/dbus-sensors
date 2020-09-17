@@ -70,6 +70,8 @@ static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
 static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
 static boost::container::flat_map<std::string, std::string> sensorTable;
+static boost::container::flat_map<std::string, std::string_view>
+    sensorValuesUnit;
 static boost::container::flat_map<std::string, PSUProperty> labelMatch;
 static boost::container::flat_map<std::string, std::string> pwmTable;
 static boost::container::flat_map<std::string, std::vector<std::string>>
@@ -745,6 +747,14 @@ void createSensors(boost::asio::io_service& io,
                 continue;
             }
 
+            auto findSensorValueUnit = sensorValuesUnit.find(sensorNameSubStr);
+            if (findSensorValueUnit == sensorValuesUnit.end())
+            {
+                std::cerr << sensorNameSubStr
+                          << " sensor value's unit not defined\n";
+                continue;
+            }
+
             if constexpr (DEBUG)
             {
                 std::cerr << "Sensor properties: Name \""
@@ -784,7 +794,8 @@ void createSensors(boost::asio::io_service& io,
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                psuProperty->minReading, findSensorValueUnit->second, labelHead,
+                thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (DEBUG)
@@ -815,6 +826,12 @@ void propertyInitialize(void)
                    {"temp", "temperature/"},
                    {"in", "voltage/"},
                    {"fan", "fan_tach/"}};
+
+    sensorValuesUnit = {
+        {"power", PSUSensor::Unit::Watts},   {"curr", PSUSensor::Unit::Amperes},
+        {"temp", PSUSensor::Unit::DegreesC}, {"in", PSUSensor::Unit::Volts},
+        {"fan", PSUSensor::Unit::RPMS},
+    };
 
     labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
