@@ -53,8 +53,8 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        const std::pair<size_t, size_t>& limits,
                        const PowerState& powerState) :
     Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(_thresholds),
-           sensorConfiguration, objectType, limits.second, limits.first, conn,
-           powerState),
+           sensorConfiguration, objectType, limits.second, limits.first,
+           Unit::RPMS, conn, powerState),
     objServer(objectServer), redundancy(redundancy),
     presence(std::move(presenceSensor)),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path)
