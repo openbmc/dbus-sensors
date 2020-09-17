@@ -63,13 +63,17 @@ static std::vector<std::string> pmbusNames = {
 
 namespace fs = std::filesystem;
 
+using SensorType = std::string;
+using SensorUnit = std::string_view;
+using SensorMetadata = std::tuple<SensorType, SensorUnit>;
+
 static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
     sensors;
 static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
     combineEvents;
 static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
-static boost::container::flat_map<std::string, std::string> sensorTable;
+static boost::container::flat_map<std::string, SensorMetadata> sensorTable;
 static boost::container::flat_map<std::string, PSUProperty> labelMatch;
 static boost::container::flat_map<std::string, std::string> pwmTable;
 static boost::container::flat_map<std::string, std::vector<std::string>>
@@ -737,13 +741,16 @@ void createSensors(boost::asio::io_service& io,
                           << sensorNameSubStr << "\n";
             }
 
-            auto findSensorType = sensorTable.find(sensorNameSubStr);
-            if (findSensorType == sensorTable.end())
+            auto findSensorMetadata = sensorTable.find(sensorNameSubStr);
+            if (findSensorMetadata == sensorTable.end())
             {
                 std::cerr << sensorNameSubStr
                           << " is not a recognized sensor type\n";
                 continue;
             }
+            auto sensorTypeName =
+                std::get<SensorType>(findSensorMetadata->second);
+            auto sensorUnit = std::get<SensorUnit>(findSensorMetadata->second);
 
             if constexpr (DEBUG)
             {
@@ -783,8 +790,9 @@ void createSensors(boost::asio::io_service& io,
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
-                findSensorType->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                sensorTypeName, factor, psuProperty->maxReading,
+                psuProperty->minReading, sensorUnit, labelHead,
+                thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (DEBUG)
@@ -810,11 +818,11 @@ void createSensors(boost::asio::io_service& io,
 
 void propertyInitialize(void)
 {
-    sensorTable = {{"power", "power/"},
-                   {"curr", "current/"},
-                   {"temp", "temperature/"},
-                   {"in", "voltage/"},
-                   {"fan", "fan_tach/"}};
+    sensorTable = {{"power", {"power/", PSUSensor::Unit::Watts}},
+                   {"curr", {"current/", PSUSensor::Unit::Amperes}},
+                   {"temp", {"temperature/", PSUSensor::Unit::DegreesC}},
+                   {"in", {"voltage/", PSUSensor::Unit::Volts}},
+                   {"fan", {"fan_tach/", PSUSensor::Unit::RPMS}}};
 
     labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
