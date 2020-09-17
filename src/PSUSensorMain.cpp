@@ -63,13 +63,17 @@ static std::vector<std::string> pmbusNames = {
 
 namespace fs = std::filesystem;
 
+using SensorType = std::string;
+using SensorUnit = std::string_view;
+using SensorMetadata = std::tuple<SensorType, SensorUnit>;
+
 static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
     sensors;
 static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
     combineEvents;
 static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
-static boost::container::flat_map<std::string, std::string> sensorTable;
+static boost::container::flat_map<std::string, SensorMetadata> sensorTable;
 static boost::container::flat_map<std::string, PSUProperty> labelMatch;
 static boost::container::flat_map<std::string, std::string> pwmTable;
 static boost::container::flat_map<std::string, std::vector<std::string>>
@@ -744,6 +748,8 @@ void createSensors(boost::asio::io_service& io,
                           << " is not a recognized sensor type\n";
                 continue;
             }
+            auto sensorType = std::get<SensorType>(findSensorType->second);
+            auto sensorUnit = std::get<SensorUnit>(findSensorType->second);
 
             if constexpr (DEBUG)
             {
@@ -783,8 +789,9 @@ void createSensors(boost::asio::io_service& io,
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
-                findSensorType->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                sensorType, factor, psuProperty->maxReading,
+                psuProperty->minReading, sensorUnit, labelHead,
+                thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (DEBUG)
@@ -810,11 +817,11 @@ void createSensors(boost::asio::io_service& io,
 
 void propertyInitialize(void)
 {
-    sensorTable = {{"power", "power/"},
-                   {"curr", "current/"},
-                   {"temp", "temperature/"},
-                   {"in", "voltage/"},
-                   {"fan", "fan_tach/"}};
+    sensorTable = {{"power", {"power/", PSUSensor::Unit::Watts}},
+                   {"curr", {"current/", PSUSensor::Unit::Amperes}},
+                   {"temp", {"temperature/", PSUSensor::Unit::DegreesC}},
+                   {"in", {"voltage/", PSUSensor::Unit::Volts}},
+                   {"fan", {"fan_tach/", PSUSensor::Unit::RPMS}}};
 
     labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
