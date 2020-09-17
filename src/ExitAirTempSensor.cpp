@@ -157,6 +157,11 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
         0, std::array<std::string, 1>{pidConfigurationType});
 }
 
+/**
+ * @note sensorUnit was set to the Unit::Meters as dummy unit-value
+ *       This will be change to 'CFM' when the phopsphor-dbus-interface
+ *       implements it.
+ */
 CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      const std::string& sensorName,
                      const std::string& sensorConfiguration,
@@ -166,7 +171,7 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", cfmMaxReading,
-           cfmMinReading, conn, PowerState::on),
+           cfmMinReading, Unit::Meters, conn, PowerState::on),
     std::enable_shared_from_this<CFMSensor>(), parent(parent),
     objServer(objectServer)
 {
@@ -494,7 +499,7 @@ ExitAirTempSensor::ExitAirTempSensor(
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", exitAirMaxReading,
-           exitAirMinReading, conn, PowerState::on),
+           exitAirMinReading, Unit::DegreesC, conn, PowerState::on),
     std::enable_shared_from_this<ExitAirTempSensor>(), objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(

@@ -4,6 +4,7 @@
 #include "Utils.hpp"
 
 #include <sdbusplus/asio/object_server.hpp>
+#include "xyz/openbmc_project/Sensor/Value/server.hpp"
 
 #include <limits>
 #include <memory>
@@ -21,15 +22,19 @@ constexpr const size_t errorThreshold = 5;
 
 struct Sensor
 {
+    using Unit =
+        sdbusplus::xyz::openbmc_project::Sensor::server::Value::Unit;
+
     Sensor(const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
-           const double max, const double min,
+           const double max, const double min, const Unit unit,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
         name(std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_")),
         configurationPath(configurationPath), objectType(objectType),
-        maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
+        maxValue(max), minValue(min), sensorUnit(std::move(unit)),
+        thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState), errCount(0)
@@ -41,6 +46,7 @@ struct Sensor
     std::string objectType;
     double maxValue;
     double minValue;
+    Unit sensorUnit;
     std::vector<thresholds::Threshold> thresholds;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
@@ -89,6 +95,7 @@ struct Sensor
 
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property("Unit", sensorUnit);
         sensorInterface->register_property(
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);

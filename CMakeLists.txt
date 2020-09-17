@@ -152,29 +152,50 @@ link_directories (${EXTERNAL_INSTALL_LOCATION}/lib)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+# Link the DBUSINTERFACE_LIBRARIES to specified targets
+# TARGETS_TO_DEPEND - the reference variable name which contains
+#                     list of a targets
+function(LinkDBusInterfaceLibraries TARGETS_TO_DEPEND)
+    # import phosphor-dbus-interfaces
+    find_package (PkgConfig REQUIRED)
+    pkg_check_modules (DBUSINTERFACE phosphor-dbus-interfaces REQUIRED)
+    include_directories (${DBUSINTERFACE_INCLUDE_DIRS})
+    link_directories (${DBUSINTERFACE_LIBRARY_DIRS})
+
+    # each targets and do linking each
+    foreach(TARGET_TO_LINK IN LISTS ${TARGETS_TO_DEPEND})
+        target_link_libraries(${TARGET_TO_LINK} ${DBUSINTERFACE_LIBRARIES})
+    endforeach()
+endfunction(LinkDBusInterfaceLibraries)
+
 add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
 add_dependencies (adcsensor sdbusplus-project)
 target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (adcsensor gpiodcxx)
+list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "adcsensor")
 
 add_executable (cpusensor src/CPUSensorMain.cpp ${CPU_SRC_FILES})
 add_dependencies (cpusensor sdbusplus-project)
 target_link_libraries (cpusensor ${SENSOR_LINK_LIBS})
 target_link_libraries (cpusensor gpiodcxx)
+list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "cpusensor")
 
 add_executable (exitairtempsensor src/ExitAirTempSensor.cpp
                 ${EXIT_AIR_SRC_FILES})
 add_dependencies (exitairtempsensor sdbusplus-project)
 target_link_libraries (exitairtempsensor ${SENSOR_LINK_LIBS})
+list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "exitairtempsensor")
 
 add_executable (fansensor src/FanMain.cpp ${FAN_SRC_FILES})
 add_dependencies (fansensor sdbusplus-project)
 target_link_libraries (fansensor ${SENSOR_LINK_LIBS})
 target_link_libraries (fansensor gpiodcxx)
+list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "fansensor")
 
 add_executable (hwmontempsensor src/HwmonTempMain.cpp ${HWMON_TEMP_SRC_FILES})
 add_dependencies (hwmontempsensor sdbusplus-project)
 target_link_libraries (hwmontempsensor ${SENSOR_LINK_LIBS})
+list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "hwmontempsensor")
 
 add_executable (intrusionsensor src/IntrusionSensorMain.cpp
                 ${INTRUSION_SRC_FILES})
@@ -186,21 +207,27 @@ target_link_libraries (intrusionsensor gpiodcxx)
 add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
 add_dependencies (ipmbsensor sdbusplus-project)
 target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
+list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "ipmbsensor")
 
 add_executable (mcutempsensor src/MCUTempSensor.cpp ${MCUTEMP_SRC_FILES})
 add_dependencies (mcutempsensor sdbusplus-project)
 target_link_libraries (mcutempsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (mcutempsensor i2c)
+list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "mcutempsensor")
 
 add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
 add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
+list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "psusensor")
 
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
     add_dependencies (nvmesensor sdbusplus-project)
     target_link_libraries (nvmesensor liblibmctp.a i2c ${SENSOR_LINK_LIBS})
+    list (APPEND DBUSINTERFACE_TARGETS_TO_DEPEND "nvmesensor")
 endif()
+
+LinkDBusInterfaceLibraries("DBUSINTERFACE_TARGETS_TO_DEPEND")
 
 if (NOT YOCTO)
     add_dependencies (adcsensor ${EXTERNAL_PACKAGES})
