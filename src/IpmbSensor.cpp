@@ -69,7 +69,7 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", ipmbMaxReading,
-           ipmbMinReading, conn, PowerState::on),
+           ipmbMinReading, Sensor::Unit::DegreesC, conn, PowerState::on),
     deviceAddress(deviceAddress), objectServer(objectServer), waitTimer(io)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
@@ -484,22 +484,27 @@ void createSensors(
                     if (sensorTypeName == "voltage")
                     {
                         sensor->subType = IpmbSubType::volt;
+                        sensor->sensorUnit = Sensor::Unit::Volts;
                     }
                     else if (sensorTypeName == "power")
                     {
                         sensor->subType = IpmbSubType::power;
+                        sensor->sensorUnit = Sensor::Unit::Watts;
                     }
                     else if (sensorTypeName == "current")
                     {
                         sensor->subType = IpmbSubType::curr;
+                        sensor->sensorUnit = Sensor::Unit::Amperes;
                     }
                     else if (sensorTypeName == "utilization")
                     {
                         sensor->subType = IpmbSubType::util;
+                        sensor->sensorUnit = Sensor::Unit::Percent;
                     }
                     else
                     {
                         sensor->subType = IpmbSubType::temp;
+                        sensor->sensorUnit = Sensor::Unit::DegreesC;
                     }
                     sensor->init();
                 }
