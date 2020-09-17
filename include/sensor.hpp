@@ -39,12 +39,13 @@ struct Sensor
     Sensor(const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
-           const double max, const double min,
+           const double max, const double min, std::string_view unit,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath), objectType(objectType),
-        maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
+        maxValue(max), minValue(min), sensorUnit(unit),
+        thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState), errCount(0),
@@ -59,6 +60,7 @@ struct Sensor
     std::string objectType;
     double maxValue;
     double minValue;
+    std::string_view sensorUnit;
     std::vector<thresholds::Threshold> thresholds;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
@@ -194,6 +196,7 @@ struct Sensor
 
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property("Unit", sensorUnit.data());
         sensorInterface->register_property(
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);

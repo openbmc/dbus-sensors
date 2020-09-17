@@ -17,10 +17,10 @@ class ExternalSensor :
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& conn,
                    const std::string& sensorName,
-                   const std::string& sensorMeasure,
                    std::vector<thresholds::Threshold>&& thresholds,
                    const std::string& sensorConfiguration,
                    const double& maxReading, const double& minReading,
+                   const std::string_view& sensorUnits,
                    const PowerState& powerState);
     virtual ~ExternalSensor();
 

@@ -72,13 +72,16 @@ static std::vector<std::string> pmbusNames = {
 
 namespace fs = std::filesystem;
 
+using SensorType = std::string;
+using SensorUnit = std::string_view;
+
 static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
     sensors;
 static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
     combineEvents;
 static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
-static boost::container::flat_map<std::string, std::string> sensorTable;
+static boost::container::flat_map<std::string, SensorUnit> sensorTable;
 static boost::container::flat_map<std::string, PSUProperty> labelMatch;
 static boost::container::flat_map<std::string, std::string> pwmTable;
 static boost::container::flat_map<std::string, std::vector<std::string>>
@@ -777,6 +780,7 @@ static void createSensorsCallback(
                           << " is not a recognized sensor type\n";
                 continue;
             }
+            auto sensorUnit = findSensorType->second;
 
             if constexpr (debug)
             {
@@ -816,9 +820,9 @@ static void createSensorsCallback(
             sensors[sensorName] = nullptr;
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
-                sensorName, std::move(sensorThresholds), *interfacePath,
-                findSensorType->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                sensorName, std::move(sensorThresholds), *interfacePath, factor,
+                psuProperty->maxReading, psuProperty->minReading, sensorUnit,
+                labelHead, thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (debug)
@@ -860,11 +864,11 @@ void createSensors(
 
 void propertyInitialize(void)
 {
-    sensorTable = {{"power", "power/"},
-                   {"curr", "current/"},
-                   {"temp", "temperature/"},
-                   {"in", "voltage/"},
-                   {"fan", "fan_tach/"}};
+    sensorTable = {{"power", Unit::Watts},
+                   {"curr", Unit::Amperes},
+                   {"temp", Unit::DegreesC},
+                   {"in", Unit::Volts},
+                   {"fan", Unit::RPMS}};
 
     labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
