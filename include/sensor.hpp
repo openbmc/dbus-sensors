@@ -21,15 +21,44 @@ constexpr const size_t errorThreshold = 5;
 
 struct Sensor
 {
+    // Hardcoding enum-values of 'xyz.openbmc_project.Sensor.Value.Unit'
+    // property by agreement that phosphor-dbus-interfaces won't be used as main
+    // API engine. See disscusion
+    // https://lists.ozlabs.org/pipermail/openbmc/2020-September/023103.html
+    // https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/36579
+    class Unit
+    {
+      public:
+        static constexpr std::string_view DegreesC =
+            "xyz.openbmc_project.Sensor.Value.Unit.DegreesC";
+        static constexpr std::string_view RPMS =
+            "xyz.openbmc_project.Sensor.Value.Unit.RPMS";
+        static constexpr std::string_view Volts =
+            "xyz.openbmc_project.Sensor.Value.Unit.Volts";
+        static constexpr std::string_view Meters =
+            "xyz.openbmc_project.Sensor.Value.Unit.Meters";
+        static constexpr std::string_view Amperes =
+            "xyz.openbmc_project.Sensor.Value.Unit.Amperes";
+        static constexpr std::string_view Watts =
+            "xyz.openbmc_project.Sensor.Value.Unit.Watts";
+        static constexpr std::string_view Joules =
+            "xyz.openbmc_project.Sensor.Value.Unit.Joules";
+        static constexpr std::string_view Percent =
+            "xyz.openbmc_project.Sensor.Value.Unit.Percent";
+        static constexpr std::string_view CFM =
+            "xyz.openbmc_project.Sensor.Value.Unit.CFM";
+    };
+
     Sensor(const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
-           const double max, const double min,
+           const double max, const double min, std::string_view unit,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
         name(std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_")),
         configurationPath(configurationPath), objectType(objectType),
-        maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
+        maxValue(max), minValue(min), sensorUnit(unit),
+        thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState), errCount(0)
@@ -41,6 +70,7 @@ struct Sensor
     std::string objectType;
     double maxValue;
     double minValue;
+    std::string_view sensorUnit;
     std::vector<thresholds::Threshold> thresholds;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
@@ -89,6 +119,7 @@ struct Sensor
 
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property("Unit", sensorUnit.data());
         sensorInterface->register_property(
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
