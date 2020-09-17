@@ -1,3 +1,6 @@
+#include <SensorPaths.hpp>
+#include <Utils.hpp>
+
 #include <cstring>
 #include <regex>
 #include <string>
@@ -9,39 +12,89 @@ namespace sensor_paths
 // with
 // phosphor-dbus-interfaces/blob/master/xyz/openbmc_project/Sensor/Value.interface.yaml#L35
 
-std::string getPathForUnits(const std::string& units)
+std::string getPathForUnits(const std::string_view& units)
+{
+    std::string sensorType = "";
+    if (units == Unit::DegreesC)
+    {
+        sensorType = "temperature";
+    }
+    if (units == Unit::RPMS)
+    {
+        sensorType = "fan_tach";
+    }
+    if (units == Unit::Volts)
+    {
+        sensorType = "voltage";
+    }
+    if (units == Unit::Meters)
+    {
+        sensorType = "altitude";
+    }
+    if (units == Unit::Amperes)
+    {
+        sensorType = "current";
+    }
+    if (units == Unit::Watts)
+    {
+        sensorType = "power";
+    }
+    if (units == Unit::Joules)
+    {
+        sensorType = "energy";
+    }
+    if (units == Unit::Percent)
+    {
+        sensorType = "Utilization";
+    }
+    if (units == Unit::CFM)
+    {
+        sensorType = "cfm";
+    }
+    if (sensorType.empty())
+    {
+        return "";
+    }
+    return sensor_paths::prefix + sensorType + "/";
+}
+
+std::string_view getUnits(const std::string& units)
 {
     if (units == "DegreesC")
     {
-        return "temperature";
+        return Unit::DegreesC;
     }
     if (units == "RPMS")
     {
-        return "fan_tach";
+        return Unit::RPMS;
     }
     if (units == "Volts")
     {
-        return "voltage";
+        return Unit::Volts;
     }
     if (units == "Meters")
     {
-        return "altitude";
+        return Unit::Meters;
     }
     if (units == "Amperes")
     {
-        return "current";
+        return Unit::Amperes;
     }
     if (units == "Watts")
     {
-        return "power";
+        return Unit::Watts;
     }
     if (units == "Joules")
     {
-        return "energy";
+        return Unit::Joules;
     }
     if (units == "Percent")
     {
-        return "Utilization";
+        return Unit::Percent;
+    }
+    if (units == "CFM")
+    {
+        return Unit::CFM;
     }
     return "";
 }

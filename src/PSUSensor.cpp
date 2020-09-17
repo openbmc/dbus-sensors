@@ -31,8 +31,6 @@
 #include <string>
 #include <vector>
 
-static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
-
 static constexpr bool debug = false;
 
 PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
@@ -41,12 +39,12 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration,
-                     std::string& sensorTypeName, unsigned int factor,
-                     double max, double min, const std::string& label,
+                     unsigned int factor, double max, double min,
+                     std::string_view unit, const std::string& label,
                      size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
-           conn),
+           unit, conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
     sensorFactor(factor), minMaxReadCounter(0)
@@ -55,9 +53,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     {
         std::cerr << "Constructed sensor: path " << path << " type "
                   << objectType << " config " << sensorConfiguration
-                  << " typename " << sensorTypeName << " factor " << factor
-                  << " min " << min << " max " << max << " name \""
-                  << sensorName << "\"\n";
+                  << " factor " << factor << " min " << min << " max " << max
+                  << " name \"" << sensorName << "\"\n";
     }
 
     fd = open(path.c_str(), O_RDONLY);
@@ -68,7 +65,13 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     inputDev.assign(fd);
 
-    std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
+    std::string dbusPath = sensor_paths::getPathForUnits(unit);
+    if (dbusPath.empty())
+    {
+        std::cerr << "Units not in allow list\n";
+        return;
+    }
+    dbusPath += name;
 
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");

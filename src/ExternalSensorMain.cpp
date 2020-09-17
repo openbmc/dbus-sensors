@@ -199,8 +199,8 @@ void createSensors(
 
                 sensorEntry = std::make_shared<ExternalSensor>(
                     sensorType, objectServer, dbusConnection, sensorName,
-                    sensorMeasure, std::move(sensorThresholds), interfacePath,
-                    maxValue, minValue, readState);
+                    std::move(sensorThresholds), interfacePath, maxValue,
+                    minValue, sensor_paths::getUnits(sensorMeasure), readState);
             }
         });
 

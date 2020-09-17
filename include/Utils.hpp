@@ -79,6 +79,33 @@ enum class PowerState
     always
 };
 
+// Hardcoding enum-values of 'xyz.openbmc_project.Sensor.Value.Unit'
+// property by agreement that phosphor-dbus-interfaces won't be used as main
+// API engine. See disscusion
+// https://lists.ozlabs.org/pipermail/openbmc/2020-September/023103.html
+// https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/36579
+namespace Unit
+{
+static constexpr std::string_view DegreesC =
+    "xyz.openbmc_project.Sensor.Value.Unit.DegreesC";
+static constexpr std::string_view RPMS =
+    "xyz.openbmc_project.Sensor.Value.Unit.RPMS";
+static constexpr std::string_view Volts =
+    "xyz.openbmc_project.Sensor.Value.Unit.Volts";
+static constexpr std::string_view Meters =
+    "xyz.openbmc_project.Sensor.Value.Unit.Meters";
+static constexpr std::string_view Amperes =
+    "xyz.openbmc_project.Sensor.Value.Unit.Amperes";
+static constexpr std::string_view Watts =
+    "xyz.openbmc_project.Sensor.Value.Unit.Watts";
+static constexpr std::string_view Joules =
+    "xyz.openbmc_project.Sensor.Value.Unit.Joules";
+static constexpr std::string_view Percent =
+    "xyz.openbmc_project.Sensor.Value.Unit.Percent";
+static constexpr std::string_view CFM =
+    "xyz.openbmc_project.Sensor.Value.Unit.CFM";
+} // namespace Unit
+
 namespace mapper
 {
 constexpr const char* busName = "xyz.openbmc_project.ObjectMapper";

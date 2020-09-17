@@ -46,7 +46,7 @@ HwmonTempSensor::HwmonTempSensor(
     const std::string& sensorConfiguration, const PowerState powerState) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, maxReading,
-           minReading, conn, powerState),
+           minReading, Unit::DegreesC, conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))

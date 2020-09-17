@@ -18,9 +18,9 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               std::shared_ptr<sdbusplus::asio::connection>& conn,
               boost::asio::io_service& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
-              const std::string& sensorConfiguration,
-              std::string& sensorTypeName, unsigned int factor, double max,
-              double min, const std::string& label, size_t tSize);
+              const std::string& sensorConfiguration, unsigned int factor,
+              double max, double min, std::string_view unit,
+              const std::string& label, size_t tSize);
     ~PSUSensor() override;
     void setupRead(void);
 

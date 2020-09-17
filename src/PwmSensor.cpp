@@ -16,6 +16,7 @@
 #include <PwmSensor.hpp>
 #include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sensor.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -56,6 +57,8 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         pwmValue = static_cast<uint32_t>(pwmMax * (defaultPwm / 100.0));
         setValue(pwmValue);
     }
+    sensorInterface->register_property("Unit", Unit::Percent.data());
+
     double fValue = 100.0 * (static_cast<double>(pwmValue) / pwmMax);
     sensorInterface->register_property(
         "Value", fValue,
