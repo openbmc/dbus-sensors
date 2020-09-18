@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "723f6c0f_73c7112d",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-18T19:23:48Z",
+      "side": 1,
+      "message": "If we\u0027re going to impose this new dependency, we should really be consistent.  We expose a number of APIs in dbus-sensors that aren\u0027t pulled from phosphor-dbus-interfaces.  For better or worse, that insulates dbus-sensors somewhat from breaking API changes that have happened on sensors in the past.\n\nIf we\u0027re going to go this route (which I\u0027m not convinced is the right way) I\u0027d rather we be consistent about it, and use phosphor-dbus-interfaces for all our interfaces, not just this new one.\n\nUnfortunately, that would be a lot of work, and would involve reworking a lot of phosphor-dbus-interfaces to be more IO aware, which I\u0027m guessing you don\u0027t want to do.\n\nSo in this case, I\u0027m going to recommend doing what we\u0027ve done in similar cases, by simply adding the direct string values as the \"unit\" and passing that value around (as either a std::string or a const char*).  That drops the dependency on phosphor-dbus-interfaces again, and would simplify dbus-sensors as a whole.",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
