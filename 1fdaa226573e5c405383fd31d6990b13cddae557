@@ -22,6 +22,30 @@
       "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aebc2b9_3c0ad557",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-09-18T21:18:23Z",
+      "side": 1,
+      "message": "Ed,\nIf I understood correctly, you\u0027re tolking about using the hardcoding const stings, like\n\n``` \nconstexpr char * volts \u003d \"xyz.openbmc_project.Sensor.Value.Unit.Volts\";\n```\n\nOk, I\u0027m ready suggest a new patch set with following the recommendations for redressing the shortcomings identified, if there is no anybody objection. \n\nThanks.",
+      "parentUuid": "723f6c0f_73c7112d",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
