@@ -46,6 +46,53 @@
       "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78e1bbfd_ff579ddd",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2020-09-19T11:52:02Z",
+      "side": 1,
+      "message": "I prefer we use phosphor-dbus-interfaces everywhere we can: that is how it suppose to work, isn\u0027t it?\nBut if this is lit of refactoring, this should be separate patchset.",
+      "parentUuid": "4aebc2b9_3c0ad557",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705f30dc_26c27331",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2020-09-19T11:52:02Z",
+      "side": 1,
+      "message": "Don\u0027t like this kind of stubs. I prefer you to put CFM from the beginning and just wait until corresponding commit to phopsphor-dbus-interface is merged.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 3
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
