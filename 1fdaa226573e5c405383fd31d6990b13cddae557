@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "23743e76_6662f6dd",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-19T15:12:34Z",
+      "side": 1,
+      "message": "Igor, yes.  In this case, I suspect they might be inlined into each sensor, but I haven\u0027t actually tried it, so I\u0027m not sure how it ends up.\n\nAndrei,\n\nToday, dbus-sensors doesn\u0027t use phosphor-dbus-interfaces.  It was found to be a hindrance on development, and overall didn\u0027t provide the abstractions that dbus-sensors needed.  With that said, if you think it should, I\u0027m happy to have that discussion, especially if you\u0027re willing to put up the patchsets to move all of our APIs over to phosphor-dbus-interfaces, but that would very likely be outside the scope of this patch.  As is, having a single enum is not worth the dependency IMO.",
+      "parentUuid": "78e1bbfd_ff579ddd",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "705f30dc_26c27331",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 1
