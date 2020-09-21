@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "043a67b2_b08891da",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-09-21T17:12:18Z",
+      "side": 1,
+      "message": "I\u0027m with Ed on this one, I\u0027d prefer just to hardcode the string. Something like prefix \u003d \"xyz.openbmc_project.Sensor.Value.Unit.\" then you can just register \"Volts\" or something would make it pretty simple.",
+      "parentUuid": "23743e76_6662f6dd",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "705f30dc_26c27331",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 1
