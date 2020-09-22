@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "01b1ca6a_adac5ec6",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-09-22T00:29:12Z",
+      "side": 1,
+      "message": "Ok, I\u0027m was finish changing patch\u0027s ideology into hardcoded sensors value metrics.\nI must say, to be noticed at point, that using in dbus-sensors the interface \"xyz.openbmc_project.Sensor.Value\" still stay unhonest and continue gets bungles, because, for example, along with the present suggested patch coming changes that adds capability of CFMSensor to use \"xyz.openbmc_project.Sensor.Value.Unit.CFM\" unit metric. But phosphor-dbus-interface not provide this enum-value yet.\n\nIn future, we may well have setbacks if the phosphor-dbus-interface will be changed and in dbus-sensors this be unnoticed. This will be surprise for each dbus-consumers who\u0027d want to request Unit-property from a sensor, right?",
+      "parentUuid": "043a67b2_b08891da",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "705f30dc_26c27331",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 1
