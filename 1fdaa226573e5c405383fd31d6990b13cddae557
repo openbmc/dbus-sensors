@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "55eb4e2c_fc7f507b",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-22T16:07:57Z",
+      "side": 1,
+      "message": "Igor,\nBecause you took it to a level above Units;  If you want to use phosphor-dbus-interfaces in dbus-sensors, I\u0027d probably be ok with that, and it seems like the right thing long term, but implementing a single property using it seems like we\u0027re half relying on phosphor-dbus-interface, and I\u0027d rather not pull in the dependency for a single property.  If we\u0027re going to make the move over, I\u0027d like to see it done in a more coordinated manner.\n\n\nBrad,\nWe can certainly talk about it.  Off the top of my head from what I remember from a couple years back.\n1. Doesn\u0027t support async models, or delaying the return of a method call/property while another action completes.\n2. Doesn\u0027t support optional not-known-at-compile-time interfaces without generating every possible combination of interfaces in templates.\n3. Generated code is quite complex to read and debug\n4. The dbus \"object\" structures rely on inheritance and overridden functions, which are foreign to many embedded programmers.\n5. Doesn\u0027t support handling multiple responses in parallel.\n6. Relies on python with specific modules to function, making it much harder to build code out of the yocto tree for projects that have utility outside of OpenBMC\n7. Can change interfaces and enums \"silently\" without a review in the relevant daemon to add support for a new parameter.  (ex. a uint32 to int64 could cause an overflow, and needs re-reviewed).\n8. No mechanism for supporting optional enum states (ie, platform A supports PowerCycle, Platform B does not).\n9. Usage of exceptions in non-exceptional cases make code review, and writing correct code very difficult.  An option for return codes would be a significant improvement.\n10. Separates the implementation from the interface in a way that fewer people review the implementation.",
+      "parentUuid": "35811270_a243f4f2",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "705f30dc_26c27331",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 1
