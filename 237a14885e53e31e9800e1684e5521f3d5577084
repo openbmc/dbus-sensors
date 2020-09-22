@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee2d0c0a_bfebd14b",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-09-22T17:03:13Z",
+      "side": 1,
+      "message": "Pwm is not volts.. should be percent",
+      "range": {
+        "startLine": 61,
+        "startChar": 47,
+        "endLine": 61,
+        "endChar": 73
+      },
+      "revId": "237a14885e53e31e9800e1684e5521f3d5577084",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
