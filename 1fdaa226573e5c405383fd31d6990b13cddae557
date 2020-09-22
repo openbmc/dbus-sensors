@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "c06a17e2_e67cfea1",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-09-22T00:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01b1ca6a_adac5ec6",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "705f30dc_26c27331",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 1
