@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "35811270_a243f4f2",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2020-09-22T12:19:46Z",
+      "side": 1,
+      "message": "If there are problems with phosphor-dbus-interfaces we should make Patrick aware - I think he is keen to put the time into it to get them resolved so we can move past this never-ending conversation about dbus frameworks.",
+      "parentUuid": "70884a6a_cef57f4f",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "705f30dc_26c27331",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 1
