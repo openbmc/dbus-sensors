@@ -289,6 +289,30 @@
     },
     {
       "key": {
+        "uuid": "2556bda8_98dd74e7",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2020-09-23T19:09:00Z",
+      "side": 1,
+      "message": "\u003e Sure.  If you want, I can type up an email with more details and links on each (might take me a day or two).\n\nThis would be great Ed, thank you.  I\u0027m in no rush, so whenever you get around to it is fine.",
+      "parentUuid": "efd4229b_ada8dd60",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "1fdaa226573e5c405383fd31d6990b13cddae557",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "705f30dc_26c27331",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 1
