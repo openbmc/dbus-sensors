@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6dae00e6_6ada8961",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-09-23T16:25:20Z",
+      "side": 1,
+      "message": "Yes, Ipmb provides different sensors types. Below, will be redefining `sensor-\u003esensorUnit`, but by defailt will be using `Sensor::Unit::DegreesC`. This behavir comming from ideology that when sensors type are defines then in else-cases will be using\n```\nelse\n{\nsensor-\u003esubType \u003d IpmbSubType::temp;\n... \n}\n```\n(line 507)",
+      "parentUuid": "e9fc0e84_e6fc70ab",
+      "range": {
+        "startLine": 72,
+        "startChar": 27,
+        "endLine": 72,
+        "endChar": 49
+      },
+      "revId": "237a14885e53e31e9800e1684e5521f3d5577084",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e730ed89_9819a5eb",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c7e74920_fa5c97dc",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-09-23T16:25:20Z",
+      "side": 1,
+      "message": "Yep, I got it. I\u0027ll combined unit-metrics with it sensors here.\nThanks.",
+      "parentUuid": "e730ed89_9819a5eb",
+      "range": {
+        "startLine": 830,
+        "startChar": 0,
+        "endLine": 834,
+        "endChar": 6
+      },
+      "revId": "237a14885e53e31e9800e1684e5521f3d5577084",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee2d0c0a_bfebd14b",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2020-09-22T17:03:13Z",
       "side": 1,
       "message": "Pwm is not volts.. should be percent",
+      "range": {
+        "startLine": 61,
+        "startChar": 47,
+        "endLine": 61,
+        "endChar": 73
+      },
+      "revId": "237a14885e53e31e9800e1684e5521f3d5577084",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d60c722_41f85a4b",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-09-23T16:25:20Z",
+      "side": 1,
+      "message": "My bad, I\u0027ll fix this",
+      "parentUuid": "ee2d0c0a_bfebd14b",
       "range": {
         "startLine": 61,
         "startChar": 47,
