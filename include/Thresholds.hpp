@@ -47,6 +47,9 @@ void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert);
 
+void forceDeassertThresholds(Sensor* sensor, thresholds::Level level,
+                             thresholds::Direction direction);
+
 struct TimerUsed
 {
     bool used;

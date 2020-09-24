@@ -460,6 +460,17 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
 
 NVMeSensor::~NVMeSensor()
 {
+    // Destructor can be called when sensor interface changes
+    // like a new threshold value. Ensure LOW thresholds are de-asserted
+    // on destruction. These events can be missed if the new threshold
+    // value fixed the alarm because default state for new threshold
+    // interface is de-asserted.
+    for (auto& threshold : thresholds)
+    {
+        thresholds::forceDeassertThresholds(this, threshold.level,
+                                            threshold.direction);
+    }
+
     // close the input dev to cancel async operations
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);

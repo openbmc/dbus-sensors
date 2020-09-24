@@ -344,6 +344,7 @@ bool checkThresholds(Sensor* sensor)
 {
     bool status = true;
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
+
     for (const auto& change : changes)
     {
         assertThresholds(sensor, change.assertValue, change.threshold.level,
@@ -450,6 +451,14 @@ void assertThresholds(Sensor* sensor, double assertValue,
                 << "Failed to send thresholdAsserted signal with assertValue\n";
         }
     }
+}
+
+// Explicitely de-assert a threshold with existing sensor value
+// Should only be called on sensor desctruction
+void forceDeassertThresholds(Sensor* sensor, thresholds::Level level,
+                             thresholds::Direction direction)
+{
+    assertThresholds(sensor, sensor->value, level, direction, false);
 }
 
 bool parseThresholdsFromAttr(

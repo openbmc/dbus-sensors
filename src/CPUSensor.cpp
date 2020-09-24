@@ -99,6 +99,18 @@ CPUSensor::~CPUSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
+
+    // Destructor can be called when sensor interface changes
+    // like a new threshold value. Ensure LOW thresholds are de-asserted
+    // on destruction. These events can be missed if the new threshold
+    // value fixed the alarm because default state for new threshold
+    // interface is de-asserted.
+    for (auto& threshold : thresholds)
+    {
+        thresholds::forceDeassertThresholds(this, threshold.level,
+                                            threshold.direction);
+    }
+
     if (show)
     {
         objServer.remove_interface(thresholdInterfaceWarning);
