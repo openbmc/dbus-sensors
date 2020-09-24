@@ -27,6 +27,7 @@
 static constexpr size_t sysPwmMax = 255;
 static constexpr size_t psuPwmMax = 100;
 static constexpr double defaultPwm = 30.0;
+static constexpr size_t targetIfaceMax = 255;
 
 PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -99,7 +100,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     controlInterface->register_property(
         "Target", static_cast<uint64_t>(pwmValue),
         [this](const uint64_t& req, uint64_t& resp) {
-            if (req > pwmMax)
+            if (req > targetIfaceMax)
             {
                 throw std::runtime_error("Value out of range");
                 return -1;
@@ -108,7 +109,8 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             {
                 return 1;
             }
-            setValue(req);
+            setValue(
+                std::round(pwmMax * static_cast<double>(req) / targetIfaceMax));
             resp = req;
 
             sensorInterface->signal_property("Value");
@@ -117,6 +119,8 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         },
         [this](uint64_t& curVal) {
             uint64_t value = getValue();
+            value = static_cast<uint64_t>(std::round(
+                (static_cast<double>(value) / pwmMax) * targetIfaceMax));
             if (curVal != value)
             {
                 curVal = value;
