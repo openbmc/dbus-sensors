@@ -344,6 +344,7 @@ bool checkThresholds(Sensor* sensor)
 {
     bool status = true;
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
+
     for (const auto& change : changes)
     {
         assertThresholds(sensor, change.assertValue, change.threshold.level,
@@ -448,6 +449,67 @@ void assertThresholds(Sensor* sensor, double assertValue,
         {
             std::cerr
                 << "Failed to send thresholdAsserted signal with assertValue\n";
+        }
+    }
+}
+
+void forceDeassertThresholds(Sensor* sensor, thresholds::Level level,
+                             thresholds::Direction direction)
+{
+    std::string property;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
+    if (level == thresholds::Level::WARNING &&
+        direction == thresholds::Direction::HIGH)
+    {
+        property = "WarningAlarmHigh";
+        interface = sensor->thresholdInterfaceWarning;
+    }
+    else if (level == thresholds::Level::WARNING &&
+             direction == thresholds::Direction::LOW)
+    {
+        property = "WarningAlarmLow";
+        interface = sensor->thresholdInterfaceWarning;
+    }
+    else if (level == thresholds::Level::CRITICAL &&
+             direction == thresholds::Direction::HIGH)
+    {
+        property = "CriticalAlarmHigh";
+        interface = sensor->thresholdInterfaceCritical;
+    }
+    else if (level == thresholds::Level::CRITICAL &&
+             direction == thresholds::Direction::LOW)
+    {
+        property = "CriticalAlarmLow";
+        interface = sensor->thresholdInterfaceCritical;
+    }
+    else
+    {
+        std::cerr << "Unknown threshold, level " << level << "direction "
+                  << direction << "\n";
+        return;
+    }
+    if (!interface)
+    {
+        std::cout << "trying to set uninitialized interface\n";
+        return;
+    }
+
+    if (interface->set_property<bool, true>(property, false))
+    {
+        try
+        {
+            // msg.get_path() is interface->get_object_path()
+            sdbusplus::message::message msg =
+                interface->new_signal("ThresholdAsserted");
+
+            msg.append(sensor->name, interface->get_interface_name(), property,
+                       false, sensor->value);
+            msg.signal_send();
+        }
+        catch (const sdbusplus::exception::exception& e)
+        {
+            std::cerr << "Failed to send thresholdAsserted signal from forced "
+                         "de-assert\n";
         }
     }
 }
