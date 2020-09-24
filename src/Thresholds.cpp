@@ -344,6 +344,7 @@ bool checkThresholds(Sensor* sensor)
 {
     bool status = true;
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
+
     for (const auto& change : changes)
     {
         assertThresholds(sensor, change.assertValue, change.threshold.level,
@@ -392,7 +393,7 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
 
 void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
-                      bool assert)
+                      bool assert, bool force)
 {
     std::string property;
     std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
@@ -432,7 +433,9 @@ void assertThresholds(Sensor* sensor, double assertValue,
         return;
     }
 
-    if (interface->set_property<bool, true>(property, assert))
+    bool propertyChanged =
+        interface->set_property<bool, true>(property, assert);
+    if (force || propertyChanged)
     {
         try
         {
@@ -450,6 +453,14 @@ void assertThresholds(Sensor* sensor, double assertValue,
                 << "Failed to send thresholdAsserted signal with assertValue\n";
         }
     }
+}
+
+// Explicitely de-assert a threshold with existing sensor value
+// Should only be called on sensor desctruction
+void forceDeassertThresholds(Sensor* sensor, thresholds::Level level,
+                             thresholds::Direction direction)
+{
+    assertThresholds(sensor, sensor->value, level, direction, false, true);
 }
 
 bool parseThresholdsFromAttr(
