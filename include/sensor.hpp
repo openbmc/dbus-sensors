@@ -312,6 +312,19 @@ struct Sensor
             operationalInterface->register_property("Functional", true);
             operationalInterface->initialize();
         }
+
+        // Sensor can be reconstructed when sensor configuration changes
+        // like a new threshold value. Threshold deassert can be missed
+        // if the new threshold value fixes the alarm because
+        // default state for new threshold interface is de-asserted.
+        // Send threshold de-assert message during initialization to
+        // ensure de-assert events are logged if there is an active assert
+        // event.
+        for (auto& threshold : thresholds)
+        {
+            thresholds::forceDeassertThresholds(this, threshold.level,
+                                                threshold.direction);
+        }
     }
 
     bool readingStateGood()

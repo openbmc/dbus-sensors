@@ -88,6 +88,7 @@ ADCSensor::~ADCSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
+
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
