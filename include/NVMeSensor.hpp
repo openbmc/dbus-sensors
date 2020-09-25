@@ -3,6 +3,7 @@
 #include <libmctp-smbus.h>
 #include <libmctp.h>
 
+#include <boost/asio/ip/tcp.hpp>
 #include <sensor.hpp>
 
 class NVMeSensor : public Sensor
