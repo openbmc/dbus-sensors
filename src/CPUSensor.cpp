@@ -56,7 +56,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     {
         if (auto fileParts = splitFileName(path))
         {
-            auto [type, nr, item] = *fileParts;
+            auto& [type, nr, item] = *fileParts;
             std::string interfacePath;
             if (type.compare("power") == 0)
             {
@@ -162,13 +162,13 @@ void CPUSensor::updateMinMaxValues(void)
 
     if (auto fileParts = splitFileName(path))
     {
-        auto [fileType, fileNr, fileItem] = *fileParts;
+        auto& [fileType, fileNr, fileItem] = *fileParts;
         const auto mapIt = map.find(fileItem);
         if (mapIt != map.cend())
         {
             for (const auto& vectorItem : mapIt->second)
             {
-                auto [suffix, oldValue, dbusName] = vectorItem;
+                auto &[suffix, oldValue, dbusName] = vectorItem;
                 auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
                 if (auto newVal =
                         readFile(attrPath, CPUSensor::sensorScaleFactor))
