@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c546b700_158c309a",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-09-28T03:47:38Z",
+      "side": 1,
+      "message": "Please don\u0027t.  One enum is not worth the dependency on phosphor-dbus-interfaces.\n\nI\u0027m happy to have the \"why doesn\u0027t dbus-sensors use phosphor-dbus-interfaces\" discussion, but not as part of this patch.",
+      "parentUuid": "fa7a51ca_d44d35c3",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "237a14885e53e31e9800e1684e5521f3d5577084",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9fc0e84_e6fc70ab",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
