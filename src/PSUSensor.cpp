@@ -103,7 +103,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
 
     if (auto fileParts = splitFileName(path))
     {
-        auto [type, nr, item] = *fileParts;
+        auto& [type, nr, item] = *fileParts;
         if (item.compare("input") == 0)
         {
             pathRatedMax = boost::replace_all_copy(path, item, "rated_max");

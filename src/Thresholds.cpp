@@ -480,12 +480,12 @@ bool parseThresholdsFromAttr(
 
     if (auto fileParts = splitFileName(inputPath))
     {
-        auto [type, nr, item] = *fileParts;
+        auto& [type, nr, item] = *fileParts;
         if (map.count(item) != 0)
         {
             for (const auto& t : map.at(item))
             {
-                auto [suffix, level, direction, offset] = t;
+                auto& [suffix, level, direction, offset] = t;
                 auto attrPath =
                     boost::replace_all_copy(inputPath, item, suffix);
                 if (auto val = readFile(attrPath, scaleFactor))

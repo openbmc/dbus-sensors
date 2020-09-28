@@ -312,7 +312,7 @@ bool createSensors(boost::asio::io_service& io,
             {
                 continue;
             }
-            auto [type, nr, item] = *fileParts;
+            auto& [type, nr, item] = *fileParts;
             auto inputPathStr = inputPath.string();
             auto labelPath =
                 boost::replace_all_copy(inputPathStr, item, "label");
