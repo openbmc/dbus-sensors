@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "77429dde_5fdf5bd7",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-09-29T23:39:02Z",
+      "side": 1,
+      "message": "Added to other sensors also. One side effect of this approach is that there can be an extra toggle on thresholds because of unrelated configuration change. But the threshold don\u0027t get stuck in the wrong state.",
+      "parentUuid": "dd61bdee_cbebacaa",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 5
+      },
+      "revId": "8990f3d3d3d74c0bed2c0920073e1ecfd4ff422d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ab4d005_6b4b1e9b",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "True. I wanted to make sure the intention of the function is clear, so it is hard to use it in-correctly. There might be a way to do it without duplicating the code.",
       "parentUuid": "2ab4d005_6b4b1e9b",
+      "range": {
+        "startLine": 456,
+        "startChar": 0,
+        "endLine": 515,
+        "endChar": 1
+      },
+      "revId": "8990f3d3d3d74c0bed2c0920073e1ecfd4ff422d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "491fa38c_2181b9ec",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-09-29T23:39:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "746b1c5c_134cda48",
       "range": {
         "startLine": 456,
         "startChar": 0,
