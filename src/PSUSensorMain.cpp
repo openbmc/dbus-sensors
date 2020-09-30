@@ -840,6 +840,7 @@ void propertyInitialize(void)
                   {"vout14", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout15", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout16", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vout17", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"in1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
