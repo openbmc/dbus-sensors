@@ -48,7 +48,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
-    minMaxReadCounter(0)
+    minMaxReadCounter(0), thresholdTimer(io, this)
 {
     nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);
@@ -292,6 +292,11 @@ void CPUSensor::checkThresholds(void)
 {
     if (show)
     {
-        thresholds::checkThresholds(this);
+        if (!readingStateGood())
+        {
+            return;
+        }
+
+        thresholds::checkThresholdsPowerDelay(this, thresholdTimer);
     }
 }

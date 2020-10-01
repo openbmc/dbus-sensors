@@ -364,29 +364,28 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
     for (const auto& change : changes)
     {
-        // When CPU is powered off, some volatges are expected to
-        // go below low thresholds. Filter these events with thresholdTimer.
-        // 1. always delay the assertion of low events to see if they are
-        //   caused by power off event.
-        // 2. conditional delay the de-assertion of low events if there is
-        //   an existing timer for assertion.
-        // 3. no delays for de-assert of low events if there is an existing
-        //   de-assert for low event. This means 2nd de-assert would happen
-        //   first and when timer expires for the previous one, no additional
-        //   signal will be logged.
-        // 4. no delays for all high events.
-        if (change.threshold.direction == thresholds::Direction::LOW)
+        // When CPU is powered off, some voltages are expected to
+        // go below low thresholds.
+        // Some CPU sensors may appear to be high during the CPU reset.
+        // Delay the threshold check to let CPU power status gets updated first.
+        // 1. If there is already a timer for the same event,
+        //    but not the opposite event, do nothing.
+        // 2. Add a delay timer for this event when
+        //    a) There is already a timer for the same event and a timer for
+        //    opposite event
+        //    b) There is a timer for the opposite event only
+        //    c) There is no timer for this threshold
+        // This would ensure that any "pulse" event is logged and
+        // last log represents the latest reading
+
+        if (thresholdTimer.hasActiveTimer(change.threshold, change.asserted) &&
+            !thresholdTimer.hasActiveTimer(change.threshold, !change.asserted))
         {
-            if (change.asserted || thresholdTimer.hasActiveTimer(
-                                       change.threshold, !change.asserted))
-            {
-                thresholdTimer.startTimer(change.threshold, change.asserted,
-                                          change.assertValue);
-                continue;
-            }
+            continue; // case 1
         }
-        assertThresholds(sensor, change.assertValue, change.threshold.level,
-                         change.threshold.direction, change.asserted);
+
+        thresholdTimer.startTimer(change.threshold, change.asserted,
+                                  change.assertValue);
     }
 }
 
@@ -429,6 +428,16 @@ void assertThresholds(Sensor* sensor, double assertValue,
     if (!interface)
     {
         std::cout << "trying to set uninitialized interface\n";
+        return;
+    }
+
+    // readingState is verified before sensor read,
+    // but it can change during sensor read
+    // and return an incorrect value
+    if (assert && !sensor->readingStateGood())
+    {
+        std::cout << "bad readingState, ignore theshold assert " << sensor->name
+                  << " assert value " << assertValue << "\n";
         return;
     }
 
