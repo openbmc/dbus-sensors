@@ -50,6 +50,7 @@ class CPUSensor : public Sensor
     uint8_t minMaxReadCounter;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
+    thresholds::ThresholdTimer thresholdTimer;
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
 };
