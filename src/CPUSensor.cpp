@@ -292,6 +292,18 @@ void CPUSensor::checkThresholds(void)
 {
     if (show)
     {
-        thresholds::checkThresholds(this);
+        // give the power match callback to have a chance to run
+        // checkThresholds checks for host power state
+        auto timer = std::make_shared<boost::asio::steady_timer>(
+            dbusConnection->get_io_context());
+        timer->expires_after(std::chrono::milliseconds(100));
+        timer->async_wait([this, timer](boost::system::error_code ec) {
+            if (ec)
+            {
+                // log the error but still check the thresholds
+                std::cerr << "Cpu sensor threshold timer error!\n";
+            }
+            thresholds::checkThresholds(this);
+        });
     }
 }

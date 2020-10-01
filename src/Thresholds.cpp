@@ -432,6 +432,16 @@ void assertThresholds(Sensor* sensor, double assertValue,
         return;
     }
 
+    // readingState is verified before sensor read,
+    // but it can change during sensor read
+    // and return an incorrect value
+    if (assert && !sensor->readingStateGood())
+    {
+        std::cout << "bad readingState, ignore theshold assert " << sensor->name
+                  << " assert value " << assertValue << "\n";
+        return;
+    }
+
     if (interface->set_property<bool, true>(property, assert))
     {
         try
