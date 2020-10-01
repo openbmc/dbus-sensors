@@ -46,6 +46,30 @@
       "revId": "32047ef7a5b70e8c610d51113ebdbef8167809b3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc1ef754_3d5d05d9",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2020-10-01T19:54:57Z",
+      "side": 1,
+      "message": "+1 Josh,\nJames , is it acceptable to add vout17 for now.. remove vout18...32 and then leave it up to a future patch to play around with using a regex for labels?",
+      "parentUuid": "3a86a7d6_f3daadf2",
+      "range": {
+        "startLine": 843,
+        "startChar": 24,
+        "endLine": 843,
+        "endChar": 27
+      },
+      "revId": "32047ef7a5b70e8c610d51113ebdbef8167809b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
