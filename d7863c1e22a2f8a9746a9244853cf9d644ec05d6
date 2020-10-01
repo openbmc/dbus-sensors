@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "429ede48_9e632da9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2020-10-01T05:35:58Z",
+      "side": 1,
+      "message": "I\u0027d say \"add \u0027Unit\u0027 property for sensors\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "d7863c1e22a2f8a9746a9244853cf9d644ec05d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13c88c6c_d5a9cd76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2020-10-01T05:35:58Z",
+      "side": 1,
+      "message": "remove \u0027be\u0027",
+      "range": {
+        "startLine": 11,
+        "startChar": 64,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "d7863c1e22a2f8a9746a9244853cf9d644ec05d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9b059c5_94a094de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2020-10-01T05:35:58Z",
+      "side": 1,
+      "message": "Keep it simple:\nall \u0027Unit\u0027 values are hardcoded\n)",
+      "range": {
+        "startLine": 17,
+        "startChar": 9,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "d7863c1e22a2f8a9746a9244853cf9d644ec05d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35574457_198d8452",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2020-10-01T05:35:58Z",
+      "side": 1,
+      "message": "Sorry, but what? It\u0027s better to not set interface at all then to set wrong value without any FIXME warnings.",
+      "range": {
+        "startLine": 169,
+        "startChar": 26,
+        "endLine": 169,
+        "endChar": 38
+      },
+      "revId": "d7863c1e22a2f8a9746a9244853cf9d644ec05d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
