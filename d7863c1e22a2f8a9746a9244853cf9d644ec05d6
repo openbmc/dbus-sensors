@@ -91,6 +91,30 @@
       "revId": "d7863c1e22a2f8a9746a9244853cf9d644ec05d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f00d31d_5d9c3f4d",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-10-01T09:53:57Z",
+      "side": 1,
+      "message": "I\u0027ll just keep here \"CFM\" metric unit. The transition to the m^3/s or L/s should be a separate change.",
+      "parentUuid": "35574457_198d8452",
+      "range": {
+        "startLine": 169,
+        "startChar": 26,
+        "endLine": 169,
+        "endChar": 38
+      },
+      "revId": "d7863c1e22a2f8a9746a9244853cf9d644ec05d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
