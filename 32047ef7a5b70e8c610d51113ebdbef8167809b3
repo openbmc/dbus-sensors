@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5a69e99_4e347f12",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-10-01T02:02:49Z",
+      "side": 1,
+      "message": "this is getting a bit insane... should we consider vout\\d+?",
+      "range": {
+        "startLine": 843,
+        "startChar": 24,
+        "endLine": 843,
+        "endChar": 27
+      },
+      "revId": "32047ef7a5b70e8c610d51113ebdbef8167809b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
