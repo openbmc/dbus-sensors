@@ -94,6 +94,30 @@
       "revId": "32047ef7a5b70e8c610d51113ebdbef8167809b3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a5daaac_58910129",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-10-02T20:46:21Z",
+      "side": 1,
+      "message": "agreed, it probably needs to be fixed for all types",
+      "parentUuid": "4b2b842d_bf5f6909",
+      "range": {
+        "startLine": 843,
+        "startChar": 24,
+        "endLine": 843,
+        "endChar": 27
+      },
+      "revId": "32047ef7a5b70e8c610d51113ebdbef8167809b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
