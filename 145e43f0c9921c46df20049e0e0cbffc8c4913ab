@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f4ecf5_04e79127",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-10-05T17:37:46Z",
+      "side": 1,
+      "message": "string view is normally passed by value as its considered small",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 49
+      },
+      "revId": "145e43f0c9921c46df20049e0e0cbffc8c4913ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b843b21_10d8a7fd",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000164
+      },
+      "writtenOn": "2020-10-05T17:37:46Z",
+      "side": 1,
+      "message": "by value",
+      "range": {
+        "startLine": 46,
+        "startChar": 45,
+        "endLine": 46,
+        "endChar": 73
+      },
+      "revId": "145e43f0c9921c46df20049e0e0cbffc8c4913ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
