@@ -61,6 +61,9 @@ static constexpr double cfmMinReading = 0;
 
 static constexpr size_t minSystemCfm = 50;
 
+constexpr const std::array<const char*, 2> monitorIfaces = {exitAirIface,
+                                                            cfmIface};
+
 static std::vector<std::shared_ptr<CFMSensor>> cfmSensors;
 
 static void setupSensorMatch(
@@ -827,14 +830,10 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         std::cerr << "Connection not created\n";
         return;
     }
-    dbusConnection->async_method_call(
-        [&](boost::system::error_code ec, const ManagedObjectType& resp) {
-            if (ec)
-            {
-                std::cerr << "Error contacting entity manager\n";
-                return;
-            }
-
+    auto getter = std::make_shared<GetSensorConfiguration>(
+        dbusConnection,
+        std::move([&objectServer, &dbusConnection,
+                   &exitAirSensor](const ManagedObjectType& resp) {
             cfmSensors.clear();
             for (const auto& pathPair : resp)
             {
@@ -908,9 +907,9 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                 exitAirSensor->setupMatches();
                 exitAirSensor->updateReading();
             }
-        },
-        entityManagerName, "/", "org.freedesktop.DBus.ObjectManager",
-        "GetManagedObjects");
+        }));
+    getter->getConfiguration(
+        std::vector<std::string>(monitorIfaces.begin(), monitorIfaces.end()));
 }
 
 int main()
@@ -944,8 +943,6 @@ int main()
                 }
             });
         };
-    constexpr const std::array<const char*, 2> monitorIfaces = {exitAirIface,
-                                                                cfmIface};
     for (const char* type : monitorIfaces)
     {
         auto match = std::make_unique<sdbusplus::bus::match::match>(
