@@ -61,6 +61,8 @@ static std::vector<std::string> pmbusNames = {
     "isl68220", "max16601", "max20730", "max20734", "max20796",
     "max34451", "pmbus",    "pxe1610",  "raa228228"};
 
+static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
+
 namespace fs = std::filesystem;
 
 static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
@@ -87,10 +89,11 @@ static std::vector<PSUProperty> psuProperties;
 // sysfs. If the attributes exists in sysfs, then store the complete path
 // of the attribute into eventPathList.
 void checkEvent(
-    const std::string& directory,
+    const std::string& directory, const std::string& dbusName,
     const boost::container::flat_map<std::string, std::vector<std::string>>&
         eventMatch,
-    boost::container::flat_map<std::string, std::vector<std::string>>&
+    boost::container::flat_map<
+        std::string, std::vector<std::pair<std::string, std::string>>>&
         eventPathList)
 {
     for (const auto& match : eventMatch)
@@ -107,7 +110,8 @@ void checkEvent(
                 continue;
             }
 
-            eventPathList[eventName].push_back(eventPath);
+            eventPathList[eventName].push_back(
+                std::make_pair(dbusName, eventPath));
         }
     }
 }
@@ -115,14 +119,15 @@ void checkEvent(
 // Check Group Events which contains more than one targets in each combine
 // events.
 void checkGroupEvent(
-    const std::string& directory,
+    const std::string& directory, const std::string& dbusName,
     const boost::container::flat_map<
         std::string,
         boost::container::flat_map<std::string, std::vector<std::string>>>&
         groupEventMatch,
     boost::container::flat_map<
         std::string,
-        boost::container::flat_map<std::string, std::vector<std::string>>>&
+        boost::container::flat_map<
+            std::string, std::vector<std::pair<std::string, std::string>>>>&
         groupEventPathList)
 {
     for (const auto& match : groupEventMatch)
@@ -130,7 +135,8 @@ void checkGroupEvent(
         const std::string& groupEventName = match.first;
         const boost::container::flat_map<std::string, std::vector<std::string>>
             events = match.second;
-        boost::container::flat_map<std::string, std::vector<std::string>>
+        boost::container::flat_map<
+            std::string, std::vector<std::pair<std::string, std::string>>>
             pathList;
         for (const auto& match : events)
         {
@@ -145,7 +151,8 @@ void checkGroupEvent(
                     continue;
                 }
 
-                pathList[eventName].push_back(eventPath);
+                pathList[eventName].push_back(
+                    std::make_pair(dbusName, eventPath));
             }
         }
         groupEventPathList[groupEventName] = pathList;
@@ -157,10 +164,11 @@ void checkGroupEvent(
 // xxx_min_alarm exist, then store the existing paths of the alarm attributes
 // to eventPathList.
 void checkEventLimits(
-    const std::string& sensorPathStr,
+    const std::string& sensorPathStr, const std::string& dbusName,
     const boost::container::flat_map<std::string, std::vector<std::string>>&
         limitEventMatch,
-    boost::container::flat_map<std::string, std::vector<std::string>>&
+    boost::container::flat_map<
+        std::string, std::vector<std::pair<std::string, std::string>>>&
         eventPathList)
 {
     for (const auto& limitMatch : limitEventMatch)
@@ -176,7 +184,8 @@ void checkEventLimits(
             {
                 continue;
             }
-            eventPathList[eventName].push_back(limitEventPath);
+            eventPathList[eventName].push_back(
+                std::make_pair(dbusName, limitEventPath));
         }
     }
 }
@@ -248,11 +257,13 @@ void createSensors(boost::asio::io_service& io,
     boost::container::flat_set<std::string> directories;
     for (const auto& pmbusPath : pmbusPaths)
     {
-        boost::container::flat_map<std::string, std::vector<std::string>>
+        boost::container::flat_map<
+            std::string, std::vector<std::pair<std::string, std::string>>>
             eventPathList;
         boost::container::flat_map<
             std::string,
-            boost::container::flat_map<std::string, std::vector<std::string>>>
+            boost::container::flat_map<
+                std::string, std::vector<std::pair<std::string, std::string>>>>
             groupEventPathList;
 
         std::ifstream nameFile(pmbusPath);
@@ -400,8 +411,9 @@ void createSensors(boost::asio::io_service& io,
             std::cerr << "Cannot find psu name, invalid configuration\n";
             continue;
         }
-        checkEvent(directory.string(), eventMatch, eventPathList);
-        checkGroupEvent(directory.string(), groupEventMatch,
+        checkEvent(directory.string(), std::string{""}, eventMatch,
+                   eventPathList);
+        checkGroupEvent(directory.string(), std::string{""}, groupEventMatch,
                         groupEventPathList);
 
         /* Check if there are more sensors in the same interface */
@@ -697,8 +709,6 @@ void createSensors(boost::asio::io_service& io,
                 }
             }
 
-            checkEventLimits(sensorPathStr, limitEventMatch, eventPathList);
-
             // Similarly, if sensor scaling factor is being customized,
             // then the below power-of-10 constraint becomes unnecessary,
             // as config should be able to specify an arbitrary divisor.
@@ -779,6 +789,14 @@ void createSensors(boost::asio::io_service& io,
                           << sensorPathStr << "\" type \"" << sensorType
                           << "\"\n";
             }
+
+            // /xyz/openbmc_project/sensors/<type>/<custom_json_name>
+            std::string dbusName =
+                sensorPathPrefix + findSensorType->second +
+                boost::replace_all_copy(sensorName, " ", "_");
+
+            checkEventLimits(sensorPathStr, dbusName, limitEventMatch,
+                             eventPathList);
 
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
