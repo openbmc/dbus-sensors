@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7417c556_19d55ff8",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-08T16:28:55Z",
+      "side": 1,
+      "message": "I guess that\u0027s a good point.  Sure, fine as-is.",
+      "parentUuid": "4ad3edfc_e348cdf9",
+      "range": {
+        "startLine": 23,
+        "startChar": 26,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "479d3e55_be5c6871",
         "filename": "include/sensor.hpp",
         "patchSetId": 10
@@ -143,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "b20b9532_688e942f",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-08T16:28:55Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure that changing of sensorUnit property at construct object stage is only one problem. Let\u0027s look to initializing `interfacePath` by type or adjust thresholds, even in CPUSensor case. I\u0027m think that change of sesnorUnit is small of many evils, because by natural of self, this is must be the CPU sensor, but with a large of wish a can\u0027t name it so. Follow of saing, on the half way to construct CPU object we having change sensorUnit by incoming type which change a purpose of the entire object. \n\u003e \n\u003e Summary, I\u0027m sure that described changes are part of the not-well design OOP. \n\u003e Note: I am ready to do work in this direction, if we can define an entrypoint for that.\n\nThe other thought I had: what if we removed it from the Sensor constructor, and just made it a protected member that\u0027s set during the derived constructor.  Then:\n1. The Sensor constructor gets smaller (it\u0027s already too big).\n2. We\u0027re being consistent in every sensor about where we set units.\n3. We don\u0027t have to do a major refactor.\n\n\nWhat do you think?",
+      "parentUuid": "f8c89897_68485669",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a8a521d_f79612aa",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 10
@@ -190,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "046b7db3_309c6eaa",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-08T16:28:55Z",
+      "side": 1,
+      "message": "As a general rule, it obfuscates the actual type, and provides negligible safety.  IMO you\u0027re better off letting your variable name describe your type.",
+      "parentUuid": "e31da852_a9d0edab",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 36
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1369fe2_51cacfdc",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 10
@@ -225,6 +297,30 @@
       "side": 1,
       "message": "What is bad to use the tuple in this case. Should I implement real struct or can use a std::pair? I\u0027m not end-understand this remark",
       "parentUuid": "c1369fe2_51cacfdc",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 58
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be94d00e_d27c1566",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-08T16:28:55Z",
+      "side": 1,
+      "message": "Tuple is generally used when you need do do some template-level introspection on your data type, or want to use some of its base features to reduce code, like std::equals overloads.  Same thing (to a much lesser extent) with std::pair.  Because of the nature of tuple, it also means that the code gets peppered with:\n\nstd::get\u003c0\u003e(mySensor);\ncalls in a lot of places.  0 is a magic number, and needs looked up when reading the code to find the type.\n\nIf this were a struct, it would be\n\nstruct SensorMetadata{\n    std::string type;\n    std::string unit;\n}\n\nWhich means the code that uses it calls:\n\nmySensor.type;\nWhich is much more clear than the std::get equivalent.",
+      "parentUuid": "66ba141d_5cacd781",
       "range": {
         "startLine": 68,
         "startChar": 0,
