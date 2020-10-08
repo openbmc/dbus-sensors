@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ad3edfc_e348cdf9",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-10-08T06:42:34Z",
+      "side": 1,
+      "message": "Are you sure that const object of string_view is necessary? I\u0027d say when using reference to object the `const` is welcome. The std::string_view already allows only reading operation the string value. May I ask to check again to be sure, thanks",
+      "parentUuid": "c4b63213_4189a774",
+      "range": {
+        "startLine": 23,
+        "startChar": 26,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "479d3e55_be5c6871",
         "filename": "include/sensor.hpp",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2020-10-08T04:08:08Z",
       "side": 1,
       "message": "Please check out COMMON_ERRORS.md  This is one of them.",
+      "range": {
+        "startLine": 122,
+        "startChar": 62,
+        "endLine": 122,
+        "endChar": 66
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a576e685_27cc5f3c",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-10-08T06:42:34Z",
+      "side": 1,
+      "message": "Sure, I got it, thanks",
+      "parentUuid": "479d3e55_be5c6871",
       "range": {
         "startLine": 122,
         "startChar": 62,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f8c89897_68485669",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-10-08T06:42:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure that changing of sensorUnit property at construct object stage is only one problem. Let\u0027s look to initializing `interfacePath` by type or adjust thresholds, even in CPUSensor case. I\u0027m think that change of sesnorUnit is small of many evils, because by natural of self, this is must be the CPU sensor, but with a large of wish a can\u0027t name it so. Follow of saing, on the half way to construct CPU object we having change sensorUnit by incoming type which change a purpose of the entire object. \n\nSummary, I\u0027m sure that described changes are part of the not-well design OOP. \nNote: I am ready to do work in this direction, if we can define an entrypoint for that.",
+      "parentUuid": "4925622f_d8b131ea",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a8a521d_f79612aa",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 10
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "e31da852_a9d0edab",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-10-08T06:42:34Z",
+      "side": 1,
+      "message": "I was thinking that using aliases by \"using\" directive adds more clearly a meaning of a declaring type. But, ok, I\u0027ll change to inline std::string_view, if your wish, Thanks",
+      "parentUuid": "1a8a521d_f79612aa",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 36
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1369fe2_51cacfdc",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 10
@@ -105,6 +201,30 @@
       "writtenOn": "2020-10-08T04:08:08Z",
       "side": 1,
       "message": "Please make this a proper struct.  Tuple is not necessary here.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 58
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ba141d_5cacd781",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-10-08T06:42:34Z",
+      "side": 1,
+      "message": "What is bad to use the tuple in this case. Should I implement real struct or can use a std::pair? I\u0027m not end-understand this remark",
+      "parentUuid": "c1369fe2_51cacfdc",
       "range": {
         "startLine": 68,
         "startChar": 0,
