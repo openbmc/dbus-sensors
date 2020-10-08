@@ -18,6 +18,7 @@
 
 #include <systemd/sd-journal.h>
 
+#include <boost/algorithm/string.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
@@ -36,11 +37,13 @@ PSUCombineEvent::PSUCombineEvent(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& psuName,
-    boost::container::flat_map<std::string, std::vector<std::string>>&
+    const boost::container::flat_map<
+        std::string, std::vector<std::pair<std::string, std::string>>>&
         eventPathList,
-    boost::container::flat_map<
+    const boost::container::flat_map<
         std::string,
-        boost::container::flat_map<std::string, std::vector<std::string>>>&
+        boost::container::flat_map<
+            std::string, std::vector<std::pair<std::string, std::string>>>>&
         groupEventPathList,
     const std::string& combineEventName) :
     objServer(objectServer)
@@ -66,11 +69,11 @@ PSUCombineEvent::PSUCombineEvent(
 
         const std::string& eventName = pathList.first;
         std::string eventPSUName = eventName + psuName;
-        for (const auto& path : pathList.second)
+        for (const auto& namedPath : pathList.second)
         {
             auto p = std::make_shared<PSUSubEvent>(
-                eventInterface, path, conn, io, eventName, eventName, assert,
-                combineEvent, state, psuName);
+                eventInterface, namedPath.second, namedPath.first, conn, io,
+                eventName, eventName, assert, combineEvent, state, psuName);
             p->setupRead();
 
             events[eventPSUName].emplace_back(p);
@@ -89,11 +92,12 @@ PSUCombineEvent::PSUCombineEvent(
 
             const std::string& groupEventName = pathList.first;
             std::string eventPSUName = groupEventName + psuName;
-            for (const auto& path : pathList.second)
+            for (const auto& namedPath : pathList.second)
             {
                 auto p = std::make_shared<PSUSubEvent>(
-                    eventInterface, path, conn, io, groupEventName,
-                    groupPathList.first, assert, combineEvent, state, psuName);
+                    eventInterface, namedPath.second, namedPath.first, conn, io,
+                    groupEventName, groupPathList.first, assert, combineEvent,
+                    state, psuName);
                 p->setupRead();
                 events[eventPSUName].emplace_back(p);
 
@@ -138,7 +142,8 @@ static boost::container::flat_map<std::string,
 
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
-    const std::string& path, std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::string& path, const std::string& dbusPath,
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& groupEventName,
     const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
@@ -148,7 +153,7 @@ PSUSubEvent::PSUSubEvent(
     eventInterface(eventInterface), asserts(asserts),
     combineEvent(combineEvent), assertState(state), errCount(0), path(path),
     eventName(eventName), waitTimer(io), inputDev(io), psuName(psuName),
-    groupEventName(groupEventName), systemBus(conn)
+    groupEventName(groupEventName), systemBus(conn), dbusPath(dbusPath)
 {
     fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
@@ -262,6 +267,137 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
     });
 }
 
+namespace
+{
+
+// ID string that phosphor-ipmi-host filters with for SEL entries.
+// Defined in phosphor-ipmi-host/selutility.hpp
+static constexpr const char* selMessageId = "b370836ccf2f4850ac5bee185b77893a";
+
+// selInvalidRecID defaults to "-1" (unsigned) so that the increment will
+// bump it to 0.
+static constexpr uint16_t selInvalidRecID = static_cast<uint16_t>(65535U);
+
+// SEL record type is defined in the IPMI spec, S32.1, table 32-1
+// (SEL Event Record)
+static constexpr uint8_t selSystemType = 0x02;
+
+static unsigned int getLatestRecordId()
+{
+    // Open the journal
+    sd_journal* journalTmp = nullptr;
+    if (sd_journal_open(&journalTmp, SD_JOURNAL_LOCAL_ONLY) < 0)
+    {
+        return selInvalidRecID;
+    }
+    std::unique_ptr<sd_journal, decltype(&sd_journal_close)> journal(
+        journalTmp, sd_journal_close);
+    journalTmp = nullptr;
+
+    // Filter the journal based on the SEL MESSAGE_ID
+    std::string match = "MESSAGE_ID=" + std::string(selMessageId);
+    sd_journal_add_match(journal.get(), match.c_str(), 0);
+
+    // Find the newest SEL entry's ID
+    if (sd_journal_seek_tail(journal.get()) < 0)
+    {
+        return selInvalidRecID;
+    }
+    if (sd_journal_previous(journal.get()) > 0)
+    {
+        return selInvalidRecID;
+    }
+
+    // Read the field data
+    const void* data = nullptr;
+    size_t length = 0;
+    if (sd_journal_get_data(journal.get(), "IPMI_SEL_RECORD_ID", &data,
+                            &length) < 0)
+    {
+        return selInvalidRecID;
+    }
+
+    // Extract the record_id value
+    std::string_view record_id_field(static_cast<const char*>(data), length);
+    // Only use the content after the "=" character.
+    record_id_field.remove_prefix(
+        std::min(record_id_field.find("=") + 1, record_id_field.size()));
+    unsigned long record_id;
+    try
+    {
+        record_id = std::stoul(std::string(record_id_field), nullptr, 10);
+    }
+    catch (std::invalid_argument& e)
+    {
+        return selInvalidRecID;
+    }
+    catch (std::out_of_range& e)
+    {
+        return selInvalidRecID;
+    }
+
+    // Range check
+    if (record_id < 1 || record_id >= selInvalidRecID)
+    {
+        return selInvalidRecID;
+    }
+
+    return static_cast<unsigned int>(record_id);
+}
+
+static unsigned int getNewRecordId(void)
+{
+    static unsigned int recordId = getLatestRecordId();
+    if (++recordId >= selInvalidRecID)
+    {
+        recordId = 1;
+    }
+    return recordId;
+}
+
+// The event trigger fields values are defined in the IPMI spec, S32.1, and
+// detailed table 29-6 (Event Request Message Event Data Field Contents).
+// The generic codes for the event data field are defined in table 42-2
+// (Generic Event/Reading Type Codes).
+//
+// In this case, we're always using generic event codes and no sensor-specific
+// data, which corresponds to a value of 0xFFFF0_, which the low nibble of byte
+// 0 defines the generic event.
+//
+// Since we need to convert the data to a hex string anyway, just store them as
+// chars to drop into a fixed string.
+static constexpr char IPMI_EVENT_TRIGGER_LOWER_WARN = '0';
+static constexpr char IPMI_EVENT_TRIGGER_LOWER_CRIT = '2';
+static constexpr char IPMI_EVENT_TRIGGER_UPPER_WARN = '7';
+static constexpr char IPMI_EVENT_TRIGGER_UPPER_CRIT = '9';
+static constexpr char IPMI_EVENT_TRIGGER_UNDEFINED = 'F';
+
+static char getEventTriggerFromPath(const std::string& path)
+{
+    char event_code = IPMI_EVENT_TRIGGER_UNDEFINED;
+
+    if (boost::algorithm::ends_with(path, "_crit_alarm"))
+    {
+        event_code = IPMI_EVENT_TRIGGER_UPPER_CRIT;
+    }
+    else if (boost::algorithm::ends_with(path, "_lcrit_alarm"))
+    {
+        event_code = IPMI_EVENT_TRIGGER_LOWER_CRIT;
+    }
+    else if (boost::algorithm::ends_with(path, "_max_alarm"))
+    {
+        event_code = IPMI_EVENT_TRIGGER_UPPER_WARN;
+    }
+    else if (boost::algorithm::ends_with(path, "_min_alarm"))
+    {
+        event_code = IPMI_EVENT_TRIGGER_LOWER_WARN;
+    }
+
+    return event_code;
+}
+
+} // namespace
+
 // Any of the sub events of one event is asserted, then the event will be
 // asserted. Only if none of the sub events are asserted, the event will be
 // deasserted.
@@ -301,13 +437,23 @@ void PSUSubEvent::updateValue(const int& newValue)
             {
                 // Fan Failed has two args
                 std::string sendMessage = eventName + " deassert";
+                unsigned int recordId = getNewRecordId();
+                const uint16_t genId = 0x00ff;
+
                 if (deassertMessage == "OpenBMC.0.1.PowerSupplyFanRecovered")
                 {
                     sd_journal_send(
                         "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
                         LOG_INFO, "REDFISH_MESSAGE_ID=%s",
                         deassertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s,%s",
-                        psuName.c_str(), fanName.c_str(), NULL);
+                        psuName.c_str(), fanName.c_str(), "MESSAGE_ID=%s",
+                        selMessageId, "IPMI_SEL_RECORD_ID=%d", recordId,
+                        "IPMI_SEL_RECORD_TYPE=%x", selSystemType,
+                        "IPMI_SEL_GENERATOR_ID=%x", genId,
+                        "IPMI_SEL_SENSOR_PATH=%s", dbusPath.c_str(),
+                        "IPMI_SEL_EVENT_DIR=%x", *assertState,
+                        "IPMI_SEL_DATA=0%cFFFF", getEventTriggerFromPath(path),
+                        NULL);
                 }
                 else
                 {
@@ -315,7 +461,14 @@ void PSUSubEvent::updateValue(const int& newValue)
                         "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
                         LOG_INFO, "REDFISH_MESSAGE_ID=%s",
                         deassertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
-                        psuName.c_str(), NULL);
+                        psuName.c_str(), "MESSAGE_ID=%s", selMessageId,
+                        "IPMI_SEL_RECORD_ID=%d", recordId,
+                        "IPMI_SEL_RECORD_TYPE=%x", selSystemType,
+                        "IPMI_SEL_GENERATOR_ID=%x", genId,
+                        "IPMI_SEL_SENSOR_PATH=%s", dbusPath.c_str(),
+                        "IPMI_SEL_EVENT_DIR=%x", *assertState,
+                        "IPMI_SEL_DATA=0%cFFFF", getEventTriggerFromPath(path),
+                        NULL);
                 }
             }
 
@@ -343,13 +496,23 @@ void PSUSubEvent::updateValue(const int& newValue)
 
                 // Fan Failed has two args
                 std::string sendMessage = eventName + " assert";
+                unsigned int recordId = getNewRecordId();
+                const uint16_t genId = 0x00ff;
+
                 if (assertMessage == "OpenBMC.0.1.PowerSupplyFanFailed")
                 {
                     sd_journal_send(
                         "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
                         LOG_WARNING, "REDFISH_MESSAGE_ID=%s",
                         assertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s,%s",
-                        psuName.c_str(), fanName.c_str(), NULL);
+                        psuName.c_str(), fanName.c_str(), "MESSAGE_ID=%s",
+                        selMessageId, "IPMI_SEL_RECORD_ID=%d", recordId,
+                        "IPMI_SEL_RECORD_TYPE=%x", selSystemType,
+                        "IPMI_SEL_GENERATOR_ID=%x", genId,
+                        "IPMI_SEL_SENSOR_PATH=%s", dbusPath.c_str(),
+                        "IPMI_SEL_EVENT_DIR=%x", *assertState,
+                        "IPMI_SEL_DATA=0%cFFFF", getEventTriggerFromPath(path),
+                        NULL);
                 }
                 else
                 {
@@ -357,7 +520,14 @@ void PSUSubEvent::updateValue(const int& newValue)
                         "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
                         LOG_WARNING, "REDFISH_MESSAGE_ID=%s",
                         assertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
-                        psuName.c_str(), NULL);
+                        psuName.c_str(), "MESSAGE_ID=%s", selMessageId,
+                        "IPMI_SEL_RECORD_ID=%d", recordId,
+                        "IPMI_SEL_RECORD_TYPE=%x", selSystemType,
+                        "IPMI_SEL_GENERATOR_ID=%x", genId,
+                        "IPMI_SEL_SENSOR_PATH=%s", dbusPath.c_str(),
+                        "IPMI_SEL_EVENT_DIR=%x", *assertState,
+                        "IPMI_SEL_DATA=0%cFFFF", getEventTriggerFromPath(path),
+                        NULL);
                 }
             }
             if ((*combineEvent).empty())
