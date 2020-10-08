@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "6ee433d2_3dce680b",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-10-08T20:12:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure that is possible without a big rework. And here is some of reason:\nSome parts of code change behavior and purpose of the sensor(I mean the sensor as class), e.g. IPMB, PSU, CPU. To keep the contract for the particular sensor, after the object was constructed also changes the sensorType, sensorSubType(side note, indirectly defines the sensor value meaning , also as for \"Unit\u0027) properties. That is meaning that to use it as protected, we will need to define abstractions extended from the basic Sensor class. This requires some work.\nFor this patch I\u0027d suggest to keep defining \"Unit\" property as-is. \n\nI\u0027ll keep bellow some code reference to show of described points\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/36579/10/src/IpmbSensor.cpp#486",
+      "parentUuid": "b20b9532_688e942f",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a8a521d_f79612aa",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 10
@@ -321,6 +345,30 @@
       "side": 1,
       "message": "Tuple is generally used when you need do do some template-level introspection on your data type, or want to use some of its base features to reduce code, like std::equals overloads.  Same thing (to a much lesser extent) with std::pair.  Because of the nature of tuple, it also means that the code gets peppered with:\n\nstd::get\u003c0\u003e(mySensor);\ncalls in a lot of places.  0 is a magic number, and needs looked up when reading the code to find the type.\n\nIf this were a struct, it would be\n\nstruct SensorMetadata{\n    std::string type;\n    std::string unit;\n}\n\nWhich means the code that uses it calls:\n\nmySensor.type;\nWhich is much more clear than the std::get equivalent.",
       "parentUuid": "66ba141d_5cacd781",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 58
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbb07e58_f7c708f0",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000675
+      },
+      "writtenOn": "2020-10-08T20:12:20Z",
+      "side": 1,
+      "message": "Yes, I\u0027m not like these idioma too\n\u003e std::get\u003c0\u003e(mySensor);\nBut with `Using SensortType \u003d std::string_view` we take the way to explicitly retrieve target value from std::tuple, like \n```\nusing SensorType \u003d std::string;\nusing SensorUnit \u003d std::string_view;\n...\nstd::get\u003cSensorType\u003e(...);\nstd::get\u003cSensorUnit\u003e(...);\n```\nOk, I’ll change it to the native cpp struct definition. Thanks for clarification of kind using std::tuple!",
+      "parentUuid": "be94d00e_d27c1566",
       "range": {
         "startLine": 68,
         "startChar": 0,
