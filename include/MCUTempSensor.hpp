@@ -1,8 +1,7 @@
 #pragma once
-#include "sensor.hpp"
-
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <sensor.hpp>
 
 #include <chrono>
 #include <limits>
@@ -18,7 +17,7 @@ struct MCUTempSensor : public Sensor
                   sdbusplus::asio::object_server& objectServer,
                   std::vector<thresholds::Threshold>&& thresholds,
                   uint8_t busId, uint8_t mcuAddress, uint8_t tempReg);
-    ~MCUTempSensor();
+    ~MCUTempSensor() override;
 
     void checkThresholds(void) override;
     void read(void);
