@@ -62,6 +62,10 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             {
                 interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
             }
+            else if (type.compare("energy") == 0)
+            {
+                interfacePath = "/xyz/openbmc_project/sensors/energy/" + name;
+            }
             else
             {
                 interfacePath =
