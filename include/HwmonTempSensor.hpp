@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Thresholds.hpp"
-#include "sensor.hpp"
-
+#include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sensor.hpp>
 
 #include <string>
 #include <vector>
@@ -21,7 +20,7 @@ class HwmonTempSensor :
                     std::vector<thresholds::Threshold>&& thresholds,
                     const std::string& sensorConfiguration,
                     const PowerState powerState);
-    ~HwmonTempSensor();
+    ~HwmonTempSensor() override;
     void setupRead(void);
 
   private:
