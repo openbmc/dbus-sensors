@@ -41,52 +41,37 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration, int cpuId,
-                     bool show, double dtsOffset) :
+                     bool show, double dtsOffset,
+                     const SensorProperties& sensorProperties) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading, conn, PowerState::on),
+           std::move(_thresholds), sensorConfiguration, objectType,
+           sensorProperties.max, sensorProperties.min, conn, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
-    minMaxReadCounter(0)
+    minMaxReadCounter(0), sensorFactor(sensorProperties.scaleFactor)
 {
     nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);
     if (show)
     {
-        if (auto fileParts = splitFileName(path))
+        std::string interfacePath = sensorProperties.path + name;
+        sensorInterface = objectServer.add_interface(
+            interfacePath, "xyz.openbmc_project.Sensor.Value");
+        if (thresholds::hasWarningInterface(thresholds))
         {
-            auto& [type, nr, item] = *fileParts;
-            std::string interfacePath;
-            if (type.compare("power") == 0)
-            {
-                interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
-            }
-            else
-            {
-                interfacePath =
-                    "/xyz/openbmc_project/sensors/temperature/" + name;
-            }
-
-            sensorInterface = objectServer.add_interface(
-                interfacePath, "xyz.openbmc_project.Sensor.Value");
-            if (thresholds::hasWarningInterface(thresholds))
-            {
-                thresholdInterfaceWarning = objectServer.add_interface(
-                    interfacePath,
-                    "xyz.openbmc_project.Sensor.Threshold.Warning");
-            }
-            if (thresholds::hasCriticalInterface(thresholds))
-            {
-                thresholdInterfaceCritical = objectServer.add_interface(
-                    interfacePath,
-                    "xyz.openbmc_project.Sensor.Threshold.Critical");
-            }
-            association = objectServer.add_interface(interfacePath,
-                                                     association::interface);
-
-            setInitialProperties(conn);
+            thresholdInterfaceWarning = objectServer.add_interface(
+                interfacePath, "xyz.openbmc_project.Sensor.Threshold.Warning");
         }
+        if (thresholds::hasCriticalInterface(thresholds))
+        {
+            thresholdInterfaceCritical = objectServer.add_interface(
+                interfacePath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+        }
+        association =
+            objectServer.add_interface(interfacePath, association::interface);
+
+        setInitialProperties(conn);
     }
 
     // call setup always as not all sensors call setInitialProperties
@@ -170,8 +155,7 @@ void CPUSensor::updateMinMaxValues(void)
             {
                 auto& [suffix, oldValue, dbusName] = vectorItem;
                 auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
-                if (auto newVal =
-                        readFile(attrPath, CPUSensor::sensorScaleFactor))
+                if (auto newVal = readFile(attrPath, sensorFactor))
                 {
                     updateProperty(sensorInterface, oldValue, *newVal,
                                    dbusName);
@@ -226,7 +210,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
             std::getline(responseStream, response);
             rawValue = std::stod(response);
             responseStream.clear();
-            double nvalue = rawValue / CPUSensor::sensorScaleFactor;
+            double nvalue = rawValue / sensorFactor;
 
             if (show)
             {
@@ -252,8 +236,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                 {
                     std::vector<thresholds::Threshold> newThresholds;
                     if (parseThresholdsFromAttr(newThresholds, path,
-                                                CPUSensor::sensorScaleFactor,
-                                                dtsOffset))
+                                                sensorFactor, dtsOffset))
                     {
                         if (!std::equal(thresholds.begin(), thresholds.end(),
                                         newThresholds.begin(),
