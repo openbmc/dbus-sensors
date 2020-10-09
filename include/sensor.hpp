@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-
+#include <Thresholds.hpp>
+#include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <limits>
@@ -182,7 +181,7 @@ struct Sensor
 
     void
         setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                             const std::string label = std::string(),
+                             const std::string& label = std::string(),
                              size_t thresholdSize = 0)
     {
         if (readState == PowerState::on || readState == PowerState::biosPost)
