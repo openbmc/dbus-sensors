@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "ADCSensor.hpp"
-
 #include <unistd.h>
 
+#include <ADCSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
@@ -49,14 +48,13 @@ ADCSensor::ADCSensor(const std::string& path,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
-                     std::vector<thresholds::Threshold>&& _thresholds,
+                     std::vector<thresholds::Threshold>&& thresholds,
                      const double scaleFactor, PowerState readState,
                      const std::string& sensorConfiguration,
                      std::optional<BridgeGpio>&& bridgeGpio) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ADC", maxReading, minReading,
-           conn, readState),
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ADC",
+           maxReading, minReading, conn, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
