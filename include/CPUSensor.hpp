@@ -17,6 +17,14 @@
 #include <variant>
 #include <vector>
 
+struct SensorProperties
+{
+    std::string path;
+    double max;
+    double min;
+    unsigned int scaleFactor;
+};
+
 class CPUSensor : public Sensor
 {
   public:
@@ -26,13 +34,10 @@ class CPUSensor : public Sensor
               boost::asio::io_service& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& configuration, int cpuId, bool show,
-              double dtsOffset);
+              double dtsOffset, const SensorProperties& sensorProperties);
     ~CPUSensor();
-    static constexpr unsigned int sensorScaleFactor = 1000;
     static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
-    static constexpr double maxReading = 127;
-    static constexpr double minReading = -128;
     static constexpr const char* labelTcontrol = "Tcontrol";
 
   private:
@@ -48,6 +53,7 @@ class CPUSensor : public Sensor
     size_t pollTime;
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter;
+    unsigned int scaleFactor;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
