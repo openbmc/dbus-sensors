@@ -1,6 +1,5 @@
 #pragma once
-#include "VariantVisitors.hpp"
-
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
@@ -42,7 +41,7 @@ using GetSubTreeType = std::vector<
               std::vector<std::pair<std::string, std::vector<std::string>>>>>;
 using Association = std::tuple<std::string, std::string, std::string>;
 
-bool findFiles(const std::filesystem::path dirPath,
+bool findFiles(const std::filesystem::path& dirPath,
                const std::string& matchString,
                std::vector<std::filesystem::path>& foundPaths,
                unsigned int symlinkDepth = 1);
@@ -170,8 +169,8 @@ inline void setLed(std::shared_ptr<sdbusplus::asio::connection> conn,
 }
 
 void createInventoryAssoc(
-    std::shared_ptr<sdbusplus::asio::connection> conn,
-    std::shared_ptr<sdbusplus::asio::dbus_interface> association,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
     const std::string& path);
 
 struct GetSensorConfiguration :
