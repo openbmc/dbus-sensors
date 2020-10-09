@@ -43,7 +43,7 @@
 // there is no other way to tell, and it will be used for the object path
 // here: /xyz/openbmc_project/sensors/<Measure>/<Name>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static const char* sensorType =
     "xyz.openbmc_project.Configuration.ExternalSensor";
