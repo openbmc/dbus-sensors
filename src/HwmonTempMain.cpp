@@ -14,9 +14,8 @@
 // limitations under the License.
 */
 
-#include "HwmonTempSensor.hpp"
-#include "Utils.hpp"
-
+#include <HwmonTempSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -37,7 +36,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 namespace fs = std::filesystem;
 static constexpr std::array<const char*, 13> sensorTypes = {
@@ -96,7 +95,7 @@ void createSensors(
 
                 fs::path device = directory / "device";
                 std::string deviceName = fs::canonical(device).stem();
-                auto findHyphen = deviceName.find("-");
+                auto findHyphen = deviceName.find('-');
                 if (findHyphen == std::string::npos)
                 {
                     std::cerr << "found bad device " << deviceName << "\n";
@@ -110,7 +109,7 @@ void createSensors(
                 try
                 {
                     bus = std::stoi(busStr);
-                    addr = std::stoi(addrStr, 0, 16);
+                    addr = std::stoi(addrStr, nullptr, 16);
                 }
                 catch (std::invalid_argument&)
                 {
@@ -298,7 +297,7 @@ int main()
                     /* we were canceled*/
                     return;
                 }
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                     return;

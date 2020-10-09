@@ -15,7 +15,7 @@ class NVMeSensor : public Sensor
                boost::asio::io_service& io,
                std::shared_ptr<sdbusplus::asio::connection>& conn,
                const std::string& sensorName,
-               std::vector<thresholds::Threshold>&& _thresholds,
+               std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration, const int busNumber);
     virtual ~NVMeSensor();
 

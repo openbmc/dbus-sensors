@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "sensor.hpp"
-
+#include <Thresholds.hpp>
+#include <Utils.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sensor.hpp>
 
 #include <filesystem>
 #include <fstream>
@@ -27,7 +26,7 @@ class CPUSensor : public Sensor
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& configuration, int cpuId, bool show,
               double dtsOffset);
-    ~CPUSensor();
+    ~CPUSensor() override;
     static constexpr unsigned int sensorScaleFactor = 1000;
     static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;

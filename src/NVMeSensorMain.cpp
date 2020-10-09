@@ -14,8 +14,7 @@
 // limitations under the License.
 */
 
-#include "NVMeSensor.hpp"
-
+#include <NVMeSensor.hpp>
 #include <boost/asio/deadline_timer.hpp>
 
 #include <regex>
@@ -25,7 +24,7 @@ static constexpr const char* sensorType =
 
 static NVMEMap nvmeDeviceMap;
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 NVMEMap& getNVMEMap()
 {
