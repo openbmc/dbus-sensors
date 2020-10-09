@@ -1,14 +1,13 @@
 #pragma once
-#include "Thresholds.hpp"
-#include "sensor.hpp"
-
 #include <systemd/sd-journal.h>
 
+#include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sensor.hpp>
 
 #include <memory>
 #include <optional>
@@ -75,7 +74,7 @@ class TachSensor : public Sensor
                const std::pair<size_t, size_t>& limits,
                const PowerState& powerState,
                const std::optional<std::string>& led);
-    ~TachSensor();
+    ~TachSensor() override;
 
   private:
     sdbusplus::asio::object_server& objServer;

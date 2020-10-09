@@ -13,10 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 */
-#include "PwmSensor.hpp"
-
-#include "Utils.hpp"
-
+#include <PwmSensor.hpp>
+#include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <fstream>
