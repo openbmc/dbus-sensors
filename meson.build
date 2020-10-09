@@ -17,6 +17,7 @@ add_project_arguments(
     '-DBOOST_NO_TYPEID',
     '-DBOOST_ALL_NO_LIB',
     '-DBOOST_ASIO_DISABLE_THREADS',
+    '-Wno-psabi',
     language: 'cpp',
 )
 
