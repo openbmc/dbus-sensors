@@ -1,6 +1,5 @@
 #pragma once
-#include "VariantVisitors.hpp"
-
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
@@ -48,7 +47,7 @@ std::optional<std::string>
                          const std::string& hwmonBaseName,
                          const std::set<std::string>& permitSet);
 std::set<std::string> getPermitSet(const SensorBaseConfigMap& config);
-bool findFiles(const std::filesystem::path dirPath,
+bool findFiles(const std::filesystem::path& dirPath,
                const std::string& matchString,
                std::vector<std::filesystem::path>& foundPaths,
                unsigned int symlinkDepth = 1);
@@ -58,7 +57,12 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    ManagedObjectType& resp, bool useCache = false);
+    ManagedObjectType& resp, bool useCache);
+
+bool getSensorConfiguration(
+    const std::string& type,
+    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    ManagedObjectType& resp);
 
 void createAssociation(
     std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
@@ -159,7 +163,7 @@ inline void setReadState(const std::string& str, PowerState& val)
     }
 }
 
-inline void setLed(std::shared_ptr<sdbusplus::asio::connection> conn,
+inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                    const std::string& name, bool on)
 {
     conn->async_method_call(
@@ -176,8 +180,8 @@ inline void setLed(std::shared_ptr<sdbusplus::asio::connection> conn,
 }
 
 void createInventoryAssoc(
-    std::shared_ptr<sdbusplus::asio::connection> conn,
-    std::shared_ptr<sdbusplus::asio::dbus_interface> association,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
     const std::string& path);
 
 struct GetSensorConfiguration :
@@ -186,7 +190,7 @@ struct GetSensorConfiguration :
     GetSensorConfiguration(
         std::shared_ptr<sdbusplus::asio::connection> connection,
         std::function<void(ManagedObjectType& resp)>&& callbackFunc) :
-        dbusConnection(connection),
+        dbusConnection(std::move(connection)),
         callback(std::move(callbackFunc))
     {}
 
