@@ -1,6 +1,5 @@
 #pragma once
-#include "Utils.hpp"
-
+#include <Utils.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
 #include <nlohmann/json.hpp>
@@ -132,9 +131,11 @@ struct ThresholdTimer
             {
                 return; // we're being canceled
             }
-            else if (ec)
+            if (ec)
             {
+
                 std::cerr << "timer error: " << ec.message() << "\n";
+
                 return;
             }
             if (isPowerOn())

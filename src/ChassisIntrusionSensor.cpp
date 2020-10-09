@@ -14,22 +14,21 @@
 // limitations under the License.
 */
 
-#include "ChassisIntrusionSensor.hpp"
-
-#include <errno.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
+#include <ChassisIntrusionSensor.hpp>
+#include <boost/asio/io_service.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cerrno>
 #include <chrono>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <thread>
+#include <utility>
 
 extern "C"
 {
@@ -37,7 +36,7 @@ extern "C"
 #include <linux/i2c-dev.h>
 }
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static constexpr unsigned int intrusionSensorPollSec = 1;
 
@@ -47,7 +46,7 @@ const static constexpr size_t pchStatusRegIntrusion = 0x04;
 // Status bit field masks
 const static constexpr size_t pchRegMaskIntrusion = 0x01;
 
-void ChassisIntrusionSensor::updateValue(const std::string newValue)
+void ChassisIntrusionSensor::updateValue(const std::string& newValue)
 {
     // Take no action if value already equal
     // Same semantics as Sensor::updateValue(const double&)
@@ -109,12 +108,11 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
         return -1;
     }
 
-    int statusValue;
-    unsigned int statusMask = pchRegMaskIntrusion;
-    unsigned int statusReg = pchStatusRegIntrusion;
+    int32_t statusMask = pchRegMaskIntrusion;
+    int32_t statusReg = pchStatusRegIntrusion;
 
-    statusValue = i2c_smbus_read_byte_data(fd, statusReg);
-    if (DEBUG)
+    int32_t statusValue = i2c_smbus_read_byte_data(fd, statusReg);
+    if (debug)
     {
         std::cout << "\nRead bus " << busId << " addr " << slaveAddr
                   << ", value = " << statusValue << "\n";
@@ -131,7 +129,7 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
     // Get status value with mask
     int newValue = statusValue & statusMask;
 
-    if (DEBUG)
+    if (debug)
     {
         std::cout << "statusValue is " << statusValue << "\n";
         std::cout << "Intrusion sensor value is " << newValue << "\n";
@@ -180,7 +178,7 @@ void ChassisIntrusionSensor::readGpio()
     // set string defined in chassis redfish schema
     std::string newValue = value ? "HardwareIntrusion" : "Normal";
 
-    if (DEBUG)
+    if (debug)
     {
         std::cout << "\nGPIO value is " << value << "\n";
         std::cout << "Intrusion sensor value is " << newValue << "\n";
@@ -203,7 +201,7 @@ void ChassisIntrusionSensor::pollSensorStatusByGpio(void)
             {
                 return; // we're being destroyed
             }
-            else if (ec)
+            if (ec)
             {
                 std::cerr
                     << "Error on GPIO based intrusion sensor wait event\n";
@@ -274,7 +272,7 @@ int ChassisIntrusionSensor::setSensorValue(const std::string& req,
 void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
                                    int slaveAddr, bool gpioInverted)
 {
-    if (DEBUG)
+    if (debug)
     {
         std::cerr << "enter ChassisIntrusionSensor::start, type = " << type
                   << "\n";
@@ -361,7 +359,7 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
 ChassisIntrusionSensor::ChassisIntrusionSensor(
     boost::asio::io_service& io,
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface) :
-    mIface(iface),
+    mIface(std::move(iface)),
     mType(IntrusionSensorType::gpio), mValue("unknown"), mOldValue("unknown"),
     mBusId(-1), mSlaveAddr(-1), mPollTimer(io), mGpioInverted(false),
     mGpioFd(io)
