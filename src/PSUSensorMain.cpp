@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "PSUEvent.hpp"
-#include "PSUSensor.hpp"
-#include "Utils.hpp"
-
+#include <PSUEvent.hpp>
+#include <PSUSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -38,7 +37,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static constexpr std::array<const char*, 14> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADM1272",
@@ -801,7 +800,7 @@ void createSensors(boost::asio::io_service& io,
                 groupEventPathList, "OperationalStatus");
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cerr << "Created total of " << numCreated << " sensors\n";
     }

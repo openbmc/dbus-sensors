@@ -1,8 +1,8 @@
-cmake_minimum_required (VERSION 2.8.10 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.5 FATAL_ERROR)
 set (BUILD_SHARED_LIBRARIES OFF)
-include (ExternalProject)
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
+include (ExternalProject)
 set (
     CMAKE_CXX_FLAGS
     "${CMAKE_CXX_FLAGS} -lstdc++fs \
@@ -54,6 +54,7 @@ huntergate (URL "https://github.com/ruslo/hunter/archive/v0.18.64.tar.gz" SHA1
 
 project (sensors CXX)
 
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set (ADC_SRC_FILES src/Utils.cpp src/ADCSensor.cpp src/Thresholds.cpp)
 
 set (CPU_SRC_FILES src/Utils.cpp src/CPUSensor.cpp src/Thresholds.cpp)
@@ -150,55 +151,45 @@ add_definitions (-DBOOST_ASIO_DISABLE_THREADS)
 
 link_directories (${EXTERNAL_INSTALL_LOCATION}/lib)
 
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories (include)
 
 add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
-add_dependencies (adcsensor sdbusplus-project)
 target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (adcsensor gpiodcxx)
 
 add_executable (cpusensor src/CPUSensorMain.cpp ${CPU_SRC_FILES})
-add_dependencies (cpusensor sdbusplus-project)
 target_link_libraries (cpusensor ${SENSOR_LINK_LIBS})
 target_link_libraries (cpusensor gpiodcxx)
 
 add_executable (exitairtempsensor src/ExitAirTempSensor.cpp
                 ${EXIT_AIR_SRC_FILES})
-add_dependencies (exitairtempsensor sdbusplus-project)
 target_link_libraries (exitairtempsensor ${SENSOR_LINK_LIBS})
 
 add_executable (fansensor src/FanMain.cpp ${FAN_SRC_FILES})
-add_dependencies (fansensor sdbusplus-project)
 target_link_libraries (fansensor ${SENSOR_LINK_LIBS})
 target_link_libraries (fansensor gpiodcxx)
 
 add_executable (hwmontempsensor src/HwmonTempMain.cpp ${HWMON_TEMP_SRC_FILES})
-add_dependencies (hwmontempsensor sdbusplus-project)
 target_link_libraries (hwmontempsensor ${SENSOR_LINK_LIBS})
 
 add_executable (intrusionsensor src/IntrusionSensorMain.cpp
                 ${INTRUSION_SRC_FILES})
-add_dependencies (intrusionsensor sdbusplus-project)
 target_link_libraries (intrusionsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (intrusionsensor i2c)
 target_link_libraries (intrusionsensor gpiodcxx)
 
 add_executable (ipmbsensor src/IpmbSensor.cpp ${IPMB_SRC_FILES})
-add_dependencies (ipmbsensor sdbusplus-project)
 target_link_libraries (ipmbsensor ${SENSOR_LINK_LIBS})
 
 add_executable (mcutempsensor src/MCUTempSensor.cpp ${MCUTEMP_SRC_FILES})
-add_dependencies (mcutempsensor sdbusplus-project)
 target_link_libraries (mcutempsensor ${SENSOR_LINK_LIBS})
 target_link_libraries (mcutempsensor i2c)
 
 add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
-add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
-    add_dependencies (nvmesensor sdbusplus-project)
     target_link_libraries (nvmesensor liblibmctp.a i2c ${SENSOR_LINK_LIBS})
 endif()
 

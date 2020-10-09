@@ -14,13 +14,9 @@
 // limitations under the License.
 */
 
-#include "ExitAirTempSensor.hpp"
-
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
-#include <math.h>
-
+#include <ExitAirTempSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -54,7 +50,7 @@ constexpr const char* settingsDaemon = "xyz.openbmc_project.Settings";
 constexpr const char* cfmSettingPath = "/xyz/openbmc_project/control/cfm_limit";
 constexpr const char* cfmSettingIface = "xyz.openbmc_project.Control.CFMLimit";
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static constexpr double cfmMaxReading = 255;
 static constexpr double cfmMinReading = 0;
@@ -125,8 +121,8 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
 
                 conn->async_method_call(
                     [conn, value, owner,
-                     path](const boost::system::error_code ec,
-                           const std::variant<std::string>& classType) {
+                     path{path}](const boost::system::error_code ec,
+                                 const std::variant<std::string>& classType) {
                         if (ec)
                         {
                             std::cerr << "Error getting pid class\n";
@@ -721,7 +717,7 @@ bool ExitAirTempSensor::calculate(double& val)
         return false;
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cout << "Power Factor " << powerFactor << "\n";
         std::cout << "Inlet Temp " << inletTemp << "\n";
@@ -734,7 +730,7 @@ bool ExitAirTempSensor::calculate(double& val)
     reading /= cfm;
     reading += inletTemp;
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cout << "Reading 1: " << reading << "\n";
     }
@@ -775,14 +771,14 @@ bool ExitAirTempSensor::calculate(double& val)
         alphaDT = 1.0;
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cout << "AlphaDT: " << alphaDT << "\n";
     }
 
     reading = ((reading * alphaDT) + (lastReading * (1.0 - alphaDT)));
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cout << "Reading 2: " << reading << "\n";
     }

@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "PSUSensor.hpp"
-
 #include <unistd.h>
 
+#include <PSUSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
@@ -34,13 +33,13 @@
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
-                     std::vector<thresholds::Threshold>&& _thresholds,
+                     std::vector<thresholds::Threshold>&& thresholds,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
                      double max, double min, const std::string& label,
@@ -52,7 +51,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
     sensorFactor(factor), minMaxReadCounter(0)
 {
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cerr << "Constructed sensor: path " << path << " type "
                   << objectType << " config " << sensorConfiguration
@@ -110,7 +109,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
             pathRatedMin = boost::replace_all_copy(path, item, "rated_min");
         }
     }
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cerr << "File: " << pathRatedMax
                   << " will be used to update MaxValue\n";

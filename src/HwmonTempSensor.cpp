@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "HwmonTempSensor.hpp"
-
 #include <unistd.h>
 
+#include <HwmonTempSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
@@ -44,7 +43,7 @@ HwmonTempSensor::HwmonTempSensor(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& sensorName,
-    std::vector<thresholds::Threshold>&& _thresholds,
+    std::vector<thresholds::Threshold>&& thresholds,
     const std::string& sensorConfiguration, const PowerState powerState) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,

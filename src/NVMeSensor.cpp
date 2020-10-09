@@ -14,13 +14,11 @@
 // limitations under the License.
 */
 
-#include "NVMeSensor.hpp"
-
-#include "NVMeDevice.hpp"
-
 #include <crc32c.h>
 #include <libmctp-smbus.h>
 
+#include <NVMeDevice.hpp>
+#include <NVMeSensor.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/ip/tcp.hpp>
 

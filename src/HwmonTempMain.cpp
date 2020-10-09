@@ -14,9 +14,8 @@
 // limitations under the License.
 */
 
-#include "HwmonTempSensor.hpp"
-#include "Utils.hpp"
-
+#include <HwmonTempSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -37,7 +36,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 namespace fs = std::filesystem;
 static constexpr std::array<const char*, 11> sensorTypes = {

@@ -1,11 +1,9 @@
-#include "Thresholds.hpp"
-
-#include "VariantVisitors.hpp"
-#include "sensor.hpp"
-
+#include <Thresholds.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/lexical_cast.hpp>
+#include <sensor.hpp>
 
 #include <array>
 #include <cmath>
@@ -19,7 +17,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 namespace thresholds
 {
 unsigned int toBusValue(const Level& level)
@@ -323,7 +321,7 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         }
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         // Throttle debug output, so that it does not continuously spam
         ++cDebugThrottle;

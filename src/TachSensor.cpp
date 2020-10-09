@@ -14,12 +14,10 @@
 // limitations under the License.
 */
 
-#include "TachSensor.hpp"
-
-#include "Utils.hpp"
-
 #include <unistd.h>
 
+#include <TachSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
@@ -48,7 +46,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        std::unique_ptr<PresenceSensor>&& presenceSensor,
                        std::optional<RedundancySensor>* redundancy,
                        boost::asio::io_service& io, const std::string& fanName,
-                       std::vector<thresholds::Threshold>&& _thresholds,
+                       std::vector<thresholds::Threshold>&& thresholds,
                        const std::string& sensorConfiguration,
                        const std::pair<size_t, size_t>& limits,
                        const PowerState& powerState,

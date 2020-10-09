@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "PSUEvent.hpp"
-
 #include <systemd/sd-journal.h>
 
+#include <PSUEvent.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>

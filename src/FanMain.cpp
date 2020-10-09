@@ -14,11 +14,10 @@
 // limitations under the License.
 */
 
-#include "PwmSensor.hpp"
-#include "TachSensor.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
+#include <PwmSensor.hpp>
+#include <TachSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -40,7 +39,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 namespace fs = std::filesystem;
 
@@ -71,7 +70,7 @@ FanTypes getFanType(const fs::path& parentPath)
     {
         return FanTypes::aspeed;
     }
-    else if (boost::ends_with(canonical, "f0103000.pwm-fan-controller"))
+    if (boost::ends_with(canonical, "f0103000.pwm-fan-controller"))
     {
         return FanTypes::nuvoton;
     }

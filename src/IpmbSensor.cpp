@@ -14,13 +14,9 @@
 // limitations under the License.
 */
 
-#include "IpmbSensor.hpp"
-
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
-#include <math.h>
-
+#include <IpmbSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -30,6 +26,7 @@
 #include <sdbusplus/bus/match.hpp>
 
 #include <chrono>
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <limits>
@@ -175,9 +172,13 @@ void IpmbSensor::loadDefaults()
             case IpmbSubType::curr:
                 uint8_t snsNum;
                 if (subType == IpmbSubType::temp)
+                {
                     snsNum = 0x8d;
+                }
                 else
+                {
                     snsNum = 0x8c;
+                }
                 netfn = ipmi::me_bridge::netFn;
                 command = ipmi::me_bridge::sendRawPmbus;
                 commandData = {0x57, 0x01, 0x00, 0x86, deviceAddress,

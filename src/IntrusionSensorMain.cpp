@@ -14,11 +14,10 @@
 // limitations under the License.
 */
 
-#include "ChassisIntrusionSensor.hpp"
-#include "Utils.hpp"
-
 #include <systemd/sd-journal.h>
 
+#include <ChassisIntrusionSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio.hpp>
 #include <boost/container/flat_map.hpp>
@@ -43,7 +42,7 @@
 #include <utility>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static constexpr const char* sensorType =
     "xyz.openbmc_project.Configuration.ChassisIntrusionSensor";

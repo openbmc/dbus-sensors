@@ -14,17 +14,16 @@
 // limitations under the License.
 */
 
-#include "ChassisIntrusionSensor.hpp"
-
-#include <errno.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+#include <ChassisIntrusionSensor.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cerrno>
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -37,7 +36,7 @@ extern "C"
 #include <linux/i2c-dev.h>
 }
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static constexpr unsigned int intrusionSensorPollSec = 1;
 
@@ -114,7 +113,7 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
     unsigned int statusReg = pchStatusRegIntrusion;
 
     statusValue = i2c_smbus_read_byte_data(fd, statusReg);
-    if (DEBUG)
+    if (debug)
     {
         std::cout << "\nRead bus " << busId << " addr " << slaveAddr
                   << ", value = " << statusValue << "\n";
@@ -131,7 +130,7 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
     // Get status value with mask
     int newValue = statusValue & statusMask;
 
-    if (DEBUG)
+    if (debug)
     {
         std::cout << "statusValue is " << statusValue << "\n";
         std::cout << "Intrusion sensor value is " << newValue << "\n";
@@ -180,7 +179,7 @@ void ChassisIntrusionSensor::readGpio()
     // set string defined in chassis redfish schema
     std::string newValue = value ? "HardwareIntrusion" : "Normal";
 
-    if (DEBUG)
+    if (debug)
     {
         std::cout << "\nGPIO value is " << value << "\n";
         std::cout << "Intrusion sensor value is " << newValue << "\n";
@@ -274,7 +273,7 @@ int ChassisIntrusionSensor::setSensorValue(const std::string& req,
 void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
                                    int slaveAddr, bool gpioInverted)
 {
-    if (DEBUG)
+    if (debug)
     {
         std::cerr << "enter ChassisIntrusionSensor::start, type = " << type
                   << "\n";

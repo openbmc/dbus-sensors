@@ -4,7 +4,7 @@
 // clang-format off
 
 #ifndef __PECI_IOCTL_H
-#define __PECI_IOCTL_H
+#define PECI_IOCTL_H
 
 #include <linux/ioctl.h>
 #include <linux/types.h>
@@ -92,7 +92,7 @@ enum peci_cmd {
  *
  * raw PECI transfer
  */
-struct peci_xfer_msg {
+struct PeciXferMsg {
 	__u8	addr;
 	__u8	tx_len;
 	__u8	rx_len;
@@ -109,7 +109,7 @@ struct peci_xfer_msg {
  * enumerate devices or determine if a device has been removed, been
  * powered-off, etc.
  */
-struct peci_ping_msg {
+struct PeciPingMsg {
 	__u8	addr;
 	__u8	padding[3];
 } __attribute__((__packed__));
@@ -124,7 +124,7 @@ struct peci_ping_msg {
  * number of supported domains. All processor PECI clients support the GetDIB()
  * command.
  */
-struct peci_get_dib_msg {
+struct PeciGetDibMsg {
 #define PECI_GET_DIB_WR_LEN	1
 #define PECI_GET_DIB_RD_LEN	8
 #define PECI_GET_DIB_CMD	0xf7
@@ -145,7 +145,7 @@ struct peci_get_dib_msg {
  * returned as a negative value representing the number of degrees centigrade
  * below the maximum processor junction temperature.
  */
-struct peci_get_temp_msg {
+struct PeciGetTempMsg {
 #define PECI_GET_TEMP_WR_LEN	1
 #define PECI_GET_TEMP_RD_LEN	2
 #define PECI_GET_TEMP_CMD	0x01
@@ -170,7 +170,7 @@ struct peci_get_temp_msg {
  * may include access to temperature data, energy status, run time information,
  * DIMM temperatures and so on.
  */
-struct peci_rd_pkg_cfg_msg {
+struct PeciRdPkgCfgMsg {
 #define PECI_RDPKGCFG_WRITE_LEN			5
 #define PECI_RDPKGCFG_READ_LEN_BASE		1
 #define PECI_RDPKGCFG_CMD			0xa1
@@ -255,7 +255,7 @@ struct peci_rd_pkg_cfg_msg {
  * may include power limiting, thermal averaging constant programming and so
  * on.
  */
-struct peci_wr_pkg_cfg_msg {
+struct PeciWrPkgCfgMsg {
 #define PECI_WRPKGCFG_WRITE_LEN_BASE	6
 #define PECI_WRPKGCFG_READ_LEN		1
 #define PECI_WRPKGCFG_CMD		0xa5
@@ -283,7 +283,7 @@ struct peci_wr_pkg_cfg_msg {
  * The RdIAMSR() PECI command provides read access to Model Specific Registers
  * (MSRs) defined in the processor's Intel Architecture (IA).
  */
-struct peci_rd_ia_msr_msg {
+struct PeciRdIaMsrMsg {
 #define PECI_RDIAMSR_WRITE_LEN		5
 #define PECI_RDIAMSR_READ_LEN		9
 #define PECI_RDIAMSR_CMD		0xb1
@@ -308,7 +308,7 @@ struct peci_rd_ia_msr_msg {
  * The WrIAMSR() PECI command provides write access to Model Specific Registers
  * (MSRs) defined in the processor's Intel Architecture (IA).
  */
-struct peci_wr_ia_msr_msg {
+struct PeciWrIaMsrMsg {
 #define PECI_WRIAMSR_CMD		0xb5
 
 	__u8	addr;
@@ -334,7 +334,7 @@ struct peci_wr_ia_msr_msg {
  * (1)RdIAMSR() can only read MC registers, RdIAMSREX() can read all MSRs
  * (2)thread_id of RdIAMSR() is u8, thread_id of RdIAMSREX() is u16
  */
-struct peci_rd_ia_msrex_msg {
+struct PeciRdIaMsrexMsg {
 #define PECI_RDIAMSREX_WRITE_LEN	6
 #define PECI_RDIAMSREX_READ_LEN		9
 #define PECI_RDIAMSREX_CMD		0xd1
@@ -362,7 +362,7 @@ struct peci_rd_ia_msrex_msg {
  * configuration space maintained in downstream devices external to the
  * processor.
  */
-struct peci_rd_pci_cfg_msg {
+struct PeciRdPciCfgMsg {
 #define PECI_RDPCICFG_WRITE_LEN		6
 #define PECI_RDPCICFG_READ_LEN		5
 #define PECI_RDPCICFG_READ_LEN_MAX	24
@@ -402,7 +402,7 @@ struct peci_rd_pci_cfg_msg {
  * configuration space maintained in downstream devices external to the
  * processor.
  */
-struct peci_wr_pci_cfg_msg {
+struct PeciWrPciCfgMsg {
 #define PECI_WRPCICFG_CMD		0x65
 
 	__u8	addr;
@@ -430,7 +430,7 @@ struct peci_wr_pci_cfg_msg {
  * configuration space that resides within the processor. This includes all
  * processor IIO and uncore registers within the PCI configuration space.
  */
-struct peci_rd_pci_cfg_local_msg {
+struct PeciRdPciCfgLocalMsg {
 #define PECI_RDPCICFGLOCAL_WRITE_LEN		5
 #define PECI_RDPCICFGLOCAL_READ_LEN_BASE	1
 #define PECI_RDPCICFGLOCAL_CMD			0xe1
@@ -460,7 +460,7 @@ struct peci_rd_pci_cfg_local_msg {
  * configuration space that resides within the processor. PECI originators can
  * access this space even before BIOS enumeration of the system buses.
  */
-struct peci_wr_pci_cfg_local_msg {
+struct PeciWrPciCfgLocalMsg {
 #define PECI_WRPCICFGLOCAL_WRITE_LEN_BASE	6
 #define PECI_WRPCICFGLOCAL_READ_LEN		1
 #define PECI_WRPCICFGLOCAL_CMD			0xe5
@@ -475,7 +475,7 @@ struct peci_wr_pci_cfg_local_msg {
 	__u32	value;
 } __attribute__((__packed__));
 
-struct peci_rd_end_pt_cfg_msg {
+struct PeciRdEndPtCfgMsg {
 #define PECI_RDENDPTCFG_PCI_WRITE_LEN		12
 #define PECI_RDENDPTCFG_MMIO_D_WRITE_LEN	14
 #define PECI_RDENDPTCFG_MMIO_Q_WRITE_LEN	18
@@ -516,7 +516,7 @@ struct peci_rd_end_pt_cfg_msg {
 	__u8	data[8];
 } __attribute__((__packed__));
 
-struct peci_wr_end_pt_cfg_msg {
+struct PeciWrEndPtCfgMsg {
 #define PECI_WRENDPTCFG_PCI_WRITE_LEN_BASE	13
 #define PECI_WRENDPTCFG_MMIO_D_WRITE_LEN_BASE	15
 #define PECI_WRENDPTCFG_MMIO_Q_WRITE_LEN_BASE	19
@@ -564,7 +564,7 @@ struct peci_wr_end_pt_cfg_msg {
 #define PECI_CRASHDUMP_AGENT_ID		0x00
 #define PECI_CRASHDUMP_AGENT_PARAM	0x01
 
-struct peci_crashdump_disc_msg {
+struct PeciCrashdumpDiscMsg {
 	__u8	addr;
 	__u8	subopcode;
 #define PECI_CRASHDUMP_ENABLED		0x00
@@ -579,7 +579,7 @@ struct peci_crashdump_disc_msg {
 	__u8	data[8];
 } __attribute__((__packed__));
 
-struct peci_crashdump_get_frame_msg {
+struct PeciCrashdumpGetFrameMsg {
 #define PECI_CRASHDUMP_DISC_WRITE_LEN		9
 #define PECI_CRASHDUMP_DISC_READ_LEN_BASE	1
 #define PECI_CRASHDUMP_DISC_VERSION		0

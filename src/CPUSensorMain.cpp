@@ -14,12 +14,11 @@
 // limitations under the License.
 */
 
-#include "CPUSensor.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
 #include <fcntl.h>
 
+#include <CPUSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -51,7 +50,7 @@
 #endif
 // clang-format on
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>> gCpuSensors;
 boost::container::flat_map<std::string,
