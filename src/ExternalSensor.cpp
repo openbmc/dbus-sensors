@@ -21,16 +21,16 @@ ExternalSensor::ExternalSensor(
     const std::string& objectType, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::string& sensorName, const std::string& sensorUnits,
-    std::vector<thresholds::Threshold>&& _thresholds,
+    std::vector<thresholds::Threshold>&& thresholds,
     const std::string& sensorConfiguration, const double& maxReading,
     const double& minReading, const PowerState& powerState) :
     // TODO(): When the Mutable feature is integrated,
     // make sure all ExternalSensor instances are mutable,
     // because that is the entire point of ExternalSensor,
     // to accept sensor values written by an external source.
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading, conn, powerState),
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
+           sensorConfiguration, objectType, maxReading, minReading, conn,
+           powerState),
     std::enable_shared_from_this<ExternalSensor>(), objServer(objectServer)
 {
     // The caller must specify what physical characteristic

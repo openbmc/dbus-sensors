@@ -1,8 +1,7 @@
 #pragma once
-#include "sensor.hpp"
-
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/bus/match.hpp>
+#include <sensor.hpp>
 
 #include <chrono>
 #include <limits>
@@ -27,7 +26,7 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
               sdbusplus::asio::object_server& objectServer,
               std::vector<thresholds::Threshold>&& thresholds,
               std::shared_ptr<ExitAirTempSensor>& parent);
-    ~CFMSensor();
+    ~CFMSensor() override;
 
     bool calculate(double&);
     void updateReading(void);
@@ -68,7 +67,7 @@ struct ExitAirTempSensor :
                       const std::string& sensorConfiguration,
                       sdbusplus::asio::object_server& objectServer,
                       std::vector<thresholds::Threshold>&& thresholds);
-    ~ExitAirTempSensor();
+    ~ExitAirTempSensor() override;
 
     void checkThresholds(void) override;
     void updateReading(void);
