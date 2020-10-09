@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "PSUSensor.hpp"
-
 #include <unistd.h>
 
+#include <PSUSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
@@ -34,25 +33,25 @@
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
-                     std::vector<thresholds::Threshold>&& _thresholds,
+                     std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
                      double max, double min, const std::string& label,
                      size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration, objectType, max, min,
+           std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
            conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
     sensorFactor(factor), minMaxReadCounter(0)
 {
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cerr << "Constructed sensor: path " << path << " type "
                   << objectType << " config " << sensorConfiguration
@@ -88,7 +87,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     // This should be called before initializing association.
     // createInventoryAssoc() does add more associations before doing
     // register and initialize "Associations" property.
-    if (label.empty() || tSize == _thresholds.size())
+    if (label.empty() || tSize == thresholds.size())
     {
         setInitialProperties(conn);
     }
@@ -110,7 +109,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
             pathRatedMin = boost::replace_all_copy(path, item, "rated_min");
         }
     }
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cerr << "File: " << pathRatedMax
                   << " will be used to update MaxValue\n";
