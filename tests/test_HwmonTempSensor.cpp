@@ -4,7 +4,7 @@
 
 #include <fstream>
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 TEST(HwmonTempSensor, TestTMP75)
 {

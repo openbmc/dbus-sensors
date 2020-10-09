@@ -1,6 +1,5 @@
 #pragma once
-#include "VariantVisitors.hpp"
-
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
@@ -48,7 +47,7 @@ std::optional<std::string>
                          const std::string& hwmonBaseName,
                          const std::set<std::string>& permitSet);
 std::set<std::string> getPermitSet(const SensorBaseConfigMap& config);
-bool findFiles(const std::filesystem::path dirPath,
+bool findFiles(const std::filesystem::path& dirPath,
                const std::string& matchString,
                std::vector<std::filesystem::path>& foundPaths,
                unsigned int symlinkDepth = 1);
@@ -176,8 +175,8 @@ inline void setLed(std::shared_ptr<sdbusplus::asio::connection> conn,
 }
 
 void createInventoryAssoc(
-    std::shared_ptr<sdbusplus::asio::connection> conn,
-    std::shared_ptr<sdbusplus::asio::dbus_interface> association,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
     const std::string& path);
 
 struct GetSensorConfiguration :
