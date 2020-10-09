@@ -14,14 +14,9 @@
 // limitations under the License.
 */
 
-#include "IpmbSensor.hpp"
-
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
-#include <math.h>
-
-#include <boost/algorithm/string.hpp>
+#include <IpmbSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -30,6 +25,7 @@
 #include <sdbusplus/bus/match.hpp>
 
 #include <chrono>
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <limits>
@@ -181,9 +177,13 @@ void IpmbSensor::loadDefaults()
             case IpmbSubType::curr:
                 uint8_t snsNum;
                 if (subType == IpmbSubType::temp)
+                {
                     snsNum = 0x8d;
+                }
                 else
+                {
                     snsNum = 0x8c;
+                }
                 netfn = ipmi::me_bridge::netFn;
                 command = ipmi::me_bridge::sendRawPmbus;
                 commandData = {0x57, 0x01, 0x00, 0x86, deviceAddress,
@@ -354,18 +354,16 @@ void IpmbSensor::read(void)
                     read();
                     return;
                 }
-                else
+
+                // rawValue only used in debug logging
+                // up to 5th byte in data are used to derive value
+                size_t end = std::min(sizeof(uint64_t), data.size());
+                uint64_t rawData = 0;
+                for (size_t i = 0; i < end; i++)
                 {
-                    // rawValue only used in debug logging
-                    // up to 5th byte in data are used to derive value
-                    size_t end = std::min(sizeof(uint64_t), data.size());
-                    uint64_t rawData = 0;
-                    for (size_t i = 0; i < end; i++)
-                    {
-                        reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
-                    }
-                    rawValue = static_cast<double>(rawData);
+                    reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
                 }
+                rawValue = static_cast<double>(rawData);
 
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;
