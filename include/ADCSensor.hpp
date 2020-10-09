@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Thresholds.hpp"
-#include "sensor.hpp"
-
+#include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sensor.hpp>
 
 #include <memory>
 #include <optional>
@@ -70,7 +69,7 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
               const double scaleFactor, PowerState readState,
               const std::string& sensorConfiguration,
               std::optional<BridgeGpio>&& bridgeGpio);
-    ~ADCSensor();
+    ~ADCSensor() override;
     void setupRead(void);
 
   private:

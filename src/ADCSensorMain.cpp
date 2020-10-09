@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "ADCSensor.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
+#include <ADCSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -36,7 +35,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 namespace fs = std::filesystem;
 
@@ -316,7 +315,7 @@ int main()
                     /* we were canceled*/
                     return;
                 }
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                     return;
@@ -364,7 +363,7 @@ int main()
                     /* we were canceled*/
                     return;
                 }
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                     return;

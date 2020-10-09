@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-
+#include <Thresholds.hpp>
+#include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <limits>
