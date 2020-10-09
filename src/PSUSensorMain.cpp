@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "PSUEvent.hpp"
-#include "PSUSensor.hpp"
-#include "Utils.hpp"
-
+#include <PSUEvent.hpp>
+#include <PSUSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -38,7 +37,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static constexpr std::array<const char*, 14> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADM1272",
@@ -99,7 +98,9 @@ void checkEvent(
         const std::string& eventName = match.first;
         for (const auto& eventAttr : eventAttrs)
         {
-            auto eventPath = directory + "/" + eventAttr;
+            std::string eventPath = directory;
+            eventPath += "/";
+            eventPath += eventAttr;
 
             std::ifstream eventFile(eventPath);
             if (!eventFile.good())
@@ -138,7 +139,9 @@ void checkGroupEvent(
             const std::vector<std::string>& eventAttrs = match.second;
             for (const auto& eventAttr : eventAttrs)
             {
-                auto eventPath = directory + "/" + eventAttr;
+                std::string eventPath = directory;
+                eventPath += "/";
+                eventPath += eventAttr;
                 std::ifstream eventFile(eventPath);
                 if (!eventFile.good())
                 {
@@ -288,7 +291,7 @@ void createSensors(boost::asio::io_service& io,
 
         fs::path device = directory / "device";
         std::string deviceName = fs::canonical(device).stem();
-        auto findHyphen = deviceName.find("-");
+        auto findHyphen = deviceName.find('-');
         if (findHyphen == std::string::npos)
         {
             std::cerr << "found bad device" << deviceName << "\n";
@@ -303,7 +306,7 @@ void createSensors(boost::asio::io_service& io,
         try
         {
             bus = std::stoi(busStr);
-            addr = std::stoi(addrStr, 0, 16);
+            addr = std::stoi(addrStr, nullptr, 16);
         }
         catch (std::invalid_argument&)
         {
@@ -424,7 +427,7 @@ void createSensors(boost::asio::io_service& io,
         /* read max value in sysfs for in, curr, power, temp, ... */
         if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
         {
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "No max name in PSU \n";
             }
@@ -465,7 +468,7 @@ void createSensors(boost::asio::io_service& io,
             std::string labelPath;
 
             /* find and differentiate _max and _input to replace "label" */
-            int pos = sensorPathStr.find("_");
+            int pos = sensorPathStr.find('_');
             if (pos != std::string::npos)
             {
 
@@ -491,14 +494,14 @@ void createSensors(boost::asio::io_service& io,
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
-                if constexpr (DEBUG)
+                if constexpr (debug)
                 {
                     std::cerr << "Input file " << sensorPath
                               << " has no corresponding label file\n";
                 }
                 // hwmon *_input filename with number:
                 // temp1, temp2, temp3, ...
-                labelHead = sensorNameStr.substr(0, sensorNameStr.find("_"));
+                labelHead = sensorNameStr.substr(0, sensorNameStr.find('_'));
             }
             else
             {
@@ -513,16 +516,16 @@ void createSensors(boost::asio::io_service& io,
 
                 // hwmon corresponding *_label file contents:
                 // vin1, vout1, ...
-                labelHead = label.substr(0, label.find(" "));
+                labelHead = label.substr(0, label.find(' '));
             }
 
             /* append "max" for labelMatch */
             if (maxLabel)
             {
-                labelHead = "max" + labelHead;
+                labelHead.insert(0, "max");
             }
 
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Sensor type=\"" << sensorNameSubStr
                           << "\" label=\"" << labelHead << "\"\n";
@@ -537,7 +540,7 @@ void createSensors(boost::asio::io_service& io,
                 if (std::find(findLabels.begin(), findLabels.end(),
                               labelHead) == findLabels.end())
                 {
-                    if constexpr (DEBUG)
+                    if constexpr (debug)
                     {
                         std::cerr << "could not find " << labelHead
                                   << " in the Labels list\n";
@@ -549,7 +552,7 @@ void createSensors(boost::asio::io_service& io,
             auto findProperty = labelMatch.find(labelHead);
             if (findProperty == labelMatch.end())
             {
-                if constexpr (DEBUG)
+                if constexpr (debug)
                 {
                     std::cerr << "Could not find matching default property for "
                               << labelHead << "\n";
@@ -689,7 +692,7 @@ void createSensors(boost::asio::io_service& io,
 
                 psuNameFromIndex = psuNames[nameIndex];
 
-                if constexpr (DEBUG)
+                if constexpr (debug)
                 {
                     std::cerr << "Sensor label head " << labelHead
                               << " paired with " << psuNameFromIndex
@@ -722,7 +725,7 @@ void createSensors(boost::asio::io_service& io,
                                         findScaleFactor->second);
                 }
 
-                if constexpr (DEBUG)
+                if constexpr (debug)
                 {
                     std::cerr << "Sensor scaling factor " << factor
                               << " string " << strScaleFactor << "\n";
@@ -745,7 +748,7 @@ void createSensors(boost::asio::io_service& io,
                 continue;
             }
 
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Sensor properties: Name \""
                           << psuProperty->labelTypeName << "\" Scale "
@@ -773,7 +776,7 @@ void createSensors(boost::asio::io_service& io,
                     psuNameFromIndex + " " + psuProperty->labelTypeName;
             }
 
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Sensor name \"" << sensorName << "\" path \""
                           << sensorPathStr << "\" type \"" << sensorType
@@ -787,7 +790,7 @@ void createSensors(boost::asio::io_service& io,
                 psuProperty->minReading, labelHead, thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Created " << numCreated << " sensors so far\n";
             }
@@ -801,7 +804,7 @@ void createSensors(boost::asio::io_service& io,
                 groupEventPathList, "OperationalStatus");
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cerr << "Created total of " << numCreated << " sensors\n";
     }
@@ -925,7 +928,7 @@ int main()
                 {
                     return;
                 }
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                 }
