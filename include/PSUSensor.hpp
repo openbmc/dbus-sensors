@@ -1,14 +1,15 @@
 #pragma once
 
-#include "PwmSensor.hpp"
-#include "Thresholds.hpp"
-#include "sensor.hpp"
-
+#include <PwmSensor.hpp>
+#include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sensor.hpp>
 
 #include <memory>
 #include <string>
+#include <utility>
+
 
 class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 {
@@ -21,7 +22,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
               double min, const std::string& label, size_t tSize);
-    ~PSUSensor();
+    ~PSUSensor() override;
     void setupRead(void);
 
   private:
@@ -48,7 +49,7 @@ class PSUProperty
 {
   public:
     PSUProperty(std::string name, double max, double min, unsigned int factor) :
-        labelTypeName(name), maxReading(max), minReading(min),
+        labelTypeName(std::move(name)), maxReading(max), minReading(min),
         sensorScaleFactor(factor)
     {}
     ~PSUProperty() = default;
