@@ -1,8 +1,7 @@
 #pragma once
-#include "sensor.hpp"
-
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <sensor.hpp>
 
 #include <chrono>
 #include <limits>
@@ -46,7 +45,7 @@ constexpr uint8_t getSensorReading = 0x2d;
 
 static bool isValid(const std::vector<uint8_t>& data)
 {
-    constexpr auto ReadingUnavailableBit = 5;
+    constexpr auto readingUnavailableBit = 5;
 
     // Proper 'Get Sensor Reading' response has at least 4 bytes, including
     // Completion Code. Our IPMB stack strips Completion Code from payload so we
@@ -57,7 +56,7 @@ static bool isValid(const std::vector<uint8_t>& data)
     }
 
     // Per IPMI 'Get Sensor Reading' specification
-    if (data[1] & (1 << ReadingUnavailableBit))
+    if (data[1] & (1 << readingUnavailableBit))
     {
         return false;
     }
@@ -82,7 +81,7 @@ struct IpmbSensor : public Sensor
                std::vector<thresholds::Threshold>&& thresholds,
                uint8_t deviceAddress, uint8_t hostSMbusIndex,
                std::string& sensorTypeName);
-    ~IpmbSensor();
+    ~IpmbSensor() override;
 
     void checkThresholds(void) override;
     void read(void);
