@@ -14,18 +14,16 @@
 // limitations under the License.
 */
 
-#include "CPUSensor.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
 #include <fcntl.h>
 
+#include <CPUSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/process/child.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus/match.hpp>
@@ -51,7 +49,7 @@
 #endif
 // clang-format on
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>> gCpuSensors;
 boost::container::flat_map<std::string,
@@ -194,7 +192,7 @@ bool createSensors(boost::asio::io_service& io,
         fs::path::iterator it = hwmonNamePath.begin();
         std::advance(it, 6); // pick the 6th part for a PECI client device name
         std::string deviceName = *it;
-        auto findHyphen = deviceName.find("-");
+        auto findHyphen = deviceName.find('-');
         if (findHyphen == std::string::npos)
         {
             std::cerr << "found bad device " << deviceName << "\n";
@@ -208,7 +206,7 @@ bool createSensors(boost::asio::io_service& io,
         try
         {
             bus = std::stoi(busStr);
-            addr = std::stoi(addrStr, 0, 16);
+            addr = std::stoi(addrStr, nullptr, 16);
         }
         catch (std::invalid_argument&)
         {
@@ -229,7 +227,7 @@ bool createSensors(boost::asio::io_service& io,
             // shouldn't have an empty name file
             continue;
         }
-        if (DEBUG)
+        if (debug)
         {
             std::cout << "Checking: " << hwmonNamePath << ": " << hwmonName
                       << "\n";
@@ -331,7 +329,7 @@ bool createSensors(boost::asio::io_service& io,
             auto findSensor = gCpuSensors.find(sensorName);
             if (findSensor != gCpuSensors.end())
             {
-                if (DEBUG)
+                if (debug)
                 {
                     std::cout << "Skipped: " << inputPath << ": " << sensorName
                               << " is already created\n";
@@ -367,7 +365,7 @@ bool createSensors(boost::asio::io_service& io,
             }
 
             std::vector<thresholds::Threshold> sensorThresholds;
-            std::string labelHead = label.substr(0, label.find(" "));
+            std::string labelHead = label.substr(0, label.find(' '));
             parseThresholdsFromConfig(*sensorData, sensorThresholds,
                                       &labelHead);
             if (sensorThresholds.empty())
@@ -388,7 +386,7 @@ bool createSensors(boost::asio::io_service& io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
                 show, dtsOffset);
             createdSensors.insert(sensorName);
-            if (DEBUG)
+            if (debug)
             {
                 std::cout << "Mapped: " << inputPath << " to " << sensorName
                           << "\n";
@@ -428,7 +426,7 @@ void exportDevice(const CPUConfig& config)
         if (boost::starts_with(directoryName, busStr) &&
             boost::ends_with(directoryName, addrHexStr))
         {
-            if (DEBUG)
+            if (debug)
             {
                 std::cout << parameters << " on bus " << busStr
                           << " is already exported\n";
@@ -544,7 +542,7 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
             keepPinging = true;
         }
 
-        if (DEBUG)
+        if (debug)
         {
             std::cout << config.name << ", state: " << config.state << "\n";
         }
@@ -681,7 +679,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 uint64_t addr = std::visit(VariantToUnsignedIntVisitor(),
                                            findAddress->second);
 
-                if (DEBUG)
+                if (debug)
                 {
                     std::cout << "bus: " << bus << "\n";
                     std::cout << "addr: " << addr << "\n";
@@ -739,7 +737,7 @@ int main()
                 return;
             }
 
-            if (DEBUG)
+            if (debug)
             {
                 std::cout << message.get_path() << " is changed\n";
             }
