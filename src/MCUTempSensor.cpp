@@ -13,14 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 */
-#include "MCUTempSensor.hpp"
-
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
-#include <math.h>
-
-#include <boost/algorithm/string.hpp>
+#include <MCUTempSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -29,6 +24,7 @@
 #include <sdbusplus/bus/match.hpp>
 
 #include <chrono>
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <limits>
@@ -166,7 +162,7 @@ void MCUTempSensor::read(void)
             return; // we're being cancelled
         }
         // read timer error
-        else if (ec)
+        if (ec)
         {
             std::cerr << "timer error\n";
             return;
@@ -291,7 +287,7 @@ int main()
                     return; // we're being canceled
                 }
                 // config timer error
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                     return;
