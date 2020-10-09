@@ -21,7 +21,6 @@ add_project_arguments(
 )
 
 build_tests = get_option('tests')
-cppfs = meson.get_compiler('cpp').find_library('stdc++fs')
 gpiodcxx = dependency('libgpiodcxx')
 i2c = meson.get_compiler('cpp').find_library('i2c')
 sdbusplus = dependency('sdbusplus')
@@ -42,9 +41,6 @@ thresholds_a = static_library(
 utils_a = static_library(
     'utils_a',
     'src/Utils.cpp',
-    dependencies: [
-        cppfs,
-    ],
     implicit_include_directories: false,
     include_directories: 'include',
 )
