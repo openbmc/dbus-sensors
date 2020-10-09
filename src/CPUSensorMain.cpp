@@ -94,6 +94,15 @@ static constexpr std::array<const char*, 1> sensorTypes = {"XeonCPU"};
 static constexpr std::array<const char*, 3> hiddenProps = {
     CPUSensor::labelTcontrol, "Tthrottle", "Tjmax"};
 
+static const boost::container::flat_map<std::string, SensorProperties>
+    sensorPropertiesMap = {
+        {"power", {"/xyz/openbmc_project/sensors/power/", 127.0, -128.0, 1000}},
+        {"energy",
+         {"/xyz/openbmc_project/sensors/energy/",
+          std::numeric_limits<uint32_t>::max()/1000000, 0.0, 1000000}},
+        {"temp",
+         {"/xyz/openbmc_project/sensors/temperature/", 127.0, -128.0, 1000}}};
+
 void detectCpuAsync(
     boost::asio::deadline_timer& pingTimer,
     boost::asio::deadline_timer& creationTimer, boost::asio::io_service& io,
@@ -297,7 +306,8 @@ bool createSensors(boost::asio::io_service& io,
 
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
-        if (!findFiles(directory, R"((temp|power)\d+_(input|average|cap)$)",
+        if (!findFiles(directory,
+                       R"((temp|power|energy)\d+_(input|average|cap)$)",
                        inputPaths, 0))
         {
             std::cerr << "No temperature sensors in system\n";
@@ -366,6 +376,16 @@ bool createSensors(boost::asio::io_service& io,
                 }
             }
 
+            const auto& it = sensorPropertiesMap.find(type);
+            if (it == sensorPropertiesMap.end())
+            {
+                std::cerr
+                    << "Failure getting sensor properties for sensor type: "
+                    << type << "\n";
+                continue;
+            }
+            const SensorProperties& prop = it->second;
+
             std::vector<thresholds::Threshold> sensorThresholds;
             std::string labelHead = label.substr(0, label.find(" "));
             parseThresholdsFromConfig(*sensorData, sensorThresholds,
@@ -373,8 +393,7 @@ bool createSensors(boost::asio::io_service& io,
             if (sensorThresholds.empty())
             {
                 if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
-                                             CPUSensor::sensorScaleFactor,
-                                             dtsOffset))
+                                             prop.scaleFactor, dtsOffset))
                 {
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
@@ -386,7 +405,7 @@ bool createSensors(boost::asio::io_service& io,
             sensorPtr = std::make_unique<CPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show, dtsOffset);
+                show, dtsOffset, prop);
             createdSensors.insert(sensorName);
             if (DEBUG)
             {
