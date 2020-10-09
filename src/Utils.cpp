@@ -14,8 +14,7 @@
 // limitations under the License.
 */
 
-#include "Utils.hpp"
-
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -130,6 +129,14 @@ std::set<std::string> getPermitSet(const SensorBaseConfigMap& config)
 bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    ManagedObjectType& resp)
+{
+    return getSensorConfiguration(type, dbusConnection, resp, false);
+}
+
+bool getSensorConfiguration(
+    const std::string& type,
+    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     ManagedObjectType& resp, bool useCache)
 {
     static ManagedObjectType managedObj;
@@ -182,25 +189,31 @@ bool getSensorConfiguration(
     return true;
 }
 
-bool findFiles(const fs::path dirPath, const std::string& matchString,
+bool findFiles(const fs::path& dirPath, const std::string& matchString,
                std::vector<fs::path>& foundPaths, unsigned int symlinkDepth)
 {
     if (!fs::exists(dirPath))
+    {
         return false;
+    }
 
     std::regex search(matchString);
     std::smatch match;
-    for (auto& p : fs::recursive_directory_iterator(dirPath))
+    for (auto p = fs::recursive_directory_iterator(
+             dirPath, fs::directory_options::follow_directory_symlink);
+         p != fs::recursive_directory_iterator(); ++p)
     {
-        std::string path = p.path().string();
-        if (!is_directory(p))
+        std::string path = p->path().string();
+        if (!is_directory(*p))
         {
             if (std::regex_search(path, match, search))
-                foundPaths.emplace_back(p.path());
+            {
+                foundPaths.emplace_back(p->path());
+            }
         }
-        else if (is_symlink(p) && symlinkDepth)
+        if (p.depth() >= symlinkDepth)
         {
-            findFiles(p.path(), matchString, foundPaths, symlinkDepth - 1);
+            p.disable_recursion_pending();
         }
     }
     return true;
@@ -328,7 +341,7 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
                     {
                         return;
                     }
-                    else if (ec)
+                    if (ec)
                     {
                         std::cerr << "Timer error " << ec.message() << "\n";
                         return;
@@ -390,15 +403,15 @@ void createAssociation(
         std::filesystem::path p(path);
 
         std::vector<Association> associations;
-        associations.push_back(
-            Association("chassis", "all_sensors", p.parent_path().string()));
+        associations.emplace_back("chassis", "all_sensors",
+                                  p.parent_path().string());
         association->register_property("Associations", associations);
         association->initialize();
     }
 }
 
 void setInventoryAssociation(
-    std::shared_ptr<sdbusplus::asio::dbus_interface> association,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
     const std::string& path,
     const std::vector<std::string>& chassisPaths = std::vector<std::string>())
 {
@@ -408,13 +421,12 @@ void setInventoryAssociation(
         std::vector<Association> associations;
         std::string objPath(p.parent_path().string());
 
-        associations.push_back(Association("inventory", "sensors", objPath));
-        associations.push_back(Association("chassis", "all_sensors", objPath));
+        associations.emplace_back("inventory", "sensors", objPath);
+        associations.emplace_back("chassis", "all_sensors", objPath);
 
         for (const std::string& chassisPath : chassisPaths)
         {
-            associations.push_back(
-                Association("chassis", "all_sensors", chassisPath));
+            associations.emplace_back("chassis", "all_sensors", chassisPath);
         }
 
         association->register_property("Associations", associations);
@@ -423,8 +435,8 @@ void setInventoryAssociation(
 }
 
 void createInventoryAssoc(
-    std::shared_ptr<sdbusplus::asio::connection> conn,
-    std::shared_ptr<sdbusplus::asio::dbus_interface> association,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
     const std::string& path)
 {
     if (!association)
