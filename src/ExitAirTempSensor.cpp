@@ -14,13 +14,9 @@
 // limitations under the License.
 */
 
-#include "ExitAirTempSensor.hpp"
-
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
-#include <math.h>
-
+#include <ExitAirTempSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -41,7 +37,7 @@
 #include <variant>
 #include <vector>
 
-constexpr const float altitudeFactor = 1.14;
+constexpr const double altitudeFactor = 1.14;
 constexpr const char* exitAirIface =
     "xyz.openbmc_project.Configuration.ExitAirTempSensor";
 constexpr const char* cfmIface = "xyz.openbmc_project.Configuration.CFMSensor";
@@ -54,7 +50,7 @@ constexpr const char* settingsDaemon = "xyz.openbmc_project.Settings";
 constexpr const char* cfmSettingPath = "/xyz/openbmc_project/control/cfm_limit";
 constexpr const char* cfmSettingIface = "xyz.openbmc_project.Control.CFMLimit";
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static constexpr double cfmMaxReading = 255;
 static constexpr double cfmMinReading = 0;
@@ -128,8 +124,8 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
 
                 conn->async_method_call(
                     [conn, value, owner,
-                     path](const boost::system::error_code ec,
-                           const std::variant<std::string>& classType) {
+                     path{path}](const boost::system::error_code ec,
+                                 const std::variant<std::string>& classType) {
                         if (ec)
                         {
                             std::cerr << "Error getting pid class\n";
@@ -411,7 +407,7 @@ bool CFMSensor::calculate(double& value)
             });
         if (findReading == tachReadings.end())
         {
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Can't find " << tachName << "in readings\n";
             }
@@ -438,7 +434,7 @@ bool CFMSensor::calculate(double& value)
         rpm /= findRange->second.second;
         rpm *= 100;
 
-        if constexpr (DEBUG)
+        if constexpr (debug)
         {
             std::cout << "Tach " << tachName << "at " << rpm << "\n";
         }
@@ -468,7 +464,7 @@ bool CFMSensor::calculate(double& value)
         // Now calculate the CFM for this tach
         // CFMi = Ci * Qmaxi * TACHi
         totalCFM += ci * maxCFM * rpm;
-        if constexpr (DEBUG)
+        if constexpr (debug)
         {
             std::cerr << "totalCFM = " << totalCFM << "\n";
             std::cerr << "Ci " << ci << " MaxCFM " << maxCFM << " rpm " << rpm
@@ -480,7 +476,7 @@ bool CFMSensor::calculate(double& value)
 
     // divide by 100 since rpm is in percent
     value = totalCFM / 100;
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cerr << "cfm value = " << value << "\n";
     }
@@ -603,7 +599,7 @@ void ExitAirTempSensor::setupMatches(void)
 
                             double reading =
                                 std::visit(VariantToDoubleVisitor(), value);
-                            if constexpr (DEBUG)
+                            if constexpr (debug)
                             {
                                 std::cerr << path << "Reading " << reading
                                           << "\n";
@@ -695,7 +691,7 @@ bool ExitAirTempSensor::calculate(double& val)
 
     // Calculate power correction factor
     // Ci = CL + (CH - CL)/(QMax - QMin) * (CFM - QMin)
-    float powerFactor = 0.0;
+    double powerFactor = 0.0;
     if (cfm <= qMin)
     {
         powerFactor = powerFactorMin;
@@ -710,7 +706,7 @@ bool ExitAirTempSensor::calculate(double& val)
                                         (qMax - qMin) * (cfm - qMin));
     }
 
-    totalPower *= static_cast<double>(powerFactor);
+    totalPower *= powerFactor;
     totalPower += pOffset;
 
     if (totalPower == 0)
@@ -724,7 +720,7 @@ bool ExitAirTempSensor::calculate(double& val)
         return false;
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cout << "Power Factor " << powerFactor << "\n";
         std::cout << "Inlet Temp " << inletTemp << "\n";
@@ -733,11 +729,11 @@ bool ExitAirTempSensor::calculate(double& val)
 
     // Calculate the exit air temp
     // Texit = Tfp + (1.76 * TotalPower / CFM * Faltitude)
-    double reading = 1.76 * totalPower * static_cast<double>(altitudeFactor);
+    double reading = 1.76 * totalPower * altitudeFactor;
     reading /= cfm;
     reading += inletTemp;
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cout << "Reading 1: " << reading << "\n";
     }
@@ -778,14 +774,14 @@ bool ExitAirTempSensor::calculate(double& val)
         alphaDT = 1.0;
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cout << "AlphaDT: " << alphaDT << "\n";
     }
 
     reading = ((reading * alphaDT) + (lastReading * (1.0 - alphaDT)));
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cout << "Reading 2: " << reading << "\n";
     }

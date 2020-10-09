@@ -14,11 +14,10 @@
 // limitations under the License.
 */
 
-#include "PwmSensor.hpp"
-#include "TachSensor.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
+#include <PwmSensor.hpp>
+#include <TachSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -40,7 +39,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 namespace fs = std::filesystem;
 
@@ -77,7 +76,7 @@ FanTypes getFanType(const fs::path& parentPath)
     {
         return FanTypes::aspeed;
     }
-    else if (boost::ends_with(canonical, "f0103000.pwm-fan-controller"))
+    if (boost::ends_with(canonical, "f0103000.pwm-fan-controller"))
     {
         return FanTypes::nuvoton;
     }
@@ -88,13 +87,13 @@ FanTypes getFanType(const fs::path& parentPath)
 void createRedundancySensor(
     const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
         sensors,
-    std::shared_ptr<sdbusplus::asio::connection> conn,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
     sdbusplus::asio::object_server& objectServer)
 {
 
     conn->async_method_call(
         [&objectServer, &sensors](boost::system::error_code& ec,
-                                  const ManagedObjectType managedObj) {
+                                  const ManagedObjectType& managedObj) {
             if (ec)
             {
                 std::cerr << "Error calling entity manager \n";
@@ -184,7 +183,7 @@ void createSensors(
                     std::string link =
                         fs::read_symlink(directory / "device").filename();
 
-                    size_t findDash = link.find("-");
+                    size_t findDash = link.find('-');
                     if (findDash == std::string::npos ||
                         link.size() <= findDash + 1)
                     {
@@ -237,7 +236,12 @@ void createSensors(
                         sensorData = &(sensor.second);
                         break;
                     }
+<<<<<<< HEAD
                     else if (fanType == FanTypes::i2c)
+=======
+                    if (baseType ==
+                        std::string("xyz.openbmc_project.Configuration.I2CFan"))
+>>>>>>> 72aa0b9 (add clang-tidy)
                     {
                         auto findBus = baseConfiguration->second.find("Bus");
                         auto findAddress =
@@ -505,7 +509,7 @@ int main()
                     /* we were canceled*/
                     return;
                 }
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                     return;
