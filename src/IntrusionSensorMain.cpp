@@ -14,13 +14,12 @@
 // limitations under the License.
 */
 
-#include "ChassisIntrusionSensor.hpp"
-#include "Utils.hpp"
-
 #include <systemd/sd-journal.h>
 
+#include <ChassisIntrusionSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/asio.hpp>
+#include <boost/asio/io_service.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -32,6 +31,7 @@
 #include <sdbusplus/timer.hpp>
 
 #include <array>
+#include <charconv>
 #include <chrono>
 #include <ctime>
 #include <fstream>
@@ -43,7 +43,7 @@
 #include <utility>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
 static constexpr const char* sensorType =
     "xyz.openbmc_project.Configuration.ChassisIntrusionSensor";
@@ -125,7 +125,7 @@ static bool getIntrusionSensorConfig(
                 continue;
             }
 
-            if (DEBUG)
+            if (debug)
             {
                 std::cout << "find chassis intrusion sensor polarity inverted "
                              "flag is "
@@ -136,7 +136,7 @@ static bool getIntrusionSensorConfig(
         }
 
         // case to find I2C info
-        else if (*pType == IntrusionSensorType::pch)
+        if (*pType == IntrusionSensorType::pch)
         {
             auto findBus = baseConfiguration->second.find("Bus");
             auto findAddress = baseConfiguration->second.find("Address");
@@ -158,7 +158,7 @@ static bool getIntrusionSensorConfig(
                 continue;
             }
 
-            if (DEBUG)
+            if (debug)
             {
                 std::cout << "find matched bus " << *pBusId
                           << ", matched slave addr " << *pSlaveAddr << "\n";
@@ -340,7 +340,7 @@ static void
     }
 
     // iterate through all found eth files, and save ifindex
-    for (auto& fileName : files)
+    for (const fs::path& fileName : files)
     {
         if (debugLanLeash)
         {
@@ -363,11 +363,9 @@ static void
         const int pos = fileStr.find("eth");
         const std::string& ethNumStr = fileStr.substr(pos + 3);
         int ethNum = 0;
-        try
-        {
-            ethNum = std::stoul(ethNumStr);
-        }
-        catch (const std::invalid_argument& err)
+        std::from_chars_result r = std::from_chars(
+            ethNumStr.data(), ethNumStr.data() + ethNumStr.size(), ethNum);
+        if (r.ec != std::errc())
         {
             std::cerr << "invalid ethNum string: " << ethNumStr << "\n";
             continue;
