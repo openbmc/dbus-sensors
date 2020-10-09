@@ -14,12 +14,10 @@
 // limitations under the License.
 */
 
-#include "CPUSensor.hpp"
-
-#include "Utils.hpp"
-
 #include <unistd.h>
 
+#include <CPUSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
@@ -39,12 +37,12 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
-                     std::vector<thresholds::Threshold>&& _thresholds,
+                     std::vector<thresholds::Threshold>&& thresholds,
                      const std::string& sensorConfiguration, int cpuId,
                      bool show, double dtsOffset) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading, conn, PowerState::on),
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
+           sensorConfiguration, objectType, maxReading, minReading, conn,
+           PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
@@ -201,7 +199,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     {
         return; // we're being destroyed
     }
-    else if (err == boost::system::errc::operation_canceled)
+    if (err == boost::system::errc::operation_canceled)
     {
         if (readingStateGood())
         {
@@ -210,7 +208,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                 std::cerr << name << " interface down!\n";
                 loggedInterfaceDown = true;
             }
-            pollTime = 10000 + rand() % 10000;
+            pollTime = CPUSensor::sensorPollMs * 10u;
             markFunctional(false);
         }
         return;
