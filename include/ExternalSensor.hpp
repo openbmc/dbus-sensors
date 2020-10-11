@@ -8,9 +8,7 @@
 #include <string>
 #include <vector>
 
-class ExternalSensor :
-    public Sensor,
-    public std::enable_shared_from_this<ExternalSensor>
+class ExternalSensor
 {
   public:
     ExternalSensor(const std::string& objectType,
@@ -24,8 +22,10 @@ class ExternalSensor :
                    const PowerState& powerState);
     virtual ~ExternalSensor();
 
+    Sensor sensor;
+
   private:
     sdbusplus::asio::object_server& objServer;
 
-    void checkThresholds(void) override;
+    void checkThresholds();
 };
