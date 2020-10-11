@@ -10,7 +10,7 @@
 #include <string>
 #include <utility>
 
-class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
+class PSUSensor : public std::enable_shared_from_this<PSUSensor>
 {
   public:
     PSUSensor(const std::string& path, const std::string& objectType,
@@ -21,8 +21,10 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
               double min, const std::string& label, size_t tSize);
-    ~PSUSensor() override;
+    ~PSUSensor();
     void setupRead(void);
+
+    Sensor sensor;
 
   private:
     sdbusplus::asio::object_server& objServer;
@@ -36,7 +38,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     unsigned int sensorFactor;
     uint8_t minMaxReadCounter;
     void handleResponse(const boost::system::error_code& err);
-    void checkThresholds(void) override;
+    void checkThresholds(void);
     void updateMinMaxValues(void);
 
     int fd;

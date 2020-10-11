@@ -52,33 +52,34 @@ ADCSensor::ADCSensor(const std::string& path,
                      const double scaleFactor, PowerState readState,
                      const std::string& sensorConfiguration,
                      std::optional<BridgeGpio>&& bridgeGpio) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
+    sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ADC",
            maxReading, minReading, conn, readState),
-    std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
-    thresholdTimer(io, this)
+    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
+    waitTimer(io), path(path), scaleFactor(scaleFactor),
+    bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io, sensor)
 {
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/voltage/" + name,
+    sensor.checkThresholdsFunc = [this]() { checkThresholds(); };
+    sensor.sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/voltage/" + sensor.name,
         "xyz.openbmc_project.Sensor.Value");
     if (thresholds::hasWarningInterface(thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/voltage/" + name,
+        sensor.thresholdInterfaceWarning = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/voltage/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/voltage/" + name,
+        sensor.thresholdInterfaceCritical = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/voltage/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
+    sensor.association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/voltage/" + sensor.name,
+        association::interface);
 
-    setInitialProperties(conn);
+    sensor.setInitialProperties(conn);
 }
 
 ADCSensor::~ADCSensor()
@@ -86,18 +87,16 @@ ADCSensor::~ADCSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objServer.remove_interface(sensor.thresholdInterfaceWarning);
+    objServer.remove_interface(sensor.thresholdInterfaceCritical);
+    objServer.remove_interface(sensor.sensorInterface);
+    objServer.remove_interface(sensor.association);
 }
 
 void ADCSensor::setupRead(void)
 {
     std::shared_ptr<boost::asio::streambuf> buffer =
         std::make_shared<boost::asio::streambuf>();
-
-    std::weak_ptr<ADCSensor> weakRef = weak_from_this();
 
     if (bridgeGpio.has_value())
     {
@@ -109,49 +108,35 @@ void ADCSensor::setupRead(void)
         waitTimer.expires_from_now(
             boost::posix_time::milliseconds(gpioBridgeEnableMs));
         waitTimer.async_wait(
-            [weakRef, buffer](const boost::system::error_code& ec) {
-                std::shared_ptr<ADCSensor> self = weakRef.lock();
+            [this, buffer](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     return; // we're being canceled
                 }
 
-                if (self)
-                {
-                    boost::asio::async_read_until(
-                        self->inputDev, *buffer, '\n',
-                        [weakRef, buffer](const boost::system::error_code& ec,
-                                          std::size_t /*bytes_transfered*/) {
-                            std::shared_ptr<ADCSensor> self = weakRef.lock();
-                            if (self)
-                            {
-                                self->readBuf = buffer;
-                                self->handleResponse(ec);
-                            }
-                        });
-                }
+                boost::asio::async_read_until(
+                    this->inputDev, *buffer, '\n',
+                    [this, buffer](const boost::system::error_code& ec,
+                                   std::size_t /*bytes_transfered*/) {
+                        this->readBuf = buffer;
+                        this->handleResponse(ec);
+                    });
             });
     }
     else
     {
         boost::asio::async_read_until(
             inputDev, *buffer, '\n',
-            [weakRef, buffer](const boost::system::error_code& ec,
-                              std::size_t /*bytes_transfered*/) {
-                std::shared_ptr<ADCSensor> self = weakRef.lock();
-                if (self)
-                {
-                    self->readBuf = buffer;
-                    self->handleResponse(ec);
-                }
+            [this, buffer](const boost::system::error_code& ec,
+                           std::size_t /*bytes_transfered*/) {
+                this->readBuf = buffer;
+                this->handleResponse(ec);
             });
     }
 }
 
 void ADCSensor::handleResponse(const boost::system::error_code& err)
 {
-    std::weak_ptr<ADCSensor> weakRef = weak_from_this();
-
     if (err == boost::system::errc::bad_file_descriptor)
     {
         return; // we're being destroyed
@@ -166,19 +151,19 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         // todo read scaling factors from configuration
         try
         {
-            rawValue = std::stod(response);
-            double nvalue = (rawValue / sensorScaleFactor) / scaleFactor;
+            sensor.rawValue = std::stod(response);
+            double nvalue = (sensor.rawValue / sensorScaleFactor) / scaleFactor;
             nvalue = std::round(nvalue * roundFactor) / roundFactor;
-            updateValue(nvalue);
+            sensor.updateValue(nvalue);
         }
         catch (std::invalid_argument&)
         {
-            incrementError();
+            sensor.incrementError();
         }
     }
     else
     {
-        incrementError();
+        sensor.incrementError();
     }
 
     responseStream.clear();
@@ -190,43 +175,31 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
-        std::cerr << "adcsensor " << name << " failed to open " << path << "\n";
+        std::cerr << "adcsensor " << sensor.name << " failed to open " << path
+                  << "\n";
         return; // we're no longer valid
     }
     inputDev.assign(fd);
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        std::shared_ptr<ADCSensor> self = weakRef.lock();
+    waitTimer.async_wait([this](const boost::system::error_code ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            if (self)
-            {
-                std::cerr << "adcsensor " << self->name << " read cancelled\n";
-            }
-            else
-            {
-                std::cerr << "adcsensor read cancelled no self\n";
-            }
+            std::cerr << "adcsensor " << this->sensor.name
+                      << " read cancelled\n";
+
             return; // we're being canceled
         }
 
-        if (self)
-        {
-            self->setupRead();
-        }
-        else
-        {
-            std::cerr << "adcsensor weakref no self\n";
-        }
+        this->setupRead();
     });
 }
 
 void ADCSensor::checkThresholds(void)
 {
-    if (!readingStateGood())
+    if (!sensor.readingStateGood())
     {
         return;
     }
 
-    thresholds::checkThresholdsPowerDelay(this, thresholdTimer);
+    thresholds::checkThresholdsPowerDelay(sensor, thresholdTimer);
 }

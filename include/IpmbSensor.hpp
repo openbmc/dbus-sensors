@@ -72,7 +72,7 @@ constexpr uint8_t sendRawPmbus = 0xd9;
 } // namespace me_bridge
 } // namespace ipmi
 
-struct IpmbSensor : public Sensor
+struct IpmbSensor
 {
     IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                boost::asio::io_service& io, const std::string& name,
@@ -80,9 +80,11 @@ struct IpmbSensor : public Sensor
                sdbusplus::asio::object_server& objectServer,
                std::vector<thresholds::Threshold>&& thresholds,
                uint8_t deviceAddress, std::string& sensorTypeName);
-    ~IpmbSensor() override;
+    ~IpmbSensor();
 
-    void checkThresholds(void) override;
+    Sensor sensor;
+
+    void checkThresholds(void);
     void read(void);
     void init(void);
     void loadDefaults(void);
