@@ -228,7 +228,7 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
                 return;
             }
 
-            sensor->incrementError();
+            sensor->sensor.incrementError();
 
             // cycle it back
             nvmeDevice->sensors.pop_front();
@@ -243,7 +243,7 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
     {
         std::cout << "Sending message to read data from Drive on bus: "
                   << sensor->bus << " , rootBus: " << nvmeDevice->rootBus
-                  << " device: " << sensor->name << "\n";
+                  << " device: " << sensor->sensor.name << "\n";
     }
 
     mctp_smbus_set_out_fd(nvmeMCTP::smbus, nvmeMCTP::getOutFd(sensor->bus));
@@ -360,10 +360,10 @@ void rxMessage(uint8_t eid, void*, void* msg, size_t len)
     {
         std::cout << "Temperature Reading: "
                   << getTemperatureReading(messageData[5])
-                  << " Celsius for device " << sensorInfo->name << "\n";
+                  << " Celsius for device " << sensorInfo->sensor.name << "\n";
     }
 
-    sensorInfo->updateValue(getTemperatureReading(messageData[5]));
+    sensorInfo->sensor.updateValue(getTemperatureReading(messageData[5]));
 
     if (debug)
     {
@@ -427,44 +427,45 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
                        std::vector<thresholds::Threshold>&& thresholds,
                        const std::string& sensorConfiguration,
                        const int busNumber) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
+    sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
            sensorConfiguration, "xyz.openbmc_project.Configuration.NVMe",
            maxReading, minReading, conn, PowerState::on),
     objServer(objectServer), bus(busNumber)
 {
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+    sensor.checkThresholdsFunc = [this]() { checkThresholds(); };
+    sensor.sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(sensor.thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+        sensor.thresholdInterfaceWarning = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(sensor.thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+        sensor.thresholdInterfaceCritical = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+    sensor.association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
         association::interface);
 
-    setInitialProperties(conn);
+    sensor.setInitialProperties(conn);
 }
 
 NVMeSensor::~NVMeSensor()
 {
     // close the input dev to cancel async operations
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objServer.remove_interface(sensor.thresholdInterfaceWarning);
+    objServer.remove_interface(sensor.thresholdInterfaceCritical);
+    objServer.remove_interface(sensor.sensorInterface);
+    objServer.remove_interface(sensor.association);
 }
 
 void NVMeSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    thresholds::checkThresholds(sensor);
 }

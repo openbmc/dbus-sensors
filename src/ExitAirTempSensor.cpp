@@ -162,34 +162,35 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
                      std::vector<thresholds::Threshold>&& thresholdData,
                      std::shared_ptr<ExitAirTempSensor>& parent) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
+    sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", cfmMaxReading,
            cfmMinReading, conn, PowerState::on),
     std::enable_shared_from_this<CFMSensor>(), parent(parent),
     objServer(objectServer)
 {
-    sensorInterface =
-        objectServer.add_interface("/xyz/openbmc_project/sensors/cfm/" + name,
-                                   "xyz.openbmc_project.Sensor.Value");
+    sensor.sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/cfm/" + sensor.name,
+        "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(sensor.thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/cfm/" + name,
+        sensor.thresholdInterfaceWarning = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/cfm/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(sensor.thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/cfm/" + name,
+        sensor.thresholdInterfaceCritical = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/cfm/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
 
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/cfm/" + name, association::interface);
+    sensor.association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/cfm/" + sensor.name,
+        association::interface);
 
-    setInitialProperties(conn);
+    sensor.setInitialProperties(conn);
 
     pwmLimitIface =
         objectServer.add_interface("/xyz/openbmc_project/control/pwm_limit",
@@ -201,26 +202,24 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
 
 void CFMSensor::setupMatches()
 {
-
     std::shared_ptr<CFMSensor> self = shared_from_this();
-    setupSensorMatch(matches, *dbusConnection, "fan_tach",
-                     std::move([self](const double& value,
-                                      sdbusplus::message::message& message) {
-                         self->tachReadings[message.get_path()] = value;
-                         if (self->tachRanges.find(message.get_path()) ==
-                             self->tachRanges.end())
-                         {
-                             // calls update reading after updating ranges
-                             self->addTachRanges(message.get_sender(),
-                                                 message.get_path());
-                         }
-                         else
-                         {
-                             self->updateReading();
-                         }
-                     }));
+    setupSensorMatch(
+        matches, *sensor.dbusConnection, "fan_tach",
+        [self](const double& value, sdbusplus::message::message& message) {
+            self->tachReadings[message.get_path()] = value;
+            if (self->tachRanges.find(message.get_path()) ==
+                self->tachRanges.end())
+            {
+                // calls update reading after updating ranges
+                self->addTachRanges(message.get_sender(), message.get_path());
+            }
+            else
+            {
+                self->updateReading();
+            }
+        });
 
-    dbusConnection->async_method_call(
+    sensor.dbusConnection->async_method_call(
         [self](const boost::system::error_code ec,
                const std::variant<double> cfmVariant) {
             uint64_t maxRpm = 100;
@@ -235,13 +234,13 @@ void CFMSensor::setupMatches()
             }
             self->pwmLimitIface->register_property("Limit", maxRpm);
             self->pwmLimitIface->initialize();
-            setMaxPWM(self->dbusConnection, maxRpm);
+            setMaxPWM(self->sensor.dbusConnection, maxRpm);
         },
-        settingsDaemon, cfmSettingPath, "org.freedesktop.DBus.Properties",
+        settingsDaemon, cfmSettingPath, "org.freedesktop.DBus.Propertieqs",
         "Get", cfmSettingIface, "Limit");
 
     matches.emplace_back(
-        *dbusConnection,
+        *sensor.dbusConnection,
         "type='signal',"
         "member='PropertiesChanged',interface='org."
         "freedesktop.DBus.Properties',path='" +
@@ -270,16 +269,16 @@ void CFMSensor::setupMatches()
             }
             uint64_t maxRpm = self->getMaxRpm(*reading);
             self->pwmLimitIface->set_property("Limit", maxRpm);
-            setMaxPWM(self->dbusConnection, maxRpm);
+            setMaxPWM(self->sensor.dbusConnection, maxRpm);
         });
 }
 
 CFMSensor::~CFMSensor()
 {
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objServer.remove_interface(sensor.thresholdInterfaceWarning);
+    objServer.remove_interface(sensor.thresholdInterfaceCritical);
+    objServer.remove_interface(sensor.sensorInterface);
+    objServer.remove_interface(sensor.association);
     objServer.remove_interface(cfmLimitIface);
     objServer.remove_interface(pwmLimitIface);
 }
@@ -294,7 +293,7 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
                               const std::string& path)
 {
     std::shared_ptr<CFMSensor> self = shared_from_this();
-    dbusConnection->async_method_call(
+    sensor.dbusConnection->async_method_call(
         [self, path](const boost::system::error_code ec,
                      const boost::container::flat_map<std::string,
                                                       BasicVariantType>& data) {
@@ -315,7 +314,7 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
 
 void CFMSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    thresholds::checkThresholds(sensor);
 }
 
 void CFMSensor::updateReading(void)
@@ -323,15 +322,15 @@ void CFMSensor::updateReading(void)
     double val = 0.0;
     if (calculate(val))
     {
-        if (value != val && parent)
+        if (sensor.value != val && parent)
         {
             parent->updateReading();
         }
-        updateValue(val);
+        sensor.updateValue(val);
     }
     else
     {
-        updateValue(std::numeric_limits<double>::quiet_NaN());
+        sensor.updateValue(std::numeric_limits<double>::quiet_NaN());
     }
 }
 
@@ -490,40 +489,40 @@ ExitAirTempSensor::ExitAirTempSensor(
     const std::string& sensorName, const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
+    sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", exitAirMaxReading,
            exitAirMinReading, conn, PowerState::on),
     std::enable_shared_from_this<ExitAirTempSensor>(), objServer(objectServer)
 {
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+    sensor.sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(sensor.thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+        sensor.thresholdInterfaceWarning = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(sensor.thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+        sensor.thresholdInterfaceCritical = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+    sensor.association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
         association::interface);
-    setInitialProperties(conn);
+    sensor.setInitialProperties(conn);
 }
 
 ExitAirTempSensor::~ExitAirTempSensor()
 {
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objServer.remove_interface(sensor.thresholdInterfaceWarning);
+    objServer.remove_interface(sensor.thresholdInterfaceCritical);
+    objServer.remove_interface(sensor.sensorInterface);
+    objServer.remove_interface(sensor.association);
 }
 
 void ExitAirTempSensor::setupMatches(void)
@@ -534,7 +533,7 @@ void ExitAirTempSensor::setupMatches(void)
     std::shared_ptr<ExitAirTempSensor> self = shared_from_this();
     for (const std::string& type : matchTypes)
     {
-        setupSensorMatch(matches, *dbusConnection, type,
+        setupSensorMatch(matches, *sensor.dbusConnection, type,
                          [self, type](const double& value,
                                       sdbusplus::message::message& message) {
                              if (type == "power")
@@ -554,7 +553,7 @@ void ExitAirTempSensor::setupMatches(void)
                              self->updateReading();
                          });
     }
-    dbusConnection->async_method_call(
+    sensor.dbusConnection->async_method_call(
         [self](boost::system::error_code ec,
                const std::variant<double>& value) {
             if (ec)
@@ -568,7 +567,7 @@ void ExitAirTempSensor::setupMatches(void)
         "xyz.openbmc_project.HwmonTempSensor",
         std::string("/xyz/openbmc_project/sensors/") + inletTemperatureSensor,
         properties::interface, properties::get, sensorValueInterface, "Value");
-    dbusConnection->async_method_call(
+    sensor.dbusConnection->async_method_call(
         [self](boost::system::error_code ec, const GetSubTreeType& subtree) {
             if (ec)
             {
@@ -588,7 +587,7 @@ void ExitAirTempSensor::setupMatches(void)
                     boost::ends_with(sensorName, "Input_Power"))
                 {
                     const std::string& path = item.first;
-                    self->dbusConnection->async_method_call(
+                    self->sensor.dbusConnection->async_method_call(
                         [self, path](boost::system::error_code ec,
                                      const std::variant<double>& value) {
                             if (ec)
@@ -623,11 +622,11 @@ void ExitAirTempSensor::updateReading(void)
     if (calculate(val))
     {
         val = std::floor(val + 0.5);
-        updateValue(val);
+        sensor.updateValue(val);
     }
     else
     {
-        updateValue(std::numeric_limits<double>::quiet_NaN());
+        sensor.updateValue(std::numeric_limits<double>::quiet_NaN());
     }
 }
 
@@ -795,7 +794,7 @@ bool ExitAirTempSensor::calculate(double& val)
 
 void ExitAirTempSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    thresholds::checkThresholds(sensor);
 }
 
 static void loadVariantPathArray(
@@ -827,9 +826,8 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         return;
     }
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        std::move([&objectServer, &dbusConnection,
-                   &exitAirSensor](const ManagedObjectType& resp) {
+        dbusConnection, [&objectServer, &dbusConnection,
+                         &exitAirSensor](const ManagedObjectType& resp) {
             cfmSensors.clear();
             for (const auto& pathPair : resp)
             {
@@ -903,7 +901,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                 exitAirSensor->setupMatches();
                 exitAirSensor->updateReading();
             }
-        }));
+        });
     getter->getConfiguration(
         std::vector<std::string>(monitorIfaces.begin(), monitorIfaces.end()));
 }
