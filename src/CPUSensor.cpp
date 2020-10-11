@@ -40,14 +40,15 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration, int cpuId,
                      bool show, double dtsOffset) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, 0, 0, conn,
-           PowerState::on),
+    sensorCommon(boost::replace_all_copy(sensorName, " ", "_"),
+                 std::move(thresholdsIn), sensorConfiguration, objectType, 0, 0,
+                 conn, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
     minMaxReadCounter(0)
 {
+    sensorCommon.checkThresholdsFunc = [this]() { checkThresholds(); };
     nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);
     if (show)
@@ -58,36 +59,39 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             std::string interfacePath;
             if (type.compare("power") == 0)
             {
-                interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
-                minValue = 0;
-                maxValue = 511;
+                interfacePath =
+                    "/xyz/openbmc_project/sensors/power/" + sensorCommon.name;
+                sensorCommon.minValue = 0;
+                sensorCommon.maxValue = 511;
             }
             else
             {
-                interfacePath =
-                    "/xyz/openbmc_project/sensors/temperature/" + name;
-                minValue = -128;
-                maxValue = 127;
+                interfacePath = "/xyz/openbmc_project/sensors/temperature/" +
+                                sensorCommon.name;
+                sensorCommon.minValue = -128;
+                sensorCommon.maxValue = 127;
             }
 
-            sensorInterface = objectServer.add_interface(
+            sensorCommon.sensorInterface = objectServer.add_interface(
                 interfacePath, "xyz.openbmc_project.Sensor.Value");
-            if (thresholds::hasWarningInterface(thresholds))
+            if (thresholds::hasWarningInterface(sensorCommon.thresholds))
             {
-                thresholdInterfaceWarning = objectServer.add_interface(
-                    interfacePath,
-                    "xyz.openbmc_project.Sensor.Threshold.Warning");
+                sensorCommon.thresholdInterfaceWarning =
+                    objectServer.add_interface(
+                        interfacePath,
+                        "xyz.openbmc_project.Sensor.Threshold.Warning");
             }
-            if (thresholds::hasCriticalInterface(thresholds))
+            if (thresholds::hasCriticalInterface(sensorCommon.thresholds))
             {
-                thresholdInterfaceCritical = objectServer.add_interface(
-                    interfacePath,
-                    "xyz.openbmc_project.Sensor.Threshold.Critical");
+                sensorCommon.thresholdInterfaceCritical =
+                    objectServer.add_interface(
+                        interfacePath,
+                        "xyz.openbmc_project.Sensor.Threshold.Critical");
             }
-            association = objectServer.add_interface(interfacePath,
-                                                     association::interface);
+            sensorCommon.association = objectServer.add_interface(
+                interfacePath, association::interface);
 
-            setInitialProperties(conn);
+            sensorCommon.setInitialProperties(conn);
         }
     }
 
@@ -103,16 +107,16 @@ CPUSensor::~CPUSensor()
     waitTimer.cancel();
     if (show)
     {
-        objServer.remove_interface(thresholdInterfaceWarning);
-        objServer.remove_interface(thresholdInterfaceCritical);
-        objServer.remove_interface(sensorInterface);
-        objServer.remove_interface(association);
+        objServer.remove_interface(sensorCommon.thresholdInterfaceWarning);
+        objServer.remove_interface(sensorCommon.thresholdInterfaceCritical);
+        objServer.remove_interface(sensorCommon.sensorInterface);
+        objServer.remove_interface(sensorCommon.association);
     }
 }
 
 void CPUSensor::setupRead(void)
 {
-    if (readingStateGood())
+    if (sensorCommon.readingStateGood())
     {
         inputDev.close();
         int fd = open(path.c_str(), O_RDONLY);
@@ -122,27 +126,29 @@ void CPUSensor::setupRead(void)
 
             boost::asio::async_read_until(
                 inputDev, readBuf, '\n',
-                [&](const boost::system::error_code& ec,
-                    std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+                [this](const boost::system::error_code& ec,
+                       std::size_t /*bytes_transfered*/) {
+                    this->handleResponse(ec);
+                });
         }
         else
         {
-            std::cerr << name << " unable to open fd!\n";
+            std::cerr << sensorCommon.name << " unable to open fd!\n";
             pollTime = sensorFailedPollTimeMs;
         }
     }
     else
     {
         pollTime = sensorFailedPollTimeMs;
-        markAvailable(false);
+        sensorCommon.markAvailable(false);
     }
     waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
+    waitTimer.async_wait([this](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
-        setupRead();
+        this->setupRead();
     });
 }
 
@@ -156,8 +162,10 @@ void CPUSensor::updateMinMaxValues(void)
             {
                 "cap",
                 {
-                    std::make_tuple("cap_max", std::ref(maxValue), "MaxValue"),
-                    std::make_tuple("cap_min", std::ref(minValue), "MinValue"),
+                    std::make_tuple("cap_max", std::ref(sensorCommon.maxValue),
+                                    "MaxValue"),
+                    std::make_tuple("cap_min", std::ref(sensorCommon.minValue),
+                                    "MinValue"),
                 },
             },
         };
@@ -175,20 +183,22 @@ void CPUSensor::updateMinMaxValues(void)
                 if (auto newVal =
                         readFile(attrPath, CPUSensor::sensorScaleFactor))
                 {
-                    updateProperty(sensorInterface, oldValue, *newVal,
-                                   dbusName);
+                    sensorCommon.updateProperty(sensorCommon.sensorInterface,
+                                                oldValue, *newVal, dbusName);
                 }
                 else
                 {
                     if (isPowerOn())
                     {
-                        updateProperty(sensorInterface, oldValue, 0, dbusName);
+                        sensorCommon.updateProperty(
+                            sensorCommon.sensorInterface, oldValue, 0,
+                            dbusName);
                     }
                     else
                     {
-                        updateProperty(sensorInterface, oldValue,
-                                       std::numeric_limits<double>::quiet_NaN(),
-                                       dbusName);
+                        sensorCommon.updateProperty(
+                            sensorCommon.sensorInterface, oldValue,
+                            std::numeric_limits<double>::quiet_NaN(), dbusName);
                     }
                 }
             }
@@ -205,15 +215,15 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     }
     if (err == boost::system::errc::operation_canceled)
     {
-        if (readingStateGood())
+        if (sensorCommon.readingStateGood())
         {
             if (!loggedInterfaceDown)
             {
-                std::cerr << name << " interface down!\n";
+                std::cerr << sensorCommon.name << " interface down!\n";
                 loggedInterfaceDown = true;
             }
             pollTime = CPUSensor::sensorPollMs * 10u;
-            markFunctional(false);
+            sensorCommon.markFunctional(false);
         }
         return;
     }
@@ -226,65 +236,70 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             std::getline(responseStream, response);
-            rawValue = std::stod(response);
+            sensorCommon.rawValue = std::stod(response);
             responseStream.clear();
-            double nvalue = rawValue / CPUSensor::sensorScaleFactor;
+            double nvalue =
+                sensorCommon.rawValue / CPUSensor::sensorScaleFactor;
 
             if (show)
             {
-                updateValue(nvalue);
+                sensorCommon.updateValue(nvalue);
             }
             else
             {
-                value = nvalue;
+                sensorCommon.value = nvalue;
             }
             if (minMaxReadCounter++ % 8 == 0)
             {
                 updateMinMaxValues();
             }
+            double gTcontrol = std::numeric_limits<double>::quiet_NaN();
+            auto it = gCpuSensors.find(nameTcontrol);
+            if (it == gCpuSensors.end())
+            {
+                gTcontrol = it->second.sensorCommon.value;
+            }
 
-            double gTcontrol = gCpuSensors[nameTcontrol]
-                                   ? gCpuSensors[nameTcontrol]->value
-                                   : std::numeric_limits<double>::quiet_NaN();
             if (gTcontrol != privTcontrol)
             {
                 privTcontrol = gTcontrol;
 
-                if (!thresholds.empty())
+                if (!sensorCommon.thresholds.empty())
                 {
                     std::vector<thresholds::Threshold> newThresholds;
                     if (parseThresholdsFromAttr(newThresholds, path,
                                                 CPUSensor::sensorScaleFactor,
                                                 dtsOffset))
                     {
-                        if (!std::equal(thresholds.begin(), thresholds.end(),
+                        if (!std::equal(sensorCommon.thresholds.begin(),
+                                        sensorCommon.thresholds.end(),
                                         newThresholds.begin(),
                                         newThresholds.end()))
                         {
-                            thresholds = newThresholds;
+                            sensorCommon.thresholds = newThresholds;
                             if (show)
                             {
-                                thresholds::updateThresholds(this);
+                                thresholds::updateThresholds(sensorCommon);
                             }
                         }
                     }
                     else
                     {
-                        std::cerr << "Failure to update thresholds for " << name
-                                  << "\n";
+                        std::cerr << "Failure to update thresholds for "
+                                  << sensorCommon.name << "\n";
                     }
                 }
             }
         }
         catch (const std::invalid_argument&)
         {
-            incrementError();
+            sensorCommon.incrementError();
         }
     }
     else
     {
         pollTime = sensorFailedPollTimeMs;
-        incrementError();
+        sensorCommon.incrementError();
     }
 
     responseStream.clear();
@@ -294,6 +309,6 @@ void CPUSensor::checkThresholds(void)
 {
     if (show)
     {
-        thresholds::checkThresholds(this);
+        thresholds::checkThresholds(sensorCommon);
     }
 }

@@ -54,16 +54,16 @@ void createSensors(boost::asio::io_service& io,
             for (const std::pair<sdbusplus::message::object_path, SensorData>&
                      sensor : sensorConfigurations)
             {
-                const SensorData& sensorData = sensor.second;
-                const std::string& interfacePath = sensor.first.str;
+                const SensorData& sensorData = sensorCommon.second;
+                const std::string& interfacePath = sensorCommon.first.str;
                 const std::pair<
                     std::string,
                     boost::container::flat_map<std::string, BasicVariantType>>*
                     baseConfiguration = nullptr;
 
                 // find base configuration
-                auto sensorBase = sensor.second.find(sensorType);
-                if (sensorBase != sensor.second.end())
+                auto sensorBase = sensorCommon.second.find(sensorType);
+                if (sensorBase != sensorCommon.second.end())
                 {
                     baseConfiguration = &(*sensorBase);
                 }

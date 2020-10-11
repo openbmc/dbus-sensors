@@ -157,7 +157,7 @@ void createSensors(
                 if (!firstScan && (findSensor != sensors.end()))
                 {
                     std::string suffixName = "/";
-                    suffixName += findSensor->second->name;
+                    suffixName += findSensor->second->sensorCommon.name;
                     bool found = false;
                     for (auto it = sensorsChanged->begin();
                          it != sensorsChanged->end(); it++)

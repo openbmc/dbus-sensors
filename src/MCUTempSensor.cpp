@@ -56,52 +56,53 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              std::vector<thresholds::Threshold>&& thresholdData,
                              uint8_t busId, uint8_t mcuAddress,
                              uint8_t tempReg) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", mcuTempMaxReading,
-           mcuTempMinReading, conn),
+    sensorCommon(boost::replace_all_copy(sensorName, " ", "_"),
+                 std::move(thresholdData), sensorConfiguration,
+                 "xyz.openbmc_project.Configuration.ExitAirTemp",
+                 mcuTempMaxReading, mcuTempMinReading, conn),
     busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
     objectServer(objectServer), waitTimer(io)
 {
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+    sensorCommon.checkThresholdsFunc = [this]() { checkThresholds(); };
+    sensorCommon.sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + sensorCommon.name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(sensorCommon.thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+        sensorCommon.thresholdInterfaceWarning = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + sensorCommon.name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(sensorCommon.thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+        sensorCommon.thresholdInterfaceCritical = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + sensorCommon.name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+    sensorCommon.association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + sensorCommon.name,
         association::interface);
 }
 
 MCUTempSensor::~MCUTempSensor()
 {
     waitTimer.cancel();
-    objectServer.remove_interface(thresholdInterfaceWarning);
-    objectServer.remove_interface(thresholdInterfaceCritical);
-    objectServer.remove_interface(sensorInterface);
-    objectServer.remove_interface(association);
+    objectServer.remove_interface(sensorCommon.thresholdInterfaceWarning);
+    objectServer.remove_interface(sensorCommon.thresholdInterfaceCritical);
+    objectServer.remove_interface(sensorCommon.sensorInterface);
+    objectServer.remove_interface(sensorCommon.association);
 }
 
 void MCUTempSensor::init(void)
 {
-    setInitialProperties(dbusConnection);
+    sensorCommon.setInitialProperties(sensorCommon.dbusConnection);
     read();
 }
 
 void MCUTempSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    thresholds::checkThresholds(sensorCommon);
 }
 
 int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
@@ -177,12 +178,12 @@ void MCUTempSensor::read(void)
                 std::cerr << "Value update to " << v << "raw reading "
                           << static_cast<int>(temp) << "\n";
             }
-            updateValue(v);
+            sensorCommon.updateValue(v);
         }
         else
         {
             std::cerr << "Invalid read getMCURegsInfoWord\n";
-            incrementError();
+            sensorCommon.incrementError();
         }
         read();
     });
