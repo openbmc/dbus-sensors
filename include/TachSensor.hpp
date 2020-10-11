@@ -60,7 +60,7 @@ class RedundancySensor
     boost::container::flat_map<std::string, bool> statuses;
 };
 
-class TachSensor : public Sensor
+class TachSensor
 {
   public:
     TachSensor(const std::string& path, const std::string& objectType,
@@ -74,7 +74,9 @@ class TachSensor : public Sensor
                const std::pair<size_t, size_t>& limits,
                const PowerState& powerState,
                const std::optional<std::string>& led);
-    ~TachSensor() override;
+    ~TachSensor();
+
+    Sensor sensor;
 
   private:
     sdbusplus::asio::object_server& objServer;
@@ -91,7 +93,7 @@ class TachSensor : public Sensor
     size_t errCount;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
-    void checkThresholds(void) override;
+    void checkThresholds(void);
 };
 
 inline void logFanInserted(const std::string& device)
