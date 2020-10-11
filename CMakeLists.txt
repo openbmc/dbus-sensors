@@ -56,7 +56,7 @@ project (sensors CXX)
 
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_library(sensors_shared STATIC src/Utils.cpp src/Thresholds.cpp)
+add_library(sensors_shared STATIC src/Thresholds.cpp src/Utils.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS sensors_shared -lsystemd stdc++fs sdbusplus)

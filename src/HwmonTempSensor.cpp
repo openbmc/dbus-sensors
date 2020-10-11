@@ -45,32 +45,33 @@ HwmonTempSensor::HwmonTempSensor(
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholds,
     const std::string& sensorConfiguration, const PowerState powerState) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
+    sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
            sensorConfiguration, objectType, maxReading, minReading, conn,
            powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path)
 {
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+    sensor.checkThresholdsFunc = [this]() { checkThresholds(); };
+    sensor.sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(sensor.thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+        sensor.thresholdInterfaceWarning = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(sensor.thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+        sensor.thresholdInterfaceCritical = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+    sensor.association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/temperature/" + sensor.name,
         association::interface);
-    setInitialProperties(conn);
+    sensor.setInitialProperties(conn);
 }
 
 HwmonTempSensor::~HwmonTempSensor()
@@ -78,10 +79,10 @@ HwmonTempSensor::~HwmonTempSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objServer.remove_interface(sensor.thresholdInterfaceWarning);
+    objServer.remove_interface(sensor.thresholdInterfaceCritical);
+    objServer.remove_interface(sensor.sensorInterface);
+    objServer.remove_interface(sensor.association);
 }
 
 void HwmonTempSensor::setupRead(void)
@@ -105,7 +106,7 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
-        std::cerr << "Hwmon temp sensor " << name << " removed " << path
+        std::cerr << "Hwmon temp sensor " << sensor.name << " removed " << path
                   << "\n";
         return; // we're being destroyed
     }
@@ -116,18 +117,18 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         std::getline(responseStream, response);
         try
         {
-            rawValue = std::stod(response);
-            double nvalue = rawValue / sensorScaleFactor;
-            updateValue(nvalue);
+            sensor.rawValue = std::stod(response);
+            double nvalue = sensor.rawValue / sensorScaleFactor;
+            sensor.updateValue(nvalue);
         }
         catch (const std::invalid_argument&)
         {
-            incrementError();
+            sensor.incrementError();
         }
     }
     else
     {
-        incrementError();
+        sensor.incrementError();
     }
 
     responseStream.clear();
@@ -135,8 +136,8 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
-        std::cerr << "Hwmon temp sensor " << name << " not valid " << path
-                  << "\n";
+        std::cerr << "Hwmon temp sensor " << sensor.name << " not valid "
+                  << path << "\n";
         return; // we're no longer valid
     }
     inputDev.assign(fd);
@@ -148,7 +149,7 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         {
             if (self)
             {
-                std::cerr << "Hwmon temp sensor " << self->name
+                std::cerr << "Hwmon temp sensor " << self->sensor.name
                           << " read cancelled " << self->path << "\n";
             }
             else
@@ -166,5 +167,5 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
 
 void HwmonTempSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    thresholds::checkThresholds(sensor);
 }
