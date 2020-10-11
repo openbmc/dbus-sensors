@@ -10,8 +10,10 @@
 #include <vector>
 
 struct ExitAirTempSensor;
-struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
+struct CFMSensor : std::enable_shared_from_this<CFMSensor>
 {
+    Sensor sensor;
+
     std::vector<std::string> tachs;
     double c1;
     double c2;
@@ -26,14 +28,14 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
               sdbusplus::asio::object_server& objectServer,
               std::vector<thresholds::Threshold>&& thresholds,
               std::shared_ptr<ExitAirTempSensor>& parent);
-    ~CFMSensor() override;
+    ~CFMSensor();
 
     bool calculate(double&);
     void updateReading(void);
     void setupMatches(void);
     void createMaxCFMIface(void);
     void addTachRanges(const std::string& serviceName, const std::string& path);
-    void checkThresholds(void) override;
+    void checkThresholds(void);
     uint64_t getMaxRpm(uint64_t cfmMax);
 
   private:
@@ -46,9 +48,7 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
     sdbusplus::asio::object_server& objServer;
 };
 
-struct ExitAirTempSensor :
-    public Sensor,
-    std::enable_shared_from_this<ExitAirTempSensor>
+struct ExitAirTempSensor : std::enable_shared_from_this<ExitAirTempSensor>
 {
 
     double powerFactorMin;
@@ -67,11 +67,13 @@ struct ExitAirTempSensor :
                       const std::string& sensorConfiguration,
                       sdbusplus::asio::object_server& objectServer,
                       std::vector<thresholds::Threshold>&& thresholds);
-    ~ExitAirTempSensor() override;
+    ~ExitAirTempSensor();
 
-    void checkThresholds(void) override;
+    void checkThresholds(void);
     void updateReading(void);
     void setupMatches(void);
+
+    Sensor sensor;
 
   private:
     double lastReading;
