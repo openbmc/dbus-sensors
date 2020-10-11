@@ -16,7 +16,7 @@
 #include <variant>
 #include <vector>
 
-class CPUSensor : public Sensor
+class CPUSensor
 {
   public:
     CPUSensor(const std::string& path, const std::string& objectType,
@@ -26,13 +26,15 @@ class CPUSensor : public Sensor
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& configuration, int cpuId, bool show,
               double dtsOffset);
-    ~CPUSensor() override;
+    ~CPUSensor();
     static constexpr unsigned int sensorScaleFactor = 1000;
     static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
     static constexpr double maxReading = 127;
     static constexpr double minReading = -128;
     static constexpr const char* labelTcontrol = "Tcontrol";
+
+    Sensor sensor;
 
   private:
     sdbusplus::asio::object_server& objServer;
@@ -49,12 +51,11 @@ class CPUSensor : public Sensor
     uint8_t minMaxReadCounter;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
-    void checkThresholds(void) override;
+    void checkThresholds(void);
     void updateMinMaxValues(void);
 };
 
-extern boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>
-    gCpuSensors;
+extern std::unordered_map<std::string, CPUSensor> gCpuSensors;
 
 // this is added to cpusensor.hpp to avoid having every sensor have to link
 // against libgpiod, if another sensor needs it we may move it to utils
