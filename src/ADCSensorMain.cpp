@@ -65,17 +65,15 @@ bool isAdc(const fs::path& parentPath)
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>>&
-        sensors,
+    std::unordered_map<std::string, ADCSensor>& sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        std::move([&io, &objectServer, &sensors, &dbusConnection,
-                   sensorsChanged](
-                      const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &sensors, &dbusConnection,
+         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
             std::vector<fs::path> paths;
             if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)",
@@ -181,11 +179,11 @@ void createSensors(
                     for (auto it = sensorsChanged->begin();
                          it != sensorsChanged->end(); it++)
                     {
-                        if (findSensor->second &&
-                            boost::ends_with(*it, findSensor->second->name))
+                        if (boost::ends_with(*it,
+                                             findSensor->second.sensor.name))
                         {
                             sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
+                            sensors.erase(findSensor);
                             found = true;
                             break;
                         }
@@ -236,9 +234,6 @@ void createSensors(
                     }
                 }
 
-                auto& sensor = sensors[sensorName];
-                sensor = nullptr;
-
                 std::optional<BridgeGpio> bridgeGpio;
                 for (const SensorBaseConfiguration& suppConfig : *sensorData)
                 {
@@ -270,13 +265,15 @@ void createSensors(
                     }
                 }
 
-                sensor = std::make_shared<ADCSensor>(
-                    path.string(), objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), scaleFactor, readState,
-                    *interfacePath, std::move(bridgeGpio));
-                sensor->setupRead();
+                auto it = sensors.emplace(
+                    std::piecewise_construct, std::make_tuple(sensorName),
+                    std::forward_as_tuple(
+                        path.string(), objectServer, dbusConnection, io,
+                        sensorName, std::move(sensorThresholds), scaleFactor,
+                        readState, *interfacePath, std::move(bridgeGpio)));
+                it.first->second.setupRead();
             }
-        }));
+        });
 
     getter->getConfiguration(
         std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()});
@@ -288,7 +285,7 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.ADCSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
-    boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>> sensors;
+    std::unordered_map<std::string, ADCSensor> sensors;
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();

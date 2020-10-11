@@ -33,8 +33,8 @@ struct Sensor
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState), errCount(0)
     {}
-    virtual ~Sensor() = default;
-    virtual void checkThresholds(void) = 0;
+    ~Sensor() = default;
+    std::function<void()> checkThresholdsFunc = []() {};
     std::string name;
     std::string configurationPath;
     std::string objectType;
@@ -65,7 +65,7 @@ struct Sensor
             overriddenState = true;
             // check thresholds for external set
             value = newValue;
-            checkThresholds();
+            checkThresholdsFunc();
         }
         else if (!overriddenState)
         {
@@ -291,7 +291,7 @@ struct Sensor
         // the thresholds::checkThresholds() method,
         // which is called by checkThresholds() below,
         // in all current implementations of sensors that have thresholds.
-        checkThresholds();
+        checkThresholdsFunc();
         if (!std::isnan(newValue))
         {
             markFunctional(true);

@@ -51,7 +51,7 @@
 
 static constexpr bool debug = false;
 
-boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>> gCpuSensors;
+std::unordered_map<std::string, CPUSensor> gCpuSensors;
 boost::container::flat_map<std::string,
                            std::shared_ptr<sdbusplus::asio::dbus_interface>>
     inventoryIfaces;
@@ -378,13 +378,13 @@ bool createSensors(boost::asio::io_service& io,
                               << sensorName << "\n";
                 }
             }
-            auto& sensorPtr = gCpuSensors[sensorName];
-            // make sure destructor fires before creating a new one
-            sensorPtr = nullptr;
-            sensorPtr = std::make_unique<CPUSensor>(
-                inputPathStr, sensorType, objectServer, dbusConnection, io,
-                sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show, dtsOffset);
+            gCpuSensors.emplace(
+                std::piecewise_construct, std::make_tuple(sensorName),
+                std::forward_as_tuple(inputPathStr, sensorType, objectServer,
+                                      dbusConnection, io, sensorName,
+                                      std::move(sensorThresholds),
+                                      *interfacePath, cpuId, show, dtsOffset));
+
             createdSensors.insert(sensorName);
             if (debug)
             {

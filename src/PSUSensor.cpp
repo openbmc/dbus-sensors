@@ -44,7 +44,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::string& sensorTypeName, unsigned int factor,
                      double max, double min, const std::string& label,
                      size_t tSize) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
+    sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
            conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
@@ -59,6 +59,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                   << " min " << min << " max " << max << " name \""
                   << sensorName << "\"\n";
     }
+    sensor.checkThresholdsFunc = [this]() { checkThresholds(); };
 
     fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
@@ -68,37 +69,38 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     inputDev.assign(fd);
 
-    std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
+    std::string dbusPath = sensorPathPrefix + sensorTypeName + sensor.name;
 
-    sensorInterface = objectServer.add_interface(
+    sensor.sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(sensor.thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
+        sensor.thresholdInterfaceWarning = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(sensor.thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
+        sensor.thresholdInterfaceCritical = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
 
     // This should be called before initializing association.
     // createInventoryAssoc() does add more associations before doing
     // register and initialize "Associations" property.
-    if (label.empty() || tSize == thresholds.size())
+    if (label.empty() || tSize == sensor.thresholds.size())
     {
-        setInitialProperties(conn);
+        sensor.setInitialProperties(conn);
     }
     else
     {
-        setInitialProperties(conn, label, tSize);
+        sensor.setInitialProperties(conn, label, tSize);
     }
 
-    association = objectServer.add_interface(dbusPath, association::interface);
+    sensor.association =
+        objectServer.add_interface(dbusPath, association::interface);
 
-    createInventoryAssoc(conn, association, configurationPath);
+    createInventoryAssoc(conn, sensor.association, sensor.configurationPath);
 
     if (auto fileParts = splitFileName(path))
     {
@@ -122,10 +124,10 @@ PSUSensor::~PSUSensor()
 {
     waitTimer.cancel();
     inputDev.close();
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(association);
+    objServer.remove_interface(sensor.sensorInterface);
+    objServer.remove_interface(sensor.thresholdInterfaceWarning);
+    objServer.remove_interface(sensor.thresholdInterfaceCritical);
+    objServer.remove_interface(sensor.association);
 }
 
 void PSUSensor::setupRead(void)
@@ -150,12 +152,14 @@ void PSUSensor::updateMinMaxValues(void)
 {
     if (auto newVal = readFile(pathRatedMin, sensorFactor))
     {
-        updateProperty(sensorInterface, minValue, *newVal, "MinValue");
+        sensor.updateProperty(sensor.sensorInterface, sensor.minValue, *newVal,
+                              "MinValue");
     }
 
     if (auto newVal = readFile(pathRatedMax, sensorFactor))
     {
-        updateProperty(sensorInterface, maxValue, *newVal, "MaxValue");
+        sensor.updateProperty(sensor.sensorInterface, sensor.maxValue, *newVal,
+                              "MaxValue");
     }
 }
 
@@ -174,11 +178,11 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             std::getline(responseStream, response);
-            rawValue = std::stod(response);
+            sensor.rawValue = std::stod(response);
             responseStream.clear();
-            double nvalue = rawValue / sensorFactor;
+            double nvalue = sensor.rawValue / sensorFactor;
 
-            updateValue(nvalue);
+            sensor.updateValue(nvalue);
 
             if (minMaxReadCounter++ % 8 == 0)
             {
@@ -188,13 +192,13 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         catch (const std::invalid_argument&)
         {
             std::cerr << "Could not parse " << response << "\n";
-            incrementError();
+            sensor.incrementError();
         }
     }
     else
     {
         std::cerr << "System error " << err << "\n";
-        incrementError();
+        sensor.incrementError();
     }
 
     lseek(fd, 0, SEEK_SET);
@@ -217,5 +221,5 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 
 void PSUSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    thresholds::checkThresholds(sensor);
 }
