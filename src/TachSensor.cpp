@@ -51,53 +51,55 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        const std::pair<size_t, size_t>& limits,
                        const PowerState& powerState,
                        const std::optional<std::string>& ledIn) :
-    Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(thresholdsIn),
-           sensorConfiguration, objectType, limits.second, limits.first, conn,
-           powerState),
+    sensorCommon(boost::replace_all_copy(fanName, " ", "_"),
+                 std::move(thresholdsIn), sensorConfiguration, objectType,
+                 limits.second, limits.first, conn, powerState),
     objServer(objectServer), redundancy(redundancy),
     presence(std::move(presenceSensor)),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     led(ledIn)
 {
-    sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/fan_tach/" + name,
+    sensorCommon.checkThresholdsFunc = [this]() { checkThresholds(); };
+    sensorCommon.sensorInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/fan_tach/" + sensorCommon.name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(sensorCommon.thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/fan_tach/" + name,
+        sensorCommon.thresholdInterfaceWarning = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/fan_tach/" + sensorCommon.name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(sensorCommon.thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/fan_tach/" + name,
+        sensorCommon.thresholdInterfaceCritical = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/fan_tach/" + sensorCommon.name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/fan_tach/" + name,
+    sensorCommon.association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/fan_tach/" + sensorCommon.name,
         association::interface);
 
     if (presence)
     {
-        itemIface =
-            objectServer.add_interface("/xyz/openbmc_project/inventory/" + name,
-                                       "xyz.openbmc_project.Inventory.Item");
+        itemIface = objectServer.add_interface(
+            "/xyz/openbmc_project/inventory/" + sensorCommon.name,
+            "xyz.openbmc_project.Inventory.Item");
         itemIface->register_property("PrettyName",
                                      std::string()); // unused property
         itemIface->register_property("Present", true);
         itemIface->initialize();
         itemAssoc = objectServer.add_interface(
-            "/xyz/openbmc_project/inventory/" + name, association::interface);
+            "/xyz/openbmc_project/inventory/" + sensorCommon.name,
+            association::interface);
         itemAssoc->register_property(
             "associations",
-            std::vector<Association>{
-                {"sensors", "inventory",
-                 "/xyz/openbmc_project/sensors/fan_tach/" + name}});
+            std::vector<Association>{{"sensors", "inventory",
+                                      "/xyz/openbmc_project/sensors/fan_tach/" +
+                                          sensorCommon.name}});
         itemAssoc->initialize();
     }
-    setInitialProperties(conn);
+    sensorCommon.setInitialProperties(conn);
     setupRead();
 }
 
@@ -106,10 +108,10 @@ TachSensor::~TachSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objServer.remove_interface(sensorCommon.thresholdInterfaceWarning);
+    objServer.remove_interface(sensorCommon.thresholdInterfaceCritical);
+    objServer.remove_interface(sensorCommon.sensorInterface);
+    objServer.remove_interface(sensorCommon.association);
     objServer.remove_interface(itemIface);
     objServer.remove_interface(itemAssoc);
 }
@@ -134,7 +136,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
     {
         if (!presence->getValue())
         {
-            markAvailable(false);
+            sensorCommon.markAvailable(false);
             missing = true;
             pollTime = sensorFailedPollTimeMs;
         }
@@ -149,19 +151,19 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
             try
             {
                 std::getline(responseStream, response);
-                rawValue = std::stod(response);
+                sensorCommon.rawValue = std::stod(response);
                 responseStream.clear();
-                updateValue(rawValue);
+                sensorCommon.updateValue(sensorCommon.rawValue);
             }
             catch (const std::invalid_argument&)
             {
-                incrementError();
+                sensorCommon.incrementError();
                 pollTime = sensorFailedPollTimeMs;
             }
         }
         else
         {
-            incrementError();
+            sensorCommon.incrementError();
             pollTime = sensorFailedPollTimeMs;
         }
     }
@@ -185,19 +187,21 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
 
 void TachSensor::checkThresholds(void)
 {
-    bool status = thresholds::checkThresholds(this);
+    bool status = thresholds::checkThresholds(sensorCommon);
 
     if (redundancy && *redundancy)
     {
         (*redundancy)
-            ->update("/xyz/openbmc_project/sensors/fan_tach/" + name, !status);
+            ->update("/xyz/openbmc_project/sensors/fan_tach/" +
+                         sensorCommon.name,
+                     !status);
     }
 
     bool curLed = !status;
     if (led && ledState != curLed)
     {
         ledState = curLed;
-        setLed(dbusConnection, *led, curLed);
+        setLed(sensorCommon.dbusConnection, *led, curLed);
     }
 }
 

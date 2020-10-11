@@ -28,10 +28,10 @@ ExternalSensor::ExternalSensor(
     // make sure all ExternalSensor instances are mutable,
     // because that is the entire point of ExternalSensor,
     // to accept sensor values written by an external source.
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, maxReading,
-           minReading, conn, powerState),
-    std::enable_shared_from_this<ExternalSensor>(), objServer(objectServer)
+    sensorCommon(boost::replace_all_copy(sensorName, " ", "_"),
+                 std::move(thresholdsIn), sensorConfiguration, objectType,
+                 maxReading, minReading, conn, powerState),
+    objServer(objectServer)
 {
     // The caller must specify what physical characteristic
     // an external sensor is expected to be measuring, such as temperature,
@@ -46,34 +46,34 @@ ExternalSensor::ExternalSensor(
     objectPath += '/';
     objectPath += sensorName;
 
-    sensorInterface = objectServer.add_interface(
+    sensorCommon.sensorInterface = objectServer.add_interface(
         objectPath, "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    if (thresholds::hasWarningInterface(sensorCommon.thresholds))
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
+        sensorCommon.thresholdInterfaceWarning = objectServer.add_interface(
             objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    if (thresholds::hasCriticalInterface(sensorCommon.thresholds))
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
+        sensorCommon.thresholdInterfaceCritical = objectServer.add_interface(
             objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
 
-    association =
+    sensorCommon.association =
         objectServer.add_interface(objectPath, association::interface);
-    setInitialProperties(conn);
+    sensorCommon.setInitialProperties(conn);
 }
 
 ExternalSensor::~ExternalSensor()
 {
-    objServer.remove_interface(association);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(sensorInterface);
+    objServer.remove_interface(sensorCommon.association);
+    objServer.remove_interface(sensorCommon.thresholdInterfaceCritical);
+    objServer.remove_interface(sensorCommon.thresholdInterfaceWarning);
+    objServer.remove_interface(sensorCommon.sensorInterface);
 }
 
 void ExternalSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    thresholds::checkThresholds(sensorCommon);
 }
