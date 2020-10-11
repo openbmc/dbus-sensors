@@ -522,7 +522,7 @@ void createSensors(boost::asio::io_service& io,
             /* append "max" for labelMatch */
             if (maxLabel)
             {
-                labelHead.insert (0, "max");
+                labelHead.insert(0, "max");
             }
 
             if constexpr (debug)
