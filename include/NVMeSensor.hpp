@@ -8,7 +8,7 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <sensor.hpp>
 
-class NVMeSensor : public Sensor
+class NVMeSensor
 {
   public:
     NVMeSensor(sdbusplus::asio::object_server& objectServer,
@@ -17,7 +17,9 @@ class NVMeSensor : public Sensor
                const std::string& sensorName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration, const int busNumber);
-    virtual ~NVMeSensor();
+    ~NVMeSensor();
+
+    Sensor sensor;
 
     NVMeSensor& operator=(const NVMeSensor& other) = delete;
 
@@ -26,7 +28,7 @@ class NVMeSensor : public Sensor
   private:
     sdbusplus::asio::object_server& objServer;
 
-    void checkThresholds(void) override;
+    void checkThresholds(void);
 };
 
 struct NVMeContext : std::enable_shared_from_this<NVMeContext>

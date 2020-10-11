@@ -190,20 +190,20 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
     }
 }
 
-void updateThresholds(Sensor* sensor)
+void updateThresholds(Sensor& sensor)
 {
-    if (sensor->thresholds.empty())
+    if (sensor.thresholds.empty())
     {
         return;
     }
 
-    for (const auto& threshold : sensor->thresholds)
+    for (const auto& threshold : sensor.thresholds)
     {
         std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
         std::string property;
         if (threshold.level == thresholds::Level::CRITICAL)
         {
-            interface = sensor->thresholdInterfaceCritical;
+            interface = sensor.thresholdInterfaceCritical;
             if (threshold.direction == thresholds::Direction::HIGH)
             {
                 property = "CriticalHigh";
@@ -215,7 +215,7 @@ void updateThresholds(Sensor* sensor)
         }
         else if (threshold.level == thresholds::Level::WARNING)
         {
-            interface = sensor->thresholdInterfaceWarning;
+            interface = sensor.thresholdInterfaceWarning;
             if (threshold.direction == thresholds::Direction::HIGH)
             {
                 property = "WarningHigh";
@@ -258,15 +258,15 @@ struct ChangeParam
     double assertValue;
 };
 
-static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
+static std::vector<ChangeParam> checkThresholds(Sensor& sensor, double value)
 {
     std::vector<ChangeParam> thresholdChanges;
-    if (sensor->thresholds.empty())
+    if (sensor.thresholds.empty())
     {
         return thresholdChanges;
     }
 
-    for (auto& threshold : sensor->thresholds)
+    for (auto& threshold : sensor.thresholds)
     {
         // Use "Schmitt trigger" logic to avoid threshold trigger spam,
         // if value is noisy while hovering very close to a threshold.
@@ -280,12 +280,12 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
                 thresholdChanges.emplace_back(threshold, true, value);
                 if (++cHiTrue < assertLogCount)
                 {
-                    std::cerr << "Sensor " << sensor->name << " high threshold "
+                    std::cerr << "Sensor " << sensor.name << " high threshold "
                               << threshold.value << " assert: value " << value
-                              << " raw data " << sensor->rawValue << "\n";
+                              << " raw data " << sensor.rawValue << "\n";
                 }
             }
-            else if (value < (threshold.value - sensor->hysteresisTrigger))
+            else if (value < (threshold.value - sensor.hysteresisTrigger))
             {
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cHiFalse;
@@ -302,13 +302,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
                 thresholdChanges.emplace_back(threshold, true, value);
                 if (++cLoTrue < assertLogCount)
                 {
-                    std::cerr << "Sensor " << sensor->name << " low threshold "
+                    std::cerr << "Sensor " << sensor.name << " low threshold "
                               << threshold.value << " assert: value "
-                              << sensor->value << " raw data "
-                              << sensor->rawValue << "\n";
+                              << sensor.value << " raw data " << sensor.rawValue
+                              << "\n";
                 }
             }
-            else if (value > (threshold.value + sensor->hysteresisTrigger))
+            else if (value > (threshold.value + sensor.hysteresisTrigger))
             {
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cLoFalse;
@@ -341,10 +341,10 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
     return thresholdChanges;
 }
 
-bool checkThresholds(Sensor* sensor)
+bool checkThresholds(Sensor& sensor)
 {
     bool status = true;
-    std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
+    std::vector<ChangeParam> changes = checkThresholds(sensor, sensor.value);
     for (const auto& change : changes)
     {
         assertThresholds(sensor, change.assertValue, change.threshold.level,
@@ -359,13 +359,13 @@ bool checkThresholds(Sensor* sensor)
     return status;
 }
 
-void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
+void checkThresholdsPowerDelay(Sensor& sensor, ThresholdTimer& thresholdTimer)
 {
 
-    std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
+    std::vector<ChangeParam> changes = checkThresholds(sensor, sensor.value);
     for (const auto& change : changes)
     {
-        // When CPU is powered off, some volatges are expected to
+        // When CPU is powered off, some voltages are expected to
         // go below low thresholds. Filter these events with thresholdTimer.
         // 1. always delay the assertion of low events to see if they are
         //   caused by power off event.
@@ -391,7 +391,7 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
     }
 }
 
-void assertThresholds(Sensor* sensor, double assertValue,
+void assertThresholds(Sensor& sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert)
 {
@@ -401,25 +401,25 @@ void assertThresholds(Sensor* sensor, double assertValue,
         direction == thresholds::Direction::HIGH)
     {
         property = "WarningAlarmHigh";
-        interface = sensor->thresholdInterfaceWarning;
+        interface = sensor.thresholdInterfaceWarning;
     }
     else if (level == thresholds::Level::WARNING &&
              direction == thresholds::Direction::LOW)
     {
         property = "WarningAlarmLow";
-        interface = sensor->thresholdInterfaceWarning;
+        interface = sensor.thresholdInterfaceWarning;
     }
     else if (level == thresholds::Level::CRITICAL &&
              direction == thresholds::Direction::HIGH)
     {
         property = "CriticalAlarmHigh";
-        interface = sensor->thresholdInterfaceCritical;
+        interface = sensor.thresholdInterfaceCritical;
     }
     else if (level == thresholds::Level::CRITICAL &&
              direction == thresholds::Direction::LOW)
     {
         property = "CriticalAlarmLow";
-        interface = sensor->thresholdInterfaceCritical;
+        interface = sensor.thresholdInterfaceCritical;
     }
     else
     {
@@ -441,7 +441,7 @@ void assertThresholds(Sensor* sensor, double assertValue,
             sdbusplus::message::message msg =
                 interface->new_signal("ThresholdAsserted");
 
-            msg.append(sensor->name, interface->get_interface_name(), property,
+            msg.append(sensor.name, interface->get_interface_name(), property,
                        assert, assertValue);
             msg.signal_send();
         }
