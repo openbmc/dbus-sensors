@@ -8,9 +8,7 @@
 #include <string>
 #include <vector>
 
-class HwmonTempSensor :
-    public Sensor,
-    public std::enable_shared_from_this<HwmonTempSensor>
+class HwmonTempSensor : public std::enable_shared_from_this<HwmonTempSensor>
 {
   public:
     HwmonTempSensor(const std::string& path, const std::string& objectType,
@@ -20,8 +18,9 @@ class HwmonTempSensor :
                     std::vector<thresholds::Threshold>&& thresholds,
                     const std::string& sensorConfiguration,
                     const PowerState powerState);
-    ~HwmonTempSensor() override;
+    ~HwmonTempSensor();
     void setupRead(void);
+    Sensor sensor;
 
   private:
     sdbusplus::asio::object_server& objServer;
@@ -32,5 +31,5 @@ class HwmonTempSensor :
     size_t errCount;
 
     void handleResponse(const boost::system::error_code& err);
-    void checkThresholds(void) override;
+    void checkThresholds(void);
 };
