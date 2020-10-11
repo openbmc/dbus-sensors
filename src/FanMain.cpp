@@ -113,7 +113,7 @@ void createRedundancySensor(
                         {
                             sensorList.push_back(
                                 "/xyz/openbmc_project/sensors/fan_tach/" +
-                                sensor.second->name);
+                                sensor.second->sensor.name);
                         }
                         systemRedundancy.reset();
                         systemRedundancy.emplace(RedundancySensor(
@@ -287,7 +287,8 @@ void createSensors(
                     for (auto it = sensorsChanged->begin();
                          it != sensorsChanged->end(); it++)
                     {
-                        if (boost::ends_with(*it, findSensor->second->name))
+                        if (boost::ends_with(*it,
+                                             findSensor->second->sensor.name))
                         {
                             sensorsChanged->erase(it);
                             findSensor->second = nullptr;

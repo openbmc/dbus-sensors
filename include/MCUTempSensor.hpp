@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-struct MCUTempSensor : public Sensor
+struct MCUTempSensor
 {
     MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                   boost::asio::io_service& io, const std::string& name,
@@ -17,9 +17,11 @@ struct MCUTempSensor : public Sensor
                   sdbusplus::asio::object_server& objectServer,
                   std::vector<thresholds::Threshold>&& thresholds,
                   uint8_t busId, uint8_t mcuAddress, uint8_t tempReg);
-    ~MCUTempSensor() override;
+    ~MCUTempSensor();
 
-    void checkThresholds(void) override;
+    Sensor sensor;
+
+    void checkThresholds(void);
     void read(void);
     void init(void);
 
