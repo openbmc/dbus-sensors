@@ -42,7 +42,7 @@ struct Threshold
     }
 };
 
-void assertThresholds(Sensor* sensor, double assertValue,
+void assertThresholds(Sensor& sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert);
 
@@ -59,7 +59,7 @@ using TimerPair = std::pair<struct TimerUsed, boost::asio::deadline_timer>;
 struct ThresholdTimer
 {
 
-    ThresholdTimer(boost::asio::io_service& ioService, Sensor* sensor) :
+    ThresholdTimer(boost::asio::io_service& ioService, Sensor& sensor) :
         io(ioService), sensor(sensor)
     {}
 
@@ -146,7 +146,7 @@ struct ThresholdTimer
 
     boost::asio::io_service& io;
     std::list<TimerPair> timers;
-    Sensor* sensor;
+    Sensor& sensor;
 };
 
 bool parseThresholdsFromConfig(
@@ -169,9 +169,9 @@ void persistThreshold(const std::string& baseInterface, const std::string& path,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
                       size_t thresholdCount, const std::string& label);
 
-void updateThresholds(Sensor* sensor);
+void updateThresholds(Sensor& sensor);
 // returns false if a critical threshold has been crossed, true otherwise
-bool checkThresholds(Sensor* sensor);
-void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer);
+bool checkThresholds(Sensor& sensor);
+void checkThresholdsPowerDelay(Sensor& sensor, ThresholdTimer& thresholdTimer);
 
 } // namespace thresholds
