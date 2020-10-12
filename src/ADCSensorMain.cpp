@@ -210,6 +210,12 @@ void createSensors(
                 {
                     scaleFactor = std::visit(VariantToFloatVisitor(),
                                              findScaleFactor->second);
+                    // scaleFactor is used in division
+                    if (std::abs(scaleFactor) <
+                        std::numeric_limits<float>::epsilon())
+                    {
+                        scaleFactor = 1.0;
+                    }
                 }
 
                 auto findPowerOn = baseConfiguration->second.find("PowerState");
