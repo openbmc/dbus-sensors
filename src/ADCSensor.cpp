@@ -42,8 +42,9 @@ static constexpr unsigned int gpioBridgeEnableMs = 20;
 static constexpr unsigned int sensorScaleFactor = 1000;
 
 static constexpr double roundFactor = 10000; // 3 decimal places
-static constexpr double maxReading = 20;
+static constexpr double maxReading = 1.8;    // adc reference voltage is 1.8Volt
 static constexpr double minReading = 0;
+static constexpr double hysteresisScale = 0.01;
 
 ADCSensor::ADCSensor(const std::string& path,
                      sdbusplus::asio::object_server& objectServer,
@@ -55,8 +56,8 @@ ADCSensor::ADCSensor(const std::string& path,
                      std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ADC", maxReading, minReading,
-           conn, readState),
+           "xyz.openbmc_project.Configuration.ADC", maxReading / scaleFactor,
+           minReading / scaleFactor, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
@@ -80,6 +81,8 @@ ADCSensor::ADCSensor(const std::string& path,
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
 
+    // limit hysteresis base on high critical threshold
+    adjustHysteresisTrigger();
     setInitialProperties(conn);
 }
 
@@ -231,4 +234,20 @@ void ADCSensor::checkThresholds(void)
     }
 
     thresholds::checkThresholdsPowerDelay(this, thresholdTimer);
+}
+
+void ADCSensor::adjustHysteresisTrigger(void)
+{
+    // limit hysteresis to 1 percent of high critical
+    // default is 1 percent of full adc range
+    for (auto& threshold : thresholds)
+    {
+        if (threshold.level == thresholds::CRITICAL &&
+            threshold.direction == thresholds::HIGH)
+        {
+            double highHysteresis = threshold.value * hysteresisScale;
+            hysteresisTrigger = std::min(highHysteresis, hysteresisTrigger);
+            break;
+        }
+    }
 }
