@@ -41,9 +41,9 @@ static constexpr unsigned int gpioBridgeEnableMs = 20;
 // scaling factor from hwmon
 static constexpr unsigned int sensorScaleFactor = 1000;
 
-static constexpr double roundFactor = 10000; // 3 decimal places
-static constexpr double maxReading = 20;
-static constexpr double minReading = 0;
+static constexpr double roundFactor = 10000;     // 3 decimal places
+static constexpr double maxVoltageReading = 1.8; // adc full scale
+static constexpr double minVoltageReading = 0;
 
 ADCSensor::ADCSensor(const std::string& path,
                      sdbusplus::asio::object_server& objectServer,
@@ -55,8 +55,9 @@ ADCSensor::ADCSensor(const std::string& path,
                      std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ADC", maxReading, minReading,
-           conn, readState),
+           "xyz.openbmc_project.Configuration.ADC",
+           maxVoltageReading / scaleFactor, minVoltageReading / scaleFactor,
+           readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
@@ -79,7 +80,6 @@ ADCSensor::ADCSensor(const std::string& path,
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
-
     setInitialProperties(conn);
 }
 
