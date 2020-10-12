@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "ece745bc_603b78fd",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-10-12T19:52:03Z",
+      "side": 1,
+      "message": "Part of the problem is that sensors (services) are grouped (categorized) by how it is read (data source) in a sense: ADC reads from ADC registers, Hwmon Sysfs, IPMB bus etc. But sensor can also be sub-classed into what it measures (unit fits in here): temp, voltage, power, fan speed etc.  I agree refactor Sensors to use composition can make the code cleaner. But it is not going to be a small change. Maybe we can take steps that direction by first abstract out \"SensorData\", which has value, unit and measure (temp, power, current, voltage etc) and make Sensor has-a SensorData.",
+      "parentUuid": "e7977404_dd0224be",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a8a521d_f79612aa",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 10
