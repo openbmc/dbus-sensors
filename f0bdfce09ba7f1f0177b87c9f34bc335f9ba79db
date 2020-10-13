@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "11edba5d_09e2cf0b",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-13T00:39:30Z",
+      "side": 1,
+      "message": "What I mean is remove that from the constructor of Sensor, then have a public member variable that must be set during the constructor.  It doesn\u0027t significantly change your patch, just adds a couple lines, and makes the construction of sensors more regular.  If you\u0027re still not sure what I mean, I can branch from your patch and show you.\n\nI really would rather we don\u0027t have an inheritance model with sensors at all.  \"Sensor\" as a class is meant to encapsulate the dbus portions of sensors, but was extended to do more and more over time.  Long term, I think we need to walk that back a little.\n\nWith that said, I did put together a patch that moves a sensor from inheritance to composition, which I think cleans up the code some, and explicitly documents which portions are a \"Sensor\" and which portions are not.  I\u0027d appreciate your thoughts if you got a chance to look at it.\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/37313",
+      "parentUuid": "ece745bc_603b78fd",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a8a521d_f79612aa",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 10
