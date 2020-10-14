@@ -287,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "b88b5cb5_82e1133e",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000433
+      },
+      "writtenOn": "2020-10-14T06:17:52Z",
+      "side": 1,
+      "message": "Look at this change https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/37255.\nI am adding here a support for a new CPU sensor and decided to remove these  `if type` from the constructor to the main file (similar to PSUSensor). \nConstructor is now type independent and units could be added to the SensorProperties structure then.",
+      "parentUuid": "11edba5d_09e2cf0b",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f0bdfce09ba7f1f0177b87c9f34bc335f9ba79db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a8a521d_f79612aa",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 10
