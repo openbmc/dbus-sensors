@@ -75,7 +75,7 @@ set (MCUTEMP_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp
      src/PwmSensor.cpp src/PSUEvent.cpp)
 
-set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
+set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensor.cpp src/NVMeSensorMain.cpp src/Thresholds.cpp)
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
@@ -117,6 +117,7 @@ if (NOT YOCTO)
                          "" LOG_DOWNLOAD ON)
     include_directories (SYSTEM ${CMAKE_BINARY_DIR}/nlohmann-json-src/include)
 
+
     if (ENABLE_TEST)
         option (HUNTER_ENABLED "Enable hunter package pulling" ON)
         hunter_add_package (GTest)
@@ -137,6 +138,12 @@ if (NOT YOCTO)
         target_link_libraries (runHwmonTempTests GTest::main GTest::gtest
                                pthread ${DBUS_LIBRARIES} stdc++fs)
         add_dependencies (runHwmonTempTests nlohmann-json)
+        
+        add_executable (runNVMeTests tests/test_NVMeSensor.cpp ${NVME_SRC_FILES})
+        add_test (NAME test_nvmesensor COMMAND runNVMeTests)
+        target_link_libraries (runNVMeTests GTest::main GTest::gtest pthread
+                               ${DBUS_LIBRARIES} stdc++fs)
+        add_dependencies (runNVMeTests nlohmann-json)
     endif ()
 
 endif ()
@@ -199,7 +206,7 @@ target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
     add_dependencies (nvmesensor sdbusplus-project)
-    target_link_libraries (nvmesensor liblibmctp.a i2c ${SENSOR_LINK_LIBS})
+    target_link_libraries (nvmesensor libmctp.a i2c ${SENSOR_LINK_LIBS})
 endif()
 
 if (NOT YOCTO)
@@ -212,6 +219,7 @@ if (NOT YOCTO)
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
     add_dependencies (mcutempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (psusensor ${EXTERNAL_PACKAGES})
+    add_dependencies (nvmesensor ${EXTERNAL_PACKAGES} libmctp)
 endif ()
 
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
