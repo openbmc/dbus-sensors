@@ -18,6 +18,9 @@
 
 #include "NVMeDevice.hpp"
 
+#include "smbus.hpp"
+#include "i2c.h"
+
 #include <crc32c.h>
 #include <libmctp-smbus.h>
 
@@ -26,8 +29,13 @@
 
 #include <iostream>
 
+#define MAX_I2C_BUS 30
+static constexpr const int NVME_SSD_SLAVE_ADDRESS = 0x6a;
+
 static constexpr double maxReading = 127;
 static constexpr double minReading = 0;
+
+static constexpr const int TEMPERATURE_SENSOR_FAILURE = 0x81;
 
 static constexpr bool DEBUG = false;
 
@@ -111,6 +119,233 @@ void init()
 }
 
 } // namespace nvmeMCTP
+
+namespace nvmeSMBus
+{
+
+int Smbus::openI2cDev(int i2cbus, char *filename, size_t size, int quiet)
+{
+    int file;
+
+    snprintf(filename, size, "/dev/i2c/%d", i2cbus);
+    filename[size - 1] = '\0';
+    file = open(filename, O_RDWR);
+
+    if (file < 0 && (errno == ENOENT || errno == ENOTDIR)) {
+        sprintf(filename, "/dev/i2c-%d", i2cbus);
+        file = open(filename, O_RDWR);
+    }
+
+    if (DEBUG)
+    {
+        if (file < 0 && !quiet)
+        {
+            if (errno == ENOENT)
+            {
+                fprintf(stderr,
+                        "Error: Could not open file "
+                        "`/dev/i2c-%d' or `/dev/i2c/%d': %s\n",
+                        i2cbus, i2cbus, strerror(ENOENT));
+            }
+            else
+            {
+                fprintf(stderr,
+                        "Error: Could not open file "
+                        "`%s': %s\n",
+                        filename, strerror(errno));
+                if (errno == EACCES)
+                    fprintf(stderr, "Run as root?\n");
+            }
+        }
+    }
+
+    return file;
+}
+
+int Smbus::smbusInit(int smbus_num)
+{
+    int res = 0;
+    char filename[20];
+    int fd[MAX_I2C_BUS] = {0};
+
+
+    fd[smbus_num] = openI2cDev(smbus_num, filename, sizeof(filename), 0);
+    if (fd[smbus_num] < 0)
+    {
+
+        return -1;
+    }
+
+    res = fd[smbus_num];
+
+    return res;
+}
+
+void Smbus::smbusClose(int smbus_num)
+{
+    int fd[MAX_I2C_BUS] = {0};
+
+    close(fd[smbus_num]);
+}
+
+int Smbus::SendSmbusRWBlockCmdRAW(int smbus_num,
+                                                   int8_t device_addr,
+                                                   uint8_t* tx_data,
+                                                   uint8_t tx_len,
+                                                   uint8_t* rsp_data)
+{
+    int res, res_len;
+    unsigned char Rx_buf[I2C_DATA_MAX] = {0};
+
+    Rx_buf[0] = 1;
+
+    res = i2c_read_after_write(fd[smbus_num], device_addr, tx_len,
+                               (unsigned char*)tx_data, I2C_DATA_MAX,
+                               (unsigned char*)Rx_buf);
+
+    if (res < 0)
+    {
+        fprintf(stderr, "Error: SendSmbusRWBlockCmdRAW failed\n");
+    }
+
+    res_len = Rx_buf[0] + 1;
+
+    memcpy(rsp_data, Rx_buf, res_len);
+
+    return res;
+}
+
+/** @brief Get NVMe info over smbus  */
+bool getNVMeInfobyBusID(int busID, phosphor::nvme::Nvme::NVMeData& nvmeData)
+{
+    nvmeData.present = true;
+    nvmeData.vendor = "";
+    nvmeData.serialNumber = "";
+    nvmeData.smartWarnings = "";
+    nvmeData.statusFlags = "";
+    nvmeData.driveLifeUsed = "";
+    nvmeData.sensorValue = (int8_t)TEMPERATURE_SENSOR_FAILURE;
+
+    phosphor::smbus::Smbus smbus;
+
+    unsigned char rsp_data_command_0[I2C_DATA_MAX] = {0};
+    unsigned char rsp_data_command_8[I2C_DATA_MAX] = {0};
+
+    static std::unordered_map<int, bool> isErrorSmbus;
+
+    uint8_t tx_data = 0; //set a tx_data value to test, this is command code
+
+    auto smbus_init = smbus.smbusInit(busID);
+    if (smbus_init == -1)
+    {
+        std::cerr << "smbusInit fail!" << std::endl;
+
+        nvmeData.present = false;
+
+        return nvmeData.present;
+    }
+
+    auto res_int =
+        smbus.SendSmbusRWBlockCmdRAW(busID, NVME_SSD_SLAVE_ADDRESS, &tx_data,
+                                     sizeof(tx_data), rsp_data_command_0);
+
+    if (res_int < 0)
+    {
+        if (isErrorSmbus[busID] != true)
+        {
+            log<level::ERR>("Send command code 0 fail!");
+            isErrorSmbus[busID] = true;
+        }
+
+        smbus.smbusClose(busID);
+        nvmeData.present = false;
+        return nvmeData.present;
+    }
+
+    tx_data = 8;  //set a tx_data value to test, this is command code
+
+    res_int =
+        smbus.SendSmbusRWBlockCmdRAW(busID, NVME_SSD_SLAVE_ADDRESS, &tx_data,
+                                     sizeof(tx_data), rsp_data_command_8);
+
+    if (res_int < 0)
+    {
+        if (isErrorSmbus[busID] != true)
+        {
+            log<level::ERR>("Send command code 8 fail!");
+            isErrorSmbus[busID] = true;
+        }
+
+        smbus.smbusClose(busID);
+        nvmeData.present = false;
+        return nvmeData.present;
+    }
+
+    nvmeData.vendor =
+        intToHex(rsp_data_command_8[1]) + " " + intToHex(rsp_data_command_8[2]);
+
+    for (int offset = SERIALNUMBER_START_INDEX; offset < SERIALNUMBER_END_INDEX;
+         offset++)
+    {
+        nvmeData.serialNumber += static_cast<char>(rsp_data_command_8[offset]);
+    }
+
+    nvmeData.statusFlags = intToHex(rsp_data_command_0[1]);
+    nvmeData.smartWarnings = intToHex(rsp_data_command_0[2]);
+    nvmeData.driveLifeUsed = intToHex(rsp_data_command_0[4]);
+    nvmeData.sensorValue = (int8_t)rsp_data_command_0[3];
+
+    smbus.smbusClose(busID);
+
+    isErrorSmbus[busID] = false;
+
+    return nvmeData.present;
+}
+
+void Nvme::readNvmeData(NVMeConfig& config)
+{
+	NVMeData nvmeData;
+    // get NVMe information through i2c by busID.
+    auto success = getNVMeInfobyBusID(config.busID, nvmeData);
+}
+
+void Nvme::createNVMeInventory()
+{
+    using Properties =
+        std::map<std::string, sdbusplus::message::variant<std::string, bool>>;
+    using Interfaces = std::map<std::string, Properties>;
+
+    std::string inventoryPath;
+    std::map<sdbusplus::message::object_path, Interfaces> obj;
+
+    for (const auto config : configs)
+    {
+        inventoryPath = "/system/chassis/motherboard/nvme" + config.index;
+
+        obj = {{
+            inventoryPath,
+            {{ITEM_IFACE, {}}, {NVME_STATUS_IFACE, {}}, {ASSET_IFACE, {}}},
+        }};
+        util::SDBusPlus::CallMethod(bus, INVENTORY_BUSNAME, INVENTORY_NAMESPACE,
+                                    INVENTORY_MANAGER_IFACE, "Notify", obj);
+    }
+}
+
+void Nvme::init()
+{
+	phosphor::nvme::Nvme::createNVMeInventory();
+	std::function<void()> callback(std::bind(&phosphor::nvme::Nvme::read, this)); // not sure this usage
+}
+
+void Nvme::read()
+{
+    for (auto config : configs)
+    {
+        Nvme::readNvmeData(config);
+    }
+}
+
+} // namespace nvmeSMBus
 
 void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
 {
@@ -208,9 +443,7 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
     requestMsg.header.opcode = NVME_MI_OPCODE_HEALTH_STATUS_POLL;
     requestMsg.header.dword0 = 0;
     requestMsg.header.dword1 = 0;
-
     int mctpResponseTimeout = 1;
-
     if (nvmeDevice->sensors.empty())
     {
         return;
