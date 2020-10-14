@@ -18,6 +18,9 @@
 
 #include "NVMeDevice.hpp"
 
+#include "smbus.hpp"
+#include "i2c.h"
+
 #include <crc32c.h>
 #include <libmctp-smbus.h>
 
@@ -111,6 +114,15 @@ void init()
 }
 
 } // namespace nvmeMCTP
+
+namespace nvmeSMBus
+{
+void init()
+{
+
+}
+
+} // namespace nvmeSMBus
 
 void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
 {
@@ -208,9 +220,7 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
     requestMsg.header.opcode = NVME_MI_OPCODE_HEALTH_STATUS_POLL;
     requestMsg.header.dword0 = 0;
     requestMsg.header.dword1 = 0;
-
     int mctpResponseTimeout = 1;
-
     if (nvmeDevice->sensors.empty())
     {
         return;
