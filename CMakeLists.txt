@@ -117,6 +117,7 @@ if (NOT YOCTO)
                          "" LOG_DOWNLOAD ON)
     include_directories (SYSTEM ${CMAKE_BINARY_DIR}/nlohmann-json-src/include)
 
+
     if (ENABLE_TEST)
         option (HUNTER_ENABLED "Enable hunter package pulling" ON)
         hunter_add_package (GTest)
@@ -212,6 +213,7 @@ if (NOT YOCTO)
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
     add_dependencies (mcutempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (psusensor ${EXTERNAL_PACKAGES})
+    add_dependencies (nvmesensor ${EXTERNAL_PACKAGES})
 endif ()
 
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
