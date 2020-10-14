@@ -84,6 +84,11 @@ if (NOT YOCTO)
     set (DISABLE_NVME ON) # todo allow this to build out of tree
     option (ENABLE_TEST "Enable Google Test" OFF)
 
+if (ENABLE_TEST)
+include ("cmake/CodeCoverage.cmake")
+set(COVERAGE_EXCLUDES 'tests/*')
+endif ()
+
     externalproject_add (
         Boost URL
         https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.gz
@@ -137,6 +142,11 @@ if (NOT YOCTO)
         target_link_libraries (runHwmonTempTests GTest::main GTest::gtest
                                pthread ${DBUS_LIBRARIES} stdc++fs)
         add_dependencies (runHwmonTempTests nlohmann-json)
+        
+        add_executable (runNVMeSensorTests tests/test_NVMeSensor.cpp)
+        target_link_libraries (runNVMeSensorTests GTest::main GTest::gtest
+                               pthread ${DBUS_LIBRARIES} stdc++fs)
+        add_test (NAME runNVMeSensorTests COMMAND runNVMeSensorTests)
     endif ()
 
 endif ()

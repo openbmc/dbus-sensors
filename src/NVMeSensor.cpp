@@ -16,6 +16,8 @@
 
 #include "NVMeSensor.hpp"
 
+#include "i2c.h"
+
 #include "NVMeDevice.hpp"
 
 #include <crc32c.h>
@@ -111,6 +113,99 @@ void init()
 }
 
 } // namespace nvmeMCTP
+
+static boost::container::flat_map<int> busfd;
+namespace nvmeSMBus
+{
+int OpenI2cDev(int i2cbus, char* filename, size_t size, int quiet)
+{
+    int file;
+
+    snprintf(filename, size, "/dev/i2c/%d", i2cbus);
+    filename[size - 1] = '\0';
+    file = open(filename, O_RDWR);
+
+    if (file < 0 && (errno == ENOENT || errno == ENOTDIR))
+    {
+        sprintf(filename, "/dev/i2c-%d", i2cbus);
+        file = open(filename, O_RDWR);
+    }
+
+    if (DEBUG)
+    {
+        if (file < 0 && !quiet)
+        {
+            if (errno == ENOENT)
+            {
+                fprintf(stderr,
+                        "Error: Could not open file "
+                        "`/dev/i2c-%d' or `/dev/i2c/%d': %s\n",
+                        i2cbus, i2cbus, strerror(ENOENT));
+            }
+            else
+            {
+                fprintf(stderr,
+                        "Error: Could not open file "
+                        "`%s': %s\n",
+                        filename, strerror(errno));
+                if (errno == EACCES)
+                    fprintf(stderr, "Run as root?\n");
+            }
+        }
+    }
+
+    return file;
+}
+
+int SmbusInit(int rootBus)
+{
+    int res = 0;
+    char filename[20];
+
+    busfd[rootBus] = OpenI2cDev(rootBus, filename, sizeof(filename), 0);
+    if (infd < 0)
+    {
+
+        return -1;
+    }
+
+    res = busfd[rootBus];
+
+    return res;
+}
+
+/*this function do not need when the fdbus been class */
+void SmbusClose(int rootBus)
+{
+
+    close(busfd[rootBus]);
+}
+
+int SendSmbusRWBlockCmdRAW(int rootBus, int8_t device_addr, uint8_t* tx_data,
+                           uint8_t tx_len, uint8_t* rsp_data)
+{
+    int res, res_len;
+    unsigned char Rx_buf[I2C_DATA_MAX] = {0};
+
+    Rx_buf[0] = 1;
+
+    res = i2c_read_after_write(busfd[rootBus], device_addr, tx_len,
+                               (unsigned char*)tx_data, I2C_DATA_MAX,
+                               (unsigned char*)Rx_buf);
+
+    if (res < 0)
+    {
+        fprintf(stderr, "Error: SendSmbusRWBlockCmdRAW failed\n");
+    }
+
+    res_len = Rx_buf[0] + 1;
+
+    memcpy(rsp_data, Rx_buf, res_len);
+
+    return res;
+}
+
+} // namespace nvmeSMBus
 
 void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
 {
@@ -208,9 +303,7 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
     requestMsg.header.opcode = NVME_MI_OPCODE_HEALTH_STATUS_POLL;
     requestMsg.header.dword0 = 0;
     requestMsg.header.dword1 = 0;
-
     int mctpResponseTimeout = 1;
-
     if (nvmeDevice->sensors.empty())
     {
         return;
@@ -415,6 +508,8 @@ void NVMeContext::close()
     mctpResponseTimer.cancel();
     nvmeSlaveSocket.cancel();
     nvmeMCTP::closeInFd(rootBus);
+    // it's for smbus command close
+    nvmeSMBus::SmbusClose(rootBus);
 }
 
 NVMeContext::~NVMeContext()
