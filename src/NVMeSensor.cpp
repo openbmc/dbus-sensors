@@ -112,6 +112,15 @@ void init()
 
 } // namespace nvmeMCTP
 
+namespace nvmeSMBus
+{
+void init()
+{
+
+}
+
+} // namespace nvmeSMBus
+
 void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
 {
     nvmeDevice->nvmeSlaveSocket.async_wait(
@@ -208,9 +217,7 @@ void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
     requestMsg.header.opcode = NVME_MI_OPCODE_HEALTH_STATUS_POLL;
     requestMsg.header.dword0 = 0;
     requestMsg.header.dword1 = 0;
-
     int mctpResponseTimeout = 1;
-
     if (nvmeDevice->sensors.empty())
     {
         return;
