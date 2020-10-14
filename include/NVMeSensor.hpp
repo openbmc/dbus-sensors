@@ -35,14 +35,25 @@ struct NVMeContext : std::enable_shared_from_this<NVMeContext>
 
     virtual ~NVMeContext();
 
-    void pollNVMeDevices();
-    void close();
+    virtual void pollNVMeDevices();
+    virtual void close();
 
-    boost::asio::deadline_timer scanTimer;
     int rootBus; // Root bus for this drive
+
+    std::list<std::shared_ptr<NVMeSensor>> sensors; // used as a poll queue
+};
+
+struct NVMeMCTPContext : std::share_ptr<NVMeContext>
+{
+    boost::asio::deadline_timer scanTimer;
+
     boost::asio::deadline_timer mctpResponseTimer;
     boost::asio::ip::tcp::socket nvmeSlaveSocket;
-    std::list<std::shared_ptr<NVMeSensor>> sensors; // used as a poll queue
+};
+
+struct NVMeSMBusContext : std::share_ptr<NVMeContext>
+{
+    int busfd;
 };
 
 using NVMEMap = boost::container::flat_map<int, std::shared_ptr<NVMeContext>>;
@@ -50,6 +61,11 @@ using NVMEMap = boost::container::flat_map<int, std::shared_ptr<NVMeContext>>;
 int verifyIntegrity(uint8_t* msg, size_t len);
 
 namespace nvmeMCTP
+{
+void init(void);
+}
+
+namespace nvmeSMBus
 {
 void init(void);
 }
