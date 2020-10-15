@@ -234,7 +234,7 @@ struct GetSensorConfiguration :
     }
 
     void getConfiguration(const std::vector<std::string>& interfaces,
-                          size_t retries = 0)
+                          size_t retries = 3)
     {
         if (retries > 5)
         {
