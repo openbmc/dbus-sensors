@@ -49,6 +49,7 @@ static constexpr double ipmbMinReading = 0;
 
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t lun = 0;
+uint8_t Bus = 0;
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
@@ -208,6 +209,14 @@ void IpmbSensor::loadDefaults()
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
                     0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
         readingFormat = ReadingFormat::byte3;
+    }
+    else if (type == IpmbType::twinLake)
+    {
+        commandAddress = Bus << 2;
+        netfn = ipmi::sensor::netFn;
+        command = ipmi::sensor::getSensorReading;
+        commandData = {deviceAddress};
+        readingFormat = ReadingFormat::byte0;
     }
     else
     {
@@ -408,6 +417,8 @@ void createSensors(
                     uint8_t deviceAddress =
                         loadVariant<uint8_t>(entry.second, "Address");
 
+                    Bus = loadVariant<uint8_t>(entry.second, "Bus");
+
                     std::string sensorClass =
                         loadVariant<std::string>(entry.second, "Class");
 
@@ -474,6 +485,10 @@ void createSensors(
                              sensorClass == "MESensor")
                     {
                         sensor->type = IpmbType::meSensor;
+                    }
+                    else if (sensorClass == "twin_lake")
+                    {
+                        sensor->type = IpmbType::twinLake;
                     }
                     else
                     {
