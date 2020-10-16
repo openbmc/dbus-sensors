@@ -17,7 +17,8 @@ enum class IpmbType
     PXE1410CVR,
     IR38363VR,
     ADM1278HSC,
-    mpsVR
+    mpsVR,
+    twinLake
 };
 
 enum class IpmbSubType
