@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f412ccdb_56b59236",
+        "filename": "include/i2c.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99476cd9_4d0aa6df",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2769dfb1_628d79a4",
         "filename": "include/smbus.hpp",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2020-10-16T02:13:52Z",
       "side": 1,
       "message": "I think we should consistently pick either underscores or camel-case.",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f3e7fd9_7e1506af",
+        "filename": "include/smbus.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2769dfb1_628d79a4",
       "range": {
         "startLine": 22,
         "startChar": 8,
@@ -70,6 +112,24 @@
       "writtenOn": "2020-10-16T02:13:52Z",
       "side": 1,
       "message": "These structs seem like they would be common with the MCTP backend?",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0c59c35_56a08272",
+        "filename": "include/smbus.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "yes, so maybe should move these and using MCTP existing structs?",
+      "parentUuid": "59bfa4c6_b8b3809e",
       "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -122,6 +182,30 @@
     },
     {
       "key": {
+        "uuid": "55abcff6_904ae110",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "for using gMutex.lock/unlock. as we discussed there\u0027s no need so remove it.",
+      "parentUuid": "a44e19f4_0a5e09ce",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 16
+      },
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a7040c4_621067b5",
         "filename": "src/NVMeSensor.cpp",
         "patchSetId": 2
@@ -133,6 +217,30 @@
       "writtenOn": "2020-10-16T02:13:52Z",
       "side": 1,
       "message": "Why 30?",
+      "range": {
+        "startLine": 33,
+        "startChar": 20,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3df1309_3ea306e8",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "I set an default value but maybe we can set dynamic or something else?",
+      "parentUuid": "0a7040c4_621067b5",
       "range": {
         "startLine": 33,
         "startChar": 20,
@@ -162,6 +270,24 @@
     },
     {
       "key": {
+        "uuid": "7a8efa7d_312da00d",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51c30e64_83f55cb0",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32eee520_d68b2c3d",
         "filename": "src/NVMeSensor.cpp",
         "patchSetId": 2
@@ -173,6 +299,24 @@
       "writtenOn": "2020-10-16T02:13:52Z",
       "side": 1,
       "message": "Remove this from the patch.",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "161864c1_b60c9571",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32eee520_d68b2c3d",
       "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -202,6 +346,30 @@
     },
     {
       "key": {
+        "uuid": "b2815e19_4670ce7a",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c93a303_948edbe5",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 15
+      },
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f12f9f26_b3cbbb8e",
         "filename": "src/NVMeSensor.cpp",
         "patchSetId": 2
@@ -213,6 +381,24 @@
       "writtenOn": "2020-10-16T02:13:52Z",
       "side": 1,
       "message": "We discussed that this wasn\u0027t necessary previously, and I still don\u0027t think it is. There\u0027s no need to keep an array of FDs, each FD can just be private to each instance. There\u0027s no need to lock around access to the master, that\u0027s the kernel\u0027s job (and you\u0027d race against any other userspace applications if it didn\u0027t). We will need multiple instances of the class to represent each drive that we talk to though.",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c979a144_0cf6acb0",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "done. remove it",
+      "parentUuid": "f12f9f26_b3cbbb8e",
       "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -242,6 +428,30 @@
     },
     {
       "key": {
+        "uuid": "e36652f6_51c70d99",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39bd8c55_57c34b02",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 21
+      },
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c48de356_c65b7bfb",
         "filename": "src/NVMeSensor.cpp",
         "patchSetId": 2
@@ -253,6 +463,24 @@
       "writtenOn": "2020-10-16T02:13:52Z",
       "side": 1,
       "message": "Inconsistent indentation (tab vs spaces)",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f0aab1f_9243d14f",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c48de356_c65b7bfb",
       "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -276,6 +504,24 @@
     },
     {
       "key": {
+        "uuid": "85eccf67_1b6a8940",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fb50363_417d280a",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d99b51d3_0c3269eb",
         "filename": "src/NVMeSensor.cpp",
         "patchSetId": 2
@@ -287,6 +533,24 @@
       "writtenOn": "2020-10-16T02:13:52Z",
       "side": 1,
       "message": "If we\u0027re always closing the device it makes even less sense to keep an array of file descriptors :)",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1789d4ae_6e9595b2",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "yes, so it needs to be removed that keep files?",
+      "parentUuid": "d99b51d3_0c3269eb",
       "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -316,6 +580,30 @@
     },
     {
       "key": {
+        "uuid": "de75d849_83421eb6",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "missing next action while success. adding it.",
+      "parentUuid": "2c50d1e7_5503b6bb",
+      "range": {
+        "startLine": 328,
+        "startChar": 4,
+        "endLine": 328,
+        "endChar": 16
+      },
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "083b2b46_def1711c",
         "filename": "src/NVMeSensor.cpp",
         "patchSetId": 2
@@ -333,6 +621,24 @@
     },
     {
       "key": {
+        "uuid": "0f7de2de_13bfd06a",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "083b2b46_def1711c",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3e2a511_b0df259b",
         "filename": "src/NVMeSensorMain.cpp",
         "patchSetId": 2
@@ -344,6 +650,24 @@
       "writtenOn": "2020-10-16T02:13:52Z",
       "side": 1,
       "message": "I don\u0027t think this should be provided by smbus.hpp. Further, we should try to keep with the existing naming schemes - we have nvmeMCTP::init(), shouldn\u0027t we be calling this nvmeSMBus::init()?",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6650d9_cd9fd77c",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 1,
+      "message": "yes, sure. and also modify namespace in NVMeSensor.cpp",
+      "parentUuid": "c3e2a511_b0df259b",
       "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true

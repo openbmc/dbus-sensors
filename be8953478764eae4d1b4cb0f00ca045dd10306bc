@@ -16,6 +16,24 @@
       "revId": "be8953478764eae4d1b4cb0f00ca045dd10306bc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74c27cd_e7331b66",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-20T11:44:20Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "5ea3293c_ed63efdb",
+      "revId": "be8953478764eae4d1b4cb0f00ca045dd10306bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
