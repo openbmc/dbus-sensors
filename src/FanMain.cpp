@@ -442,8 +442,8 @@ void createSensors(
 
                 for (const auto& [index, configPath, name] : pwmNumbers)
                 {
-                    if (boost::ends_with(pwm.string(),
-                                         std::to_string(index + 1)))
+                    if (pwm.filename().string() ==
+                        "pwm" + std::to_string(index + 1))
                     {
                         path = &configPath;
                         pwmName = &name;
