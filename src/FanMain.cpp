@@ -51,6 +51,7 @@ static constexpr std::array<const char*, 3> sensorTypes = {
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
 static std::regex inputRegex(R"(fan(\d+)_input)");
+static std::regex pwmRegex(R"(pwm(\d+)$)");
 
 enum class FanTypes
 {
@@ -442,8 +443,8 @@ void createSensors(
 
                 for (const auto& [index, configPath, name] : pwmNumbers)
                 {
-                    if (boost::ends_with(pwm.string(),
-                                         std::to_string(index + 1)))
+                    if (pwm.filename().string() ==
+                        "pwm" + std::to_string(index + 1))
                     {
                         path = &configPath;
                         pwmName = &name;
