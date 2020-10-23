@@ -136,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "46787f00_e307af38",
+        "filename": "include/smbus.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2020-10-23T01:45:20Z",
+      "side": 1,
+      "message": "Yep, if we can do that we should.",
+      "parentUuid": "e0c59c35_56a08272",
+      "revId": "f39ea1563ef88d6ed354d82dfaf3aa620e68129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9736fec2_4d49ca7a",
         "filename": "include/smbus.hpp",
         "patchSetId": 2
