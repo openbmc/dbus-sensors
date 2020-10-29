@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "89e22f42_4122f5f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-29T11:47:08Z",
+      "side": 1,
+      "message": "Done. but need to finish progress then fill in these area.",
+      "parentUuid": "54a4f2e3_8e29a892",
+      "revId": "c9000580a412a3a9690ee8a5bcdb9405cc0c7bcb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "246d4fd6_21c927a3",
         "filename": "include/smbus.hpp",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2020-10-23T13:27:21Z",
       "side": 1,
       "message": "nit:nvmePresent is more appropriate",
+      "revId": "c9000580a412a3a9690ee8a5bcdb9405cc0c7bcb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d69e2ce_2c5e9e46",
+        "filename": "include/smbus.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-29T11:47:08Z",
+      "side": 1,
+      "message": "yes, but does not need this struct then remove it.",
+      "parentUuid": "246d4fd6_21c927a3",
       "revId": "c9000580a412a3a9690ee8a5bcdb9405cc0c7bcb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "2fca6289_051fcc64",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-29T11:47:08Z",
+      "side": 1,
+      "message": "yes, with this define should put hpp file and with structure change do not need this and remove.",
+      "parentUuid": "1404c35f_cfebc0bc",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 19
+      },
+      "revId": "c9000580a412a3a9690ee8a5bcdb9405cc0c7bcb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c92ca9a_db9125d7",
         "filename": "src/NVMeSensor.cpp",
         "patchSetId": 3
@@ -70,6 +130,30 @@
       "writtenOn": "2020-10-23T13:27:21Z",
       "side": 1,
       "message": "Is it default sensor value or sensor failure?",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 53
+      },
+      "revId": "c9000580a412a3a9690ee8a5bcdb9405cc0c7bcb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a91857f9_f0131cef",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-10-29T11:47:08Z",
+      "side": 1,
+      "message": "it\u0027s default sensor failure but also do not need this.",
+      "parentUuid": "5c92ca9a_db9125d7",
       "range": {
         "startLine": 38,
         "startChar": 27,
