@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcf1ef30_6ef2d6ea",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-10-29T17:48:25Z",
+      "side": 1,
+      "message": "why is the default parameter changed split into two separate functions?",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 29
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8454c77c_19bfad64",
+        "filename": "include/linux/peci-ioctl.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-10-29T17:48:25Z",
+      "side": 1,
+      "message": "I believe this is a kernel driver header file. May want to keep the kernel naming convention.",
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca6da3b5_8ba90f79",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-10-29T17:48:25Z",
+      "side": 1,
+      "message": "Why rand() was removed?",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 211,
+        "endChar": 53
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dae6a48_c1f672b8",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-10-29T17:48:25Z",
+      "side": 1,
+      "message": "uint32_t here?",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 11
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb5d0f3b_d91e8f19",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-10-29T17:48:25Z",
+      "side": 1,
+      "message": "uint32_t here?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 11
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecbee00c_7fa18181",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-10-29T17:48:25Z",
+      "side": 1,
+      "message": "toupper?",
+      "range": {
+        "startLine": 716,
+        "startChar": 43,
+        "endLine": 716,
+        "endChar": 50
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
