@@ -12,6 +12,10 @@
 
 constexpr size_t sensorFailedPollTimeMs = 5000;
 
+// Enable useful logging with sensor instrumentation
+// This is intentionally not DEBUG, avoid clash with usage in .cpp files
+constexpr bool INSTRUMENTATION = false;
+
 constexpr const char* sensorValueInterface = "xyz.openbmc_project.Sensor.Value";
 constexpr const char* availableInterfaceName =
     "xyz.openbmc_project.State.Decorator.Availability";
@@ -57,6 +61,90 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
     size_t errCount;
+
+    // These are for instrumentation for debugging
+    int numCollectsGood = 0;
+    int numCollectsMiss = 0;
+    int numStreakGreats = 0;
+    int numStreakMisses = 0;
+    double minCollected = 0.0;
+    double maxCollected = 0.0;
+
+    void updateInstrumentation(double readValue)
+    {
+        // Do nothing if this feature is not enabled
+        if constexpr (!INSTRUMENTATION)
+        {
+            return;
+        }
+
+        // Show constants if first reading (even if unsuccessful)
+        if ((numCollectsGood == 0) && (numCollectsMiss == 0))
+        {
+            std::cerr << "Sensor " << name << ": Configuration min=" << minValue
+                      << ", max=" << maxValue << ", type=" << objectType
+                      << ", path=" << configurationPath << "\n";
+        }
+
+        // Sensors can use "nan" to indicate unavailable reading
+        if (!(std::isfinite(readValue)))
+        {
+            // Only show this if beginning a new streak
+            if (numStreakMisses == 0)
+            {
+                std::cerr << "Sensor " << name
+                          << ": Missing reading, Reading counts good="
+                          << numCollectsGood << ", miss=" << numCollectsMiss
+                          << ", Prior good streak=" << numStreakGreats << "\n";
+            }
+
+            numStreakGreats = 0;
+            ++numCollectsMiss;
+            ++numStreakMisses;
+
+            return;
+        }
+
+        // Only show this if beginning a new streak and not the first time
+        if ((numStreakGreats == 0) && (numCollectsGood != 0))
+        {
+            std::cerr << "Sensor " << name
+                      << ": Recovered reading, Reading counts good="
+                      << numCollectsGood << ", miss=" << numCollectsMiss
+                      << ", Prior miss streak=" << numStreakMisses << "\n";
+        }
+
+        // Initialize min/max if the first successful reading
+        if (numCollectsGood == 0)
+        {
+            std::cerr << "Sensor " << name << ": First reading=" << readValue
+                      << "\n";
+
+            minCollected = readValue;
+            maxCollected = readValue;
+        }
+
+        numStreakMisses = 0;
+        ++numCollectsGood;
+        ++numStreakGreats;
+
+        // Only provide subsequent output if new min/max established
+        if (readValue < minCollected)
+        {
+            std::cerr << "Sensor " << name << ": Lowest reading=" << readValue
+                      << "\n";
+
+            minCollected = readValue;
+        }
+
+        if (readValue > maxCollected)
+        {
+            std::cerr << "Sensor " << name << ": Highest reading=" << readValue
+                      << "\n";
+
+            maxCollected = readValue;
+        }
+    }
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
@@ -286,6 +374,7 @@ struct Sensor
         }
 
         updateValueProperty(newValue);
+        updateInstrumentation(newValue);
 
         // Always check thresholds after changing the value,
         // as the test against hysteresisTrigger now takes place in
