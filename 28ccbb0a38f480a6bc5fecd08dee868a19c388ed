@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "18f31145_6b9270a9",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-29T18:00:50Z",
+      "side": 1,
+      "message": "Because it removed the warning, and makes it explicit which method you\u0027re going to.",
+      "parentUuid": "dcf1ef30_6ef2d6ea",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 29
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8454c77c_19bfad64",
         "filename": "include/linux/peci-ioctl.h",
         "patchSetId": 20
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9432aebb_c7ea5cdf",
+        "filename": "include/linux/peci-ioctl.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-29T18:00:50Z",
+      "side": 1,
+      "message": "I already commented this earlier.  Still working on fixing it, although the PECI discussion on the mailing list needs to complete.  This file really shouldn\u0027t be here at all, but the PECI stuff isn\u0027t in the mainline kernel yet.",
+      "parentUuid": "8454c77c_19bfad64",
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca6da3b5_8ba90f79",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 20
@@ -53,6 +95,30 @@
       "writtenOn": "2020-10-29T17:48:25Z",
       "side": 1,
       "message": "Why rand() was removed?",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 211,
+        "endChar": 53
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc2fc0d_d7b5ac39",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-29T18:00:50Z",
+      "side": 1,
+      "message": "https://clang.llvm.org/extra/clang-tidy/checks/cert-msc51-cpp.html\n\nrand was never seeded properly.  In this case, it\u0027s not really needed.  If we want to add dithering to sensor scans, we need to be consistent, and do it for all sensors.\n\nWith that said, this line is wrong, and completely ignored the sensorPollMs variable.",
+      "parentUuid": "ca6da3b5_8ba90f79",
       "range": {
         "startLine": 211,
         "startChar": 12,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "4313ff5c_7d67e02e",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-29T18:00:50Z",
+      "side": 1,
+      "message": "That would result in signed vs unsigned problems on line 130.  I\u0027d much rather do the conversion here, where we\u0027re dealing with constants that we know don\u0027t overflow.\n\nThis code could also be cleaned up a lot to not rely on masks for this kind of stuff, but this is better than what we have.",
+      "parentUuid": "1dae6a48_c1f672b8",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 11
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb5d0f3b_d91e8f19",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 20
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "4a1931fc_cecd3d99",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-29T18:00:50Z",
+      "side": 1,
+      "message": "Technically this should be uint8_t, but that would lead to worse overflows.",
+      "parentUuid": "cb5d0f3b_d91e8f19",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 11
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ecbee00c_7fa18181",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 20
@@ -122,6 +236,30 @@
       "writtenOn": "2020-10-29T17:48:25Z",
       "side": 1,
       "message": "toupper?",
+      "range": {
+        "startLine": 716,
+        "startChar": 43,
+        "endLine": 716,
+        "endChar": 50
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95d17a24_ed496ef6",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-29T18:00:50Z",
+      "side": 1,
+      "message": "Will fix.",
+      "parentUuid": "ecbee00c_7fa18181",
       "range": {
         "startLine": 716,
         "startChar": 43,
