@@ -12,12 +12,27 @@
 
 constexpr size_t sensorFailedPollTimeMs = 5000;
 
+// Enable useful logging with sensor instrumentation
+// This is intentionally not DEBUG, avoid clash with usage in .cpp files
+constexpr bool enableInstrumentation = false;
+
 constexpr const char* sensorValueInterface = "xyz.openbmc_project.Sensor.Value";
 constexpr const char* availableInterfaceName =
     "xyz.openbmc_project.State.Decorator.Availability";
 constexpr const char* operationalInterfaceName =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
 constexpr const size_t errorThreshold = 5;
+
+struct SensorInstrumentation
+{
+    // These are for instrumentation for debugging
+    int numCollectsGood = 0;
+    int numCollectsMiss = 0;
+    int numStreakGreats = 0;
+    int numStreakMisses = 0;
+    double minCollected = 0.0;
+    double maxCollected = 0.0;
+};
 
 struct Sensor
 {
@@ -57,6 +72,93 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
     size_t errCount;
+    std::unique_ptr<SensorInstrumentation> instrumentation;
+
+    void updateInstrumentation(double readValue)
+    {
+        // Do nothing if this feature is not enabled
+        if constexpr (!enableInstrumentation)
+        {
+            return;
+        }
+
+        // Allocate storage upon first use of this feature
+        if (!instrumentation)
+        {
+            instrumentation = std::make_unique<SensorInstrumentation>();
+        }
+
+        // Save some typing
+        auto& i = *instrumentation;
+
+        // Show constants if first reading (even if unsuccessful)
+        if ((i.numCollectsGood == 0) && (i.numCollectsMiss == 0))
+        {
+            std::cerr << "Sensor " << name << ": Configuration min=" << minValue
+                      << ", max=" << maxValue << ", type=" << objectType
+                      << ", path=" << configurationPath << "\n";
+        }
+
+        // Sensors can use "nan" to indicate unavailable reading
+        if (!(std::isfinite(readValue)))
+        {
+            // Only show this if beginning a new streak
+            if (i.numStreakMisses == 0)
+            {
+                std::cerr << "Sensor " << name
+                          << ": Missing reading, Reading counts good="
+                          << i.numCollectsGood << ", miss=" << i.numCollectsMiss
+                          << ", Prior good streak=" << i.numStreakGreats
+                          << "\n";
+            }
+
+            i.numStreakGreats = 0;
+            ++(i.numCollectsMiss);
+            ++(i.numStreakMisses);
+
+            return;
+        }
+
+        // Only show this if beginning a new streak and not the first time
+        if ((i.numStreakGreats == 0) && (i.numCollectsGood != 0))
+        {
+            std::cerr << "Sensor " << name
+                      << ": Recovered reading, Reading counts good="
+                      << i.numCollectsGood << ", miss=" << i.numCollectsMiss
+                      << ", Prior miss streak=" << i.numStreakMisses << "\n";
+        }
+
+        // Initialize min/max if the first successful reading
+        if (i.numCollectsGood == 0)
+        {
+            std::cerr << "Sensor " << name << ": First reading=" << readValue
+                      << "\n";
+
+            i.minCollected = readValue;
+            i.maxCollected = readValue;
+        }
+
+        i.numStreakMisses = 0;
+        ++(i.numCollectsGood);
+        ++(i.numStreakGreats);
+
+        // Only provide subsequent output if new min/max established
+        if (readValue < i.minCollected)
+        {
+            std::cerr << "Sensor " << name << ": Lowest reading=" << readValue
+                      << "\n";
+
+            i.minCollected = readValue;
+        }
+
+        if (readValue > i.maxCollected)
+        {
+            std::cerr << "Sensor " << name << ": Highest reading=" << readValue
+                      << "\n";
+
+            i.maxCollected = readValue;
+        }
+    }
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
@@ -286,6 +388,7 @@ struct Sensor
         }
 
         updateValueProperty(newValue);
+        updateInstrumentation(newValue);
 
         // Always check thresholds after changing the value,
         // as the test against hysteresisTrigger now takes place in
