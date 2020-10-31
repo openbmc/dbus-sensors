@@ -197,6 +197,30 @@
     },
     {
       "key": {
+        "uuid": "eb376808_6ff75c9f",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-10-31T15:22:06Z",
+      "side": 1,
+      "message": "\u003e Even though it is not truly randomized, the poll time does vary between each read. I am just a little concerned about making it a fixed number. Having said that, I can\u0027t think of anything concrete now.\n\nthe poll time will vary anyway with normal system load.  Having a non-integer scan rate makes things much harder for the PID tuning loops.  If we\u0027re going to do that, we should do it everywhere, not in this one specific sensor.",
+      "parentUuid": "fb977eac_10bd50b0",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 211,
+        "endChar": 53
+      },
+      "revId": "28ccbb0a38f480a6bc5fecd08dee868a19c388ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1dae6a48_c1f672b8",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 20
