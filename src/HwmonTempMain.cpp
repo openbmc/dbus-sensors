@@ -40,8 +40,10 @@
 static constexpr bool DEBUG = false;
 
 namespace fs = std::filesystem;
-static constexpr std::array<const char*, 11> sensorTypes = {
+static constexpr std::array<const char*, 13> sensorTypes = {
+    "xyz.openbmc_project.Configuration.EMC1412",
     "xyz.openbmc_project.Configuration.EMC1413",
+    "xyz.openbmc_project.Configuration.EMC1414",
     "xyz.openbmc_project.Configuration.MAX31725",
     "xyz.openbmc_project.Configuration.MAX31730",
     "xyz.openbmc_project.Configuration.MAX6581",
