@@ -216,27 +216,15 @@ static void
     }
 }
 
-void createSensors(boost::asio::io_service& io,
-                   sdbusplus::asio::object_server& objectServer,
-                   std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+static void createSensorsCallback(
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    const ManagedObjectType& sensorConfigs,
+    const std::shared_ptr<boost::container::flat_set<std::string>>&
+        sensorsChanged)
 {
-
-    ManagedObjectType sensorConfigs;
     int numCreated = 0;
-    bool useCache = false;
-
-    // TODO may need only modify the ones that need to be changed.
-    sensors.clear();
-    for (const char* type : sensorTypes)
-    {
-        if (!getSensorConfiguration(type, dbusConnection, sensorConfigs,
-                                    useCache))
-        {
-            std::cerr << "error get sensor config from entity manager\n";
-            return;
-        }
-        useCache = true;
-    }
+    bool firstScan = sensorsChanged == nullptr;
 
     std::vector<fs::path> pmbusPaths;
     if (!findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths))
@@ -400,6 +388,27 @@ void createSensors(boost::asio::io_service& io,
             std::cerr << "Cannot find psu name, invalid configuration\n";
             continue;
         }
+
+        // on rescans, only update sensors we were signaled by
+        if (!firstScan)
+        {
+            bool found = false;
+            for (auto it = sensorsChanged->begin(); it != sensorsChanged->end();
+                 it++)
+            {
+                if (boost::ends_with(*it, *psuName))
+                {
+                    found = true;
+                    sensorsChanged->erase(it);
+                    break;
+                }
+            }
+            if (!found)
+            {
+                continue;
+            }
+        }
+
         checkEvent(directory.string(), eventMatch, eventPathList);
         checkGroupEvent(directory.string(), groupEventMatch,
                         groupEventPathList);
@@ -780,6 +789,16 @@ void createSensors(boost::asio::io_service& io,
                           << "\"\n";
             }
 
+            // don't recreate same sensor on rescan
+            if (!firstScan)
+            {
+                auto findSensor = sensors.find(sensorName);
+                if (findSensor != sensors.end())
+                {
+                    continue;
+                }
+            }
+
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
@@ -806,6 +825,23 @@ void createSensors(boost::asio::io_service& io,
         std::cerr << "Created total of " << numCreated << " sensors\n";
     }
     return;
+}
+
+void createSensors(
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    const std::shared_ptr<boost::container::flat_set<std::string>>&
+        sensorsChanged)
+{
+    auto getter = std::make_shared<GetSensorConfiguration>(
+        dbusConnection,
+        std::move([&io, &objectServer, &dbusConnection,
+                   sensorsChanged](const ManagedObjectType& sensorConfigs) {
+            createSensorsCallback(io, objectServer, dbusConnection,
+                                  sensorConfigs, sensorsChanged);
+        }));
+    getter->getConfiguration(
+        std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
 }
 
 void propertyInitialize(void)
@@ -907,10 +943,12 @@ int main()
     systemBus->request_name("xyz.openbmc_project.PSUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
+    auto sensorsChanged =
+        std::make_shared<boost::container::flat_set<std::string>>();
 
     propertyInitialize();
 
-    io.post([&]() { createSensors(io, objectServer, systemBus); });
+    io.post([&]() { createSensors(io, objectServer, systemBus, nullptr); });
     boost::asio::deadline_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
@@ -919,6 +957,7 @@ int main()
                 std::cerr << "callback method error\n";
                 return;
             }
+            sensorsChanged->insert(message.get_path());
             filterTimer.expires_from_now(boost::posix_time::seconds(3));
             filterTimer.async_wait([&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
@@ -929,7 +968,7 @@ int main()
                 {
                     std::cerr << "timer error\n";
                 }
-                createSensors(io, objectServer, systemBus);
+                createSensors(io, objectServer, systemBus, sensorsChanged);
             });
         };
 
