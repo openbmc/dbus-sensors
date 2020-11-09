@@ -19,7 +19,10 @@
 #include "NVMeDevice.hpp"
 
 #include <crc32c.h>
+
+#if defined(HAVE_LIBMCTP_SMBUS)
 #include <libmctp-smbus.h>
+#endif
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/ip/tcp.hpp>
