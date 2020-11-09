@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cb7d7b9_6d654190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-09T20:50:06Z",
+      "side": 1,
+      "message": "Can you please write a more complete error message?\n\n1. What does this flag do?\n2. Why is it needed?\n3. What impacts does it have to existing users?\n4. What impacts does it have to maintenance of dbus-sensors?\n5. What is the long term intent of this option (even if it doesn\u0027t appear in code review).\n6. What is this flag named?\n7. How would a user enable said flag?\n8. How did you test this flag?",
+      "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
