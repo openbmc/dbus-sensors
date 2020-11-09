@@ -1,6 +1,8 @@
 #pragma once
 
+#ifdef HAVE_LIBMCTP_SMBUS
 #include <libmctp-smbus.h>
+#endif
 #include <libmctp.h>
 
 #include <boost/asio/deadline_timer.hpp>
