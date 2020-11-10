@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "47e1e72e_7cda84da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-11-10T10:35:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27123d56_3892c79b",
+      "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c188ff7_cbb7c8f0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2020-11-10T06:17:36Z",
       "side": 1,
       "message": "Include tested steps.",
+      "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fe2910_246c2318",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-11-10T10:35:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c188ff7_cbb7c8f0",
       "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2020-11-10T06:26:46Z",
       "side": 1,
       "message": "3. +1. What impact does it have to the current implementation?",
+      "parentUuid": "7cb7d7b9_6d654190",
+      "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b60a2a59_907fa1b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000506
+      },
+      "writtenOn": "2020-11-10T10:35:34Z",
+      "side": 1,
+      "message": "1\u00262. with NVMeSensor using openbmc/libmctp module,\n    libmctp-smbus.h and crc32c.h will miss while building. \n    but the functions needed these. so want to discuss how can \n    solve this.\n3\u00264. no, but want a raw smbus function that does not\n    depend on NVMe-MI mctp-smbus functions to drive nvme \n    devies temperature sensors.\n5\u00266. want to use this flag to identify the mctp or \n    raw smbus function usage. so defined this flag. and\n    it needs default method between the two to use.\n7\u00268. it may change the bitbake meta data to enbale this flag,\n    so testing this flag might write a testcase for it?",
       "parentUuid": "7cb7d7b9_6d654190",
       "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
