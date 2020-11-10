@@ -50,6 +50,24 @@
       "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f892d167_65502c5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2020-11-10T06:26:46Z",
+      "side": 1,
+      "message": "3. +1. What impact does it have to the current implementation?",
+      "parentUuid": "7cb7d7b9_6d654190",
+      "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
