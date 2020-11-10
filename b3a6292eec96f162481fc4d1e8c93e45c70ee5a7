@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "27123d56_3892c79b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2020-11-10T06:17:36Z",
+      "side": 1,
+      "message": "Please follow 50-72 rule.",
+      "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c188ff7_cbb7c8f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2020-11-10T06:17:36Z",
+      "side": 1,
+      "message": "Include tested steps.",
+      "revId": "b3a6292eec96f162481fc4d1e8c93e45c70ee5a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cb7d7b9_6d654190",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
