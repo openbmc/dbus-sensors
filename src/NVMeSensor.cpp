@@ -265,7 +265,7 @@ static double getTemperatureReading(int8_t reading)
     {
         // 0x80 = No temperature data or temperature data is more the 5 s
         // old 0x81 = Temperature sensor failure
-        return maxReading;
+        return std::numeric_limits<double>::quiet_NaN();
     }
 
     return reading;
@@ -365,7 +365,16 @@ void rxMessage(uint8_t eid, void*, void* msg, size_t len)
                   << " Celsius for device " << sensorInfo->name << "\n";
     }
 
-    sensorInfo->updateValue(getTemperatureReading(messageData[5]));
+    double value = getTemperatureReading(messageData[5]);
+    if (!std::isfinite(value))
+    {
+        sensorInfo->markAvailable(false);
+        sensorInfo->incrementError();
+    }
+    else
+    {
+        sensorInfo->updateValue(value);
+    }
 
     if (DEBUG)
     {
