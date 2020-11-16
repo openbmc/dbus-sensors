@@ -355,6 +355,30 @@
       "revId": "2635789defb387ad94f7fbcce41982a102d1a54f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2511d33e_ea5c9713",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-16T21:57:43Z",
+      "side": 1,
+      "message": "\u003e I thought there will be no extra event since the property value does not change.\n\nI\u0027m not an expert in this area.  If you can test and verify that\u0027s the case, then this is fine as-is.\n\n\u003e Threshold value state is not cached in the object, so get the current value is not free and need dbus get calls.\n\nIsn\u0027t the current state available in the dbus interface itself?\n\n\u003e Since sensors are not expected to be destructed constantly, I would think it is not worth adding a cached state yet.\n\nWe should already have access to the state within the threshold interfaces.",
+      "parentUuid": "73e3970e_639464d9",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 69
+      },
+      "revId": "2635789defb387ad94f7fbcce41982a102d1a54f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
