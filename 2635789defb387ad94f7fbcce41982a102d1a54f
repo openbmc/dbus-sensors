@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "244ec028_c66b2973",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-11-16T21:32:31Z",
+      "side": 1,
+      "message": "Nice, I will take a look and probably refactor this patch with it",
+      "parentUuid": "c6060198_1faf8dd9",
+      "range": {
+        "startLine": 457,
+        "startChar": 35,
+        "endLine": 457,
+        "endChar": 47
+      },
+      "revId": "2635789defb387ad94f7fbcce41982a102d1a54f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da9216d6_fb038fa0",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 2
@@ -298,6 +322,30 @@
       "side": 1,
       "message": "\u003e It is the intend for this function to force the de-assert and should only be called on sensor destruct.\n\nBut it should only be deasserted if it\u0027s asserted, correct?  Otherwise we\u0027re sending an extra event out.\n\n\u003e When the new sensor get created again, the threshold will be reset based on new values.",
       "parentUuid": "0e9b82f6_fe4c7be7",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 69
+      },
+      "revId": "2635789defb387ad94f7fbcce41982a102d1a54f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73e3970e_639464d9",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-11-16T21:32:31Z",
+      "side": 1,
+      "message": "I thought there will be no extra event since the property value does not change.\nThreshold value state is not cached in the object, so get the current value is not free and need dbus get calls.\nSince sensors are not expected to be destructed constantly, I would think it is not worth adding a cached state yet.",
+      "parentUuid": "80cf57a4_3aa35276",
       "range": {
         "startLine": 461,
         "startChar": 4,
