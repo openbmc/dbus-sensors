@@ -118,6 +118,30 @@
       "revId": "2635789defb387ad94f7fbcce41982a102d1a54f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b19c1a3a_5b885e5d",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-11-16T16:38:19Z",
+      "side": 1,
+      "message": "Since base class - sensors.hpp is neither a dbus object_server or has a dbus object_server, the following lines can\u0027t be moved into sensor\u0027s base destructor. I am open to other suggestions or thoughts on whether to add object_server into sensor\u0027s base construct.",
+      "parentUuid": "27b06da0_2505e07b",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 0
+      },
+      "revId": "2635789defb387ad94f7fbcce41982a102d1a54f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
