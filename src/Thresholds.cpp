@@ -1,11 +1,8 @@
-#include "Thresholds.hpp"
-
-#include "VariantVisitors.hpp"
-#include "sensor.hpp"
-
+#include <Thresholds.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
-#include <boost/lexical_cast.hpp>
+#include <sensor.hpp>
 
 #include <array>
 #include <cmath>
@@ -19,7 +16,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 namespace thresholds
 {
 unsigned int toBusValue(const Level& level)
@@ -75,10 +72,14 @@ bool parseThresholdsFromConfig(
         {
             auto labelFind = item.second.find("Label");
             if (labelFind == item.second.end())
+            {
                 continue;
+            }
             if (std::visit(VariantToStringVisitor(), labelFind->second) !=
                 *matchLabel)
+            {
                 continue;
+            }
         }
         auto directionFind = item.second.find("Direction");
         auto severityFind = item.second.find("Severity");
@@ -323,7 +324,7 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         }
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         // Throttle debug output, so that it does not continuously spam
         ++cDebugThrottle;
@@ -338,6 +339,52 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
     }
 
     return thresholdChanges;
+}
+
+void ThresholdTimer::startTimer(const Threshold& threshold, bool assert,
+                                double assertValue)
+{
+    struct TimerUsed timerUsed = {};
+    constexpr const size_t waitTime = 5;
+    TimerPair* pair = nullptr;
+
+    for (TimerPair& timer : timers)
+    {
+        if (!timer.first.used)
+        {
+            pair = &timer;
+            break;
+        }
+    }
+    if (pair == nullptr)
+    {
+        pair = &timers.emplace_back(timerUsed, boost::asio::deadline_timer(io));
+    }
+
+    pair->first.used = true;
+    pair->first.level = threshold.level;
+    pair->first.direction = threshold.direction;
+    pair->first.assert = assert;
+    pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
+    pair->second.async_wait([this, pair, threshold, assert,
+                             assertValue](boost::system::error_code ec) {
+        pair->first.used = false;
+
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return; // we're being canceled
+        }
+        else if (ec)
+        {
+            std::cerr << "timer error: " << ec.message() << "\n";
+            return;
+        }
+        if (sensor->readingStateGood())
+        {
+            assertThresholds(sensor, assertValue, threshold.level,
+                             threshold.direction, assert);
+        }
+    });
 }
 
 bool checkThresholds(Sensor* sensor)
@@ -491,7 +538,7 @@ bool parseThresholdsFromAttr(
                 if (auto val = readFile(attrPath, scaleFactor))
                 {
                     *val += offset;
-                    if (DEBUG)
+                    if (debug)
                     {
                         std::cout << "Threshold: " << attrPath << ": " << *val
                                   << "\n";

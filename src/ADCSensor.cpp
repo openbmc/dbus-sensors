@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "ADCSensor.hpp"
-
 #include <unistd.h>
 
+#include <ADCSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
@@ -35,32 +34,32 @@
 #include <string>
 #include <vector>
 
-static constexpr unsigned int sensorPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;
 static constexpr unsigned int gpioBridgeEnableMs = 20;
 // scaling factor from hwmon
 static constexpr unsigned int sensorScaleFactor = 1000;
 
-static constexpr double roundFactor = 10000; // 3 decimal places
-static constexpr double maxReading = 20;
-static constexpr double minReading = 0;
+static constexpr double roundFactor = 10000;     // 3 decimal places
+static constexpr double maxVoltageReading = 1.8; // pre sensor scaling
+static constexpr double minVoltageReading = 0;
 
 ADCSensor::ADCSensor(const std::string& path,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
-                     std::vector<thresholds::Threshold>&& _thresholds,
-                     const double scaleFactor, PowerState readState,
+                     std::vector<thresholds::Threshold>&& thresholds,
+                     const double scaleFactor, const float pollRate,
+                     PowerState readState,
                      const std::string& sensorConfiguration,
                      std::optional<BridgeGpio>&& bridgeGpio) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ADC", maxReading, minReading,
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ADC",
+           maxVoltageReading / scaleFactor, minVoltageReading / scaleFactor,
            conn, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
-    thresholdTimer(io, this)
+    scaleFactor(scaleFactor), sensorPollMs(pollRate * 1000),
+    bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io, this)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
@@ -79,7 +78,6 @@ ADCSensor::ADCSensor(const std::string& path,
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
-
     setInitialProperties(conn);
 }
 

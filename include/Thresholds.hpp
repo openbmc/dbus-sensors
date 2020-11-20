@@ -1,6 +1,5 @@
 #pragma once
-#include "Utils.hpp"
-
+#include <Utils.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
 #include <nlohmann/json.hpp>
@@ -99,51 +98,8 @@ struct ThresholdTimer
         }
     }
 
-    void startTimer(const Threshold& threshold, bool assert, double assertValue)
-    {
-        struct TimerUsed timerUsed = {};
-        constexpr const size_t waitTime = 5;
-        TimerPair* pair = nullptr;
-
-        for (TimerPair& timer : timers)
-        {
-            if (!timer.first.used)
-            {
-                pair = &timer;
-                break;
-            }
-        }
-        if (pair == nullptr)
-        {
-            pair = &timers.emplace_back(timerUsed,
-                                        boost::asio::deadline_timer(io));
-        }
-
-        pair->first.used = true;
-        pair->first.level = threshold.level;
-        pair->first.direction = threshold.direction;
-        pair->first.assert = assert;
-        pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
-        pair->second.async_wait([this, pair, threshold, assert,
-                                 assertValue](boost::system::error_code ec) {
-            pair->first.used = false;
-
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                return; // we're being canceled
-            }
-            else if (ec)
-            {
-                std::cerr << "timer error: " << ec.message() << "\n";
-                return;
-            }
-            if (isPowerOn())
-            {
-                assertThresholds(sensor, assertValue, threshold.level,
-                                 threshold.direction, assert);
-            }
-        });
-    }
+    void startTimer(const Threshold& threshold, bool assert,
+                    double assertValue);
 
     boost::asio::io_service& io;
     std::list<TimerPair> timers;

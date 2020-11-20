@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "ADCSensor.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-
+#include <ADCSensor.hpp>
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -36,7 +35,8 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
+static constexpr float pollRateDefault = 0.5;
 
 namespace fs = std::filesystem;
 
@@ -210,6 +210,23 @@ void createSensors(
                 {
                     scaleFactor = std::visit(VariantToFloatVisitor(),
                                              findScaleFactor->second);
+                    // scaleFactor is used in division
+                    if (scaleFactor == 0.0f)
+                    {
+                        scaleFactor = 1.0;
+                    }
+                }
+
+                auto findPollRate = baseConfiguration->second.find("PollRate");
+                float pollRate = pollRateDefault;
+                if (findPollRate != baseConfiguration->second.end())
+                {
+                    pollRate = std::visit(VariantToFloatVisitor(),
+                                          findPollRate->second);
+                    if (pollRate <= 0.0f)
+                    {
+                        pollRate = pollRateDefault; // polling time too short
+                    }
                 }
 
                 auto findPowerOn = baseConfiguration->second.find("PowerState");
@@ -273,8 +290,8 @@ void createSensors(
 
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), scaleFactor, readState,
-                    *interfacePath, std::move(bridgeGpio));
+                    std::move(sensorThresholds), scaleFactor, pollRate,
+                    readState, *interfacePath, std::move(bridgeGpio));
                 sensor->setupRead();
             }
         }));
@@ -316,7 +333,7 @@ int main()
                     /* we were canceled*/
                     return;
                 }
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                     return;
@@ -364,7 +381,7 @@ int main()
                     /* we were canceled*/
                     return;
                 }
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                     return;
