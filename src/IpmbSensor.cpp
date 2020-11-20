@@ -49,6 +49,7 @@ static constexpr double ipmbMinReading = 0;
 
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t lun = 0;
+static constexpr uint8_t smLinkDefault = 0x03;
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
@@ -65,12 +66,14 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        const std::string& sensorConfiguration,
                        sdbusplus::asio::object_server& objectServer,
                        std::vector<thresholds::Threshold>&& thresholdData,
-                       uint8_t deviceAddress, std::string& sensorTypeName) :
+                       uint8_t deviceAddress, uint8_t smLinkIndex,
+                       std::string& sensorTypeName) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", ipmbMaxReading,
            ipmbMinReading, conn, PowerState::on),
-    deviceAddress(deviceAddress), objectServer(objectServer), waitTimer(io)
+    deviceAddress(deviceAddress), smLinkIndex(smLinkIndex),
+    objectServer(objectServer), waitTimer(io)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
 
@@ -149,8 +152,8 @@ void IpmbSensor::loadDefaults()
         command = ipmi::me_bridge::sendRawPmbus;
         initCommand = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
-        commandData = {0x57, 0x01, 0x00, 0x16, 0x3,  deviceAddress, 0x00,
-                       0x00, 0x00, 0x00, 0x01, 0x02, 0x8d};
+        commandData = {0x57, 0x01, 0x00, 0x16, smLinkIndex, deviceAddress, 0x00,
+                       0x00, 0x00, 0x00, 0x01, 0x02,        0x8d};
         // goto page 0
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
                     0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
@@ -202,8 +205,8 @@ void IpmbSensor::loadDefaults()
         command = ipmi::me_bridge::sendRawPmbus;
         initCommand = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
-        commandData = {0x57, 0x01, 0x00, 0x16, 0x3,  deviceAddress, 0x00,
-                       0x00, 0x00, 0x00, 0x01, 0x02, 0x8d};
+        commandData = {0x57, 0x01, 0x00, 0x16, smLinkIndex, deviceAddress, 0x00,
+                       0x00, 0x00, 0x00, 0x01, 0x02,        0x8d};
         // goto page 0
         initData = {0x57, 0x01, 0x00, 0x14, 0x03, deviceAddress, 0x00,
                     0x00, 0x00, 0x00, 0x02, 0x00, 0x00,          0x00};
@@ -410,6 +413,13 @@ void createSensors(
 
                     std::string sensorClass =
                         loadVariant<std::string>(entry.second, "Class");
+                    uint8_t smLinkIndex = smLinkDefault;
+                    auto findSmType = entry.second.find("SMLinkIndex");
+                    if (findSmType != entry.second.end())
+                    {
+                        smLinkIndex = std::visit(VariantToUnsignedIntVisitor(),
+                                                 findSmType->second);
+                    }
 
                     /* Default sensor type is "temperature" */
                     std::string sensorTypeName = "temperature";
@@ -423,7 +433,7 @@ void createSensors(
                     auto& sensor = sensors[name];
                     sensor = std::make_unique<IpmbSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
-                        std::move(sensorThresholds), deviceAddress,
+                        std::move(sensorThresholds), deviceAddress, smLinkIndex,
                         sensorTypeName);
 
                     /* Initialize scale and offset value */
