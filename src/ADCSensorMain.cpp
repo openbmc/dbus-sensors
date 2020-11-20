@@ -212,6 +212,31 @@ void createSensors(
                                              findScaleFactor->second);
                 }
 
+                auto findInterval = baseConfiguration->second.find("Interval");
+                unsigned int interval = 500;
+                if (findInterval != baseConfiguration->second.end())
+                {
+                    interval = std::visit(VariantToUnsignedIntVisitor(),
+                                          findInterval->second);
+                }
+
+                auto findGainFactor = baseConfiguration->second.find("Gain");
+                float gainFactor = 1.0;
+                if (findGainFactor != baseConfiguration->second.end())
+                {
+                    gainFactor = std::visit(VariantToFloatVisitor(),
+                                          findGainFactor->second);
+                }
+
+                auto findOffsetFactor =
+                    baseConfiguration->second.find("Offset");
+                float offsetFactor = 0;
+                if (findOffsetFactor != baseConfiguration->second.end())
+                {
+                    offsetFactor = std::visit(VariantToFloatVisitor(),
+                                          findOffsetFactor->second);
+                }
+
                 auto findPowerOn = baseConfiguration->second.find("PowerState");
                 PowerState readState = PowerState::always;
                 if (findPowerOn != baseConfiguration->second.end())
@@ -273,8 +298,9 @@ void createSensors(
 
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), scaleFactor, readState,
-                    *interfacePath, std::move(bridgeGpio));
+                    std::move(sensorThresholds), scaleFactor, gainFactor,
+                    offsetFactor, interval, readState, *interfacePath,
+                    std::move(bridgeGpio));
                 sensor->setupRead();
             }
         }));

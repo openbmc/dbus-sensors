@@ -380,8 +380,10 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
             if (change.asserted || thresholdTimer.hasActiveTimer(
                                        change.threshold, !change.asserted))
             {
+                bool isAlways = (sensor->readState == PowerState::always) ?
+                                true : false;
                 thresholdTimer.startTimer(change.threshold, change.asserted,
-                                          change.assertValue);
+                                          change.assertValue, isAlways);
                 continue;
             }
         }
