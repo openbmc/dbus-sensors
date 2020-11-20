@@ -66,8 +66,8 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
               std::shared_ptr<sdbusplus::asio::connection>& conn,
               boost::asio::io_service& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
-              const double scaleFactor, PowerState readState,
-              const std::string& sensorConfiguration,
+              const double scaleFactor, const float pollRate,
+              PowerState readState, const std::string& sensorConfiguration,
               std::optional<BridgeGpio>&& bridgeGpio);
     ~ADCSensor() override;
     void setupRead(void);
@@ -79,6 +79,7 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
     std::shared_ptr<boost::asio::streambuf> readBuf;
     std::string path;
     double scaleFactor;
+    unsigned int sensorPollMs;
     std::optional<BridgeGpio> bridgeGpio;
     thresholds::ThresholdTimer thresholdTimer;
     void handleResponse(const boost::system::error_code& err);
