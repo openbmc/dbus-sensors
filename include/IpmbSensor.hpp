@@ -80,7 +80,8 @@ struct IpmbSensor : public Sensor
                const std::string& sensorConfiguration,
                sdbusplus::asio::object_server& objectServer,
                std::vector<thresholds::Threshold>&& thresholds,
-               uint8_t deviceAddress, std::string& sensorTypeName);
+               uint8_t deviceAddress, uint8_t hostSMbusIndex,
+               std::string& sensorTypeName);
     ~IpmbSensor();
 
     void checkThresholds(void) override;
@@ -99,6 +100,7 @@ struct IpmbSensor : public Sensor
     uint8_t command;
     uint8_t deviceAddress;
     uint8_t errorCount;
+    uint8_t hostSMbusIndex;
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
