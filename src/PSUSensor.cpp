@@ -43,14 +43,16 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
-                     double max, double min, const std::string& label,
-                     size_t tSize) :
+                     double max, double min, double gain, double offset,
+                     unsigned int interval,
+                     const std::string& label, size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min,
            conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0)
+    sensorFactor(factor), minMaxReadCounter(0),
+    sensorGain(gain), sensorOffset(offset), sensorPollMs(interval)
 {
     if constexpr (DEBUG)
     {
@@ -58,7 +60,9 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                   << objectType << " config " << sensorConfiguration
                   << " typename " << sensorTypeName << " factor " << factor
                   << " min " << min << " max " << max << " name \""
-                  << sensorName << "\"\n";
+                  << sensorName << "\"\n" << " min " << min << " max " << max
+                  << " gain " << gain << " offset " << offset << " interval "
+                  << interval << " name \"" << sensorName << "\"\n";
     }
 
     fd = open(path.c_str(), O_RDONLY);
@@ -177,8 +181,8 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             std::getline(responseStream, response);
             rawValue = std::stod(response);
             responseStream.clear();
-            double nvalue = rawValue / sensorFactor;
-
+            double nvalue = (rawValue * sensorGain + sensorOffset) /
+                            sensorFactor;
             updateValue(nvalue);
 
             if (minMaxReadCounter++ % 8 == 0)
