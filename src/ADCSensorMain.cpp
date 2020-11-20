@@ -36,6 +36,7 @@
 #include <vector>
 
 static constexpr bool debug = false;
+static constexpr float pollRateDefault = 0.5;
 
 namespace fs = std::filesystem;
 
@@ -216,6 +217,18 @@ void createSensors(
                     }
                 }
 
+                auto findPollRate = baseConfiguration->second.find("PollRate");
+                float pollRate = pollRateDefault;
+                if (findPollRate != baseConfiguration->second.end())
+                {
+                    pollRate = std::visit(VariantToFloatVisitor(),
+                                          findPollRate->second);
+                    if (pollRate <= 0.0f)
+                    {
+                        pollRate = pollRateDefault; // polling time too short
+                    }
+                }
+
                 auto findPowerOn = baseConfiguration->second.find("PowerState");
                 PowerState readState = PowerState::always;
                 if (findPowerOn != baseConfiguration->second.end())
@@ -277,8 +290,8 @@ void createSensors(
 
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), scaleFactor, readState,
-                    *interfacePath, std::move(bridgeGpio));
+                    std::move(sensorThresholds), scaleFactor, pollRate,
+                    readState, *interfacePath, std::move(bridgeGpio));
                 sensor->setupRead();
             }
         }));
