@@ -142,6 +142,20 @@ inline T loadVariant(
     }
 }
 
+inline bool readingStateGood(const PowerState readState)
+{
+    if (readState == PowerState::on && !isPowerOn())
+    {
+        return false;
+    }
+    if (readState == PowerState::biosPost && (!hasBiosPost() || !isPowerOn()))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 inline void setReadState(const std::string& str, PowerState& val)
 {
 

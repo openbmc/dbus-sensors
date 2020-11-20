@@ -110,7 +110,7 @@ CPUSensor::~CPUSensor()
 
 void CPUSensor::setupRead(void)
 {
-    if (readingStateGood())
+    if (readingStateGood(this->readState))
     {
         inputDev.close();
         int fd = open(path.c_str(), O_RDONLY);
@@ -203,7 +203,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     }
     else if (err == boost::system::errc::operation_canceled)
     {
-        if (readingStateGood())
+        if (readingStateGood(this->readState))
         {
             if (!loggedInterfaceDown)
             {

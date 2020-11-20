@@ -305,7 +305,7 @@ void IpmbSensor::read(void)
         {
             return; // we're being canceled
         }
-        if (!readingStateGood())
+        if (!readingStateGood(this->readState))
         {
             updateValue(std::numeric_limits<double>::quiet_NaN());
             read();

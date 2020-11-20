@@ -381,7 +381,8 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
                                        change.threshold, !change.asserted))
             {
                 thresholdTimer.startTimer(change.threshold, change.asserted,
-                                          change.assertValue);
+                                          change.assertValue,
+                                          sensor->readState);
                 continue;
             }
         }

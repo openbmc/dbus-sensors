@@ -35,7 +35,6 @@
 #include <string>
 #include <vector>
 
-static constexpr unsigned int sensorPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;
 static constexpr unsigned int gpioBridgeEnableMs = 20;
 // scaling factor from hwmon
@@ -50,7 +49,8 @@ ADCSensor::ADCSensor(const std::string& path,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& _thresholds,
-                     const double scaleFactor, PowerState readState,
+                     const double scaleFactor, const float pollRate,
+                     PowerState readState,
                      const std::string& sensorConfiguration,
                      std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
@@ -59,8 +59,8 @@ ADCSensor::ADCSensor(const std::string& path,
            conn, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
-    thresholdTimer(io, this)
+    scaleFactor(scaleFactor), sensorPollMs(pollRate * 1000),
+    bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io, this)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
@@ -225,7 +225,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
 
 void ADCSensor::checkThresholds(void)
 {
-    if (!readingStateGood())
+    if (!readingStateGood(this->readState))
     {
         return;
     }

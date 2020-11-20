@@ -314,21 +314,6 @@ struct Sensor
         }
     }
 
-    bool readingStateGood()
-    {
-        if (readState == PowerState::on && !isPowerOn())
-        {
-            return false;
-        }
-        if (readState == PowerState::biosPost &&
-            (!hasBiosPost() || !isPowerOn()))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     void markFunctional(bool isFunctional)
     {
         if (operationalInterface)
@@ -356,7 +341,7 @@ struct Sensor
 
     void incrementError()
     {
-        if (!readingStateGood())
+        if (!readingStateGood(readState))
         {
             markAvailable(false);
             return;
@@ -382,8 +367,7 @@ struct Sensor
         {
             return;
         }
-
-        if (!readingStateGood())
+        if (!readingStateGood(readState))
         {
             markAvailable(false);
             updateValueProperty(std::numeric_limits<double>::quiet_NaN());
