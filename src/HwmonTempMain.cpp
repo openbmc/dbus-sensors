@@ -178,6 +178,31 @@ void createSensors(
                               << deviceName << "\n";
                     continue;
                 }
+
+                auto findInterval = baseConfigMap->find("Interval");
+                unsigned int interval = 500;
+                if (findInterval != baseConfigMap->end())
+                {
+                    interval = std::visit(VariantToUnsignedIntVisitor(),
+                                          findInterval->second);
+                }
+
+                auto findGainFactor = baseConfigMap->find("Gain");
+                float gainFactor = 1.0;
+                if (findGainFactor != baseConfigMap->end())
+                {
+                    gainFactor = std::visit(VariantToFloatVisitor(),
+                                            findGainFactor->second);
+                }
+
+                auto findOffsetFactor = baseConfigMap->find("Offset");
+                float offsetFactor = 0;
+                if (findOffsetFactor != baseConfigMap->end())
+                {
+                    offsetFactor = std::visit(VariantToFloatVisitor(),
+                                              findOffsetFactor->second);
+                }
+
                 std::string sensorName =
                     std::get<std::string>(findSensorName->second);
                 // on rescans, only update sensors we were signaled by
@@ -207,9 +232,9 @@ void createSensors(
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
                 }
-                auto findPowerOn = baseConfiguration->second.find("PowerState");
+                auto findPowerOn = baseConfigMap->find("PowerState");
                 PowerState readState = PowerState::always;
-                if (findPowerOn != baseConfiguration->second.end())
+                if (findPowerOn != baseConfigMap->end())
                 {
                     std::string powerState = std::visit(
                         VariantToStringVisitor(), findPowerOn->second);
@@ -225,8 +250,8 @@ void createSensors(
                 {
                     sensor = std::make_shared<HwmonTempSensor>(
                         *hwmonFile, sensorType, objectServer, dbusConnection,
-                        io, sensorName, std::move(sensorThresholds),
-                        *interfacePath, readState);
+                        io, sensorName, interval, gainFactor, offsetFactor,
+                        std::move(sensorThresholds), *interfacePath, readState);
                     sensor->setupRead();
                 }
                 // Looking for keys like "Name1" for temp2_input,
@@ -252,7 +277,8 @@ void createSensors(
                         sensor = nullptr;
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
-                            dbusConnection, io, sensorName,
+                            dbusConnection, io, sensorName, interval,
+                            gainFactor, offsetFactor,
                             std::vector<thresholds::Threshold>(),
                             *interfacePath, readState);
                         sensor->setupRead();
