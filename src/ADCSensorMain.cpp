@@ -212,6 +212,14 @@ void createSensors(
                                              findScaleFactor->second);
                 }
 
+                auto findPollRate = baseConfiguration->second.find("PollRate");
+                float PollRate = 0.5;
+                if (findPollRate != baseConfiguration->second.end())
+                {
+                    PollRate = std::visit(VariantToFloatVisitor(),
+                                          findPollRate->second);
+                }
+
                 auto findPowerOn = baseConfiguration->second.find("PowerState");
                 PowerState readState = PowerState::always;
                 if (findPowerOn != baseConfiguration->second.end())
@@ -273,8 +281,8 @@ void createSensors(
 
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), scaleFactor, readState,
-                    *interfacePath, std::move(bridgeGpio));
+                    std::move(sensorThresholds), scaleFactor, PollRate,
+                    readState, *interfacePath, std::move(bridgeGpio));
                 sensor->setupRead();
             }
         }));
