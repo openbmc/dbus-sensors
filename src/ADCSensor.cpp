@@ -35,7 +35,6 @@
 #include <string>
 #include <vector>
 
-static constexpr unsigned int sensorPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;
 static constexpr unsigned int gpioBridgeEnableMs = 20;
 // scaling factor from hwmon
@@ -50,7 +49,9 @@ ADCSensor::ADCSensor(const std::string& path,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& _thresholds,
-                     const double scaleFactor, PowerState readState,
+                     const double scaleFactor, const double gainFactor,
+                     const double offsetFactor, unsigned int interval,
+                     PowerState readState,
                      const std::string& sensorConfiguration,
                      std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
@@ -59,7 +60,8 @@ ADCSensor::ADCSensor(const std::string& path,
            conn, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    scaleFactor(scaleFactor), bridgeGpio(std::move(bridgeGpio)),
+    scaleFactor(scaleFactor), sensorPollMs(interval), gainFactor(gainFactor),
+    offsetFactor(offsetFactor), bridgeGpio(std::move(bridgeGpio)),
     thresholdTimer(io, this)
 {
     sensorInterface = objectServer.add_interface(
@@ -169,7 +171,9 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             rawValue = std::stod(response);
-            double nvalue = (rawValue / sensorScaleFactor) / scaleFactor;
+            double nvalue =
+                (rawValue / scaleFactor * gainFactor + offsetFactor) /
+                sensorScaleFactor;
             nvalue = std::round(nvalue * roundFactor) / roundFactor;
             updateValue(nvalue);
         }
