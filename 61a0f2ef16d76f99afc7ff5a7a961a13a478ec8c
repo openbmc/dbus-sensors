@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57001e94_9b9a1957",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-23T16:26:15Z",
+      "side": 1,
+      "message": "How does gain differ from scale factor?  They look very similar.",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18683c49_a8cc1ba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-23T16:26:15Z",
+      "side": 1,
+      "message": "Please split these into 3 patches, and provide each with a similar depth of commit message you\u0027ve provided here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e53d1717_281531d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-23T16:26:15Z",
+      "side": 1,
+      "message": "Tested?",
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a36bbea_7a8f7937",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-23T16:26:15Z",
+      "side": 1,
+      "message": "Updates to the entity-manager schema files will also be required to effect this change.",
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
