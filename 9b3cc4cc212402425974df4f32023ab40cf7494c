@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "76fa98dd_731d215b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-11-23T09:01:22Z",
+      "side": 1,
+      "message": "Thanks for reminding.",
+      "parentUuid": "ae022975_06a44b61",
+      "revId": "9b3cc4cc212402425974df4f32023ab40cf7494c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0901a6a_2ae83402",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2020-11-22T11:59:54Z",
       "side": 1,
       "message": "Tested field?",
+      "revId": "9b3cc4cc212402425974df4f32023ab40cf7494c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8f4502d_b0b581c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-11-23T09:01:22Z",
+      "side": 1,
+      "message": "We verified this two implementations on our platform.\n1. Verify the implement of Interval, Gain and Offset by applying\n   entity-manager with modifying these keywords and supervising the\n   Sensors log.\n   Check the SDR and verify the value is pass.\n2. Verify the change in function StartTimer by confirming that ADCSensor\n   will not get crash with throwing error \"Power Match Not Created\" and\n   update once per sensor polling time when setting \"PowerState\" as\n   \"Always\".\n   Check if the daemon will not throwing exception and check the SDR is\n   pass.",
+      "parentUuid": "e0901a6a_2ae83402",
       "revId": "9b3cc4cc212402425974df4f32023ab40cf7494c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
