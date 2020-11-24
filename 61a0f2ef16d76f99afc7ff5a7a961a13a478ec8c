@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2860ca58_50b32959",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-11-24T09:07:18Z",
+      "side": 1,
+      "message": "It looks like that scaleFactor is used to be degradation for sensor by\ndividing the raw value. However, we have some sensor taking Gain value\nwhich is used to multiply the raw value. Therefore, we think the meaning\nof scaleFactor might not be equal to gain value and if we put the\nreciprocal of gain value into scaleFactor there might cause some\ndeviation, for example, gain value is 3.\nHere is the reference from phosphor-hwmon\nhttps://github.com/openbmc/phosphor-hwmon/blob/94555352240ba7ac577a7017c0719cd9bbeb7a23/sensor.cpp#L107",
+      "parentUuid": "57001e94_9b9a1957",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18683c49_a8cc1ba6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2020-11-23T16:26:15Z",
       "side": 1,
       "message": "Please split these into 3 patches, and provide each with a similar depth of commit message you\u0027ve provided here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da984227_41394781",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-11-24T09:07:18Z",
+      "side": 1,
+      "message": "Due to adding the same features, we push these changes together.\nThanks for your advising, we will split this into four pathches, three\nfor adding features in different sensors and one for fixing ADCSensor\ncrash when no sensor has \"PowerState\" is \"On\".",
+      "parentUuid": "18683c49_a8cc1ba6",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "e01f4bc3_7ca8932e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-11-24T09:07:18Z",
+      "side": 1,
+      "message": "I will update in commit message.",
+      "parentUuid": "e53d1717_281531d3",
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a36bbea_7a8f7937",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -76,6 +142,24 @@
       "writtenOn": "2020-11-23T16:26:15Z",
       "side": 1,
       "message": "Updates to the entity-manager schema files will also be required to effect this change.",
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ed0c22d_28f6f742",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-11-24T09:07:18Z",
+      "side": 1,
+      "message": "Ok. We will work on it.",
+      "parentUuid": "9a36bbea_7a8f7937",
       "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
