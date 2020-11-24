@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6a71ddc0_1973b6ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-24T14:46:27Z",
+      "side": 1,
+      "message": "\u003e It looks like that scaleFactor is used to be degradation for sensor by\n\u003e dividing the raw value. However, we have some sensor taking Gain value\n\u003e which is used to multiply the raw value. Therefore, we think the meaning\n\u003e of scaleFactor might not be equal to gain value and if we put the\n\u003e reciprocal of gain value into scaleFactor there might cause some\n\u003e deviation, for example, gain value is 3.\n\nA gain value of 3 would be a scaleFactor of 0.333333\n\n\u003e Here is the reference from phosphor-hwmon\n\u003e https://github.com/openbmc/phosphor-hwmon/blob/94555352240ba7ac577a7017c0719cd9bbeb7a23/sensor.cpp#L107\n\nIf we really need to have gain, then I\u0027d like to see scaleFactor removed, and completely replaced with gain, but I suspect that\u0027s not worth the effort.",
+      "parentUuid": "2860ca58_50b32959",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18683c49_a8cc1ba6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -160,6 +184,29 @@
       "side": 1,
       "message": "Ok. We will work on it.",
       "parentUuid": "9a36bbea_7a8f7937",
+      "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d8d413a_ecd81f4b",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-24T14:46:27Z",
+      "side": 1,
+      "message": "gainFactor is the same thing as scaleFactor.  Please use the existing interfaces.",
+      "range": {
+        "startLine": 175,
+        "startChar": 29,
+        "endLine": 175,
+        "endChar": 52
+      },
       "revId": "61a0f2ef16d76f99afc7ff5a7a961a13a478ec8c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
