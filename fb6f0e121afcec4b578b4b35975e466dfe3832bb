@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "b893b46e_31dc9ff3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-25T16:36:04Z",
+      "side": 1,
+      "message": "\u003e Since in phosphor-hwmon, the raw data is directly calculated by gain and offset at first, we are used to setting Offset as a multiple of 1000.\n\nWith respect, this is not phosphor-hwmon.  entity-manager chooses units that are in human facing intervals.  If you\u0027re porting phosphor-hwmon parameters to entity-manager, they will need to be converted.\n\n\u003e I will change this with fixing the math formula.\n\u003e Actually, ADC sensor in our platform do not have offset. However, we think making offset be customizable might make much more elastic to configurate ADCSensor.\n\nIf you have no use cases that require offset, please hold off adding them until you have use cases that actually require it to be different per systems.",
+      "parentUuid": "10ee06ce_bd33ec68",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 2
+      },
+      "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f8cdc49_ad5850b2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
