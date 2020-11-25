@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0131930a_92213f9d",
+        "filename": "include/ADCSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-11-25T13:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a68d2c23_f3b36483",
+      "range": {
+        "startLine": 70,
+        "startChar": 53,
+        "endLine": 70,
+        "endChar": 65
+      },
+      "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb219096_e73b5c31",
         "filename": "src/ADCSensor.cpp",
         "patchSetId": 7
@@ -186,6 +210,30 @@
       "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b0bc183_55ce9d00",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-11-25T13:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb219096_e73b5c31",
+      "range": {
+        "startLine": 174,
+        "startChar": 16,
+        "endLine": 174,
+        "endChar": 76
+      },
+      "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
