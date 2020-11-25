@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53ea8457_19104a27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-25T06:43:02Z",
+      "side": 1,
+      "message": "This seems like a low high scalefactor for a battery, and it\u0027s also odd that it\u0027s exactly 1/3.  Please double check your schematics to make sure this is what you intended, and that your math is correct.  WIth that said, this wont hold up your review.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 36
+      },
+      "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd9dc36c_18ae65a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-25T06:43:02Z",
+      "side": 1,
+      "message": "whitespace issue.\n\nAlso, 1000 as an offset?   that seems like an issue.  Please represent your numbers in the core units.  So 1.0 would induce an offset of 1 volt, -1.0 would reduce the output by 1 volt.\n\nAlso, generally 3.3V batteries don\u0027t have an offset in comparison with the onboard ADC, so this seems a bit odd to see.  You might want to verify that\u0027s what you intended.\n\nNote: see below, I commented on your math equation where it needs to change.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 2
+      },
+      "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f8cdc49_ad5850b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-25T06:43:02Z",
+      "side": 1,
+      "message": "Please call this \"PollRate\" and make its units in seconds with a floating point number.\n\nI feel like that would be more clear as to what the parameter does, and goes more in line with OpenBMCs dbus interfaces, which generally represent things in non-unit representations.",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a68d2c23_f3b36483",
+        "filename": "include/ADCSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-25T06:43:02Z",
+      "side": 1,
+      "message": "\"offset\" is probably a better description without the word factor.",
+      "range": {
+        "startLine": 70,
+        "startChar": 53,
+        "endLine": 70,
+        "endChar": 65
+      },
+      "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb219096_e73b5c31",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-11-25T06:43:02Z",
+      "side": 1,
+      "message": "This math looks wrong.  I suspect you should be doing:\n\n(rawValue / sensorScaleFactor) / scaleFactor + offset",
+      "range": {
+        "startLine": 174,
+        "startChar": 16,
+        "endLine": 174,
+        "endChar": 76
+      },
+      "revId": "fb6f0e121afcec4b578b4b35975e466dfe3832bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
