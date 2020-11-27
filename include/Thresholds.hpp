@@ -99,7 +99,8 @@ struct ThresholdTimer
         }
     }
 
-    void startTimer(const Threshold& threshold, bool assert, double assertValue)
+    void startTimer(const Threshold& threshold, bool assert, double assertValue,
+                    bool isPowerAlways)
     {
         struct TimerUsed timerUsed = {};
         constexpr const size_t waitTime = 5;
@@ -124,8 +125,8 @@ struct ThresholdTimer
         pair->first.direction = threshold.direction;
         pair->first.assert = assert;
         pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
-        pair->second.async_wait([this, pair, threshold, assert,
-                                 assertValue](boost::system::error_code ec) {
+        pair->second.async_wait([this, pair, threshold, assert, assertValue,
+                                 isPowerAlways](boost::system::error_code ec) {
             pair->first.used = false;
 
             if (ec == boost::asio::error::operation_aborted)
@@ -137,7 +138,7 @@ struct ThresholdTimer
                 std::cerr << "timer error: " << ec.message() << "\n";
                 return;
             }
-            if (isPowerOn())
+            if (isPowerAlways || isPowerOn())
             {
                 assertThresholds(sensor, assertValue, threshold.level,
                                  threshold.direction, assert);
