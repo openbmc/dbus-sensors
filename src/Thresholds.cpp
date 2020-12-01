@@ -19,6 +19,9 @@
 #include <variant>
 #include <vector>
 
+std::string nicFaultHandle;
+bool slotThermalDown = false;
+
 static constexpr bool DEBUG = false;
 namespace thresholds
 {
@@ -267,6 +270,15 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
 
     for (auto& threshold : sensor->thresholds)
     {
+        if ((nicFaultHandle == "Yes") && (slotThermalDown))
+        {
+            if (value <= threshold.value)
+            {
+                powerOffOn("powerOnSlot.service");
+                slotThermalDown = false;
+            }
+        }
+
         // Use "Schmitt trigger" logic to avoid threshold trigger spam,
         // if value is noisy while hovering very close to a threshold.
         // When a threshold is crossed, indicate true immediately,
@@ -282,6 +294,12 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
                     std::cerr << "Sensor " << sensor->name << " high threshold "
                               << threshold.value << " assert: value " << value
                               << " raw data " << sensor->rawValue << "\n";
+
+                    if (nicFaultHandle == "Yes")
+                    {
+                        powerOffOn("powerOffSlot.service");
+                        slotThermalDown = true;
+                    }
                 }
             }
             else if (value < (threshold.value - sensor->hysteresisTrigger))

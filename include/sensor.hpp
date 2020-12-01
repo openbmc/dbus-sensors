@@ -23,6 +23,8 @@ constexpr const char* operationalInterfaceName =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
 constexpr const size_t errorThreshold = 5;
 
+extern std::string nicFaultHandle;
+
 struct SensorInstrumentation
 {
     // These are for instrumentation for debugging

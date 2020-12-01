@@ -201,6 +201,19 @@ void createSensors(
                         continue;
                     }
                 }
+
+                // Handles the falut-handle in sensors .
+                auto findNicFault = baseConfigMap->find("Nicfault");
+                if (findNicFault == baseConfigMap->end())
+                {
+                    std::cerr << "could not find NIC Fault-Handle flag \n";
+                }
+                else
+                {
+                    nicFaultHandle =
+                        std::get<std::string>(findNicFault->second);
+                }
+
                 std::vector<thresholds::Threshold> sensorThresholds;
                 if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
                 {
