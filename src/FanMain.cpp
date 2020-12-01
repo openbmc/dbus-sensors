@@ -18,6 +18,7 @@
 #include "TachSensor.hpp"
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
+#include "sensor.hpp"
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -32,6 +33,7 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <optional>
 #include <regex>
@@ -302,6 +304,21 @@ void createSensors(
                         continue;
                     }
                 }
+
+                // Handles the falut-handle in sensors .
+                auto findFaultHandle =
+                    baseConfiguration->second.find("Fanfault");
+
+                if (findFaultHandle == baseConfiguration->second.end())
+                {
+                    std::cerr << "could not find Fan Fault-Handle flag \n";
+                }
+                else
+                {
+                    fanFaultHandle =
+                        std::get<std::string>(findFaultHandle->second);
+                }
+
                 std::vector<thresholds::Threshold> sensorThresholds;
                 if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
                 {
