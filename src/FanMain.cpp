@@ -17,6 +17,7 @@
 #include "PwmSensor.hpp"
 #include "TachSensor.hpp"
 #include "Utils.hpp"
+#include "sensor.hpp"
 #include "VariantVisitors.hpp"
 
 #include <boost/algorithm/string/predicate.hpp>
@@ -39,6 +40,7 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include <iostream>
 
 static constexpr bool DEBUG = false;
 
@@ -302,6 +304,20 @@ void createSensors(
                         continue;
                     }
                 }
+
+                // Handles the falut-handle in sensors .
+                auto findFaultHandle = baseConfiguration->second.find("Fanfault");
+
+                if (findFaultHandle == baseConfiguration->second.end())
+                {
+                    std::cerr << "could not find Fan Fault-Handle flag \n";
+                }
+                else
+                {
+                   fanFaultHandle =
+                      std::get<std::string>(findFaultHandle->second);
+                }
+
                 std::vector<thresholds::Threshold> sensorThresholds;
                 if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
                 {
