@@ -59,9 +59,6 @@ struct ExitAirTempSensor :
     double alphaF;
     double pOffset = 0;
 
-    // todo: make this private once we don't have to hack in a reading
-    boost::container::flat_map<std::string, double> powerReadings;
-
     ExitAirTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                       const std::string& name,
                       const std::string& sensorConfiguration,
@@ -72,13 +69,18 @@ struct ExitAirTempSensor :
     void checkThresholds(void) override;
     void updateReading(void);
     void setupMatches(void);
+    void addPowerRanges(const std::string& serviceName,
+                        const std::string& path);
 
   private:
     double lastReading;
 
     std::vector<sdbusplus::bus::match::match> matches;
     double inletTemp = std::numeric_limits<double>::quiet_NaN();
-
+    boost::container::flat_map<std::string, double> powerReadings;
+    boost::container::flat_map<std::string, std::pair<double, double>>
+        powerRanges;
+    std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     sdbusplus::asio::object_server& objServer;
     std::chrono::time_point<std::chrono::system_clock> lastTime;
     double getTotalCFM(void);
