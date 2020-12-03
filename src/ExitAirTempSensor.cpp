@@ -207,22 +207,21 @@ void CFMSensor::setupMatches()
 {
 
     std::shared_ptr<CFMSensor> self = shared_from_this();
-    setupSensorMatch(matches, *dbusConnection, "fan_tach",
-                     std::move([self](const double& value,
-                                      sdbusplus::message::message& message) {
-                         self->tachReadings[message.get_path()] = value;
-                         if (self->tachRanges.find(message.get_path()) ==
-                             self->tachRanges.end())
-                         {
-                             // calls update reading after updating ranges
-                             self->addTachRanges(message.get_sender(),
-                                                 message.get_path());
-                         }
-                         else
-                         {
-                             self->updateReading();
-                         }
-                     }));
+    setupSensorMatch(
+        matches, *dbusConnection, "fan_tach",
+        [self](const double& value, sdbusplus::message::message& message) {
+            self->tachReadings[message.get_path()] = value;
+            if (self->tachRanges.find(message.get_path()) ==
+                self->tachRanges.end())
+            {
+                // calls update reading after updating ranges
+                self->addTachRanges(message.get_sender(), message.get_path());
+            }
+            else
+            {
+                self->updateReading();
+            }
+        });
 
     dbusConnection->async_method_call(
         [self](const boost::system::error_code ec,
@@ -538,25 +537,36 @@ void ExitAirTempSensor::setupMatches(void)
     std::shared_ptr<ExitAirTempSensor> self = shared_from_this();
     for (const std::string& type : matchTypes)
     {
-        setupSensorMatch(matches, *dbusConnection, type,
-                         [self, type](const double& value,
-                                      sdbusplus::message::message& message) {
-                             if (type == "power")
-                             {
-                                 std::string path = message.get_path();
-                                 if (path.find("PS") != std::string::npos &&
-                                     boost::ends_with(path, "Input_Power"))
-                                 {
-                                     self->powerReadings[message.get_path()] =
-                                         value;
-                                 }
-                             }
-                             else if (type == inletTemperatureSensor)
-                             {
-                                 self->inletTemp = value;
-                             }
-                             self->updateReading();
-                         });
+        setupSensorMatch(
+            matches, *dbusConnection, type,
+            [self, type](const double& value,
+                         sdbusplus::message::message& message) {
+                if (type == "power")
+                {
+                    std::string path = message.get_path();
+                    if (path.find("PS") != std::string::npos &&
+                        boost::ends_with(path, "Input_Power"))
+                    {
+                        self->powerReadings[message.get_path()] = value;
+                        if (self->powerRanges.find(message.get_path()) ==
+                            self->powerRanges.end())
+                        {
+                            // calls update reading after updating ranges
+                            self->addPowerRanges(message.get_sender(),
+                                                 message.get_path());
+                        }
+                        else
+                        {
+                            self->updateReading();
+                        }
+                    }
+                }
+                else if (type == inletTemperatureSensor)
+                {
+                    self->inletTemp = value;
+                    self->updateReading();
+                }
+            });
     }
     dbusConnection->async_method_call(
         [self](boost::system::error_code ec,
@@ -619,6 +629,28 @@ void ExitAirTempSensor::setupMatches(void)
         "/xyz/openbmc_project/sensors/power", 0,
         std::array<const char*, 1>{sensorValueInterface});
 }
+void ExitAirTempSensor::addPowerRanges(const std::string& serviceName,
+                                       const std::string& path)
+{
+    std::shared_ptr<ExitAirTempSensor> self = shared_from_this();
+    dbusConnection->async_method_call(
+        [self, path](const boost::system::error_code ec,
+                     const boost::container::flat_map<std::string,
+                                                      BasicVariantType>& data) {
+            if (ec)
+            {
+                std::cerr << "Error getting properties from " << path << "\n";
+                return;
+            }
+
+            double max = loadVariant<double>(data, "MaxValue");
+            double min = loadVariant<double>(data, "MinValue");
+            self->powerRanges[path] = std::make_pair(min, max);
+            self->updateReading();
+        },
+        serviceName, path, "org.freedesktop.DBus.Properties", "GetAll",
+        "xyz.openbmc_project.Sensor.Value");
+}
 
 void ExitAirTempSensor::updateReading(void)
 {
@@ -653,14 +685,19 @@ double ExitAirTempSensor::getTotalCFM(void)
 
 bool ExitAirTempSensor::calculate(double& val)
 {
-    constexpr size_t maxErrorPrint = 1;
+    constexpr size_t maxErrorPrint = 5;
     static bool firstRead = false;
     static size_t errorPrint = maxErrorPrint;
 
     double cfm = getTotalCFM();
-    if (cfm <= 0)
+    if (cfm <= 0 || cfm > cfmMaxReading)
     {
-        std::cerr << "Error getting cfm\n";
+        if (errorPrint > 0)
+        {
+            errorPrint--;
+            std::cerr << "Error getting cfm " << cfm << "\n";
+        }
+        val = 0;
         return false;
     }
 
@@ -690,6 +727,35 @@ bool ExitAirTempSensor::calculate(double& val)
         {
             continue;
         }
+
+        auto findRange = std::find_if(
+            powerRanges.begin(), powerRanges.end(), [&](const auto& item) {
+                return boost::ends_with(item.first, reading.first);
+            });
+
+        if (findRange == powerRanges.end())
+        {
+            if (errorPrint > 0)
+            {
+                errorPrint--;
+                std::cerr << "Can't find ranges for " << reading.first
+                          << " in ranges\n";
+            }
+            continue; // haven't gotten a max / min
+        }
+
+        if (reading.second > findRange->second.second)
+        {
+            if (errorPrint > 0)
+            {
+                errorPrint--;
+                std::cerr << "power reading " << reading.second
+                          << " exceeded max " << findRange->second.second
+                          << "\n";
+            }
+            continue;
+        }
+
         totalPower += reading.second;
     }
 
@@ -835,6 +901,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         std::move([&objectServer, &dbusConnection,
                    &exitAirSensor](const ManagedObjectType& resp) {
             cfmSensors.clear();
+            exitAirSensor = nullptr;
             for (const auto& pathPair : resp)
             {
                 for (const auto& entry : pathPair.second)
@@ -888,13 +955,9 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                         sensor->c2 =
                             loadVariant<double>(entry.second, "C2") / 100;
                         sensor->tachMinPercent =
-                            loadVariant<double>(entry.second,
-                                                "TachMinPercent") /
-                            100;
+                            loadVariant<double>(entry.second, "TachMinPercent");
                         sensor->tachMaxPercent =
-                            loadVariant<double>(entry.second,
-                                                "TachMaxPercent") /
-                            100;
+                            loadVariant<double>(entry.second, "TachMaxPercent");
                         sensor->createMaxCFMIface();
                         sensor->setupMatches();
 
