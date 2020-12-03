@@ -23,6 +23,7 @@
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <chrono>
@@ -65,14 +66,24 @@ void ChassisIntrusionSensor::updateValue(const std::string newValue)
 
     if (mOldValue == "Normal" && mValue != "Normal")
     {
-        std::cerr << "save to SEL for intrusion assert event \n";
-        // TODO: call add SEL log API, depends on patch #13956
+        phosphor::logging::log<phosphor::logging::level::INFO>(
+            "intrusion assert event",
+            phosphor::logging::ipmiSelEntry(
+                "/xyz/openbmc_project/sensors/intrusion/Chassis_Intrusion",
+                std::vector<uint8_t>({0xc0, 0x01, 0xff}),
+                phosphor::logging::SensorAssertion::asserted));
+
         mOldValue = mValue;
     }
     else if (mOldValue != "Normal" && mValue == "Normal")
     {
-        std::cerr << "save to SEL for intrusion de-assert event \n";
-        // TODO: call add SEL log API, depends on patch #13956
+        phosphor::logging::log<phosphor::logging::level::INFO>(
+            "intrusion de-assert event",
+            phosphor::logging::ipmiSelEntry(
+                "/xyz/openbmc_project/sensors/intrusion/Chassis_Intrusion",
+                std::vector<uint8_t>({0xc0, 0x00, 0xff}),
+                phosphor::logging::SensorAssertion::deasserted));
+
         mOldValue = mValue;
     }
 }

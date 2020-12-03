@@ -453,10 +453,17 @@ int main()
     // setup object server, define interface
     systemBus->request_name("xyz.openbmc_project.IntrusionSensor");
 
+    // register as a sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> ifaceChassis =
         objServer.add_interface(
-            "/xyz/openbmc_project/Intrusion/Chassis_Intrusion",
+            "/xyz/openbmc_project/sensors/intrusion/Chassis_Intrusion",
             "xyz.openbmc_project.Chassis.Intrusion");
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> ifaceChassis2 =
+        objServer.add_interface(
+            "/xyz/openbmc_project/sensors/intrusion/Chassis_Intrusion",
+            "xyz.openbmc_project.Sensor.Value");
+    ifaceChassis2->initialize();
 
     ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
 
