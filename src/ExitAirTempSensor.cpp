@@ -38,6 +38,7 @@
 #include <vector>
 
 constexpr const double altitudeFactor = 1.14;
+
 constexpr const char* exitAirIface =
     "xyz.openbmc_project.Configuration.ExitAirTempSensor";
 constexpr const char* cfmIface = "xyz.openbmc_project.Configuration.CFMSensor";
@@ -649,7 +650,7 @@ double ExitAirTempSensor::getTotalCFM(void)
 
 bool ExitAirTempSensor::calculate(double& val)
 {
-    constexpr size_t maxErrorPrint = 1;
+    constexpr size_t maxErrorPrint = 5;
     static bool firstRead = false;
     static size_t errorPrint = maxErrorPrint;
 
@@ -657,6 +658,20 @@ bool ExitAirTempSensor::calculate(double& val)
     if (cfm <= 0)
     {
         std::cerr << "Error getting cfm\n";
+        return false;
+    }
+
+    // cfm is out of range, exit air temp can't be computed correctly
+    constexpr const double cfmLimitFactor = 0.5;
+    if (cfm < (qMin * cfmLimitFactor))
+    {
+        if (errorPrint > 0)
+        {
+            errorPrint--;
+            std::cerr << "cfm " << cfm << " is too low, expected qMin " << qMin
+                      << "\n";
+        }
+        val = 0;
         return false;
     }
 
@@ -756,7 +771,7 @@ bool ExitAirTempSensor::calculate(double& val)
         alpha = alphaS + ((alphaF - alphaS) * (cfm - qMin) / (qMax - qMin));
     }
 
-    auto time = std::chrono::system_clock::now();
+    auto time = std::chrono::steady_clock::now();
     if (!firstRead)
     {
         firstRead = true;
@@ -884,13 +899,9 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                         sensor->c2 =
                             loadVariant<double>(entry.second, "C2") / 100;
                         sensor->tachMinPercent =
-                            loadVariant<double>(entry.second,
-                                                "TachMinPercent") /
-                            100;
+                            loadVariant<double>(entry.second, "TachMinPercent");
                         sensor->tachMaxPercent =
-                            loadVariant<double>(entry.second,
-                                                "TachMaxPercent") /
-                            100;
+                            loadVariant<double>(entry.second, "TachMaxPercent");
                         sensor->createMaxCFMIface();
                         sensor->setupMatches();
 
