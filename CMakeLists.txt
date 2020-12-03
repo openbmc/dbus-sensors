@@ -152,6 +152,12 @@ link_directories (${EXTERNAL_INSTALL_LOCATION}/lib)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+# import phosphor-logging
+find_package (PkgConfig REQUIRED)
+pkg_check_modules (LOGGING phosphor-logging REQUIRED)
+include_directories (${LOGGING_INCLUDE_DIRS})
+link_directories (${LOGGING_LIBRARY_DIRS})
+
 add_executable (adcsensor src/ADCSensorMain.cpp ${ADC_SRC_FILES})
 add_dependencies (adcsensor sdbusplus-project)
 target_link_libraries (adcsensor ${SENSOR_LINK_LIBS})
