@@ -42,14 +42,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
-                     double max, double min, const std::string& label,
-                     size_t tSize) :
+                     double max, double min, PowerState readState,
+                     const std::string& label, size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
-           conn),
+           conn, readState),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0)
+    sensorFactor(factor), minMaxReadCounter(0), thresholdTimer(io, this)
 {
     if constexpr (debug)
     {
@@ -217,5 +217,16 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 
 void PSUSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    if (!readingStateGood())
+    {
+        return;
+    }
+    if (this->readState == PowerState::always)
+    {
+        thresholds::checkThresholds(this);
+    }
+    else
+    {
+        thresholds::checkThresholdsPowerDelay(this, thresholdTimer);
+    }
 }
