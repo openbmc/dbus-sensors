@@ -20,7 +20,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
-              double min, const std::string& label, size_t tSize);
+              double min, double offset, PowerState readState,
+              const std::string& label, size_t tSize);
     ~PSUSensor() override;
     void setupRead(void);
 
@@ -35,6 +36,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     size_t errCount;
     unsigned int sensorFactor;
     uint8_t minMaxReadCounter;
+    double sensorOffset;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
@@ -47,9 +49,11 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 class PSUProperty
 {
   public:
-    PSUProperty(std::string name, double max, double min, unsigned int factor) :
-        labelTypeName(std::move(name)), maxReading(max), minReading(min),
-        sensorScaleFactor(factor)
+    PSUProperty(std::string name, double max, double min, unsigned int factor,
+                double offset) :
+        labelTypeName(std::move(name)),
+        maxReading(max), minReading(min), sensorScaleFactor(factor),
+        sensorOffset(offset)
     {}
     ~PSUProperty() = default;
 
@@ -57,4 +61,5 @@ class PSUProperty
     double maxReading;
     double minReading;
     unsigned int sensorScaleFactor;
+    double sensorOffset;
 };
