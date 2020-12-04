@@ -14,10 +14,9 @@
 // limitations under the License.
 */
 
-#include "PSUEvent.hpp"
-#include "PSUSensor.hpp"
-#include "Utils.hpp"
-
+#include <PSUEvent.hpp>
+#include <PSUSensor.hpp>
+#include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -38,28 +37,37 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool DEBUG = false;
+static constexpr bool debug = false;
 
-static constexpr std::array<const char*, 14> sensorTypes = {
+static constexpr std::array<const char*, 22> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADM1272",
     "xyz.openbmc_project.Configuration.ADM1278",
+    "xyz.openbmc_project.Configuration.DPS800",
     "xyz.openbmc_project.Configuration.INA219",
     "xyz.openbmc_project.Configuration.INA230",
     "xyz.openbmc_project.Configuration.ISL68137",
     "xyz.openbmc_project.Configuration.ISL68220",
+    "xyz.openbmc_project.Configuration.ISL68223",
+    "xyz.openbmc_project.Configuration.ISL69243",
+    "xyz.openbmc_project.Configuration.ISL69260",
     "xyz.openbmc_project.Configuration.MAX16601",
+    "xyz.openbmc_project.Configuration.MAX20710",
     "xyz.openbmc_project.Configuration.MAX20730",
     "xyz.openbmc_project.Configuration.MAX20734",
     "xyz.openbmc_project.Configuration.MAX20796",
     "xyz.openbmc_project.Configuration.MAX34451",
     "xyz.openbmc_project.Configuration.pmbus",
     "xyz.openbmc_project.Configuration.PXE1610",
-    "xyz.openbmc_project.Configuration.RAA228228"};
+    "xyz.openbmc_project.Configuration.RAA228000",
+    "xyz.openbmc_project.Configuration.RAA228228",
+    "xyz.openbmc_project.Configuration.RAA229004",
+    "xyz.openbmc_project.Configuration.TPS546D24"};
 
 static std::vector<std::string> pmbusNames = {
-    "adm1272",  "adm1278",  "ina219",   "ina230",   "isl68137",
-    "isl68220", "max16601", "max20730", "max20734", "max20796",
-    "max34451", "pmbus",    "pxe1610",  "raa228228"};
+    "adm1272",   "adm1278",   "dps800",    "ina219",   "ina230",   "isl68137",
+    "isl68220",  "isl68223",  "isl69243",  "isl69260", "max16601", "max20710",
+    "max20730",  "max20734",  "max20796",  "max34451", "pmbus",    "pxe1610",
+    "raa228000", "raa228228", "raa229004", "tps546d24"};
 
 namespace fs = std::filesystem;
 
@@ -99,7 +107,9 @@ void checkEvent(
         const std::string& eventName = match.first;
         for (const auto& eventAttr : eventAttrs)
         {
-            auto eventPath = directory + "/" + eventAttr;
+            std::string eventPath = directory;
+            eventPath += "/";
+            eventPath += eventAttr;
 
             std::ifstream eventFile(eventPath);
             if (!eventFile.good())
@@ -138,7 +148,9 @@ void checkGroupEvent(
             const std::vector<std::string>& eventAttrs = match.second;
             for (const auto& eventAttr : eventAttrs)
             {
-                auto eventPath = directory + "/" + eventAttr;
+                std::string eventPath = directory;
+                eventPath += "/";
+                eventPath += eventAttr;
                 std::ifstream eventFile(eventPath);
                 if (!eventFile.good())
                 {
@@ -216,27 +228,15 @@ static void
     }
 }
 
-void createSensors(boost::asio::io_service& io,
-                   sdbusplus::asio::object_server& objectServer,
-                   std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+static void createSensorsCallback(
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    const ManagedObjectType& sensorConfigs,
+    const std::shared_ptr<boost::container::flat_set<std::string>>&
+        sensorsChanged)
 {
-
-    ManagedObjectType sensorConfigs;
     int numCreated = 0;
-    bool useCache = false;
-
-    // TODO may need only modify the ones that need to be changed.
-    sensors.clear();
-    for (const char* type : sensorTypes)
-    {
-        if (!getSensorConfiguration(type, dbusConnection, sensorConfigs,
-                                    useCache))
-        {
-            std::cerr << "error get sensor config from entity manager\n";
-            return;
-        }
-        useCache = true;
-    }
+    bool firstScan = sensorsChanged == nullptr;
 
     std::vector<fs::path> pmbusPaths;
     if (!findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths))
@@ -288,7 +288,7 @@ void createSensors(boost::asio::io_service& io,
 
         fs::path device = directory / "device";
         std::string deviceName = fs::canonical(device).stem();
-        auto findHyphen = deviceName.find("-");
+        auto findHyphen = deviceName.find('-');
         if (findHyphen == std::string::npos)
         {
             std::cerr << "found bad device" << deviceName << "\n";
@@ -303,7 +303,7 @@ void createSensors(boost::asio::io_service& io,
         try
         {
             bus = std::stoi(busStr);
-            addr = std::stoi(addrStr, 0, 16);
+            addr = std::stoi(addrStr, nullptr, 16);
         }
         catch (std::invalid_argument&)
         {
@@ -400,6 +400,23 @@ void createSensors(boost::asio::io_service& io,
             std::cerr << "Cannot find psu name, invalid configuration\n";
             continue;
         }
+
+        // on rescans, only update sensors we were signaled by
+        if (!firstScan)
+        {
+            std::string psuNameStr = "/" + *psuName;
+            auto it =
+                std::find_if(sensorsChanged->begin(), sensorsChanged->end(),
+                             [psuNameStr](std::string& s) {
+                                 return boost::ends_with(s, psuNameStr);
+                             });
+
+            if (it == sensorsChanged->end())
+            {
+                continue;
+            }
+            sensorsChanged->erase(it);
+        }
         checkEvent(directory.string(), eventMatch, eventPathList);
         checkGroupEvent(directory.string(), groupEventMatch,
                         groupEventPathList);
@@ -424,7 +441,7 @@ void createSensors(boost::asio::io_service& io,
         /* read max value in sysfs for in, curr, power, temp, ... */
         if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
         {
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "No max name in PSU \n";
             }
@@ -437,6 +454,15 @@ void createSensors(boost::asio::io_service& io,
         {
             findLabels =
                 std::get<std::vector<std::string>>(findLabelObj->second);
+        }
+
+        auto findPowerOn = baseConfig->second.find("PowerState");
+        PowerState readState = PowerState::always;
+        if (findPowerOn != baseConfig->second.end())
+        {
+            std::string powerState =
+                std::visit(VariantToStringVisitor(), findPowerOn->second);
+            setReadState(powerState, readState);
         }
 
         std::regex sensorNameRegEx("([A-Za-z]+)[0-9]*_");
@@ -465,7 +491,7 @@ void createSensors(boost::asio::io_service& io,
             std::string labelPath;
 
             /* find and differentiate _max and _input to replace "label" */
-            int pos = sensorPathStr.find("_");
+            size_t pos = sensorPathStr.find('_');
             if (pos != std::string::npos)
             {
 
@@ -491,14 +517,14 @@ void createSensors(boost::asio::io_service& io,
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
-                if constexpr (DEBUG)
+                if constexpr (debug)
                 {
                     std::cerr << "Input file " << sensorPath
                               << " has no corresponding label file\n";
                 }
                 // hwmon *_input filename with number:
                 // temp1, temp2, temp3, ...
-                labelHead = sensorNameStr.substr(0, sensorNameStr.find("_"));
+                labelHead = sensorNameStr.substr(0, sensorNameStr.find('_'));
             }
             else
             {
@@ -513,16 +539,16 @@ void createSensors(boost::asio::io_service& io,
 
                 // hwmon corresponding *_label file contents:
                 // vin1, vout1, ...
-                labelHead = label.substr(0, label.find(" "));
+                labelHead = label.substr(0, label.find(' '));
             }
 
             /* append "max" for labelMatch */
             if (maxLabel)
             {
-                labelHead = "max" + labelHead;
+                labelHead.insert(0, "max");
             }
 
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Sensor type=\"" << sensorNameSubStr
                           << "\" label=\"" << labelHead << "\"\n";
@@ -537,7 +563,7 @@ void createSensors(boost::asio::io_service& io,
                 if (std::find(findLabels.begin(), findLabels.end(),
                               labelHead) == findLabels.end())
                 {
-                    if constexpr (DEBUG)
+                    if constexpr (debug)
                     {
                         std::cerr << "could not find " << labelHead
                                   << " in the Labels list\n";
@@ -549,7 +575,7 @@ void createSensors(boost::asio::io_service& io,
             auto findProperty = labelMatch.find(labelHead);
             if (findProperty == labelMatch.end())
             {
-                if constexpr (DEBUG)
+                if constexpr (debug)
                 {
                     std::cerr << "Could not find matching default property for "
                               << labelHead << "\n";
@@ -570,6 +596,7 @@ void createSensors(boost::asio::io_service& io,
             std::string keyScale = labelHead + "_Scale";
             std::string keyMin = labelHead + "_Min";
             std::string keyMax = labelHead + "_Max";
+            std::string keyOffset = labelHead + "_Offset";
 
             bool customizedName = false;
             auto findCustomName = baseConfig->second.find(keyName);
@@ -647,6 +674,21 @@ void createSensors(boost::asio::io_service& io,
                 }
             }
 
+            auto findCustomOffset = baseConfig->second.find(keyOffset);
+            if (findCustomOffset != baseConfig->second.end())
+            {
+                try
+                {
+                    psuProperty->sensorOffset = std::visit(
+                        VariantToDoubleVisitor(), findCustomOffset->second);
+                }
+                catch (std::invalid_argument&)
+                {
+                    std::cerr << "Unable to parse " << keyOffset << "\n";
+                    continue;
+                }
+            }
+
             if (!(psuProperty->minReading < psuProperty->maxReading))
             {
                 std::cerr << "Min must be less than Max\n";
@@ -689,7 +731,7 @@ void createSensors(boost::asio::io_service& io,
 
                 psuNameFromIndex = psuNames[nameIndex];
 
-                if constexpr (DEBUG)
+                if constexpr (debug)
                 {
                     std::cerr << "Sensor label head " << labelHead
                               << " paired with " << psuNameFromIndex
@@ -709,7 +751,8 @@ void createSensors(boost::asio::io_service& io,
                 factor = std::pow(10.0, factor);
 
                 /* Change first char of substring to uppercase */
-                char firstChar = sensorNameSubStr[0] - 0x20;
+                char firstChar =
+                    static_cast<char>(std::toupper(sensorNameSubStr[0]));
                 std::string strScaleFactor =
                     firstChar + sensorNameSubStr.substr(1) + "ScaleFactor";
 
@@ -722,7 +765,7 @@ void createSensors(boost::asio::io_service& io,
                                         findScaleFactor->second);
                 }
 
-                if constexpr (DEBUG)
+                if constexpr (debug)
                 {
                     std::cerr << "Sensor scaling factor " << factor
                               << " string " << strScaleFactor << "\n";
@@ -745,13 +788,14 @@ void createSensors(boost::asio::io_service& io,
                 continue;
             }
 
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Sensor properties: Name \""
                           << psuProperty->labelTypeName << "\" Scale "
                           << psuProperty->sensorScaleFactor << " Min "
                           << psuProperty->minReading << " Max "
-                          << psuProperty->maxReading << "\n";
+                          << psuProperty->maxReading << " Offset "
+                          << psuProperty->sensorOffset << "\n";
             }
 
             std::string sensorName = psuProperty->labelTypeName;
@@ -773,21 +817,23 @@ void createSensors(boost::asio::io_service& io,
                     psuNameFromIndex + " " + psuProperty->labelTypeName;
             }
 
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Sensor name \"" << sensorName << "\" path \""
                           << sensorPathStr << "\" type \"" << sensorType
                           << "\"\n";
             }
-
+            // destruct existing one first if already created
+            sensors[sensorName] = nullptr;
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                psuProperty->minReading, psuProperty->sensorOffset, readState,
+                labelHead, thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
-            if constexpr (DEBUG)
+            if constexpr (debug)
             {
                 std::cerr << "Created " << numCreated << " sensors so far\n";
             }
@@ -801,11 +847,27 @@ void createSensors(boost::asio::io_service& io,
                 groupEventPathList, "OperationalStatus");
     }
 
-    if constexpr (DEBUG)
+    if constexpr (debug)
     {
         std::cerr << "Created total of " << numCreated << " sensors\n";
     }
     return;
+}
+
+void createSensors(
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    const std::shared_ptr<boost::container::flat_set<std::string>>&
+        sensorsChanged)
+{
+    auto getter = std::make_shared<GetSensorConfiguration>(
+        dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged](
+                            const ManagedObjectType& sensorConfigs) {
+            createSensorsCallback(io, objectServer, dbusConnection,
+                                  sensorConfigs, sensorsChanged);
+        });
+    getter->getConfiguration(
+        std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
 }
 
 void propertyInitialize(void)
@@ -816,73 +878,73 @@ void propertyInitialize(void)
                    {"in", "voltage/"},
                    {"fan", "fan_tach/"}};
 
-    labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
-                  {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
-                  {"pout2", PSUProperty("Output Power", 3000, 0, 6)},
-                  {"pout3", PSUProperty("Output Power", 3000, 0, 6)},
-                  {"power1", PSUProperty("Output Power", 3000, 0, 6)},
-                  {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6)},
-                  {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
-                  {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3)},
-                  {"vout1", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout2", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout3", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout4", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout5", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout6", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout7", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout8", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout9", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout10", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout11", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout12", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout13", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout14", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout15", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout16", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout17", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout18", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout19", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout20", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout21", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout22", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout23", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout24", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout25", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout26", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout27", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout28", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout29", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout30", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout31", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"vout32", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"in1", PSUProperty("Output Voltage", 255, 0, 3)},
-                  {"iin", PSUProperty("Input Current", 20, 0, 3)},
-                  {"iout1", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout2", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout3", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout4", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout5", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout6", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout7", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout8", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout9", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout10", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout11", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout12", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout13", PSUProperty("Output Current", 255, 0, 3)},
-                  {"iout14", PSUProperty("Output Current", 255, 0, 3)},
-                  {"curr1", PSUProperty("Output Current", 255, 0, 3)},
-                  {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3)},
-                  {"temp1", PSUProperty("Temperature", 127, -128, 3)},
-                  {"temp2", PSUProperty("Temperature", 127, -128, 3)},
-                  {"temp3", PSUProperty("Temperature", 127, -128, 3)},
-                  {"temp4", PSUProperty("Temperature", 127, -128, 3)},
-                  {"temp5", PSUProperty("Temperature", 127, -128, 3)},
-                  {"temp6", PSUProperty("Temperature", 127, -128, 3)},
-                  {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3)},
-                  {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0)},
-                  {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0)}};
+    labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6, 0)},
+                  {"pout1", PSUProperty("Output Power", 3000, 0, 6, 0)},
+                  {"pout2", PSUProperty("Output Power", 3000, 0, 6, 0)},
+                  {"pout3", PSUProperty("Output Power", 3000, 0, 6, 0)},
+                  {"power1", PSUProperty("Output Power", 3000, 0, 6, 0)},
+                  {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
+                  {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
+                  {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
+                  {"vout1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout8", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout9", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout10", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout11", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout12", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout13", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout14", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout15", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout16", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout17", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout18", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout19", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout20", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout21", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout22", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout23", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout24", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout25", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout26", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout27", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout28", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout29", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout30", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout31", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"vout32", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"in1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+                  {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
+                  {"iout1", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout2", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout3", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout4", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout5", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout6", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout7", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout8", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout9", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout10", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout11", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout12", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout13", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"iout14", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"curr1", PSUProperty("Output Current", 255, 0, 3, 0)},
+                  {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3, 0)},
+                  {"temp1", PSUProperty("Temperature", 127, -128, 3, 0)},
+                  {"temp2", PSUProperty("Temperature", 127, -128, 3, 0)},
+                  {"temp3", PSUProperty("Temperature", 127, -128, 3, 0)},
+                  {"temp4", PSUProperty("Temperature", 127, -128, 3, 0)},
+                  {"temp5", PSUProperty("Temperature", 127, -128, 3, 0)},
+                  {"temp6", PSUProperty("Temperature", 127, -128, 3, 0)},
+                  {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3, 0)},
+                  {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
+                  {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)}};
 
     pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"}};
 
@@ -907,10 +969,12 @@ int main()
     systemBus->request_name("xyz.openbmc_project.PSUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
+    auto sensorsChanged =
+        std::make_shared<boost::container::flat_set<std::string>>();
 
     propertyInitialize();
 
-    io.post([&]() { createSensors(io, objectServer, systemBus); });
+    io.post([&]() { createSensors(io, objectServer, systemBus, nullptr); });
     boost::asio::deadline_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
@@ -919,17 +983,18 @@ int main()
                 std::cerr << "callback method error\n";
                 return;
             }
+            sensorsChanged->insert(message.get_path());
             filterTimer.expires_from_now(boost::posix_time::seconds(3));
             filterTimer.async_wait([&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     return;
                 }
-                else if (ec)
+                if (ec)
                 {
                     std::cerr << "timer error\n";
                 }
-                createSensors(io, objectServer, systemBus);
+                createSensors(io, objectServer, systemBus, sensorsChanged);
             });
         };
 

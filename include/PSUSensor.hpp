@@ -1,14 +1,14 @@
 #pragma once
 
-#include "PwmSensor.hpp"
-#include "Thresholds.hpp"
-#include "sensor.hpp"
-
+#include <PwmSensor.hpp>
+#include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sensor.hpp>
 
 #include <memory>
 #include <string>
+#include <utility>
 
 class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 {
@@ -20,8 +20,9 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
-              double min, const std::string& label, size_t tSize);
-    ~PSUSensor();
+              double min, double offset, PowerState readState,
+              const std::string& label, size_t tSize);
+    ~PSUSensor() override;
     void setupRead(void);
 
   private:
@@ -30,10 +31,11 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     boost::asio::deadline_timer waitTimer;
     std::shared_ptr<boost::asio::streambuf> readBuf;
     std::string path;
-    std::string pathRatedMin;
     std::string pathRatedMax;
+    std::string pathRatedMin;
     size_t errCount;
     unsigned int sensorFactor;
+    double sensorOffset;
     uint8_t minMaxReadCounter;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
@@ -47,9 +49,11 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 class PSUProperty
 {
   public:
-    PSUProperty(std::string name, double max, double min, unsigned int factor) :
-        labelTypeName(name), maxReading(max), minReading(min),
-        sensorScaleFactor(factor)
+    PSUProperty(std::string name, double max, double min, unsigned int factor,
+                double offset) :
+        labelTypeName(std::move(name)),
+        maxReading(max), minReading(min), sensorScaleFactor(factor),
+        sensorOffset(offset)
     {}
     ~PSUProperty() = default;
 
@@ -57,4 +61,5 @@ class PSUProperty
     double maxReading;
     double minReading;
     unsigned int sensorScaleFactor;
+    double sensorOffset;
 };
