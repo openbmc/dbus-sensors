@@ -20,7 +20,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
-              double min, const std::string& label, size_t tSize);
+              double min, PowerState readState, const std::string& label,
+              size_t tSize);
     ~PSUSensor() override;
     void setupRead(void);
 
@@ -35,6 +36,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     size_t errCount;
     unsigned int sensorFactor;
     uint8_t minMaxReadCounter;
+    thresholds::ThresholdTimer thresholdTimer;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);

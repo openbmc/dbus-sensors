@@ -456,6 +456,15 @@ static void createSensorsCallback(
                 std::get<std::vector<std::string>>(findLabelObj->second);
         }
 
+        auto findPowerOn = baseConfig->second.find("PowerState");
+        PowerState readState = PowerState::always;
+        if (findPowerOn != baseConfig->second.end())
+        {
+            std::string powerState =
+                std::visit(VariantToStringVisitor(), findPowerOn->second);
+            setReadState(powerState, readState);
+        }
+
         std::regex sensorNameRegEx("([A-Za-z]+)[0-9]*_");
         std::smatch matches;
 
@@ -803,7 +812,8 @@ static void createSensorsCallback(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                psuProperty->minReading, readState, labelHead,
+                thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (debug)
