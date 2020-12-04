@@ -207,6 +207,15 @@ void createSensors(
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
                 }
+
+                auto findPollRate = baseConfiguration->second.find("PollRate");
+                float PollRate = 0.5;
+                if (findPollRate != baseConfiguration->second.end())
+                {
+                    PollRate = std::visit(VariantToFloatVisitor(),
+                                          findPollRate->second);
+                }
+
                 auto findPowerOn = baseConfiguration->second.find("PowerState");
                 PowerState readState = PowerState::always;
                 if (findPowerOn != baseConfiguration->second.end())
@@ -225,7 +234,7 @@ void createSensors(
                 {
                     sensor = std::make_shared<HwmonTempSensor>(
                         *hwmonFile, sensorType, objectServer, dbusConnection,
-                        io, sensorName, std::move(sensorThresholds),
+                        io, sensorName, std::move(sensorThresholds), PollRate,
                         *interfacePath, readState);
                     sensor->setupRead();
                 }
@@ -253,7 +262,7 @@ void createSensors(
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
-                            std::vector<thresholds::Threshold>(),
+                            std::vector<thresholds::Threshold>(), PollRate,
                             *interfacePath, readState);
                         sensor->setupRead();
                     }
