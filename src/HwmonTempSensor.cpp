@@ -32,7 +32,6 @@
 #include <string>
 #include <vector>
 
-static constexpr unsigned int sensorPollMs = 500;
 static constexpr unsigned int sensorScaleFactor = 1000;
 static constexpr size_t warnAfterErrorCount = 10;
 
@@ -44,13 +43,14 @@ HwmonTempSensor::HwmonTempSensor(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& sensorName,
-    std::vector<thresholds::Threshold>&& _thresholds,
+    std::vector<thresholds::Threshold>&& _thresholds, const float pollRate,
     const std::string& sensorConfiguration, const PowerState powerState) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, maxReading,
            minReading, conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path)
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    sensorPollMs(pollRate * 1000)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
