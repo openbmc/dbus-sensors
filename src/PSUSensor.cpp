@@ -43,22 +43,25 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& _thresholds,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
-                     double max, double min, const std::string& label,
+                     double max, double min, double offset, float PollRate,
+                     PowerState readState, const std::string& label,
                      size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min,
-           conn),
+           conn, readState),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0)
+    sensorFactor(factor), minMaxReadCounter(0), sensorOffset(offset),
+    sensorPollMs(PollRate * 1000)
 {
     if constexpr (DEBUG)
     {
         std::cerr << "Constructed sensor: path " << path << " type "
                   << objectType << " config " << sensorConfiguration
                   << " typename " << sensorTypeName << " factor " << factor
-                  << " min " << min << " max " << max << " name \""
-                  << sensorName << "\"\n";
+                  << " min " << min << " max " << max << " offset " << offset
+                  << " PollRate " << PollRate << " name \"" << sensorName
+                  << "\"\n";
     }
 
     fd = open(path.c_str(), O_RDONLY);
@@ -177,8 +180,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             std::getline(responseStream, response);
             rawValue = std::stod(response);
             responseStream.clear();
-            double nvalue = rawValue / sensorFactor;
-
+            double nvalue = (rawValue / sensorFactor) + sensorOffset;
             updateValue(nvalue);
 
             if (minMaxReadCounter++ % 8 == 0)
