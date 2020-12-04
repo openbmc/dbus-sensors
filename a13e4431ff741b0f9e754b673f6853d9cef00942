@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2a6bb64_a1791872",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-04T15:51:34Z",
+      "side": 1,
+      "message": "This looks incorrect, and will fail for sensors that have any other type of readstate setting.\n\nPlease rework and correct.",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 40
+      },
+      "revId": "a13e4431ff741b0f9e754b673f6853d9cef00942",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
