@@ -38,6 +38,7 @@
 #include <vector>
 
 static constexpr bool DEBUG = false;
+static constexpr float pollRateDefault = 0.5;
 
 namespace fs = std::filesystem;
 static constexpr std::array<const char*, 13> sensorTypes = {
@@ -207,6 +208,15 @@ void createSensors(
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
                 }
+
+                auto findPollRate = baseConfiguration->second.find("PollRate");
+                float pollRate = pollRateDefault;
+                if (findPollRate != baseConfiguration->second.end())
+                {
+                    pollRate = std::visit(VariantToFloatVisitor(),
+                                          findPollRate->second);
+                }
+
                 auto findPowerOn = baseConfiguration->second.find("PowerState");
                 PowerState readState = PowerState::always;
                 if (findPowerOn != baseConfiguration->second.end())
@@ -225,7 +235,7 @@ void createSensors(
                 {
                     sensor = std::make_shared<HwmonTempSensor>(
                         *hwmonFile, sensorType, objectServer, dbusConnection,
-                        io, sensorName, std::move(sensorThresholds),
+                        io, sensorName, std::move(sensorThresholds), pollRate,
                         *interfacePath, readState);
                     sensor->setupRead();
                 }
@@ -253,7 +263,7 @@ void createSensors(
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
-                            std::vector<thresholds::Threshold>(),
+                            std::vector<thresholds::Threshold>(), pollRate,
                             *interfacePath, readState);
                         sensor->setupRead();
                     }
