@@ -19,6 +19,7 @@ class HwmonTempSensor :
                     std::shared_ptr<sdbusplus::asio::connection>& conn,
                     boost::asio::io_service& io, const std::string& fanName,
                     std::vector<thresholds::Threshold>&& thresholds,
+                    const float pollRate,
                     const std::string& sensorConfiguration,
                     const PowerState powerState);
     ~HwmonTempSensor();
@@ -31,6 +32,7 @@ class HwmonTempSensor :
     boost::asio::streambuf readBuf;
     std::string path;
     size_t errCount;
+    unsigned int sensorPollMs;
 
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
