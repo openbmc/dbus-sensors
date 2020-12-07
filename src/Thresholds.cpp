@@ -375,7 +375,9 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
         //   first and when timer expires for the previous one, no additional
         //   signal will be logged.
         // 4. no delays for all high events.
-        if (change.threshold.direction == thresholds::Direction::LOW)
+        // 5. no dalay when power is on.
+        if ((change.threshold.direction == thresholds::Direction::LOW) &&
+            (!isPowerOn()))
         {
             if (change.asserted || thresholdTimer.hasActiveTimer(
                                        change.threshold, !change.asserted))
