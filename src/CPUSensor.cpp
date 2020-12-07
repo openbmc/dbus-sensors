@@ -1,5 +1,5 @@
 /*
-// Copyright (c) 2018 Intel Corporation
+// Copyright (c) 2018-2020 Intel Corporation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -146,19 +146,22 @@ void CPUSensor::setupRead(void)
 
 void CPUSensor::updateMinMaxValues(void)
 {
+    std::optional<double> newMin, newMax;
+    bool readFailed = false;
+
     const boost::container::flat_map<
         std::string,
         std::vector<std::tuple<const char*, std::reference_wrapper<double>,
-                               const char*>>>
-        map = {
+                               const char*, std::optional<double>&>>>
+    map = {
+        {
+            "cap",
             {
-                "cap",
-                {
-                    std::make_tuple("cap_max", std::ref(maxValue), "MaxValue"),
-                    std::make_tuple("cap_min", std::ref(minValue), "MinValue"),
-                },
+                std::make_tuple("cap_max", std::ref(maxValue), "MaxValue", std::ref(newMax)),
+                std::make_tuple("cap_min", std::ref(minValue), "MinValue", std::ref(newMin)),
             },
-        };
+        },
+    };
 
     if (auto fileParts = splitFileName(path))
     {
@@ -168,27 +171,27 @@ void CPUSensor::updateMinMaxValues(void)
         {
             for (const auto& vectorItem : mapIt->second)
             {
-                auto& [suffix, oldValue, dbusName] = vectorItem;
+                auto& [suffix, oldValue, dbusName, newValue] = vectorItem;
                 auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
-                if (auto newVal =
-                        readFile(attrPath, CPUSensor::sensorScaleFactor))
+
+                if(!(newValue = readFile(attrPath, CPUSensor::sensorScaleFactor)))
                 {
-                    updateProperty(sensorInterface, oldValue, *newVal,
-                                   dbusName);
+                    newValue = std::numeric_limits<double>::quiet_NaN();
+                    readFailed = true;
                 }
-                else
-                {
-                    if (isPowerOn())
-                    {
-                        updateProperty(sensorInterface, oldValue, 0, dbusName);
-                    }
-                    else
-                    {
-                        updateProperty(sensorInterface, oldValue,
-                                       std::numeric_limits<double>::quiet_NaN(),
-                                       dbusName);
-                    }
-                }
+            }
+
+            if(readFailed || newMin >= newMax)
+            {
+                newMin = minReading;
+                newMax = maxReading;
+                std::cerr << "Unable to read min/max values\n";
+            }
+
+            for (const auto& vectorItem : mapIt->second)
+            {
+                auto [suffix, oldValue, dbusName, newValue] = vectorItem;
+                updateProperty(sensorInterface, oldValue, *newValue, dbusName);
             }
         }
     }
