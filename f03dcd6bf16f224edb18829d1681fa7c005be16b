@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41b8f971_67693b03",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-08T18:38:46Z",
+      "side": 1,
+      "message": "I am wondering whether there will be a case that even if a sensor is PowerState::always, we still want to do the PowerDelay. Plus, if checkThresholdsPowerDelay can crash, fix should be done in that function instead of relying on this check before the function call.",
+      "revId": "f03dcd6bf16f224edb18829d1681fa7c005be16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "730f4136_2bad9231",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-08T18:38:46Z",
+      "side": 1,
+      "message": "naming convention",
+      "range": {
+        "startLine": 216,
+        "startChar": 22,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "f03dcd6bf16f224edb18829d1681fa7c005be16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4566e83f_a69c93ea",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-08T18:38:46Z",
+      "side": 1,
+      "message": "use constexpr in the beginning of the file : pollRateDefault something like that.",
+      "range": {
+        "startLine": 216,
+        "startChar": 33,
+        "endLine": 216,
+        "endChar": 36
+      },
+      "revId": "f03dcd6bf16f224edb18829d1681fa7c005be16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
