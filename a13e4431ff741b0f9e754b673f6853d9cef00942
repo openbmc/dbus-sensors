@@ -22,6 +22,30 @@
       "revId": "a13e4431ff741b0f9e754b673f6853d9cef00942",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74fec8a3_d11cd445",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-08T09:27:17Z",
+      "side": 1,
+      "message": "For now dbus-sensors only support three type (on, biosPost and always) for PowerState defined in Utils.hpp and these types are enough for our platform.\nSince the readingStateGood will always return true when PowerState is Always, we modify this change to make the sensor with PowerState is always will directly check threshold like the other dbus-sensors.\nI have added three test case for double check.",
+      "parentUuid": "d2a6bb64_a1791872",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 40
+      },
+      "revId": "a13e4431ff741b0f9e754b673f6853d9cef00942",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
