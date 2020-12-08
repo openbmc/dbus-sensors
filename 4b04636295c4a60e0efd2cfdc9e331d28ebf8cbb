@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "07527f0d_530e79dd",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-08T20:02:18Z",
+      "side": 1,
+      "message": "naming convention",
+      "range": {
+        "startLine": 23,
+        "startChar": 47,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "4b04636295c4a60e0efd2cfdc9e331d28ebf8cbb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad7f4352_e923b183",
         "filename": "include/PSUSensor.hpp",
         "patchSetId": 1
@@ -18,6 +41,29 @@
         "startChar": 17,
         "endLine": 45,
         "endChar": 29
+      },
+      "revId": "4b04636295c4a60e0efd2cfdc9e331d28ebf8cbb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "926ecaf5_1adae215",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-08T20:02:18Z",
+      "side": 1,
+      "message": "use constexpr up front for the default pollRate",
+      "range": {
+        "startLine": 443,
+        "startChar": 23,
+        "endLine": 443,
+        "endChar": 26
       },
       "revId": "4b04636295c4a60e0efd2cfdc9e331d28ebf8cbb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
