@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d9912beb_fd127bea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-08T19:49:37Z",
+      "side": 1,
+      "message": "Existing code does check for errors from hwmon files. \nWhat was causing SDR over IPMI fail? Is it the fact that the threshold value can be set to NaN and/or min can be greater than max?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 56
+      },
+      "revId": "323d79d9d3f54daf0a73e359f01393742553d24a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b552fd92_386b0d2e",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2020-12-08T19:41:12Z",
       "side": 1,
       "message": "initialize the property with default min and max\nif (!isNan \u0026\u0026 newMin \u003c newMax) \n        updateProperty(...)",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 13
+      },
+      "revId": "323d79d9d3f54daf0a73e359f01393742553d24a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5467072d_b9e31f66",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-08T19:49:37Z",
+      "side": 1,
+      "message": "Reason is that I don\u0027t think we want to overwrite previous valid readings by the default min and max.",
+      "parentUuid": "b552fd92_386b0d2e",
       "range": {
         "startLine": 192,
         "startChar": 0,
