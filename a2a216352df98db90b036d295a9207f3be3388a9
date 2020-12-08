@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20e848ca_bdf15b81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000433
+      },
+      "writtenOn": "2020-12-08T11:28:48Z",
+      "side": 1,
+      "message": "Can we replace the `PECI` with `hwmon files` in this commit message?\nThe min/max values are taken from hwmon files and it doesn\u0027t matter which interface is used by the hwmon underneath.",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "948b5994_b035215a",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000433
+      },
+      "writtenOn": "2020-12-08T11:28:48Z",
+      "side": 1,
+      "message": "Can we just use double, it seems that optional properties and not used here and it introduce unnecessary level of complication here.\nThen we can just do:\n\n   if (auto tmp \u003d readFile(attrPath, CPUSensor::sensorScaleFactor))\n   {\n      newValue \u003d *tmp;\n   } else {\n      newValue \u003d std::numeric_limits\u003cdouble\u003e::quiet_NaN();\n   }",
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09caea4e_a5b0343f",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000433
+      },
+      "writtenOn": "2020-12-08T11:28:48Z",
+      "side": 1,
+      "message": "Declare it as std::reference_wrapper\u003cstd::optional\u003cdouble\u003e\u003e or just std::reference_wrapper\u003cdouble\u003e if you decide to not use the optional.",
+      "range": {
+        "startLine": 155,
+        "startChar": 44,
+        "endLine": 155,
+        "endChar": 66
+      },
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6c983a9_4407d9d9",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000433
+      },
+      "writtenOn": "2020-12-08T11:28:48Z",
+      "side": 1,
+      "message": "do not print this error message, this function is called in a loop and in case of permanent problem it will flood the journal with this message.",
+      "range": {
+        "startLine": 188,
+        "startChar": 16,
+        "endLine": 188,
+        "endChar": 62
+      },
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "392964aa_5bd91865",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000433
+      },
+      "writtenOn": "2020-12-08T11:28:48Z",
+      "side": 1,
+      "message": "Can we use the std::any_of here? It will be more easier to understand it and the flag readFailed will not be needed at all.",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 13
+      },
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
