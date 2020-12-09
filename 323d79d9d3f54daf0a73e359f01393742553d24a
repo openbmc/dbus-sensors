@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55bf3402_8317b32d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2020-12-09T14:05:52Z",
+      "side": 1,
+      "message": "Yes, when min \u003e\u003d max or they are equal to NaN, SDR fails. It should be also addressed in the ipmitool.",
+      "parentUuid": "d9912beb_fd127bea",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 56
+      },
+      "revId": "323d79d9d3f54daf0a73e359f01393742553d24a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b552fd92_386b0d2e",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Reason is that I don\u0027t think we want to overwrite previous valid readings by the default min and max.",
       "parentUuid": "b552fd92_386b0d2e",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 13
+      },
+      "revId": "323d79d9d3f54daf0a73e359f01393742553d24a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab92c669_d8ef76a1",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2020-12-09T14:05:52Z",
+      "side": 1,
+      "message": "Wouldn\u0027t be better to change these values to some known defaults to signal a problem? \n...but that\u0027s also okay to not update with defaults and report previous values.",
+      "parentUuid": "5467072d_b9e31f66",
       "range": {
         "startLine": 192,
         "startChar": 0,
