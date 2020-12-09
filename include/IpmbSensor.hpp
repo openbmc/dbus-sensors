@@ -16,7 +16,9 @@ enum class IpmbType
     PXE1410CVR,
     IR38363VR,
     ADM1278HSC,
-    mpsVR
+    mpsVR,
+    SDRThresSensor,
+    SDRDiscEvtSensor
 };
 
 enum class IpmbSubType
@@ -34,8 +36,106 @@ enum class ReadingFormat
     byte3,
     elevenBit,
     elevenBitShift,
-    linearElevenBit
+    linearElevenBit,
+    sdrThres,
+    sdrDiscEvt
 };
+
+std::vector<std::string> Sensor_Unit{"unspecified", "degrees C", "degrees F",
+                                     "degrees K",   "Volts",     "Amps",
+                                     "Watts",       "Joules",    "Coulombs"};
+
+namespace sdr
+{
+void ipmbGetSdrInfo(
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection);
+void ipmbSdrRsrv(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection);
+void ipmbGetSdr(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection);
+void sdrDataProcess();
+double dataConversion(double, uint8_t);
+
+static constexpr uint8_t maxPosReadingMargin = 127;
+static constexpr uint16_t thermalConst = 256;
+
+static constexpr uint8_t netfnStorageReq = 0x0a;
+static constexpr uint8_t cmdStorageGetSdrInfo = 0x20;
+static constexpr uint8_t cmdStorageRsrvSdr = 0x22;
+static constexpr uint8_t cmdStorageGetSdr = 0x23;
+
+static constexpr uint8_t sdrType01 = 1;
+static constexpr uint8_t sdrType02 = 2;
+static constexpr uint8_t sdrType03 = 3;
+
+static constexpr uint8_t cntType01 = 4;
+static constexpr uint8_t cntType02 = 3;
+static constexpr uint8_t cntType03 = 2;
+static constexpr uint8_t perLoopByte = 16;
+
+static constexpr uint8_t sdrNxtRecLSB = 0;
+static constexpr uint8_t sdrNxtRecMSB = 1;
+static constexpr uint8_t sdrType = 5;
+static constexpr uint8_t sdrSenNum = 9;
+
+static constexpr uint8_t sdrAdrType01 = 56;
+static constexpr uint8_t sdrAdrType02 = 38;
+static constexpr uint8_t sdrAdrType03 = 21;
+
+static constexpr uint8_t sdrLenBit = 0x1F;
+static constexpr uint8_t sdrLenType01 = 53;
+static constexpr uint8_t sdrLenType02 = 35;
+static constexpr uint8_t sdrLenType03 = 20;
+
+static constexpr uint8_t sdrThresAcce = 0x0C;
+static constexpr uint8_t sdrSensCapab = 13;
+static constexpr uint8_t sdrSensNoThres = 0;
+
+static constexpr uint8_t sdrUnitType01 = 25;
+static constexpr uint8_t sdrUpCriType01 = 43;
+static constexpr uint8_t sdrLoCriType01 = 46;
+
+static constexpr uint8_t mDataByte = 28;
+static constexpr uint8_t mTolDataByte = 29;
+static constexpr uint8_t bDataByte = 30;
+static constexpr uint8_t bAcuDataByte = 31;
+static constexpr uint8_t rbExpDataBye = 33;
+static constexpr uint8_t bitShiftMsb = 6;
+
+static std::vector<std::string> sensorReadName;
+static std::vector<std::string> sensorUnit;
+static std::vector<double> thresUpperCri;
+static std::vector<double> thresLowerCri;
+static std::vector<uint32_t> ipmbBus;
+static std::vector<uint16_t> mValue;
+static std::vector<uint16_t> bValue;
+static std::vector<uint8_t> sensorNumber;
+static std::vector<uint8_t> sensorSDRType;
+static std::vector<int8_t> rExp;
+static std::vector<int8_t> bExp;
+static std::vector<uint8_t> negRead;
+static std::vector<uint8_t> sensCap;
+
+std::vector<uint8_t> sdrCommandData;
+std::vector<uint8_t> getSdrData;
+
+std::string sensorName;
+std::string strUnit;
+std::string hostName;
+
+double upperCri;
+double lowerCri;
+uint16_t recordCount;
+uint16_t validRecordCount;
+uint8_t sdrCommandAddress;
+uint8_t sdrNetfn;
+uint8_t sdrCommand;
+uint8_t curRecord;
+uint8_t dev_addr;
+uint8_t cmdAddr;
+uint8_t resrvIDLSB = 0;
+uint8_t resrvIDMSB = 0;
+uint8_t nextRecordIDLSB = 0;
+uint8_t nextRecordIDMSB = 0;
+} // namespace sdr
 
 namespace ipmi
 {
@@ -86,6 +186,7 @@ struct IpmbSensor : public Sensor
 
     void checkThresholds(void) override;
     void read(void);
+    void sdrRead(void);
     void init(void);
     void loadDefaults(void);
     void runInitCmd(void);
