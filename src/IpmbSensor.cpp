@@ -43,14 +43,10 @@ static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
 
 static constexpr uint8_t meAddress = 1;
-static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
 static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
-
-using IpmbMethodType =
-    std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
 
 boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
 
@@ -512,6 +508,7 @@ void createSensors(
                     {
                         continue;
                     }
+
                     std::string name =
                         loadVariant<std::string>(entry.second, "Name");
 
@@ -522,6 +519,7 @@ void createSensors(
                         std::cerr << "error populating thresholds for " << name
                                   << "\n";
                     }
+
                     uint8_t deviceAddress =
                         loadVariant<uint8_t>(entry.second, "Address");
 
@@ -561,7 +559,7 @@ void createSensors(
                     sensor = std::make_unique<IpmbSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
                         std::move(sensorThresholds), deviceAddress,
-                        hostSMbusIndex, pollRate, sensorTypeName);
+                        hostSMbusIndex, ipmbBusIndex, pollRate, sensorTypeName);
 
                     sensor->parseConfigValues(entry.second);
                     if (!(sensor->sensorClassType(sensorClass)))
