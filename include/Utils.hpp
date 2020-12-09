@@ -22,6 +22,8 @@ const constexpr char* jsonStore = "/var/configuration/flattened.json";
 const constexpr char* inventoryPath = "/xyz/openbmc_project/inventory";
 const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
 
+constexpr const char* boardInventoryPath =
+    "/xyz/openbmc_project/inventory/system/board/";
 constexpr const char* cpuInventoryPath =
     "/xyz/openbmc_project/inventory/system/chassis/motherboard";
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
