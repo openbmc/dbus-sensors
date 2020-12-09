@@ -117,6 +117,13 @@ const static constexpr char* interface =
     "xyz.openbmc_project.Association.Definitions";
 } // namespace association
 
+namespace fru
+{
+const static constexpr char* busname = "xyz.openbmc_project.Ipmb.FruDevice";
+const static constexpr char* path = "/xyz/openbmc_project/Ipmb/FruDevice";
+const static constexpr char* interface = "xyz.openbmc_project.Ipmb.FruDevice";
+} // namespace fru
+
 template <typename T>
 inline T loadVariant(
     const boost::container::flat_map<std::string, BasicVariantType>& data,
