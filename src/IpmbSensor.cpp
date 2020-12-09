@@ -66,13 +66,14 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        sdbusplus::asio::object_server& objectServer,
                        std::vector<thresholds::Threshold>&& thresholdData,
                        uint8_t deviceAddress, uint8_t hostSMbusIndex,
-                       const float pollRate, std::string& sensorTypeName) :
+                       uint8_t ipmbBusIndex, const float pollRate,
+                       std::string& sensorTypeName) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            false, false, ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
-    sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
-    waitTimer(io)
+    ipmbBusIndex(ipmbBusIndex), sensorPollMs(static_cast<int>(pollRate * 1000)),
+    objectServer(objectServer), waitTimer(io)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
 
@@ -153,9 +154,16 @@ void IpmbSensor::runInitCmd()
 
 void IpmbSensor::loadDefaults()
 {
-    if (type == IpmbType::meSensor)
+    if (type == IpmbType::meSensor || type == IpmbType::IpmbDevice)
     {
-        commandAddress = meAddress;
+        if (type == IpmbType::meSensor)
+        {
+            commandAddress = meAddress;
+        }
+        else
+        {
+            commandAddress = ipmbBusIndex << ipmbLeftShift;
+        }
         netfn = ipmi::sensor::netFn;
         command = ipmi::sensor::getSensorReading;
         commandData = {deviceAddress};
@@ -432,6 +440,10 @@ bool IpmbSensor::sensorClassType(const std::string& sensorClass)
     {
         type = IpmbType::meSensor;
     }
+    else if (sensorClass == "IPMBDevice")
+    {
+        type = IpmbType::IpmbDevice;
+    }
     else
     {
         std::cerr << "Invalid class " << sensorClass << "\n";
@@ -620,8 +632,8 @@ void createSensors(
                         sensor = std::make_unique<IpmbSensor>(
                             dbusConnection, io, name, pathPair.first,
                             objectServer, std::move(sensorThresholds),
-                            deviceAddress, hostSMbusIndex, pollRate,
-                            sensorTypeName);
+                            deviceAddress, hostSMbusIndex, ipmbBusIndex,
+                            pollRate, sensorTypeName);
 
                         sensor->parseConfigValues(entry.second);
                         if (!(sensor->sensorClassType(sensorClass)))
