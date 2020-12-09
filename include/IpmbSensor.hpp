@@ -41,18 +41,9 @@ enum class ReadingFormat
     sdrStEvt
 };
 
-std::vector<std::string> Sensor_Unit
-{
-  "unspecified",
-  "degrees C",
-  "degrees F",
-  "degrees K",
-  "Volts",
-  "Amps",
-  "Watts",
-  "Joules",
-  "Coulombs"
-};
+std::vector<std::string> Sensor_Unit{"unspecified", "degrees C", "degrees F",
+                                     "degrees K",   "Volts",     "Amps",
+                                     "Watts",       "Joules",    "Coulombs"};
 
 namespace sdr
 {
