@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d38eb386_b8f73fd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2020-12-09T14:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20e848ca_bdf15b81",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "948b5994_b035215a",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb642b93_a0a31e43",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2020-12-09T14:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "948b5994_b035215a",
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "30004dab_daa37589",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2020-12-09T14:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09caea4e_a5b0343f",
+      "range": {
+        "startLine": 155,
+        "startChar": 44,
+        "endLine": 155,
+        "endChar": 66
+      },
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6c983a9_4407d9d9",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 1
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "d8cb6af7_1b98e567",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2020-12-09T14:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6c983a9_4407d9d9",
+      "range": {
+        "startLine": 188,
+        "startChar": 16,
+        "endLine": 188,
+        "endChar": 62
+      },
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "392964aa_5bd91865",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 1
@@ -108,6 +198,30 @@
       "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ead28d82_51d77b59",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2020-12-09T14:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "392964aa_5bd91865",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 13
+      },
+      "revId": "a2a216352df98db90b036d295a9207f3be3388a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
