@@ -16,7 +16,8 @@ enum class IpmbType
     PXE1410CVR,
     IR38363VR,
     ADM1278HSC,
-    mpsVR
+    mpsVR,
+    SDRType1
 };
 
 enum class IpmbSubType
@@ -81,7 +82,8 @@ struct IpmbSensor : public Sensor
                sdbusplus::asio::object_server& objectServer,
                std::vector<thresholds::Threshold>&& thresholds,
                uint8_t deviceAddress, uint8_t hostSMbusIndex,
-               const float pollRate, std::string& sensorTypeName);
+               uint8_t ipmbBusIndex, const float pollRate,
+               std::string& sensorTypeName);
     ~IpmbSensor() override;
 
     void checkThresholds(void) override;
@@ -102,6 +104,7 @@ struct IpmbSensor : public Sensor
     uint8_t deviceAddress;
     uint8_t errorCount;
     uint8_t hostSMbusIndex;
+    uint8_t ipmbBusIndex;
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
