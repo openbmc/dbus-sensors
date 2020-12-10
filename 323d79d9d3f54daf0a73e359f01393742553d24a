@@ -117,6 +117,30 @@
       "revId": "323d79d9d3f54daf0a73e359f01393742553d24a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df32cee7_f583d02d",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-10T17:31:16Z",
+      "side": 1,
+      "message": "I think min and max don\u0027t change that often, if valid values have been read and it failed to read once, it is probably ok to just keep the existing value. Ideally, if it consistently fails for a certain number of time, maybe there is something wrong and good to flag it. But I am not sure it worth the complication here.",
+      "parentUuid": "ab92c669_d8ef76a1",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 13
+      },
+      "revId": "323d79d9d3f54daf0a73e359f01393742553d24a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
