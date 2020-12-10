@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d589f46_0b8a1792",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-10T13:26:37Z",
+      "side": 1,
+      "message": "To make ADCSensor with PowerState::always be able to use checkThresholdsPowerDelay, we move readingStateGood form sensor.hpp to Utils.hpp and replace the isPowerOn function.",
+      "parentUuid": "41b8f971_67693b03",
+      "revId": "f03dcd6bf16f224edb18829d1681fa7c005be16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "730f4136_2bad9231",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 13
@@ -53,6 +71,54 @@
       "writtenOn": "2020-12-08T18:38:46Z",
       "side": 1,
       "message": "use constexpr in the beginning of the file : pollRateDefault something like that.",
+      "range": {
+        "startLine": 216,
+        "startChar": 33,
+        "endLine": 216,
+        "endChar": 36
+      },
+      "revId": "f03dcd6bf16f224edb18829d1681fa7c005be16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd96f8a7_b3f13176",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-10T13:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "730f4136_2bad9231",
+      "range": {
+        "startLine": 216,
+        "startChar": 22,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "f03dcd6bf16f224edb18829d1681fa7c005be16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b96bb21_3e28b08e",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-10T13:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4566e83f_a69c93ea",
       "range": {
         "startLine": 216,
         "startChar": 33,
