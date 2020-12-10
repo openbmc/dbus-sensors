@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed1c2ff8_f6d1811d",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-10T17:04:20Z",
+      "side": 1,
+      "message": "Please make these names more descriptive.  SDR does not have a net function, storage does.\n\nGetInfo.... represents a command, so please add that to the name.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 0
+      },
+      "revId": "bf77ce4505a77e7168c0877b7d21232b27020c74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b43c84a5_e55566ac",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-10T17:04:20Z",
+      "side": 1,
+      "message": "Please don\u0027t declare your own io_service.  Please use the main one.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 0
+      },
+      "revId": "bf77ce4505a77e7168c0877b7d21232b27020c74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
