@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f1585491_7eecb3d8",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-10T07:07:10Z",
+      "side": 1,
+      "message": "Thanks for reminding. Done.",
+      "parentUuid": "051a5701_bbcaca1f",
+      "range": {
+        "startLine": 22,
+        "startChar": 32,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "3193270e0d5fb3f00fd52461ff917819214fa7af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6534ff87_1cbf955a",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-08T20:16:48Z",
       "side": 1,
       "message": "use constexpr",
+      "range": {
+        "startLine": 212,
+        "startChar": 33,
+        "endLine": 212,
+        "endChar": 36
+      },
+      "revId": "3193270e0d5fb3f00fd52461ff917819214fa7af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32138ca6_9402bdb9",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-10T07:07:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6534ff87_1cbf955a",
       "range": {
         "startLine": 212,
         "startChar": 33,
