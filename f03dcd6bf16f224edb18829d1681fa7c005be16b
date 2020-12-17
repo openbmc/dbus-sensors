@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "14212799_4566c801",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-17T22:10:18Z",
+      "side": 1,
+      "message": "Thanks for fixing the code path that can lead to crash even though it is not an issue currently.",
+      "parentUuid": "c87d98e6_2ba128cf",
+      "revId": "f03dcd6bf16f224edb18829d1681fa7c005be16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "730f4136_2bad9231",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 13
