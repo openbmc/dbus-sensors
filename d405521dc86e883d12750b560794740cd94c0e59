@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1385cedf_ee7f44f4",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2020-12-17T22:10:18Z",
+      "side": 1,
+      "message": "If use \"sensor-\u003ereadingStateGood()\" here, then readingStateGood can stay in sensors.hpp.\nI think that would be cleaner.",
+      "range": {
+        "startLine": 141,
+        "startChar": 16,
+        "endLine": 141,
+        "endChar": 43
+      },
+      "revId": "d405521dc86e883d12750b560794740cd94c0e59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
