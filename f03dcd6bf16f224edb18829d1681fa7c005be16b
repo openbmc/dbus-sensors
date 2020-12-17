@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c87d98e6_2ba128cf",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-17T16:14:33Z",
+      "side": 1,
+      "message": "If powerstate::always is set, PowerDelay is irrelevant, because the sensors won\u0027t react to power state changes, so there\u0027s nothing to \"delay\" from.",
+      "parentUuid": "6d589f46_0b8a1792",
+      "revId": "f03dcd6bf16f224edb18829d1681fa7c005be16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "730f4136_2bad9231",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 13
