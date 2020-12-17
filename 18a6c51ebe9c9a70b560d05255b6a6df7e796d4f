@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7d6ec850_8b857d29",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-17T16:31:43Z",
+      "side": 1,
+      "message": "Please don\u0027t monitor these directly.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 18
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "203fc59a_65bdb74c",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 10
@@ -19,6 +42,98 @@
     },
     {
       "key": {
+        "uuid": "d25d559d_d6cde618",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-17T16:31:43Z",
+      "side": 1,
+      "message": "This interface needs looked at.  It doesn\u0027t look like the appropriate sensor interface at all.\n\n1. Unit isn\u0027t a uint\n2. Thresholds aren\u0027t on the sensor interface\n3. thresholds aren\u0027t uint8\n4. Thresholds aren\u0027t read-write\n5. Unit is set twice.\n6. Unit is not a fixed value.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 76
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3076fca4_d043e7ab",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-17T16:31:43Z",
+      "side": 1,
+      "message": "Neither of these are valid dbus interfaces, lets get them removed for the time being, so we can focus on type 1 records, then once those are handled, we can work on these.",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 5
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cb8dcbe_bf2b0e8a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-17T16:31:43Z",
+      "side": 1,
+      "message": "Please don\u0027t use blocking method calls.  Use async ones.",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 77
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d10bd07_8ee70b54",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-17T16:31:43Z",
+      "side": 1,
+      "message": "Please don\u0027t use at, check your lengths and handle errors appropriately.",
+      "range": {
+        "startLine": 263,
+        "startChar": 26,
+        "endLine": 263,
+        "endChar": 28
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d60f361_51b170b6",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 10
@@ -30,6 +145,29 @@
       "writtenOn": "2020-12-17T11:53:59Z",
       "side": 1,
       "message": "instead of having Host-+instanceId can we have instanceId only as this this applicable for any FRU that supports SDR.",
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dfbb6aa_59fe908e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-17T16:31:43Z",
+      "side": 1,
+      "message": "This scans once at startup.  How do you handle devices that are only available after a host boot?  What if the SDR was updated?  Should we poll these periodically (I\u0027m thinking once every 5 minutes) to see if the sdr has a new ID, and needs re-read?",
+      "range": {
+        "startLine": 1003,
+        "startChar": 0,
+        "endLine": 1003,
+        "endChar": 36
+      },
       "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
