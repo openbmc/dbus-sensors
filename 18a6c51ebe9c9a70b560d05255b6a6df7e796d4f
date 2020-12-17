@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "203fc59a_65bdb74c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000866
+      },
+      "writtenOn": "2020-12-17T11:53:59Z",
+      "side": 1,
+      "message": "Is this name required in DBUS?",
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d60f361_51b170b6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1000866
+      },
+      "writtenOn": "2020-12-17T11:53:59Z",
+      "side": 1,
+      "message": "instead of having Host-+instanceId can we have instanceId only as this this applicable for any FRU that supports SDR.",
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
