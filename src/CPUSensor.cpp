@@ -43,8 +43,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      const std::string& sensorConfiguration, int cpuId,
                      bool show, double dtsOffset) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(_thresholds), sensorConfiguration, objectType, maxReading,
-           minReading, conn, PowerState::on),
+           std::move(_thresholds), sensorConfiguration, objectType, 0, 0, conn,
+           PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
@@ -61,11 +61,15 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             if (type.compare("power") == 0)
             {
                 interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
+                this->minValue = 0;
+                this->maxValue = 511;
             }
             else
             {
                 interfacePath =
                     "/xyz/openbmc_project/sensors/temperature/" + name;
+                this->minValue = -128;
+                this->maxValue = 127;
             }
 
             sensorInterface = objectServer.add_interface(
