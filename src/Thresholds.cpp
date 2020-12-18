@@ -120,8 +120,11 @@ bool parseThresholdsFromConfig(
             continue;
         }
         double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
+        constexpr bool writable = true;
+        constexpr bool manual = true;
 
-        thresholdVector.emplace_back(level, direction, val, hysteresis);
+        thresholdVector.emplace_back(level, direction, val, hysteresis,
+                                     writable, manual);
     }
     return true;
 }

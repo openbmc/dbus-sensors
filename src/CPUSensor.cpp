@@ -283,7 +283,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
             {
                 privTcontrol = gTcontrol;
 
-                if (!thresholds.empty())
+                if (!thresholds.empty() && !thresholds[0].manual)
                 {
                     std::vector<thresholds::Threshold> newThresholds;
                     if (parseThresholdsFromAttr(newThresholds, path,
