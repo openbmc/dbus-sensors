@@ -22,6 +22,30 @@
       "revId": "d405521dc86e883d12750b560794740cd94c0e59",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c263b690_2fbc1567",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-18T01:55:50Z",
+      "side": 1,
+      "message": "We had tried this before and it cannot work because there is a struct Sensor defined in Thresholds.hpp and readingStateGood locates in struct Sensor in Sensor.hpp.\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/38446/14/include/Thresholds.hpp#14\nIt seems the Sensor in Thresholds.hpp is only used to pass the pointer of Sensor and not support for the function defined in Sensor.hpp.\nTherefore, we move this function to make it available in Thresholds.hpp.",
+      "parentUuid": "1385cedf_ee7f44f4",
+      "range": {
+        "startLine": 141,
+        "startChar": 16,
+        "endLine": 141,
+        "endChar": 43
+      },
+      "revId": "d405521dc86e883d12750b560794740cd94c0e59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
