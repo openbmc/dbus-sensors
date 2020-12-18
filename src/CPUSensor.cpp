@@ -61,6 +61,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             if (type.compare("power") == 0)
             {
                 interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
+                this->minValue = 0;
+                this->maxValue = 255;
             }
             else
             {
