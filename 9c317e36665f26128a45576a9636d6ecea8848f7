@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b22ee4_bb7faf47",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-18T15:57:43Z",
+      "side": 1,
+      "message": "Initialize your variables.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 26
+      },
+      "revId": "9c317e36665f26128a45576a9636d6ecea8848f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cef2831_4e970cde",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-18T15:57:43Z",
+      "side": 1,
+      "message": "I suspect this needs to be !std::isfinite",
+      "revId": "9c317e36665f26128a45576a9636d6ecea8848f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffac0878_affcf792",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-18T15:57:43Z",
+      "side": 1,
+      "message": "The use of the lambda and std::any_of significantly complicates what looks to be a simple \"loop over elements and find ones not nand\"  Please write it as a simple loop.",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 13
+      },
+      "revId": "9c317e36665f26128a45576a9636d6ecea8848f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
