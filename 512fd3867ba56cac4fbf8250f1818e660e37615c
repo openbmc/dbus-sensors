@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "861f0c38_df772477",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-21T17:10:17Z",
+      "side": 1,
+      "message": "Is there an actual use case where this can happen, or is this hypothetical?\n\nConsidering that a sensor being reconstructed means that the sensor was either removed (through a hardware removal) or a threshold was changed, both of which are manual inputs by the user, it seems just fine that the thresholds deassert without a log message.  In the case where the sensor has been created and destroyed, there should be a log of the sensors removal, but I wouldn\u0027t expect there to be forced assert when the configuration changes.",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 57
+      },
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6210e82_c3e68b4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-21T17:10:17Z",
+      "side": 1,
+      "message": "Please come up and test with a use case that doesn\u0027t involve the testing interfaces.  This seems like only a bug in the testing, not an actual error in the functionality..",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 91
+      },
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c81f1e0_87a18897",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-21T17:10:17Z",
+      "side": 1,
+      "message": "Wont this cause every sensor to deassert thresholds every time it\u0027s recreated, and on every boot?  That seems unacceptable, and adds a lot of noise.  Especially considering (correct me if I\u0027m wrong) that this is only seeable when running the test procedures, that seems like an issue.",
+      "range": {
+        "startLine": 325,
+        "startChar": 24,
+        "endLine": 325,
+        "endChar": 47
+      },
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61eebe27_67b0f903",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-21T17:10:17Z",
+      "side": 1,
+      "message": "Guessing this was unintentional.",
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "059f5338_2164af8b",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-21T17:10:17Z",
+      "side": 1,
+      "message": "same here.",
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
