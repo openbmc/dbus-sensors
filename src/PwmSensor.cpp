@@ -56,7 +56,10 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     {
         // default pwm to non 0
         pwmValue = static_cast<uint32_t>(pwmMax * (defaultPwm / 100));
-        setValue(pwmValue);
+        if (!setValue(pwmValue))
+        {
+            pwmValue = 0;
+        };
     }
     double fValue = 100.0 * (static_cast<double>(pwmValue) / pwmMax);
     sensorInterface->register_property(
@@ -72,8 +75,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                 return 1;
             }
             double value = (req / 100) * pwmMax;
-            setValue(static_cast<int>(value));
-            resp = req;
+            resp = setValue(static_cast<uint32_t>(value)) ? req : 0;
 
             controlInterface->signal_property("Target");
 
@@ -109,8 +111,10 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             {
                 return 1;
             }
-            setValue(
-                std::round(pwmMax * static_cast<double>(req) / targetIfaceMax));
+            resp = setValue(std::round(pwmMax * static_cast<double>(req) /
+                                       targetIfaceMax))
+                       ? req
+                       : 0;
             resp = req;
 
             sensorInterface->signal_property("Value");
@@ -154,14 +158,15 @@ PwmSensor::~PwmSensor()
     objectServer.remove_interface(association);
 }
 
-void PwmSensor::setValue(uint32_t value)
+bool PwmSensor::setValue(uint32_t value)
 {
     std::ofstream ref(sysPath);
     if (!ref.good())
     {
-        throw std::runtime_error("Bad Write File");
+        return 0;
     }
     ref << value;
+    return value;
 }
 
 // on success returns pwm, on failure throws except on initialization, where it

@@ -23,6 +23,13 @@ class PwmSensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     size_t pwmMax;
-    void setValue(uint32_t value);
+
+    /** @brief Set the PWM Value
+     *
+     *  @param[in] value - The PWM value
+     *
+     *  @return true on success and false on failure
+     */
+    bool setValue(uint32_t value);
     uint32_t getValue(bool errThrow = true);
 };
