@@ -40,6 +40,8 @@
 
 static constexpr bool DEBUG = false;
 
+static constexpr auto allowListFile = PSU_SENSOR_ALLOW_LIST_FILE;
+
 static constexpr std::array<const char*, 14> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADM1272",
     "xyz.openbmc_project.Configuration.ADM1278",
@@ -223,6 +225,23 @@ static void
     }
 }
 
+static std::set<std::string> getAllowedSensors()
+{
+    if (!fs::exists(allowListFile))
+    {
+        return {};
+    }
+    std::set<std::string> allowedList;
+
+    std::ifstream file(allowListFile);
+    std::string str;
+    while (std::getline(file, str))
+    {
+        allowedList.insert(str);
+    }
+    return allowedList;
+}
+
 static void createSensorsCallback(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -230,6 +249,7 @@ static void createSensorsCallback(
     const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged)
 {
+    auto allowedSensors = getAllowedSensors();
     int numCreated = 0;
     bool firstScan = sensorsChanged == nullptr;
 
@@ -793,6 +813,18 @@ static void createSensorsCallback(
             }
             // destruct existing one first if already created
             sensors[sensorName] = nullptr;
+
+            // Check if the sensor is allowed or not, skip it if not
+            // If the allow list is empty, add all sensors by default
+            if (!allowedSensors.empty())
+            {
+                if (allowedSensors.find(boost::replace_all_copy(
+                        sensorName, " ", "_")) == allowedSensors.end())
+                {
+                    continue;
+                }
+            }
+
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,

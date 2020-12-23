@@ -196,6 +196,12 @@ add_executable (psusensor src/PSUSensorMain.cpp ${PSU_SRC_FILES})
 add_dependencies (psusensor sdbusplus-project)
 target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 
+set (PSU_SENSOR_ALLOW_LIST_FILE /usr/share/dbus-sensors/psusensor_allow_list
+     CACHE STRING "The path of the PSU sensor's allow list")
+target_compile_definitions (
+    psusensor PRIVATE
+    PSU_SENSOR_ALLOW_LIST_FILE="${PSU_SENSOR_ALLOW_LIST_FILE}")
+
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
     add_dependencies (nvmesensor sdbusplus-project)
