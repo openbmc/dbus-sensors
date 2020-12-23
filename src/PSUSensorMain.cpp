@@ -34,6 +34,7 @@
 #include <iostream>
 #include <regex>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -163,14 +164,28 @@ void checkEventLimits(
     boost::container::flat_map<std::string, std::vector<std::string>>&
         eventPathList)
 {
+    auto attributePartPos = sensorPathStr.find_last_of('_');
+    if (attributePartPos == std::string::npos)
+    {
+        // There is no '_' in the string, skip it
+        return;
+    }
+    auto attributePart =
+        std::string_view(sensorPathStr).substr(attributePartPos + 1);
+    if (attributePart != "input")
+    {
+        // If the sensor is not xxx_input, skip it
+        return;
+    }
+
+    auto prefixPart = sensorPathStr.substr(0, attributePartPos + 1);
     for (const auto& limitMatch : limitEventMatch)
     {
         const std::vector<std::string>& limitEventAttrs = limitMatch.second;
         const std::string& eventName = limitMatch.first;
         for (const auto& limitEventAttr : limitEventAttrs)
         {
-            auto limitEventPath =
-                boost::replace_all_copy(sensorPathStr, "input", limitEventAttr);
+            auto limitEventPath = prefixPart + limitEventAttr;
             std::ifstream eventFile(limitEventPath);
             if (!eventFile.good())
             {
