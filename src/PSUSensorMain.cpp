@@ -171,6 +171,13 @@ void checkEventLimits(
         {
             auto limitEventPath =
                 boost::replace_all_copy(sensorPathStr, "input", limitEventAttr);
+            // If the limitEventPath is not changed, e.g. it is not "xxx_input",
+            // it's not really a limit event path, e.g. it could be "temp1_max".
+            // It should not be included in the eventPathList.
+            if (sensorPathStr == limitEventPath)
+            {
+                continue;
+            }
             std::ifstream eventFile(limitEventPath);
             if (!eventFile.good())
             {
