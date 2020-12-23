@@ -44,9 +44,10 @@ static constexpr bool DEBUG = false;
 
 namespace fs = std::filesystem;
 
-static constexpr std::array<const char*, 3> sensorTypes = {
+static constexpr std::array<const char*, 4> sensorTypes = {
     "xyz.openbmc_project.Configuration.AspeedFan",
     "xyz.openbmc_project.Configuration.I2CFan",
+    "xyz.openbmc_project.Configuration.MAX31790",
     "xyz.openbmc_project.Configuration.NuvotonFan"};
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
@@ -78,7 +79,18 @@ FanTypes getFanType(const fs::path& parentPath)
     // todo: will we need to support other types?
     return FanTypes::i2c;
 }
+void enablePwm(const fs::path& parentPath, const fs::path& fileName)
+{
+    fs::path enablePath = parentPath / fileName;
 
+    std::ofstream enableFile(enablePath);
+    if (!enableFile.good())
+    {
+        std::cerr << "Error writing " << enablePath << "\n";
+        return;
+    }
+    enableFile << 1;
+}
 void createRedundancySensor(
     const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
         sensors,
@@ -237,9 +249,7 @@ void createSensors(
                         sensorData = &(sensor.second);
                         break;
                     }
-                    else if (baseType ==
-                             std::string(
-                                 "xyz.openbmc_project.Configuration.I2CFan"))
+                    else
                     {
                         auto findBus = baseConfiguration->second.find("Bus");
                         auto findAddress =
@@ -377,6 +387,14 @@ void createSensors(
                     if (findPwm != connector->second.end())
                     {
 
+                        if (baseType ==
+                             std::string(
+                                 "xyz.openbmc_project.Configuration.MAX31790"))
+                        {
+                            fs::path pwmEnableFile =
+                                "pwm" + std::to_string(index+1) + "_enable";
+                            enablePwm(path.parent_path(), pwmEnableFile);
+                        }
                         size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
                                                 findPwm->second);
                         /* use pwm name override if found in configuration else
