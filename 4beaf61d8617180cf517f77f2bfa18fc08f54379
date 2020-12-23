@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f734ecef_1efd400c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-23T03:56:13Z",
+      "side": 1,
+      "message": "Rather than adding a new config entry, can we just keep a list of driver types that require enabling the PWM outputs, or detect it somehow?  That seems much easier.",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39300b32_7f4eaae0",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-23T03:56:13Z",
+      "side": 1,
+      "message": "Pass int by value please.",
+      "range": {
+        "startLine": 81,
+        "startChar": 47,
+        "endLine": 81,
+        "endChar": 77
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "091ab234_9fc7d207",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-23T03:56:13Z",
+      "side": 1,
+      "message": "Please build the path as a fs::path using operator/ directly, don\u0027t build a std::string, then pass it to std::path.",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 84,
+        "endChar": 32
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f7d0f8c_04cae785",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-23T03:56:13Z",
+      "side": 1,
+      "message": "This isn\u0027t required.  RAII will close the object.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 23
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b485f72c_5ec9a73d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-23T03:56:13Z",
+      "side": 1,
+      "message": "Please remove this print.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 72
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
