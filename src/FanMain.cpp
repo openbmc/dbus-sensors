@@ -51,6 +51,7 @@ static constexpr std::array<const char*, 3> sensorTypes = {
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
 static std::regex inputRegex(R"(fan(\d+)_input)");
+constexpr std::array<const char*,1> pwmEnableOne = {"max31790"};
 
 enum class FanTypes
 {
@@ -78,7 +79,18 @@ FanTypes getFanType(const fs::path& parentPath)
     // todo: will we need to support other types?
     return FanTypes::i2c;
 }
+void enablePwm(const fs::path& parentPath, const fs::path& fileName)
+{
+    fs::path enablePath = parentPath / fileName;
 
+    std::ofstream enableFile(enablePath);
+    if (!enableFile.good())
+    {
+        std::cerr << "Error writing " << enablePath << "\n";
+        return;
+    }
+    enableFile << 1;
+}
 void createRedundancySensor(
     const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
         sensors,
@@ -377,6 +389,18 @@ void createSensors(
                     if (findPwm != connector->second.end())
                     {
 
+                        std::string fanSensorType;
+                        fs::path namePath = path.parent_path() / "name";
+                        std::ifstream nameFile(namePath);
+                        std::getline(nameFile, fanSensorType);
+
+                        if (std::find(pwmEnableOne.begin(), pwmEnableOne.end(),
+                                      fanSensorType) != pwmEnableOne.end())
+                        {
+                            fs::path pwmEnableFile =
+                                "pwm" + std::to_string(index+1) + "_enable";
+                            enablePwm(path.parent_path(), pwmEnableFile);
+                        }
                         size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
                                                 findPwm->second);
                         /* use pwm name override if found in configuration else
