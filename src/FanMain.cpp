@@ -78,7 +78,21 @@ FanTypes getFanType(const fs::path& parentPath)
     // todo: will we need to support other types?
     return FanTypes::i2c;
 }
+void enableFan(const std::string& parentPath, const int& pwm, const int& mode)
+{
+    std::string enable = parentPath + "/pwm" + std::to_string(pwm) + "_enable";
+    fs::path enablePath(enable);
 
+    std::ofstream enableFile(enablePath);
+    if (!enableFile.good())
+    {
+        std::cerr << "Error writing " << enablePath << "\n";
+        return;
+    }
+    enableFile << mode;
+    enableFile.close();
+    std::cerr << "Set pwm" << pwm << "_enable in mode " << mode << "\n";
+}
 void createRedundancySensor(
     const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
         sensors,
@@ -268,6 +282,15 @@ void createSensors(
                     std::cerr << "failed to find match for " << path.string()
                               << "\n";
                     continue;
+                }
+
+                auto findPwmEnable =
+                    baseConfiguration->second.find("PwmEnable");
+                if (findPwmEnable != baseConfiguration->second.end())
+                {
+                    int PwmEnable = std::visit(VariantToIntVisitor(),
+                                               findPwmEnable->second);
+                    enableFan(path.parent_path(), index + 1, PwmEnable);
                 }
 
                 auto findSensorName = baseConfiguration->second.find("Name");
