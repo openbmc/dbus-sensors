@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8ac9a12e_5951158b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-23T12:17:25Z",
+      "side": 1,
+      "message": "I add array for recording what device can write pwm*_enable automatically.\nIf I had misunderstand, please correct me.\nThanks.",
+      "parentUuid": "f734ecef_1efd400c",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39300b32_7f4eaae0",
         "filename": "src/FanMain.cpp",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a44016f_325f29e8",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-23T12:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39300b32_7f4eaae0",
+      "range": {
+        "startLine": 81,
+        "startChar": 47,
+        "endLine": 81,
+        "endChar": 77
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6ba863d7_6edb57e9",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-23T12:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "091ab234_9fc7d207",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 84,
+        "endChar": 32
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f7d0f8c_04cae785",
         "filename": "src/FanMain.cpp",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "de1940be_286b2274",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-23T12:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f7d0f8c_04cae785",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 23
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b485f72c_5ec9a73d",
         "filename": "src/FanMain.cpp",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4490cddb_3c0d6b66",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-23T12:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b485f72c_5ec9a73d",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 72
+      },
+      "revId": "4beaf61d8617180cf517f77f2bfa18fc08f54379",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
