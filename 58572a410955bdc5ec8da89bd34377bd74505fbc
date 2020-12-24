@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fe31f59_67478832",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2020-12-24T10:41:49Z",
+      "side": 1,
+      "message": "nit: \u0027verify\u0027 typo",
+      "revId": "58572a410955bdc5ec8da89bd34377bd74505fbc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
