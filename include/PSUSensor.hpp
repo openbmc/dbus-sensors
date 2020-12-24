@@ -40,7 +40,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     void updateMinMaxValues(void);
 
     int fd;
-    static constexpr unsigned int sensorPollMs = 1000;
+    static constexpr unsigned int sensorPollMs = PSU_SENSOR_VALUE_INTERVAL;
     static constexpr size_t warnAfterErrorCount = 10;
 };
 

@@ -60,7 +60,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     void beep(const uint8_t& beepPriority);
     static constexpr uint8_t beepPSUFailure = 2;
     boost::asio::posix::stream_descriptor inputDev;
-    static constexpr unsigned int eventPollMs = 1000;
+    static constexpr unsigned int eventPollMs = PSU_SENSOR_EVENT_INTERVAL;
     static constexpr size_t warnAfterErrorCount = 10;
     std::string psuName;
     std::string fanName;

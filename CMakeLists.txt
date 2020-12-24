@@ -202,6 +202,18 @@ target_compile_definitions (
     psusensor PRIVATE
     PSU_SENSOR_ALLOW_LIST_FILE="${PSU_SENSOR_ALLOW_LIST_FILE}")
 
+set (PSU_SENSOR_VALUE_INTERVAL 1000 CACHE INTERNAL
+    "The interval between PSU sensor value")
+target_compile_definitions (
+    psusensor PRIVATE
+    PSU_SENSOR_VALUE_INTERVAL=${PSU_SENSOR_VALUE_INTERVAL})
+
+set (PSU_SENSOR_EVENT_INTERVAL 1000 CACHE INTERNAL
+    "The interval between PSU event read")
+target_compile_definitions (
+    psusensor PRIVATE
+    PSU_SENSOR_EVENT_INTERVAL=${PSU_SENSOR_EVENT_INTERVAL})
+
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
     add_dependencies (nvmesensor sdbusplus-project)
