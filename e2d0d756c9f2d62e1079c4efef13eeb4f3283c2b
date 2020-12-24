@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "183339d9_c7bd3ee2",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "I think I commented on one of the other reviews, but this sensor will never support multiple interfaces, so should we just make this a const char* instead of an array, and inline the definition where needed?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d71414_4d0ef857",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Please put this in your commit message.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f9def8c_42f948d8",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -30,6 +76,317 @@
       "writtenOn": "2020-12-24T16:36:17Z",
       "side": 1,
       "message": "This and below should be in an anonymous namespace instead of static - but I think perhaps Intel prefers static?  I don\u0027t know.  But, either way, if you put these two methods into a small utility file and expose them, yeah the text contents might be larger because it can\u0027t optimize them out, but, you can add a test to make sure they behave how you expect in all cases.",
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "671e10ef_d1ef7218",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "\u003e This and below should be in an anonymous namespace instead of static - but I think perhaps Intel prefers static?\n\u003e  I don\u0027t know.  But, either way, if you put these two methods into a small utility file and expose them, yeah the text contents might be larger because it can\u0027t optimize them out, but, you can add a test to make sure they behave how you expect in all cases.\n\n\nI don\u0027t have a strong opinion between the two;  If I were writing it I\u0027d probably go anonymous namespace.",
+      "parentUuid": "3f9def8c_42f948d8",
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9b67712_fba1d8d9",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Can we move this to an enum class with values of \"Required\" and \"NotRequired\"  That seems much more clear than a bool when calling this function.",
+      "range": {
+        "startLine": 52,
+        "startChar": 57,
+        "endLine": 52,
+        "endChar": 66
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee67bea7_2e47664a",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "This is probably a check that should be done at higher scopes.  Technically an empty string is valid in some cases.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 13
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bf5c234_c3425be2",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Please use the existing visitor patterns here.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c4341cb_e11cbe85",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Please add a return false here",
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c2032a2_10771015",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Please use the existing visitor patterns for this.  They handle more types than you\u0027ve handled here, and do it with less code.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c5ba93_47635ac9",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Considering almost all other sensors have the need to get numbers and strings out of config space, I\u0027d like to see these utility functions moved into another commit, and the rest of the sensors be brought up to this new state of the art, before these utility functions are used in a new sensor.  Which order you want to do it (external sensor, then utility, or utility then external sensor) is up to you, but adding utility functions that are only used on one sensor increases the binary size, and leaves the sensors less consistent than they were before.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 1
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaf7587e_fdb93b2b",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Nit;  Use a const\u0026 here.  I don\u0027t see any uses of these as a pointers.",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 64
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ec570a_9cab7271",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "For a sensor with only one type, this isn\u0027t neccesary.  You will only ever get events of the correct type.  Just inline sensorType.",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 17
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a3c4b71_80be40be",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "This is different than what I had thought.  I would like to see these values required, as it reduces the possibility someone might mess up a configuration file in a subtle way by simply omitting them.",
+      "range": {
+        "startLine": 175,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 59
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "111e5e26_02c9b544",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Not your fault, as this looks copied from another sensor, but this needs a better check than just endswith.  Otherwise the sensors \"bar\" and \"foobar\" will both match the same expression.\n\nLikely needs fixed other places too if you\u0027re up for it.",
+      "range": {
+        "startLine": 216,
+        "startChar": 35,
+        "endLine": 216,
+        "endChar": 44
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b47070_78ce03ff",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Not your fault, and it\u0027s ok if you want to leave it, but in new (C++14) code, these three operations can be done in a single operation with something like:\n\n\nsensors.emplace(\n\tstd::piecewise_construct, std::make_tuple(sensorName),\n\tstd::forward_as_tuple(\n\tsensorType, objectServer, dbusConnection, sensorName, sensorMeasure,\n\tstd::move(sensorThresholds), *intefacePath,\n\tminValue, maxValue, readState));",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 51
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23d58e30_b59940ff",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "Please avoid wildcard captures.  They make it much harder to review lifetimes of objects, even though in this case, in main, it\u0027s very unlikely to be incorrect.  I think you just need \u0026filterTimer, \u0026sensorsChanged",
+      "range": {
+        "startLine": 278,
+        "startChar": 9,
+        "endLine": 278,
+        "endChar": 10
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be098c25_e073b579",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 1,
+      "message": "For some reason I thought this was 5 seconds in other places, but I guess we\u0027re just inconsistent.  NBD",
+      "range": {
+        "startLine": 286,
+        "startChar": 68,
+        "endLine": 286,
+        "endChar": 69
+      },
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true

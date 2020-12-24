@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f64edbd8_5114b2b7",
+        "filename": "CMakeLists.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:17:12Z",
+      "side": 0,
+      "message": "FYI, dbus-sensors is moving to meson, and is likely to land before this.  Luckily, the effort to move over is significantly less onerous than the cmake variant.\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/27100",
+      "revId": "6736d4b2a77cec00a8919f26035176c8b8025a4d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
