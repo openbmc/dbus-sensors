@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a160a79b_99611b2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000100
+      },
+      "writtenOn": "2020-12-24T16:36:17Z",
+      "side": 1,
+      "message": "If you want to save space on this line, you can just use:\nhttps://gerrit.openbmc-project.xyz/35476",
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f9def8c_42f948d8",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000100
+      },
+      "writtenOn": "2020-12-24T16:36:17Z",
+      "side": 1,
+      "message": "This and below should be in an anonymous namespace instead of static - but I think perhaps Intel prefers static?  I don\u0027t know.  But, either way, if you put these two methods into a small utility file and expose them, yeah the text contents might be larger because it can\u0027t optimize them out, but, you can add a test to make sure they behave how you expect in all cases.",
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
