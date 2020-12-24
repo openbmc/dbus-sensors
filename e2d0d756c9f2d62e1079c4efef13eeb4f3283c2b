@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "24949ee0_d305bb83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:20:49Z",
+      "side": 1,
+      "message": "Do you have the entity-manager schema changes ready yet?  When they\u0027re ready please link the two commits together with the same topic.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 2
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52c4bc5_9fc5e46e",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-24T18:20:49Z",
+      "side": 1,
+      "message": "Still needs validation that these are valid names and types.\n\nsd-bus these days has helper functions for this, although most other things tend to do isalpha | isdigit checks.\n\nsensorMeasure should be tested against the known list of possible sensor types.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "183339d9_c7bd3ee2",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
