@@ -20,6 +20,7 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/asio/static_thread_pool.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -247,7 +248,7 @@ static void createSensorsCallback(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const ManagedObjectType& sensorConfigs,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged, boost::asio::static_thread_pool& readThread)
 {
     auto allowedSensors = getAllowedSensors();
     int numCreated = 0;
@@ -829,7 +830,8 @@ static void createSensorsCallback(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorType->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                psuProperty->minReading, labelHead, thresholdConfSize,
+                readThread);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (DEBUG)
@@ -843,7 +845,7 @@ static void createSensorsCallback(
         combineEvents[*psuName + "OperationalStatus"] =
             std::make_unique<PSUCombineEvent>(
                 objectServer, dbusConnection, io, *psuName, eventPathList,
-                groupEventPathList, "OperationalStatus");
+                groupEventPathList, "OperationalStatus", readThread);
     }
 
     if constexpr (DEBUG)
@@ -857,13 +859,13 @@ void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged, boost::asio::static_thread_pool& readThread)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged](
+        dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged, &readThread](
                             const ManagedObjectType& sensorConfigs) {
             createSensorsCallback(io, objectServer, dbusConnection,
-                                  sensorConfigs, sensorsChanged);
+                                  sensorConfigs, sensorsChanged, readThread);
         });
     getter->getConfiguration(
         std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
@@ -963,6 +965,7 @@ void propertyInitialize(void)
 int main()
 {
     boost::asio::io_service io;
+    boost::asio::static_thread_pool readThread(1);
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
 
     systemBus->request_name("xyz.openbmc_project.PSUSensor");
@@ -973,7 +976,7 @@ int main()
 
     propertyInitialize();
 
-    io.post([&]() { createSensors(io, objectServer, systemBus, nullptr); });
+    io.post([&]() { createSensors(io, objectServer, systemBus, nullptr, readThread); });
     boost::asio::deadline_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
@@ -993,7 +996,7 @@ int main()
                 {
                     std::cerr << "timer error\n";
                 }
-                createSensors(io, objectServer, systemBus, sensorsChanged);
+                createSensors(io, objectServer, systemBus, sensorsChanged, readThread);
             });
         };
 

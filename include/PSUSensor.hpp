@@ -4,6 +4,7 @@
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
+#include <boost/asio/static_thread_pool.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -20,7 +21,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
-              double min, const std::string& label, size_t tSize);
+              double min, const std::string& label, size_t tSize,
+              boost::asio::static_thread_pool& readThread);
     ~PSUSensor();
     void setupRead(void);
 
@@ -35,11 +37,13 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     size_t errCount;
     unsigned int sensorFactor;
     uint8_t minMaxReadCounter;
+    int fd;
+    boost::asio::static_thread_pool& readThread;
+
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
 
-    int fd;
     static constexpr unsigned int sensorPollMs = PSU_SENSOR_VALUE_INTERVAL;
     static constexpr size_t warnAfterErrorCount = 10;
 };
