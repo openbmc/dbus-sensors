@@ -8,6 +8,7 @@ if get_option('adc').enabled()
         'adcsensor',
         'ADCSensor.cpp',
         'ADCSensorMain.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             gpiodcxx,
             sdbusplus,
@@ -27,6 +28,7 @@ if get_option('cpu').enabled()
         'cpusensor',
         'CPUSensorMain.cpp',
         'CPUSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             gpiodcxx,
             sdbusplus,
@@ -47,6 +49,7 @@ if get_option('exit-air').enabled()
     executable(
         'exitairtempsensor',
         'ExitAirTempSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             sdbusplus,
         ],
@@ -66,6 +69,7 @@ if get_option('fan').enabled()
         'FanMain.cpp',
         'TachSensor.cpp',
         'PwmSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             sdbusplus,
             gpiodcxx
@@ -85,6 +89,7 @@ if get_option('hwmon-temp').enabled()
         'hwmontempsensor',
         'HwmonTempMain.cpp',
         'HwmonTempSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             sdbusplus,
         ],
@@ -103,6 +108,7 @@ if get_option('intrusion').enabled()
         'intrusionsensor',
         'ChassisIntrusionSensor.cpp',
         'IntrusionSensorMain.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             i2c,
             sdbusplus,
@@ -121,6 +127,7 @@ if get_option('ipmb').enabled()
     executable(
         'ipmbsensor',
         'IpmbSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             sdbusplus,
         ],
@@ -138,6 +145,7 @@ if get_option('mcu-temp').enabled()
     executable(
         'mcutempsensor',
         'MCUTempSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             i2c,
             sdbusplus,
@@ -157,6 +165,7 @@ if get_option('nvme').enabled()
         'nvmesensor',
         'NVMeSensorMain.cpp',
         'NVMeSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             i2c,
             sdbusplus,
@@ -180,6 +189,7 @@ if get_option('psu').enabled()
         'PSUSensorMain.cpp',
         dependencies: [
             sdbusplus,
+            threads,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
@@ -197,6 +207,7 @@ if get_option('external').enabled()
         'externalsensor',
         'ExternalSensor.cpp',
         'ExternalSensorMain.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             sdbusplus,
         ],
