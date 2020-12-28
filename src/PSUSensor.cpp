@@ -44,13 +44,14 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
                      double max, double min, const std::string& label,
-                     size_t tSize, double pollRate) :
+                     size_t tSize, double pollRate,
+                     boost::asio::static_thread_pool& readThread) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(_thresholds), sensorConfiguration, objectType, max, min,
            conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0)
+    sensorFactor(factor), minMaxReadCounter(0), readThread(readThread)
 {
     if constexpr (DEBUG)
     {
@@ -135,17 +136,26 @@ void PSUSensor::setupRead(void)
     std::shared_ptr<boost::asio::streambuf> buffer =
         std::make_shared<boost::asio::streambuf>();
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    boost::asio::async_read_until(
-        inputDev, *buffer, '\n',
-        [weakRef, buffer](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<PSUSensor> self = weakRef.lock();
-            if (self)
-            {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
-            }
-        });
+
+    auto responseHandler = [weakRef,
+                            buffer](const boost::system::error_code& ec,
+                                    std::size_t /*bytes_transfered*/) {
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
+        if (self)
+        {
+            self->readBuf = buffer;
+            self->handleResponse(ec);
+        }
+    };
+    auto handler = [weakRef, buffer, responseHandler]() {
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
+        if (self)
+        {
+            boost::asio::async_read_until(self->inputDev, *buffer, '\n',
+                                          responseHandler);
+        }
+    };
+    boost::asio::post(readThread, handler);
 }
 
 void PSUSensor::updateMinMaxValues(void)

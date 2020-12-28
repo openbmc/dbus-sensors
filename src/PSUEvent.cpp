@@ -42,8 +42,10 @@ PSUCombineEvent::PSUCombineEvent(
         std::string,
         boost::container::flat_map<std::string, std::vector<std::string>>>&
         groupEventPathList,
-    const std::string& combineEventName, double pollRate) :
-    objServer(objectServer)
+    const std::string& combineEventName, double pollRate,
+    boost::asio::static_thread_pool& readThread) :
+    objServer(objectServer),
+    readThread(readThread)
 {
     eventInterface = objServer.add_interface(
         "/xyz/openbmc_project/State/Decorator/" + psuName + "_" +
@@ -70,7 +72,7 @@ PSUCombineEvent::PSUCombineEvent(
         {
             auto p = std::make_shared<PSUSubEvent>(
                 eventInterface, path, conn, io, eventName, eventName, assert,
-                combineEvent, state, psuName, pollRate);
+                combineEvent, state, psuName, pollRate, readThread);
             p->setupRead();
 
             events[eventPSUName].emplace_back(p);
@@ -94,7 +96,7 @@ PSUCombineEvent::PSUCombineEvent(
                 auto p = std::make_shared<PSUSubEvent>(
                     eventInterface, path, conn, io, groupEventName,
                     groupPathList.first, assert, combineEvent, state, psuName,
-                    pollRate);
+                    pollRate, readThread);
                 p->setupRead();
                 events[eventPSUName].emplace_back(p);
 
@@ -144,12 +146,13 @@ PSUSubEvent::PSUSubEvent(
     const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
-    std::shared_ptr<bool> state, const std::string& psuName, double pollRate) :
+    std::shared_ptr<bool> state, const std::string& psuName, double pollRate,
+    boost::asio::static_thread_pool& readThread) :
     std::enable_shared_from_this<PSUSubEvent>(),
     eventInterface(eventInterface), asserts(asserts),
     combineEvent(combineEvent), assertState(state), errCount(0), path(path),
     eventName(eventName), waitTimer(io), inputDev(io), psuName(psuName),
-    groupEventName(groupEventName), systemBus(conn)
+    groupEventName(groupEventName), systemBus(conn), readThread(readThread)
 {
     eventPollMs = pollRate <= 0.0 ? defaultEventPollMs : pollRate * 1000;
     fd = open(path.c_str(), O_RDONLY);
@@ -190,17 +193,25 @@ void PSUSubEvent::setupRead(void)
         std::make_shared<boost::asio::streambuf>();
     std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
 
-    boost::asio::async_read_until(
-        inputDev, *buffer, '\n',
-        [weakRef, buffer](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<PSUSubEvent> self = weakRef.lock();
-            if (self)
-            {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
-            }
-        });
+    auto responseHandler = [weakRef,
+                            buffer](const boost::system::error_code& ec,
+                                    std::size_t /*bytes_transfered*/) {
+        auto self = weakRef.lock();
+        if (self)
+        {
+            self->readBuf = buffer;
+            self->handleResponse(ec);
+        }
+    };
+    auto handler = [weakRef, buffer, responseHandler]() {
+        auto self = weakRef.lock();
+        if (self)
+        {
+            boost::asio::async_read_until(self->inputDev, *buffer, '\n',
+                                          responseHandler);
+        }
+    };
+    boost::asio::post(readThread, handler);
 }
 
 PSUSubEvent::~PSUSubEvent()
