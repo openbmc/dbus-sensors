@@ -16,10 +16,11 @@ add_project_arguments(
     '-DBOOST_NO_RTTI',
     '-DBOOST_NO_TYPEID',
     '-DBOOST_ALL_NO_LIB',
-    '-DBOOST_ASIO_DISABLE_THREADS',
     '-DBOOST_ALLOW_DEPRECATED_HEADERS',
     language: 'cpp',
 )
+
+thread_disable_args = ['-DBOOST_ASIO_DISABLE_THREADS']
 
 build_tests = get_option('tests')
 cppfs = meson.get_compiler('cpp').find_library('stdc++fs')
@@ -36,6 +37,7 @@ threads = dependency('threads')
 thresholds_a = static_library(
     'thresholds_a',
     'src/Thresholds.cpp',
+    cpp_args : thread_disable_args,
     implicit_include_directories: false,
     include_directories: 'include',
 )
@@ -43,6 +45,7 @@ thresholds_a = static_library(
 utils_a = static_library(
     'utils_a',
     'src/Utils.cpp',
+    cpp_args : thread_disable_args,
     dependencies: [
         cppfs,
     ],
@@ -53,6 +56,7 @@ utils_a = static_library(
 pwmsensor_a = static_library(
     'pwmsensor_a',
     'src/PwmSensor.cpp',
+    cpp_args : thread_disable_args,
     implicit_include_directories: false,
     include_directories: 'include',
 )

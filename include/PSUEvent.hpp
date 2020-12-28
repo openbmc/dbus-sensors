@@ -18,6 +18,7 @@
 
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
+#include <boost/asio/static_thread_pool.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -38,7 +39,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
                 std::shared_ptr<std::set<std::string>> asserts,
                 std::shared_ptr<std::set<std::string>> combineEvent,
                 std::shared_ptr<bool> state, const std::string& psuName,
-                double PollRate);
+                double PollRate, boost::asio::static_thread_pool& readThread);
     ~PSUSubEvent();
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface;
@@ -68,6 +69,8 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     std::string deassertMessage;
     std::shared_ptr<sdbusplus::asio::connection> systemBus;
     unsigned int eventPollMs;
+    boost::asio::static_thread_pool& readThread;
+
     static constexpr unsigned int defaultEventPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
 };
@@ -85,7 +88,8 @@ class PSUCombineEvent
             std::string,
             boost::container::flat_map<std::string, std::vector<std::string>>>&
             groupEventPathList,
-        const std::string& combineEventName, double pollRate);
+        const std::string& combineEventName, double pollRate,
+        boost::asio::static_thread_pool& readThread);
     ~PSUCombineEvent();
 
     sdbusplus::asio::object_server& objServer;
@@ -95,4 +99,5 @@ class PSUCombineEvent
         events;
     std::vector<std::shared_ptr<std::set<std::string>>> asserts;
     std::vector<std::shared_ptr<bool>> states;
+    boost::asio::static_thread_pool& readThread;
 };

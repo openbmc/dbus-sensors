@@ -7,6 +7,7 @@ test(
     executable(
         'test_hwmon_temp_sensor',
         'test_HwmonTempSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             gtest,
             boost_dbus,
@@ -21,6 +22,7 @@ test(
     executable(
         'test_tach_sensor',
         'test_TachSensor.cpp',
+        cpp_args : thread_disable_args,
         dependencies: [
             gtest,
             boost_dbus,

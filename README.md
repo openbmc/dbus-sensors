@@ -14,6 +14,7 @@ detection (x86) are also supported.
   sensor is unlikely to affect another, and single sensor modifications are
   possible
 
-- async single-threaded: uses sdbusplus/asio bindings
+- async single-threaded: uses sdbusplus/asio bindings. For psusensor, it uses
+  thread to run the sensor reading so that it does not block the event loop.
 
 - multiple data inputs: hwmon, d-bus, direct driver access
