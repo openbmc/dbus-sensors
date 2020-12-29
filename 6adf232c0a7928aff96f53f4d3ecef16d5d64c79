@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4996484_b7dbbe3e",
+        "filename": "CMakeLists.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-29T09:17:23Z",
+      "side": 1,
+      "message": "Please add this to the entity-manager configuration, not a compile time config.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 0
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
