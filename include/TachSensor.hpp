@@ -4,6 +4,7 @@
 
 #include <systemd/sd-journal.h>
 
+#include <boost/asio/steady_timer.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -15,6 +16,11 @@
 #include <string>
 #include <utility>
 #include <vector>
+
+namespace presence
+{
+static constexpr unsigned int gpioScanMs = 2000;
+}
 
 class PresenceSensor
 {
@@ -29,10 +35,13 @@ class PresenceSensor
 
   private:
     bool status = true;
+    bool isGPIOInterruptible = true;
+    boost::asio::steady_timer timer;
     bool inverted;
     gpiod::line gpioLine;
     boost::asio::posix::stream_descriptor gpioFd;
     std::string name;
+    void checkGPIOInterruptible(void);
 };
 
 namespace redundancy
