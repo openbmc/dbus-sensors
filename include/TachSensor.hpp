@@ -9,12 +9,17 @@
 #include <boost/container/flat_set.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <boost/asio/steady_timer.hpp>
 
 #include <memory>
 #include <optional>
 #include <string>
 #include <utility>
 #include <vector>
+namespace presence
+{
+static constexpr unsigned int gpioScanMs = FAN_PRESENT_INTERVAL;
+}
 
 class PresenceSensor
 {
@@ -29,10 +34,13 @@ class PresenceSensor
 
   private:
     bool status = true;
+    bool isGPIOInterruptible = true;
+    boost::asio::steady_timer timer;
     bool inverted;
     gpiod::line gpioLine;
     boost::asio::posix::stream_descriptor gpioFd;
     std::string name;
+    void checkGPIOInterruptible(void);
 };
 
 namespace redundancy

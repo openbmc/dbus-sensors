@@ -171,6 +171,12 @@ add_executable (fansensor src/FanMain.cpp ${FAN_SRC_FILES})
 add_dependencies (fansensor sdbusplus-project)
 target_link_libraries (fansensor ${SENSOR_LINK_LIBS})
 target_link_libraries (fansensor gpiodcxx)
+set (FAN_PRESENT_INTERVAL 5000 CACHE INTERNAL
+   "The interval between FAN present gpio read")
+target_compile_definitions (
+    fansensor PRIVATE
+    FAN_PRESENT_INTERVAL=${FAN_PRESENT_INTERVAL})
+
 
 add_executable (hwmontempsensor src/HwmonTempMain.cpp ${HWMON_TEMP_SRC_FILES})
 add_dependencies (hwmontempsensor sdbusplus-project)
