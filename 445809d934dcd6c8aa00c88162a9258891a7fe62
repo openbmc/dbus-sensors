@@ -46,6 +46,30 @@
       "revId": "445809d934dcd6c8aa00c88162a9258891a7fe62",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de992de2_648cad4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-29T06:49:39Z",
+      "side": 1,
+      "message": "\u003e Possibly we could check std::filesystem::file_status() and get the permissions to tell if it\u0027s writable.\n\nIf that returns the correct data, that would work for me.\n\n\u003e \n\u003e We did consider revoming the pwm sensor, but this patch is more simple, so here is the quick fix.\n\nI\u0027m assuming you meant \"removing\"?  Considering it\u0027s needed for phosphor-pid-control to operate, removing it would be an issue.",
+      "parentUuid": "9c3d9695_ac56ff82",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "445809d934dcd6c8aa00c88162a9258891a7fe62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
