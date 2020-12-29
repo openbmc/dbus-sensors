@@ -70,6 +70,30 @@
       "revId": "445809d934dcd6c8aa00c88162a9258891a7fe62",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4542170e_5b0defa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2020-12-29T07:22:08Z",
+      "side": 1,
+      "message": "\u003e If that returns the correct data, that would work for me.\n\nWill make this change.\n\n\u003e I\u0027m assuming you meant \"removing\"?  Considering it\u0027s needed for phosphor-pid-control to operate, removing it would be an issue.\n\nYup. In our system, it\u0027s not really needed because the PSU fans are controlled by the PSU itself instead of the BMC.\nWe probably do need to remove the pwm sensor in such case.",
+      "parentUuid": "de992de2_648cad4b",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "445809d934dcd6c8aa00c88162a9258891a7fe62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
