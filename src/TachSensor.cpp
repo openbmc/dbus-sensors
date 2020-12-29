@@ -205,7 +205,7 @@ PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
                                boost::asio::io_service& io,
                                const std::string& name) :
     inverted(inverted),
-    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name)
+    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name), timer(io)
 {
     if (!gpioLine)
     {
@@ -213,21 +213,29 @@ PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
         status = false;
         return;
     }
-
+    initGPIOInterruptibleFlag();
     try
     {
-        gpioLine.request({"FanSensor", gpiod::line_request::EVENT_BOTH_EDGES,
-                          inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
-        status = gpioLine.get_value();
-
-        int gpioLineFd = gpioLine.event_get_fd();
-        if (gpioLineFd < 0)
+        if (isGPIOInterruptible)
         {
-            std::cerr << "Failed to get " << gpioName << " fd\n";
-            return;
+            gpioLine.request(
+                {"FanSensor", gpiod::line_request::EVENT_BOTH_EDGES,
+                 inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+            int gpioLineFd = gpioLine.event_get_fd();
+            if (gpioLineFd < 0)
+            {
+                std::cerr << "Failed to get " << gpioName << " fd\n";
+                return;
+            }
+            gpioFd.assign(gpioLineFd);
         }
-
-        gpioFd.assign(gpioLineFd);
+        else
+        {
+            gpioLine.request(
+                {"FanSensor", gpiod::line_request::DIRECTION_INPUT,
+                 inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+        }
+        status = gpioLine.get_value();
     }
     catch (std::system_error&)
     {
@@ -241,37 +249,79 @@ PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
 
 PresenceSensor::~PresenceSensor()
 {
-    gpioFd.close();
+    if (isGPIOInterruptible)
+    {
+        gpioFd.close();
+    }
+    else
+    {
+        timer.cancel();
+    }
+
     gpioLine.release();
+}
+
+void PresenceSensor::initGPIOInterruptibleFlag(void)
+{
+    auto gpiochip = gpioLine.get_chip().name();
+    if (gpiochip == "gpiochip0")
+    {
+        isGPIOInterruptible = true;
+    }
+    else
+    {
+        isGPIOInterruptible = false;
+    }
 }
 
 void PresenceSensor::monitorPresence(void)
 {
-    gpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
-                      [this](const boost::system::error_code& ec) {
-                          if (ec == boost::system::errc::bad_file_descriptor)
-                          {
-                              return; // we're being destroyed
-                          }
-                          if (ec)
-                          {
-                              std::cerr << "Error on presence sensor " << name
-                                        << " \n";
-                              ;
-                          }
-                          else
-                          {
-                              read();
-                          }
-                          monitorPresence();
-                      });
+    auto handler = [this](const boost::system::error_code& ec) {
+        if (ec == boost::system::errc::bad_file_descriptor ||
+            ec == boost::asio::error::operation_aborted)
+        {
+            return; // we're being destroyed or the timer is cancelled
+        }
+        if (ec)
+        {
+            std::cerr << "Error on presence sensor " << name << " \n";
+        }
+        else
+        {
+            read();
+        }
+        monitorPresence();
+    };
+    if (isGPIOInterruptible)
+    {
+        gpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
+                          std::move(handler));
+    }
+    else
+    {
+        timer.expires_after(std::chrono::milliseconds(presence::gpioScanMs));
+        timer.async_wait(std::move(handler));
+    }
 }
 
 void PresenceSensor::read(void)
 {
-    gpioLine.event_read();
-    status = gpioLine.get_value();
-    // Read is invoked when an edge event is detected by monitorPresence
+    if (isGPIOInterruptible)
+    {
+        // Read is invoked when an edge event is detected by monitorPresence
+        gpioLine.event_read();
+        status = gpioLine.get_value();
+    }
+    else
+    {
+        auto previousStatus = status;
+        status = gpioLine.get_value();
+        if (previousStatus == status)
+        {
+            // When polling, do not log if status is not changed
+            return;
+        }
+    }
     if (status)
     {
         logFanInserted(name);
