@@ -22,6 +22,30 @@
       "revId": "53b90786bac4f9c069699566474d6219646759c2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c46518_51c02b17",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-30T05:41:04Z",
+      "side": 1,
+      "message": "This looks better than reading from filesystem, thanks.\nI had added the MAX31790 in sensorTypes array.",
+      "parentUuid": "4e9d4282_ebc116b7",
+      "range": {
+        "startLine": 392,
+        "startChar": 0,
+        "endLine": 395,
+        "endChar": 62
+      },
+      "revId": "53b90786bac4f9c069699566474d6219646759c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
