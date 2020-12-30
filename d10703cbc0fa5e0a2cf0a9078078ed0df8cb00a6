@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b574fc00_e7c7ab7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2020-12-30T09:36:10Z",
+      "side": 1,
+      "message": "nit: verify typo",
+      "revId": "d10703cbc0fa5e0a2cf0a9078078ed0df8cb00a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e30767a6_4a1621a1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2020-12-30T09:36:10Z",
+      "side": 1,
+      "message": "Why 0.5?",
+      "revId": "d10703cbc0fa5e0a2cf0a9078078ed0df8cb00a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
