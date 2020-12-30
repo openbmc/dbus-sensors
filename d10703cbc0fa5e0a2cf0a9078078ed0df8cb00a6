@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "33d994be_c52298dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-30T10:43:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b574fc00_e7c7ab7b",
+      "revId": "d10703cbc0fa5e0a2cf0a9078078ed0df8cb00a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e30767a6_4a1621a1",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2020-12-30T09:36:10Z",
       "side": 1,
       "message": "Why 0.5?",
+      "revId": "d10703cbc0fa5e0a2cf0a9078078ed0df8cb00a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f23f77d_896423d5",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2020-12-30T10:43:39Z",
+      "side": 1,
+      "message": "Because original HwmonTempSensor hard code the sensor polling time as 0.5, I set this number to be the default value.",
+      "parentUuid": "e30767a6_4a1621a1",
       "revId": "d10703cbc0fa5e0a2cf0a9078078ed0df8cb00a6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
