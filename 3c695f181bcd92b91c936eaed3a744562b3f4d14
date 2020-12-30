@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8045713b_ca6f4d3f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2020-12-30T18:24:09Z",
+      "side": 1,
+      "message": "Does the pwm enable file return 1 for the systems that don\u0027t require enabling?  Maybe we could do read-modify-write\n\nif (pwm enable file exists)\n    read pwm file\n    if (pwm is not enabled)\n        write enable\n\n\nI\u0027m trying to avoid having yet another fixed set of special cased types here.",
+      "range": {
+        "startLine": 392,
+        "startChar": 0,
+        "endLine": 392,
+        "endChar": 79
+      },
+      "revId": "3c695f181bcd92b91c936eaed3a744562b3f4d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
