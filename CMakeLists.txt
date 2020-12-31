@@ -35,6 +35,7 @@ set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 option (YOCTO "Enable Building in Yocto" OFF)
 option (HUNTER_ENABLED "Enable hunter package pulling" OFF)
+option (MCTP_SMBUS_ENABLED "Enable libmctp-smbus link" OFF)
 
 option (DISABLE_ADC "Disable installing ADC sensor" OFF)
 option (DISABLE_CPU "Disable installing CPU sensor" OFF)
@@ -45,7 +46,7 @@ option (DISABLE_INTRUSION "Disable installing intrusion sensor" OFF)
 option (DISABLE_IPMB "Disable installing IPMB sensor" OFF)
 option (DISABLE_MCUTEMP "Disable installing MCU temperature sensor" OFF)
 option (DISABLE_PSU "Disable installing PSU sensor" OFF)
-option (DISABLE_NVME "Disable installing NVME sensor" ON)
+option (DISABLE_NVME "Disable installing NVME sensor" OFF)
 
 include ("cmake/HunterGate.cmake")
 
@@ -75,14 +76,24 @@ set (MCUTEMP_SRC_FILES src/Utils.cpp src/Thresholds.cpp)
 set (PSU_SRC_FILES src/Utils.cpp src/PSUSensor.cpp src/Thresholds.cpp
      src/PwmSensor.cpp src/PSUEvent.cpp)
 
-set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
+if (NOT MCTP_SMBUS_ENABLED)
+    set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeSensor.cpp src/Thresholds.cpp)
+endif()
+if (MCTP_SMBUS_ENABLED)
+    set (NVME_SRC_FILES src/Utils.cpp src/NVMeSensorMain.cpp src/NVMeMCTPSensor.cpp src/Thresholds.cpp)
+endif()
 
 set (EXTERNAL_PACKAGES Boost sdbusplus-project nlohmann-json)
 set (SENSOR_LINK_LIBS -lsystemd stdc++fs sdbusplus)
 
 if (NOT YOCTO)
-    set (DISABLE_NVME ON) # todo allow this to build out of tree
+    set (DISABLE_NVME OFF) # todo allow this to build out of tree
     option (ENABLE_TEST "Enable Google Test" OFF)
+
+if (ENABLE_TEST)
+include ("cmake/CodeCoverage.cmake")
+set(COVERAGE_EXCLUDES 'tests/*')
+endif ()
 
     externalproject_add (
         Boost URL
@@ -116,6 +127,7 @@ if (NOT YOCTO)
                          CONFIGURE_COMMAND "" BUILD_COMMAND "" INSTALL_COMMAND
                          "" LOG_DOWNLOAD ON)
     include_directories (SYSTEM ${CMAKE_BINARY_DIR}/nlohmann-json-src/include)
+
 
     if (ENABLE_TEST)
         option (HUNTER_ENABLED "Enable hunter package pulling" ON)
@@ -199,7 +211,7 @@ target_link_libraries (psusensor ${SENSOR_LINK_LIBS})
 if (NOT DISABLE_NVME)
     add_executable (nvmesensor ${NVME_SRC_FILES})
     add_dependencies (nvmesensor sdbusplus-project)
-    target_link_libraries (nvmesensor liblibmctp.a i2c ${SENSOR_LINK_LIBS})
+    target_link_libraries (nvmesensor liblibmctp i2c ${SENSOR_LINK_LIBS})
 endif()
 
 if (NOT YOCTO)
@@ -212,6 +224,7 @@ if (NOT YOCTO)
     add_dependencies (ipmbsensor ${EXTERNAL_PACKAGES})
     add_dependencies (mcutempsensor ${EXTERNAL_PACKAGES})
     add_dependencies (psusensor ${EXTERNAL_PACKAGES})
+    add_dependencies (nvmesensor ${EXTERNAL_PACKAGES})
 endif ()
 
 set (SERVICE_FILE_SRC_DIR ${PROJECT_SOURCE_DIR}/service_files)
