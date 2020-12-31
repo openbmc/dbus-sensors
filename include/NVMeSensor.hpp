@@ -1,8 +1,6 @@
 #pragma once
 
-#include <libmctp-smbus.h>
-#include <libmctp.h>
-
+#include <NVMeDevice.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/ip/tcp.hpp>
@@ -35,21 +33,32 @@ struct NVMeContext : std::enable_shared_from_this<NVMeContext>
 
     virtual ~NVMeContext();
 
-    void pollNVMeDevices();
-    void close();
+    virtual void pollNVMeDevices();
+    virtual void close();
+
+    int rootBus; // Root bus for this drive
 
     boost::asio::deadline_timer scanTimer;
-    int rootBus; // Root bus for this drive
+
     boost::asio::deadline_timer mctpResponseTimer;
     boost::asio::ip::tcp::socket nvmeSlaveSocket;
+
     std::list<std::shared_ptr<NVMeSensor>> sensors; // used as a poll queue
+};
+struct NVMeSMBusContext : NVMeContext
+{
+    int busfd;
+
+    // link NVMeContext
+
+    virtual ~NVMeSMBusContext();
 };
 
 using NVMEMap = boost::container::flat_map<int, std::shared_ptr<NVMeContext>>;
 
 int verifyIntegrity(uint8_t* msg, size_t len);
 
-namespace nvmeMCTP
+namespace nvmeSMBus
 {
 void init(void);
 }

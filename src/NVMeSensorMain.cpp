@@ -14,7 +14,9 @@
 // limitations under the License.
 */
 
+#include "NVMeMCTPSensor.hpp"
 #include "NVMeSensor.hpp"
+#include "smbus.hpp"
 
 #include <boost/asio/deadline_timer.hpp>
 
