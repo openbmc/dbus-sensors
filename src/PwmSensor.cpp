@@ -24,10 +24,10 @@
 #include <stdexcept>
 #include <string>
 
-static constexpr size_t sysPwmMax = 255;
-static constexpr size_t psuPwmMax = 100;
+static constexpr double sysPwmMax = 255.0;
+static constexpr double psuPwmMax = 100.0;
 static constexpr double defaultPwm = 30.0;
-static constexpr size_t targetIfaceMax = 255;
+static constexpr double targetIfaceMax = sysPwmMax;
 
 PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -55,24 +55,41 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     if (!pwmValue)
     {
         // default pwm to non 0
-        pwmValue = static_cast<uint32_t>(pwmMax * (defaultPwm / 100));
+        pwmValue = static_cast<uint32_t>(pwmMax * (defaultPwm / 100.0));
         setValue(pwmValue);
     }
     double fValue = 100.0 * (static_cast<double>(pwmValue) / pwmMax);
+    std::cerr << "### name=" << name << " sysPath=" << sysPath
+              << " fValue=" << fValue << "\n";
     sensorInterface->register_property(
         "Value", fValue,
         [this](const double& req, double& resp) {
-            if (req > 100 || req < 0)
+            std::cerr << "### PWM double setter: name=" << this->name
+                      << " req=" << req << " resp=" << resp << "\n";
+            if (!std::isfinite(req))
+            {
+                // Silently ignore NaN and other weird floating-point
+                return 1;
+            }
+            if (req > 100.0 || req < 0.0)
             {
                 throw std::runtime_error("Value out of range");
                 return -1;
             }
-            if (req == resp)
+
+            double reqValue = (req / 100.0) * pwmMax;
+            double respValue = (resp / 100.0) * pwmMax;
+            auto reqInt = static_cast<uint32_t>(std::round(reqValue));
+            auto respInt = static_cast<uint32_t>(std::round(respValue));
+            std::cerr << "### reqValue=" << reqValue
+                      << " respValue=" << respValue << " reqInt=" << reqInt
+                      << " respInt=" << respInt << "\n";
+            // Avoid floating-point equality, compare as integers
+            if (reqInt == respInt)
             {
                 return 1;
             }
-            double value = (req / 100) * pwmMax;
-            setValue(static_cast<int>(value));
+            setValue(reqInt);
             resp = req;
 
             controlInterface->signal_property("Target");
@@ -80,14 +97,27 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             return 1;
         },
         [this](double& curVal) {
-            double value = 100.0 * (static_cast<double>(getValue()) / pwmMax);
-            if (curVal != value)
+            std::cerr << "### PWM double getter: name=" << this->name
+                      << " curVal=" << curVal << "\n";
+            double currFloat = (curVal / 100.0) * pwmMax;
+            auto currInt = static_cast<uint32_t>(std::round(currFloat));
+            auto getInt = getValue();
+            double getFloat = 100.0 * (static_cast<double>(getInt) / pwmMax);
+            std::cerr << "### PWM getter currFloat=" << currFloat
+                      << " currInt=" << currInt << " getFloat=" << getFloat
+                      << " getInt=" << getInt << "\n";
+            // Avoid floating-point equality, compare as integers
+            if (currInt != getInt)
             {
-                curVal = value;
+                std::cerr << "### PWM getter encountered difference, currInt="
+                          << currInt << " getInt=" << getInt
+                          << " curVal(old)=" << curVal
+                          << " getFloat=" << getFloat << "\n";
+                curVal = getFloat;
                 controlInterface->signal_property("Target");
                 sensorInterface->signal_property("Value");
             }
-
+            std::cerr << "### PWM double getter returning=" << curVal << "\n";
             return curVal;
         });
     // pwm sensor interface is in percent
@@ -100,7 +130,9 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     controlInterface->register_property(
         "Target", static_cast<uint64_t>(pwmValue),
         [this](const uint64_t& req, uint64_t& resp) {
-            if (req > targetIfaceMax)
+            std::cerr << "### PWM int setter: name=" << this->name
+                      << " req=" << req << " resp=" << resp << "\n";
+            if (req > static_cast<uint64_t>(targetIfaceMax))
             {
                 throw std::runtime_error("Value out of range");
                 return -1;
@@ -109,8 +141,8 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             {
                 return 1;
             }
-            setValue(
-                std::round(pwmMax * static_cast<double>(req) / targetIfaceMax));
+            setValue(static_cast<uint32_t>(std::round(
+                pwmMax * static_cast<double>(req) / targetIfaceMax)));
             resp = req;
 
             sensorInterface->signal_property("Value");
@@ -118,16 +150,21 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             return 1;
         },
         [this](uint64_t& curVal) {
-            uint64_t value = getValue();
-            value = static_cast<uint64_t>(std::round(
-                (static_cast<double>(value) / pwmMax) * targetIfaceMax));
+            auto getInt = getValue();
+            auto value = static_cast<uint64_t>(std::round(
+                (static_cast<double>(getInt) / pwmMax) * targetIfaceMax));
+            std::cerr << "### PWM int getter: name=" << this->name
+                      << " curVal=" << curVal << " getInt=" << getInt
+                      << " value=" << value << "\n";
             if (curVal != value)
             {
+                std::cerr << "### PWM getter encountered difference, curVal="
+                          << curVal << " value=" << value << "\n";
                 curVal = value;
                 controlInterface->signal_property("Target");
                 sensorInterface->signal_property("Value");
             }
-
+            std::cerr << "### PWM int getter returning=" << curVal << "\n";
             return curVal;
         });
     sensorInterface->initialize();
