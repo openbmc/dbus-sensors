@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4cbc4fb3_6b982abd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T18:30:32Z",
+      "side": 1,
+      "message": "Nice, thanks. 72 characters for every line? I thought the first line was a special case and should be slightly less long? Upon further search, I found this: https://stackoverflow.com/questions/2290016/git-commit-messages-50-72-formatting\nRegardless, these arbitrary line length limitations bring back memories of old BBS description files....",
+      "parentUuid": "e3113ba8_ef03e87e",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c29e3fb_c83e3846",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "2b08a898_0ef03e86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T18:30:32Z",
+      "side": 1,
+      "message": "Thanks for the background. As for building the IPMI SDR with arbitrary sub-integer ranges, happily, I made this: https://github.com/openbmc/intel-ipmi-oem/commit/17e21c20148c8c250b902e4807f3b9a7a81af0b3",
+      "parentUuid": "381b4d93_29a9d585",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db98b46b_00230d4e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -191,6 +239,24 @@
       "side": 1,
       "message": "\u003e Good point. Yes, I did, tested on fan instance only. I\u0027m curious why the string \"PSU\" makes it a special case, scaling the underlying system file from 0 to 100 instead of 0 to 255?\n\nPower supply fan drivers are ranged differently for whatever reason.  Setting that to 100 allows us to coerce them to a 0-100 range.",
       "parentUuid": "f2dd33dd_3f2a2c27",
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4508228_3311b4ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T18:30:32Z",
+      "side": 1,
+      "message": "Thanks, makes sense. I made sure to keep the original logic intact, so it can select 0-100 or 0-255 for the underlying file integer content range, same as before.",
+      "parentUuid": "fbc81fef_cdcf6d01",
       "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
