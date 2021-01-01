@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "21cdd4c2_23275454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T18:35:21Z",
+      "side": 1,
+      "message": "yep, first line is generally 50, but that\u0027s considerably less important for readability.",
+      "parentUuid": "4cbc4fb3_6b982abd",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c29e3fb_c83e3846",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -192,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "2886d56d_c1ed7889",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T18:35:21Z",
+      "side": 1,
+      "message": "yep, that looks like a significant improvement for sensors.",
+      "parentUuid": "2b08a898_0ef03e86",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db98b46b_00230d4e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -257,6 +305,24 @@
       "side": 1,
       "message": "Thanks, makes sense. I made sure to keep the original logic intact, so it can select 0-100 or 0-255 for the underlying file integer content range, same as before.",
       "parentUuid": "fbc81fef_cdcf6d01",
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "713c3764_258e9b37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T18:35:21Z",
+      "side": 1,
+      "message": "Yup, it looks like it\u0027s trivial, just worth mentioning in the commit message.",
+      "parentUuid": "c4508228_3311b4ba",
       "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
