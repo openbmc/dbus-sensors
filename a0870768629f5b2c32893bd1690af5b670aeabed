@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f144bd9e_421e8d3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T05:37:34Z",
+      "side": 1,
+      "message": "This looks like you tried to line wrap this by hand?  Can you try to rewrap this in your editor to make it look more reasonable?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c29e3fb_c83e3846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T05:37:34Z",
+      "side": 1,
+      "message": "Considering we\u0027re modifying both, can you please test this as well?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db98b46b_00230d4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T05:37:34Z",
+      "side": 1,
+      "message": "I\u0027m assuming you tested on a fan instance, and not a PSU instance, but you should mention that in your commit message.",
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acbbc15c_4b28ed70",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T05:37:34Z",
+      "side": 1,
+      "message": "I suspect we shouldn\u0027t be ignoring this silently?  Was there a specific reason for not returning -1?  Accepting the write \"silently\" arguably breaks dbus properties rules.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 69
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53f2ba9a_e1eb2f5a",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T05:37:34Z",
+      "side": 1,
+      "message": "Any specific reason this is uint32 and not int?",
+      "range": {
+        "startLine": 78,
+        "startChar": 38,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1441a6f_0e2cd65d",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T05:37:34Z",
+      "side": 1,
+      "message": "This is going to change behavior a little.  Previously we effectively did floor on this value.  I\u0027m not sure it matters much here, but worth pointing out in the commit message as being different.",
+      "range": {
+        "startLine": 79,
+        "startChar": 49,
+        "endLine": 79,
+        "endChar": 59
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beaaa9ed_1fb59097",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T05:37:34Z",
+      "side": 1,
+      "message": "nit, can we roll this out into at least one intermediate variable to improve the readability.  The old one was arguably too much to be doing on one line already, this just a little bit worse.",
+      "range": {
+        "startLine": 125,
+        "startChar": 20,
+        "endLine": 126,
+        "endChar": 68
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a2874d5_e3b0a70c",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T05:37:34Z",
+      "side": 1,
+      "message": "Can this just be replaced with uint64_t \u003d lround(...)?\n\nLooks like it should, and would be simpler, but I haven\u0027t tried it.",
+      "range": {
+        "startLine": 135,
+        "startChar": 25,
+        "endLine": 135,
+        "endChar": 58
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
