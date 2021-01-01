@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e3113ba8_ef03e87e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T17:28:16Z",
+      "side": 1,
+      "message": "https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53#:~:text\u003dWrap%20it%20to%2072%20characters,git%20merge%20and%20git%20revert.\n\nIf you use vim, it will wrap lines automatically for you.",
+      "parentUuid": "332e7dc5_a5fe43a8",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c29e3fb_c83e3846",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "381b4d93_29a9d585",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T17:28:16Z",
+      "side": 1,
+      "message": "\u003e OK, I will. Question: why do we have two parallel interfaces for fan speed control, when in other sensors, we have chosen to migrate away from uint64_t in favor of double? Is fan speed a special case?\n\nFan speed is a special case, as there\u0027s an \"official\" interface (the sensor interface) and the original interface (the uint64 interface).  When we created the sensor, it was easier just to leave both, as it simplifies the lookup procedure for them.\n\nWe could certainly move it to double, but the motivating example for sensors was IPMI, where we needed to build the SDR with multiple sub-int ranges, and people historically sucked at building it correctly.",
+      "parentUuid": "e88fe3e7_aed619df",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db98b46b_00230d4e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -125,6 +173,24 @@
       "side": 1,
       "message": "Good point. Yes, I did, tested on fan instance only. I\u0027m curious why the string \"PSU\" makes it a special case, scaling the underlying system file from 0 to 100 instead of 0 to 255?",
       "parentUuid": "db98b46b_00230d4e",
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbc81fef_cdcf6d01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-01T17:28:16Z",
+      "side": 1,
+      "message": "\u003e Good point. Yes, I did, tested on fan instance only. I\u0027m curious why the string \"PSU\" makes it a special case, scaling the underlying system file from 0 to 100 instead of 0 to 255?\n\nPower supply fan drivers are ranged differently for whatever reason.  Setting that to 100 allows us to coerce them to a 0-100 range.",
+      "parentUuid": "f2dd33dd_3f2a2c27",
       "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
