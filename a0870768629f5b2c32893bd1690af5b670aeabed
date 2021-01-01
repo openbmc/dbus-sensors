@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "332e7dc5_a5fe43a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T11:42:53Z",
+      "side": 1,
+      "message": "Yep, I did. How long should lines be, in commit messages? Also, the first line is a special case, compared to subsequent lines, right?",
+      "parentUuid": "f144bd9e_421e8d3e",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c29e3fb_c83e3846",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2021-01-01T05:37:34Z",
       "side": 1,
       "message": "Considering we\u0027re modifying both, can you please test this as well?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e88fe3e7_aed619df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T11:42:53Z",
+      "side": 1,
+      "message": "OK, I will. Question: why do we have two parallel interfaces for fan speed control, when in other sensors, we have chosen to migrate away from uint64_t in favor of double? Is fan speed a special case?",
+      "parentUuid": "8c29e3fb_c83e3846",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "f2dd33dd_3f2a2c27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T11:42:53Z",
+      "side": 1,
+      "message": "Good point. Yes, I did, tested on fan instance only. I\u0027m curious why the string \"PSU\" makes it a special case, scaling the underlying system file from 0 to 100 instead of 0 to 255?",
+      "parentUuid": "db98b46b_00230d4e",
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "acbbc15c_4b28ed70",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2021-01-01T05:37:34Z",
       "side": 1,
       "message": "I suspect we shouldn\u0027t be ignoring this silently?  Was there a specific reason for not returning -1?  Accepting the write \"silently\" arguably breaks dbus properties rules.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 69
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a0fb497_fe782150",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T11:42:53Z",
+      "side": 1,
+      "message": "Good point, I can return -1 instead. Is -1 what should be returned when user tries to write a value and we\u0027re not accepting it for whatever reason, but it\u0027s not considered a fatal error? Will the sdbusplus library be annoyed if we return -1 when it is expecting a return of 1? Also, below, the original code throws a std::runtime_error exception, which to me seems overkill. Do we really want users to be able to crash out the daemon by writing out-of-range values to it over D-Bus?",
+      "parentUuid": "acbbc15c_4b28ed70",
       "range": {
         "startLine": 67,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "cb1a7c32_7c141885",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T11:42:53Z",
+      "side": 1,
+      "message": "Yes, there is. This variable is passed into setValue() below, and it saves having to do yet another static_cast to it. I could make these int if wanted, but it wouldn\u0027t really buy anything.",
+      "parentUuid": "53f2ba9a_e1eb2f5a",
+      "range": {
+        "startLine": 78,
+        "startChar": 38,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f1441a6f_0e2cd65d",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -122,6 +236,30 @@
       "writtenOn": "2021-01-01T05:37:34Z",
       "side": 1,
       "message": "This is going to change behavior a little.  Previously we effectively did floor on this value.  I\u0027m not sure it matters much here, but worth pointing out in the commit message as being different.",
+      "range": {
+        "startLine": 79,
+        "startChar": 49,
+        "endLine": 79,
+        "endChar": 59
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6406bac5_be5d53a6",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T11:42:53Z",
+      "side": 1,
+      "message": "I thought about floor, but the below integer code used std::round and it seemed like a good idea to be symmetrical with it. Also, there\u0027s a problem if proper rounding is not used: the round trip of int-float-int will result in a different int number, in some situations, leading to an endless loop of needless changes, as it bounces back and forth between two nearby int numbers! I found this in my testing, before changing it to use rounding instead of truncation.",
+      "parentUuid": "f1441a6f_0e2cd65d",
       "range": {
         "startLine": 79,
         "startChar": 49,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "23b9702b_65fcf8c2",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T11:42:53Z",
+      "side": 1,
+      "message": "OK, will do. As you can see by other lines, I\u0027m a big fan of spreading out complicated expressions into separate intermediate variables.",
+      "parentUuid": "beaaa9ed_1fb59097",
+      "range": {
+        "startLine": 125,
+        "startChar": 20,
+        "endLine": 126,
+        "endChar": 68
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a2874d5_e3b0a70c",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -168,6 +330,30 @@
       "writtenOn": "2021-01-01T05:37:34Z",
       "side": 1,
       "message": "Can this just be replaced with uint64_t \u003d lround(...)?\n\nLooks like it should, and would be simpler, but I haven\u0027t tried it.",
+      "range": {
+        "startLine": 135,
+        "startChar": 25,
+        "endLine": 135,
+        "endChar": 58
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b69fe70_abe55e92",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-01T11:42:53Z",
+      "side": 1,
+      "message": "lround() is \"long int\" which may or may not be uint64_t, depending on your platform. std::round also looks more C++ than lround() which looks more C.",
+      "parentUuid": "9a2874d5_e3b0a70c",
       "range": {
         "startLine": 135,
         "startChar": 25,
