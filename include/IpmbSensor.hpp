@@ -18,8 +18,9 @@ enum class IpmbType
     IR38363VR,
     ADM1278HSC,
     mpsVR,
-    SDRType,
-    SDRStEvtType
+    SDRThresSensor,
+    SDRDiscEvtSensor,
+    version
 };
 
 enum class IpmbSubType
@@ -28,7 +29,8 @@ enum class IpmbSubType
     curr,
     power,
     volt,
-    util
+    util,
+    version
 };
 
 enum class ReadingFormat
@@ -37,8 +39,9 @@ enum class ReadingFormat
     byte3,
     elevenBit,
     elevenBitShift,
-    sdrTyp,
-    sdrStEvt
+    sdrThres,
+    sdrDiscEvt,
+    version
 };
 
 std::vector<std::string> Sensor_Unit{"unspecified", "degrees C", "degrees F",
@@ -102,9 +105,9 @@ static constexpr uint8_t sdrLenType01 = 53;
 static constexpr uint8_t sdrLenType02 = 35;
 static constexpr uint8_t sdrLenType03 = 20;
 
-static constexpr uint8_t sdrEveType01 = 14;
-static constexpr uint8_t sdrEveType02 = 14;
-static constexpr uint8_t sdrEveType03 = 12;
+static constexpr uint8_t sdrThresAcce = 0x0C;
+static constexpr uint8_t sdrSensCapab = 13;
+static constexpr uint8_t sdrSensNoThres = 0;
 
 static constexpr uint8_t sdrUnitType01 = 25;
 static constexpr uint8_t sdrUpCriType01 = 43;
@@ -126,7 +129,6 @@ static std::vector<uint16_t> mValue;
 static std::vector<uint16_t> bValue;
 static std::vector<uint8_t> sensorNumber;
 static std::vector<uint8_t> sensorSDRType;
-static std::vector<uint8_t> sensorSDREvent;
 static std::vector<int8_t> rExp;
 static std::vector<int8_t> bExp;
 
@@ -134,13 +136,13 @@ std::vector<uint8_t> sdrCommandData;
 std::vector<uint8_t> getSdrData;
 
 std::string sensorName;
-std::string sdrTypeName;
 std::string strUnit;
 std::string hostName;
 
 double upperCri;
 double lowerCri;
 uint16_t recordCount;
+uint16_t validRecordCount;
 uint8_t sdrCommandAddress;
 uint8_t sdrNetfn;
 uint8_t sdrCommand;
@@ -187,6 +189,11 @@ namespace me_bridge
 constexpr uint8_t netFn = 0x2e;
 constexpr uint8_t sendRawPmbus = 0xd9;
 } // namespace me_bridge
+namespace oem
+{
+constexpr uint8_t netFn = 0x38;
+constexpr uint8_t command = 0x0b;
+} // namespace oem
 } // namespace ipmi
 
 struct IpmbSensor : public Sensor
@@ -221,6 +228,8 @@ struct IpmbSensor : public Sensor
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
+    std::string versionTypeName;
+    uint8_t index;
 
     ReadingFormat readingFormat;
 
