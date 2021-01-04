@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ee8b5fc_c28015db",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2021-01-04T16:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b22ee4_bb7faf47",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 26
+      },
+      "revId": "9c317e36665f26128a45576a9636d6ecea8848f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cef2831_4e970cde",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 4

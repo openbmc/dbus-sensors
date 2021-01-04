@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bbf501b_b1e04000",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2021-01-04T16:04:21Z",
+      "side": 1,
+      "message": "Ed, I\u0027ve modified code as per your suggestions. Added check for isPowerOn() which is definitely needed here. \nAlso removed lambda and is_any(). You are right, this is a simple task here to be done and we don\u0027t need complex code to resolve that. \nFrom now, that code will update min and max values at the same time, only if min \u003c max. If a platform is turned off, it sets NaN to min/max temp vars and we skip check for min \u003c max (thus, I added check for isNaN(newMin) or isNaN(newMax) above). That way we will add new behavior only for the case of min \u003e\u003d max.",
+      "range": {
+        "startLine": 174,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 13
+      },
+      "revId": "26cf3c8c2b3e94ef10c3b5664f2c9c7f7146d783",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
