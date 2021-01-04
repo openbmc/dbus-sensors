@@ -52,6 +52,8 @@ static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
+static constexpr const char* versionPathPrefix =
+    "/xyz/openbmc_project/software/";
 
 using IpmbMethodType =
     std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
@@ -75,22 +77,33 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
     objectServer(objectServer), waitTimer(io)
 {
-    std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
-
-    sensorInterface = objectServer.add_interface(
-        dbusPath, "xyz.openbmc_project.Sensor.Value");
-
-    if (thresholds::hasWarningInterface(thresholds))
+    if (sensorTypeName == "version")
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
+        std::string dbusPath = versionPathPrefix + sensorTypeName + "/" + name;
+
+        sensorInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Software.Version");
     }
-    if (thresholds::hasCriticalInterface(thresholds))
+    else
     {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
+
+        sensorInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Sensor.Value");
+
+        if (thresholds::hasWarningInterface(thresholds))
+        {
+            thresholdInterfaceWarning = objectServer.add_interface(
+                dbusPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
+        }
+        if (thresholds::hasCriticalInterface(thresholds))
+        {
+            thresholdInterfaceCritical = objectServer.add_interface(
+                dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+        }
+        association =
+            objectServer.add_interface(dbusPath, association::interface);
     }
-    association = objectServer.add_interface(dbusPath, association::interface);
 }
 
 IpmbSensor::~IpmbSensor()
@@ -112,6 +125,16 @@ void IpmbSensor::init(void)
             sdbusplus::asio::PropertyPermission::readWrite);
         setInitialProperties(dbusConnection);
         sensorInterface->set_property("Unit", sdr::strUnit);
+    }
+    else if (versionTypeName == "version")
+    {
+        sensorInterface->register_property(
+            "Version", std::string(""),
+            sdbusplus::asio::PropertyPermission::readWrite);
+        if (!sensorInterface->initialize())
+        {
+            std::cerr << "error initializing value interface\n";
+        }
     }
     else
     {
@@ -512,6 +535,17 @@ void IpmbSensor::loadDefaults()
         commandData = {sdr::dev_addr};
         readingFormat = ReadingFormat::sdrStEvt;
     }
+    else if (type == IpmbType::version)
+    {
+        if (subType == IpmbSubType::version)
+        {
+            commandAddress = Index << 2;
+            netfn = ipmi::oem::netFn;
+            command = ipmi::oem::command;
+            commandData = {0x15, 0xa0, 0, deviceAddress};
+            readingFormat = ReadingFormat::version;
+        }
+    }
     else
     {
         throw std::runtime_error("Invalid sensor type");
@@ -613,7 +647,29 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             resp = data[2];
             return true;
         }
-
+        case (ReadingFormat::version):
+        {
+            std::string version;
+            if (data.size() < 5)
+            {
+                if (!errCount)
+                {
+                    std::cerr << "Invalid data length returned for " << name
+                              << "\n";
+                }
+                return false;
+            }
+            for (int i = 3; i < data.size(); i++)
+            {
+                version = version + std::to_string(data[i]);
+                if ((i != (data.size() - 1)) && (i != 6))
+                {
+                    version = version + ".";
+                }
+            }
+            sensorInterface->set_property("Version", version);
+            return true;
+        }
         default:
             throw std::runtime_error("Invalid reading type");
     }
@@ -683,9 +739,12 @@ void IpmbSensor::read(void)
                     rawValue = static_cast<double>(rawData);
                 }
 
-                /* Adjust value as per scale and offset */
-                value = (value * scaleVal) + offsetVal;
-                updateValue(value);
+                if (readingFormat != ReadingFormat::version)
+                {
+                    /* Adjust value as per scale and offset */
+                    value = (value * scaleVal) + offsetVal;
+                    updateValue(value);
+                }
                 read();
             },
             "xyz.openbmc_project.Ipmi.Channel.Ipmb",
@@ -804,6 +863,14 @@ void createSensors(
                     sensor->scaleVal = 1;
                     sensor->offsetVal = 0;
 
+                    auto findBusType = entry.second.find("Bus");
+                    if (findBusType != entry.second.end())
+                    {
+                        uint8_t Bus = std::visit(VariantToUnsignedIntVisitor(),
+                                                 findBusType->second);
+                        sensor->Index = Bus;
+                    }
+
                     auto findScaleVal = entry.second.find("ScaleValue");
                     if (findScaleVal != entry.second.end())
                     {
@@ -849,6 +916,10 @@ void createSensors(
                     {
                         sensor->type = IpmbType::meSensor;
                     }
+                    else if (sensorClass == "twin_lake_fw_version")
+                    {
+                        sensor->type = IpmbType::version;
+                    }
                     else
                     {
                         std::cerr << "Invalid class " << sensorClass << "\n";
@@ -870,6 +941,11 @@ void createSensors(
                     else if (sensorTypeName == "utilization")
                     {
                         sensor->subType = IpmbSubType::util;
+                    }
+                    else if (sensorTypeName == "version")
+                    {
+                        sensor->subType = IpmbSubType::version;
+                        sensor->versionTypeName = sensorTypeName;
                     }
                     else
                     {
