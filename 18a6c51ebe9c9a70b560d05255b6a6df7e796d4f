@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a938fa46_bb4d1564",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000943
+      },
+      "writtenOn": "2021-01-04T09:12:48Z",
+      "side": 1,
+      "message": "This interface was fixed, if any new FRU device add means it must list under this and this section covered under another repo (https://gerrit.openbmc-project.xyz/c/openbmc/entity-manager/+/37512).",
+      "parentUuid": "7d6ec850_8b857d29",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 18
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "203fc59a_65bdb74c",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 10
@@ -39,6 +63,24 @@
       "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "472336f5_f42bcedf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000943
+      },
+      "writtenOn": "2021-01-04T09:12:48Z",
+      "side": 1,
+      "message": "Update.",
+      "parentUuid": "203fc59a_65bdb74c",
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "24e0cab3_6cfdc6c7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000943
+      },
+      "writtenOn": "2021-01-04T09:12:48Z",
+      "side": 1,
+      "message": "Update",
+      "parentUuid": "d25d559d_d6cde618",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 76
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3076fca4_d043e7ab",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 10
@@ -85,6 +151,30 @@
       "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea838ddc_a5dd341e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000943
+      },
+      "writtenOn": "2021-01-04T09:12:48Z",
+      "side": 1,
+      "message": "Update",
+      "parentUuid": "3076fca4_d043e7ab",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 5
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "d380eb52_3aea4b4f",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000943
+      },
+      "writtenOn": "2021-01-04T09:12:48Z",
+      "side": 1,
+      "message": "This section fully depends on line by line execution and it need to have output from the current task for next execution, using async method we can\u0027t get that, so I go with new_method_call.",
+      "parentUuid": "5cb8dcbe_bf2b0e8a",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 77
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d10bd07_8ee70b54",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 10
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "0642ede4_9e025650",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000943
+      },
+      "writtenOn": "2021-01-04T09:12:48Z",
+      "side": 1,
+      "message": "Update",
+      "parentUuid": "3d10bd07_8ee70b54",
+      "range": {
+        "startLine": 263,
+        "startChar": 26,
+        "endLine": 263,
+        "endChar": 28
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d60f361_51b170b6",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 10
@@ -148,6 +286,24 @@
       "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22f150e_c9bd40bb",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1000943
+      },
+      "writtenOn": "2021-01-04T09:12:48Z",
+      "side": 1,
+      "message": "Update",
+      "parentUuid": "5d60f361_51b170b6",
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -171,6 +327,30 @@
       "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bb6382a_039b6d69",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1000943
+      },
+      "writtenOn": "2021-01-04T09:12:48Z",
+      "side": 1,
+      "message": "Need to Update",
+      "parentUuid": "0dfbb6aa_59fe908e",
+      "range": {
+        "startLine": 1003,
+        "startChar": 0,
+        "endLine": 1003,
+        "endChar": 36
+      },
+      "revId": "18a6c51ebe9c9a70b560d05255b6a6df7e796d4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
