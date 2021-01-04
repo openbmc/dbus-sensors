@@ -19,7 +19,8 @@ enum class IpmbType
     ADM1278HSC,
     mpsVR,
     SDRType,
-    SDRStEvtType
+    SDRStEvtType,
+    version
 };
 
 enum class IpmbSubType
@@ -28,7 +29,8 @@ enum class IpmbSubType
     curr,
     power,
     volt,
-    util
+    util,
+    version
 };
 
 enum class ReadingFormat
@@ -38,7 +40,8 @@ enum class ReadingFormat
     elevenBit,
     elevenBitShift,
     sdrTyp,
-    sdrStEvt
+    sdrStEvt,
+    version
 };
 
 std::vector<std::string> Sensor_Unit{"unspecified", "degrees C", "degrees F",
@@ -187,6 +190,11 @@ namespace me_bridge
 constexpr uint8_t netFn = 0x2e;
 constexpr uint8_t sendRawPmbus = 0xd9;
 } // namespace me_bridge
+namespace oem
+{
+constexpr uint8_t netFn = 0x38;
+constexpr uint8_t command = 0x0b;
+} // namespace oem
 } // namespace ipmi
 
 struct IpmbSensor : public Sensor
@@ -221,6 +229,8 @@ struct IpmbSensor : public Sensor
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
+    std::string versionTypeName;
+    uint8_t Index;
 
     ReadingFormat readingFormat;
 
