@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c137081_9e8525d8",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T04:59:26Z",
+      "side": 1,
+      "message": "Sorry, one more thing, maybe have a limit on minimum PollRate so the system does not get overloaded?",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 64
+      },
+      "revId": "3d1efafb9eebf4da3a4204e872506757c95bbb39",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
