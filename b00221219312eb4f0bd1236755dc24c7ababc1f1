@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f75d1f58_63ed00f9",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T20:06:16Z",
+      "side": 1,
+      "message": "I don\u0027t think nicFaultHandle support should be in this generic construct",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "b00221219312eb4f0bd1236755dc24c7ababc1f1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb35e112_10889c28",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T20:06:16Z",
+      "side": 1,
+      "message": "This is incorrect, the Threshold can be low Threshold",
+      "range": {
+        "startLine": 275,
+        "startChar": 11,
+        "endLine": 275,
+        "endChar": 41
+      },
+      "revId": "b00221219312eb4f0bd1236755dc24c7ababc1f1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
