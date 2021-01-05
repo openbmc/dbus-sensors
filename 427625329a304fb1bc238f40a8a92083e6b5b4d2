@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2114d87_c031e133",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T19:56:31Z",
+      "side": 1,
+      "message": "Why not keep the last know good reading? These values don\u0027t change that often, right?",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "427625329a304fb1bc238f40a8a92083e6b5b4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85d45468_4a06ddf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T19:56:31Z",
+      "side": 1,
+      "message": "Seems like the only verification is min \u003c max, is that correct? May want clarify here",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "427625329a304fb1bc238f40a8a92083e6b5b4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219d35a2_f6c3e5de",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T19:56:31Z",
+      "side": 1,
+      "message": "This does not look right - update is called if \n1. min or max file failed to read and power is off - why do we want to update in this case? \n2. min failed to read and power is on - maybe ok, min is set to 0\n3. both min and max fail to read - why do we want to update?\n4. both min and max are read and min \u003c max - ok",
+      "range": {
+        "startLine": 198,
+        "startChar": 12,
+        "endLine": 198,
+        "endChar": 79
+      },
+      "revId": "427625329a304fb1bc238f40a8a92083e6b5b4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
