@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "afdd2c4f_ec94b2b2",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-01-05T11:39:22Z",
+      "side": 1,
+      "message": "This is a better solution, thanks!",
+      "parentUuid": "ede0f121_1bcb0531",
+      "range": {
+        "startLine": 141,
+        "startChar": 16,
+        "endLine": 141,
+        "endChar": 43
+      },
+      "revId": "d405521dc86e883d12750b560794740cd94c0e59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae3c3658_e585774b",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 14
@@ -93,6 +117,30 @@
       "revId": "d405521dc86e883d12750b560794740cd94c0e59",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23fb5e15_d1aecac7",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-01-05T11:39:22Z",
+      "side": 1,
+      "message": "I add a limit to prevent the pollRate value is negative or equal to 0 (act like for loop).",
+      "parentUuid": "ae3c3658_e585774b",
+      "range": {
+        "startLine": 220,
+        "startChar": 20,
+        "endLine": 221,
+        "endChar": 64
+      },
+      "revId": "d405521dc86e883d12750b560794740cd94c0e59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
