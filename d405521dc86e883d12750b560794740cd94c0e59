@@ -46,6 +46,53 @@
       "revId": "d405521dc86e883d12750b560794740cd94c0e59",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ede0f121_1bcb0531",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T05:24:34Z",
+      "side": 1,
+      "message": "This function can be moved to Threshold.cpp to resolve the issue",
+      "parentUuid": "c263b690_2fbc1567",
+      "range": {
+        "startLine": 141,
+        "startChar": 16,
+        "endLine": 141,
+        "endChar": 43
+      },
+      "revId": "d405521dc86e883d12750b560794740cd94c0e59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae3c3658_e585774b",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T05:24:34Z",
+      "side": 1,
+      "message": "same as other patch, may want to add a minimum PollRate",
+      "range": {
+        "startLine": 220,
+        "startChar": 20,
+        "endLine": 221,
+        "endChar": 64
+      },
+      "revId": "d405521dc86e883d12750b560794740cd94c0e59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
