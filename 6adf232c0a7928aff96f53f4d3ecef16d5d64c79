@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "6d99a596_c2588598",
+        "filename": "include/TachSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T21:46:45Z",
+      "side": 1,
+      "message": "Move this into PresenceSensor so no need for a separate namespace",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 64
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a53c232_0efb6ee4",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T21:46:45Z",
+      "side": 1,
+      "message": "This can be moved between line 225 and line 226 to avoid duplication of code",
+      "range": {
+        "startLine": 219,
+        "startChar": 4,
+        "endLine": 219,
+        "endChar": 28
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6fafabca_d6fea70e",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 1
@@ -41,6 +87,52 @@
         "startChar": 0,
         "endLine": 248,
         "endChar": 42
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f221253_16dc72cc",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T21:46:45Z",
+      "side": 1,
+      "message": "duplicate line 263",
+      "range": {
+        "startLine": 266,
+        "startChar": 8,
+        "endLine": 266,
+        "endChar": 23
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f50dc8e3_dbeeec8c",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-05T21:46:45Z",
+      "side": 1,
+      "message": "Is it OK to read even if it is not \"Interruptible\"? Trying to reduce the places that the flag has to be checked.",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 320,
+        "endChar": 5
       },
       "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
