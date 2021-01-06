@@ -22,6 +22,30 @@
       "revId": "f905f772b48c6b53831011e41a3ec553ead36b59",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9452f6da_9352369b",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-01-06T02:27:14Z",
+      "side": 1,
+      "message": "I used to think that it might be better to skip the sensor with wrong configuration.\nBut setting wrong pollRate seems no need to skip the sensor.\nI update patch that will use the default poll rate here.",
+      "parentUuid": "b5f68fdd_560ebac5",
+      "range": {
+        "startLine": 224,
+        "startChar": 24,
+        "endLine": 224,
+        "endChar": 59
+      },
+      "revId": "f905f772b48c6b53831011e41a3ec553ead36b59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
