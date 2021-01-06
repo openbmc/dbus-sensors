@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec1c6479_95153652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-01-06T08:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b66b579_9d311917",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "f4c0ac600cc75648fbe321cc017bfdd601c10e4d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b4e7f93_7e5f1119",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2021-01-05T17:53:54Z",
       "side": 1,
       "message": "Why are we calling into OEM commands in a generic (non-oem) daemon?  Shouldn\u0027t this be calling into get device ID?",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 18
+      },
+      "revId": "f4c0ac600cc75648fbe321cc017bfdd601c10e4d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77d2c0b8_e7917665",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-01-06T08:01:16Z",
+      "side": 1,
+      "message": "Since firmware version netFn and cmd is oem specific, I added this namespace here.\nCan we hardcode this value under IpmbType for version?\nplease provide your suggestion.",
+      "parentUuid": "6b4e7f93_7e5f1119",
       "range": {
         "startLine": 193,
         "startChar": 0,
