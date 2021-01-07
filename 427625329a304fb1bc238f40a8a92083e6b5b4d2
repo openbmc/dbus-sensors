@@ -68,6 +68,30 @@
       "revId": "427625329a304fb1bc238f40a8a92083e6b5b4d2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef011d09_4c869c17",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2021-01-07T09:02:57Z",
+      "side": 1,
+      "message": "\u003e 1. min or max file failed to read and power is off - why do we want to update in this case?\n\u003e 2. min failed to read and power is on - maybe ok, min is set to 0\n\u003e 3. both min and max fail to read - why do we want to update?\nRegarding 1., 2., 3., that behavior is not introduced by my change. These cases have been serviced the same way before. I missed isPowerOn() check in the previous patch but Ed found that so now I corrected my mistake. In the past this part of code also has checked isPowerOn() and updated value with NaN in the case of power off.\nRegarding 2., I wonder if we should set max value to 127 when read failed and power is on? If not and, let\u0027s say read of both values failed, then min\u003dmax\u003d0, and they will be not updated since it would introduce error in the ipmitool sdr read.\n\nIn fact, I did only 2 changes here: \ni) Added a check for min \u003c max; \nii) Moved updateProperty() call, so both, min and max values, are updated at the same time. I think this is needed because we also read both values from hwmon at the same time. When value seems to be incorrect (resulting in min \u003e\u003d max), how can we be sure that other value is valid? Thus, adding code to update both at once causes that none of them is updated when min \u003e\u003d max.",
+      "parentUuid": "219d35a2_f6c3e5de",
+      "range": {
+        "startLine": 198,
+        "startChar": 12,
+        "endLine": 198,
+        "endChar": 79
+      },
+      "revId": "427625329a304fb1bc238f40a8a92083e6b5b4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
