@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11cb08c0_85a6f8e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-01-07T12:00:02Z",
+      "side": 1,
+      "message": "May I ask where the code is in EntityManager to get this config and present it on DBus?",
+      "revId": "c4a487b3f990182aff70d313cb63636547c82dc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
