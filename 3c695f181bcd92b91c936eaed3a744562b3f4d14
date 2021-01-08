@@ -22,6 +22,30 @@
       "revId": "3c695f181bcd92b91c936eaed3a744562b3f4d14",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5e52509_020dc54b",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-01-08T02:44:12Z",
+      "side": 1,
+      "message": "I add the enable function here to make that only the sensor has add the Connector with entry \"Pwm\" in configuration will auto enable the corresponding pwm.\nThis is greater than checking the sensor type, so I remove sensor type MAX31790 from array.",
+      "parentUuid": "8045713b_ca6f4d3f",
+      "range": {
+        "startLine": 392,
+        "startChar": 0,
+        "endLine": 392,
+        "endChar": 79
+      },
+      "revId": "3c695f181bcd92b91c936eaed3a744562b3f4d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
