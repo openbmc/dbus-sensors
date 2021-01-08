@@ -16,6 +16,24 @@
       "revId": "c4a487b3f990182aff70d313cb63636547c82dc5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99f75b2c_692489e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-01-08T03:18:09Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/entity-manager/blob/c7c5de795cf672797ae35965e95642dd1fc39363/src/EntityManager.cpp#L628\nI think this function will generate all properties and corresponding value configured in json.\nThen dbus-sensors will search and get the specific property it wants from entity-manager.",
+      "parentUuid": "11cb08c0_85a6f8e6",
+      "revId": "c4a487b3f990182aff70d313cb63636547c82dc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
