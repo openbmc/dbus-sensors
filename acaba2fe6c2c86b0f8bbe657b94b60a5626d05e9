@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "874cc2eb_93a728d2",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-08T22:28:58Z",
+      "side": 1,
+      "message": "can we make this into an actual struct?  Tuple was fine when it was 2 elements, but now that it\u0027s continuing to get bigger, and we don\u0027t actually use tuple for its intended purpose (variadic template construction) this would be much more clear as a hardened struct.",
+      "range": {
+        "startLine": 154,
+        "startChar": 19,
+        "endLine": 155,
+        "endChar": 74
+      },
+      "revId": "acaba2fe6c2c86b0f8bbe657b94b60a5626d05e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bbbe49c_93bed06a",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-08T22:28:58Z",
+      "side": 1,
+      "message": "Please separate these and add appropriate logging if they\u0027re found to be incorrect.",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 13
+      },
+      "revId": "acaba2fe6c2c86b0f8bbe657b94b60a5626d05e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
