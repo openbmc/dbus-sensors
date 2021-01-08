@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "5c6c5eea_3e3405dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "OK, wrapped the second paragraph. The first paragraph was intended to be more of a sequence of bullet points, instead of prose, so it should not be wrapped, as it becomes harder to read that way. Put a period at the end of each line, to make it clearer, though.",
+      "parentUuid": "21cdd4c2_23275454",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c29e3fb_c83e3846",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -240,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "b5989e61_bf3043b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "OK, will test both, and revise commit message accordingly.",
+      "parentUuid": "2886d56d_c1ed7889",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db98b46b_00230d4e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -329,6 +377,24 @@
     },
     {
       "key": {
+        "uuid": "1a918e77_29c85c21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "Thanks for the background. Will also add this to the commit message.",
+      "parentUuid": "713c3764_258e9b37",
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acbbc15c_4b28ed70",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -373,6 +439,30 @@
       "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e51b647_93cc4c1d",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "Revised to return -1 upon error, so caller knows that there has been an error. Took a note for the future, about whether or not to throw exception if out of range.",
+      "parentUuid": "5a0fb497_fe782150",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 69
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -423,6 +513,30 @@
     },
     {
       "key": {
+        "uuid": "05574d95_53651b0a",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "Leaving this as uint32_t, unless any objection.",
+      "parentUuid": "cb1a7c32_7c141885",
+      "range": {
+        "startLine": 78,
+        "startChar": 38,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1441a6f_0e2cd65d",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -470,6 +584,30 @@
     },
     {
       "key": {
+        "uuid": "877d7739_941e1795",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "OK, put a note in the commit message, to mention that rounding behavior is different, so observed integer PWM might be different in some edge cases.",
+      "parentUuid": "6406bac5_be5d53a6",
+      "range": {
+        "startLine": 79,
+        "startChar": 49,
+        "endLine": 79,
+        "endChar": 59
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1177dc23_bd964801",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -490,6 +628,30 @@
       "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b77a1f_8a572c1a",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "I meant \"Float\" as in floating-point, not the literal type \"float\". But, I could see how this would be misleading. Renamed it to \"Scaled\".",
+      "parentUuid": "1177dc23_bd964801",
+      "range": {
+        "startLine": 93,
+        "startChar": 11,
+        "endLine": 93,
+        "endChar": 28
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -540,6 +702,30 @@
     },
     {
       "key": {
+        "uuid": "addb737d_c8ee67c1",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "Split it up, and also split up the similar-looking math that\u0027s done in the getter function.",
+      "parentUuid": "23b9702b_65fcf8c2",
+      "range": {
+        "startLine": 125,
+        "startChar": 20,
+        "endLine": 126,
+        "endChar": 68
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a2874d5_e3b0a70c",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 2
@@ -584,6 +770,30 @@
       "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11dd7ef8_9faa0409",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-08T14:12:43Z",
+      "side": 1,
+      "message": "Split this up, but left the call to std::round() unchanged, for symmetry with the other rounding functions that are used elsewhere in this code.",
+      "parentUuid": "4b69fe70_abe55e92",
+      "range": {
+        "startLine": 135,
+        "startChar": 25,
+        "endLine": 135,
+        "endChar": 58
+      },
+      "revId": "a0870768629f5b2c32893bd1690af5b670aeabed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
