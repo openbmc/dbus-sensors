@@ -174,22 +174,6 @@ void createSensors(
                 fs::path pwmPath = directory / ("pwm" + indexStr);
                 FanTypes fanType = getFanType(directory);
 
-                size_t bus = 0;
-                size_t address = 0;
-                if (fanType == FanTypes::i2c)
-                {
-                    std::string link =
-                        fs::read_symlink(directory / "device").filename();
-
-                    size_t findDash = link.find('-');
-                    if (findDash == std::string::npos ||
-                        link.size() <= findDash + 1)
-                    {
-                        std::cerr << "Error finding device from symlink";
-                    }
-                    bus = std::stoi(link.substr(0, findDash));
-                    address = std::stoi(link.substr(findDash + 1), nullptr, 16);
-                }
                 // convert to 0 based
                 size_t index = std::stoul(indexStr) - 1;
 
@@ -236,6 +220,22 @@ void createSensors(
                     }
                     if (fanType == FanTypes::i2c)
                     {
+                        size_t bus = 0;
+                        size_t address = 0;
+
+                        std::string link =
+                            fs::read_symlink(directory / "device").filename();
+
+                        size_t findDash = link.find('-');
+                        if (findDash == std::string::npos ||
+                            link.size() <= findDash + 1)
+                        {
+                            std::cerr << "Error finding device from symlink";
+                        }
+                        bus = std::stoi(link.substr(0, findDash));
+                        address =
+                            std::stoi(link.substr(findDash + 1), nullptr, 16);
+
                         auto findBus = baseConfiguration->second.find("Bus");
                         auto findAddress =
                             baseConfiguration->second.find("Address");
