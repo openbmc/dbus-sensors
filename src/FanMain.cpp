@@ -44,20 +44,26 @@ static constexpr bool DEBUG = false;
 
 namespace fs = std::filesystem;
 
+// The following two structures need to be consistent
 static constexpr std::array<const char*, 3> sensorTypes = {
     "xyz.openbmc_project.Configuration.AspeedFan",
     "xyz.openbmc_project.Configuration.I2CFan",
     "xyz.openbmc_project.Configuration.NuvotonFan"};
+
+enum FanTypes
+{
+    aspeed = 0,
+    i2c,
+    nuvoton,
+    max,
+};
+
+static_assert(std::tuple_size<decltype(sensorTypes)>::value == FanTypes::max,
+        "sensorTypes element number is not equal to FanTypes number");
+
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
 static std::regex inputRegex(R"(fan(\d+)_input)");
-
-enum class FanTypes
-{
-    aspeed,
-    i2c,
-    nuvoton
-};
 
 // todo: power supply fan redundancy
 std::optional<RedundancySensor> systemRedundancy;
@@ -141,7 +147,6 @@ void createSensors(
         sensorsChanged,
     size_t retries = 0)
 {
-
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
         std::move([&io, &objectServer, &tachSensors, &pwmSensors,
@@ -200,21 +205,16 @@ void createSensors(
                 {
                     // find the base of the configuration to see if indexes
                     // match
-                    for (const char* type : sensorTypes)
-                    {
-                        auto sensorBaseFind = sensor.second.find(type);
-                        if (sensorBaseFind != sensor.second.end())
-                        {
-                            baseConfiguration = &(*sensorBaseFind);
-                            interfacePath = &(sensor.first.str);
-                            baseType = type;
-                            break;
-                        }
-                    }
-                    if (baseConfiguration == nullptr)
+                    auto sensorBaseFind = sensor.second.find(
+                                              sensorTypes[fanType]);
+                    if (sensorBaseFind == sensor.second.end())
                     {
                         continue;
                     }
+
+                    baseConfiguration = &(*sensorBaseFind);
+                    interfacePath = &(sensor.first.str);
+                    baseType = sensorTypes[fanType];
 
                     auto findIndex = baseConfiguration->second.find("Index");
                     if (findIndex == baseConfiguration->second.end())
@@ -237,9 +237,7 @@ void createSensors(
                         sensorData = &(sensor.second);
                         break;
                     }
-                    else if (baseType ==
-                             std::string(
-                                 "xyz.openbmc_project.Configuration.I2CFan"))
+                    else if (fanType == FanTypes::i2c)
                     {
                         auto findBus = baseConfiguration->second.find("Bus");
                         auto findAddress =
