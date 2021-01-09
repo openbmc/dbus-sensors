@@ -52,9 +52,9 @@ constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
 static std::regex inputRegex(R"(fan(\d+)_input)");
 
-enum class FanTypes
+enum FanTypes
 {
-    aspeed,
+    aspeed = 0,
     i2c,
     nuvoton
 };
@@ -200,21 +200,16 @@ void createSensors(
                 {
                     // find the base of the configuration to see if indexes
                     // match
-                    for (const char* type : sensorTypes)
-                    {
-                        auto sensorBaseFind = sensor.second.find(type);
-                        if (sensorBaseFind != sensor.second.end())
-                        {
-                            baseConfiguration = &(*sensorBaseFind);
-                            interfacePath = &(sensor.first.str);
-                            baseType = type;
-                            break;
-                        }
-                    }
-                    if (baseConfiguration == nullptr)
+                    auto sensorBaseFind = sensor.second.find(
+                                              sensorTypes[fanType]);
+                    if (sensorBaseFind == sensor.second.end())
                     {
                         continue;
                     }
+
+                    baseConfiguration = &(*sensorBaseFind);
+                    interfacePath = &(sensor.first.str);
+                    baseType = sensorTypes[fanType];
 
                     auto findIndex = baseConfiguration->second.find("Index");
                     if (findIndex == baseConfiguration->second.end())
@@ -237,9 +232,7 @@ void createSensors(
                         sensorData = &(sensor.second);
                         break;
                     }
-                    else if (baseType ==
-                             std::string(
-                                 "xyz.openbmc_project.Configuration.I2CFan"))
+                    else if (fanType == FanTypes::i2c)
                     {
                         auto findBus = baseConfiguration->second.find("Bus");
                         auto findAddress =
