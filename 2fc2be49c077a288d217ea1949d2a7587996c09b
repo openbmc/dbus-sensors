@@ -46,6 +46,30 @@
       "revId": "2fc2be49c077a288d217ea1949d2a7587996c09b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "948f2e3b_f43fad67",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-10T15:53:49Z",
+      "side": 1,
+      "message": "OK, can move it in.",
+      "parentUuid": "26fbec51_05b3a00d",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 78
+      },
+      "revId": "2fc2be49c077a288d217ea1949d2a7587996c09b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
