@@ -874,6 +874,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ca66b1d_a5229215",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-11T16:12:43Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not entirely sure why this little delay is here, but other dbus-sensors daemons seem to use it as well. Do you know what the purpose of it is?\n\nIt\u0027s a timer to avoid the sensor version of the stampeeding herd problem.  When sensors are added/removed at boot, there tends to be a lot of config changes that come in at once.  This timer forces the sensor to wait for at least one second of \"no new updates\" before trying to reconfigure the sensor subsystem which is relatively expensive to do.  Without this timer, boot would take much much longer.",
+      "parentUuid": "7f5d397f_208df9b1",
+      "range": {
+        "startLine": 286,
+        "startChar": 68,
+        "endLine": 286,
+        "endChar": 69
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
