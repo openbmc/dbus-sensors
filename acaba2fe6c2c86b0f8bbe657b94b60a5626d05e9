@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "8f38c961_ca50b032",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-11T18:32:27Z",
+      "side": 1,
+      "message": "\u003e How do you know if the read returned a valid value? I mean, a file read could be successful but can we be sure about data provided by hardware?\n\nI\u0027m not following this question.  The hardware has lots of error handling mechanisms (checksums, parity, ect).  if any of those fail, the file should not read successfully.  If the file read successfully, and we trust the driver, we can trust the value it gave us.  If we don\u0027t trust the driver, we need to fix the driver.\n\n\u003e \n\u003e On the other hand, talking about previous version of that function, why do we set a 0 value in the case when read fails but power is on? Shouldn\u0027t we have an additional property to signal the current reading status and not use this one to set some special values \n\u003e (0 or NaN in that particular case) which corresponds to some error cases?\n\nThe problem here becomes that these values aren\u0027t meant to ever be able to \"fail\" to read, given that they\u0027re being used to generate the SDR.  In most daemons they\u0027re a hardcoded value for the precision that sensor requires.  This is the only sensor that generates precision at runtime in a way that can fail.  Part of me wonders if we should roll this back and go back to the fixed precision.\n\nIs there a reason the added sub-degree precision is needed in this use case?",
+      "parentUuid": "44de6a77_c63b8759",
+      "range": {
+        "startLine": 187,
+        "startChar": 66,
+        "endLine": 187,
+        "endChar": 81
+      },
+      "revId": "acaba2fe6c2c86b0f8bbe657b94b60a5626d05e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bbbe49c_93bed06a",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 7
@@ -177,6 +201,30 @@
       "side": 1,
       "message": "As indicated by one of the first comments, printing error message here, in a loop (that function is also called on a regular basis), in the case of a permanent problem, would make journal useless since it will be flooded with that particular error message.",
       "parentUuid": "6bbbe49c_93bed06a",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 13
+      },
+      "revId": "acaba2fe6c2c86b0f8bbe657b94b60a5626d05e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82bdc586_b9b5af01",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-11T18:32:27Z",
+      "side": 1,
+      "message": "Fair point.  How do you think we should log the error back?",
+      "parentUuid": "3987078b_57b91ac8",
       "range": {
         "startLine": 186,
         "startChar": 0,
