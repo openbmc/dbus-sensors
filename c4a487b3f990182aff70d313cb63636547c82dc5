@@ -52,6 +52,24 @@
       "revId": "c4a487b3f990182aff70d313cb63636547c82dc5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c100dee3_b4f8f61c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-01-11T11:33:56Z",
+      "side": 1,
+      "message": "You can reference the comment message of patch 7 and 8.\nThe value in entity-manager have their unit, thus I think \"PollRate\" looks fine to have \"second\" as unit.\nRemaining the word \"Interval\" in this name might cause the misusage of this property for someone who use phosphor-hwmon before.",
+      "parentUuid": "2c267903_dc53926c",
+      "revId": "c4a487b3f990182aff70d313cb63636547c82dc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
