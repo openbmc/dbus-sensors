@@ -175,6 +175,9 @@ void createSensors(
                 return;
             }
 
+            boost::container::flat_set<sdbusplus::message::object_path>
+                sensorUsed;
+
             // iterate through all found fan sensors, and try to match them with
             // configuration
             for (const auto& path : paths)
@@ -187,17 +190,22 @@ void createSensors(
 
                 fs::path directory = path.parent_path();
                 FanTypes fanType = getFanType(directory);
+                const char* baseType = sensorTypes[fanType];
 
                 // convert to 0 based
                 size_t index = std::stoul(indexStr) - 1;
 
-                const char* baseType;
-                const SensorData* sensorData = nullptr;
-                const std::string* interfacePath = nullptr;
+                const std::pair<sdbusplus::message::object_path, SensorData>*
+                    targetSensor = nullptr;
                 const SensorBaseConfiguration* baseConfiguration = nullptr;
                 for (const std::pair<sdbusplus::message::object_path,
                                      SensorData>& sensor : sensorConfigurations)
                 {
+                    if (sensorUsed.count(sensor.first))
+                    {
+                        continue;
+                    }
+
                     // find the base of the configuration to see if indexes
                     // match
                     auto sensorBaseFind =
@@ -208,8 +216,6 @@ void createSensors(
                     }
 
                     baseConfiguration = &(*sensorBaseFind);
-                    interfacePath = &(sensor.first.str);
-                    baseType = sensorTypes[fanType];
 
                     auto findIndex = baseConfiguration->second.find("Index");
                     if (findIndex == baseConfiguration->second.end())
@@ -229,7 +235,7 @@ void createSensors(
                     {
                         // there will be only 1 aspeed or nuvoton sensor object
                         // in sysfs, we found the fan
-                        sensorData = &(sensor.second);
+                        targetSensor = &sensor;
                         break;
                     }
                     if (fanType == FanTypes::i2c)
@@ -267,17 +273,21 @@ void createSensors(
 
                         if (configBus == bus && configAddress == address)
                         {
-                            sensorData = &(sensor.second);
+                            targetSensor = &sensor;
                             break;
                         }
                     }
                 }
-                if (sensorData == nullptr)
+                if (targetSensor == nullptr)
                 {
                     std::cerr << "failed to find match for " << path.string()
                               << "\n";
                     continue;
                 }
+
+                sensorUsed.insert(targetSensor->first);
+                const std::string* interfacePath = &(targetSensor->first.str);
+                const SensorData* sensorData = &(targetSensor->second);
 
                 auto findSensorName = baseConfiguration->second.find("Name");
 
