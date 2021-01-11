@@ -34,6 +34,24 @@
       "revId": "c4a487b3f990182aff70d313cb63636547c82dc5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c267903_dc53926c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-01-11T05:55:55Z",
+      "side": 1,
+      "message": "OK, then I would suggest make it an \"official\" schema in entity-manager.\nBtw, I would prefer to use milli-second here, and possibly name it \"PollInterval\", e.g. \"PollInterval\": 3000\n\nWhat do you think?",
+      "parentUuid": "99f75b2c_692489e2",
+      "revId": "c4a487b3f990182aff70d313cb63636547c82dc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
