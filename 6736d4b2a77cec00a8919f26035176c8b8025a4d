@@ -16,6 +16,24 @@
       "revId": "6736d4b2a77cec00a8919f26035176c8b8025a4d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31fd7109_115256d2",
+        "filename": "CMakeLists.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 0,
+      "message": "OK, thanks for the heads-up. The only reason I\u0027m modifying this file is to add ExternalSensor compilation orthogonally to the others. This could be done either in Meson or CMakeLists.txt, I\u0027m OK with either.",
+      "parentUuid": "f64edbd8_5114b2b7",
+      "revId": "6736d4b2a77cec00a8919f26035176c8b8025a4d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

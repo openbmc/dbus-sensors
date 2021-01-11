@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ca45931_5baebe9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "Nice, did not know that.",
+      "parentUuid": "a160a79b_99611b2f",
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24949ee0_d305bb83",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -39,6 +57,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f2ba159_ffe32464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "Hmm, where should they be added? In entity-manager/schemas/legacy.json I found 2 large dictionaries, \"properties\" and \"Types\". Should the new terms (Measure, MinValue, MaxValue) be added here? Other daemons have been using MinValue and MaxValue for some time as well (such as PSUSensor), I\u0027m surprised they are not already listed.",
+      "parentUuid": "24949ee0_d305bb83",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 2
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "79131a0d_4901ce72",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "After discussion, I\u0027m going to make this a separate include file, and put an allowlist in the include file. Although I disagree with it, the existing design philosophy in dbus-sensors seems to be to use allowlists to represent what has been tested and approved already, instead of being made to be general enough to accept unapproved new things. It also appears that the allowlist of allowed sensor object paths is not yet enumerated anywhere in dbus-sensors, so it\u0027s a good opportunity to add it now.",
+      "parentUuid": "f52c4bc5_9fc5e46e",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "183339d9_c7bd3ee2",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "77365945_472a55a8",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "Done. Since it\u0027s singular, also changed its name to \"sensorType\".",
+      "parentUuid": "183339d9_c7bd3ee2",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01d71414_4d0ef857",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -108,6 +198,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf03dfc8_6cd73ccb",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "It already is in the commit message.",
+      "parentUuid": "01d71414_4d0ef857",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -146,6 +260,24 @@
     },
     {
       "key": {
+        "uuid": "635b198d_f5665a9b",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "That would be over-engineered. Removed this entire function anyway.",
+      "parentUuid": "671e10ef_d1ef7218",
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9b67712_fba1d8d9",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -166,6 +298,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "652db5a5_6ce85fca",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "That would be over-engineered. Removed this entire function anyway.",
+      "parentUuid": "c9b67712_fba1d8d9",
+      "range": {
+        "startLine": 52,
+        "startChar": 57,
+        "endLine": 52,
+        "endChar": 66
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -192,6 +348,30 @@
     },
     {
       "key": {
+        "uuid": "a9d1e5f0_3ff050dc",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "OK, I\u0027ll have the caller check for an empty string, instead of doing it within this function.",
+      "parentUuid": "ee67bea7_2e47664a",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 13
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bf5c234_c3425be2",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -215,6 +395,30 @@
     },
     {
       "key": {
+        "uuid": "96162a14_dbc4634a",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "Removed this entire function.",
+      "parentUuid": "5bf5c234_c3425be2",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c4341cb_e11cbe85",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -229,6 +433,24 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6097374_c769360e",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "Removed this entire function.",
+      "parentUuid": "1c4341cb_e11cbe85",
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +477,30 @@
     },
     {
       "key": {
+        "uuid": "787c7bca_3cf58847",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0c2032a2_10771015",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c5ba93_47635ac9",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -275,6 +521,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e8ea23f_9852d959",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "I removed these functions entirely. The usage of the visitors is more concise, so it isn\u0027t as much of a win anymore to have separate functions.",
+      "parentUuid": "68c5ba93_47635ac9",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 1
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -301,6 +571,30 @@
     },
     {
       "key": {
+        "uuid": "be9a6bbb_3af3c3d4",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "OK, can use references instead. The earlier intention was to just follow the existing code pattern as it already existed for other dbus-sensors daemons.",
+      "parentUuid": "eaf7587e_fdb93b2b",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 64
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ec570a_9cab7271",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -321,6 +615,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa2dda2_41fecdfd",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "OK, done. This also let me refactor it, to change more pointers to references.",
+      "parentUuid": "d2ec570a_9cab7271",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 17
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -347,6 +665,30 @@
     },
     {
       "key": {
+        "uuid": "d1556421_4b253d9b",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "OK, makes sense to require MinValue and MaxValue to be present. Since this sensor daemon is inherently more flexible than the others, it can\u0027t assume reasonable defaults, since reasonable values for the units will vary based on what\u0027s being measured.",
+      "parentUuid": "5a3c4b71_80be40be",
+      "range": {
+        "startLine": 175,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 59
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e5e26_02c9b544",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -367,6 +709,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c49f7dbe_db7f1c7e",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "OK, beefed up the ends_with() matcher here, to test it with a slash in front of it, thus comparing \"/bar\" with \"/foobar\" in your example, to cause a mismatch unless the entire basename matches.",
+      "parentUuid": "111e5e26_02c9b544",
+      "range": {
+        "startLine": 216,
+        "startChar": 35,
+        "endLine": 216,
+        "endChar": 44
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -393,6 +759,30 @@
     },
     {
       "key": {
+        "uuid": "fb73642f_c34347ec",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "Yikes. I think I\u0027ll go with the existing usage, as there\u0027s a lot of deep C++ voodoo in this alternative.",
+      "parentUuid": "72b47070_78ce03ff",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 51
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23d58e30_b59940ff",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -416,6 +806,30 @@
     },
     {
       "key": {
+        "uuid": "57eb82ce_c090aa55",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "OK, expanding out the wildcard captures. Also need the createSensors() parameters, used on line 297 here, so added those also.",
+      "parentUuid": "23d58e30_b59940ff",
+      "range": {
+        "startLine": 278,
+        "startChar": 9,
+        "endLine": 278,
+        "endChar": 10
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be098c25_e073b579",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 12
@@ -436,6 +850,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5d397f_208df9b1",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-11T07:55:57Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure why this little delay is here, but other dbus-sensors daemons seem to use it as well. Do you know what the purpose of it is? Also, you\u0027re right, this should be a constant defined somewhere else, and then used for all sensors that need it, instead of having to hardcode a number in each sensor. This should be the subject of another change, though.",
+      "parentUuid": "be098c25_e073b579",
+      "range": {
+        "startLine": 286,
+        "startChar": 68,
+        "endLine": 286,
+        "endChar": 69
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
