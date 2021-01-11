@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca313235_047219f3",
+        "filename": "include/SensorMeasures.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-11T16:24:11Z",
+      "side": 1,
+      "message": "Make a char* to avoid a global constructor at boot time.",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "37bd301c9c52564ce2205026328c31abd5905cdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41c9e079_94858fdf",
+        "filename": "include/SensorMeasures.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-11T16:24:11Z",
+      "side": 1,
+      "message": "unordered_set or boost::container::flat_set please.\n\nAlso, as a general rule, if/elseif switch statements compile to less code and are faster than making a map for fixed value sets like this.  dbus-sensors doesn\u0027t currently follow this rule, so up to you if you want to do it, but something to consider.\n\nAlso, if this isn\u0027t intended to be used directly, can you declare it inside InAllowedMeasures so we don\u0027t add to the sensors namespace.",
+      "range": {
+        "startLine": 16,
+        "startChar": 6,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "37bd301c9c52564ce2205026328c31abd5905cdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
