@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "df14a5cc_a4f8022a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-11T16:15:58Z",
+      "side": 1,
+      "message": "I\u0027m a little surprised they\u0027re not listed as well.  I can investigate, but yes, the schemas folder is the right place to put them, and there\u0027s a document on how to write new ones in that same folder.",
+      "parentUuid": "1f2ba159_ffe32464",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 2
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f52c4bc5_9fc5e46e",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 12
@@ -128,6 +152,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a2e3cba_c6d973bd",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-11T16:15:58Z",
+      "side": 1,
+      "message": "The above would work just fine.\n\nThere really hasn\u0027t been a case before where we\u0027re taking a dbus-sensor type from the user, hence why that list doesn\u0027t exist yet.  Most sensors have a fixed type, or a type determined by the underlying linux objects.",
+      "parentUuid": "79131a0d_4901ce72",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
