@@ -22,6 +22,30 @@
       "revId": "33ab6fead2f3c88d408d86054858ac6678cc1f28",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "298b0fd7_4df9c836",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-01-13T01:42:11Z",
+      "side": 1,
+      "message": "I had tried this, it works but can not pass CI test before I push this patch to gerrit.\nCI test returns \"error: implicit conversion from \u0027float\u0027 to \u0027double\u0027 to match other operand of binary expression\".",
+      "parentUuid": "7c90fc79_d8de2865",
+      "range": {
+        "startLine": 218,
+        "startChar": 36,
+        "endLine": 218,
+        "endChar": 57
+      },
+      "revId": "33ab6fead2f3c88d408d86054858ac6678cc1f28",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
