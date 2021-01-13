@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "4164d55b_7d331b74",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-01-13T19:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3566fe3_537dd960",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 4
+      },
+      "revId": "3a318e6bd99d334bd3bdea3ed94859014d949462",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74f72f66_3fe5b291",
         "filename": "src/FanMain.cpp",
         "patchSetId": 1
@@ -62,6 +86,30 @@
       "revId": "3a318e6bd99d334bd3bdea3ed94859014d949462",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1d0cf8d_bb092454",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-01-13T19:26:42Z",
+      "side": 1,
+      "message": "Added the static assert in the earlier place, I think we should not need to check the range at run time as getFanType() returns type in the range for sure.",
+      "parentUuid": "74f72f66_3fe5b291",
+      "range": {
+        "startLine": 204,
+        "startChar": 46,
+        "endLine": 204,
+        "endChar": 66
+      },
+      "revId": "3a318e6bd99d334bd3bdea3ed94859014d949462",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
