@@ -369,27 +369,23 @@ void createSensors(
 
                 if (connector != sensorData->end())
                 {
-                    auto findPwm = connector->second.find("Pwm");
-                    if (findPwm != connector->second.end())
+                    /* Use pwm name from PwmName if found in configuration,
+                     * otherwise use from Pwm */
+                    auto findOverride = connector->second.find("PwmName");
+                    if (findOverride != connector->second.end())
                     {
-
-                        size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
-                                                findPwm->second);
-                        /* use pwm name override if found in configuration else
-                         * use default */
-                        auto findOverride = connector->second.find("PwmName");
-                        if (findOverride != connector->second.end())
-                        {
-                            pwmName = std::visit(VariantToStringVisitor(),
-                                                 findOverride->second);
-                        }
-                        else
-                        {
-                            pwmName = "Pwm_" + std::to_string(pwm + 1);
-                        }
+                        pwmName = std::visit(VariantToStringVisitor(),
+                                             findOverride->second);
                     }
                     else
                     {
+                        auto findPwm = connector->second.find("Pwm");
+                        if (findPwm != connector->second.end())
+                        {
+                            unsigned int pwm = std::visit(
+                                VariantToUnsignedIntVisitor(), findPwm->second);
+                            pwmName = "Pwm_" + std::to_string(pwm + 1);
+                        }
                         std::cerr << "Connector for " << sensorName
                                   << " missing pwm!\n";
                     }
@@ -418,7 +414,8 @@ void createSensors(
                     std::move(sensorThresholds), *interfacePath, limits,
                     powerState, led);
 
-                if (fs::exists(pwmPath) && !pwmSensors.count(pwmPath))
+                if (!pwmName.empty() && fs::exists(pwmPath) &&
+                    !pwmSensors.count(pwmPath))
                 {
                     pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
                         pwmName, pwmPath, dbusConnection, objectServer,
