@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "e9c0c164_1a216294",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-14T13:12:21Z",
+      "side": 1,
+      "message": "OK. The document was somewhat confusing, a question: should they be added under \"properties\" or \"Types\"? Also, there\u0027s a note saying new additions to legacy.json are discouraged? That seems to be the only logical place to put it, though.",
+      "parentUuid": "df14a5cc_a4f8022a",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 2
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f52c4bc5_9fc5e46e",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 12
@@ -176,6 +200,30 @@
       "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf3182c_1f4cf8f3",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-14T13:12:21Z",
+      "side": 1,
+      "message": "OK, good. See the later patchset, I added a validation check against that, instead of allowing any value for sensorMeasure.",
+      "parentUuid": "2a2e3cba_c6d973bd",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
