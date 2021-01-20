@@ -34,6 +34,24 @@
       "revId": "99664a64311453601b17881e4f3eab49b75ee154",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7491c37a_7a521a7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-20T19:37:53Z",
+      "side": 1,
+      "message": "\u003e \u003e I\u0027m still trying to grok this patchset, so correct me if I\u0027m wrong here.\n\u003e \u003e \n\u003e \u003e This assumes that PWM output indexes, and fan rpm indexes are the same, right?  \n\u003e Yes. The old code made this assumption too. \n\u003e \n\u003e \u003e How does this handle things when the fan tach and the PWM are attached to different devices, such as what happens with the aspeed 2500 tacho driver and the PWM outputs?\n\u003e I am not sure whether this answers the question. Different devices will have different hwmon sys path, and under each path, tach and pwm sensors will be created for the fan*_input and pwm* with the same index.\n\nfan*_input and pwm* are not guaranteed to have the same index.\n\n\u003e This prevents the mismatch between tach and pwm from different paths when they have the same index.",
+      "parentUuid": "38c6cef9_3b46eb11",
+      "revId": "99664a64311453601b17881e4f3eab49b75ee154",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
