@@ -52,6 +52,24 @@
       "revId": "99664a64311453601b17881e4f3eab49b75ee154",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97d99a1d_ab4522e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-01-21T18:29:25Z",
+      "side": 1,
+      "message": "As discussed in our chat, the current old code assumes fan*_input and pwm* have the same index. If we need to modify the code to support different indexes, I am happy to help. Just let me know what kind of design/implementation we want.",
+      "parentUuid": "7491c37a_7a521a7e",
+      "revId": "99664a64311453601b17881e4f3eab49b75ee154",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
