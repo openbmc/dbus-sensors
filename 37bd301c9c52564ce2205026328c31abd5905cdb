@@ -93,6 +93,30 @@
       "revId": "37bd301c9c52564ce2205026328c31abd5905cdb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b20115_02c91d54",
+        "filename": "include/SensorMeasures.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-22T22:38:19Z",
+      "side": 1,
+      "message": "looks like you turned it into an unordered set, which is now going to construct every time it\u0027s looked up.\n\nAs far as switch statements on strings go, meh, they\u0027re about the same amount of code as an if/elseif statement with each element in a conditional, and only slightly less ugly.",
+      "parentUuid": "ce4c398d_18e8c538",
+      "range": {
+        "startLine": 16,
+        "startChar": 6,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "37bd301c9c52564ce2205026328c31abd5905cdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }

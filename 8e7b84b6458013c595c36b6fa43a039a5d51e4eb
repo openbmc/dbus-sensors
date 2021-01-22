@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34220b9e_e0f1620e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-22T22:38:19Z",
+      "side": 1,
+      "message": "all this looks like it\u0027s wrapped on 50 character spacing?  Can you reformat it to match the 50/72 spacing we normally use?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c931ffc_6308b10b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-22T22:38:19Z",
+      "side": 1,
+      "message": "Can you be a little more concrete than this?  I\u0027d love to just trust you that \"it works\" but everyones definition of \"works\" seems to be different 😊",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 47
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8d539ca_a6e93235",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-22T22:38:19Z",
+      "side": 1,
+      "message": "Can you take the word \"zone\" out of this?  Zones are a different thing than a sensor, and might include multiple sensors.",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea7627d6_bd2853bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-22T22:38:19Z",
+      "side": 1,
+      "message": "Can we call this \"type\" or \"units\" and have it match the enumeration here:\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/6f8ebc58ebe13e97522a7d1740690dde1adadaa8/xyz/openbmc_project/Sensor/Value.interface.yaml#L51\n\nI realize this is just going off the path version, and that\u0027s fine, but I think the Units field (and subsequent naming) makes it a lot more clear what it does, and how it relates to the dbus output, whereas users shouldn\u0027t really be using path at all.",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5016309_e0c12f94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-22T22:38:19Z",
+      "side": 1,
+      "message": "I wonder if we should start checking these kinds of things into an examples folder.  Food for thought, not required for this patchset though.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 2
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8f7d65b_cab85c3c",
+        "filename": "include/SensorMeasures.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-22T22:38:19Z",
+      "side": 1,
+      "message": "Now that this is in a function, can we just make this an array of const char* and do a linear search on it?  Constructing the unordered_set as well as all the strings is likely far more expensive than just doing a quick loop through values that are close to one another in RODATA.",
+      "range": {
+        "startLine": 19,
+        "startChar": 10,
+        "endLine": 19,
+        "endChar": 41
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
