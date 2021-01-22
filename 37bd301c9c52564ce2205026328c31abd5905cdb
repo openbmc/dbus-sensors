@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ca4451e_390cd8dd",
+        "filename": "include/SensorMeasures.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-22T05:06:23Z",
+      "side": 1,
+      "message": "OK, did it. That\u0027s a gotcha about std::string! Added future note for C++20 allowing constexpr std::string.",
+      "parentUuid": "ca313235_047219f3",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "37bd301c9c52564ce2205026328c31abd5905cdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41c9e079_94858fdf",
         "filename": "include/SensorMeasures.hpp",
         "patchSetId": 13
@@ -45,6 +69,30 @@
       "revId": "37bd301c9c52564ce2205026328c31abd5905cdb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce4c398d_18e8c538",
+        "filename": "include/SensorMeasures.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-22T05:06:23Z",
+      "side": 1,
+      "message": "OK, changed to std::unordered_set. Keeping it a vector for now, as that seems to be the cleanest approach. I did put it inside InAllowedMeasures(), though. Perhaps someday C++ will allow the switch statement on strings.",
+      "parentUuid": "41c9e079_94858fdf",
+      "range": {
+        "startLine": 16,
+        "startChar": 6,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "37bd301c9c52564ce2205026328c31abd5905cdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

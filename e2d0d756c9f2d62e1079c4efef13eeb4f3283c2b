@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "f4c7cd84_ed8361f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-22T05:06:23Z",
+      "side": 1,
+      "message": "OK, added it here: https://gerrit.openbmc-project.xyz/c/openbmc/entity-manager/+/39923/",
+      "parentUuid": "e9c0c164_1a216294",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 2
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f52c4bc5_9fc5e46e",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 12
@@ -985,6 +1009,30 @@
       "side": 1,
       "message": "\u003e I\u0027m not entirely sure why this little delay is here, but other dbus-sensors daemons seem to use it as well. Do you know what the purpose of it is?\n\nIt\u0027s a timer to avoid the sensor version of the stampeeding herd problem.  When sensors are added/removed at boot, there tends to be a lot of config changes that come in at once.  This timer forces the sensor to wait for at least one second of \"no new updates\" before trying to reconfigure the sensor subsystem which is relatively expensive to do.  Without this timer, boot would take much much longer.",
       "parentUuid": "7f5d397f_208df9b1",
+      "range": {
+        "startLine": 286,
+        "startChar": 68,
+        "endLine": 286,
+        "endChar": 69
+      },
+      "revId": "e2d0d756c9f2d62e1079c4efef13eeb4f3283c2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d16eece4_ee76ac80",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-22T05:06:23Z",
+      "side": 1,
+      "message": "Got it, thanks for the info.",
+      "parentUuid": "1ca66b1d_a5229215",
       "range": {
         "startLine": 286,
         "startChar": 68,
