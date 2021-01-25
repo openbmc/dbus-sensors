@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "d23a6e37_6d6202a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-25T15:59:45Z",
+      "side": 1,
+      "message": "\u003e Sorry, I intentionally thought about both of these during development, but excluded both.\n\u003e \n\u003e Reason is, the word \"Type\" is already massively overloaded, and I didn\u0027t want to add yet another meaning to it.\n\nAgreed, type is a bad thing to pick.\n\n\u003e \n\u003e Also, the word \"Units\" to me means the units of measurement such as volts, amps, degrees C, and so on. There is also a well-known meaning of \"Units\" within IPMI, and I don\u0027t want to cause confusion with that.\n\nYes, that\u0027s what I\u0027d like this field to represent, not the actual path, as we can point to the enum in phosphor-dbus-interfaces for documentation.\n\n\"Units\": \"DegreesC\"\n\nI think is a lot more clear, and can point to PDI for documentation.\n\n\"Measure\": \"temperature\"\nDoesn\u0027t have an equivalent doc we can point to, and is a lot less obvious what values are allowed, or why it\u0027s required.\n\nConsidering this file is supposed to contain zero IPMI data, it seems less likely that people would have any confusion about IPMI, but even if they do, IPMI is still a superset mapping of a \"units\" parameter, so it seems reasonable.\n\n\u003e \n\u003e I intentionally want to use \"Measure\" to specify what physical property is being measured, such as \"temperature\" in this case, and it corresponds 1:1 to the path name component in the D-Bus object path. This adjective isn\u0027t used anywhere yet, so it is a good choice for a newly added field.\n\n\"Measure\" isn\u0027t really a great descriptor either.",
+      "parentUuid": "54147b49_a21d06c5",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5016309_e0c12f94",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -234,6 +258,30 @@
       "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68d8f125_74747218",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-25T15:59:45Z",
+      "side": 1,
+      "message": "And not everyone upstreams their systems config file 😊\n\nThe hope was that there\u0027d be a least one representation of each type of config within the systems, but that turned out to not really work out.",
+      "parentUuid": "2c282587_e0281e6a",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 2
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
