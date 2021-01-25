@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "897c9353_e3775744",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-01-25T16:59:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2500db8d_74ae60ef",
+      "range": {
+        "startLine": 233,
+        "startChar": 12,
+        "endLine": 233,
+        "endChar": 18
+      },
+      "revId": "e707da12960c4bc9c57fcebad589dc04387d7dd1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e82ded84_418de565",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2021-01-21T22:36:54Z",
       "side": 1,
       "message": "Is the expected data format documented somewhere?",
+      "range": {
+        "startLine": 662,
+        "startChar": 12,
+        "endLine": 669,
+        "endChar": 13
+      },
+      "revId": "e707da12960c4bc9c57fcebad589dc04387d7dd1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf27754c_350a47cf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-01-25T16:59:44Z",
+      "side": 1,
+      "message": "It is based on OEM specified documentation.",
+      "parentUuid": "e82ded84_418de565",
       "range": {
         "startLine": 662,
         "startChar": 12,
@@ -68,6 +116,30 @@
       "revId": "e707da12960c4bc9c57fcebad589dc04387d7dd1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7d3083_59c33ee8",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-01-25T16:59:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d5ef26_e907243f",
+      "range": {
+        "startLine": 869,
+        "startChar": 0,
+        "endLine": 871,
+        "endChar": 44
+      },
+      "revId": "e707da12960c4bc9c57fcebad589dc04387d7dd1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
