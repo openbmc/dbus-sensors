@@ -377,12 +377,16 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
         // 4. no delays for all high events.
         if (change.threshold.direction == thresholds::Direction::LOW)
         {
-            if (change.asserted || thresholdTimer.hasActiveTimer(
-                                       change.threshold, !change.asserted))
+            if (change.asserted)
             {
                 thresholdTimer.startTimer(change.threshold, change.asserted,
                                           change.assertValue);
                 continue;
+            }
+            if (thresholdTimer.hasActiveTimer(change.threshold,
+                                              !change.asserted))
+            {
+                thresholdTimer.stopTimer(change.threshold, !change.asserted);
             }
         }
         assertThresholds(sensor, change.assertValue, change.threshold.level,
