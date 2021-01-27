@@ -84,6 +84,7 @@ struct CPUConfig
 };
 
 static constexpr const char* peciDev = "/dev/peci-";
+static constexpr const char* peciDevPath = "/sys/bus/peci/devices/";
 static constexpr const unsigned int rankNumMax = 8;
 
 namespace fs = std::filesystem;
@@ -167,8 +168,9 @@ bool createSensors(boost::asio::io_context& io,
     }
 
     std::vector<fs::path> hwmonNamePaths;
-    if (!findFiles(fs::path(R"(/sys/bus/peci/devices/peci-0)"),
-                   R"(\d+-.+/peci-.+/hwmon/hwmon\d+/name$)", hwmonNamePaths, 5))
+    if (!findFiles(fs::path(peciDevPath),
+                   R"(peci-\d+/\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
+                   hwmonNamePaths, 6))
     {
         std::cerr << "No CPU sensors in system\n";
         return true;
@@ -402,7 +404,7 @@ bool createSensors(boost::asio::io_context& io,
     return true;
 }
 
-void exportDevice(const CPUConfig& config)
+int exportDevice(const CPUConfig& config)
 {
     std::ostringstream hex;
     hex << std::hex << config.addr;
@@ -410,9 +412,12 @@ void exportDevice(const CPUConfig& config)
     std::string busStr = std::to_string(config.bus);
 
     std::string parameters = "peci-client 0x" + addrHexStr;
-    std::string device = "/sys/bus/peci/devices/peci-" + busStr + "/new_device";
+    std::string devPath = peciDevPath;
+    std::string delDevice = devPath + "peci-" + busStr + "/delete_device";
+    std::string newDevice = devPath + "peci-" + busStr + "/new_device";
+    std::string newClient = devPath + busStr + "-" + addrHexStr + "/driver";
 
-    std::filesystem::path devicePath(device);
+    std::filesystem::path devicePath(newDevice);
     const std::string& dir = devicePath.parent_path().string();
     for (const auto& path : std::filesystem::directory_iterator(dir))
     {
@@ -430,20 +435,38 @@ void exportDevice(const CPUConfig& config)
                 std::cout << parameters << " on bus " << busStr
                           << " is already exported\n";
             }
-            return;
+
+            std::ofstream delDeviceFile(delDevice);
+            if (!delDeviceFile.good())
+            {
+                std::cerr << "Error opening " << delDevice << "\n";
+                return -1;
+            }
+            delDeviceFile << parameters;
+            delDeviceFile.close();
+
+            break;
         }
     }
 
-    std::ofstream deviceFile(device);
+    std::ofstream deviceFile(newDevice);
     if (!deviceFile.good())
     {
-        std::cerr << "Error writing " << device << "\n";
-        return;
+        std::cerr << "Error opening " << newDevice << "\n";
+        return -1;
     }
     deviceFile << parameters;
     deviceFile.close();
 
+    if (!std::filesystem::exists(newClient))
+    {
+        std::cerr << "Error creating " << newClient << "\n";
+        return -1;
+    }
+
     std::cout << parameters << " on bus " << busStr << " is exported\n";
+
+    return 0;
 }
 
 void detectCpu(boost::asio::steady_timer& pingTimer,
@@ -459,6 +482,11 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
     for (CPUConfig& config : cpuConfigs)
     {
+        if (config.state == State::READY)
+        {
+            continue;
+        }
+
         std::string peciDevPath = peciDev + std::to_string(config.bus);
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
@@ -524,8 +552,21 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
             {
                 if (config.state == State::OFF)
                 {
-                    std::cout << config.name << " is detected\n";
-                    exportDevice(config);
+                    uint8_t pkgConfig[8];
+                    uint8_t cc;
+                    if (peci_RdPkgConfig(config.addr, PECI_MBX_INDEX_CPU_ID,
+                                         0, 4, &pkgConfig[0], &cc) == PECI_CC_SUCCESS)
+                    {
+                        std::cout << config.name << " is detected\n";
+                        if (exportDevice(config))
+                        {
+                            newState = State::OFF;
+                        }
+                    }
+                    else
+                    {
+                        newState = State::OFF;
+                    }
                 }
 
                 if (newState == State::ON)
