@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "8c456ce3_69c68ddc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-28T23:55:54Z",
+      "side": 1,
+      "message": "I\u0027m really not following how this is beyond the scope of the change, considering it\u0027s a change to the daemon you\u0027re building from scratch, and the config definition is being added.\n\nYou already have a mapping layer to some extent, looking up valid paths, now it just needs to map valid paths and units.  If you want me to write that code, I can.\n\nThe biggest reason I ask for this is there has been talk previously about deprecating the \"path is equal to units\" thing, and solely relying on units, and considering the config files are very long lived, I\u0027d like to avoid that issue in this case.  Also, at some point, we\u0027ll actually use units properly, and we\u0027ll need a lookup table either way, I\u0027d much rather the config file be Units-\u003epath than path-\u003eunits, just for sanity in documentation.",
+      "parentUuid": "ab13d830_0cc7170f",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5016309_e0c12f94",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
