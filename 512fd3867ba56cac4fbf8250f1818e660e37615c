@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d5140538_ec707f03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-29T00:12:10Z",
+      "side": 1,
+      "message": "One example is that if 3.3BAT is reading 3.0V and raising a voltage low warning. The sensor event won\u0027t get cleared even after the threshold is adjusted to 2.9V through IPMI command.",
+      "parentUuid": "861f0c38_df772477",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 57
+      },
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6210e82_c3e68b4c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-21T17:10:17Z",
       "side": 1,
       "message": "Please come up and test with a use case that doesn\u0027t involve the testing interfaces.  This seems like only a bug in the testing, not an actual error in the functionality..",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 91
+      },
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ae8fcd3_ba08c600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-29T00:12:10Z",
+      "side": 1,
+      "message": "will add for the above scenario.",
+      "parentUuid": "b6210e82_c3e68b4c",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2990c5e0_2c0bee9d",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-29T00:12:10Z",
+      "side": 1,
+      "message": "Sorry for not getting back to this sooner.\nAgreed, the cost here is one dbus signal on every sensor threshold creation, which is not ideal, but probably not a frequent event that happens continuously. The use case is not just a test procedure, it can be a customer actually adjusting threshold levels (through ipmi for example). \nThis \"extra\" signal will not cause extra entries in SEL if the threshold is not currently asserted. So it would behave as expected.\nhttps://github.com/openbmc/phosphor-sel-logger/blob/master/include/threshold_event_monitor.hpp#L81\n\nAnother option for addressing the issue is to allow threshold value property to change without recreating the interface and the sensors objects. I think it is a cleaner solution for this issue, but little concerned about breaking some other features that depend on the current behavior, i.e. new interfaces created. \nAny comments on this or other approaches are welcome.",
+      "parentUuid": "0c81f1e0_87a18897",
+      "range": {
+        "startLine": 325,
+        "startChar": 24,
+        "endLine": 325,
+        "endChar": 47
+      },
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61eebe27_67b0f903",
         "filename": "src/ADCSensor.cpp",
         "patchSetId": 5
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "8d13a7a9_a5970c45",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-29T00:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61eebe27_67b0f903",
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "059f5338_2164af8b",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 5
@@ -102,6 +192,24 @@
       "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7e071d_7fb6429f",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-01-29T00:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "059f5338_2164af8b",
+      "revId": "512fd3867ba56cac4fbf8250f1818e660e37615c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
