@@ -358,6 +358,30 @@
     },
     {
       "key": {
+        "uuid": "df886286_6a8fd662",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-29T20:59:04Z",
+      "side": 1,
+      "message": "You must\u0027ve read my mind, because I already did that, well, kinda, I called it SensorPaths.hpp, because it was more than just units;  Check out the current patchset.\n\nThere\u0027s a pointer to the file in a comment in the newest patchset.  It\u0027s not a file that dbus-sensors owns.",
+      "parentUuid": "9cc7d88f_f8b25a46",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5016309_e0c12f94",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
