@@ -286,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "be4b854f_fcbb3323",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-01-29T06:10:21Z",
+      "side": 1,
+      "message": "\u003e It is beyond the scope of ExternalSensor because all ExternalSensor needs to know, in order to function, is the correct name for the second-to-final path component. There\u0027s currently no way to define that, as \"Name\" is only for the final path component (the basename), not the second-to-final path component. \n\nUnits has a 1:1 relationship with the second to final path component, so that is how you should define it.  I\u0027m in no way suggesting you use Name to determine the units, or the second to last path.\n\n\u003e ExternalSensor needs both, in order to compose the full path string that will be used. So, I added \"Measure\", to provide this missing piece of knowledge.\n\nAgain....  Replacing with Units would be much more clear, and would just as easily convey that knowledge.\n\n\u003e \n\u003e Adding another feature, to get the content of \"Measure\" indirectly somehow, perhaps from a mapping table contained elsewhere, is another layer of indirection that isn\u0027t required for ExternalSensor to function.\n\nIt doesn\u0027t have to get the mapping from anywhere, you just have to change your lookup table of legal values to a lookup table of legal units to path conversions.\n\n\u003e In my opinion, it just adds a layer of obfuscation.\n\nHow so?  The config files are meant to model the system itself, and its external interfaces, not necessarily the internal structure.  IPMI and redfish expose \"units\" they do not expose the second to last dbus path.\n\n\u003e However, if you truly believe it is needed, then yes, I would like you to write it. That will save a lot of back-and-forth trying to come up with an acceptable table of \"unit names\" to second-to-final path components.\n\nHappy to.  BTW, the acceptable table of unit names to second-to-final-path components is documented in the sensor value interface in dbus-interfaces already, no need to argue about what the list should be (at least in the context of this patchset).",
+      "parentUuid": "e9c3a2d4_62c715ee",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5016309_e0c12f94",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
