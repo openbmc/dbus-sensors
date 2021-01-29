@@ -334,6 +334,30 @@
     },
     {
       "key": {
+        "uuid": "9cc7d88f_f8b25a46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-29T20:53:01Z",
+      "side": 1,
+      "message": "Yes, it still works. Thanks for more explanation. What file contains the existing table? SensorMeasures.hpp (maybe this file should be renamed to SensorUnits) would be the best place to add this table lookup at.",
+      "parentUuid": "52bc26ef_02cb5417",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5016309_e0c12f94",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
