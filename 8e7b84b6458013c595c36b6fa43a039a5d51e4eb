@@ -262,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "e9c3a2d4_62c715ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-01-29T06:01:15Z",
+      "side": 1,
+      "message": "It is beyond the scope of ExternalSensor because all ExternalSensor needs to know, in order to function, is the correct name for the second-to-final path component. There\u0027s currently no way to define that, as \"Name\" is only for the final path component (the basename), not the second-to-final path component. ExternalSensor needs both, in order to compose the full path string that will be used. So, I added \"Measure\", to provide this missing piece of knowledge.\n\nAdding another feature, to get the content of \"Measure\" indirectly somehow, perhaps from a mapping table contained elsewhere, is another layer of indirection that isn\u0027t required for ExternalSensor to function. In my opinion, it just adds a layer of obfuscation. However, if you truly believe it is needed, then yes, I would like you to write it. That will save a lot of back-and-forth trying to come up with an acceptable table of \"unit names\" to second-to-final path components.",
+      "parentUuid": "8c456ce3_69c68ddc",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "8e7b84b6458013c595c36b6fa43a039a5d51e4eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5016309_e0c12f94",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
