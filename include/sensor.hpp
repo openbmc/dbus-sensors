@@ -195,9 +195,11 @@ struct Sensor
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
-            "Value", value, [&](const double& newValue, double& oldValue) {
+            "Value", value,
+            [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
-            });
+            },
+            [this](const double&) { return value; });
         for (auto& threshold : thresholds)
         {
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
@@ -386,11 +388,11 @@ struct Sensor
         if (!readingStateGood())
         {
             markAvailable(false);
-            updateValueProperty(std::numeric_limits<double>::quiet_NaN());
+            value = std::numeric_limits<double>::quiet_NaN();
             return;
         }
 
-        updateValueProperty(newValue);
+        value = newValue;
         updateInstrumentation(newValue);
 
         // Always check thresholds after changing the value,
@@ -434,14 +436,5 @@ struct Sensor
             return true;
         }
         return false;
-    }
-
-  private:
-    void updateValueProperty(const double& newValue)
-    {
-        // Indicate that it is internal set call, not an external overwrite
-        internalSet = true;
-        updateProperty(sensorInterface, value, newValue, "Value");
-        internalSet = false;
     }
 };
