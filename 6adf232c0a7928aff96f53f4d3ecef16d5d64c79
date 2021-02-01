@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3f48158d_53958521",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-02-01T22:04:08Z",
+      "side": 1,
+      "message": "I think more explanation sentences are needed, as it is a bit hard for people who are not familiar with this area to get to know why you made the changes.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4996484_b7dbbe3e",
         "filename": "CMakeLists.txt",
         "patchSetId": 1
@@ -110,6 +133,75 @@
         "startChar": 8,
         "endLine": 266,
         "endChar": 23
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a8363f9_6fe70760",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-02-01T22:04:08Z",
+      "side": 1,
+      "message": "better to use the type explicitly for improved readability.",
+      "range": {
+        "startLine": 277,
+        "startChar": 4,
+        "endLine": 277,
+        "endChar": 8
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb73ce79_99ee2f78",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-02-01T22:04:08Z",
+      "side": 1,
+      "message": "This will overwrite the the case for gpiochip0. Is it intended?",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 32
+      },
+      "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d784e958_2d94896b",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-02-01T22:04:08Z",
+      "side": 1,
+      "message": "a space is needed after ,",
+      "range": {
+        "startLine": 307,
+        "startChar": 74,
+        "endLine": 307,
+        "endChar": 75
       },
       "revId": "6adf232c0a7928aff96f53f4d3ecef16d5d64c79",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
