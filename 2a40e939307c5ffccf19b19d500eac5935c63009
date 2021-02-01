@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ce59f07_0893049b",
+        "filename": "include/SensorPaths.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-01T21:26:35Z",
+      "side": 1,
+      "message": "Unit of \"RPM\" would be appropriate here, as \"RPM\" is already an acronym that\u0027s plural: revolutions per minute. \"RPMS\" is unusual.",
+      "revId": "2a40e939307c5ffccf19b19d500eac5935c63009",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
