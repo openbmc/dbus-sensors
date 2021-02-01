@@ -52,6 +52,24 @@
       "revId": "2a40e939307c5ffccf19b19d500eac5935c63009",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f65d7ea1_82763fe7",
+        "filename": "include/SensorPaths.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-01T22:03:43Z",
+      "side": 1,
+      "message": "Nice, didn\u0027t know this was already defined in a YAML file somewhere. Copying it verbatim, even with the grammatical error, is probably the best thing to do at the moment.",
+      "parentUuid": "bb89467d_2f71d774",
+      "revId": "2a40e939307c5ffccf19b19d500eac5935c63009",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
