@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba665b5b_eb62272f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-01T21:14:28Z",
+      "side": 1,
+      "message": "Is this something need to be polled every second? If not, need to modify when it will be read per requirement",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "e707da12960c4bc9c57fcebad589dc04387d7dd1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2500db8d_74ae60ef",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 3
@@ -84,6 +107,30 @@
       "side": 1,
       "message": "It is based on OEM specified documentation.",
       "parentUuid": "e82ded84_418de565",
+      "range": {
+        "startLine": 662,
+        "startChar": 12,
+        "endLine": 669,
+        "endChar": 13
+      },
+      "revId": "e707da12960c4bc9c57fcebad589dc04387d7dd1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddd33a25_6ed671e8",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-01T21:14:28Z",
+      "side": 1,
+      "message": "Is this documentation public? Either add a pointer to the public documentation in commit message or add a comment here in the code the expected format of the data. Hard coded magic number like 3 here is not recommended normally.",
+      "parentUuid": "bf27754c_350a47cf",
       "range": {
         "startLine": 662,
         "startChar": 12,
