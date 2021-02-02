@@ -303,6 +303,12 @@ static void createSensorsCallback(
 {
     int numCreated = 0;
     bool firstScan = sensorsChanged == nullptr;
+    if (firstScan)
+    {
+        sensors.clear();
+        pwmSensors.clear();
+        combineEvents.clear();
+    }
 
     std::vector<fs::path> pmbusPaths;
     if (!findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths))
@@ -1117,6 +1123,47 @@ int main()
         matches.emplace_back(std::move(match));
     }
 
+    auto match = std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        "type='signal',member='InterfacesRemoved',arg0path='/xyz/"
+        "openbmc_project/inventory/system/powersupply/'",
+        [&](sdbusplus::message::message& message) {
+            if (message.is_method_error())
+            {
+                std::cerr << "callback method error\n";
+                return;
+            }
+            sdbusplus::message::object_path path;
+            std::set<std::string> interfaces;
+            try
+            {
+                message.read(path, interfaces);
+            }
+            catch (sdbusplus::exception_t&)
+            {
+                return;
+            }
+            auto findType = interfaces.find(
+                "xyz.openbmc_project.Inventory.Item.PowerSupply");
+            if (findType == interfaces.end())
+            {
+                return;
+            }
+
+            filterTimer.expires_from_now(boost::posix_time::seconds(3));
+            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return;
+                }
+                if (ec)
+                {
+                    std::cerr << "timer error\n";
+                }
+                createSensors(io, objectServer, systemBus, nullptr);
+            });
+        });
+    matches.emplace_back(std::move(match));
     setupManufacturingModeMatch(*systemBus);
     io.run();
 }
