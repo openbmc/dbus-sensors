@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35f24b43_f1a5a62b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000418
+      },
+      "writtenOn": "2021-02-02T16:32:02Z",
+      "side": 1,
+      "message": "Why we are removing this signal ?",
+      "revId": "ee5d1a5d33ce3c6143047279e79eb29c363150e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
