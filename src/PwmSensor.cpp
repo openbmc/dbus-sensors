@@ -87,8 +87,6 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             setValue(reqInt);
             resp = req;
 
-            controlInterface->signal_property("Target");
-
             return 1;
         },
         [this](double& curVal) {
@@ -101,8 +99,6 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                 double getScaled =
                     100.0 * (static_cast<double>(getInt) / pwmMax);
                 curVal = getScaled;
-                controlInterface->signal_property("Target");
-                sensorInterface->signal_property("Value");
             }
             return curVal;
         });
@@ -130,8 +126,6 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             setValue(static_cast<uint32_t>(roundValue));
             resp = req;
 
-            sensorInterface->signal_property("Value");
-
             return 1;
         },
         [this](uint64_t& curVal) {
@@ -142,8 +136,6 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             if (curVal != value)
             {
                 curVal = value;
-                controlInterface->signal_property("Target");
-                sensorInterface->signal_property("Value");
             }
             return curVal;
         });
