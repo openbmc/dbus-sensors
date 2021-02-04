@@ -42,7 +42,7 @@ PSUCombineEvent::PSUCombineEvent(
         std::string,
         boost::container::flat_map<std::string, std::vector<std::string>>>&
         groupEventPathList,
-    const std::string& combineEventName) :
+    const std::string& combineEventName, double pollRate) :
     objServer(objectServer)
 {
     eventInterface = objServer.add_interface(
@@ -70,7 +70,7 @@ PSUCombineEvent::PSUCombineEvent(
         {
             auto p = std::make_shared<PSUSubEvent>(
                 eventInterface, path, conn, io, eventName, eventName, assert,
-                combineEvent, state, psuName);
+                combineEvent, state, psuName, pollRate);
             p->setupRead();
 
             events[eventPSUName].emplace_back(p);
@@ -93,7 +93,8 @@ PSUCombineEvent::PSUCombineEvent(
             {
                 auto p = std::make_shared<PSUSubEvent>(
                     eventInterface, path, conn, io, groupEventName,
-                    groupPathList.first, assert, combineEvent, state, psuName);
+                    groupPathList.first, assert, combineEvent, state, psuName,
+                    pollRate);
                 p->setupRead();
                 events[eventPSUName].emplace_back(p);
 
@@ -143,13 +144,14 @@ PSUSubEvent::PSUSubEvent(
     const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
-    std::shared_ptr<bool> state, const std::string& psuName) :
+    std::shared_ptr<bool> state, const std::string& psuName, double pollRate) :
     std::enable_shared_from_this<PSUSubEvent>(),
     eventInterface(eventInterface), asserts(asserts),
     combineEvent(combineEvent), assertState(state), errCount(0), path(path),
     eventName(eventName), waitTimer(io), inputDev(io), psuName(psuName),
     groupEventName(groupEventName), systemBus(conn)
 {
+    eventPollMs = pollRate <= 0.0 ? defaultEventPollMs : pollRate * 1000;
     fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
