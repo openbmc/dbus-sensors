@@ -43,7 +43,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      const std::string& sensorConfiguration,
                      const std::string& sensorUnits, unsigned int factor,
                      double max, double min, const std::string& label,
-                     size_t tSize) :
+                     size_t tSize, double pollRate) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false, max,
            min, conn),
@@ -59,6 +59,10 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                   << " typename " << unitPath << " factor " << factor << " min "
                   << min << " max " << max << " name \"" << sensorName
                   << "\"\n";
+    }
+    if (pollRate > 0.0)
+    {
+        sensorPollMs = static_cast<unsigned int>(pollRate * 1000);
     }
 
     fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);

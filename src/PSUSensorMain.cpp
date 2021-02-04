@@ -466,6 +466,20 @@ static void createSensorsCallback(
             }
         }
 
+        /* The poll rate for the sensors */
+        double pollRate = 0.0;
+        auto pollRateObj = baseConfig->second.find("PollRate");
+
+        if (pollRateObj != baseConfig->second.end())
+        {
+            pollRate =
+                std::visit(VariantToDoubleVisitor(), pollRateObj->second);
+            if (pollRate <= 0.0)
+            {
+                pollRate = PSUSensor::defaultSensorPoll;
+            }
+        }
+
         /* Find array of labels to be exposed if it is defined in config */
         std::vector<std::string> findLabels;
         auto findLabelObj = baseConfig->second.find("Labels");
@@ -822,7 +836,8 @@ static void createSensorsCallback(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
                 findSensorUnit->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                psuProperty->minReading, labelHead, thresholdConfSize,
+                pollRate);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (debug)
@@ -836,7 +851,7 @@ static void createSensorsCallback(
         combineEvents[*psuName + "OperationalStatus"] =
             std::make_unique<PSUCombineEvent>(
                 objectServer, dbusConnection, io, *psuName, eventPathList,
-                groupEventPathList, "OperationalStatus");
+                groupEventPathList, "OperationalStatus", pollRate);
     }
 
     if constexpr (debug)
