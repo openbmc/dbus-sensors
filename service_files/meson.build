@@ -8,7 +8,7 @@ unit_files = [
     ['intrusion', 'xyz.openbmc_project.intrusionsensor.service'],
     ['mcu-temp', 'xyz.openbmc_project.mcutempsensor.service'],
     ['nvme', 'xyz.openbmc_project.nvmesensor.service'],
-    ['psu-temp', 'xyz.openbmc_project.psusensor.service'],
+    ['psu', 'xyz.openbmc_project.psusensor.service'],
 ]
 
 foreach tuple : unit_files
@@ -21,6 +21,4 @@ foreach tuple : unit_files
             output: tuple[1],
         )
     endif
-
-
 endforeach

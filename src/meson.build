@@ -156,7 +156,7 @@ if get_option('nvme').enabled()
     executable(
         'nvmesensor',
         'NVMeSensorMain.cpp',
-	'NVMeSensor.cpp',
+        'NVMeSensor.cpp',
         dependencies: [
             i2c,
             sdbusplus,
@@ -172,9 +172,9 @@ if get_option('nvme').enabled()
     )
 endif
 
-if get_option('psu-temp').enabled()
+if get_option('psu').enabled()
     executable(
-        'psutempsensor',
+        'psusensor',
         'PSUEvent.cpp',
         'PSUSensor.cpp',
         'PSUSensorMain.cpp',

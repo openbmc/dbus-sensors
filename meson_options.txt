@@ -8,6 +8,6 @@ option('ipmb', type: 'feature', value: 'enabled', description: 'Enable IPMB sens
 option('mcu', type: 'feature', value: 'enabled', description: 'Enable CPU sensor.',)
 option('mcu-temp', type: 'feature', value: 'enabled', description: 'Enable MCU sensor.',)
 option('nvme', type: 'feature', value: 'disabled', description: 'Enable NVMe sensor.',)
-option('psu-temp', type: 'feature', value: 'enabled', description: 'Enable PSU sensor.',)
+option('psu', type: 'feature', value: 'enabled', description: 'Enable PSU sensor.',)
 option('external', type: 'feature', value: 'enabled', description: 'Enable External sensor.',)
 option('tests', type: 'feature', description: 'Build tests.',)
