@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70aca948_1c471f73",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000502
+      },
+      "writtenOn": "2021-02-05T00:54:22Z",
+      "side": 1,
+      "message": "Unintended whitespace?",
+      "revId": "194146691e98fb32c2c68fa943f64cba94f3b950",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d9a8a15_66f15ed2",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1000502
+      },
+      "writtenOn": "2021-02-05T00:54:22Z",
+      "side": 1,
+      "message": "This looks like a behavior change. Should this be toupper()?",
+      "revId": "194146691e98fb32c2c68fa943f64cba94f3b950",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
