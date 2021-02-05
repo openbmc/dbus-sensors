@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e52cf620_839979d6",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T01:04:52Z",
+      "side": 1,
+      "message": "Looks like..... it\u0027s strange clang-format didn\u0027t catch that.  Will fix.",
+      "parentUuid": "70aca948_1c471f73",
+      "revId": "194146691e98fb32c2c68fa943f64cba94f3b950",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d9a8a15_66f15ed2",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 35
@@ -30,6 +48,24 @@
       "writtenOn": "2021-02-05T00:54:22Z",
       "side": 1,
       "message": "This looks like a behavior change. Should this be toupper()?",
+      "revId": "194146691e98fb32c2c68fa943f64cba94f3b950",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55c7541a_e3f543e5",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T01:04:52Z",
+      "side": 1,
+      "message": "good catch.  will fix.",
+      "parentUuid": "0d9a8a15_66f15ed2",
       "revId": "194146691e98fb32c2c68fa943f64cba94f3b950",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
