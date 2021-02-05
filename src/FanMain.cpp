@@ -328,6 +328,7 @@ void createSensors(
                 {
                     auto findPolarity = presenceConfig->second.find("Polarity");
                     auto findPinName = presenceConfig->second.find("PinName");
+                    auto findPollRate = presenceConfig->second.find("PollRate");
 
                     if (findPinName == presenceConfig->second.end() ||
                         findPolarity == presenceConfig->second.end())
@@ -338,11 +339,17 @@ void createSensors(
                     {
                         bool inverted = std::get<std::string>(
                                             findPolarity->second) == "Low";
+                        double pollRate = 0.0;
+                        if (findPollRate != presenceConfig->second.end())
+                        {
+                            pollRate = std::visit(VariantToDoubleVisitor(),
+                                                  findPollRate->second);
+                        }
                         if (auto pinName =
                                 std::get_if<std::string>(&findPinName->second))
                         {
                             presenceSensor = std::make_unique<PresenceSensor>(
-                                *pinName, inverted, io, sensorName);
+                                *pinName, inverted, io, sensorName, pollRate);
                         }
                         else
                         {
