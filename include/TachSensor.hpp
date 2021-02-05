@@ -17,16 +17,12 @@
 #include <utility>
 #include <vector>
 
-namespace presence
-{
-static constexpr unsigned int gpioScanMs = 2000;
-}
-
 class PresenceSensor
 {
   public:
     PresenceSensor(const std::string& pinName, bool inverted,
-                   boost::asio::io_service& io, const std::string& name);
+                   boost::asio::io_service& io, const std::string& name,
+                   double pollRate);
     ~PresenceSensor();
 
     void monitorPresence(void);
@@ -41,6 +37,7 @@ class PresenceSensor
     gpiod::line gpioLine;
     boost::asio::posix::stream_descriptor gpioFd;
     std::string name;
+    unsigned int gpioScanMs;
     void checkGPIOInterruptible(void);
 };
 
