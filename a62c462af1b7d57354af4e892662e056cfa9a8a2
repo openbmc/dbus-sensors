@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "31275f27_1f537698",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T17:28:40Z",
+      "side": 1,
+      "message": "I didn\u0027t write it, and it\u0027s a sign that this file needs refactored. 😊\n\nIn theory, I don\u0027t think assertThresholds needs the Sensor object itself, just a couple of fields from it, which would fix this forward declaration.\n\nIt should be noted, this is also clogging up the global namespace, which is equally as bad.\n\n\nps, the irony here is that you actually pointed out the design issue (taking sensor by reference in a timer) that caused this to have to be forward declared.  If this code were submitted today, I probably wouldn\u0027t accept it.",
+      "parentUuid": "20af8383_350450c1",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bfdd4594_33009feb",
         "filename": "include/Thresholds.hpp",
         "patchSetId": 16
@@ -47,6 +65,24 @@
       "writtenOn": "2021-02-05T08:19:33Z",
       "side": 1,
       "message": "What is the lifetime of this? Member variables that are references always make me uneasy. Especially when they are used in a lambda passed elsewhere. Do we guarantee Boost won\u0027t call it after the lifetime ends?",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5cb584c_67361f4b",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T17:28:40Z",
+      "side": 1,
+      "message": "\u003e What is the lifetime of this?\n\nLonger than the lifetime of the ThresholdTimer class\n\n\u003e Member variables that are references always make me uneasy.\n\nAgreed.  I\u0027m not in love with this one, but this is no worse than it was before, and in normal use (putting a ThresholdTimer within a sensor instance) the lifetimes are correct, even if it\u0027s easy to get wrong if this were a generic thing.  It\u0027s ripe for improvement if you wanted to refactor it.\n\n\u003e Especially when they are used in a lambda passed elsewhere. Do we guarantee Boost won\u0027t call it after the lifetime ends?\n\nYes, this is one of boost asios guarantees.  Some others are:\n1. All async operations callback handlers will be called exactly once per async_* call.\n2. On destruction of the underlying object, the callback will be called from the destructor with an \"operation aborted\" error message.",
+      "parentUuid": "bfdd4594_33009feb",
       "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "4f8711f2_9ffa9e54",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T17:28:40Z",
+      "side": 1,
+      "message": "\u003e I like this syntax! Using a lambda inline avoids having to make a dummy function. It also can be replaced, like any other member variable, without having to use inheritance. And good to rename it as well, to make it easy to catch all previous usages.\n\n\u003e \n\u003e However, shouldn\u0027t there be something like the below in the constructor of each sensor daemon\u0027s WhateverSensor object?\n\u003e sensor.checkThresholdsFunc \u003d [this]() { this-\u003echeckThresholds(); };\n\nYes, there should.  If I missed one, it\u0027s a mistake.\n\n\u003e \n\u003e I see this for most, but not all, sensor daemons. Have all existing usages of checkThresholds() been audited?\n\nAt the time I originally authored this patch, I thought I had covered all of them, but it\u0027s quite possible I messed it up somewhere in one of the rebases.  I\u0027ll take another look.",
+      "parentUuid": "e76140a6_cab37e9d",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93033c50_9db42e0f",
         "filename": "src/CPUSensorMain.cpp",
         "patchSetId": 16
@@ -81,6 +135,24 @@
       "writtenOn": "2021-02-05T08:19:33Z",
       "side": 1,
       "message": "I\u0027m curious why the new syntax, and why it needs to be laundered through a tuple. What advantage does this bring, versus the increase in the difficulty of understanding what it does?",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5766f4aa_c976b09d",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T17:28:40Z",
+      "side": 1,
+      "message": "This is a long story, but the short version is:\n\nBecause of the way dbus interfaces work, old sensors with the same name need to be destroyed before the new sensor is created.  Originally this code was something like\n\ngCpuSensors[sensorName] \u003d std::make_unique\u003cCPUSensor\u003e....\n\nWhich is exactly what a sane person would write.  In practice, this caused a really bad bug, where on reconfigure events, dbus would see.\n\nSensor Foo added sensor.value interface\n\nThen later on a reconfigure\nSensor Foo added sensor.value interface\nSensor Foo removed sensor.value interface\n\n\nEven though the sensor is still alive, the second add happened before the first remove, so the mapper removes it, and the sensor disappears.\n\nTo combat this, James wrote the code on the left, which destroys the old object (thus sending the removed events) explicitly before creating the new object.  He only had to do this because him and I stared at the compiler for several hours, and couldn\u0027t figure out the syntax to do an in-place replace of an object, rather than a construct and a move.\n\nThe code below, is the code we couldn\u0027t figure out at the time (turns out it needed c++14).   While complicated, is simpler in execution, and does exactly what we want here, destroys the old sensor object if it exists, and constructs a new one, all in one step.\n\nAs far as why it needs to use tuple, that\u0027s a question for the standards committee.  I\u0027m sure they had their reasons.",
+      "parentUuid": "93033c50_9db42e0f",
       "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "9b2068cb_9ead6890",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T17:28:40Z",
+      "side": 1,
+      "message": "in this usage the lambda is already an rvalue.  std::move is meant to turn an lvalue into an rvalue, so wrapping this in std::move does nothing here, except add code.  This throws a warning in clang-tidy, because it\u0027s clear you intended something, but you operated on the wrong thing.\n\nIt should be noted, I really wish they had made this a compiler error in the c++ standard, but I\u0027m sure they had their reasons.",
+      "parentUuid": "3255928b_529052fc",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26e22265_dcbec225",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 16
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "69f815bd_b7ad2adc",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T17:28:40Z",
+      "side": 1,
+      "message": "if I remember right, dbusConnection is a shared_ptr, because it needs to be shared among all the various sensors in this daemon.  In theory, it\u0027s really a singleton, and we could probably move to a pattern like\n\nstatic DbusConnection\u0026 getDbus(){\n    static DbusConnection;\n    return DbusConnection;\n} \n\nSo we can avoid passing the connection around everywhere, but that would be for a future refactoring.",
+      "parentUuid": "26e22265_dcbec225",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cd9ea07_b40917fc",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 16
@@ -132,6 +240,24 @@
       "writtenOn": "2021-02-05T08:19:33Z",
       "side": 1,
       "message": "Curious why this renaming, it doesn\u0027t seem to change anything except the name, and creates a substantial blast radius below.",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "176b5dd6_4b4ba694",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T17:28:40Z",
+      "side": 1,
+      "message": "because all sensors now have a \"sensor\" member, this was a shadowed variable, which the compiler flagged, and had to be renamed to something that didn\u0027t shadow.  I could\u0027ve named all the other sensor member variables to something different, but changing this seemed like it would keep more consistency between sensors.",
+      "parentUuid": "9cd9ea07_b40917fc",
       "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
