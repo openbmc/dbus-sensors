@@ -39,6 +39,7 @@
 
 static constexpr unsigned int pwmPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;
+static constexpr unsigned int defaultGpioScanMs = 2000;
 
 TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        sdbusplus::asio::object_server& objectServer,
@@ -203,9 +204,11 @@ void TachSensor::checkThresholds(void)
 
 PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
                                boost::asio::io_service& io,
-                               const std::string& name) :
+                               const std::string& name, double pollRate) :
     inverted(inverted),
-    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name), timer(io)
+    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name), timer(io),
+    gpioScanMs(pollRate <= 0.0 ? defaultGpioScanMs
+                               : static_cast<unsigned int>(pollRate * 1000))
 {
     if (!gpioLine)
     {
@@ -298,7 +301,7 @@ void PresenceSensor::monitorPresence(void)
     }
     else
     {
-        timer.expires_after(std::chrono::milliseconds(presence::gpioScanMs));
+        timer.expires_after(std::chrono::milliseconds(gpioScanMs));
         timer.async_wait(handler);
     }
 }
