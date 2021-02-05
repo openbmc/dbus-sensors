@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15bc8736_5dbbe88c",
+        "filename": "include/ExitAirTempSensor.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "Is there something unique about ExitAirTempSensor that makes it still require std::enable_shared_from_this()? The other sensor daemons do not.",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20af8383_350450c1",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "A forward declaration! :)",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfdd4594_33009feb",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "What is the lifetime of this? Member variables that are references always make me uneasy. Especially when they are used in a lambda passed elsewhere. Do we guarantee Boost won\u0027t call it after the lifetime ends?",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e76140a6_cab37e9d",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "I like this syntax! Using a lambda inline avoids having to make a dummy function. It also can be replaced, like any other member variable, without having to use inheritance. And good to rename it as well, to make it easy to catch all previous usages.\n\nHowever, shouldn\u0027t there be something like the below in the constructor of each sensor daemon\u0027s WhateverSensor object?\nsensor.checkThresholdsFunc \u003d [this]() { this-\u003echeckThresholds(); };\n\nI see this for most, but not all, sensor daemons. Have all existing usages of checkThresholds() been audited?",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93033c50_9db42e0f",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "I\u0027m curious why the new syntax, and why it needs to be laundered through a tuple. What advantage does this bring, versus the increase in the difficulty of understanding what it does?",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3255928b_529052fc",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "Does it still require a std::move() of the lambda object, when passing it into setupSensorMatch() here? I am curious why the old code used std::move() but the new code no longer does.",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26e22265_dcbec225",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "I\u0027m curious, with all the recent refactoring of pointers into references, should dbusConnection also be similarly refactored?",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cd9ea07_b40917fc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "Curious why this renaming, it doesn\u0027t seem to change anything except the name, and creates a substantial blast radius below.",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08577e06_c556edbd",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-05T08:19:33Z",
+      "side": 1,
+      "message": "Does PSUSensor require std::enable_shared_from_this anymore? I remember some complicated code that was added earlier, to clean up ownership and deal with lingering callbacks. I wonder if that complicated code is still necessary, now that \"sensor\" is a member and no longer subclassed.",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
