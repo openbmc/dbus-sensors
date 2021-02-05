@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e0ca2452_83eadadf",
+        "filename": ".clang-tidy",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T16:26:40Z",
+      "side": 1,
+      "message": "Depends on how you define original.  I wrote it originally for bmcweb.",
+      "parentUuid": "2d19d5e8_bd10be08",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "449c0beb_28cf227f",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 36
@@ -30,6 +48,24 @@
       "writtenOn": "2021-02-05T08:41:15Z",
       "side": 1,
       "message": "I wonder why it wanted \"path\" to be reconstructed like that here?",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a55e98d7_bfd2766a",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T16:26:40Z",
+      "side": 1,
+      "message": "I suspect because path is a reference, using path would always be a copy, whereas this in theory could use RVO to make it a move?  Just a guess in the blind.",
+      "parentUuid": "449c0beb_28cf227f",
       "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a35ce072_d8cbd412",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T16:26:40Z",
+      "side": 1,
+      "message": "std::from_chars is just better in nearly every way, unless you care about locale stuff.\n\n1. It returns an error code instead of throwing.\n2. It can handle any int type through the template that supports std::numeric_limits (ie all of them), not just the few that are defined for stoul\n3. It has better defined behavior when you\u0027re reading into an integer type that might need to be downcast to a smaller type (ie, it doesn\u0027t need the down cast at all).\n4. It doesn\u0027t pull in locale code, and isn\u0027t locale specific.\n\n\nIt was done here because we were getting a warning on compressing an unsigned long into an int, whereas with from_chars, we can load data into the int directly.  I would\u0027ve called this a mechanical change, but I\u0027m happy to mention it in the commit message if you want.",
+      "parentUuid": "ada2a093_82b80370",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9a71df1_501ec00c",
         "filename": "src/Utils.cpp",
         "patchSetId": 36
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "54efdb7f_f88b7336",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T16:26:40Z",
+      "side": 1,
+      "message": "in theory it\u0027s an upgrade, because we\u0027re now using the built-in methods for walking symlinks rather than trying to recurse them ourselves.\n\nThis was found because clang-tidy (rightly) warns on recursion, as in some extreme cases it can pop the stack.  Probably unlikely in this case, but worth it to change to get the check enabled.",
+      "parentUuid": "e9a71df1_501ec00c",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1920d60c_e5009505",
         "filename": "src/Utils.cpp",
         "patchSetId": 36
@@ -81,6 +153,24 @@
       "writtenOn": "2021-02-05T08:41:15Z",
       "side": 1,
       "message": "This is a functional change, not just a syntax cleanup, but it\u0027s a good bug fix. Apply the depth limitation to all subdirectories/symlinks, instead of just applying it to only symlinks.",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "176d041d_6f6d1cad",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-05T16:26:40Z",
+      "side": 1,
+      "message": "In theory the behavior is identical, in the old patchset we decremented symlinkDepth before recursing, so it should\u0027ve worked properly, this is just a change to support changing to relying on the recursive symlink iterator instead.",
+      "parentUuid": "1920d60c_e5009505",
       "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
