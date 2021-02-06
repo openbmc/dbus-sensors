@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "978be5a6_a7dbf316",
+        "filename": ".clang-tidy",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:38:49Z",
+      "side": 1,
+      "message": "Sounds good. Are comments allowed in this file, to mention that? Also, will this file proliferate into many multiple copies everywhere? I am guessing this is like a .clang-format file, in that you need to copy it everywhere it\u0027s needed, unfortunately, because clang-format does a directory-specific search when ran, so you can\u0027t just reference a common copy of it held elsewhere.",
+      "parentUuid": "e0ca2452_83eadadf",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "449c0beb_28cf227f",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 36
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I suspect because path is a reference, using path would always be a copy, whereas this in theory could use RVO to make it a move?  Just a guess in the blind.",
       "parentUuid": "449c0beb_28cf227f",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d29e6629_488f6b15",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:38:49Z",
+      "side": 1,
+      "message": "Might also be because the lambda is capturing by copy, and so it wants to construct it again so it can copy the reference object.\n\nIt does seem like a micro-optimization to want to have \"path\" be a reference and not just an ordinary variable that can be passed around when needed.",
+      "parentUuid": "a55e98d7_bfd2766a",
       "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "d56aed3d_f6c9aa0a",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:38:49Z",
+      "side": 1,
+      "message": "Nice, that makes sense. It would be worth mentioning some of these advantages, perhaps in a comment, as to why an ordinary std::stoul() wasn\u0027t done anymore.",
+      "parentUuid": "a35ce072_d8cbd412",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9a71df1_501ec00c",
         "filename": "src/Utils.cpp",
         "patchSetId": 36
@@ -142,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "53c92b55_bcb7ac14",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:38:49Z",
+      "side": 1,
+      "message": "Makes sense, but couldn\u0027t you have just added fs::directory_options::follow_directory_symlink to the parameters, without changing the syntax of the for-loop?",
+      "parentUuid": "54efdb7f_f88b7336",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1920d60c_e5009505",
         "filename": "src/Utils.cpp",
         "patchSetId": 36
@@ -171,6 +243,24 @@
       "side": 1,
       "message": "In theory the behavior is identical, in the old patchset we decremented symlinkDepth before recursing, so it should\u0027ve worked properly, this is just a change to support changing to relying on the recursive symlink iterator instead.",
       "parentUuid": "1920d60c_e5009505",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f24fd3e3_9ad07904",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:38:49Z",
+      "side": 1,
+      "message": "The old recursion call would act only if it encountered a symlink. The new code doesn\u0027t have an is_symlink() test here, so it would appear to act on all directories encountered, not just symlinks. This is the change I noticed.",
+      "parentUuid": "176d041d_6f6d1cad",
       "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
