@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fe2c1c54_ab7167df",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:28:16Z",
+      "side": 1,
+      "message": "Good to know, makes sense.",
+      "parentUuid": "31275f27_1f537698",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfdd4594_33009feb",
         "filename": "include/Thresholds.hpp",
         "patchSetId": 16
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "\u003e What is the lifetime of this?\n\nLonger than the lifetime of the ThresholdTimer class\n\n\u003e Member variables that are references always make me uneasy.\n\nAgreed.  I\u0027m not in love with this one, but this is no worse than it was before, and in normal use (putting a ThresholdTimer within a sensor instance) the lifetimes are correct, even if it\u0027s easy to get wrong if this were a generic thing.  It\u0027s ripe for improvement if you wanted to refactor it.\n\n\u003e Especially when they are used in a lambda passed elsewhere. Do we guarantee Boost won\u0027t call it after the lifetime ends?\n\nYes, this is one of boost asios guarantees.  Some others are:\n1. All async operations callback handlers will be called exactly once per async_* call.\n2. On destruction of the underlying object, the callback will be called from the destructor with an \"operation aborted\" error message.",
       "parentUuid": "bfdd4594_33009feb",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46fa6465_6b267d4a",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:28:16Z",
+      "side": 1,
+      "message": "Interesting. As for #2 above, despite the supposed design guarantee, I remember we finding this wasn\u0027t seeming to be happening as intended. In PSUSensor, there were strange crashes/misbehaviors that would happen if the sensors were reloaded during the run, and this was because Boost was calling stale callbacks after their underlying objects had been destroyed. The workaround was to add weak_ptr that would stretch the lifetime if needed, and cleanly let the callback become a no-op once it realized that its underlying object had already been destroyed by the time it was called: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/30763",
+      "parentUuid": "a5cb584c_67361f4b",
       "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -159,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "f9cb8012_380bcefd",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:28:16Z",
+      "side": 1,
+      "message": "OK, wow, that is pretty deep. Perhaps add the above note in a comment? I didn\u0027t know the below code would make a difference with respect to sequencing:  that it could change how the container works, to destroy the old sensor, and unmap it, then add the new sensor, and map it, in the proper sequence.",
+      "parentUuid": "5766f4aa_c976b09d",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3255928b_529052fc",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 16
@@ -191,6 +245,24 @@
       "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27091f21_3a18ce71",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:28:16Z",
+      "side": 1,
+      "message": "OK, makes sense. The idea of moving (versus copying) was added late in the language\u0027s syntax development, and it shows.",
+      "parentUuid": "9b2068cb_9ead6890",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -229,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "0c3c9b1f_d7ca9dc6",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:28:16Z",
+      "side": 1,
+      "message": "OK, makes sense.",
+      "parentUuid": "69f815bd_b7ad2adc",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cd9ea07_b40917fc",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 16
@@ -258,6 +348,24 @@
       "side": 1,
       "message": "because all sensors now have a \"sensor\" member, this was a shadowed variable, which the compiler flagged, and had to be renamed to something that didn\u0027t shadow.  I could\u0027ve named all the other sensor member variables to something different, but changing this seemed like it would keep more consistency between sensors.",
       "parentUuid": "9cd9ea07_b40917fc",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "610da84a_ecb419d7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-06T10:28:16Z",
+      "side": 1,
+      "message": "The name \"sensor\" does seem to be a rather simplistic name, for such an important object that\u0027s a long-lived member variable. If it were me, I would have called it \"sensorBase\" or \"sensorImpl\" or \"sensorMain\" or \"sensorCommon\" instead. This would also solve the name clash we see here, with local variables also named \"sensor\".\n\nI prefer to use simple all-lowercase words for temporaries and local variables instead, as the original code did here when it allocated a new Sensor object.",
+      "parentUuid": "176b5dd6_4b4ba694",
       "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
