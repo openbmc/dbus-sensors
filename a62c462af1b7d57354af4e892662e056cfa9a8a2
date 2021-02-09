@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "d628de8c_f6ab7327",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-09T01:46:57Z",
+      "side": 1,
+      "message": "\u003e Interesting. As for #2 above, despite the supposed design guarantee, I remember we finding this wasn\u0027t seeming to be happening as intended. In PSUSensor, there were strange crashes/misbehaviors that would happen if the sensors were reloaded during the run, and this was because Boost was calling stale callbacks after their underlying objects had been destroyed.\n\nYep.  The root cause of this is that Sensor is destroyed in the wrong order, and because it owns callbacks on the super class, might get called back on memory that no longer exists.  Having Sensor as a member variable instead of an inherited class actually gives us some ability to fix this, although I suspect fixing the check_thresholds thing probably fixes a lot of stuff.\n\n\u003e The workaround was to add weak_ptr that would stretch the lifetime if needed, and cleanly let the callback become a no-op once it realized that its underlying object had already been destroyed by the time it was called: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/30763\n\nYep, I recall that fix.  IMO it\u0027s a bit of a bandaid, as the ownership model is still wrong, it\u0027s just no longer fatal with the weak_ptr stuff, and you\u0027re forcing shared ownership on some things that really don\u0027t need it.\n\nOnce this lands, looking at the ownership model is on my short list to go look at here.",
+      "parentUuid": "46fa6465_6b267d4a",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e76140a6_cab37e9d",
         "filename": "include/sensor.hpp",
         "patchSetId": 16
@@ -207,6 +225,24 @@
       "side": 1,
       "message": "OK, wow, that is pretty deep. Perhaps add the above note in a comment? I didn\u0027t know the below code would make a difference with respect to sequencing:  that it could change how the container works, to destroy the old sensor, and unmap it, then add the new sensor, and map it, in the proper sequence.",
       "parentUuid": "5766f4aa_c976b09d",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ba0db0c_1c61d958",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-09T01:46:57Z",
+      "side": 1,
+      "message": "I can add a comment.  Technically the old code had a kind of OK comment, so best not to go backwards.\n\nACK.",
+      "parentUuid": "f9cb8012_380bcefd",
       "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -366,6 +402,24 @@
       "side": 1,
       "message": "The name \"sensor\" does seem to be a rather simplistic name, for such an important object that\u0027s a long-lived member variable. If it were me, I would have called it \"sensorBase\" or \"sensorImpl\" or \"sensorMain\" or \"sensorCommon\" instead. This would also solve the name clash we see here, with local variables also named \"sensor\".\n\nI prefer to use simple all-lowercase words for temporaries and local variables instead, as the original code did here when it allocated a new Sensor object.",
       "parentUuid": "176b5dd6_4b4ba694",
+      "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f002db4_7586b512",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-09T01:46:57Z",
+      "side": 1,
+      "message": "\u003e The name \"sensor\" does seem to be a rather simplistic name, for such an important object that\u0027s a long-lived member variable. If it were me, I would have called it \"sensorBase\"\n\nSensorBase implies it\u0027s a base class, which it is not.\n\n\u003e or \"sensorImpl\"\n\nSensorImpl implies it\u0027s an implementation of a virtual class, which it is not.\n\n\u003e or \"sensorMain\"\n\nSensorMain makes it collide with all the main() method filenames (PSUSensorMain, ect).  \n\n\u003e or \"sensorCommon\"\n\nThis name I can get behind.  Will fix.\n\n\u003e instead. This would also solve the name clash we see here, with local variables also named \"sensor\".\n\u003e \n\u003e I prefer to use simple all-lowercase words for temporaries and local variables instead, as the original code did here when it allocated a new Sensor object.\n\nunfortunately the coding standard doesn\u0027t have any such preference, but it\u0027s certainly something to consider for the future.",
+      "parentUuid": "610da84a_ecb419d7",
       "revId": "a62c462af1b7d57354af4e892662e056cfa9a8a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
