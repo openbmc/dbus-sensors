@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9ab690dc_fa5e0b49",
+        "filename": ".clang-tidy",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-09T18:23:49Z",
+      "side": 1,
+      "message": "I don\u0027t believe comments are allowed.  There\u0027s a patchset to add this to the docs repo so we don\u0027t proliferate, although each individual repo will have its own styles to some extent, given where they are today.",
+      "parentUuid": "978be5a6_a7dbf316",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "449c0beb_28cf227f",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 36
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Might also be because the lambda is capturing by copy, and so it wants to construct it again so it can copy the reference object.\n\nIt does seem like a micro-optimization to want to have \"path\" be a reference and not just an ordinary variable that can be passed around when needed.",
       "parentUuid": "a55e98d7_bfd2766a",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43e7818d_0b666ea4",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-09T18:23:49Z",
+      "side": 1,
+      "message": "But it\u0027s not a reference here.  It\u0027s taken by value/new construction, so the old code and this should be equivalent as far as the compiler is concerned......   It\u0027s too early for this kind of thinking.",
+      "parentUuid": "d29e6629_488f6b15",
       "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -161,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "19a1bec1_551f0058",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-09T18:23:49Z",
+      "side": 1,
+      "message": "I\u0027m going to answer no in this case;  from_chars is used often enough across the project that requiring a comment for every invocation would be a lot of extra code.  We\u0027ve already gone through replacing them in other repos, and haven\u0027t added the \"why this is better\" comment.\n\nComing up to 1000ft view, if we had to add an inline comment for every language feature we swapped in that was better (std::variant, std::span, std::optional, std::array, ect) half the code would be comments about that.",
+      "parentUuid": "d56aed3d_f6c9aa0a",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9a71df1_501ec00c",
         "filename": "src/Utils.cpp",
         "patchSetId": 36
@@ -214,6 +268,24 @@
     },
     {
       "key": {
+        "uuid": "78a61f80_f8d3b437",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-09T18:23:49Z",
+      "side": 1,
+      "message": "No, because the old way returned a directory reference, the new way returns a directory iterator (it\u0027s hard to see because they\u0027re both auto).\n\nWe need the directory iterator so that we can do p.disable_recursion_pending();\non it on line 216.  std::filesystem::path doesn\u0027t have that method.",
+      "parentUuid": "53c92b55_bcb7ac14",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1920d60c_e5009505",
         "filename": "src/Utils.cpp",
         "patchSetId": 36
@@ -261,6 +333,24 @@
       "side": 1,
       "message": "The old recursion call would act only if it encountered a symlink. The new code doesn\u0027t have an is_symlink() test here, so it would appear to act on all directories encountered, not just symlinks. This is the change I noticed.",
       "parentUuid": "176d041d_6f6d1cad",
+      "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c84f262_1204bc50",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-09T18:23:49Z",
+      "side": 1,
+      "message": "in the old code, the recursive_directory_iterator was handling recursion for normal files, and the is_symlink case was handling recursion for symlinks.  In the new code, recursive_directory_iterator handles for both, but you make a good point that now depth applies to not just symlinks, but for all things.\n\nThe depth thing was really only there to stop circular symlinks (like exist in hwmon) from recursing forever, for which I think this still works.  With that said, I can try to see if I can get the old behavior.",
+      "parentUuid": "f24fd3e3_9ad07904",
       "revId": "1576098f3d056440ded1aa2096e9d3e0062fc9e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
