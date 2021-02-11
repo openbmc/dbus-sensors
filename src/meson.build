@@ -134,7 +134,7 @@ if get_option('ipmb').enabled()
     )
 endif
 
-if get_option('mcu-temp').enabled()
+if get_option('mcu').enabled()
     executable(
         'mcutempsensor',
         'MCUTempSensor.cpp',

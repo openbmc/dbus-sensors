@@ -6,7 +6,6 @@ option('hwmon-temp', type: 'feature', value: 'enabled', description: 'Enable HWM
 option('intrusion', type: 'feature', value: 'enabled', description: 'Enable intrusion sensor.',)
 option('ipmb', type: 'feature', value: 'enabled', description: 'Enable IPMB sensor.',)
 option('mcu', type: 'feature', value: 'enabled', description: 'Enable CPU sensor.',)
-option('mcu-temp', type: 'feature', value: 'enabled', description: 'Enable MCU sensor.',)
 option('nvme', type: 'feature', value: 'disabled', description: 'Enable NVMe sensor.',)
 option('psu', type: 'feature', value: 'enabled', description: 'Enable PSU sensor.',)
 option('external', type: 'feature', value: 'enabled', description: 'Enable External sensor.',)
