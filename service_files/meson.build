@@ -9,6 +9,7 @@ unit_files = [
     ['mcu', 'xyz.openbmc_project.mcutempsensor.service'],
     ['nvme', 'xyz.openbmc_project.nvmesensor.service'],
     ['psu', 'xyz.openbmc_project.psusensor.service'],
+    ['external', 'xyz.openbmc_project.externalsensor.service'],
 ]
 
 foreach tuple : unit_files
