@@ -17,6 +17,7 @@
 #include <systemd/sd-journal.h>
 
 #include <PSUEvent.hpp>
+#include <SensorPaths.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
@@ -44,8 +45,9 @@ PSUCombineEvent::PSUCombineEvent(
     const std::string& combineEventName) :
     objServer(objectServer)
 {
+    std::string psuNameEscaped = sensor_paths::escapePathForDbus(psuName);
     eventInterface = objServer.add_interface(
-        "/xyz/openbmc_project/State/Decorator/" + psuName + "_" +
+        "/xyz/openbmc_project/State/Decorator/" + psuNameEscaped + "_" +
             combineEventName,
         "xyz.openbmc_project.State.Decorator.OperationalStatus");
     eventInterface->register_property("functional", true);
