@@ -41,7 +41,7 @@ thresholds_a = static_library(
 
 utils_a = static_library(
     'utils_a',
-    'src/Utils.cpp',
+    ['src/Utils.cpp', 'src/SensorPaths.cpp'],
     implicit_include_directories: false,
     include_directories: 'include',
 )

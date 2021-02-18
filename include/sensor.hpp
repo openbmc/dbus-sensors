@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SensorPaths.hpp>
 #include <Thresholds.hpp>
 #include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -41,7 +42,7 @@ struct Sensor
            const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
-        name(std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_")),
+        name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),

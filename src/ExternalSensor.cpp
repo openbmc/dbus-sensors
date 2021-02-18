@@ -36,12 +36,12 @@ ExternalSensor::ExternalSensor(
     // The caller must specify what physical characteristic
     // an external sensor is expected to be measuring, such as temperature,
     // as, unlike others, this is not implied by device type name.
-    std::string dbusPath = sensors::getPathForUnits(sensorUnits);
+    std::string dbusPath = sensor_paths::getPathForUnits(sensorUnits);
     if (dbusPath.empty())
     {
         throw std::runtime_error("Units not in allow list");
     }
-    std::string objectPath = sensors::objectPathPrefix;
+    std::string objectPath = "/xyz/openbmc_project/sensors/";
     objectPath += dbusPath;
     objectPath += '/';
     objectPath += sensorName;
