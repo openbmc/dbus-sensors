@@ -22,6 +22,52 @@
       "revId": "62f5f8d10f3e69f7a6bcf21e81b89cc514c94611",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "632d8e59_52bf9e03",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-18T18:59:07Z",
+      "side": 1,
+      "message": "if the string ends with _ this walks off the end of the string.",
+      "range": {
+        "startLine": 177,
+        "startChar": 64,
+        "endLine": 177,
+        "endChar": 67
+      },
+      "revId": "62f5f8d10f3e69f7a6bcf21e81b89cc514c94611",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cdcf00a_92bd2e03",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-18T18:59:07Z",
+      "side": 1,
+      "message": "same as above.",
+      "range": {
+        "startLine": 184,
+        "startChar": 62,
+        "endLine": 184,
+        "endChar": 66
+      },
+      "revId": "62f5f8d10f3e69f7a6bcf21e81b89cc514c94611",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
