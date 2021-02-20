@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fc5763f_3d8ba42a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-20T18:52:22Z",
+      "side": 1,
+      "message": "Better commit message needed here.  \"Correct\" is not a good description.  How were they wrong?  How would a user expect the resulting values to be changed after this patch?  Is this an issue with the exit air temp algorithm itself, or is it a problem with other things that happens to manifest as an exit air temp problem?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c26e7ef1_2681f9a6",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-20T18:52:22Z",
+      "side": 1,
+      "message": "This seems like an odd check.  Wouldn\u0027t we want to replace the power readings if they change, regardless of whether or not they already exist?\n\nI\u0027d expect that we want to do both line 551 AND line 556 in both conditions.  Unless I\u0027m really missing something here.",
+      "range": {
+        "startLine": 547,
+        "startChar": 0,
+        "endLine": 549,
+        "endChar": 25
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b109bcc6_3ea036bb",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-20T18:52:22Z",
+      "side": 1,
+      "message": "This should likely be weak_from_this().  If the sensor gets destroyed while we\u0027re doing this operation, we don\u0027t need an owning reference to it.",
+      "range": {
+        "startLine": 631,
+        "startChar": 46,
+        "endLine": 631,
+        "endChar": 62
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aceeecda_97ce7992",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-20T18:52:22Z",
+      "side": 1,
+      "message": "Wasn\u0027t mentioned in your commit message?  Not sure why we would want this.",
+      "range": {
+        "startLine": 684,
+        "startChar": 37,
+        "endLine": 684,
+        "endChar": 38
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5850abb5_b729f914",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-20T18:52:22Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we just fix the bug in fan sensor that publishes the bad reading?",
+      "range": {
+        "startLine": 801,
+        "startChar": 10,
+        "endLine": 801,
+        "endChar": 69
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2caa16a_d877f0f3",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-20T18:52:22Z",
+      "side": 1,
+      "message": "Please use:\nalphaDt \u003d std::clamp(alphaDt, 0.0, 1.0)",
+      "range": {
+        "startLine": 848,
+        "startChar": 0,
+        "endLine": 856,
+        "endChar": 0
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aef62e9_ea64465e",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-20T18:52:22Z",
+      "side": 1,
+      "message": "Can you please put this on line 927, right before we fill this back in, as well as a short comment why we\u0027re doing this (I\u0027m 99% I know why, but it\u0027s non-trivial and add to see).",
+      "range": {
+        "startLine": 914,
+        "startChar": 0,
+        "endLine": 914,
+        "endChar": 36
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
