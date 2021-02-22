@@ -42,11 +42,11 @@ HwmonTempSensor::HwmonTempSensor(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& sensorName,
-    std::vector<thresholds::Threshold>&& thresholds, const float pollRate,
+    std::vector<thresholds::Threshold>&& thresholdsIn, const float pollRate,
     const std::string& sensorConfiguration, const PowerState powerState) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"), std::move(thresholds),
-           sensorConfiguration, objectType, maxReading, minReading, conn,
-           powerState),
+    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
+           std::move(thresholdsIn), sensorConfiguration, objectType, maxReading,
+           minReading, conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
