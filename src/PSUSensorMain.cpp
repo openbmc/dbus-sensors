@@ -39,7 +39,9 @@
 
 static constexpr bool debug = false;
 
-static constexpr std::array<const char*, 22> sensorTypes = {
+static constexpr std::array<const char*, 25> sensorTypes = {
+    "xyz.openbmc_project.Configuration.ac01_smpro",
+    "xyz.openbmc_project.Configuration.ADM1266",
     "xyz.openbmc_project.Configuration.ADM1272",
     "xyz.openbmc_project.Configuration.ADM1278",
     "xyz.openbmc_project.Configuration.DPS800",
@@ -55,6 +57,7 @@ static constexpr std::array<const char*, 22> sensorTypes = {
     "xyz.openbmc_project.Configuration.MAX20730",
     "xyz.openbmc_project.Configuration.MAX20734",
     "xyz.openbmc_project.Configuration.MAX20796",
+    "xyz.openbmc_project.Configuration.MAX34440",
     "xyz.openbmc_project.Configuration.MAX34451",
     "xyz.openbmc_project.Configuration.pmbus",
     "xyz.openbmc_project.Configuration.PXE1610",
@@ -64,10 +67,11 @@ static constexpr std::array<const char*, 22> sensorTypes = {
     "xyz.openbmc_project.Configuration.TPS546D24"};
 
 static std::vector<std::string> pmbusNames = {
-    "adm1272",   "adm1278",   "dps800",    "ina219",   "ina230",   "isl68137",
-    "isl68220",  "isl68223",  "isl69243",  "isl69260", "max16601", "max20710",
-    "max20730",  "max20734",  "max20796",  "max34451", "pmbus",    "pxe1610",
-    "raa228000", "raa228228", "raa229004", "tps546d24"};
+    "ac01-smpro", "adm1266",   "adm1272",   "adm1278",   "dps800",
+    "ina219",     "ina230",    "isl68137",  "isl68220",  "isl68223",
+    "isl69243",   "isl69260",  "max16601",  "max20710",  "max20730",
+    "max20734",   "max20796",  "max34440",  "max34451",  "pmbus",
+    "pxe1610",    "raa228000", "raa228228", "raa229004", "tps546d24"};
 
 namespace fs = std::filesystem;
 
@@ -855,6 +859,9 @@ void propertyInitialize(void)
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},
                   {"pout2", PSUProperty("Output Power", 3000, 0, 6)},
                   {"pout3", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"pout4", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"pout5", PSUProperty("Output Power", 3000, 0, 6)},
+                  {"pout6", PSUProperty("Output Power", 3000, 0, 6)},
                   {"power1", PSUProperty("Output Power", 3000, 0, 6)},
                   {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6)},
                   {"vin", PSUProperty("Input Voltage", 300, 0, 3)},
@@ -915,6 +922,8 @@ void propertyInitialize(void)
                   {"temp4", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp5", PSUProperty("Temperature", 127, -128, 3)},
                   {"temp6", PSUProperty("Temperature", 127, -128, 3)},
+                  {"temp10", PSUProperty("Temperature", 127, -128, 3)},
+                  {"temp17", PSUProperty("Temperature", 127, -128, 3)},
                   {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3)},
                   {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0)},
                   {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0)}};
