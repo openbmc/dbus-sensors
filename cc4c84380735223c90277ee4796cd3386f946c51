@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5eac61af_fe713434",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-23T17:32:49Z",
+      "side": 1,
+      "message": "Will update with more description.",
+      "parentUuid": "4fc5763f_3d8ba42a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "53f69fa4_40381155",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "3a286194_5104626e",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-23T17:32:49Z",
+      "side": 1,
+      "message": "This is following the existing pattern for tachRanges. Line 206 -220.\nComment at line 550 explains that 551 includes 556 under the hood.\nThe goal for this patch is to make sure the calculation is correct and bounded.\n\nThat being said, the service is doing more calculation and update than other sensors.\nFor example, with six fans that updating every 500ms, one power supply, one inlet temp \nexit air temp will get recalculated eight times every 500ms.\nAnd I have seen this service stuck in a \"busy\" state with dbus connection timeout.\nI am also working on simplify it in a separate patch.",
+      "parentUuid": "c26e7ef1_2681f9a6",
+      "range": {
+        "startLine": 547,
+        "startChar": 0,
+        "endLine": 549,
+        "endChar": 25
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b109bcc6_3ea036bb",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 4
@@ -82,6 +130,30 @@
       "writtenOn": "2021-02-20T18:52:22Z",
       "side": 1,
       "message": "This should likely be weak_from_this().  If the sensor gets destroyed while we\u0027re doing this operation, we don\u0027t need an owning reference to it.",
+      "range": {
+        "startLine": 631,
+        "startChar": 46,
+        "endLine": 631,
+        "endChar": 62
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab52ef92_3031da48",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-23T17:32:49Z",
+      "side": 1,
+      "message": "Good catch, will update",
+      "parentUuid": "b109bcc6_3ea036bb",
       "range": {
         "startLine": 631,
         "startChar": 46,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "3b77d910_a2ef82ac",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-23T17:32:49Z",
+      "side": 1,
+      "message": "Will update commit message",
+      "parentUuid": "aceeecda_97ce7992",
+      "range": {
+        "startLine": 684,
+        "startChar": 37,
+        "endLine": 684,
+        "endChar": 38
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5850abb5_b729f914",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 4
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "80912345_cfe8fab1",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-23T17:32:49Z",
+      "side": 1,
+      "message": "I guess the wording was not accurate. The question here is:\nwhat should exit air temp be if we have a fan failure, giving us close to zero readings.\nTwo options here:\n1. exit air temp is not available\n2. limit the computation, so it give a high temp, but not extreme like thousands or more degrees.\nOption2 is implemented here because I don\u0027t know if there is a clear cut off on fan reading to make exit air n/a.\nBut I can be convinced to switch to option 1.",
+      "parentUuid": "5850abb5_b729f914",
+      "range": {
+        "startLine": 801,
+        "startChar": 10,
+        "endLine": 801,
+        "endChar": 69
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2caa16a_d877f0f3",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 4
@@ -151,6 +271,30 @@
       "writtenOn": "2021-02-20T18:52:22Z",
       "side": 1,
       "message": "Please use:\nalphaDt \u003d std::clamp(alphaDt, 0.0, 1.0)",
+      "range": {
+        "startLine": 848,
+        "startChar": 0,
+        "endLine": 856,
+        "endChar": 0
+      },
+      "revId": "cc4c84380735223c90277ee4796cd3386f946c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3cb3df8_321269a0",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-23T17:32:49Z",
+      "side": 1,
+      "message": "Thanks, will update",
+      "parentUuid": "c2caa16a_d877f0f3",
       "range": {
         "startLine": 848,
         "startChar": 0,
