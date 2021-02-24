@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3362f74_b4acd272",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-24T02:04:24Z",
+      "side": 1,
+      "message": "It looks like a lot of changes took place here and below, with respect to PWM numbering and string path building. I am curious why? The old code worked, and was well tested.",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b23482_5f42d3ec",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-24T02:04:24Z",
+      "side": 1,
+      "message": "Perhaps group this constant with the others in HwmonTempSensor.cpp file?",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1faee3ef_1657509a",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-24T02:04:24Z",
+      "side": 1,
+      "message": "Curious why float used here, not double.",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b20486d9_fa5c7940",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-24T02:04:24Z",
+      "side": 1,
+      "message": "The pollRate feature is new, not merely a code cleanup. As such, it will benefit from being in a second change. This change is already rather large.",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b38aec97_4e693fb1",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-02-24T02:04:24Z",
+      "side": 1,
+      "message": "Multiplying floating-point should multiply by 1000.0",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
