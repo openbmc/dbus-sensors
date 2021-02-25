@@ -601,7 +601,7 @@ struct peci_crashdump_get_frame_msg {
 	__u8	data[16];
 } __attribute__((__packed__));
 
-#define PECI_IOC_BASE	0xb7
+#define PECI_IOC_BASE	0xb8
 
 #define PECI_IOC_XFER \
 	_IOWR(PECI_IOC_BASE, PECI_CMD_XFER, struct peci_xfer_msg)
