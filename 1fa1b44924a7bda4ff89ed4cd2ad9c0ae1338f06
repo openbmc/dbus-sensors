@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "d4285424_f9feb992",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-25T20:58:23Z",
+      "side": 1,
+      "message": "How is use of dangling reference prevented?",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f041d049_df48a6de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-25T20:58:23Z",
+      "side": 1,
+      "message": "I am still relatively new to dbus. So this is just a question for my own education.\nWill there be problems if the new sensor is constructed with the same name, path, interfaces etc. before the old sensor is destructed? What happens if another service comes along and uses object mapper to get managed objects before the old sensor instance get destructed?",
+      "range": {
+        "startLine": 27,
+        "startChar": 26,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36f0aec2_331082ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-25T20:58:23Z",
+      "side": 1,
+      "message": "There are changes that affect sensors and thresholds lifetime. I am little concerned of potential new race conditions.\nMaybe test with randomized scan/rescan (construct and destruct) for sensors?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1710bc51_a3169517",
         "filename": "src/ADCSensor.cpp",
         "patchSetId": 21
@@ -18,6 +87,52 @@
         "startChar": 12,
         "endLine": 72,
         "endChar": 64
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70e3e658_357af833",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-25T20:58:23Z",
+      "side": 1,
+      "message": "If abort is caused by destruction, will \"this\" be invalid?",
+      "range": {
+        "startLine": 189,
+        "startChar": 41,
+        "endLine": 189,
+        "endChar": 47
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d88021e_f0109438",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-25T20:58:23Z",
+      "side": 1,
+      "message": "This would construct the new one first and then destruct the obsolete one, right? If true, there would be a tiny window that both new sensor and old sensor exist. Will dbus be confused?",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 75
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
