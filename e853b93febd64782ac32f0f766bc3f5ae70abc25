@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1280d23_2cc373a0",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-02-25T23:27:07Z",
+      "side": 1,
+      "message": "Better to call it InitGPIOInterruptibleFlag() or something like that. checkGPIOInterruptible() sounds like that you should return something.",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 26
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7061ba23_44221545",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-02-25T23:27:07Z",
+      "side": 1,
+      "message": "Seems you can do this to share this piece of code:\n\ntry\n{\n    if (...)\n    else\n}\ncatch (std::system_error\u0026)",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 9
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21f9efc4_0d7b0c8f",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-02-25T23:27:07Z",
+      "side": 1,
+      "message": "You can do this:\n\nif (previousStatus \u003d\u003d status)  return;\n\nThen share the if else part in the end.",
+      "range": {
+        "startLine": 341,
+        "startChar": 8,
+        "endLine": 341,
+        "endChar": 37
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
