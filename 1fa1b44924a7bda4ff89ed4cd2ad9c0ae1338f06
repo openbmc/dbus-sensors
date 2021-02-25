@@ -157,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "8ebce238_09d5e892",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-25T21:33:01Z",
+      "side": 1,
+      "message": "This patchset has been rebased.  I suspect you looked at the diff between patchset 1 and patchset N.  If you compare patchset N to master, this has no diff.\n\nWith that said, happy to discuss outside the context of this patchset if you think this is wrong.",
+      "parentUuid": "f3362f74_b4acd272",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44b23482_5f42d3ec",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 21
@@ -191,6 +209,24 @@
     },
     {
       "key": {
+        "uuid": "23711c10_e0cc81ce",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-25T21:33:01Z",
+      "side": 1,
+      "message": "This isn\u0027t part of the diff.  Happy to talk about this out of band.",
+      "parentUuid": "1faee3ef_1657509a",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b20486d9_fa5c7940",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 21
@@ -208,6 +244,24 @@
     },
     {
       "key": {
+        "uuid": "8b22db1d_2dd90684",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-25T21:33:01Z",
+      "side": 1,
+      "message": "Pollrate was added in a different patch.  Please diff patchset N to master, not patchset 1 to patchset N.",
+      "parentUuid": "b20486d9_fa5c7940",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b38aec97_4e693fb1",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 21
@@ -219,6 +273,24 @@
       "writtenOn": "2021-02-24T02:04:24Z",
       "side": 1,
       "message": "Multiplying floating-point should multiply by 1000.0",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7c230e7_22315f3a",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-25T21:33:01Z",
+      "side": 1,
+      "message": "Agreed, although this is equally as correct\n\nWith that said, see previous notes, I think you looked at the wrong diff.",
+      "parentUuid": "b38aec97_4e693fb1",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
