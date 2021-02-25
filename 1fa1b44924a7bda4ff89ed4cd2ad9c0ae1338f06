@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a564dba8_ac41502c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-25T21:42:38Z",
+      "side": 1,
+      "message": "I\u0027m assuming you mean a reference that points to memory that has been destroyed.  The answer to that is largely \"it doesn\u0027t\".\n\nIt DOES make the memory ownership model cleaner, and gives us more control over the destructor order which should be the start of some of this stuff becoming cleaner, but this patch isn\u0027t the end all be all of patches, and doesn\u0027t fix every possible issue, it mostly just sets us up for being able to simplify this stuff further, which will clean up some ownership issues between the sensor class and the super class.\n\nIf you\u0027re interested, I\u0027m happy to hear more about your ideas here.",
+      "parentUuid": "d4285424_f9feb992",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f041d049_df48a6de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 21
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e4a1fdf1_60b198c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-25T21:42:38Z",
+      "side": 1,
+      "message": "\u003e I am still relatively new to dbus. So this is just a question for my own education.\n\u003e Will there be problems if the new sensor is constructed with the same name, path, interfaces etc. before the old sensor is destructed?\n\nYes, this was a very non-obvious bug that james and I found.  If you see something like\n\nsensors[sensorName] \u003d nullptr;\nsensors.emplace(sensorName, Sensor{...{});\n\nThat was us trying to fix it.  Modern code should use emplace directly, and construct the new sensor in place, instead of constructing via std::move.\n\nIn theory objectmanager could detect this and prevent the signal from going out (or destroy the old interface before adding the new one) but I haven\u0027t looked at that.\n\n\u003e What happens if another service comes along and uses object mapper to get managed objects before the old sensor instance get destructed?\n\nYou get the old interface behavior.  We\u0027ve done our best in this code to try to avoid that problem by properly destroying the old objects before creating new ones with the same path.  There might still be outliers though.",
+      "parentUuid": "f041d049_df48a6de",
+      "range": {
+        "startLine": 27,
+        "startChar": 26,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36f0aec2_331082ff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 21
@@ -59,6 +107,30 @@
       "writtenOn": "2021-02-25T20:58:23Z",
       "side": 1,
       "message": "There are changes that affect sensors and thresholds lifetime. I am little concerned of potential new race conditions.\nMaybe test with randomized scan/rescan (construct and destruct) for sensors?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35d176d4_45164439",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-25T21:42:38Z",
+      "side": 1,
+      "message": "I\u0027ve done a few tests like that here, but I don\u0027t have as many daemons running on my systems, so I\u0027m not able to sus out all the possible races.\n\nWith that said, I think I\u0027ve covered them as best as I\u0027m able.\n\nIf you could help test, that would be great.",
+      "parentUuid": "36f0aec2_331082ff",
       "range": {
         "startLine": 40,
         "startChar": 0,
