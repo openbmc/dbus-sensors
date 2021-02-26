@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "de4e9435_51a93be1",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-26T16:55:28Z",
+      "side": 1,
+      "message": "It depends on your needs.  In this case, CPUSensor doesn\u0027t allow move (yet), so I needed a container that didn\u0027t need move semantics on insert.  I\u0027d normally use flat_map here just to keep the memory usage lower, as we don\u0027t care about insert/find performance.",
+      "parentUuid": "ea64a48c_773bbc06",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 25
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30db6eef_745f5566",
         "filename": "include/ExitAirTempSensor.hpp",
         "patchSetId": 21
