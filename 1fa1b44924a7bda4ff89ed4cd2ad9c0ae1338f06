@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b1c177d8_e853a74d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-02-26T20:42:31Z",
+      "side": 1,
+      "message": "Great, looking forward to it.",
+      "parentUuid": "c177ca24_8c90982b",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f041d049_df48a6de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 21
