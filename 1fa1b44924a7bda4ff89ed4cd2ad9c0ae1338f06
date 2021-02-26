@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c177ca24_8c90982b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-26T20:24:29Z",
+      "side": 1,
+      "message": "I am doing some research on this. I will share when I have something more solid.",
+      "parentUuid": "a564dba8_ac41502c",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f041d049_df48a6de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 21
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "I\u0027ve done a few tests like that here, but I don\u0027t have as many daemons running on my systems, so I\u0027m not able to sus out all the possible races.\n\nWith that said, I think I\u0027ve covered them as best as I\u0027m able.\n\nIf you could help test, that would be great.",
       "parentUuid": "36f0aec2_331082ff",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efb97138_802b656c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-26T20:24:29Z",
+      "side": 1,
+      "message": "I will do some testing and share result in next couple days.",
+      "parentUuid": "35d176d4_45164439",
       "range": {
         "startLine": 40,
         "startChar": 0,
