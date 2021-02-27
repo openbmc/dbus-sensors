@@ -386,6 +386,8 @@ void createSensors(
                         else
                         {
                             pwmName = "Pwm_" + std::to_string(pwm + 1);
+                            pwmPath =
+                                directory / ("pwm" + std::to_string(pwm + 1));
                         }
                     }
                     else
