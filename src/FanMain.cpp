@@ -171,7 +171,6 @@ void createSensors(
                 std::string indexStr = *(match.begin() + 1);
 
                 fs::path directory = path.parent_path();
-                fs::path pwmPath = directory / ("pwm" + indexStr);
                 FanTypes fanType = getFanType(directory);
 
                 size_t bus = 0;
@@ -366,6 +365,7 @@ void createSensors(
 
                 std::optional<std::string> led;
                 std::string pwmName;
+                fs::path pwmPath;
 
                 if (connector != sensorData->end())
                 {
@@ -375,6 +375,7 @@ void createSensors(
 
                         size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
                                                 findPwm->second);
+                        pwmPath = directory / ("pwm" + std::to_string(pwm + 1));
                         /* use pwm name override if found in configuration else
                          * use default */
                         auto findOverride = connector->second.find("PwmName");
@@ -418,7 +419,8 @@ void createSensors(
                     std::move(sensorThresholds), *interfacePath, limits,
                     powerState, led);
 
-                if (fs::exists(pwmPath) && !pwmSensors.count(pwmPath))
+                if (!pwmPath.empty() && fs::exists(pwmPath) &&
+                    !pwmSensors.count(pwmPath))
                 {
                     pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
                         pwmName, pwmPath, dbusConnection, objectServer,
