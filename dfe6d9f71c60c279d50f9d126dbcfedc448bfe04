@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74d30fdd_1b34cad1",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-02-28T19:58:35Z",
+      "side": 1,
+      "message": "Seems like PwmName may specify a more descriptive name than default pwm_xxx. On the other hand. \nOn the other hand, Pwm specifies the channel number should be used. This is currently broken by an earlier patch. Fix is under review https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/40980\n\nI am wondering whether there are use cases that both may be used.",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 74
+      },
+      "revId": "dfe6d9f71c60c279d50f9d126dbcfedc448bfe04",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
