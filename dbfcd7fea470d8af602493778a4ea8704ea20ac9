@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "771dd135_703c79fc",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-03-01T18:53:57Z",
+      "side": 1,
+      "message": "Some one mentioned this before: this line is the same as line 252, which does not seem right.",
+      "range": {
+        "startLine": 255,
+        "startChar": 8,
+        "endLine": 255,
+        "endChar": 23
+      },
+      "revId": "dbfcd7fea470d8af602493778a4ea8704ea20ac9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
