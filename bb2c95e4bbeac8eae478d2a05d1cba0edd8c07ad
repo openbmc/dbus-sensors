@@ -16,6 +16,24 @@
       "revId": "bb2c95e4bbeac8eae478d2a05d1cba0edd8c07ad",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d49e697_fb3b8ccb",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-03-02T19:34:09Z",
+      "side": 1,
+      "message": "Yes. If you look at the old code in https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/39738 , when pwm is not specified, the PwmSensor will not be created. So with this change, it basically revert to that snapshot, but with cleaner code.",
+      "parentUuid": "9d756c27_c0151ba0",
+      "revId": "bb2c95e4bbeac8eae478d2a05d1cba0edd8c07ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
