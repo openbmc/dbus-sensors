@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d756c27_c0151ba0",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-02T19:21:26Z",
+      "side": 1,
+      "message": "removing the default path (old line 174) will make pwm a required field in configuration. Is that the intention?",
+      "revId": "bb2c95e4bbeac8eae478d2a05d1cba0edd8c07ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
