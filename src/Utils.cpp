@@ -572,3 +572,42 @@ bool getManufacturingMode()
 {
     return manufacturingMode;
 }
+
+auto hostInstances(std::string instances)
+{
+    std::string delimiter = " ";
+    size_t pos = 0;
+    std::string token;
+    std::vector<std::string> host;
+
+    while ((pos = instances.find(delimiter)) != std::string::npos)
+    {
+        token = instances.substr(0, pos);
+        host.push_back(token);
+        instances.erase(0, pos + delimiter.length());
+    }
+    host.push_back(instances);
+
+    return host;
+}
+
+std::optional<size_t> findHostInstances(size_t index)
+{
+    std::string str = obmcHostInstances;
+
+    if (obmcHostInstances == "0")
+    {
+        return 0;
+    }
+
+    static const auto hosts = hostInstances(str);
+    std::string num = std::to_string(index + 1);
+    auto instance = std::lower_bound(hosts.begin(), hosts.end(), num);
+
+    if ((instance == hosts.end()) || (*instance != num))
+    {
+        return std::nullopt;
+    }
+
+    return index;
+}
