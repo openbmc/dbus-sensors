@@ -46,6 +46,7 @@ static constexpr double ipmbMinReading = 0;
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
+static constexpr uint8_t hostNumDefault = 0;
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
@@ -53,6 +54,7 @@ using IpmbMethodType =
     std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
 
 boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
+boost::container::flat_map<std::string, std::unique_ptr<IpmbVersion>> versions;
 
 std::unique_ptr<boost::asio::deadline_timer> initCmdTimer;
 
@@ -96,6 +98,76 @@ IpmbSensor::~IpmbSensor()
     objectServer.remove_interface(thresholdInterfaceCritical);
     objectServer.remove_interface(sensorInterface);
     objectServer.remove_interface(association);
+}
+
+IpmbVersion::IpmbVersion(uint8_t hostNum,
+                         std::shared_ptr<sdbusplus::asio::connection>& conn,
+                         boost::asio::io_service& io,
+                         sdbusplus::asio::object_server& objectServer,
+                         std::string& name, int pollRate, uint8_t deviceAddress,
+                         const std::string& sensorTypeName) :
+    hostNum(hostNum),
+    pollRate(pollRate), deviceAddress(deviceAddress),
+    objectServer(objectServer), dbusConnection(conn), waitTimer(io)
+{
+    name = boost::replace_all_copy(name, " ", "_");
+
+    std::string dbusPath =
+        "/xyz/openbmc_project/software/" + sensorTypeName + "/" + name;
+
+    versionInterface = objectServer.add_interface(
+        dbusPath, "xyz.openbmc_project.Software.Version");
+
+    versionInterface->register_property(
+        "Version", std::string(""),
+        sdbusplus::asio::PropertyPermission::readWrite);
+
+    if (!versionInterface->initialize())
+    {
+        std::cerr << "error initializing value interface\n";
+    }
+}
+
+IpmbVersion::~IpmbVersion()
+{
+    objectServer.remove_interface(versionInterface);
+}
+
+void IpmbVersion::versionInitialProp()
+{
+    uint8_t commandAddress = hostNum << 2;
+    uint8_t netfn = ipmi::twinlake_oem_version::netFn;
+    uint8_t command = ipmi::twinlake_oem_version::command;
+    std::vector<uint8_t> commandData = {0x15, 0xa0, 0, deviceAddress};
+
+    dbusConnection->async_method_call(
+        [&](boost::system::error_code ec, const IpmbMethodType& response) {
+            const int& status = std::get<0>(response);
+            if (ec || status)
+            {
+                return;
+            }
+            const std::vector<uint8_t>& data = std::get<5>(response);
+            setVersion(data);
+        },
+        "xyz.openbmc_project.Ipmi.Channel.Ipmb",
+        "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
+        "sendRequest", commandAddress, netfn, lun, command, commandData);
+}
+
+void IpmbVersion::setVersion(const std::vector<uint8_t>& data)
+{
+    std::string version;
+    int len = data.size();
+    for (int i = 3; i < len; i++)
+    {
+        version += std::to_string(data[i]);
+        if ((i != (len - 1)) && (i != 6))
+        {
+            version += ".";
+        }
+    }
+    versionInterface->set_property("Version", version);
 }
 
 std::string IpmbSensor::getSubTypeUnits(void)
@@ -459,6 +531,14 @@ void createSensors(
                             VariantToUnsignedIntVisitor(), findSmType->second);
                     }
 
+                    uint8_t hostNum = hostNumDefault;
+                    auto findBusType = entry.second.find("Bus");
+                    if (findBusType != entry.second.end())
+                    {
+                        hostNum = std::visit(VariantToUnsignedIntVisitor(),
+                                             findBusType->second);
+                    }
+
                     /* Default sensor type is "temperature" */
                     std::string sensorTypeName = "temperature";
                     auto findType = entry.second.find("SensorType");
@@ -466,6 +546,15 @@ void createSensors(
                     {
                         sensorTypeName = std::visit(VariantToStringVisitor(),
                                                     findType->second);
+                    }
+
+                    if (sensorTypeName == "version")
+                    {
+                        auto& fwversion = versions[name];
+                        fwversion = std::make_unique<IpmbVersion>(
+                            hostNum, dbusConnection, io, objectServer, name,
+                            pollRate, deviceAddress, sensorTypeName);
+                        fwversion->versionInitialProp();
                     }
 
                     auto& sensor = sensors[name];
