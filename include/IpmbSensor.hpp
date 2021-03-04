@@ -71,6 +71,14 @@ namespace me_bridge
 constexpr uint8_t netFn = 0x2e;
 constexpr uint8_t sendRawPmbus = 0xd9;
 } // namespace me_bridge
+
+namespace twinlake_oem_version
+{
+// This is OEM specified namespace for twinlake firmware version
+constexpr uint8_t netFn = 0x38;
+constexpr uint8_t command = 0x0b;
+} // namespace twinlake_oem_version
+
 } // namespace ipmi
 
 struct IpmbSensor : public Sensor
@@ -105,10 +113,37 @@ struct IpmbSensor : public Sensor
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
+    std::string versionTypeName;
+    int pollTimeValue;
+    uint8_t hostNum;
 
     ReadingFormat readingFormat;
 
   private:
     sdbusplus::asio::object_server& objectServer;
     boost::asio::deadline_timer waitTimer;
+};
+
+class IpmbVersion
+{
+  public:
+    IpmbVersion(uint8_t hostNum,
+                std::shared_ptr<sdbusplus::asio::connection>& conn,
+                boost::asio::io_service& io,
+                sdbusplus::asio::object_server& objectServer, std::string& name,
+                int pollRate, uint8_t deviceAddress,
+                const std::string& sensorTypeName);
+    ~IpmbVersion();
+
+    void versionInitialProp();
+    void setVersion(const std::vector<uint8_t>& data);
+
+    uint8_t hostNum;
+    int pollRate;
+    uint8_t deviceAddress;
+
+  private:
+    std::shared_ptr<sdbusplus::asio::dbus_interface> versionInterface;
+    sdbusplus::asio::object_server& objectServer;
+    std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
 };
