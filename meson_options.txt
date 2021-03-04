@@ -12,3 +12,4 @@ option('external', type: 'feature', value: 'enabled', description: 'Enable Exter
 option('tests', type: 'feature', value: 'enabled', description: 'Build tests.',)
 option('validate-unsecure-feature', type : 'feature', value : 'disabled', description : 'Enables unsecure features required by validation. Note: mustbe turned off for production images.',)
 option('insecure-sensor-override', type : 'feature', value : 'disabled', description : 'Enables Sensor override feature without any check.',)
+option('host_instances', type : 'integer', value : 1, description : 'Enables OBMC_HOST_INSTANCES from machine layer',)

@@ -71,6 +71,14 @@ namespace me_bridge
 constexpr uint8_t netFn = 0x2e;
 constexpr uint8_t sendRawPmbus = 0xd9;
 } // namespace me_bridge
+
+/* This is OEM specified netFn and command for twinlake firmware version */
+namespace twinlake_oem_version
+{
+constexpr uint8_t netFn = 0x38;
+constexpr uint8_t command = 0x0b;
+} // namespace twinlake_oem_version
+
 } // namespace ipmi
 
 struct IpmbSensor : public Sensor
@@ -112,4 +120,45 @@ struct IpmbSensor : public Sensor
   private:
     sdbusplus::asio::object_server& objectServer;
     boost::asio::deadline_timer waitTimer;
+};
+
+/* This class will read firmware versions (CPLD, ME, BIC, VR) based
+on OEM specified Netfunction and Command for each platform.
+
+OEM specified netfn and command are declared under the namespace
+"twinlake_oem_version".
+
+This can be used to verify the version of CPLD, ME, BIC, VR once
+firmware update is completed.
+
+From EM configuration file, deviceAddress, bus and pollRate of each
+version can be configured.
+*/
+
+class IpmbVersion
+{
+  public:
+    IpmbVersion(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                boost::asio::io_service& io, const float pollRate,
+                sdbusplus::asio::object_server& objectServer, std::string& name,
+                uint8_t ipmbBusIndex, uint8_t deviceAddress,
+                const std::string& versionTypeName);
+    ~IpmbVersion();
+
+    void loadValues();
+    void versionRead();
+
+    int versionPollMs;
+    uint8_t ipmbBusIndex;
+    uint8_t deviceAddress;
+    uint8_t command;
+    uint8_t netfn;
+    uint8_t commandAddress;
+    std::vector<uint8_t> commandData;
+
+  private:
+    std::shared_ptr<sdbusplus::asio::dbus_interface> versionInterface;
+    sdbusplus::asio::object_server& objectServer;
+    std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
+    boost::asio::deadline_timer ioTimer;
 };
