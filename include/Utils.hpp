@@ -320,3 +320,7 @@ std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);
 bool getManufacturingMode();
+
+// To check OBMC HOST INSTANCES
+auto hostInstances(std::string instances);
+std::optional<size_t> findHostInstances(size_t index);
