@@ -572,3 +572,44 @@ bool getManufacturingMode()
 {
     return manufacturingMode;
 }
+
+/* This function will split the OBMC_HOST_INSTANCES string into vector
+   using delimiter. */
+std::vector<std::string> hostInstances(std::string instances)
+{
+    size_t pos = 0;
+    std::string token;
+    std::vector<std::string> host;
+
+    while ((pos = instances.find(' ') != std::string::npos)
+    {
+        token = instances.substr(0, pos);
+        host.push_back(token);
+        instances.erase(0, pos + 1);
+    }
+    host.push_back(instances);
+
+    return host;
+}
+
+/* This function will find the IPMB bus index from OBMC_HOST_INSTANCES
+   which is specified in bb file for each platform. */
+std::optional<size_t> findHostInstances(size_t index)
+{
+    std::string str = obmcHostInstances;
+
+    if (obmcHostInstances == "0")
+    {
+        return 0;
+    }
+    static const auto hosts = hostInstances(str);
+    std::string num = std::to_string(index + 1);
+    auto instance = std::lower_bound(hosts.begin(), hosts.end(), num);
+
+    if ((instance == hosts.end()) || (*instance != num))
+    {
+        return std::nullopt;
+    }
+
+    return index;
+}
