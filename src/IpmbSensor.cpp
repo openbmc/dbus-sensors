@@ -46,6 +46,7 @@ static constexpr double ipmbMinReading = 0;
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
+static constexpr uint8_t hostNumDefault = 0;
 static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
@@ -54,6 +55,7 @@ using IpmbMethodType =
     std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
 
 boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
+boost::container::flat_map<std::string, std::unique_ptr<IpmbVersion>> versions;
 
 std::unique_ptr<boost::asio::deadline_timer> initCmdTimer;
 
@@ -98,6 +100,90 @@ IpmbSensor::~IpmbSensor()
     objectServer.remove_interface(thresholdInterfaceCritical);
     objectServer.remove_interface(sensorInterface);
     objectServer.remove_interface(association);
+}
+
+IpmbVersion::IpmbVersion(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                         boost::asio::io_service& io, const float pollRate,
+                         sdbusplus::asio::object_server& objectServer,
+                         std::string& name, uint8_t hostNum,
+                         uint8_t deviceAddress,
+                         const std::string& versionTypeName) :
+    versionPollMs(static_cast<int>(pollRate * 1000)),
+    hostNum(hostNum), deviceAddress(deviceAddress), objectServer(objectServer),
+    dbusConnection(conn), ioTimer(io)
+{
+    name = boost::replace_all_copy(name, " ", "_");
+
+    std::string dbusPath =
+        "/xyz/openbmc_project/software/" + versionTypeName + "/" + name;
+
+    versionInterface = objectServer.add_interface(
+        dbusPath, "xyz.openbmc_project.Software.Version");
+
+    versionInterface->register_property(
+        "Version", std::string(""),
+        sdbusplus::asio::PropertyPermission::readWrite);
+
+    versionInterface->register_property(
+        "Purpose",
+        std::string(
+            "xyz.openbmc_project.Software.Version.VersionPurpose.Other"));
+
+    if (!versionInterface->initialize())
+    {
+        std::cerr << "error initializing value interface\n";
+    }
+}
+
+IpmbVersion::~IpmbVersion()
+{
+    ioTimer.cancel();
+    objectServer.remove_interface(versionInterface);
+}
+
+void IpmbVersion::loadValues()
+{
+    commandAddress = hostNum << 2;
+    netfn = ipmi::twinlake_oem_version::netFn;
+    command = ipmi::twinlake_oem_version::command;
+    commandData = {0x15, 0xa0, 0, deviceAddress};
+
+    versionRead();
+}
+void IpmbVersion::versionRead()
+{
+    ioTimer.expires_from_now(boost::posix_time::milliseconds(versionPollMs));
+    ioTimer.async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return; // we're being canceled
+        }
+        dbusConnection->async_method_call(
+            [&](boost::system::error_code ec, const IpmbMethodType& response) {
+                const int& status = std::get<0>(response);
+                if (ec || status)
+                {
+                    return;
+                }
+
+                const std::vector<uint8_t>& data = std::get<5>(response);
+                std::string version;
+                int len = data.size();
+                for (int i = 3; i < len; i++)
+                {
+                    version += std::to_string(data[i]);
+                    if ((i != (len - 1)) && (i != 6))
+                    {
+                        version += ".";
+                    }
+                }
+                versionInterface->set_property("Version", version);
+                versionRead();
+            },
+            "xyz.openbmc_project.Ipmi.Channel.Ipmb",
+            "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
+            "sendRequest", commandAddress, netfn, lun, command, commandData);
+    });
 }
 
 std::string IpmbSensor::getSubTypeUnits(void)
@@ -414,6 +500,8 @@ void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>>&
         sensors,
+    boost::container::flat_map<std::string, std::unique_ptr<IpmbVersion>>&
+        versions,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     if (!dbusConnection)
@@ -472,6 +560,14 @@ void createSensors(
                         }
                     }
 
+                    uint8_t hostNum = hostNumDefault;
+                    auto findBusType = entry.second.find("Bus");
+                    if (findBusType != entry.second.end())
+                    {
+                        hostNum = std::visit(VariantToUnsignedIntVisitor(),
+                                             findBusType->second);
+                    }
+
                     /* Default sensor type is "temperature" */
                     std::string sensorTypeName = "temperature";
                     auto findType = entry.second.find("SensorType");
@@ -481,88 +577,103 @@ void createSensors(
                                                     findType->second);
                     }
 
-                    auto& sensor = sensors[name];
-                    sensor = std::make_unique<IpmbSensor>(
-                        dbusConnection, io, name, pathPair.first, objectServer,
-                        std::move(sensorThresholds), deviceAddress,
-                        hostSMbusIndex, pollRate, sensorTypeName);
-
-                    /* Initialize scale and offset value */
-                    sensor->scaleVal = 1;
-                    sensor->offsetVal = 0;
-
-                    auto findScaleVal = entry.second.find("ScaleValue");
-                    if (findScaleVal != entry.second.end())
+                    if (sensorTypeName == "version")
                     {
-                        sensor->scaleVal = std::visit(VariantToDoubleVisitor(),
-                                                      findScaleVal->second);
-                    }
-
-                    auto findOffsetVal = entry.second.find("OffsetValue");
-                    if (findOffsetVal != entry.second.end())
-                    {
-                        sensor->offsetVal = std::visit(VariantToDoubleVisitor(),
-                                                       findOffsetVal->second);
-                    }
-
-                    auto findPowerState = entry.second.find("PowerState");
-
-                    if (findPowerState != entry.second.end())
-                    {
-                        std::string powerState = std::visit(
-                            VariantToStringVisitor(), findPowerState->second);
-
-                        setReadState(powerState, sensor->readState);
-                    }
-
-                    if (sensorClass == "PxeBridgeTemp")
-                    {
-                        sensor->type = IpmbType::PXE1410CVR;
-                    }
-                    else if (sensorClass == "IRBridgeTemp")
-                    {
-                        sensor->type = IpmbType::IR38363VR;
-                    }
-                    else if (sensorClass == "HSCBridge")
-                    {
-                        sensor->type = IpmbType::ADM1278HSC;
-                    }
-                    else if (sensorClass == "MpsBridgeTemp")
-                    {
-                        sensor->type = IpmbType::mpsVR;
-                    }
-                    else if (sensorClass == "METemp" ||
-                             sensorClass == "MESensor")
-                    {
-                        sensor->type = IpmbType::meSensor;
+                        auto& fwversion = versions[name];
+                        fwversion = std::make_unique<IpmbVersion>(
+                            dbusConnection, io, pollRate, objectServer, name,
+                            hostNum, deviceAddress, sensorTypeName);
+                        fwversion->loadValues();
                     }
                     else
                     {
-                        std::cerr << "Invalid class " << sensorClass << "\n";
-                        continue;
-                    }
+                        auto& sensor = sensors[name];
+                        sensor = std::make_unique<IpmbSensor>(
+                            dbusConnection, io, name, pathPair.first,
+                            objectServer, std::move(sensorThresholds),
+                            deviceAddress, hostSMbusIndex, pollRate,
+                            sensorTypeName);
 
-                    if (sensorTypeName == "voltage")
-                    {
-                        sensor->subType = IpmbSubType::volt;
+                        /* Initialize scale and offset value */
+                        sensor->scaleVal = 1;
+                        sensor->offsetVal = 0;
+
+                        auto findScaleVal = entry.second.find("ScaleValue");
+                        if (findScaleVal != entry.second.end())
+                        {
+                            sensor->scaleVal = std::visit(
+                                VariantToDoubleVisitor(), findScaleVal->second);
+                        }
+
+                        auto findOffsetVal = entry.second.find("OffsetValue");
+                        if (findOffsetVal != entry.second.end())
+                        {
+                            sensor->offsetVal =
+                                std::visit(VariantToDoubleVisitor(),
+                                           findOffsetVal->second);
+                        }
+
+                        auto findPowerState = entry.second.find("PowerState");
+
+                        if (findPowerState != entry.second.end())
+                        {
+                            std::string powerState =
+                                std::visit(VariantToStringVisitor(),
+                                           findPowerState->second);
+
+                            setReadState(powerState, sensor->readState);
+                        }
+
+                        if (sensorClass == "PxeBridgeTemp")
+                        {
+                            sensor->type = IpmbType::PXE1410CVR;
+                        }
+                        else if (sensorClass == "IRBridgeTemp")
+                        {
+                            sensor->type = IpmbType::IR38363VR;
+                        }
+                        else if (sensorClass == "HSCBridge")
+                        {
+                            sensor->type = IpmbType::ADM1278HSC;
+                        }
+                        else if (sensorClass == "MpsBridgeTemp")
+                        {
+                            sensor->type = IpmbType::mpsVR;
+                        }
+                        else if (sensorClass == "METemp" ||
+                                 sensorClass == "MESensor")
+                        {
+                            sensor->type = IpmbType::meSensor;
+                        }
+                        else
+                        {
+                            std::cerr << "Invalid class " << sensorClass
+                                      << "\n";
+                            continue;
+                        }
+
+                        if (sensorTypeName == "voltage")
+                        {
+                            sensor->subType = IpmbSubType::volt;
+                        }
+                        else if (sensorTypeName == "power")
+                        {
+                            sensor->subType = IpmbSubType::power;
+                        }
+                        else if (sensorTypeName == "current")
+                        {
+                            sensor->subType = IpmbSubType::curr;
+                        }
+                        else if (sensorTypeName == "utilization")
+                        {
+                            sensor->subType = IpmbSubType::util;
+                        }
+                        else
+                        {
+                            sensor->subType = IpmbSubType::temp;
+                        }
+                        sensor->init();
                     }
-                    else if (sensorTypeName == "power")
-                    {
-                        sensor->subType = IpmbSubType::power;
-                    }
-                    else if (sensorTypeName == "current")
-                    {
-                        sensor->subType = IpmbSubType::curr;
-                    }
-                    else if (sensorTypeName == "utilization")
-                    {
-                        sensor->subType = IpmbSubType::util;
-                    }
-                    else
-                    {
-                        sensor->subType = IpmbSubType::temp;
-                    }
-                    sensor->init();
                 }
             }
         },
@@ -622,7 +733,9 @@ int main()
 
     initCmdTimer = std::make_unique<boost::asio::deadline_timer>(io);
 
-    io.post([&]() { createSensors(io, objectServer, sensors, systemBus); });
+    io.post([&]() {
+        createSensors(io, objectServer, sensors, versions, systemBus);
+    });
 
     boost::asio::deadline_timer configTimer(io);
 
@@ -635,7 +748,7 @@ int main()
                 {
                     return; // we're being canceled
                 }
-                createSensors(io, objectServer, sensors, systemBus);
+                createSensors(io, objectServer, sensors, versions, systemBus);
                 if (sensors.empty())
                 {
                     std::cout << "Configuration not detected\n";
