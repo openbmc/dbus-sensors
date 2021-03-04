@@ -6,4 +6,6 @@
 constexpr const bool validateUnsecureFeature = @VALIDATION_UNSECURE_FEATURE@;
 
 constexpr const bool insecureSensorOverride = @INSECURE_UNRESTRICTED_SENSOR_OVERRIDE@;
+
+constexpr const uint8_t obmcHostInstances = @OBMC_HOST_INSTANCES@;
 // clang-format on
