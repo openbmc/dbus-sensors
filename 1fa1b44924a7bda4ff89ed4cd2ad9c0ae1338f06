@@ -389,6 +389,24 @@
     },
     {
       "key": {
+        "uuid": "f4dc25dd_43abf92b",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-05T01:13:42Z",
+      "side": 1,
+      "message": "Thanks, you\u0027re correct.",
+      "parentUuid": "8ebce238_09d5e892",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44b23482_5f42d3ec",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 21
@@ -403,6 +421,24 @@
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7ef5425_ee281159",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-05T01:13:42Z",
+      "side": 1,
+      "message": "Yes, this was because I looked at an earlier patchset instead of the base. Good to know the base has been updated, to result in less conflict.",
+      "parentUuid": "44b23482_5f42d3ec",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -441,6 +477,24 @@
     },
     {
       "key": {
+        "uuid": "86393357_19d711bb",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-05T01:13:42Z",
+      "side": 1,
+      "message": "Thanks, I see it now, good that there\u0027s no changes against the base.",
+      "parentUuid": "23711c10_e0cc81ce",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b20486d9_fa5c7940",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 21
@@ -476,6 +530,24 @@
     },
     {
       "key": {
+        "uuid": "78d79cfb_bcf0b00c",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-05T01:13:42Z",
+      "side": 1,
+      "message": "Got it.",
+      "parentUuid": "8b22db1d_2dd90684",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b38aec97_4e693fb1",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 21
@@ -508,6 +580,24 @@
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cda1653a_218b18fc",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-05T01:13:42Z",
+      "side": 1,
+      "message": "Yep, although 1000.0 is clearer and it prevents the compiler from wrongly casting it to integer too early. As you said, though, that\u0027s not the subject of this patch.",
+      "parentUuid": "a7c230e7_22315f3a",
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
