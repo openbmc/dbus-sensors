@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "d59e1735_6c63997d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-08T18:55:14Z",
+      "side": 1,
+      "message": "Well, the solution for detecting dangling reference, where the referenced objects have been deleted, is smart pointers. I tried few things, could not come up with a simpler and cleaner solution. More details added with the code change line.",
+      "parentUuid": "b1c177d8_e853a74d",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f041d049_df48a6de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 21
@@ -215,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "b78b0a9e_054482b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-08T18:55:14Z",
+      "side": 1,
+      "message": "I found that adcsensor service crashes when I changed the threshold with the following commands:\n*P3VBAT threshold (0x50 sensor number from ipmitool sdr elist)\nipmitool raw 0x04 0x27 0x50  //read sensor value\nipmitool raw 0x04 0x26 0x50 0x1b 0x99 0x6b 0x00 0xa4 0xa6 0x00  //set threshold 3.04\nipmitool raw 0x04 0x26 0x50 0x1b 0x95 0x6b 0x00 0xa4 0xa6 0x00  //set threshold 2.97\n\nI have added comments at the code change locations",
+      "parentUuid": "efb97138_802b656c",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea64a48c_773bbc06",
         "filename": "include/CPUSensor.hpp",
         "patchSetId": 21
@@ -308,6 +356,29 @@
     },
     {
       "key": {
+        "uuid": "2abd762c_efdeb240",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-08T18:55:14Z",
+      "side": 1,
+      "message": "Still need use weak_ptr to prevent invalid access after this is destructed.\nWhen async calls are aborted because of sensor destruction, already queued work may exist and not removed.",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 23
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70e3e658_357af833",
         "filename": "src/ADCSensor.cpp",
         "patchSetId": 21
@@ -347,6 +418,53 @@
         "startChar": 0,
         "endLine": 278,
         "endChar": 75
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be702af6_9a18450c",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-08T18:55:14Z",
+      "side": 1,
+      "message": "emplace will not replace the existing one with the newly constructed sensor.\ninsert_or_assign can ensure the old one is replaced.\nBut, there is still the issue that for a tiny time window, there are two sensor objects with identical path and name on the bus.\nsensors.erase(sensorName) can be added at line 272, then emplace can be kept here.",
+      "parentUuid": "3d88021e_f0109438",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 75
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84fb7387_468c5c89",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-08T18:55:14Z",
+      "side": 1,
+      "message": "add check if(it.second) {}",
+      "range": {
+        "startLine": 279,
+        "startChar": 16,
+        "endLine": 279,
+        "endChar": 45
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
