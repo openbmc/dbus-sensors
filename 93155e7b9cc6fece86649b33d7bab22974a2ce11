@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3fcbfe87_e8a9f5a0",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-10T18:54:12Z",
+      "side": 1,
+      "message": "Agreed, fan sensor issue should be fixed to detect and report fan errors correctly.\nBut having a check here is still advantageous, similar to null pointer or divide by zero check even when parameters are not expected to be null or zero.\nIs there particular concern for adding check here?",
+      "parentUuid": "9c9b07e5_1ab5ed16",
+      "range": {
+        "startLine": 805,
+        "startChar": 7,
+        "endLine": 805,
+        "endChar": 69
+      },
+      "revId": "93155e7b9cc6fece86649b33d7bab22974a2ce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c36c46fe_4dc27119",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2021-03-10T05:06:20Z",
       "side": 1,
       "message": "I\u0027m not following why this can happen;  I suspect we should be clamping sooner.  alphaDT is time duration * alpha.  If time duration is negative, something is really broken in this app, and we shouldn\u0027t be clamping it.\n\nIf alpha is negative, that seems reasonable to clamp it, but we should clamp on line 838, not after the negative number has been multiplied through.\n\nSorry, i really should\u0027ve caught this the first time around.",
+      "range": {
+        "startLine": 852,
+        "startChar": 0,
+        "endLine": 852,
+        "endChar": 44
+      },
+      "revId": "93155e7b9cc6fece86649b33d7bab22974a2ce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6624ae1_3fc460fa",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-10T18:54:12Z",
+      "side": 1,
+      "message": "You are right, alpha is not going to be negative, but the time duration could be if system_clock is adjusted.\nUsing steady_clock is another option.  Will that be better?",
+      "parentUuid": "c36c46fe_4dc27119",
       "range": {
         "startLine": 852,
         "startChar": 0,
