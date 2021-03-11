@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c1ca5152_d768fe9e",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-11T20:58:25Z",
+      "side": 1,
+      "message": "\u003e Agreed, fan sensor issue should be fixed to detect and report fan errors correctly.\n\u003e But having a check here is still advantageous, similar to null pointer or divide by zero check even when parameters are not expected to be null or zero.\n\nThe difference there is that we can\u0027t do a valid calculation in that case.  If something is nullptr, and we deference it, we crash.  If we divide by zero, we crash.  If we produce the mathematically expected result because another sensor gave us bad data, we shouldn\u0027t be covering up for it, we should give the \"correct\" result, and expecting fan sensor to hold up its gaurantees.  If we assume that we have to cover up bad sensor values, we\u0027d probably double the size of this file with the number of sanity checks we\u0027d need.\n\n\u003e Is there particular concern for adding check here?\n\nMy concern is that we\u0027re covering up an issue, rather than root causing it to the thing that cause the issue in the first place.  Maybe we don\u0027t need this code at all if the fan sensor is correct all the time, and therefore we can simplify this code as a result.\n\nIf fan sensors are giving bad values at startup, that should be fixed.  If fan sensors are giving correct data, and cfm sensor is producing the wrong result, then we can consider clamping/fixing things in the algorithm.",
+      "parentUuid": "3fcbfe87_e8a9f5a0",
+      "range": {
+        "startLine": 805,
+        "startChar": 7,
+        "endLine": 805,
+        "endChar": 69
+      },
+      "revId": "93155e7b9cc6fece86649b33d7bab22974a2ce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c36c46fe_4dc27119",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 5
