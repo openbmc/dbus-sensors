@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "3abe3daf_3c946026",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-12T21:20:43Z",
+      "side": 1,
+      "message": "That is fair. But I don\u0027t think reporting 3000+ degrees for exit air temp is the best way to expose an issue.\nThe formula simply does not apply outside of \"normal\" range.  What about:\nif (cfm \u003c qMin) { log cfm out of range message, make exit air temp not available }?\nThat way real issue is not masked and helpful info is provided.",
+      "parentUuid": "c1ca5152_d768fe9e",
+      "range": {
+        "startLine": 805,
+        "startChar": 7,
+        "endLine": 805,
+        "endChar": 69
+      },
+      "revId": "93155e7b9cc6fece86649b33d7bab22974a2ce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c36c46fe_4dc27119",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 5
