@@ -16,6 +16,24 @@
       "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac270dec_df89fba9",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-03-16T15:00:52Z",
+      "side": 1,
+      "message": "My rationale is:\n\nhttp://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rr-sharedptrparam\n\nThis function (monitorLanStatusChange) does not behave as suggested by R.35, so it should not take a shared_ptr by reference.",
+      "parentUuid": "0c21c3b6_6e6d9456",
+      "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
