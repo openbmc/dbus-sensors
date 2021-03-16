@@ -326,7 +326,7 @@ static void processLanStatusChange(sdbusplus::message::message& message)
 }
 
 static void
-    monitorLanStatusChange(std::shared_ptr<sdbusplus::asio::connection> conn)
+    monitorLanStatusChange(std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
     // init lan port name from configuration
     getNicNameInfo(conn);
