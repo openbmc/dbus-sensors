@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c21c3b6_6e6d9456",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-03-16T14:58:27Z",
+      "side": 1,
+      "message": "Would suggest the \u0027conn\u0027 here is switched to a non-reference instead of making the parameter to this function a reference.  std::shared_ptrs really shouldn\u0027t be passed by reference.",
+      "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
