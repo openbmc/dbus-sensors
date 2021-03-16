@@ -80,6 +80,30 @@
       "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5941c96_80128cde",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-16T17:17:25Z",
+      "side": 1,
+      "message": "I didn\u0027t realize initially these were statics.  This is totally incorrect, and them being statics will prevent the connection getting destroyed at the right time.  they need to be owned by something.\n\nFor the moment, we probably just need to do the capture by weak_ptr, and call lock() in the method to check to see if it\u0027s been destroyed.",
+      "parentUuid": "fef5543a_48ea1386",
+      "range": {
+        "startLine": 429,
+        "startChar": 10,
+        "endLine": 429,
+        "endChar": 14
+      },
+      "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
