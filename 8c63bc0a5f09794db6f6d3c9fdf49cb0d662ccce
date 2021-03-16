@@ -142,6 +142,30 @@
       "revId": "8c63bc0a5f09794db6f6d3c9fdf49cb0d662ccce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "285c47f6_72dcd29f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-16T17:13:36Z",
+      "side": 1,
+      "message": "While I think it\u0027s good to add that statement about impact, None of the above answers \"why?\".  Why do you care what rate the sensors are polled?  Why would someone else?",
+      "parentUuid": "c7c713f6_9e668b91",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "8c63bc0a5f09794db6f6d3c9fdf49cb0d662ccce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
