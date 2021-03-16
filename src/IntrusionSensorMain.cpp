@@ -325,8 +325,12 @@ static void processLanStatusChange(sdbusplus::message::message& message)
     }
 }
 
-static void
-    monitorLanStatusChange(std::shared_ptr<sdbusplus::asio::connection> conn)
+/** @brief Initialize the lan status.
+ *
+ * @return true on success and false on failure
+ */
+static bool
+    initializeLanStatus(std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
     // init lan port name from configuration
     getNicNameInfo(conn);
@@ -336,7 +340,7 @@ static void
     if (!findFiles(fs::path("/sys/class/net/"), R"(eth\d+/ifindex)", files))
     {
         std::cerr << "No eth in system\n";
-        return;
+        return false;
     }
 
     // iterate through all found eth files, and save ifindex
@@ -413,27 +417,7 @@ static void
             "org.freedesktop.DBus.Properties", "Get",
             "org.freedesktop.network1.Link", "OperationalState");
     }
-
-    // add match to monitor lan status change
-    static sdbusplus::bus::match::match match(
-        static_cast<sdbusplus::bus::bus&>(*conn),
-        "type='signal', member='PropertiesChanged',"
-        "arg0namespace='org.freedesktop.network1.Link'",
-        [](sdbusplus::message::message& msg) { processLanStatusChange(msg); });
-
-    // add match to monitor entity manager signal about nic name config change
-    static sdbusplus::bus::match::match match2(
-        static_cast<sdbusplus::bus::bus&>(*conn),
-        "type='signal', member='PropertiesChanged',path_namespace='" +
-            std::string(inventoryPath) + "',arg0namespace='" + nicType + "'",
-        [&conn](sdbusplus::message::message& msg) {
-            if (msg.is_method_error())
-            {
-                std::cerr << "callback method error\n";
-                return;
-            }
-            getNicNameInfo(conn);
-        });
+    return true;
 }
 
 int main()
@@ -482,13 +466,39 @@ int main()
             }
         };
 
-    auto match = std::make_unique<sdbusplus::bus::match::match>(
+    auto eventMatch = std::make_unique<sdbusplus::bus::match::match>(
         static_cast<sdbusplus::bus::bus&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" + sensorType + "'",
         eventHandler);
 
-    monitorLanStatusChange(systemBus);
+    if (initializeLanStatus(systemBus))
+    {
+        // add match to monitor lan status change
+        sdbusplus::bus::match::match lanStatusMatch(
+            static_cast<sdbusplus::bus::bus&>(*systemBus),
+            "type='signal', member='PropertiesChanged',"
+            "arg0namespace='org.freedesktop.network1.Link'",
+            [](sdbusplus::message::message& msg) {
+                processLanStatusChange(msg);
+            });
+
+        // add match to monitor entity manager signal about nic name config
+        // change
+        sdbusplus::bus::match::match lanConfigMatch(
+            static_cast<sdbusplus::bus::bus&>(*systemBus),
+            "type='signal', member='PropertiesChanged',path_namespace='" +
+                std::string(inventoryPath) + "',arg0namespace='" + nicType +
+                "'",
+            [&systemBus](sdbusplus::message::message& msg) {
+                if (msg.is_method_error())
+                {
+                    std::cerr << "callback method error\n";
+                    return;
+                }
+                getNicNameInfo(systemBus);
+            });
+    }
 
     io.run();
 
