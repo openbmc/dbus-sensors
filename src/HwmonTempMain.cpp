@@ -201,8 +201,23 @@ void createSensors(
                         continue;
                     }
                 }
+
+                // If there are Label properties in the threshold data, then
+                // use the file we're on, 'temp1', as the label name.
+                // Otherwise, don't pass in any label names here because
+                // most likely this is a single input sensor where having
+                // 'Label' in the threshold data is unnecessary or people
+                // just need a threshold on the first sensor.
                 std::vector<thresholds::Threshold> sensorThresholds;
-                if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
+                std::string label{"temp1"};
+                std::string* labelPtr{nullptr};
+
+                if (thresholds::thresholdsUseLabels(*sensorData))
+                {
+                    labelPtr = &label;
+                }
+                if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
+                                               labelPtr))
                 {
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
@@ -261,13 +276,26 @@ void createSensors(
                         permitSet);
                     if (hwmonFile)
                     {
+                        // To look up thresholds for these additional sensors,
+                        // pass in the file we're on as the label name to
+                        // match on the Label property in the threshold data.
+                        label = "temp" + std::to_string(i + 1);
+                        std::vector<thresholds::Threshold> thresholds;
+
+                        if (!parseThresholdsFromConfig(*sensorData, thresholds,
+                                                       &label))
+                        {
+                            std::cerr << "error populating thresholds for "
+                                      << sensorName << "\n";
+                        }
+
                         auto& sensor = sensors[sensorName];
                         sensor = nullptr;
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
-                            std::vector<thresholds::Threshold>(), pollRate,
-                            *interfacePath, readState);
+                            std::move(thresholds), pollRate, *interfacePath,
+                            readState);
                         sensor->setupRead();
                     }
                 }

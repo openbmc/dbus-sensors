@@ -175,5 +175,6 @@ void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
 bool checkThresholds(Sensor* sensor);
 void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer);
+bool thresholdsUseLabels(const SensorData& sensorData);
 
 } // namespace thresholds
