@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "5382d0c8_6f4874aa",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-03-17T01:54:32Z",
+      "side": 1,
+      "message": "Yup, usually we either pass a shared_ptr by const reference, or by value.\nThe use case here is not really a good one.\nI will try to remove the shared_ptr for `conn` and just pass by reference.",
+      "parentUuid": "ac270dec_df89fba9",
+      "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e68ac494_56497d45",
         "filename": "src/IntrusionSensorMain.cpp",
         "patchSetId": 1
