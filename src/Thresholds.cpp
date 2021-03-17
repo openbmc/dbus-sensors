@@ -60,7 +60,7 @@ std::string toBusValue(const Direction& direction)
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
-    const std::string* matchLabel)
+    const std::string* matchLabel, const int* matchIndex)
 {
     for (const auto& item : sensorData)
     {
@@ -81,6 +81,21 @@ bool parseThresholdsFromConfig(
                 continue;
             }
         }
+
+        if (matchIndex != nullptr)
+        {
+            auto indexFind = item.second.find("Index");
+            if (indexFind == item.second.end())
+            {
+                continue;
+            }
+            if (std::visit(VariantToIntVisitor(), indexFind->second) !=
+                *matchIndex)
+            {
+                continue;
+            }
+        }
+
         auto directionFind = item.second.find("Direction");
         auto severityFind = item.second.find("Severity");
         auto valueFind = item.second.find("Value");
@@ -88,7 +103,8 @@ bool parseThresholdsFromConfig(
             severityFind == item.second.end() ||
             directionFind == item.second.end())
         {
-            std::cerr << "Malformed threshold in configuration\n";
+            std::cerr << "Malformed threshold on configuration interface "
+                      << item.first << "\n";
             return false;
         }
         Level level;
@@ -116,6 +132,30 @@ bool parseThresholdsFromConfig(
         thresholdVector.emplace_back(level, direction, val);
     }
     return true;
+}
+
+// Check if there are 'Index' properties on every Threshold interface
+bool allThresholdsUseIndex(const SensorData& sensorData)
+{
+    bool hasIndex = false;
+
+    for (const auto& item : sensorData)
+    {
+        if (item.first.find("Thresholds") != std::string::npos)
+        {
+            auto indexFind = item.second.find("Index");
+            if (indexFind != item.second.end())
+            {
+                hasIndex = true;
+            }
+            else
+            {
+                hasIndex = false;
+                break;
+            }
+        }
+    }
+    return hasIndex;
 }
 
 void persistThreshold(const std::string& path, const std::string& baseInterface,

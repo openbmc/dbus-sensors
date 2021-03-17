@@ -154,7 +154,7 @@ struct ThresholdTimer
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
-    const std::string* matchLabel = nullptr);
+    const std::string* matchLabel = nullptr, const int* matchIndex = nullptr);
 
 bool parseThresholdsFromAttr(std::vector<thresholds::Threshold>& thresholds,
                              const std::string& inputPath,
@@ -175,5 +175,6 @@ void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
 bool checkThresholds(Sensor* sensor);
 void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer);
+bool allThresholdsUseIndex(const SensorData& sensorData);
 
 } // namespace thresholds

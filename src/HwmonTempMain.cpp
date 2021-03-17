@@ -201,11 +201,24 @@ void createSensors(
                         continue;
                     }
                 }
+
+                // If there are Index properties in the threshold data, then
+                // use the index of the file we're on, 1 in this case because
+                // we are looking at temp1_input, to find the threshold to
+                // use.
                 std::vector<thresholds::Threshold> sensorThresholds;
-                if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
+                int index = 1;
+                int* indexPtr = nullptr;
+
+                if (thresholds::allThresholdsUseIndex(*sensorData))
+                {
+                    indexPtr = &index;
+                }
+                if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
+                                               nullptr, indexPtr))
                 {
                     std::cerr << "error populating thresholds for "
-                              << sensorName << "\n";
+                              << sensorName << " index 1\n";
                 }
 
                 auto findPollRate = baseConfiguration->second.find("PollRate");
@@ -261,13 +274,31 @@ void createSensors(
                         permitSet);
                     if (hwmonFile)
                     {
+                        // To look up thresholds for these additional sensors,
+                        // match on the Index property in the threshold data
+                        // where the index comes from the sysfs file we're on,
+                        // i.e. index = 2 for temp2_input.
+                        int index = i + 1;
+                        std::vector<thresholds::Threshold> thresholds;
+
+                        if (thresholds::allThresholdsUseIndex(*sensorData))
+                        {
+                            if (!parseThresholdsFromConfig(
+                                    *sensorData, thresholds, nullptr, &index))
+                            {
+                                std::cerr << "error populating thresholds for "
+                                          << sensorName << " index " << index
+                                          << "\n";
+                            }
+                        }
+
                         auto& sensor = sensors[sensorName];
                         sensor = nullptr;
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
-                            std::vector<thresholds::Threshold>(), pollRate,
-                            *interfacePath, readState);
+                            std::move(thresholds), pollRate, *interfacePath,
+                            readState);
                         sensor->setupRead();
                     }
                 }
