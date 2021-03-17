@@ -60,7 +60,7 @@ std::string toBusValue(const Direction& direction)
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
-    const std::string* matchLabel)
+    const std::string* matchLabel, const int* sensorIndex)
 {
     for (const auto& item : sensorData)
     {
@@ -81,6 +81,26 @@ bool parseThresholdsFromConfig(
                 continue;
             }
         }
+
+        if (sensorIndex != nullptr)
+        {
+            auto indexFind = item.second.find("Index");
+
+            // If we're checking for index 1, a missing Index is OK.
+            if ((indexFind == item.second.end()) && (*sensorIndex != 1))
+            {
+                continue;
+            }
+            else if (indexFind != item.second.end())
+            {
+                if (std::visit(VariantToIntVisitor(), indexFind->second) !=
+                    *sensorIndex)
+                {
+                    continue;
+                }
+            }
+        }
+
         auto directionFind = item.second.find("Direction");
         auto severityFind = item.second.find("Severity");
         auto valueFind = item.second.find("Value");
@@ -88,7 +108,8 @@ bool parseThresholdsFromConfig(
             severityFind == item.second.end() ||
             directionFind == item.second.end())
         {
-            std::cerr << "Malformed threshold in configuration\n";
+            std::cerr << "Malformed threshold on configuration interface "
+                      << item.first << "\n";
             return false;
         }
         Level level;
