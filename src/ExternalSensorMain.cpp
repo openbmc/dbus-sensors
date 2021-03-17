@@ -27,26 +27,105 @@
 
 // The ExternalSensor is a sensor whose value is intended to be writable
 // by something external to the BMC, so that the host (or something else)
-// can write to it, perhaps by using an IPMI connection.
+// can write to it, perhaps by using an IPMI or Redfish connection.
 
 // Unlike most other sensors, an external sensor does not correspond
-// to a hwmon file or other kernel/hardware interface,
+// to a hwmon file or any other kernel/hardware interface,
 // so, after initialization, this module does not have much to do,
 // but it handles reinitialization and thresholds, similar to the others.
+// The main work of this module is to provide backing storage for a
+// sensor that exists only virtually, and to provide an optional
+// timeout service for detecting loss of timely updates.
 
 // As there is no corresponding driver or hardware to support,
 // all configuration of this sensor comes from the JSON parameters:
-// MinValue, MaxValue, PowerState, Measure, Name
+// MinValue, MaxValue, Timeout, PowerState, Units, Name
 
-// The purpose of "Measure" is to specify the physical characteristic
+// The purpose of "Units" is to specify the physical characteristic
 // the external sensor is measuring, because with an external sensor
 // there is no other way to tell, and it will be used for the object path
-// here: /xyz/openbmc_project/sensors/<Measure>/<Name>
+// here: /xyz/openbmc_project/sensors/<Units>/<Name>
 
 static constexpr bool debug = false;
 
 static const char* sensorType =
     "xyz.openbmc_project.Configuration.ExternalSensor";
+
+void updateReaper(boost::container::flat_map<
+                      std::string, std::shared_ptr<ExternalSensor>>& sensors,
+                  boost::asio::steady_timer& timer,
+                  const std::chrono::steady_clock::time_point& now)
+{
+    // First pass, reap all stale sensors
+    for (auto sensor : sensors)
+    {
+        if (sensor.second->isPerishable())
+        {
+            if (!sensor.second->isViable(now))
+            {
+                sensor.second->writeInvalidate();
+            }
+        }
+    }
+
+    std::chrono::steady_clock::duration nextCheck;
+    bool needCheck = false;
+
+    // Second pass, determine timer interval to next check
+    for (auto sensor : sensors)
+    {
+        if (sensor.second->isPerishable())
+        {
+            auto expiration = sensor.second->ageRemaining(now);
+
+            if (needCheck)
+            {
+                nextCheck = std::min(nextCheck, expiration);
+            }
+            else
+            {
+                // Initialization
+                nextCheck = expiration;
+                needCheck = true;
+            }
+        }
+    }
+
+    if (!needCheck)
+    {
+        if constexpr (debug)
+        {
+            std::cerr << "Next ExternalSensor timer idle\n";
+        }
+
+        return;
+    }
+
+    timer.expires_at(now + nextCheck);
+
+    timer.async_wait([&sensors, &timer](const boost::system::error_code& err) {
+        if (err != boost::system::errc::success)
+        {
+            // Cancellation is normal, as timer is dynamically rescheduled
+            if (err != boost::system::errc::operation_canceled)
+            {
+                std::cerr << "ExternalSensor timer scheduling problem: "
+                          << err.message() << "\n";
+            }
+            return;
+        }
+        updateReaper(sensors, timer, std::chrono::steady_clock::now());
+    });
+
+    if constexpr (debug)
+    {
+        std::cerr << "Next ExternalSensor timer "
+                  << std::chrono::duration_cast<std::chrono::microseconds>(
+                         nextCheck)
+                         .count()
+                  << " us\n";
+    }
+}
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -54,12 +133,13 @@ void createSensors(
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged,
+    boost::asio::steady_timer& reaperTimer)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        [&io, &objectServer, &sensors, &dbusConnection,
-         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
+         &reaperTimer](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = (sensorsChanged == nullptr);
 
             for (const std::pair<sdbusplus::message::object_path, SensorData>&
@@ -116,10 +196,26 @@ void createSensors(
                     continue;
                 }
 
-                std::string sensorName;
-                std::string sensorMeasure;
+                double timeoutSecs = 0.0;
 
-                // Name and Measure are mandatory string parameters
+                // Timeout is an optional numeric parameter
+                auto timeoutFound = baseConfigMap.find("Timeout");
+                if (timeoutFound != baseConfigMap.end())
+                {
+                    timeoutSecs = std::visit(VariantToDoubleVisitor(),
+                                             timeoutFound->second);
+                }
+                if (!std::isfinite(timeoutSecs))
+                {
+                    std::cerr << "Timeout parameter not parsed for "
+                              << interfacePath << "\n";
+                    continue;
+                }
+
+                std::string sensorName;
+                std::string sensorUnits;
+
+                // Name and Units are mandatory string parameters
                 auto nameFound = baseConfigMap.find("Name");
                 if (nameFound == baseConfigMap.end())
                 {
@@ -136,18 +232,18 @@ void createSensors(
                     continue;
                 }
 
-                auto measureFound = baseConfigMap.find("Units");
-                if (measureFound == baseConfigMap.end())
+                auto unitsFound = baseConfigMap.find("Units");
+                if (unitsFound == baseConfigMap.end())
                 {
                     std::cerr << "Units parameter not found for "
                               << interfacePath << "\n";
                     continue;
                 }
-                sensorMeasure =
-                    std::visit(VariantToStringVisitor(), measureFound->second);
-                if (sensorMeasure.empty())
+                sensorUnits =
+                    std::visit(VariantToStringVisitor(), unitsFound->second);
+                if (sensorUnits.empty())
                 {
-                    std::cerr << "Measure parameter not parsed for "
+                    std::cerr << "Units parameter not parsed for "
                               << interfacePath << "\n";
                     continue;
                 }
@@ -199,8 +295,18 @@ void createSensors(
 
                 sensorEntry = std::make_shared<ExternalSensor>(
                     sensorType, objectServer, dbusConnection, sensorName,
-                    sensorMeasure, std::move(sensorThresholds), interfacePath,
-                    maxValue, minValue, readState);
+                    sensorUnits, std::move(sensorThresholds), interfacePath,
+                    maxValue, minValue, timeoutSecs, readState,
+                    [&sensors, &reaperTimer](
+                        const std::chrono::steady_clock::time_point& now) {
+                        updateReaper(sensors, reaperTimer, now);
+                    });
+
+                if constexpr (debug)
+                {
+                    std::cerr << "ExternalSensor " << sensorName
+                              << " created\n";
+                }
             }
         });
 
@@ -209,6 +315,11 @@ void createSensors(
 
 int main()
 {
+    if constexpr (debug)
+    {
+        std::cerr << "ExternalSensor service starting up\n";
+    }
+
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.ExternalSensor");
@@ -218,15 +329,17 @@ int main()
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
+    boost::asio::steady_timer reaperTimer(io);
 
-    io.post([&io, &objectServer, &sensors, &systemBus]() {
-        createSensors(io, objectServer, sensors, systemBus, nullptr);
+    io.post([&io, &objectServer, &sensors, &systemBus, &reaperTimer]() {
+        createSensors(io, objectServer, sensors, systemBus, nullptr,
+                      reaperTimer);
     });
 
     boost::asio::deadline_timer filterTimer(io);
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&io, &objectServer, &sensors, &systemBus, &sensorsChanged,
-         &filterTimer](sdbusplus::message::message& message) {
+         &filterTimer, &reaperTimer](sdbusplus::message::message& message) {
             if (message.is_method_error())
             {
                 std::cerr << "callback method error\n";
@@ -237,7 +350,7 @@ int main()
             filterTimer.expires_from_now(boost::posix_time::seconds(1));
 
             filterTimer.async_wait([&io, &objectServer, &sensors, &systemBus,
-                                    &sensorsChanged](
+                                    &sensorsChanged, &reaperTimer](
                                        const boost::system::error_code& ec) {
                 if (ec)
                 {
@@ -248,7 +361,7 @@ int main()
                     return;
                 }
                 createSensors(io, objectServer, sensors, systemBus,
-                              sensorsChanged);
+                              sensorsChanged, reaperTimer);
             });
         };
 
@@ -258,6 +371,11 @@ int main()
             std::string(inventoryPath) + "',arg0namespace='" + sensorType + "'",
         eventHandler);
     matches.emplace_back(std::move(match));
+
+    if constexpr (debug)
+    {
+        std::cerr << "ExternalSensor service entering main loop\n";
+    }
 
     io.run();
 }
