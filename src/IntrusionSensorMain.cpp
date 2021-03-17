@@ -53,7 +53,7 @@ static constexpr std::array<const char*, 1> nicTypes = {nicType};
 namespace fs = std::filesystem;
 
 static bool getIntrusionSensorConfig(
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     IntrusionSensorType* pType, int* pBusId, int* pSlaveAddr,
     bool* pGpioInverted)
 {
@@ -179,8 +179,8 @@ boost::container::flat_map<int, bool> lanStatusMap;
 boost::container::flat_map<int, std::string> lanInfoMap;
 boost::container::flat_map<std::string, int> pathSuffixMap;
 
-static void
-    getNicNameInfo(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+static void getNicNameInfo(
+    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
@@ -325,8 +325,8 @@ static void processLanStatusChange(sdbusplus::message::message& message)
     }
 }
 
-static void
-    monitorLanStatusChange(std::shared_ptr<sdbusplus::asio::connection>& conn)
+static void monitorLanStatusChange(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
     // init lan port name from configuration
     getNicNameInfo(conn);
