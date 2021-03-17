@@ -104,6 +104,47 @@
       "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89cb63a1_a835e934",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-03-17T01:48:45Z",
+      "side": 1,
+      "message": "\u003e I didn\u0027t realize initially these were statics.  This is totally incorrect.\n\nIt\u0027s a good point. It will be OK to move the matches into the main() after monitorLanStatusChange(), and make them non-static. That will make sure the objects being destroyed in the correct order.",
+      "parentUuid": "f5941c96_80128cde",
+      "range": {
+        "startLine": 429,
+        "startChar": 10,
+        "endLine": 429,
+        "endChar": 14
+      },
+      "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e68ac494_56497d45",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-03-17T01:48:45Z",
+      "side": 1,
+      "message": "There is no need to use shared_ptr at all, I think I could send an extra patch to change it to \"raw\" sdbusplus::asio::connection, and pass the reference everywhere.",
+      "revId": "a7b43813f0328feb92416096caa3ac5d7f8c93d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
