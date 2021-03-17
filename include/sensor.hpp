@@ -76,6 +76,7 @@ struct Sensor
     PowerState readState;
     size_t errCount;
     std::unique_ptr<SensorInstrumentation> instrumentation;
+    std::function<void()> externalSetHook = []() {};
 
     void updateInstrumentation(double readValue)
     {
@@ -172,6 +173,9 @@ struct Sensor
             // check thresholds for external set
             value = newValue;
             checkThresholds();
+
+            // Trigger the hook, as an external set has just happened
+            externalSetHook();
         }
         else if (!overriddenState)
         {
