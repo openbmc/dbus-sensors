@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3afb607_266e7848",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-17T17:39:51Z",
+      "side": 1,
+      "message": "nit: with the matches moved outside, function name is bit misleading now - it is more like initializeLanStatus",
+      "range": {
+        "startLine": 470,
+        "startChar": 4,
+        "endLine": 470,
+        "endChar": 26
+      },
+      "revId": "0edfb7fe8a4d290c3cfb83a1f2c7a07be126e43a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e65088f_4ddaa6f2",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-17T17:39:51Z",
+      "side": 1,
+      "message": "These matches were not created if line 339 gets executed.\nWill there be issues now that they are always created?",
+      "range": {
+        "startLine": 472,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 11
+      },
+      "revId": "0edfb7fe8a4d290c3cfb83a1f2c7a07be126e43a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
