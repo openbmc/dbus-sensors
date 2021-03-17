@@ -118,6 +118,30 @@ bool parseThresholdsFromConfig(
     return true;
 }
 
+// Check if there are 'Label' properties in the Threshold data.
+bool thresholdsUseLabels(const SensorData& sensorData)
+{
+    bool labels = false;
+
+    for (const auto& item : sensorData)
+    {
+        if (item.first.find("Thresholds") != std::string::npos)
+        {
+            auto labelFind = item.second.find("Label");
+            if (labelFind != item.second.end())
+            {
+                labels = true;
+            }
+            else
+            {
+                labels = false;
+                break;
+            }
+        }
+    }
+    return labels;
+}
+
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
