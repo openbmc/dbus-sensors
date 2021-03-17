@@ -14,17 +14,21 @@ class ExternalSensor :
     public std::enable_shared_from_this<ExternalSensor>
 {
   public:
-    ExternalSensor(
-        const std::string& objectType,
-        sdbusplus::asio::object_server& objectServer,
-        std::shared_ptr<sdbusplus::asio::connection>& conn,
-        const std::string& sensorName, const std::string& sensorMeasure,
-        std::vector<thresholds::Threshold>&& thresholdsIn,
-        const std::string& sensorConfiguration, double maxReading,
-        double minReading, double timeoutSecs, const PowerState& powerState,
+    ExternalSensor(const std::string& objectType,
+                   sdbusplus::asio::object_server& objectServer,
+                   std::shared_ptr<sdbusplus::asio::connection>& conn,
+                   const std::string& sensorName,
+                   const std::string& sensorMeasure,
+                   std::vector<thresholds::Threshold>&& thresholdsIn,
+                   const std::string& sensorConfiguration, double maxReading,
+                   double minReading, double timeoutSecs,
+                   const PowerState& powerState);
+    virtual ~ExternalSensor();
+
+    // Call this immediately after calling the constructor
+    void initWriteHook(
         std::function<void(std::chrono::steady_clock::time_point now)>&&
             writeHookIn);
-    virtual ~ExternalSensor();
 
     // Returns true if sensor has external Value that is subject to timeout
     bool isAliveAndPerishable(void) const;
