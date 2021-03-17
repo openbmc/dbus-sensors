@@ -26,9 +26,7 @@ ExternalSensor::ExternalSensor(
     const std::string& sensorName, const std::string& sensorUnits,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, double maxReading,
-    double minReading, double timeoutSecs, const PowerState& powerState,
-    std::function<void(std::chrono::steady_clock::time_point now)>&&
-        writeHookIn) :
+    double minReading, double timeoutSecs, const PowerState& powerState) :
     // TODO(): When the Mutable feature is integrated,
     // make sure all ExternalSensor instances are mutable,
     // because that is the entire point of ExternalSensor,
@@ -41,8 +39,7 @@ ExternalSensor::ExternalSensor(
     writeTimeout(
         std::chrono::duration_cast<std::chrono::steady_clock::duration>(
             std::chrono::duration<double>(timeoutSecs))),
-    writeAlive(false), writePerishable(timeoutSecs > 0.0),
-    writeHook(std::move(writeHookIn))
+    writeAlive(false), writePerishable(timeoutSecs > 0.0)
 {
     // The caller must specify what physical characteristic
     // an external sensor is expected to be measuring, such as temperature,
@@ -75,14 +72,6 @@ ExternalSensor::ExternalSensor(
         objectServer.add_interface(objectPath, association::interface);
     setInitialProperties(conn);
 
-    externalSetHook = [weakThis = weak_from_this()]() {
-        auto lockThis = weakThis.lock();
-        if (lockThis)
-        {
-            lockThis->externalSetTrigger();
-        }
-    };
-
     if constexpr (debug)
     {
         std::cerr << "ExternalSensor " << name << " constructed: path "
@@ -93,6 +82,31 @@ ExternalSensor::ExternalSensor(
                          .count()
                   << " us\n";
     }
+}
+
+// Separate function from constructor, because of a gotcha: can't use the
+// enable_shared_from_this() API until after the constructor has completed.
+void ExternalSensor::initWriteHook(
+    std::function<void(std::chrono::steady_clock::time_point now)>&&
+        writeHookIn)
+{
+    // Connect ExternalSensorMain with ExternalSensor
+    writeHook = std::move(writeHookIn);
+
+    // Connect ExternalSensor with Sensor
+    auto weakThis = weak_from_this();
+    externalSetHook = std::move([weakThis]() {
+        auto lockThis = weakThis.lock();
+        if (lockThis)
+        {
+            lockThis->externalSetTrigger();
+            return;
+        }
+        if constexpr (debug)
+        {
+            std::cerr << "ExternalSensor receive ignored, sensor gone\n";
+        }
+    });
 }
 
 ExternalSensor::~ExternalSensor()

@@ -126,13 +126,14 @@ void updateReaper(boost::container::flat_map<
         if (err != boost::system::errc::success)
         {
             // Cancellation is normal, as timer is dynamically rescheduled
-            if (err != boost::system::errc::operation_canceled)
+            if (err != boost::asio::error::operation_aborted)
             {
                 std::cerr << "ExternalSensor timer scheduling problem: "
                           << err.message() << "\n";
             }
             return;
         }
+
         updateReaper(sensors, timer, std::chrono::steady_clock::now());
     });
 
@@ -155,6 +156,11 @@ void createSensors(
         sensorsChanged,
     boost::asio::steady_timer& reaperTimer)
 {
+    if constexpr (debug)
+    {
+        std::cerr << "ExternalSensor considering creating sensors\n";
+    }
+
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
         [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
@@ -284,6 +290,11 @@ void createSensors(
                             sensorsChanged->erase(it);
                             findSensor->second = nullptr;
                             found = true;
+                            if constexpr (debug)
+                            {
+                                std::cerr << "ExternalSensor " << sensorName
+                                          << " change found\n";
+                            }
                             break;
                         }
                     }
@@ -315,7 +326,8 @@ void createSensors(
                 sensorEntry = std::make_shared<ExternalSensor>(
                     sensorType, objectServer, dbusConnection, sensorName,
                     sensorUnits, std::move(sensorThresholds), interfacePath,
-                    maxValue, minValue, timeoutSecs, readState,
+                    maxValue, minValue, timeoutSecs, readState);
+                sensorEntry->initWriteHook(
                     [&sensors, &reaperTimer](
                         const std::chrono::steady_clock::time_point& now) {
                         updateReaper(sensors, reaperTimer, now);
@@ -364,14 +376,22 @@ int main()
                 std::cerr << "callback method error\n";
                 return;
             }
-            sensorsChanged->insert(message.get_path());
+
+            auto messagePath = message.get_path();
+            sensorsChanged->insert(messagePath);
+            if constexpr (debug)
+            {
+                std::cerr << "ExternalSensor change event received: "
+                          << messagePath << "\n";
+            }
+
             // this implicitly cancels the timer
             filterTimer.expires_from_now(boost::posix_time::seconds(1));
 
             filterTimer.async_wait([&io, &objectServer, &sensors, &systemBus,
                                     &sensorsChanged, &reaperTimer](
                                        const boost::system::error_code& ec) {
-                if (ec)
+                if (ec != boost::system::errc::success)
                 {
                     if (ec != boost::asio::error::operation_aborted)
                     {
@@ -379,6 +399,7 @@ int main()
                     }
                     return;
                 }
+
                 createSensors(io, objectServer, sensors, systemBus,
                               sensorsChanged, reaperTimer);
             });
