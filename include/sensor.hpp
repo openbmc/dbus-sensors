@@ -77,6 +77,12 @@ struct Sensor
     size_t errCount;
     std::unique_ptr<SensorInstrumentation> instrumentation;
 
+    // This member variable provides a hook that can be used to receive
+    // notification whenever this Sensor's value is externally set
+    // via D-Bus. If interested, replace this variable with your own
+    // lambda. See ExternalSensor for an example of usage.
+    std::function<void()> externalSetHook = []() {};
+
     void updateInstrumentation(double readValue)
     {
         // Do nothing if this feature is not enabled
@@ -172,6 +178,9 @@ struct Sensor
             // check thresholds for external set
             value = newValue;
             checkThresholds();
+
+            // Trigger the hook, as an external set has just happened
+            externalSetHook();
         }
         else if (!overriddenState)
         {
