@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08cbb3fa_13e9f148",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000539
+      },
+      "writtenOn": "2021-03-18T00:04:24Z",
+      "side": 1,
+      "message": "Maybe add a comment explaining this variable here? It\u0027s kinda hard to understand what it means by looking at its name.",
+      "revId": "9450e6916b8a21886224516e234e5f979579eaa9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
