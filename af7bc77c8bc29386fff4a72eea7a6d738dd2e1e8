@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "05431dac_ff0c00cc",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T22:51:03Z",
+      "side": 1,
+      "message": "Thanks. The underscore at the beginning was changed to \"In\" at the end, during a later upstream update, but I had earlier forked ExternalSensor from an older version. So, I brought it up to date, to match.",
+      "parentUuid": "6858e488_40513d2f",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6846e0a8_ee9a15a5",
         "filename": "include/ExternalSensor.hpp",
         "patchSetId": 2
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "2eaaf33a_11d74595",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T22:51:03Z",
+      "side": 1,
+      "message": "Got it.",
+      "parentUuid": "75837948_4141f41b",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b089644_5c5ce527",
         "filename": "include/ExternalSensor.hpp",
         "patchSetId": 2
@@ -73,6 +109,24 @@
       "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25c1effc_a32d3b94",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T22:51:03Z",
+      "side": 1,
+      "message": "Good idea. I have added a comment line, for each of the new functions added.",
+      "parentUuid": "7b089644_5c5ce527",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
