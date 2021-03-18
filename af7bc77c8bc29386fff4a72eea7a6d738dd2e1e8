@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "6846e0a8_ee9a15a5",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-18T22:24:50Z",
+      "side": 1,
+      "message": "Nit.  Double floats can be passed by value.",
+      "range": {
+        "startLine": 24,
+        "startChar": 40,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75837948_4141f41b",
         "filename": "include/ExternalSensor.hpp",
         "patchSetId": 2

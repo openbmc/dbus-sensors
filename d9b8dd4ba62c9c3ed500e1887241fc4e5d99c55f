@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4e3c885_2ee82d60",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-18T22:24:50Z",
+      "side": 1,
+      "message": "We should probably move ExternalSensor to a smart_ptr, and capture weak_from_this here, to avoid possible pointer safety issues.  We do this in other places to great effect.",
+      "range": {
+        "startLine": 79,
+        "startChar": 23,
+        "endLine": 79,
+        "endChar": 27
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bd13174_0dd74438",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-18T22:24:50Z",
+      "side": 1,
+      "message": "In the future, please add debug logging like this in a different patchset.  With that said, not worth splitting out at this point.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65906490_6194b945",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-18T22:24:50Z",
+      "side": 1,
+      "message": "Need to explicitly null out the new callback you added to avoid shutdown seg faults.",
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dbddde1_639e81fb",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-18T22:24:50Z",
+      "side": 1,
+      "message": "This is logic that really should be going into each individual sensor.  The memory safety issues with this method are a little scary, and I\u0027m having trouble divining how this would work if a sensor got destroyed at the same time as the timer expired.\n\nI suspect if you rolled this logic into the ExternalSensor class, it would be significantly simpler, as you could simply rearm the existing poll timer every time a value was set.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 45
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf390b72_86d2c12a",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-18T22:24:50Z",
+      "side": 1,
+      "message": "time points can be passed by value.",
+      "range": {
+        "startLine": 57,
+        "startChar": 61,
+        "endLine": 57,
+        "endChar": 66
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "534109f2_edaf3a53",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-18T22:24:50Z",
+      "side": 1,
+      "message": "expires_from_now seems better in this case, rather than doing the \"from now\" math yourself.",
+      "range": {
+        "startLine": 104,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 20
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0de75348_00fd4d28",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-18T22:24:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we have one of these per-sensor?  That seems significantly simpler, and requires ExternalSensor to be more self-contained.",
+      "range": {
+        "startLine": 332,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 46
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
