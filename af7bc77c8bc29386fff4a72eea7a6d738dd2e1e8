@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6858e488_40513d2f",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000539
+      },
+      "writtenOn": "2021-03-18T02:02:26Z",
+      "side": 1,
+      "message": "The underscore makes this variable not consistent and stand out from others. I\u0027m not sure if it\u0027s a good thing to do... At first glance, I thought it was an unused variable inherited from the interface of HwmonTempSensor.",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75837948_4141f41b",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000539
+      },
+      "writtenOn": "2021-03-18T02:02:26Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b089644_5c5ce527",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000539
+      },
+      "writtenOn": "2021-03-18T02:02:26Z",
+      "side": 1,
+      "message": "Would appreciate comments describing what these functions do. Thanks!",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2968f99a_d6a45680",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000539
+      },
+      "writtenOn": "2021-03-18T02:02:26Z",
+      "side": 1,
+      "message": "Haven\u0027t thought it thoroughly, but I feel it would make code much simpler if this function does not have a dependency on writeAlive, as I feel there are quite a few guarding boolean out there. Could we make this function return writePerishable only to make it obvious? Can we check writeAlive in updateReaper() instead?",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a22d8c05_6b4eaeed",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000539
+      },
+      "writtenOn": "2021-03-18T02:02:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s a good idea to initialize nextCheck as +inf, so we only need to do:\n```\nnextCheck \u003d std::min(nextCheck, expiration);\nneedCheck \u003d true;\n```\nin the loop to reduce one if branch.",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
