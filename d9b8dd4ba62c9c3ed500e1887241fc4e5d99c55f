@@ -88,6 +88,30 @@
     },
     {
       "key": {
+        "uuid": "033c1c0a_238cd30c",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T23:37:32Z",
+      "side": 1,
+      "message": "Hmm. The \"sensors\" container object has essentially global lifetime (it\u0027s in main() and passed around by reference), but each individual ExternalSensor in it could be a concern. The program is single-threaded, so only one Boost callback should be able to happen at a time. If it\u0027s in the middle of executing the callback that calls createSensors(), the timer callback shouldn\u0027t be able to also fire at the same time. So, even if createSensors() disturbs the container, it should be settled down by the time the timer callback gets to execute.",
+      "parentUuid": "7dbddde1_639e81fb",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 45
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf390b72_86d2c12a",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 3
@@ -108,6 +132,30 @@
       "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54817460_9f89a5ad",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T23:37:32Z",
+      "side": 1,
+      "message": "In general, I like passing structures by const reference, as that frees the user from having to worry about the size of them. However, I checked, and the size of time_point here is only 8 bytes, so it\u0027s fine.",
+      "parentUuid": "cf390b72_86d2c12a",
+      "range": {
+        "startLine": 57,
+        "startChar": 61,
+        "endLine": 57,
+        "endChar": 66
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +182,30 @@
     },
     {
       "key": {
+        "uuid": "3befbca1_f06f206d",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T23:37:32Z",
+      "side": 1,
+      "message": "I wanted to use the existing \"now\" that was passed in. The reason is, this gets the timer math more correct, instead of introducing timing slop caused by the execution time between the \"now\" timestamp that was passed in, and the current time of day whenever Boost calculates expires_from_now(). Also, I want to minimize the amount of timestamps being taken, as the act of taking a timestamp is fairly slow.",
+      "parentUuid": "534109f2_edaf3a53",
+      "range": {
+        "startLine": 104,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 20
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0de75348_00fd4d28",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 3
@@ -154,6 +226,30 @@
       "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16e0969e_eb974cf3",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T23:37:32Z",
+      "side": 1,
+      "message": "I don\u0027t like free-running timers on a per-sensor basis, that got us into all sorts of issues with PSUSensor easier, and it would greatly complicate cleanup, as you mention in other comments.",
+      "parentUuid": "0de75348_00fd4d28",
+      "range": {
+        "startLine": 332,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 46
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
