@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "fa0c32a3_455e3348",
+        "filename": "include/ExternalSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T23:18:11Z",
+      "side": 1,
+      "message": "No objection. The variable is of such small size that it doesn\u0027t really make a difference whether it\u0027s passed by value or reference.",
+      "parentUuid": "6846e0a8_ee9a15a5",
+      "range": {
+        "startLine": 24,
+        "startChar": 40,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75837948_4141f41b",
         "filename": "include/ExternalSensor.hpp",
         "patchSetId": 2
@@ -147,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "f763a935_21caf6a7",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T23:18:11Z",
+      "side": 1,
+      "message": "I thought about having it return writePerishable only, at first, in fact I had that in an early draft. The caller had to check writeAlive anyway, to avoid being given misleading results, in all cases. Instead of making the caller have to worry about this, I just added it to the function internally. If it\u0027s no longer alive, it\u0027s no longer considered perishable.",
+      "parentUuid": "2968f99a_d6a45680",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a22d8c05_6b4eaeed",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 2
@@ -161,6 +203,24 @@
       "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e454f0b1_05072e27",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-18T23:18:11Z",
+      "side": 1,
+      "message": "I already need to set needCheck to true, if at least one perishable sensor was found, for use later in the function. It feels safer to me to set this to true and check it, instead of trying to use +inf as a constant to mean \"uninitialized\". There\u0027s also weird gotchas with floating-point comparisons, and I didn\u0027t want to introduce this complexity here.",
+      "parentUuid": "a22d8c05_6b4eaeed",
+      "revId": "af7bc77c8bc29386fff4a72eea7a6d738dd2e1e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
