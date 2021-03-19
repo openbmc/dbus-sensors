@@ -48,8 +48,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
            std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
            conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0)
+    inputDev(io), waitTimer(io), readTimer(io), path(path), pathRatedMax(""),
+    pathRatedMin(""), sensorFactor(factor), minMaxReadCounter(0)
 {
     if constexpr (debug)
     {
@@ -121,6 +121,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
 PSUSensor::~PSUSensor()
 {
     waitTimer.cancel();
+    readTimer.cancel();
     inputDev.close();
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(thresholdInterfaceWarning);
@@ -128,10 +129,34 @@ PSUSensor::~PSUSensor()
     objServer.remove_interface(association);
 }
 
+void PSUSensor::setupReadTimer(void)
+{
+    readTimer.expires_from_now(boost::posix_time::seconds(readTimerTimeOut));
+    std::weak_ptr<PSUSensor> weakRefRead = weak_from_this();
+    readTimer.async_wait([weakRefRead](const boost::system::error_code& ec) {
+        std::shared_ptr<PSUSensor> self = weakRefRead.lock();
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return;
+        }
+        if (self)
+        {
+            if constexpr (debug)
+            {
+                std::cerr << "Read timer timeout, resume it: " << self->path
+                          << "\n";
+            }
+            self->inputDev.cancel();
+            self->setupRead();
+        }
+    });
+}
+
 void PSUSensor::setupRead(void)
 {
     std::shared_ptr<boost::asio::streambuf> buffer =
         std::make_shared<boost::asio::streambuf>();
+    setupReadTimer();
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
     boost::asio::async_read_until(
         inputDev, *buffer, '\n',
@@ -140,6 +165,7 @@ void PSUSensor::setupRead(void)
             std::shared_ptr<PSUSensor> self = weakRef.lock();
             if (self)
             {
+                self->readTimer.cancel();
                 self->readBuf = buffer;
                 self->handleResponse(ec);
             }

@@ -28,6 +28,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     sdbusplus::asio::object_server& objServer;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
+    boost::asio::deadline_timer readTimer;
     std::shared_ptr<boost::asio::streambuf> readBuf;
     std::string path;
     std::string pathRatedMax;
@@ -38,9 +39,11 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
+    void setupReadTimer(void);
 
     int fd;
     static constexpr unsigned int sensorPollMs = 1000;
+    static constexpr unsigned int readTimerTimeOut = 5;
     static constexpr size_t warnAfterErrorCount = 10;
 };
 
