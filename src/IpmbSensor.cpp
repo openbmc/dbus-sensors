@@ -155,7 +155,7 @@ void IpmbSensor::loadDefaults()
         initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
                     deviceAddress, 0x00, 0x00, 0x00, 0x00,
                     0x02,          0x00, 0x00, 0x00};
-        readingFormat = ReadingFormat::elevenBit;
+        readingFormat = ReadingFormat::linearElevenBit;
     }
     else if (type == IpmbType::IR38363VR)
     {
@@ -277,9 +277,6 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             }
 
             int16_t value = ((data[4] << 8) | data[3]);
-            constexpr const size_t shift = 16 - 11; // 11bit into 16bit
-            value <<= shift;
-            value >>= shift;
             resp = value;
             return true;
         }
@@ -296,6 +293,25 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             }
 
             resp = ((data[4] << 8) | data[3]) >> 3;
+            return true;
+        }
+        case (ReadingFormat::linearElevenBit):
+        {
+            if (data.size() < 5)
+            {
+                if (!errCount)
+                {
+                    std::cerr << "Invalid data length returned for " << name
+                              << "\n";
+                }
+                return false;
+            }
+
+            int16_t value = ((data[4] << 8) | data[3]);
+            constexpr const size_t shift = 16 - 11; // 11bit into 16bit
+            value <<= shift;
+            value >>= shift;
+            resp = value;
             return true;
         }
         default:
