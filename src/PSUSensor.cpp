@@ -14,22 +14,10 @@
 // limitations under the License.
 */
 
-#include <unistd.h>
-
 #include <PSUSensor.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/asio/read_until.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include <sdbusplus/asio/connection.hpp>
-#include <sdbusplus/asio/object_server.hpp>
 
-#include <iostream>
-#include <istream>
-#include <limits>
-#include <memory>
-#include <string>
-#include <vector>
+#include <fstream>
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
@@ -131,20 +119,48 @@ PSUSensor::~PSUSensor()
 
 void PSUSensor::setupRead(void)
 {
-    std::shared_ptr<boost::asio::streambuf> buffer =
-        std::make_shared<boost::asio::streambuf>();
-    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    boost::asio::async_read_until(
-        inputDev, *buffer, '\n',
-        [weakRef, buffer](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<PSUSensor> self = weakRef.lock();
-            if (self)
+    std::string line;
+    std::ifstream sensorFile(path);
+    if (sensorFile.good())
+    {
+        std::getline(sensorFile, line);
+        if (!sensorFile.fail())
+        {
+            errno = 0;
+            rawValue = std::stod(line);
+            if (!errno)
             {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
+                updateValue(rawValue / sensorFactor);
+                if (minMaxReadCounter++ % 8 == 0)
+                {
+                    updateMinMaxValues();
+                }
             }
-        });
+        }
+        else
+        {
+            std::cerr << "Could not parse " << path << "\n";
+            incrementError();
+        }
+        sensorFile.close();
+    }
+    lseek(fd, 0, SEEK_SET);
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+
+    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Failed to reschedule: " << __FUNCTION__ << "\n";
+            return;
+        }
+        if (self)
+        {
+            self->setupRead();
+        }
+    });
+    return;
 }
 
 void PSUSensor::updateMinMaxValues(void)
@@ -158,62 +174,6 @@ void PSUSensor::updateMinMaxValues(void)
     {
         updateProperty(sensorInterface, maxValue, *newVal, "MaxValue");
     }
-}
-
-void PSUSensor::handleResponse(const boost::system::error_code& err)
-{
-    if ((err == boost::system::errc::bad_file_descriptor) ||
-        (err == boost::asio::error::misc_errors::not_found))
-    {
-        std::cerr << "Bad file descriptor from\n";
-        return;
-    }
-    std::istream responseStream(readBuf.get());
-    if (!err)
-    {
-        std::string response;
-        try
-        {
-            std::getline(responseStream, response);
-            rawValue = std::stod(response);
-            responseStream.clear();
-            double nvalue = rawValue / sensorFactor;
-
-            updateValue(nvalue);
-
-            if (minMaxReadCounter++ % 8 == 0)
-            {
-                updateMinMaxValues();
-            }
-        }
-        catch (const std::invalid_argument&)
-        {
-            std::cerr << "Could not parse " << response << "\n";
-            incrementError();
-        }
-    }
-    else
-    {
-        std::cerr << "System error " << err << "\n";
-        incrementError();
-    }
-
-    lseek(fd, 0, SEEK_SET);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-
-    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        std::shared_ptr<PSUSensor> self = weakRef.lock();
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            std::cerr << "Failed to reschedule\n";
-            return;
-        }
-        if (self)
-        {
-            self->setupRead();
-        }
-    });
 }
 
 void PSUSensor::checkThresholds(void)
