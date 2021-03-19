@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "d1089695_01eb6f62",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-19T00:14:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "65906490_6194b945",
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dbddde1_639e81fb",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 3
