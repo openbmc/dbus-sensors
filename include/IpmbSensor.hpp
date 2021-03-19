@@ -34,6 +34,7 @@ enum class ReadingFormat
     byte3,
     elevenBit,
     elevenBitShift,
+    linearElevenBit
 };
 
 namespace ipmi
