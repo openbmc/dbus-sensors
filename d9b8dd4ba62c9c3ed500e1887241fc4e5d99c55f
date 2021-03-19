@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f7575f19_c5d84f17",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-19T00:13:23Z",
+      "side": 1,
+      "message": "Agreed. There\u0027s already enable_shared_from_this() being done in the constructor.",
+      "parentUuid": "a4e3c885_2ee82d60",
+      "range": {
+        "startLine": 79,
+        "startChar": 23,
+        "endLine": 79,
+        "endChar": 27
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bd13174_0dd74438",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e88e6c09_25e67a01",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-19T00:13:23Z",
+      "side": 1,
+      "message": "This was very useful during development and testing of this feature, and the logging should stay with the code, in case somebody else wants to enable it as well.",
+      "parentUuid": "8bd13174_0dd74438",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
