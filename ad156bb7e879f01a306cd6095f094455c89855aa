@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "2f0bf76f_a69112c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-19T18:00:03Z",
+      "side": 1,
+      "message": "Code will match Label with \"tempX\". May want clarify what is accepted Label.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9868f6ea_35f492f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-19T18:00:03Z",
+      "side": 1,
+      "message": "Is it using the above JSON example? What happens when there are only two labeled threshold, but there are actually 4 sensors?",
+      "range": {
+        "startLine": 46,
+        "startChar": 64,
+        "endLine": 47,
+        "endChar": 57
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a8949a1_bd7c8965",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 2
@@ -13,6 +59,93 @@
       "writtenOn": "2021-03-19T06:18:15Z",
       "side": 1,
       "message": "Why is this hard-coded to `temp1`?",
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acac2d69_15a866b4",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-19T18:00:03Z",
+      "side": 1,
+      "message": "This is for the first sensor. Label is expected to use \"tempX\", where X is the sensor number.\nLine 282 is doing essentially the same",
+      "parentUuid": "6a8949a1_bd7c8965",
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4dd6209_8b8e03f8",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-19T18:00:03Z",
+      "side": 1,
+      "message": "Since only accepted Label is in \"tempX\" format, may want add expected label if any here.",
+      "range": {
+        "startLine": 222,
+        "startChar": 20,
+        "endLine": 223,
+        "endChar": 52
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee99af05_e836123d",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-19T18:00:03Z",
+      "side": 1,
+      "message": "Add expected label",
+      "range": {
+        "startLine": 288,
+        "startChar": 28,
+        "endLine": 289,
+        "endChar": 60
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "698aba33_f637a2db",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-19T18:00:03Z",
+      "side": 1,
+      "message": "Should this be moved to after line 139?",
+      "range": {
+        "startLine": 138,
+        "startChar": 1,
+        "endLine": 138,
+        "endChar": 22
+      },
       "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
