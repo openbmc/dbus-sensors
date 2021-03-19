@@ -61,7 +61,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                   << "\"\n";
     }
 
-    fd = open(path.c_str(), O_RDONLY);
+    fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
     if (fd < 0)
     {
         std::cerr << "PSU sensor failed to open file\n";
@@ -131,20 +131,15 @@ PSUSensor::~PSUSensor()
 
 void PSUSensor::setupRead(void)
 {
-    std::shared_ptr<boost::asio::streambuf> buffer =
-        std::make_shared<boost::asio::streambuf>();
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    boost::asio::async_read_until(
-        inputDev, *buffer, '\n',
-        [weakRef, buffer](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<PSUSensor> self = weakRef.lock();
-            if (self)
-            {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
-            }
-        });
+    inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
+                        [weakRef](const boost::system::error_code& ec) {
+                            std::shared_ptr<PSUSensor> self = weakRef.lock();
+                            if (self)
+                            {
+                                self->handleResponse(ec);
+                            }
+                        });
 }
 
 void PSUSensor::updateMinMaxValues(void)
@@ -168,19 +163,18 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         std::cerr << "Bad file descriptor from\n";
         return;
     }
-    std::istream responseStream(readBuf.get());
-    if (!err)
+
+    std::string buffer;
+    buffer.resize(128);
+    lseek(fd, 0, SEEK_SET);
+    int rdLen = read(fd, buffer.data(), 128);
+
+    if (rdLen > 0)
     {
-        std::string response;
         try
         {
-            std::getline(responseStream, response);
-            rawValue = std::stod(response);
-            responseStream.clear();
-            double nvalue = rawValue / sensorFactor;
-
-            updateValue(nvalue);
-
+            rawValue = std::stod(buffer);
+            updateValue(rawValue / sensorFactor);
             if (minMaxReadCounter++ % 8 == 0)
             {
                 updateMinMaxValues();
@@ -188,13 +182,13 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         }
         catch (const std::invalid_argument&)
         {
-            std::cerr << "Could not parse " << response << "\n";
+            std::cerr << "Could not parse  input from " << path << "\n";
             incrementError();
         }
     }
     else
     {
-        std::cerr << "System error " << err << "\n";
+        std::cerr << "System error: " << errno << " line: " << __LINE__ << "\n";
         incrementError();
     }
 
@@ -203,12 +197,12 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        std::shared_ptr<PSUSensor> self = weakRef.lock();
         if (ec == boost::asio::error::operation_aborted)
         {
             std::cerr << "Failed to reschedule\n";
             return;
         }
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
         if (self)
         {
             self->setupRead();
