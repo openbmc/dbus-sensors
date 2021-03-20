@@ -1,5 +1,6 @@
+#include <systemd/sd-bus.h>
+
 #include <cstring>
-#include <regex>
 #include <string>
 
 namespace sensor_paths
@@ -46,9 +47,35 @@ std::string getPathForUnits(const std::string& units)
     return "";
 }
 
-std::string escapePathForDbus(const std::string& name)
+// Escapes unacceptable characters in an object name, making it safe for use
+// in a D-Bus object path. The prefix is also required here, although it
+// remains unchanged, to meet the API requirements of sd_bus_path_encode():
+// https://www.freedesktop.org/software/systemd/man/sd_bus_path_encode.html
+// Returns: String, concatenation of the (unchanged) prefix, the '/' (slash)
+// character, and the escaped object name. Returns empty string if error.
+std::string escapePathForDbus(const std::string& prefix,
+                              const std::string& name)
 {
-    return std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_");
+    char* outbuf = nullptr;
+    int ret = sd_bus_path_encode(prefix.c_str(), name.c_str(), &outbuf);
+
+    // Error checking
+    std::string empty;
+    if (!outbuf)
+    {
+        return empty;
+    }
+
+    // Convert C string to C++ string
+    std::string outstr(outbuf);
+    free(outbuf);
+
+    if (ret < 0)
+    {
+        return empty;
+    }
+
+    return outstr;
 }
 
 } // namespace sensor_paths

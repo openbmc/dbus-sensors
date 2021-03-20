@@ -31,7 +31,8 @@
 #include <string>
 #include <vector>
 
-static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
+static constexpr const char* sensorPathSuperPrefix =
+    "/xyz/openbmc_project/sensors";
 
 static constexpr bool debug = false;
 
@@ -44,7 +45,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::string& sensorTypeName, unsigned int factor,
                      double max, double min, const std::string& label,
                      size_t tSize) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
+    Sensor(sensorPathSuperPrefix + '/' + sensorTypeName, name,
            std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
            conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
@@ -68,20 +69,18 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     inputDev.assign(fd);
 
-    std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
-
     sensorInterface = objectServer.add_interface(
-        dbusPath, "xyz.openbmc_project.Sensor.Value");
+        objectPath, "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
 
     // This should be called before initializing association.
@@ -96,7 +95,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
         setInitialProperties(conn, label, tSize);
     }
 
-    association = objectServer.add_interface(dbusPath, association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
 

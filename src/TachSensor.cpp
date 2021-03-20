@@ -40,6 +40,9 @@
 static constexpr unsigned int pwmPollMs = 500;
 static constexpr size_t warnAfterErrorCount = 10;
 
+static constexpr const char* objectPathPrefix =
+    "/xyz/openbmc_project/sensors/fan_tach";
+
 TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        sdbusplus::asio::object_server& objectServer,
                        std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -51,7 +54,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        const std::pair<size_t, size_t>& limits,
                        const PowerState& powerState,
                        const std::optional<std::string>& ledIn) :
-    Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(thresholdsIn),
+    Sensor(objectPathPrefix, fanName, std::move(thresholdsIn),
            sensorConfiguration, objectType, limits.second, limits.first, conn,
            powerState),
     objServer(objectServer), redundancy(redundancy),
@@ -60,24 +63,20 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
     led(ledIn)
 {
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/fan_tach/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        objectPath, "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/fan_tach/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/fan_tach/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/fan_tach/" + name,
-        association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
 
     if (presence)
     {
@@ -92,9 +91,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
             "/xyz/openbmc_project/inventory/" + name, association::interface);
         itemAssoc->register_property(
             "associations",
-            std::vector<Association>{
-                {"sensors", "inventory",
-                 "/xyz/openbmc_project/sensors/fan_tach/" + name}});
+            std::vector<Association>{{"sensors", "inventory", objectPath}});
         itemAssoc->initialize();
     }
     setInitialProperties(conn);
@@ -189,8 +186,7 @@ void TachSensor::checkThresholds(void)
 
     if (redundancy && *redundancy)
     {
-        (*redundancy)
-            ->update("/xyz/openbmc_project/sensors/fan_tach/" + name, !status);
+        (*redundancy)->update(objectPath, !status);
     }
 
     bool curLed = !status;

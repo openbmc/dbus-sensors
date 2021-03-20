@@ -42,6 +42,11 @@ constexpr const char* exitAirIface =
     "xyz.openbmc_project.Configuration.ExitAirTempSensor";
 constexpr const char* cfmIface = "xyz.openbmc_project.Configuration.CFMSensor";
 
+static constexpr const char* objectPathPrefixCfm =
+    "/xyz/openbmc_project/sensors/cfm";
+static constexpr const char* objectPathPrefixTemperature =
+    "/xyz/openbmc_project/sensors/temperature";
+
 // todo: this *might* need to be configurable
 constexpr const char* inletTemperatureSensor = "temperature/Front_Panel_Temp";
 constexpr const char* pidConfigurationType =
@@ -162,32 +167,28 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
                      std::vector<thresholds::Threshold>&& thresholdData,
                      std::shared_ptr<ExitAirTempSensor>& parent) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", cfmMaxReading,
-           cfmMinReading, conn, PowerState::on),
+    Sensor(objectPathPrefixCfm, name, std::move(thresholdData),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
+           cfmMaxReading, cfmMinReading, conn, PowerState::on),
     std::enable_shared_from_this<CFMSensor>(), parent(parent),
     objServer(objectServer)
 {
-    sensorInterface =
-        objectServer.add_interface("/xyz/openbmc_project/sensors/cfm/" + name,
-                                   "xyz.openbmc_project.Sensor.Value");
+    sensorInterface = objectServer.add_interface(
+        objectPath, "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/cfm/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/cfm/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
 
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/cfm/" + name, association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
 
     setInitialProperties(conn);
 
@@ -490,31 +491,26 @@ ExitAirTempSensor::ExitAirTempSensor(
     const std::string& sensorName, const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", exitAirMaxReading,
-           exitAirMinReading, conn, PowerState::on),
+    Sensor(objectPathPrefixTemperature, sensorName, std::move(thresholdData),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
+           exitAirMaxReading, exitAirMinReading, conn, PowerState::on),
     std::enable_shared_from_this<ExitAirTempSensor>(), objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        objectPath, "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
     setInitialProperties(conn);
 }
 
