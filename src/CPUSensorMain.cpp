@@ -326,6 +326,9 @@ bool createSensors(boost::asio::io_service& io,
 
             std::string sensorName = createSensorName(label, item, cpuId);
 
+            // Do this comparison here, to avoid repetition in CPUSensor cxtr
+            bool isPowerSensor = (type.compare("power") == 0);
+
             auto findSensor = gCpuSensors.find(sensorName);
             if (findSensor != gCpuSensors.end())
             {
@@ -378,13 +381,14 @@ bool createSensors(boost::asio::io_service& io,
                               << sensorName << "\n";
                 }
             }
+
             auto& sensorPtr = gCpuSensors[sensorName];
             // make sure destructor fires before creating a new one
             sensorPtr = nullptr;
             sensorPtr = std::make_unique<CPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show, dtsOffset);
+                show, dtsOffset, isPowerSensor);
             createdSensors.insert(sensorName);
             if (debug)
             {
