@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "18e342d4_b747d4f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "Please don\u0027t wrap your lines by hand.  Lines should be wrapped 50/72 please.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd00b1f4_205d3519",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -13,6 +36,30 @@
       "writtenOn": "2021-03-19T21:56:42Z",
       "side": 1,
       "message": "Is the read until eventually going to finish or is it hung? \nWhat is the root cause for this? Is device busy, driver issue or other reason?\nHow to recover from this, close and reopen the file or simply cancel and retry?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2963ed90_7ab565fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "\u003e Is the read until eventually going to finish or is it hung? \n\u003e What is the root cause for this? Is device busy, driver issue or other reason?\n\n+1 this implies that a driver is hung.  I\u0027m not against protections in this area, but we need a proper root cause on what\u0027s happening.\n\n\u003e How to recover from this, close and reopen the file or simply cancel and retry?\n\nI suspect that\u0027s going to depend on what the real root cause is.",
+      "parentUuid": "bd00b1f4_205d3519",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -48,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "58cf5f1a_2410d8e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "Are there any documented gaurantees in the kernel for this kind of thing?  I thought there were hwmon knobs for this kind of thing.",
+      "parentUuid": "2c4ab034_3649f091",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "187bd833_102be2a8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -59,6 +130,30 @@
       "writtenOn": "2021-03-19T23:35:25Z",
       "side": 1,
       "message": "could?",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e5cb8cc_0d912077",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "This needs a better tested statement, as well as a better root cause.",
+      "parentUuid": "187bd833_102be2a8",
       "range": {
         "startLine": 15,
         "startChar": 11,
@@ -117,6 +212,54 @@
     },
     {
       "key": {
+        "uuid": "8225309d_a158100c",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "Because waitTimer is not running when we\u0027re reading, we don\u0027t need a second timer here, just reuse waitTimer.",
+      "parentUuid": "6113fb85_e26c5b45",
+      "range": {
+        "startLine": 31,
+        "startChar": 3,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e8865ea_1a137a1f",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6c255e69_2f9dece6",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5b0acca_8e1d1b02",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 3
@@ -128,6 +271,30 @@
       "writtenOn": "2021-03-19T23:35:25Z",
       "side": 1,
       "message": "expires_from_now is deprecated in favor of expires_after. And might want to prefer std::chrono:: instead of boost::posix_time",
+      "range": {
+        "startLine": 134,
+        "startChar": 14,
+        "endLine": 134,
+        "endChar": 57
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a926a2a_f454d487",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "b5b0acca_8e1d1b02",
       "range": {
         "startLine": 134,
         "startChar": 14,
@@ -163,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "a7d7ded8_27526f7d",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "needs nullptr checked.  This also should go below operation aborted.",
+      "parentUuid": "cc93e699_f3940d83",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 137,
+        "endChar": 61
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8bf1ea45_fa29acd0",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 3
@@ -174,6 +365,30 @@
       "writtenOn": "2021-03-19T21:56:42Z",
       "side": 1,
       "message": "What ec will line 163 get? Currently, ec is not checked before it is passed to handleResponse(ec), please follow through to make sure it is handled correctly. Looks like setupRead can get called twice: line 150 and line 239.",
+      "range": {
+        "startLine": 149,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 36
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec78feb4_ac556b04",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T18:14:51Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "8bf1ea45_fa29acd0",
       "range": {
         "startLine": 149,
         "startChar": 12,
