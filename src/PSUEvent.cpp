@@ -23,6 +23,7 @@
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/types.hpp>
 
 #include <iostream>
 #include <memory>
@@ -45,10 +46,10 @@ PSUCombineEvent::PSUCombineEvent(
     const std::string& combineEventName) :
     objServer(objectServer)
 {
-    std::string psuNameEscaped = sensor_paths::escapePathForDbus(psuName);
+    std::string psuPathEscaped = sdbusplus::message::object_path(
+        "/xyz/openbmc_project/State/Decorator") / psuName);
     eventInterface = objServer.add_interface(
-        "/xyz/openbmc_project/State/Decorator/" + psuNameEscaped + "_" +
-            combineEventName,
+        psuPathEscaped + "_" + combineEventName,
         "xyz.openbmc_project.State.Decorator.OperationalStatus");
     eventInterface->register_property("functional", true);
 
