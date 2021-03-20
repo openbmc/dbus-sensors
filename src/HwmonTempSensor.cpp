@@ -37,6 +37,9 @@ static constexpr size_t warnAfterErrorCount = 10;
 static constexpr double maxReading = 127;
 static constexpr double minReading = -128;
 
+static constexpr const char* objectPathPrefix =
+    "/xyz/openbmc_project/sensors/temperature";
+
 HwmonTempSensor::HwmonTempSensor(
     const std::string& path, const std::string& objectType,
     sdbusplus::asio::object_server& objectServer,
@@ -44,32 +47,28 @@ HwmonTempSensor::HwmonTempSensor(
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn, const float pollRate,
     const std::string& sensorConfiguration, const PowerState powerState) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, maxReading,
-           minReading, conn, powerState),
+    Sensor(objectPathPrefix, sensorName, std::move(thresholdsIn),
+           sensorConfiguration, objectType, maxReading, minReading, conn,
+           powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
 {
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        objectPath, "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
     setInitialProperties(conn, sensor_paths::unitDegreesC);
 }
 

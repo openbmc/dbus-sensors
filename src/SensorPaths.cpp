@@ -48,9 +48,4 @@ std::string getPathForUnits(const std::string& units)
     return "";
 }
 
-std::string escapePathForDbus(const std::string& name)
-{
-    return std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_");
-}
-
 } // namespace sensor_paths

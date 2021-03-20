@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstring>
-#include <regex>
 #include <string>
 
 namespace sensor_paths
@@ -27,7 +25,5 @@ constexpr const char* unitPercent =
 constexpr const char* unitCFM = "xyz.openbmc_project.Sensor.Value.Unit.CFM";
 
 std::string getPathForUnits(const std::string& units);
-
-std::string escapePathForDbus(const std::string& name);
 
 } // namespace sensor_paths
