@@ -45,10 +45,10 @@ PSUCombineEvent::PSUCombineEvent(
     const std::string& combineEventName) :
     objServer(objectServer)
 {
-    std::string psuNameEscaped = sensor_paths::escapePathForDbus(psuName);
+    std::string psuPathEscaped = sensor_paths::escapePathForDbus(
+        "/xyz/openbmc_project/State/Decorator", psuName);
     eventInterface = objServer.add_interface(
-        "/xyz/openbmc_project/State/Decorator/" + psuNameEscaped + "_" +
-            combineEventName,
+        psuPathEscaped + "_" + combineEventName,
         "xyz.openbmc_project.State.Decorator.OperationalStatus");
     eventInterface->register_property("functional", true);
 
