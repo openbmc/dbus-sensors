@@ -20,6 +20,27 @@
 
 static constexpr bool debug = false;
 
+static constexpr const char* objectPathSuperPrefix =
+    "/xyz/openbmc_project/sensors";
+
+static std::string buildObjectPathPrefix(const std::string& sensorUnits)
+{
+    // The caller must specify what physical characteristic
+    // an external sensor is expected to be measuring, such as temperature,
+    // as, unlike others, this is not implied by device type name.
+    std::string dbusPath = sensor_paths::getPathForUnits(sensorUnits);
+    if (dbusPath.empty())
+    {
+        throw std::runtime_error("Units not in allow list");
+    }
+
+    std::string objectPathPrefix(objectPathSuperPrefix);
+    objectPathPrefix += '/';
+    objectPathPrefix += dbusPath;
+
+    return objectPathPrefix;
+}
+
 ExternalSensor::ExternalSensor(
     const std::string& objectType, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -33,7 +54,7 @@ ExternalSensor::ExternalSensor(
     // make sure all ExternalSensor instances are mutable,
     // because that is the entire point of ExternalSensor,
     // to accept sensor values written by an external source.
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
+    Sensor(buildObjectPathPrefix(sensorUnits), sensorName,
            std::move(thresholdsIn), sensorConfiguration, objectType, maxReading,
            minReading, conn, powerState),
     std::enable_shared_from_this<ExternalSensor>(), objServer(objectServer),
@@ -44,19 +65,6 @@ ExternalSensor::ExternalSensor(
     writeAlive(false), writePerishable(timeoutSecs > 0.0),
     writeHook(std::move(writeHookIn))
 {
-    // The caller must specify what physical characteristic
-    // an external sensor is expected to be measuring, such as temperature,
-    // as, unlike others, this is not implied by device type name.
-    std::string dbusPath = sensor_paths::getPathForUnits(sensorUnits);
-    if (dbusPath.empty())
-    {
-        throw std::runtime_error("Units not in allow list");
-    }
-    std::string objectPath = "/xyz/openbmc_project/sensors/";
-    objectPath += dbusPath;
-    objectPath += '/';
-    objectPath += sensorName;
-
     sensorInterface = objectServer.add_interface(
         objectPath, "xyz.openbmc_project.Sensor.Value");
 
