@@ -13,6 +13,7 @@ namespace sensor_paths
 
 std::string getPathForUnits(const std::string& units);
 
-std::string escapePathForDbus(const std::string& name);
+std::string escapePathForDbus(const std::string& prefix,
+                              const std::string& name);
 
 } // namespace sensor_paths

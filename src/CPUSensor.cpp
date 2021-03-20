@@ -33,6 +33,27 @@
 #include <string>
 #include <vector>
 
+constexpr const char* objectPathPrefixPower =
+    "/xyz/openbmc_project/sensors/power";
+constexpr const char* objectPathPrefixTemperature =
+    "/xyz/openbmc_project/sensors/temperature";
+
+static std::string whichPrefix(const std::string& path)
+{
+    // This logic is copied from the constructor below
+    if (auto fileParts = splitFileName(path))
+    {
+        auto& [type, nr, item] = *fileParts;
+        if (type.compare("power") == 0)
+        {
+            return objectPathPrefixPower;
+        }
+    }
+
+    // Assume everything not power is temperature
+    return objectPathPrefixTemperature;
+}
+
 CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -40,9 +61,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration, int cpuId,
                      bool show, double dtsOffset) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, 0, 0, conn,
-           PowerState::on),
+    Sensor(whichPrefix(path), sensorName, std::move(thresholdsIn),
+           sensorConfiguration, objectType, 0, 0, conn, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
@@ -55,17 +75,14 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
         if (auto fileParts = splitFileName(path))
         {
             auto& [type, nr, item] = *fileParts;
-            std::string interfacePath;
+            std::string interfacePath = objectPath;
             if (type.compare("power") == 0)
             {
-                interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
                 minValue = 0;
                 maxValue = 511;
             }
             else
             {
-                interfacePath =
-                    "/xyz/openbmc_project/sensors/temperature/" + name;
                 minValue = -128;
                 maxValue = 127;
             }
