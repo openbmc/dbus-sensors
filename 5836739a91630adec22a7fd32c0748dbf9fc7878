@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6469ea2a_9ace3af6",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-20T17:54:40Z",
+      "side": 1,
+      "message": "I\u0027m not really loving the \"create a fake prefix, then remove it later\" approach to this problem.  That complicates the code quite a bit to do, all to very little advantage, and makes the API itself less obvious as to its behavior.\n\nWe only call this in two places, I suspect we need to create a version of this that accepts the prefix and the name as parameters, call the encode method on all the arguments, and just update the two call sites with the new prototype, which will do the joining of the paths itself.  That seems like a lot less code, and makes for a better interface.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "5836739a91630adec22a7fd32c0748dbf9fc7878",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
