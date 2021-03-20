@@ -33,16 +33,21 @@
 #include <string>
 #include <vector>
 
+constexpr const char* objectPathPrefixPower =
+    "/xyz/openbmc_project/sensors/power";
+constexpr const char* objectPathPrefixTemperature =
+    "/xyz/openbmc_project/sensors/temperature";
+
 CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration, int cpuId,
-                     bool show, double dtsOffset) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, 0, 0, conn,
-           PowerState::on),
+                     bool show, double dtsOffset, bool isPowerSensor) :
+    Sensor(isPowerSensor ? objectPathPrefixPower : objectPathPrefixTemperature,
+           sensorName, std::move(thresholdsIn), sensorConfiguration, objectType,
+           0, 0, conn, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
@@ -52,46 +57,36 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     nameTcontrol += " CPU" + std::to_string(cpuId);
     if (show)
     {
-        if (auto fileParts = splitFileName(path))
+        const char* units;
+        if (isPowerSensor)
         {
-            auto& [type, nr, item] = *fileParts;
-            std::string interfacePath;
-            const char* units;
-            if (type.compare("power") == 0)
-            {
-                interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
-                units = sensor_paths::unitWatts;
-                minValue = 0;
-                maxValue = 511;
-            }
-            else
-            {
-                interfacePath =
-                    "/xyz/openbmc_project/sensors/temperature/" + name;
-                units = sensor_paths::unitDegreesC;
-                minValue = -128;
-                maxValue = 127;
-            }
-
-            sensorInterface = objectServer.add_interface(
-                interfacePath, "xyz.openbmc_project.Sensor.Value");
-            if (thresholds::hasWarningInterface(thresholds))
-            {
-                thresholdInterfaceWarning = objectServer.add_interface(
-                    interfacePath,
-                    "xyz.openbmc_project.Sensor.Threshold.Warning");
-            }
-            if (thresholds::hasCriticalInterface(thresholds))
-            {
-                thresholdInterfaceCritical = objectServer.add_interface(
-                    interfacePath,
-                    "xyz.openbmc_project.Sensor.Threshold.Critical");
-            }
-            association = objectServer.add_interface(interfacePath,
-                                                     association::interface);
-
-            setInitialProperties(conn, units);
+            units = sensor_paths::unitWatts;
+            minValue = 0;
+            maxValue = 511;
         }
+        else
+        {
+            units = sensor_paths::unitDegreesC;
+            minValue = -128;
+            maxValue = 127;
+        }
+
+        sensorInterface = objectServer.add_interface(
+            objectPath, "xyz.openbmc_project.Sensor.Value");
+        if (thresholds::hasWarningInterface(thresholds))
+        {
+            thresholdInterfaceWarning = objectServer.add_interface(
+                objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
+        }
+        if (thresholds::hasCriticalInterface(thresholds))
+        {
+            thresholdInterfaceCritical = objectServer.add_interface(
+                objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+        }
+        association =
+            objectServer.add_interface(objectPath, association::interface);
+
+        setInitialProperties(conn, units);
     }
 
     // call setup always as not all sensors call setInitialProperties

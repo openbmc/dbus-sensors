@@ -29,6 +29,9 @@ static constexpr double minReading = 0;
 
 static constexpr bool debug = false;
 
+static constexpr const char* objectPathPrefix =
+    "/xyz/openbmc_project/sensors/temperature";
+
 void rxMessage(uint8_t eid, void* data, void* msg, size_t len);
 
 namespace nvmeMCTP
@@ -436,31 +439,26 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
                        std::vector<thresholds::Threshold>&& thresholdsIn,
                        const std::string& sensorConfiguration,
                        const int busNumber) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.NVMe", maxReading, minReading,
-           conn, PowerState::on),
+    Sensor(objectPathPrefix, sensorName, std::move(thresholdsIn),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.NVMe",
+           maxReading, minReading, conn, PowerState::on),
     objServer(objectServer), bus(busNumber)
 {
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        objectPath, "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
 
     setInitialProperties(conn, sensor_paths::unitDegreesC);
 }

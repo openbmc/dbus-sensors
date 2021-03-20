@@ -31,7 +31,8 @@
 #include <string>
 #include <vector>
 
-static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
+static constexpr const char* sensorPathSuperPrefix =
+    "/xyz/openbmc_project/sensors";
 
 static constexpr bool debug = false;
 
@@ -44,21 +45,21 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      const std::string& sensorUnits, unsigned int factor,
                      double max, double min, const std::string& label,
                      size_t tSize) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
-           conn),
+    Sensor(sensorPathSuperPrefix + '/' +
+               sensor_paths::getPathForUnits(sensorUnits),
+           sensorName, std::move(thresholdsIn), sensorConfiguration, objectType,
+           max, min, conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
     sensorFactor(factor), minMaxReadCounter(0)
 {
-    std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
     {
         std::cerr << "Constructed sensor: path " << path << " type "
                   << objectType << " config " << sensorConfiguration
-                  << " typename " << unitPath << " factor " << factor << " min "
-                  << min << " max " << max << " name \"" << sensorName
-                  << "\"\n";
+                  << " units " << sensorUnits " objectPath " << objectPath
+                  << " factor " << factor << " min " << min << " max " << max
+                  << " name \"" << sensorName << "\"\n";
     }
 
     fd = open(path.c_str(), O_RDONLY);
@@ -69,20 +70,18 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     inputDev.assign(fd);
 
-    std::string dbusPath = sensorPathPrefix + unitPath + "/" + name;
-
     sensorInterface = objectServer.add_interface(
-        dbusPath, "xyz.openbmc_project.Sensor.Value");
+        objectPath, "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
 
     // This should be called before initializing association.
@@ -97,7 +96,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
         setInitialProperties(conn, sensorUnits, label, tSize);
     }
 
-    association = objectServer.add_interface(dbusPath, association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
 
