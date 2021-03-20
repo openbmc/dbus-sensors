@@ -36,13 +36,14 @@ struct SensorInstrumentation
 
 struct Sensor
 {
-    Sensor(const std::string& name,
+    Sensor(const std::string& objectPathPrefix, const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
            const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
-        name(sensor_paths::escapePathForDbus(name)),
+        objectPath(sensor_paths::escapePathForDbus(objectPathPrefix, name)),
+        name(objectPath.substr(objectPath.find_last_of('/') + 1)),
         configurationPath(configurationPath), objectType(objectType),
         maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
@@ -54,6 +55,7 @@ struct Sensor
     {}
     virtual ~Sensor() = default;
     virtual void checkThresholds(void) = 0;
+    std::string objectPath;
     std::string name;
     std::string configurationPath;
     std::string objectType;
