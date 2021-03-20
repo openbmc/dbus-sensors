@@ -25,7 +25,7 @@ class CPUSensor : public Sensor
               boost::asio::io_service& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& configuration, int cpuId, bool show,
-              double dtsOffset);
+              double dtsOffset, bool isPowerSensor);
     ~CPUSensor() override;
     static constexpr unsigned int sensorScaleFactor = 1000;
     static constexpr unsigned int sensorPollMs = 1000;

@@ -43,6 +43,9 @@ static constexpr double roundFactor = 10000;     // 3 decimal places
 static constexpr double maxVoltageReading = 1.8; // pre sensor scaling
 static constexpr double minVoltageReading = 0;
 
+static constexpr const char* objectPathPrefix =
+    "/xyz/openbmc_project/sensors/voltage";
+
 ADCSensor::ADCSensor(const std::string& path,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -52,9 +55,8 @@ ADCSensor::ADCSensor(const std::string& path,
                      PowerState readState,
                      const std::string& sensorConfiguration,
                      std::optional<BridgeGpio>&& bridgeGpio) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ADC",
+    Sensor(objectPathPrefix, sensorName, std::move(thresholdsIn),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ADC",
            maxVoltageReading / scaleFactor, minVoltageReading / scaleFactor,
            conn, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
@@ -64,22 +66,19 @@ ADCSensor::ADCSensor(const std::string& path,
     bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io, this)
 {
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/voltage/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        objectPath, "xyz.openbmc_project.Sensor.Value");
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/voltage/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/voltage/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
     setInitialProperties(conn, sensor_paths::unitVolts);
 }
 
