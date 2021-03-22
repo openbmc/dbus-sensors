@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "524cb690_a8871e6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-22T16:47:23Z",
+      "side": 1,
+      "message": "My only concern here is that we\u0027re putting hwmon specific terminology into the config file, which is supposed to stand alone from hwmon.  I realize that PSUsensor kind of broke this design point, but it\u0027s been on my list to fix for a while now.\n\nI\u0027d say we should probably replace this with an integer, something like \"Index\", similar to how FanSensor maps tacho indexes into this file.  That keeps the linux-specific bits out of the config file, making it more self-describing.\n\n\nAlso, rather than this, I wonder if we should just have two completely disparate config spaces, something like.\n\n\nThresholds1: [\n   ....\n]\n\nThresholds2: [\n   ....\n]\n\nTo keep the internals somewhat the same, and make it more clear that those are the thresholds for the other sensor.  At this point I\u0027m thinking out loud a little.",
+      "range": {
+        "startLine": 22,
+        "startChar": 18,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f0bf76f_a69112c6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "Could you elaborate?  I don\u0027t quite follow what you\u0027re requesting.",
       "parentUuid": "2f0bf76f_a69112c6",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440f3c61_3b9d9bb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-22T16:47:23Z",
+      "side": 1,
+      "message": "I think she\u0027s pointing out that you should document what label names are expected here.  I suspect if we go to integer indexes, this problem goes away.",
+      "parentUuid": "ca1b8b9d_0dbfe35f",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -278,6 +325,30 @@
       "side": 1,
       "message": "My intent was to return false if Label was missing from any entry in the config, meaning that the code wouldn\u0027t look for Labels in that case when making threshold interfaces.  If the break was moved to 139, it would only check the first Thresholds entry it finds which is a slightly different behavior.\n\nI\u0027m fine either way, since really that is a mistake in the config if it isn\u0027t on all of them. would you like me to move it?",
       "parentUuid": "698aba33_f637a2db",
+      "range": {
+        "startLine": 138,
+        "startChar": 1,
+        "endLine": 138,
+        "endChar": 22
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "741a6508_2d3d91a0",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-22T16:47:23Z",
+      "side": 1,
+      "message": "\u003e My intent was to return false if Label was missing from any entry in the config, meaning that the code wouldn\u0027t look for Labels in that case when making threshold interfaces.  If the break was moved to 139, it would only check the first Thresholds entry it finds which is a slightly different behavior.\n\nCould we instead have behavior where, if the Label isn\u0027t present, we assume temp1.  If the label is present, we use its index?  That seems like it would be more helpful, and would avoid cases where someone adds one threshold with a Label, and breaks another threshold that they never touched.\n\n\u003e \n\u003e I\u0027m fine either way, since really that is a mistake in the config if it isn\u0027t on all of them.\n\nI\u0027d like to see that avoided if possible.\n\n\u003e would you like me to move it?",
+      "parentUuid": "a9f2ef01_e0207250",
       "range": {
         "startLine": 138,
         "startChar": 1,
