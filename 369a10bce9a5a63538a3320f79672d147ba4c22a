@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "814607f6_9b6a5ec6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-03-22T02:04:54Z",
+      "side": 1,
+      "message": "Take \"power1_input\" for example, hwmon drive still working well to update \"/sys/class/hwmon/hwmon2/power1_input\" but \"async_read_until\" cannot return to callback function.",
+      "parentUuid": "2963ed90_7ab565fb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4ab034_3649f091",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -260,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "74c89a4c_fd13dd94",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-03-22T02:04:54Z",
+      "side": 1,
+      "message": "Right could change all timers to steady_timer at one time.",
+      "parentUuid": "8e8865ea_1a137a1f",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5b0acca_8e1d1b02",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 3
@@ -354,6 +402,30 @@
     },
     {
       "key": {
+        "uuid": "a10bec08_a37e9815",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-03-22T02:04:54Z",
+      "side": 1,
+      "message": "Checked it before using at line 142",
+      "parentUuid": "a7d7ded8_27526f7d",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 137,
+        "endChar": 61
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8bf1ea45_fa29acd0",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 3
@@ -389,6 +461,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "8bf1ea45_fa29acd0",
+      "range": {
+        "startLine": 149,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 36
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88332bd0_0811986c",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-03-22T02:04:54Z",
+      "side": 1,
+      "message": "There is no twice called for setupRead.\nCorrect case: readTimer will be cancelled at line 168.\nIssue case, when async_read_until hang: readTimer will trigger setupRead instead of waitTimer.",
+      "parentUuid": "ec78feb4_ac556b04",
       "range": {
         "startLine": 149,
         "startChar": 12,
