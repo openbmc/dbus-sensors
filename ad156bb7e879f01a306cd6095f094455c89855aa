@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b6c881ae_c8536b38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-22T18:20:09Z",
+      "side": 1,
+      "message": "Ed is right, I meant to document clearly what are valid Labels. I like the idea of making it more generic, less tied to hwmon. Index would work.",
+      "parentUuid": "440f3c61_3b9d9bb4",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9868f6ea_35f492f9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -267,6 +291,30 @@
     },
     {
       "key": {
+        "uuid": "16a5bb13_a851bd5c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-22T18:20:09Z",
+      "side": 1,
+      "message": "I see your point, it might be misleading if it failed for other reason. My main concern is to make it obvious and provide helpful information for ill-formatted configurations. Maybe if Index is used, it is less an issue.",
+      "parentUuid": "658fe4cb_03380d75",
+      "range": {
+        "startLine": 222,
+        "startChar": 20,
+        "endLine": 223,
+        "endChar": 52
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee99af05_e836123d",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 2
@@ -373,6 +421,30 @@
       "side": 1,
       "message": "\u003e My intent was to return false if Label was missing from any entry in the config, meaning that the code wouldn\u0027t look for Labels in that case when making threshold interfaces.  If the break was moved to 139, it would only check the first Thresholds entry it finds which is a slightly different behavior.\n\nCould we instead have behavior where, if the Label isn\u0027t present, we assume temp1.  If the label is present, we use its index?  That seems like it would be more helpful, and would avoid cases where someone adds one threshold with a Label, and breaks another threshold that they never touched.\n\n\u003e \n\u003e I\u0027m fine either way, since really that is a mistake in the config if it isn\u0027t on all of them.\n\nI\u0027d like to see that avoided if possible.\n\n\u003e would you like me to move it?",
       "parentUuid": "a9f2ef01_e0207250",
+      "range": {
+        "startLine": 138,
+        "startChar": 1,
+        "endLine": 138,
+        "endChar": 22
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f5c74f_7029a4e9",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-22T18:20:09Z",
+      "side": 1,
+      "message": "+1 for Ed\u0027s suggestion. If Label/Index is used, all thresholds are required to have Label/Index including temp1_input, i.e. only Thresholds have Label/Index will be used and tempX_input without such thresholds defined will  not have Thresholds created for them. This should constrain the new or updated configs. But if no Label/Index is used, Threshold will be created for temp1_input only, rest of sensors will not have Thresholds. This should preserve current behavior.",
+      "parentUuid": "741a6508_2d3d91a0",
       "range": {
         "startLine": 138,
         "startChar": 1,
