@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "59bb028c_e02334ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-22T18:19:24Z",
+      "side": 1,
+      "message": "When entity-manager converts the JSON to D-Bus, it\u0027s already adding numbers to the threshold interface names, like\nxyz.openbmc_project.Configuration.TMP75.Thresholds0.  I haven\u0027t looked at that area of entity-manager closely yet, but it could probably name the new interface something like ThresholdsX-Y, where X is taken from the JSON as you have above and Y is the index it was in the array.\n\nThe schema would also have to be updated to allow the new names.  I haven\u0027t looked at json-schema details in a while but I imagine there\u0027s a way to have regular expressions for element names.",
+      "parentUuid": "524cb690_a8871e6d",
+      "range": {
+        "startLine": 22,
+        "startChar": 18,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f0bf76f_a69112c6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
