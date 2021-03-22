@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bcd6fa5_46d8b04d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-22T17:28:20Z",
+      "side": 1,
+      "message": "In the future, please do 50/72 formatting.  Please don\u0027t wrap lines by hand.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "373225765ec76e358d11b2ee58488a72fc6c446e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e117b80_2dfc2b87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-22T17:28:20Z",
+      "side": 1,
+      "message": "Wasn\u0027t the issue on negative numbers?\n\nI\u0027m ok with this patchset, as it\u0027s unlikely to break anything that we haven\u0027t discussed at length, but in the future, please try to tailor your tests to the issue you\u0027re fixing.",
+      "range": {
+        "startLine": 35,
+        "startChar": 74,
+        "endLine": 35,
+        "endChar": 80
+      },
+      "revId": "373225765ec76e358d11b2ee58488a72fc6c446e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
