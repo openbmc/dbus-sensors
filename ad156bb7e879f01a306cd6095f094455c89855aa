@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "112d02b3_43ac3120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-22T18:34:28Z",
+      "side": 1,
+      "message": "I will proceed with using Index instead as recommended.",
+      "parentUuid": "b6c881ae_c8536b38",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9868f6ea_35f492f9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
