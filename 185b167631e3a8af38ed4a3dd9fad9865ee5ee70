@@ -22,6 +22,30 @@
       "revId": "185b167631e3a8af38ed4a3dd9fad9865ee5ee70",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d39b4725_473da105",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-23T22:59:50Z",
+      "side": 1,
+      "message": "If the string is allocated, shouldn\u0027t we be freeing it, in all cases, since we now own it, according to the manpage? Otherwise, we would have a memory leak. It\u0027s unlikely there would be a successful allocation *and* an error code return, but I put this in, just in case. It\u0027s the safest approach against a memory leak if there\u0027s an error return.\n\nhttps://www.freedesktop.org/software/systemd/man/sd_bus_path_encode.html",
+      "parentUuid": "4e6276ab_ddecb3df",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 5
+      },
+      "revId": "185b167631e3a8af38ed4a3dd9fad9865ee5ee70",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

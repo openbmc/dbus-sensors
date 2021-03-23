@@ -16,6 +16,24 @@
       "revId": "373225765ec76e358d11b2ee58488a72fc6c446e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceda1b5b_37c28396",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-23T22:59:50Z",
+      "side": 0,
+      "message": "The reason for CPUSensor is a special case. Very few others are like this. The reason is that it must determine the object path prefix based on some further analysis of the name, which is done later in the constructor. It can\u0027t just be \"power\", some of them are \"temperature\" also, based on parsing of the \"path\" variable. At Sensor superclass initialization time, this information isn\u0027t available yet. Hence, I added a helper function. Very few of the other dbus-sensors daemons are like this, please don\u0027t judge all of them simply by this one special case example.",
+      "parentUuid": "ef6e4fe6_45dd43d4",
+      "revId": "373225765ec76e358d11b2ee58488a72fc6c446e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
