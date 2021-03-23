@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "b1e1c64b_eafe26a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-23T19:01:08Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t know.\n\nSounds like there\u0027s a better root cause needed here.\n\nasync_read_until isn\u0027t returning, which would imply that the kernel isn\u0027t returning which is expected here.  What is the kernel returning in this case?  Can we adjust to use the regular async_read instead and avoid this problem without timers?  Considering there are systems that have overloaded i2c busses, and there\u0027s not one timeout that will work for all systems, I\u0027m worried this patch as-written will break people.",
+      "parentUuid": "20b49ff9_192e06d7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4ab034_3649f091",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
