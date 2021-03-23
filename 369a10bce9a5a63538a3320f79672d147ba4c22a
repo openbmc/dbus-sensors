@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "2fb937f2_9d7e99bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-03-23T02:32:04Z",
+      "side": 1,
+      "message": "I don\u0027t know.\nThe correct way, async_read_until will callback when read char \u0027\\n\u0027 (0x0a).\nAt error case, async_read_until cannot callback, but the value still changed in the device file like \"/sys/class/hwmon/hwmon2/power1_input\" and char \u0027\\n\u0027 (0x0a) is there.\n\nroot@intel-obmc:/lib/systemd/system# hexdump /sys/class/hwmon/hwmon2/power1_input \n0000000 3033 3538 3030 3030 0a30               \n000000a\n\n\nSo this patch is to resume async_read_until.",
+      "parentUuid": "20b49ff9_192e06d7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4ab034_3649f091",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -533,6 +557,30 @@
       "side": 1,
       "message": "I might be missing something, but here is the flow I see:\nafter line 149, line150 get called to setupRead.\nline149 will cause line161 lambda, which does not check ec and call line 170.\nCheck at line190 will fail (need to verify with actual ec was my original comment)\ncode continues and may end up calling at line 239.",
       "parentUuid": "88332bd0_0811986c",
+      "range": {
+        "startLine": 149,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 36
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86e7ccd3_108e5f17",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-03-23T02:32:04Z",
+      "side": 1,
+      "message": "Line149 is to cancel inputDev but not trigger line 161 lambda, also not the coming 170/190.",
+      "parentUuid": "7e771c1f_1af3e782",
       "range": {
         "startLine": 149,
         "startChar": 12,
