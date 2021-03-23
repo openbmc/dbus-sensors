@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef6e4fe6_45dd43d4",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-23T16:16:43Z",
+      "side": 0,
+      "message": "I\u0027m confused why these needed to move so radically and duplicate the code between them.  Can\u0027t we just do \n\ninterfacePath \u003d escapePathForDbus(\"/xyz/openbmc_project/sensors/power/\", name);\n\nI get the feeling that the other constructors also don\u0027t need helper methods to determine this stuff, but lets focus on this one and see if a better pattern falls out.",
+      "revId": "373225765ec76e358d11b2ee58488a72fc6c446e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
