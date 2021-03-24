@@ -105,6 +105,30 @@
       "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72e8d0ea_213f4e88",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-24T19:13:09Z",
+      "side": 1,
+      "message": "I was matching the style of the previous argument, which was also a pointer which defaulted to nullptr.  I agree though that probably a raw pointer isn\u0027t the best, but in this case it\u0027s probably more important to keep it consistent.",
+      "parentUuid": "f00186e7_956d3e80",
+      "range": {
+        "startLine": 157,
+        "startChar": 45,
+        "endLine": 157,
+        "endChar": 76
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
