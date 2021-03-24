@@ -46,6 +46,30 @@
       "revId": "185b167631e3a8af38ed4a3dd9fad9865ee5ee70",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7644396_b0dd95af",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000188
+      },
+      "writtenOn": "2021-03-24T00:21:24Z",
+      "side": 1,
+      "message": "The typical C style pattern is to only return a value to the argument input if the function returns succeess. https://github.com/systemd/systemd/blob/63dc82d378e1cfda8f560e8da9aa2df549c2b026/src/libsystemd/sd-bus/sd-bus.c#L3982\n\nSo you don\u0027t free it if there is an error.",
+      "parentUuid": "d39b4725_473da105",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 5
+      },
+      "revId": "185b167631e3a8af38ed4a3dd9fad9865ee5ee70",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
