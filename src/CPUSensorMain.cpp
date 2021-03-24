@@ -154,6 +154,7 @@ bool createSensors(boost::asio::io_service& io,
             iface->register_property("PrettyName", cpu.name);
             iface->register_property("Present", true);
             iface->initialize();
+            inventoryIfaces[cpu.name] = std::move(iface);
         }
     }
     if (!available)
