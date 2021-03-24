@@ -574,6 +574,30 @@
       "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac06fef_93729aa9",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-24T17:49:14Z",
+      "side": 1,
+      "message": "I think the latest behavior is good. It clearly defines the accepted format. Hopefully, the rejected mal-formatted configs will get noticed with missing thresholds and messages being logged.",
+      "parentUuid": "7a7e5d85_e8d47b8d",
+      "range": {
+        "startLine": 138,
+        "startChar": 1,
+        "endLine": 138,
+        "endChar": 22
+      },
+      "revId": "ad156bb7e879f01a306cd6095f094455c89855aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

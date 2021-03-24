@@ -81,6 +81,30 @@
       "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f00186e7_956d3e80",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-24T17:49:14Z",
+      "side": 1,
+      "message": "The code works as is. It is just a style question. raw integer pointer can be avoided with:   \nOption 1: const int matchIndex? If matchIndex is \u003c\u003d 0 , skip match index. (equivalent to nullptr)\nOption 2: use std::optional \u003cint\u003e, if nullopt, skip match index",
+      "parentUuid": "e4a0588b_cc77b714",
+      "range": {
+        "startLine": 157,
+        "startChar": 45,
+        "endLine": 157,
+        "endChar": 76
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
