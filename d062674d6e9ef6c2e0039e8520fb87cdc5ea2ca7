@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb4ee0ba_26f9eca8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-03-24T05:55:50Z",
+      "side": 1,
+      "message": "I did not have too much background, but why no use the \"Label\" to specify the sensor? That is already support by Thresholds.cpp",
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0716d03_3997e009",
         "filename": "include/Thresholds.hpp",
         "patchSetId": 3
