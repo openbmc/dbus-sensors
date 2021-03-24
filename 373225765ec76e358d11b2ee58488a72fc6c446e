@@ -34,6 +34,24 @@
       "revId": "373225765ec76e358d11b2ee58488a72fc6c446e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b4b2d7c_cbc85274",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-24T15:16:56Z",
+      "side": 0,
+      "message": "See my comments on patch4 line41-55",
+      "parentUuid": "ceda1b5b_37c28396",
+      "revId": "373225765ec76e358d11b2ee58488a72fc6c446e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
