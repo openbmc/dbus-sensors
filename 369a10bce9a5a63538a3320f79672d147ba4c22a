@@ -264,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "eca12c42_784ed6d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-03-24T10:09:35Z",
+      "side": 1,
+      "message": "sync read file is working well, like below. do you agree to use sync read file?\nI think it is acceptable, because the sensor data is small.\nActually we use it in updateMinMaxValues.\n\nvoid PSUSensor::setupRead(void)\n{\n    std::cerr \u003c\u003c \"setupRead: \" \u003c\u003c path\n                  \u003c\u003c \"\\n\";\n    std::string line;\n    std::ifstream sensorFile(path);\n    if (sensorFile.good())\n    {\n        try\n        {\n            std::getline(sensorFile, line);\n            rawValue \u003d std::stod(line);\n            sensorFile.close();\n            double nvalue \u003d rawValue / sensorFactor;\n\n            updateValue(nvalue);\n\n            if (minMaxReadCounter++ % 8 \u003d\u003d 0)\n            {\n                updateMinMaxValues();\n            }\n        }\n        catch (const std::invalid_argument\u0026)\n        {\n            std::cerr \u003c\u003c \"Could not parse \" \u003c\u003c line \u003c\u003c \"\\n\";\n            incrementError();\n        }\n    }\n    lseek(fd, 0, SEEK_SET);\n    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));\n\n    std::weak_ptr\u003cPSUSensor\u003e weakRef \u003d weak_from_this();\n    waitTimer.async_wait([weakRef](const boost::system::error_code\u0026 ec) {\n        std::shared_ptr\u003cPSUSensor\u003e self \u003d weakRef.lock();\n        if (ec \u003d\u003d boost::asio::error::operation_aborted)\n        {\n            std::cerr \u003c\u003c \"Failed to reschedule\\n\";\n            return;\n        }\n        if (self)\n        {\n            self-\u003esetupRead();\n        }\n    });\n    return;\n}",
+      "parentUuid": "d973e1ea_33645b72",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4ab034_3649f091",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
