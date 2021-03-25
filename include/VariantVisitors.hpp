@@ -15,49 +15,39 @@
 */
 
 #pragma once
+#include <boost/type_index.hpp>
+
 #include <stdexcept>
 #include <string>
 #include <variant>
 
-struct VariantToFloatVisitor
+namespace details
 {
 
+template <typename U>
+struct VariantToNumericVisitor
+{
     template <typename T>
-    float operator()(const T& t) const
+    U operator()(const T& t) const
     {
         if constexpr (std::is_arithmetic_v<T>)
         {
-            return static_cast<float>(t);
+            return static_cast<U>(t);
         }
-        throw std::invalid_argument("Cannot translate type to float");
+        throw std::invalid_argument(
+            "Cannot translate type " +
+            boost::typeindex::type_id<T>().pretty_name() + " to " +
+            boost::typeindex::type_id<U>().pretty_name());
     }
 };
 
-struct VariantToIntVisitor
-{
-    template <typename T>
-    int operator()(const T& t) const
-    {
-        if constexpr (std::is_arithmetic_v<T>)
-        {
-            return static_cast<int>(t);
-        }
-        throw std::invalid_argument("Cannot translate type to int");
-    }
-};
+} // namespace details
 
-struct VariantToUnsignedIntVisitor
-{
-    template <typename T>
-    unsigned int operator()(const T& t) const
-    {
-        if constexpr (std::is_arithmetic_v<T>)
-        {
-            return static_cast<unsigned int>(t);
-        }
-        throw std::invalid_argument("Cannot translate type to unsigned int");
-    }
-};
+using VariantToFloatVisitor = details::VariantToNumericVisitor<float>;
+using VariantToIntVisitor = details::VariantToNumericVisitor<int>;
+using VariantToUnsignedIntVisitor =
+    details::VariantToNumericVisitor<unsigned int>;
+using VariantToDoubleVisitor = details::VariantToNumericVisitor<double>;
 
 struct VariantToStringVisitor
 {
@@ -72,19 +62,8 @@ struct VariantToStringVisitor
         {
             return std::to_string(t);
         }
-        throw std::invalid_argument("Cannot translate type to string");
-    }
-};
-
-struct VariantToDoubleVisitor
-{
-    template <typename T>
-    double operator()(const T& t) const
-    {
-        if constexpr (std::is_arithmetic_v<T>)
-        {
-            return static_cast<double>(t);
-        }
-        throw std::invalid_argument("Cannot translate type to double");
+        throw std::invalid_argument(
+            "Cannot translate type " +
+            boost::typeindex::type_id<T>().pretty_name() + " to string");
     }
 };
