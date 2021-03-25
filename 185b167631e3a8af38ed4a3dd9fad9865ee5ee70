@@ -189,6 +189,30 @@
       "revId": "185b167631e3a8af38ed4a3dd9fad9865ee5ee70",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1a32895_b008f567",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-25T20:04:11Z",
+      "side": 1,
+      "message": "OK, subtle, but makes sense. I always initialize output parameters to nullptr first, to catch cases where the function returns but fails to put anything into the output parameters.",
+      "parentUuid": "e3dacb7f_f63b2a1e",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 5
+      },
+      "revId": "185b167631e3a8af38ed4a3dd9fad9865ee5ee70",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
