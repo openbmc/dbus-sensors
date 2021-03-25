@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "500c9e99_579f3b07",
+        "filename": "include/VariantVisitors.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-25T16:49:57Z",
+      "side": 1,
+      "message": "Wait... ignore this... looks like the boost one works without rtti enabled, which I would like to remove at some point for the binary size savings.",
+      "parentUuid": "0572f31b_0d0b5d5b",
+      "range": {
+        "startLine": 36,
+        "startChar": 12,
+        "endLine": 36,
+        "endChar": 28
+      },
+      "revId": "ece21087d2e547e46b5f59f7e87b6878e510f480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7054dc8f_fb4f62dc",
         "filename": "include/VariantVisitors.hpp",
         "patchSetId": 1
