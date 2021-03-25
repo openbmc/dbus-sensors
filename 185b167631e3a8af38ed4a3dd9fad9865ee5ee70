@@ -141,6 +141,30 @@
       "revId": "185b167631e3a8af38ed4a3dd9fad9865ee5ee70",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7206ae51_43ab8a09",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000188
+      },
+      "writtenOn": "2021-03-25T03:25:54Z",
+      "side": 1,
+      "message": "You could if you initialize to nullptr, but why do that when the calling convention is well defined / understood? This isn\u0027t something systemd is going to silently change on anyone and is very typical for c code. You would just be always running an extra check for no reason, not that the check is particularly expensive (thought free would technically have to hop through the PLT).",
+      "parentUuid": "ade077fc_776ef4c0",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 5
+      },
+      "revId": "185b167631e3a8af38ed4a3dd9fad9865ee5ee70",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
