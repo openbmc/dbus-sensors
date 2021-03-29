@@ -57,6 +57,136 @@ static constexpr std::array<const char*, 15> sensorTypes = {
     "xyz.openbmc_project.Configuration.TMP441",
     "xyz.openbmc_project.Configuration.TMP75"};
 
+
+// findPhandleMatch and findCalloutPath are copy-pasted from phosphor-hwmon
+using namespace std::string_literals;
+namespace sysfs
+{
+
+static const auto emptyString = ""s;
+static constexpr auto ofRoot = "/sys/firmware/devicetree/base";
+
+std::string findPhandleMatch(const std::string& iochanneldir,
+                             const std::string& phandledir)
+{
+    fs::path ioChannelsPath{iochanneldir};
+    ioChannelsPath /= "io-channels";
+
+    if (!fs::exists(ioChannelsPath))
+    {
+        return emptyString;
+    }
+
+    uint32_t ioChannelsValue;
+    std::ifstream ioChannelsFile(ioChannelsPath);
+
+    ioChannelsFile.read(reinterpret_cast<char*>(&ioChannelsValue),
+                        sizeof(ioChannelsValue));
+
+    for (const auto& ofInst : fs::recursive_directory_iterator(phandledir))
+    {
+        auto path = ofInst.path();
+        if ("phandle" != path.filename())
+        {
+            continue;
+        }
+        std::ifstream pHandleFile(path);
+        uint32_t pHandleValue;
+
+        pHandleFile.read(reinterpret_cast<char*>(&pHandleValue),
+                         sizeof(pHandleValue));
+
+        if (ioChannelsValue == pHandleValue)
+        {
+            return path;
+        }
+    }
+
+    return emptyString;
+}
+
+std::string findCalloutPath(const std::string& instancePath)
+{
+    // Follow the hwmon instance (/sys/class/hwmon/hwmon<N>)
+    // /sys/devices symlink.
+    fs::path devPath{instancePath};
+    devPath /= "device";
+
+    try
+    {
+        devPath = fs::canonical(devPath);
+    }
+    catch (const std::system_error& e)
+    {
+        return emptyString;
+    }
+
+    // See if the device is backed by the iio-hwmon driver.
+    fs::path p{devPath};
+    p /= "driver";
+    p = fs::canonical(p);
+
+    if (p.filename() != "iio_hwmon")
+    {
+        // Not backed by iio-hwmon.  The device pointed to
+        // is the callout device.
+        return devPath;
+    }
+
+    // Find the DT path to the iio-hwmon platform device.
+    fs::path ofDevPath{devPath};
+    std::cerr << "devpath: " << devPath << "\n";
+    ofDevPath /= "of_node";
+
+    try
+    {
+        ofDevPath = fs::canonical(ofDevPath);
+    }
+    catch (const std::system_error& e)
+    {
+        return emptyString;
+    }
+
+    // Search /sys/bus/iio/devices for the phandle in io-channels.
+    // If a match is found, use the corresponding /sys/devices
+    // iio device as the callout device.
+    static constexpr auto iioDevices = "/sys/bus/iio/devices";
+    for (const auto& iioDev : fs::recursive_directory_iterator(iioDevices))
+    {
+        p = iioDev.path();
+        p /= "of_node";
+
+        try
+        {
+            p = fs::canonical(p);
+        }
+        catch (const std::system_error& e)
+        {
+            continue;
+        }
+
+        auto match = findPhandleMatch(ofDevPath, p);
+        auto n = match.rfind('/');
+        if (n != std::string::npos)
+        {
+            // This is the iio device referred to by io-channels.
+            // Remove iio:device<N>.
+            try
+            {
+                return fs::canonical(iioDev).parent_path();
+            }
+            catch (const std::system_error& e)
+            {
+                return emptyString;
+            }
+        }
+    }
+
+    return emptyString;
+}
+}
+
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
@@ -98,7 +228,15 @@ void createSensors(
 
                 fs::path device = directory / "device";
                 std::string deviceName = fs::canonical(device).stem();
-                auto findHyphen = deviceName.find('-');
+
+                // iio-hwmon devices do not have i2c bus and addr in the hwmon
+                // instance so get this info from /sys/bus/iio
+                if (deviceName.find("iio-hwmon") != std::string::npos) {
+                    auto iioPath = sysfs::findCalloutPath(directory);
+                    fs::path iioDeviceName{iioPath};
+                    deviceName= iioDeviceName.filename().string();
+				}
+                auto findHyphen = deviceName.find("-");
                 if (findHyphen == std::string::npos)
                 {
                     std::cerr << "found bad device " << deviceName << "\n";
