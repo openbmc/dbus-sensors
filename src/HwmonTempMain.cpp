@@ -40,7 +40,8 @@ static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
 
 namespace fs = std::filesystem;
-static constexpr std::array<const char*, 13> sensorTypes = {
+static constexpr std::array<const char*, 15> sensorTypes = {
+    "xyz.openbmc_project.Configuration.DPS310",
     "xyz.openbmc_project.Configuration.EMC1412",
     "xyz.openbmc_project.Configuration.EMC1413",
     "xyz.openbmc_project.Configuration.EMC1414",
@@ -49,6 +50,7 @@ static constexpr std::array<const char*, 13> sensorTypes = {
     "xyz.openbmc_project.Configuration.MAX6581",
     "xyz.openbmc_project.Configuration.MAX6654",
     "xyz.openbmc_project.Configuration.SBTSI",
+    "xyz.openbmc_project.Configuration.SI7020",
     "xyz.openbmc_project.Configuration.TMP112",
     "xyz.openbmc_project.Configuration.TMP175",
     "xyz.openbmc_project.Configuration.TMP421",
