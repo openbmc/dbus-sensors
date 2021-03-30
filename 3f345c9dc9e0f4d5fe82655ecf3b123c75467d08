@@ -22,6 +22,30 @@
       "revId": "3f345c9dc9e0f4d5fe82655ecf3b123c75467d08",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66c682d6_5d85f833",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-03-30T21:15:34Z",
+      "side": 1,
+      "message": "Good optimization. Done.",
+      "parentUuid": "3ea2779d_d3bae1c5",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 0
+      },
+      "revId": "3f345c9dc9e0f4d5fe82655ecf3b123c75467d08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
