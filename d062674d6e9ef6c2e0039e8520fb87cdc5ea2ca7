@@ -153,6 +153,30 @@
       "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63642632_62e1e249",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-30T19:15:15Z",
+      "side": 1,
+      "message": "I am ok with this implementation. Consistent is good.",
+      "parentUuid": "b3a87af6_8bfd998f",
+      "range": {
+        "startLine": 157,
+        "startChar": 45,
+        "endLine": 157,
+        "endChar": 76
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
