@@ -211,6 +211,30 @@
       "revId": "ece21087d2e547e46b5f59f7e87b6878e510f480",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "379bb141_60913da2",
+        "filename": "include/VariantVisitors.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-30T05:36:05Z",
+      "side": 1,
+      "message": "yep, fine as is.",
+      "parentUuid": "2e7964e8_c2505222",
+      "range": {
+        "startLine": 61,
+        "startChar": 19,
+        "endLine": 61,
+        "endChar": 28
+      },
+      "revId": "ece21087d2e547e46b5f59f7e87b6878e510f480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
