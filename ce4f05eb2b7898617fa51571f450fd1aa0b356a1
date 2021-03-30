@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9bda09e_915d4123",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-30T22:06:50Z",
+      "side": 1,
+      "message": "this name is confusing, what does it represent? Seems like it is associated with \"Bus\" from config.",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 18
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6601923_444271d8",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-30T22:06:50Z",
+      "side": 1,
+      "message": "this the same as line 86, move before if()",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 79
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1444c19_86c2ddd6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-30T22:06:50Z",
+      "side": 1,
+      "message": "why is subtype needed?",
+      "range": {
+        "startLine": 251,
+        "startChar": 7,
+        "endLine": 251,
+        "endChar": 44
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b59155c_add1ca23",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-30T22:06:50Z",
+      "side": 1,
+      "message": "This looks strange: version will be \"byte3.byte4.byte5.byte6byte7.byte8...bytelast\". Is that correct?",
+      "range": {
+        "startLine": 374,
+        "startChar": 15,
+        "endLine": 377,
+        "endChar": 17
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06fa5d4c_f59afc10",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-30T22:06:50Z",
+      "side": 1,
+      "message": "no need, use pollTimeValue directly",
+      "range": {
+        "startLine": 389,
+        "startChar": 4,
+        "endLine": 389,
+        "endChar": 47
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d8a9e4_9fe2ed00",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-30T22:06:50Z",
+      "side": 1,
+      "message": "use type !\u003d Version makes more sense to me.",
+      "range": {
+        "startLine": 449,
+        "startChar": 20,
+        "endLine": 449,
+        "endChar": 60
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "661dce69_42c79524",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-30T22:06:50Z",
+      "side": 1,
+      "message": "Why is this needed if it is going to always be set to \"version\"",
+      "range": {
+        "startLine": 619,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 65
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
