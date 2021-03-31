@@ -22,6 +22,30 @@
       "revId": "9e164a796cfe1614c2eb5b33815aa0fff100759d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28ef84d9_4fd2aea5",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-03-31T05:06:32Z",
+      "side": 1,
+      "message": "This is kind of expected behavior.\nThis functions is invoked when the timer expires (if it\u0027s using polling), and the ec will be OK, and fall back to line 290 to call `read()` to get the fan presence sensor, and then schedule the next timer.\n\nIf we split the logic, the handler code will look like:\n\n if (isGPIOInterruptible)\n {\n     ... // existing code, including read();\n }\n else\n {\n     read();\n }\n monitorPresence();\n\nIt\u0027s OK to combine the logic and use one `read()`.",
+      "parentUuid": "0864f288_6ab4b2e6",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 287,
+        "endChar": 9
+      },
+      "revId": "9e164a796cfe1614c2eb5b33815aa0fff100759d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
