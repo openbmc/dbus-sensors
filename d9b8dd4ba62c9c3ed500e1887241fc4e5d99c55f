@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "dcbeefc3_64dcc015",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T17:30:33Z",
+      "side": 1,
+      "message": "In practice, that\u0027s not how that works, and we\u0027ve been burned by it in the past.  If a sensor expires while io loop is executing something else, the expiration gets added to the bottom of the poll queue.  At one point, we believed that timers would return operation_aborted in all cases, but there turns out to a be a race condition there if we do that.\n\nThe best compromise we\u0027ve found to avoid this is to either use weak_ptr for every callback capture, and to make sure that the sensor itself owns everything about its being, and avoid globals like this.",
+      "parentUuid": "033c1c0a_238cd30c",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 45
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf390b72_86d2c12a",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 3
@@ -222,6 +246,30 @@
       "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e42106d0_ca07a4c6",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T17:30:33Z",
+      "side": 1,
+      "message": "In this case, time_point is a typedef for int, not a struct.  I\u0027m surprised you found it to be 8 bytes.  On the BMC (which is 32 bit) I\u0027d expect it to be 4 bytes.\n\nEither way, fine to pass by value.",
+      "parentUuid": "54817460_9f89a5ad",
+      "range": {
+        "startLine": 57,
+        "startChar": 61,
+        "endLine": 57,
+        "endChar": 66
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {

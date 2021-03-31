@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "496205f2_234d216e",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T17:30:33Z",
+      "side": 1,
+      "message": "Now that you\u0027re using weak_ptr, this isn\u0027t required, right?\n\nAt most it should be \u003d nullptr, but I suspect this can be removed entirely.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
