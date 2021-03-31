@@ -312,6 +312,30 @@
     },
     {
       "key": {
+        "uuid": "a2757335_49b0a87e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T21:14:09Z",
+      "side": 1,
+      "message": "Frankly, I don\u0027t care what this code is doing.  I want to understand why the kernel isn\u0027t returning, or, if it is, why the async_read_until isn\u0027t returning.  Once that is understood, we\u0027ll know if this is a kernel bug, or a boost bug, or an OpenBMC bug.\n\nAny root cause that involves \"when I change this X method with Y method, it works\" will not be accepted.  Both async_read_until, async_read, and read would be expected to work here.  If they don\u0027t we need to understand why, so we can get the other sensors updated as well.",
+      "parentUuid": "a41ff786_49835d98",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4ab034_3649f091",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
