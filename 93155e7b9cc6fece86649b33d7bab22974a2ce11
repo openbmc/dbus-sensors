@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c260b1b1_ac4eebc7",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-03-31T18:13:33Z",
+      "side": 1,
+      "message": "Done in the latest patch",
+      "parentUuid": "3abe3daf_3c946026",
+      "range": {
+        "startLine": 805,
+        "startChar": 7,
+        "endLine": 805,
+        "endChar": 69
+      },
+      "revId": "93155e7b9cc6fece86649b33d7bab22974a2ce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c36c46fe_4dc27119",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 5
