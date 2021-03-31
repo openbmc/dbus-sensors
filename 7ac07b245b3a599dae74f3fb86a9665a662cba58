@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "206dc5b6_31162727",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T21:24:18Z",
+      "side": 1,
+      "message": "not mentioned in your commit message?  Probably for another commit?",
+      "range": {
+        "startLine": 688,
+        "startChar": 21,
+        "endLine": 688,
+        "endChar": 39
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a961c2a5_30376e6f",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T21:24:18Z",
+      "side": 1,
+      "message": "This looks wronge, Technically if we calculated something that\u0027s \u003e cfmMaxReading, we should clamp to cfmMaxReading, not zero.",
+      "range": {
+        "startLine": 693,
+        "startChar": 17,
+        "endLine": 693,
+        "endChar": 39
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa69e726_35e08a1b",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T21:24:18Z",
+      "side": 1,
+      "message": "Magic numbers?",
+      "range": {
+        "startLine": 705,
+        "startChar": 22,
+        "endLine": 705,
+        "endChar": 25
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d53d2a10_9bd0d8c3",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T21:24:18Z",
+      "side": 1,
+      "message": "This logic, we definitely don\u0027t need the complexity of.  If a sensor is producing values outside of its published range, that sensor needs fixed.  We should not be trying to filter in cfm sensor.",
+      "range": {
+        "startLine": 744,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 0
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d419781_1810a4bc",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-03-31T21:24:18Z",
+      "side": 1,
+      "message": "This looks like it has nothing to do with this commit?  Maybe for another commit?",
+      "range": {
+        "startLine": 928,
+        "startChar": 24,
+        "endLine": 928,
+        "endChar": 48
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
