@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f8e3bc3d_90034684",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-01T23:47:57Z",
+      "side": 1,
+      "message": "where is this used?",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 19
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "496205f2_234d216e",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 8
@@ -18,6 +41,75 @@
         "startChar": 0,
         "endLine": 102,
         "endChar": 0
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10436d3b_09bb217c",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-01T23:47:57Z",
+      "side": 1,
+      "message": "Initially it was not clear to me why this function does not just return writePerishable?\nAfter reading it in other file on how this function is used, I think it is meant to be isPerishable and has not perished yet. Maybe renaming the function or add comments to clarify.",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 128,
+        "endChar": 21
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d28354f_dd1d6b7d",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-01T23:47:57Z",
+      "side": 1,
+      "message": "Same as above, initial comment was: should this be true, i.e. not perishable, always viable.\nBut after reading the next file, I can see it is \"is Perishable but still Viable now\".\nPlease either rename or comment",
+      "range": {
+        "startLine": 137,
+        "startChar": 15,
+        "endLine": 137,
+        "endChar": 21
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b267501_3125f843",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-01T23:47:57Z",
+      "side": 1,
+      "message": "also check for positive?",
+      "range": {
+        "startLine": 212,
+        "startChar": 20,
+        "endLine": 212,
+        "endChar": 47
       },
       "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
