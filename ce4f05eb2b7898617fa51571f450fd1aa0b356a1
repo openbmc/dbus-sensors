@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e314dc59_4fdd9e95",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-01T13:19:46Z",
+      "side": 1,
+      "message": "It represents the host number of yv2 and it will be varied based on which host we are validating.\nhost 1 - 0 (index), host 2 - 4, host 3 - 8, host 4 - 12\n\nI updated \"index\" as \"hostNum\".",
+      "parentUuid": "f9bda09e_915d4123",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 18
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6601923_444271d8",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2021-03-30T22:06:50Z",
       "side": 1,
       "message": "this the same as line 86, move before if()",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 79
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5583690_74ceae32",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-01T13:19:46Z",
+      "side": 1,
+      "message": "Here, I am using versionPathPrefix (/xyz/openbmc_project/software/) instead of sensorPathPrefix  (/xyz/openbmc_project/sensors/), dbus path will be varied for version.",
+      "parentUuid": "a6601923_444271d8",
       "range": {
         "startLine": 79,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0d755595_6592bee0",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-01T13:19:46Z",
+      "side": 1,
+      "message": "I removed this in the latest code.",
+      "parentUuid": "b1444c19_86c2ddd6",
+      "range": {
+        "startLine": 251,
+        "startChar": 7,
+        "endLine": 251,
+        "endChar": 44
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b59155c_add1ca23",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 14
@@ -82,6 +154,30 @@
       "writtenOn": "2021-03-30T22:06:50Z",
       "side": 1,
       "message": "This looks strange: version will be \"byte3.byte4.byte5.byte6byte7.byte8...bytelast\". Is that correct?",
+      "range": {
+        "startLine": 374,
+        "startChar": 15,
+        "endLine": 377,
+        "endChar": 17
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb27161b_8b016ebc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-01T13:19:46Z",
+      "side": 1,
+      "message": "yes, you are correct. \nPlease suggest if there is any way to optimize this part.",
+      "parentUuid": "0b59155c_add1ca23",
       "range": {
         "startLine": 374,
         "startChar": 15,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d2b74a6a_64c4a74e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-01T13:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06fa5d4c_f59afc10",
+      "range": {
+        "startLine": 389,
+        "startChar": 4,
+        "endLine": 389,
+        "endChar": 47
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80d8a9e4_9fe2ed00",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 14
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "9f27e47a_4e61f934",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-01T13:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80d8a9e4_9fe2ed00",
+      "range": {
+        "startLine": 449,
+        "startChar": 20,
+        "endLine": 449,
+        "endChar": 60
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "661dce69_42c79524",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 14
@@ -151,6 +295,30 @@
       "writtenOn": "2021-03-30T22:06:50Z",
       "side": 1,
       "message": "Why is this needed if it is going to always be set to \"version\"",
+      "range": {
+        "startLine": 619,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 65
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e06e68b0_926547cf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-01T13:19:46Z",
+      "side": 1,
+      "message": "I removed this in the updated code.",
+      "parentUuid": "661dce69_42c79524",
       "range": {
         "startLine": 619,
         "startChar": 0,
