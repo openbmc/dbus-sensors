@@ -341,10 +341,13 @@ static void createSensorsCallback(
         if (std::find(pmbusNames.begin(), pmbusNames.end(), pmbusName) ==
             pmbusNames.end())
         {
-            // To avoid this error message, add your driver name to
-            // the pmbusNames vector at the top of this file.
-            std::cerr << "Driver name " << pmbusName
-                      << " not found in sensor whitelist\n";
+            if (debug)
+            {
+                // To avoid this error message, add your driver name to
+                // the pmbusNames vector at the top of this file.
+                std::cerr << "Driver name " << pmbusName
+                          << " not found in sensor whitelist\n";
+            }
             continue;
         }
 
