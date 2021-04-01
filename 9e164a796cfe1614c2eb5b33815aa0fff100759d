@@ -46,6 +46,30 @@
       "revId": "9e164a796cfe1614c2eb5b33815aa0fff100759d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b76066_44c09770",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-01T20:01:23Z",
+      "side": 1,
+      "message": "When line 258 is called, ec would be operation_aborted, we would want return like line 282, right?",
+      "parentUuid": "28ef84d9_4fd2aea5",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 287,
+        "endChar": 9
+      },
+      "revId": "9e164a796cfe1614c2eb5b33815aa0fff100759d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
