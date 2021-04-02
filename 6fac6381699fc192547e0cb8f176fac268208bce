@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a58d6815_81b5f555",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T20:36:47Z",
+      "side": 1,
+      "message": "Can your thermal engineer write some docs about how it was chosen then?",
+      "parentUuid": "0f684206_db5f1c91",
+      "range": {
+        "startLine": 41,
+        "startChar": 23,
+        "endLine": 41,
+        "endChar": 37
+      },
+      "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6b5ee6c_294db214",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 7
@@ -143,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "6f43c74c_6076f4b4",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T20:36:47Z",
+      "side": 1,
+      "message": "\u003e The thermal model still work beyond the qMin as long as the corresponding coefficients are capped like line 710 and 760 etc.\n\nThen why is it called q minimum, if it can operate below q minimum?\n\n\u003e Using 50% of qMin as a failsafe limit is reasonable per thermal engineer.\n\nConsidering everyone (including me) has their own thermal engineers that they report to, we\u0027re going to need a better explanation than that documented somewhere.",
+      "parentUuid": "1b8621c0_f510e4a4",
+      "range": {
+        "startLine": 666,
+        "startChar": 4,
+        "endLine": 666,
+        "endChar": 38
+      },
+      "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be839b58_9739ac65",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 7
@@ -178,6 +226,30 @@
       "side": 1,
       "message": "Setting 0 is not necessary since it returns false next. \nBut, here I am following what is being done for other cases like line 686.",
       "parentUuid": "be839b58_9739ac65",
+      "range": {
+        "startLine": 674,
+        "startChar": 14,
+        "endLine": 674,
+        "endChar": 15
+      },
+      "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37fe9243_0f6e97e1",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T20:36:47Z",
+      "side": 1,
+      "message": "Oh, good point, so this line can be removed?  Line 686 looks incorrect (I think).",
+      "parentUuid": "b6846f8a_c859c668",
       "range": {
         "startLine": 674,
         "startChar": 14,
