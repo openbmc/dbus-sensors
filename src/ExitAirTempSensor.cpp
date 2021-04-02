@@ -202,10 +202,14 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
 void CFMSensor::setupMatches()
 {
 
-    std::shared_ptr<CFMSensor> self = shared_from_this();
+    std::weak_ptr<CFMSensor> weakRef = weak_from_this();
     setupSensorMatch(matches, *dbusConnection, "fan_tach",
-                     std::move([self](const double& value,
+                     std::move([weakRef](const double& value,
                                       sdbusplus::message::message& message) {
+                        auto self = weakRef.lock();
+                        if (!self) {
+                            return;
+                        }
                          self->tachReadings[message.get_path()] = value;
                          if (self->tachRanges.find(message.get_path()) ==
                              self->tachRanges.end())
@@ -221,8 +225,13 @@ void CFMSensor::setupMatches()
                      }));
 
     dbusConnection->async_method_call(
-        [self](const boost::system::error_code ec,
+        [weakRef](const boost::system::error_code ec,
                const std::variant<double> cfmVariant) {
+            auto self = weakRef.lock();
+            if (!self) {
+                return;
+            }
+
             uint64_t maxRpm = 100;
             if (!ec)
             {
@@ -247,7 +256,12 @@ void CFMSensor::setupMatches()
         "freedesktop.DBus.Properties',path='" +
             std::string(cfmSettingPath) + "',arg0='" +
             std::string(cfmSettingIface) + "'",
-        [self](sdbusplus::message::message& message) {
+        [weakRef](sdbusplus::message::message& message) {
+            auto self = weakRef.lock();
+            if (!self) 
+            {
+                return;
+            }
             boost::container::flat_map<std::string, std::variant<double>>
                 values;
             std::string objectName;
@@ -293,9 +307,9 @@ void CFMSensor::createMaxCFMIface(void)
 void CFMSensor::addTachRanges(const std::string& serviceName,
                               const std::string& path)
 {
-    std::shared_ptr<CFMSensor> self = shared_from_this();
+    std::weak_ptr<CFMSensor> weakRef = weak_from_this();
     dbusConnection->async_method_call(
-        [self, path](const boost::system::error_code ec,
+        [weakRef, path](const boost::system::error_code ec,
                      const boost::container::flat_map<std::string,
                                                       BasicVariantType>& data) {
             if (ec)
@@ -303,7 +317,11 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
                 std::cerr << "Error getting properties from " << path << "\n";
                 return;
             }
-
+            auto self = weakRef.lock();
+            if (!self)
+            {
+                return;
+            }
             double max = loadVariant<double>(data, "MaxValue");
             double min = loadVariant<double>(data, "MinValue");
             self->tachRanges[path] = std::make_pair(min, max);
@@ -531,12 +549,17 @@ void ExitAirTempSensor::setupMatches(void)
     constexpr const std::array<const char*, 2> matchTypes = {
         "power", inletTemperatureSensor};
 
-    std::shared_ptr<ExitAirTempSensor> self = shared_from_this();
+    std::weak_ptr<ExitAirTempSensor> weakRef = weak_from_this();
     for (const std::string& type : matchTypes)
     {
         setupSensorMatch(matches, *dbusConnection, type,
-                         [self, type](const double& value,
+                         [weakRef, type](const double& value,
                                       sdbusplus::message::message& message) {
+                            auto self = weakRef.lock();
+                            if (!self)
+                            {
+                                return;
+                            }
                              if (type == "power")
                              {
                                  std::string path = message.get_path();
@@ -555,24 +578,33 @@ void ExitAirTempSensor::setupMatches(void)
                          });
     }
     dbusConnection->async_method_call(
-        [self](boost::system::error_code ec,
+        [weakRef](boost::system::error_code ec,
                const std::variant<double>& value) {
             if (ec)
             {
                 // sensor not ready yet
                 return;
             }
-
+            auto self = weakRef.lock();
+            if(!self)
+            {
+                return;
+            }
             self->inletTemp = std::visit(VariantToDoubleVisitor(), value);
         },
         "xyz.openbmc_project.HwmonTempSensor",
         std::string("/xyz/openbmc_project/sensors/") + inletTemperatureSensor,
         properties::interface, properties::get, sensorValueInterface, "Value");
     dbusConnection->async_method_call(
-        [self](boost::system::error_code ec, const GetSubTreeType& subtree) {
+        [weakRef](boost::system::error_code ec, const GetSubTreeType& subtree) {
             if (ec)
             {
                 std::cerr << "Error contacting mapper\n";
+                return;
+            }
+            auto self = weakRef.lock();
+            if (!self)
+            {
                 return;
             }
             for (const auto& item : subtree)
@@ -589,14 +621,18 @@ void ExitAirTempSensor::setupMatches(void)
                 {
                     const std::string& path = item.first;
                     self->dbusConnection->async_method_call(
-                        [self, path](boost::system::error_code ec,
+                        [weakRef, path](boost::system::error_code ec,
                                      const std::variant<double>& value) {
                             if (ec)
                             {
                                 std::cerr << "Error getting value from " << path
                                           << "\n";
                             }
-
+                            auto self = weakRef.lock();
+                            if (!self)
+                            {
+                                return;
+                            }
                             double reading =
                                 std::visit(VariantToDoubleVisitor(), value);
                             if constexpr (debug)
