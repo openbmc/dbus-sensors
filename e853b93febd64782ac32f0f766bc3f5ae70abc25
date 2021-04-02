@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "81268df6_9eeaa2ec",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T21:57:08Z",
+      "side": 1,
+      "message": "Considering a majority of this implementation is changing, does it make sense to roll this into another class entirely?",
+      "range": {
+        "startLine": 206,
+        "startChar": 16,
+        "endLine": 206,
+        "endChar": 30
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1280d23_2cc373a0",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 4
@@ -93,6 +116,52 @@
       "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e53880d_cf980c27",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T21:57:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right to me.  gpiochip0 is no more special than gpiochip1.  They\u0027re all just names and indexes.",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 287,
+        "endChar": 5
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11859e35_2fc2a7e2",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T21:57:08Z",
+      "side": 1,
+      "message": "should be std::move",
+      "range": {
+        "startLine": 312,
+        "startChar": 26,
+        "endLine": 312,
+        "endChar": 33
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {

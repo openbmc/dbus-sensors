@@ -46,6 +46,29 @@
       "revId": "dbfcd7fea470d8af602493778a4ea8704ea20ac9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5973225f_c08d8130",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T21:57:08Z",
+      "side": 1,
+      "message": "?  How does the name of the chip determine if it\u0027s interrupt capable?",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 32
+      },
+      "revId": "dbfcd7fea470d8af602493778a4ea8704ea20ac9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
