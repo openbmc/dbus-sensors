@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19c92310_d8ea0785",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T18:02:57Z",
+      "side": 1,
+      "message": "Added to the latest commit message",
+      "parentUuid": "206dc5b6_31162727",
+      "range": {
+        "startLine": 688,
+        "startChar": 21,
+        "endLine": 688,
+        "endChar": 39
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a961c2a5_30376e6f",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "779a2af8_0dd3ff37",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T18:02:57Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "a961c2a5_30376e6f",
+      "range": {
+        "startLine": 693,
+        "startChar": 17,
+        "endLine": 693,
+        "endChar": 39
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c03d454d_4afd8646",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T18:02:57Z",
+      "side": 1,
+      "message": "This was confirmed with thermal engineer, added definition.",
+      "parentUuid": "aa69e726_35e08a1b",
+      "range": {
+        "startLine": 705,
+        "startChar": 22,
+        "endLine": 705,
+        "endChar": 25
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d53d2a10_9bd0d8c3",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 6
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "574aab65_58e8c4f4",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T18:02:57Z",
+      "side": 1,
+      "message": "That is fair. Removed from this patch while continue working on root causing some defect sightings.",
+      "parentUuid": "d53d2a10_9bd0d8c3",
+      "range": {
+        "startLine": 744,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 0
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d419781_1810a4bc",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 6
@@ -114,6 +210,30 @@
       "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d7e6508_ded31f12",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T18:02:57Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "1d419781_1810a4bc",
+      "range": {
+        "startLine": 928,
+        "startChar": 24,
+        "endLine": 928,
+        "endChar": 48
+      },
+      "revId": "7ac07b245b3a599dae74f3fb86a9665a662cba58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
