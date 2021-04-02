@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "face3b30_0e662550",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-04-02T11:46:04Z",
+      "side": 1,
+      "message": "Hmm. I went over it again, and still can\u0027t see a problem.\n\nThe \"sensors\" container is passed around by reference, and has main() lifetime. Each individual ExternalSensor object in the container could be removed at any time, though. That\u0027s fine.\n\nIn the updateReaper() function, the container is iterated through, so if an ExternalSensor object isn\u0027t in there anymore, nothing more can be done to it. Even if the timer is late being called, that\u0027s fine. Perhaps an entry could get replaced by null. I added a check for the container having an entry that\u0027s null, as an extra check.",
+      "parentUuid": "dcbeefc3_64dcc015",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 45
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf390b72_86d2c12a",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 3
@@ -270,6 +294,30 @@
       "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "734e1eed_4c30edb5",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-04-02T11:46:04Z",
+      "side": 1,
+      "message": "It\u0027s buried under layers of templates, and I couldn\u0027t find what it\u0027s really defined as. It has subsecond precision, so I would expect it to be \"struct timespec\" somewhere down deep. Thus, 8 bytes (and a big Y2038 problem) on 32-bit, and probably 16 bytes on 64-bit.",
+      "parentUuid": "e42106d0_ca07a4c6",
+      "range": {
+        "startLine": 57,
+        "startChar": 61,
+        "endLine": 57,
+        "endChar": 66
+      },
+      "revId": "d9b8dd4ba62c9c3ed500e1887241fc4e5d99c55f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {

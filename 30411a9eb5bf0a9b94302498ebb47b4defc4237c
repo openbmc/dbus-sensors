@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "25214906_4388cc72",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-04-02T11:46:04Z",
+      "side": 1,
+      "message": "It\u0027s here: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/41394\n\nIt is called by the underlying Sensor class, when it has detected an incoming external write. The Sensor class manages the D-Bus callbacks, and externalSetHook() is called during the execution of that callback. So, it is used to gain control when a D-Bus write comes in.",
+      "parentUuid": "f8e3bc3d_90034684",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 19
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "496205f2_234d216e",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc2cf14a_f95fbe55",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-04-02T11:46:04Z",
+      "side": 1,
+      "message": "It\u0027s still a good idea to set it explicitly to nullptr, for cleanliness, I think.",
+      "parentUuid": "496205f2_234d216e",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5ab6e0b9_939471dc",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-04-02T11:46:04Z",
+      "side": 1,
+      "message": "You are correct. I renamed the function, and simplified the logic, to make it more clear what\u0027s going on.",
+      "parentUuid": "10436d3b_09bb217c",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 128,
+        "endChar": 21
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d28354f_dd1d6b7d",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 8
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0d72aeb7_84334933",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-04-02T11:46:04Z",
+      "side": 1,
+      "message": "Similar, improved the comments, and renamed the function to make it more clear what it does.",
+      "parentUuid": "9d28354f_dd1d6b7d",
+      "range": {
+        "startLine": 137,
+        "startChar": 15,
+        "endLine": 137,
+        "endChar": 21
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b267501_3125f843",
         "filename": "src/ExternalSensorMain.cpp",
         "patchSetId": 8
@@ -114,6 +210,30 @@
       "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79bcd405_379f2a35",
+        "filename": "src/ExternalSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-04-02T11:46:04Z",
+      "side": 1,
+      "message": "The ExternalSensor constructor already checks for the timeout being positive, and if it\u0027s zero or negative, doesn\u0027t enable the timeout feature. However, I see no reason not to make negative timeout a more explicit error message here, so I accepted your suggestion.",
+      "parentUuid": "4b267501_3125f843",
+      "range": {
+        "startLine": 212,
+        "startChar": 20,
+        "endLine": 212,
+        "endChar": 47
+      },
+      "revId": "30411a9eb5bf0a9b94302498ebb47b4defc4237c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
