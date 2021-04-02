@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbd83e69_64d5116b",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T20:38:32Z",
+      "side": 1,
+      "message": "Lets get this part documented on why this is reasonable (probably in an in-line comment), then this patchset should be good to go.",
+      "range": {
+        "startLine": 665,
+        "startChar": 0,
+        "endLine": 665,
+        "endChar": 48
+      },
+      "revId": "d4999c42f7f7bf83b8e1584cdfb78a98b88ab716",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dd62c72_c578122c",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T20:38:32Z",
+      "side": 1,
+      "message": "I think this can still be removed, but I don\u0027t care that much, as you\u0027re right, 686 does the same thing (although 661 doesn\u0027t).",
+      "revId": "d4999c42f7f7bf83b8e1584cdfb78a98b88ab716",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
