@@ -1,0 +1,326 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a899b5_217f7a04",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Please try again here.  This isn\u0027t anywhere close to the units OpenBMC uses.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 77
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17d3e9dc_6877c1cd",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Please don\u0027t declare this many global variables.  zero global variables is generally the right answer for any temporal state.  Retained state should be held in main, and passed through the methods.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 18
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc5190c_308ad89b",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Considering that IPMBSensor is currently reading sensor values on fixed interfaces, this kind of feels like it needs a different class, with some possibly similar interfaces.",
+      "range": {
+        "startLine": 189,
+        "startChar": 9,
+        "endLine": 189,
+        "endChar": 16
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de67660_8284b4fe",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "declare your variables where they\u0027re used.",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 24
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e85eef5_b7d18653",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Why are we reading FruDevice directly?  This should be passed through as an exposes record in EM, and we should be looking for exposes records.",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 77
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dfb3e29_50be6438",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Please don\u0027t use blocking method calls in an asynchronous daemon.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 46
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c131a3e_35f8f8f8",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "range based for loop here please.",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 46
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0725116_9736740b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "If you need the bus parameter, come up with an IPMB exposes record type, and pass it through as a parameter.",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 45
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df513ae1_a96493c9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Another blocking call.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 50
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c264331_488f1bd5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "THis does nothing.  remove.",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 5
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "423ff084_57ca5a81",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Discretes are represented differently in OpenBMC.  Please parse the SDR, and apply the appropriate interfaces to it.\n\nDiscretes alone probably deserve their own CR.",
+      "range": {
+        "startLine": 618,
+        "startChar": 0,
+        "endLine": 624,
+        "endChar": 24
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b25a110_8d145ca2",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "More blocking calls.",
+      "range": {
+        "startLine": 713,
+        "startChar": 0,
+        "endLine": 713,
+        "endChar": 46
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb5d8ad0_1b5399b9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Presumably you didn\u0027t mean to continue if there\u0027s an error.",
+      "range": {
+        "startLine": 716,
+        "startChar": 0,
+        "endLine": 716,
+        "endChar": 50
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7559eb1c_f7f7e03b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-02T05:25:46Z",
+      "side": 1,
+      "message": "Fully copy of the data here for no good reason.",
+      "range": {
+        "startLine": 723,
+        "startChar": 4,
+        "endLine": 723,
+        "endChar": 9
+      },
+      "revId": "25897157bed111f8ea0e1d533a8e0613fb147f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
