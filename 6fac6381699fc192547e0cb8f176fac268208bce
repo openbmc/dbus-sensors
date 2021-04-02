@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36b48b3e_615a5d32",
+        "filename": "include/ExitAirTempSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T20:10:45Z",
+      "side": 1,
+      "message": "removed PowerRanges\nmove powerReadings from global into private here is a clean up recommended by original author.\nThis change is included in commit message",
+      "parentUuid": "67a29ac0_1dae6ce2",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 20
+      },
+      "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "015990fc_21275560",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2021-04-02T18:24:43Z",
       "side": 1,
       "message": "How was this determined?  Also, this is only used in one place, so please declare where it\u0027s used.",
+      "range": {
+        "startLine": 41,
+        "startChar": 23,
+        "endLine": 41,
+        "endChar": 37
+      },
+      "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f684206_db5f1c91",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T20:10:45Z",
+      "side": 1,
+      "message": "Moved. This is recommended by thermal engineer",
+      "parentUuid": "015990fc_21275560",
       "range": {
         "startLine": 41,
         "startChar": 23,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1b8621c0_f510e4a4",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T20:10:45Z",
+      "side": 1,
+      "message": "The thermal model still work beyond the qMin as long as the corresponding coefficients are capped like line 710 and 760 etc. Using 50% of qMin as a failsafe limit is reasonable per thermal engineer.",
+      "parentUuid": "a6b5ee6c_294db214",
+      "range": {
+        "startLine": 666,
+        "startChar": 4,
+        "endLine": 666,
+        "endChar": 38
+      },
+      "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be839b58_9739ac65",
         "filename": "src/ExitAirTempSensor.cpp",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2021-04-02T18:24:43Z",
       "side": 1,
       "message": "Normally, if we can\u0027t provide a value, we would return N/A, not 0.  I\u0027m still not quite following what glitch we\u0027re trying to solve here, so maybe 0 makes sense?",
+      "range": {
+        "startLine": 674,
+        "startChar": 14,
+        "endLine": 674,
+        "endChar": 15
+      },
+      "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6846f8a_c859c668",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T20:10:45Z",
+      "side": 1,
+      "message": "Setting 0 is not necessary since it returns false next. \nBut, here I am following what is being done for other cases like line 686.",
+      "parentUuid": "be839b58_9739ac65",
       "range": {
         "startLine": 674,
         "startChar": 14,
@@ -114,6 +210,30 @@
       "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6111b8d8_151e5c7a",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-02T20:10:45Z",
+      "side": 1,
+      "message": "Good suggestion",
+      "parentUuid": "78de26c1_d9316ffc",
+      "range": {
+        "startLine": 787,
+        "startChar": 34,
+        "endLine": 787,
+        "endChar": 37
+      },
+      "revId": "6fac6381699fc192547e0cb8f176fac268208bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
