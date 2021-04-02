@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e45deb49_a1275ab7",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-02T14:13:09Z",
+      "side": 1,
+      "message": "Sure, I will update this in the latest code.",
+      "parentUuid": "6a2c4b9c_a1152a80",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 33
+      },
+      "revId": "75a0e2841f4f0b06e8e6b28f2e1282f593b8ac6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dd72ebe_010f9c50",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2021-04-01T20:06:25Z",
       "side": 1,
       "message": "This feels a little messy.  Considering that these new things:\n1. Aren\u0027t sensors\n2. Don\u0027t need 90% of the information or methods in this class\n\nI kinda suspect we need a new class for \"IPMB Version\" types, rather than just continue to extend ipmb sensor.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 20
+      },
+      "revId": "75a0e2841f4f0b06e8e6b28f2e1282f593b8ac6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fed1820_45eb2811",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-02T14:13:09Z",
+      "side": 1,
+      "message": "I will work on updating the code which are related to firmware version in new class.",
+      "parentUuid": "9dd72ebe_010f9c50",
       "range": {
         "startLine": 116,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9c6ba17d_b6c6bcb0",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-02T14:13:09Z",
+      "side": 1,
+      "message": "sure, I will work on this.",
+      "parentUuid": "b655206f_c27e94c8",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 5
+      },
+      "revId": "75a0e2841f4f0b06e8e6b28f2e1282f593b8ac6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f14769b_a93b7573",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 15
@@ -91,6 +163,30 @@
       "revId": "75a0e2841f4f0b06e8e6b28f2e1282f593b8ac6c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4997c5b_b64cf16b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-02T14:13:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5f14769b_a93b7573",
+      "range": {
+        "startLine": 531,
+        "startChar": 0,
+        "endLine": 538,
+        "endChar": 21
+      },
+      "revId": "75a0e2841f4f0b06e8e6b28f2e1282f593b8ac6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

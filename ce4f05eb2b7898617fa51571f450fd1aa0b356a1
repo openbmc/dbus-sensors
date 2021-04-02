@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "624aa134_f9cc61cc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-04-02T14:13:09Z",
+      "side": 1,
+      "message": "Intel® ME FW version as per Intel Spec. The full version number has the following format:\n“[Major].[Minor].[ABC].[PATCH]”\n[Major] – Major FW Revision\n[Minor]. – Minor FW revision\n[ABC]– Firmware build number\n[PATCH] – patch number\nwhere,\n[C] and [PATCH] are combined, so there is no \".\" between byte6 and byte7.",
+      "parentUuid": "95a79109_64296de7",
+      "range": {
+        "startLine": 374,
+        "startChar": 15,
+        "endLine": 377,
+        "endChar": 17
+      },
+      "revId": "ce4f05eb2b7898617fa51571f450fd1aa0b356a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06fa5d4c_f59afc10",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 14
