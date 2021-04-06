@@ -19,11 +19,12 @@
 #include <PSUSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/asio/read_until.hpp>
+#include <boost/asio/read.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <fstream>
 #include <iostream>
 #include <istream>
 #include <limits>
@@ -130,20 +131,47 @@ PSUSensor::~PSUSensor()
 
 void PSUSensor::setupRead(void)
 {
-    std::shared_ptr<boost::asio::streambuf> buffer =
-        std::make_shared<boost::asio::streambuf>();
-    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    boost::asio::async_read_until(
-        inputDev, *buffer, '\n',
-        [weakRef, buffer](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<PSUSensor> self = weakRef.lock();
-            if (self)
+    std::string line;
+    std::ifstream sensorFile(path);
+    if (sensorFile.good())
+    {
+        try
+        {
+            std::getline(sensorFile, line);
+            rawValue = std::stod(line);
+            sensorFile.close();
+            double nvalue = rawValue / sensorFactor;
+
+            updateValue(nvalue);
+
+            if (minMaxReadCounter++ % 8 == 0)
             {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
+                updateMinMaxValues();
             }
-        });
+        }
+        catch (const std::invalid_argument&)
+        {
+            std::cerr << "Could not parse " << line << "\n";
+            incrementError();
+        }
+    }
+    lseek(fd, 0, SEEK_SET);
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+
+    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Failed to reschedule\n";
+            return;
+        }
+        if (self)
+        {
+            self->setupRead();
+        }
+    });
+    return;
 }
 
 void PSUSensor::updateMinMaxValues(void)
@@ -168,7 +196,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         return;
     }
     std::istream responseStream(readBuf.get());
-    if (!err)
+    if (!err || err == boost::asio::error::misc_errors::eof)
     {
         std::string response;
         try
