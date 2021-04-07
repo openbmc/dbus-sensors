@@ -360,6 +360,30 @@
     },
     {
       "key": {
+        "uuid": "fa2634ce_86f1e6d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-04-07T11:23:08Z",
+      "side": 1,
+      "message": "You could below log message async_read_until is hang at \"Jan 01 00:30:24\" with error \"system:11\", as I know it is EAGAIN.\nSeems Asio don\u0027t handle it well or even return error code to call back function.\n\n\nJan 01 00:30:22 intel-obmc psusensor[458]: @asio|1822.391454|4328*4329|deadline_timer@0x14d9c88.async_wait\nJan 01 00:30:22 intel-obmc psusensor[458]: @asio|1822.391509|\u003c4328|\nJan 01 00:30:22 intel-obmc psusensor[458]: @asio|1822.391537|\u003e4327|ec\u003dsystem:125\nJan 01 00:30:22 intel-obmc psusensor[458]: @asio|1822.391565|\u003c4327|\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391476|\u003e4329|ec\u003dsystem:0\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391590|4329*4330|deadline_timer@0x14d9cc8.async_wait\nJan 01 00:30:23 intel-obmc psusensor[458]: setupRead /sys/class/hwmon/hwmon2/power1_input\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391682|4329^4331|in \u0027async_read_until\u0027 (/usr/src/debug/dbus-sensors/0.1+git999-r0/recipe-sysroot/usr/include/boost/asio/:878)\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391682|4329*4331|descriptor@0x14d9c5c.async_read_some\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391750|.4331|non_blocking_read,ec\u003dsystem:0,bytes_transferred\u003d10\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391778|\u003c4329|\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391803|\u003e4331|ec\u003dsystem:0,bytes_transferred\u003d10\nJan 01 00:30:23 intel-obmc psusensor[458]: async_read_until back /sys/class/hwmon/hwmon2/power1_input\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391851|4331|deadline_timer@0x14d9cc8.cancel\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391967|4331|deadline_timer@0x14d9c88.cancel\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.391997|4331*4332|deadline_timer@0x14d9c88.async_wait\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.392038|\u003c4331|\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.392060|\u003e4330|ec\u003dsystem:125\nJan 01 00:30:23 intel-obmc psusensor[458]: @asio|1823.392082|\u003c4330|\nJan 01 00:30:24 intel-obmc psusensor[458]: @asio|1824.392069|\u003e4332|ec\u003dsystem:0\nJan 01 00:30:24 intel-obmc psusensor[458]: @asio|1824.392174|4332*4333|deadline_timer@0x14d9cc8.async_wait\nJan 01 00:30:24 intel-obmc psusensor[458]: setupRead /sys/class/hwmon/hwmon2/power1_input\nJan 01 00:30:24 intel-obmc psusensor[458]: @asio|1824.392271|4332^4334|in \u0027async_read_until\u0027 (/usr/src/debug/dbus-sensors/0.1+git999-r0/recipe-sysroot/usr/include/boost/asio/:878)\nJan 01 00:30:24 intel-obmc psusensor[458]: @asio|1824.392271|4332*4334|descriptor@0x14d9c5c.async_read_some\nJan 01 00:30:24 intel-obmc psusensor[458]: @asio|1824.906478|.4334|non_blocking_read,ec\u003dsystem:11,bytes_transferred\u003d0\nJan 01 00:30:24 intel-obmc psusensor[458]: @asio|1824.906580|\u003c4332|\nJan 01 00:30:34 intel-obmc psusensor[458]: @asio|1834.392269|\u003e4333|ec\u003dsystem:0\nJan 01 00:30:34 intel-obmc psusensor[458]: Read timer timeout, resume it: /sys/class/hwmon/hwmon2/power1_input\nJan 01 00:30:34 intel-obmc psusensor[458]: @asio|1834.392397|4333|descriptor@0x14d9c5c.cancel\nJan 01 00:30:34 intel-obmc psusensor[458]: @asio|1834.392443|4333|deadline_timer@0x14d9cc8.cancel\nJan 01 00:30:34 intel-obmc psusensor[458]: @asio|1834.392466|4333*4335|deadline_timer@0x14d9cc8.async_wait\nJan 01 00:30:34 intel-obmc psusensor[458]: setupRead /sys/class/hwmon/hwmon2/power1_input",
+      "parentUuid": "3c8fd193_abd82815",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4ab034_3649f091",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
