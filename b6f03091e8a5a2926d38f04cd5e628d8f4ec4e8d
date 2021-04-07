@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96fc6823_42a30b17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-07T23:46:24Z",
+      "side": 1,
+      "message": "How are calibration values choosen?  Why is the below offset -0.25, and not -0.1?   A little more detail here would be appreciated.\n\nAlso, please give some details on how this will impact the SDR.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa9f2ce_73751363",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-07T23:46:24Z",
+      "side": 1,
+      "message": "The only real question in my mind is whether the min and max values are provided BEFORE the offset, or AFTER.  This needs to be well defined, and I\u0027m not sure what would be better, but an offset of -0.25 and a min of 0 (which is the default) would likely give some unexpected behavior in the SDR.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcf715f2_b8919705",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-07T23:46:24Z",
+      "side": 1,
+      "message": "Can you clarify this a little?  the \"reading value\" isn\u0027t a part of the SDR.",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
