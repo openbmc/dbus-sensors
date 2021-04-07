@@ -42,22 +42,22 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration,
                      std::string& sensorTypeName, unsigned int factor,
-                     double max, double min, const std::string& label,
-                     size_t tSize) :
+                     double max, double min, double offset,
+                     const std::string& label, size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
            conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0)
+    sensorFactor(factor), minMaxReadCounter(0), sensorOffset(offset)
 {
     if constexpr (debug)
     {
         std::cerr << "Constructed sensor: path " << path << " type "
                   << objectType << " config " << sensorConfiguration
                   << " typename " << sensorTypeName << " factor " << factor
-                  << " min " << min << " max " << max << " name \""
-                  << sensorName << "\"\n";
+                  << " min " << min << " max " << max << " offset " << offset
+                  << " name \"" << sensorName << "\"\n";
     }
 
     fd = open(path.c_str(), O_RDONLY);
@@ -176,8 +176,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             std::getline(responseStream, response);
             rawValue = std::stod(response);
             responseStream.clear();
-            double nvalue = rawValue / sensorFactor;
-
+            double nvalue = (rawValue / sensorFactor) + sensorOffset;
             updateValue(nvalue);
 
             if (minMaxReadCounter++ % 8 == 0)
