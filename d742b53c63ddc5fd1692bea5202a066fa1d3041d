@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bca7ece6_0b02c4c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-07T09:30:57Z",
+      "side": 1,
+      "message": "I got it.",
+      "parentUuid": "d110f30d_fe29974d",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "d742b53c63ddc5fd1692bea5202a066fa1d3041d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bec5a32a_4270f688",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2021-04-06T17:19:30Z",
       "side": 1,
       "message": "Why would someone want this?  What use case does it solve?",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "d742b53c63ddc5fd1692bea5202a066fa1d3041d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f832adf2_a6a0aca3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-07T09:30:57Z",
+      "side": 1,
+      "message": "This attribute can help to customize the offset value for calibrating the reading value. We have two PSU Sensor(for current and power) need this attribute.",
+      "parentUuid": "bec5a32a_4270f688",
       "range": {
         "startLine": 9,
         "startChar": 3,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e61e24fc_122f7e1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-07T09:30:57Z",
+      "side": 1,
+      "message": "When CPU is powered off, some sensor reading values are expected to go below low thresholds. Therefore, we need this attribute to decide which power state is required by the sensor so as to prevent sensor trigger redundant threshold event.",
+      "parentUuid": "176c04fa_5a657f01",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "d742b53c63ddc5fd1692bea5202a066fa1d3041d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83eb9e35_54aa2d2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2021-04-06T17:19:30Z",
       "side": 1,
       "message": "?  What \"passed\"?  What in the SDR changed?  What values did it return?",
+      "range": {
+        "startLine": 32,
+        "startChar": 59,
+        "endLine": 32,
+        "endChar": 71
+      },
+      "revId": "d742b53c63ddc5fd1692bea5202a066fa1d3041d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9694e2af_4c39e02e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-07T09:30:57Z",
+      "side": 1,
+      "message": "This is testing that the offset attribute successfully calibrate the reading value or not.\nThe reading value show in SDR is same as our expected value.",
+      "parentUuid": "83eb9e35_54aa2d2f",
       "range": {
         "startLine": 32,
         "startChar": 59,
