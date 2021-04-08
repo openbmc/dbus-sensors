@@ -456,6 +456,30 @@
     },
     {
       "key": {
+        "uuid": "d6e4e78d_c3ba1cf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2021-04-08T01:23:27Z",
+      "side": 1,
+      "message": "No matter socket is working or not to WA this issue. It is not good  to use sync read right (as patchset3 did)?",
+      "parentUuid": "31760b10_d00a67b4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "369a10bce9a5a63538a3320f79672d147ba4c22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4ab034_3649f091",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
