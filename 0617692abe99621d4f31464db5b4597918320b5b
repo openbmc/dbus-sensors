@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd82b81c_ba02e247",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-08T17:57:59Z",
+      "side": 1,
+      "message": "if (readState !\u003d Always) \n{\npowerDelay\n} \nelse\n{\nnoDelay\n}",
+      "range": {
+        "startLine": 224,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 64
+      },
+      "revId": "0617692abe99621d4f31464db5b4597918320b5b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
