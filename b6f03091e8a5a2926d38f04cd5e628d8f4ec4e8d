@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9882145e_a70ce494",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-09T08:15:31Z",
+      "side": 1,
+      "message": "This value is measured by our power team and is considered as the correctest calibration value for the sensor in our platform.\nWe use this value to adjust the raw data and than update to the \"Value\" property on dbus.\n\nThe sensor reading value in SDR is calculated by value from \"Value\", \"MaxValue\" and \"MinValue\" in interface \"xyz.openbmc_project.Sensor.Value\" via package \"intel-ipmi-oem\".\nSo we were used to check the sensor reading in both busctl and \"ipmitool sdr elist\"",
+      "parentUuid": "96fc6823_42a30b17",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1aa9f2ce_73751363",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0e4d5d15_61c140a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-09T08:15:31Z",
+      "side": 1,
+      "message": "It seems the reading value on dbus is not restricted by the max and min value on dbus, this value can be smaller than the min value.\nAnd the max, min and offset value are all customizable with safe default value, so I could not figure out what might influenced by the different order.\nYes, it looks better to set the \"iout1_Min\" to be a negative value.",
+      "parentUuid": "1aa9f2ce_73751363",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcf715f2_b8919705",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2021-04-07T23:46:24Z",
       "side": 1,
       "message": "Can you clarify this a little?  the \"reading value\" isn\u0027t a part of the SDR.",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "598f25cc_69bba2c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-09T08:15:31Z",
+      "side": 1,
+      "message": "Sorry, I might misuse this word\nWe used to check the value on SDR by \"ipmitool sdr elist\" to confirm the raw data is calculated correctly by \"intel-ipmi-oem\".",
+      "parentUuid": "bcf715f2_b8919705",
       "range": {
         "startLine": 34,
         "startChar": 6,
