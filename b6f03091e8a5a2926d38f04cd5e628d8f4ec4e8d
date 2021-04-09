@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9b4d45d5_e6f347d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-09T19:57:06Z",
+      "side": 1,
+      "message": "details in the commit message please.  I will comment more once they\u0027re there.",
+      "parentUuid": "9882145e_a70ce494",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1aa9f2ce_73751363",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "bd4f76fc_8ccaca54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-09T19:57:06Z",
+      "side": 1,
+      "message": "\u003e It seems the reading value on dbus is not restricted by the max and min value on dbus, this value can be smaller than the min value.\n\nThat is a bug that we need to fix at some point.  Per the dbus interfaces it should be clamped between min and max.\n\n\u003e And the max, min and offset value are all customizable with safe default value, so I could not figure out what might influenced by the different order.\n\u003e Yes, it looks better to set the \"iout1_Min\" to be a negative value.\n\n\nI don\u0027t think you\u0027re understanding me, but I think what\u0027s there is what I\u0027d prefer.  Please just mention in your commit message that offset is accounted for before min and max, and min and max represent the post-scaled and offset values.",
+      "parentUuid": "0e4d5d15_61c140a8",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcf715f2_b8919705",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -131,6 +179,30 @@
       "side": 1,
       "message": "Sorry, I might misuse this word\nWe used to check the value on SDR by \"ipmitool sdr elist\" to confirm the raw data is calculated correctly by \"intel-ipmi-oem\".",
       "parentUuid": "bcf715f2_b8919705",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "113a1dde_7e23f4c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-09T19:57:06Z",
+      "side": 1,
+      "message": "that would be detail worth adding to the commit message.",
+      "parentUuid": "598f25cc_69bba2c9",
       "range": {
         "startLine": 34,
         "startChar": 6,
