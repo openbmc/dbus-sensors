@@ -46,6 +46,7 @@ static constexpr double ipmbMinReading = 0;
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
+static constexpr uint8_t pollTimeDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
@@ -321,9 +322,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
 
 void IpmbSensor::read(void)
 {
-    static constexpr size_t pollTime = 1; // in seconds
-
-    waitTimer.expires_from_now(boost::posix_time::seconds(pollTime));
+    waitTimer.expires_from_now(boost::posix_time::seconds(pollTimeValue));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -481,6 +480,14 @@ void createSensors(
                             VariantToStringVisitor(), findPowerState->second);
 
                         setReadState(powerState, sensor->readState);
+                    }
+
+                    sensor->pollTimeValue = pollTimeDefault;
+                    auto findPollTime = entry.second.find("PollRate");
+                    if (findPollTime != entry.second.end())
+                    {
+                        sensor->pollTimeValue = std::visit(
+                            VariantToIntVisitor(), findPollTime->second);
                     }
 
                     if (sensorClass == "PxeBridgeTemp")

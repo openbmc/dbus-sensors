@@ -104,6 +104,7 @@ struct IpmbSensor : public Sensor
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
+    int pollTimeValue;
 
     ReadingFormat readingFormat;
 
