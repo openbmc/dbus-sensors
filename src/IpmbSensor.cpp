@@ -46,6 +46,7 @@ static constexpr double ipmbMinReading = 0;
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
+static constexpr uint8_t pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
@@ -63,13 +64,13 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        sdbusplus::asio::object_server& objectServer,
                        std::vector<thresholds::Threshold>&& thresholdData,
                        uint8_t deviceAddress, uint8_t hostSMbusIndex,
-                       std::string& sensorTypeName) :
+                       int pollRate, std::string& sensorTypeName) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", ipmbMaxReading,
            ipmbMinReading, conn, PowerState::on),
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
-    objectServer(objectServer), waitTimer(io)
+    pollRate(pollRate), objectServer(objectServer), waitTimer(io)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
 
@@ -340,9 +341,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
 
 void IpmbSensor::read(void)
 {
-    static constexpr size_t pollTime = 1; // in seconds
-
-    waitTimer.expires_from_now(boost::posix_time::seconds(pollTime));
+    waitTimer.expires_from_now(boost::posix_time::seconds(pollRate));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -451,12 +450,21 @@ void createSensors(
 
                     std::string sensorClass =
                         loadVariant<std::string>(entry.second, "Class");
+
                     uint8_t hostSMbusIndex = hostSMbusIndexDefault;
                     auto findSmType = entry.second.find("HostSMbusIndex");
                     if (findSmType != entry.second.end())
                     {
                         hostSMbusIndex = std::visit(
                             VariantToUnsignedIntVisitor(), findSmType->second);
+                    }
+
+                    int pollRate = pollRateDefault;
+                    auto findPollRate = entry.second.find("PollRate");
+                    if (findPollRate != entry.second.end())
+                    {
+                        pollRate = std::visit(VariantToIntVisitor(),
+                                              findPollRate->second);
                     }
 
                     /* Default sensor type is "temperature" */
@@ -472,7 +480,7 @@ void createSensors(
                     sensor = std::make_unique<IpmbSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
                         std::move(sensorThresholds), deviceAddress,
-                        hostSMbusIndex, sensorTypeName);
+                        hostSMbusIndex, pollRate, sensorTypeName);
 
                     /* Initialize scale and offset value */
                     sensor->scaleVal = 1;
