@@ -30,7 +30,6 @@ class HwmonTempSensor :
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string path;
-    size_t errCount;
     unsigned int sensorPollMs;
 
     void handleResponse(const boost::system::error_code& err);
