@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f50f4b5b_66aa5256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-13T09:08:11Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "9b4d45d5_e6f347d1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa9f2ce_73751363",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "\u003e It seems the reading value on dbus is not restricted by the max and min value on dbus, this value can be smaller than the min value.\n\nThat is a bug that we need to fix at some point.  Per the dbus interfaces it should be clamped between min and max.\n\n\u003e And the max, min and offset value are all customizable with safe default value, so I could not figure out what might influenced by the different order.\n\u003e Yes, it looks better to set the \"iout1_Min\" to be a negative value.\n\n\nI don\u0027t think you\u0027re understanding me, but I think what\u0027s there is what I\u0027d prefer.  Please just mention in your commit message that offset is accounted for before min and max, and min and max represent the post-scaled and offset values.",
       "parentUuid": "0e4d5d15_61c140a8",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85827a5f_cbf3fa41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-13T09:08:11Z",
+      "side": 1,
+      "message": "In our system, the \"iout1_Max\" is already calculated with scaled and offset value because the \"XXX_Max\" and \"XXX_Min\" will directly set on dbus.",
+      "parentUuid": "bd4f76fc_8ccaca54",
       "range": {
         "startLine": 28,
         "startChar": 0,
@@ -212,6 +260,30 @@
       "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "965d7423_2be201fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-13T09:08:11Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "113a1dde_7e23f4c7",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "b6f03091e8a5a2926d38f04cd5e628d8f4ec4e8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
