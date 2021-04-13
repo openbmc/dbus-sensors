@@ -32,7 +32,6 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     std::string path;
     std::string pathRatedMax;
     std::string pathRatedMin;
-    size_t errCount;
     unsigned int sensorFactor;
     uint8_t minMaxReadCounter;
     void handleResponse(const boost::system::error_code& err);

@@ -88,7 +88,6 @@ class TachSensor : public Sensor
     std::string path;
     std::optional<std::string> led;
     bool ledState = false;
-    size_t errCount;
     void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
