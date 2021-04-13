@@ -22,6 +22,30 @@
       "revId": "0617692abe99621d4f31464db5b4597918320b5b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79c66df2_c6bb81dc",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-04-13T09:49:11Z",
+      "side": 1,
+      "message": "Sorry for slow reply.\nDone and I update the test case for this modification.",
+      "parentUuid": "cd82b81c_ba02e247",
+      "range": {
+        "startLine": 224,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 64
+      },
+      "revId": "0617692abe99621d4f31464db5b4597918320b5b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
