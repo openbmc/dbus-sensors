@@ -40,29 +40,12 @@ static constexpr float pollRateDefault = 0.5;
 
 namespace fs = std::filesystem;
 
+static std::string defaultADCName = "iio-hwmon";
 static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADC"};
 static std::regex inputRegex(R"(in(\d+)_input)");
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
-
-// filter out adc from any other voltage sensor
-bool isAdc(const fs::path& parentPath)
-{
-    fs::path namePath = parentPath / "name";
-
-    std::ifstream nameFile(namePath);
-    if (!nameFile.good())
-    {
-        std::cerr << "Failure reading " << namePath.string() << "\n";
-        return false;
-    }
-
-    std::string name;
-    std::getline(nameFile, name);
-
-    return name == "iio_hwmon";
-}
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -90,10 +73,6 @@ void createSensors(
             // configuration
             for (auto& path : paths)
             {
-                if (!isAdc(path.parent_path()))
-                {
-                    continue;
-                }
                 std::smatch match;
                 std::string pathStr = path.string();
 
@@ -104,6 +83,8 @@ void createSensors(
                 // convert to 0 based
                 size_t index = std::stoul(indexStr) - 1;
 
+                fs::path device = path.parent_path() / "device";
+                std::string deviceName = fs::canonical(device).stem();
                 const SensorData* sensorData = nullptr;
                 const std::string* interfacePath = nullptr;
                 const std::pair<
@@ -130,6 +111,12 @@ void createSensors(
                     {
                         continue;
                     }
+
+                    if (defaultADCName != deviceName)
+                    {
+                        continue;
+                    }
+
                     auto findIndex = baseConfiguration->second.find("Index");
                     if (findIndex == baseConfiguration->second.end())
                     {
