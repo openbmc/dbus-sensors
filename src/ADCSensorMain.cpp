@@ -40,6 +40,7 @@ static constexpr float pollRateDefault = 0.5;
 
 namespace fs = std::filesystem;
 
+static std::string compatiblePrefix = "OF_COMPATIBLE_0=";
 static constexpr std::array<const char*, 1> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADC"};
 static std::regex inputRegex(R"(in(\d+)_input)");
@@ -49,7 +50,7 @@ static boost::container::flat_map<size_t, bool> cpuPresence;
 // filter out adc from any other voltage sensor
 bool isAdc(const fs::path& parentPath)
 {
-    fs::path namePath = parentPath / "name";
+    fs::path namePath = parentPath / "uevent";
 
     std::ifstream nameFile(namePath);
     if (!nameFile.good())
@@ -59,9 +60,16 @@ bool isAdc(const fs::path& parentPath)
     }
 
     std::string name;
-    std::getline(nameFile, name);
-
-    return name == "iio_hwmon";
+    while (std::getline(nameFile, name))
+    {
+        std::size_t found = name.find(compatiblePrefix);
+        if (found != std::string::npos)
+        {
+            name.replace(found, compatiblePrefix.length(), "");
+            break;
+        }
+    }
+    return name == "iio-hwmon";
 }
 
 void createSensors(
