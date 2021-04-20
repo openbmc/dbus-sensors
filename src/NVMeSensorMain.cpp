@@ -184,5 +184,6 @@ int main()
             std::string(sensorType) + "'",
         eventHandler);
 
+    checkSpModeAndAction(systemBus);
     io.run();
 }
