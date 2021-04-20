@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0e84ce6_55419f6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-20T17:21:00Z",
+      "side": 1,
+      "message": "I don\u0027t see any mention of ping in this commit.  Maybe this statement is out of date?",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "9733da2b4ae1da103622028f5bf42ff1042bfe55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0755b4f1_f9a372be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-20T17:21:00Z",
+      "side": 1,
+      "message": "what is \"they\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "9733da2b4ae1da103622028f5bf42ff1042bfe55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee04ab5f_11973f2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-20T17:21:00Z",
+      "side": 1,
+      "message": "Why is the sensor getting detected and undetected on a host reboot?  we\u0027re keying off a CpuSensor config which is on the baseboard, which shouldn\u0027t be going away when the host cpu shuts down.",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "9733da2b4ae1da103622028f5bf42ff1042bfe55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "402df999_33e2e83f",
         "filename": "src/CPUSensorMain.cpp",
         "patchSetId": 1
