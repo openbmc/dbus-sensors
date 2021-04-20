@@ -525,5 +525,6 @@ int main()
         std::move(redundancyHandler));
     matches.emplace_back(std::move(match));
 
+    checkSpModeAndAction(systemBus);
     io.run();
 }

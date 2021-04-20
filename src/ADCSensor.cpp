@@ -54,7 +54,7 @@ ADCSensor::ADCSensor(const std::string& path,
                      std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ADC",
+           "xyz.openbmc_project.Configuration.ADC", false,
            maxVoltageReading / scaleFactor, minVoltageReading / scaleFactor,
            conn, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
