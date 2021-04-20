@@ -82,6 +82,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             {
                 return 1;
             }
+
             setValue(reqInt);
             resp = req;
 
