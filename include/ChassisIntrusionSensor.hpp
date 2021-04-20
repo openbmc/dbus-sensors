@@ -4,6 +4,7 @@
 #include <boost/asio/io_service.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <Utils.hpp>
 
 #include <memory>
 #include <string>

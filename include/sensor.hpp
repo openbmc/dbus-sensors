@@ -169,10 +169,23 @@ struct Sensor
         }
     }
 
-    int setSensorValue(const double& newValue, double& oldValue)
+    int setSensorValue(const double& newValue, double& oldValue, std::string ifPath)
     {
         if (!internalSet)
         {
+            bool settable = false;
+            std::string intfPath = ifPath;
+#ifdef BMC_INSECURE_UNRESTRICTED_SENSOR_OVERRIDE
+            // only allow fan pwm and external sensor
+            settable = isExtenalSensor(intfPath);
+#else
+            // intel special mode
+            settable = isSpecialMode();
+#endif
+            if (!settable)
+                throw sdbusplus::exception::SdBusError(
+                    -EACCES, "not allow set porperty value");
+
             oldValue = newValue;
             overriddenState = true;
             // check thresholds for external set
@@ -206,9 +219,11 @@ struct Sensor
 
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        std::string ifPath = sensorInterface->get_object_path();
         sensorInterface->register_property(
-            "Value", value, [&](const double& newValue, double& oldValue) {
-                return setSensorValue(newValue, oldValue);
+            "Value", value,
+            [&, ifPath](const double& newValue, double& oldValue) {
+                return setSensorValue(newValue, oldValue, ifPath);
             });
         for (auto& threshold : thresholds)
         {
