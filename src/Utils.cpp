@@ -14,6 +14,8 @@
 // limitations under the License.
 */
 
+#include "dbus-sensor_config.h"
+
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/flat_map.hpp>
@@ -35,6 +37,7 @@ namespace fs = std::filesystem;
 
 static bool powerStatusOn = false;
 static bool biosHasPost = false;
+static bool isSpModeEnable = false;
 
 static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match::match> postMatch = nullptr;
@@ -503,4 +506,83 @@ std::optional<std::tuple<std::string, std::string, std::string>>
         }
     }
     return std::nullopt;
+}
+
+void checkSpModeAndAction(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn)
+{
+    const std::array<std::string, 1> interfaces = {
+        "xyz.openbmc_project.Security.SpecialMode"};
+
+    conn->async_method_call(
+        [conn](const boost::system::error_code ec2,
+               const GetSubTreeType& resp) mutable {
+            if (ec2)
+            {
+                std::cerr << "Error in querying GetSubTree with Object Mapper. "
+                          << ec2;
+                return;
+            }
+
+            if (resp.size() != 1 ||
+                resp[0].second.begin() == resp[0].second.end())
+            {
+                std::cerr
+                    << "Overriding sensor value is not allowed - Internal "
+                       "error in querying SpecialMode property.";
+                return;
+            }
+
+            static std::unique_ptr<sdbusplus::bus::match::match>
+                manufacturingModeMatch =
+                    std::make_unique<sdbusplus::bus::match::match>(
+                        *conn,
+                        "type='signal',interface='org.freedesktop.DBus."
+                        "Properties',member='"
+                        "PropertiesChanged',arg0namespace='xyz.openbmc_project."
+                        "Security.SpecialMode'",
+                        [](sdbusplus::message::message& msg) {
+                            std::string interfaceName;
+                            boost::container::flat_map<
+                                std::string, std::variant<std::string>>
+                                propertiesChanged;
+                            std::string manufacturingModeStatus;
+
+                            msg.read(interfaceName, propertiesChanged);
+                            if (propertiesChanged.begin() ==
+                                propertiesChanged.end())
+                            {
+                                return;
+                            }
+
+                            manufacturingModeStatus = std::get<std::string>(
+                                propertiesChanged.begin()->second);
+                            isSpModeEnable = false;
+                            if (manufacturingModeStatus ==
+                                "xyz.openbmc_project.Control.Security."
+                                "SpecialMode.Modes.Manufacturing")
+                            {
+                                isSpModeEnable = true;
+                            }
+                            if (validateUnsecureFeature == true)
+                            {
+                                if (manufacturingModeStatus ==
+                                    "xyz.openbmc_project.Control.Security."
+                                    "SpecialMode.Modes.ValidationUnsecure")
+                                {
+                                    isSpModeEnable = true;
+                                }
+                            }
+                        });
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetSubTree", "/", 0, interfaces);
+
+    return;
+}
+
+bool getSpModeStatus()
+{
+    return isSpModeEnable;
 }
