@@ -1,0 +1,9 @@
+#pragma once
+
+#include <cstdint>
+
+// clang-format off
+constexpr const int validateUnsecureFeature = @VALIDATION_UNSECURE_FEATURE@;
+
+constexpr const int insecureSensorOverride = @INSECURE_UNRESTRICTED_SENSOR_OVERRIDE@;
+// clang-format on
