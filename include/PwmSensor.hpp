@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <memory>

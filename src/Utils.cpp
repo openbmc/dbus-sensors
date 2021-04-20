@@ -504,3 +504,142 @@ std::optional<std::tuple<std::string, std::string, std::string>>
     }
     return std::nullopt;
 }
+
+bool isOverridingAllowed(const std::string& manufacturingModeStatus)
+{
+    if (manufacturingModeStatus ==
+        "xyz.openbmc_project.Control.Security.SpecialMode.Modes.Manufacturing")
+    {
+        return true;
+    }
+
+#ifdef BMC_VALIDATION_UNSECURE_FEATURE
+    if (manufacturingModeStatus == "xyz.openbmc_project.Control.Security."
+                                   "SpecialMode.Modes.ValidationUnsecure")
+    {
+        return true;
+    }
+
+#endif
+
+    return false;
+}
+
+bool isSpecialMode()
+{
+    sdbusplus::bus::bus bus = sdbusplus::bus::new_default();
+    auto mapperCall =
+        bus.new_method_call("xyz.openbmc_project.ObjectMapper",
+                            "/xyz/openbmc_project/object_mapper",
+                            "xyz.openbmc_project.ObjectMapper", "GetSubTree");
+    mapperCall.append("/");
+    mapperCall.append(5);
+    mapperCall.append(
+        std::vector<std::string>({"xyz.openbmc_project.Security.SpecialMode"}));
+
+    auto mapperReply = bus.call(mapperCall);
+
+    std::vector<std::pair<
+        std::string,
+        std::vector<std::pair<std::string, std::vector<std::string>>>>>
+        getSubTreeType;
+    mapperReply.read(getSubTreeType);
+
+    if (getSubTreeType.size() != 1)
+    {
+        std::cerr << "Overriding sensor value is not allowed - Internal "
+                     "error in querying SpecialMode property."
+                  << "\n";
+        return false;
+    }
+
+    std::string path = getSubTreeType[0].first;
+    std::string serviceName = getSubTreeType[0].second.begin()->first;
+
+    if (path.empty() || serviceName.empty())
+    {
+        std::cerr << "Path or service name is returned as empty. "
+                  << "\n";
+        return false;
+    }
+    auto methodCall =
+        bus.new_method_call(serviceName.c_str(), path.c_str(),
+                            "org.freedesktop.DBus.Properties", "Get");
+    methodCall.append("xyz.openbmc_project.Security.SpecialMode",
+                      "SpecialMode");
+
+    auto mapperResponseMsg2 = bus.call(methodCall);
+
+    std::variant<std::string> getManufactMode;
+    mapperResponseMsg2.read(getManufactMode);
+    std::string manufacturingModeStatus =
+        std::get<std::string>(getManufactMode);
+
+    if (manufacturingModeStatus.empty())
+    {
+        std::cerr << "Sensor override mode is not "
+                     "Enabled. Returning ... "
+                  << "\n";
+        return false;
+    }
+
+    if (isOverridingAllowed(manufacturingModeStatus))
+    {
+        std::cout << "Manufacturing mode is Enabled."
+                     " Poceeding further... "
+                  << "\n";
+        return true;
+    }
+    else
+    {
+        std::cerr << "Manufacturing mode is not Enabled... "
+                     "can't Override the sensor value. "
+                  << "\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool isExtenalSensor(const std::string& objPath)
+{
+    sdbusplus::bus::bus bus = sdbusplus::bus::new_default();
+    const std::array<std::string, 1> interfaces = {
+        "xyz.openbmc_project.Sensor.Value"};
+    auto mapperCall =
+        bus.new_method_call("xyz.openbmc_project.ObjectMapper",
+                            "/xyz/openbmc_project/object_mapper",
+                            "xyz.openbmc_project.ObjectMapper", "GetSubTree");
+    mapperCall.append("/xyz/openbmc_project/sensors");
+    mapperCall.append(2);
+    mapperCall.append(interfaces);
+    auto mapperResponseMsg = bus.call(mapperCall);
+
+    std::vector<std::pair<
+        std::string,
+        std::vector<std::pair<std::string, std::vector<std::string>>>>>
+        getSubTreeType;
+    mapperResponseMsg.read(getSubTreeType);
+
+    std::string service;
+    for (const std::pair<
+             std::string,
+             std::vector<std::pair<std::string, std::vector<std::string>>>>&
+             object : getSubTreeType)
+    {
+        if (objPath.find(object.first) != std::string::npos)
+        {
+            for (const std::pair<std::string, std::vector<std::string>>&
+                     objData : object.second)
+            {
+                service = objData.first;
+            }
+        }
+    }
+    if (service.find("External") != std::string::npos)
+    {
+        return true;
+    }
+    std::cerr << "Not External Sensor, service name: " << service << "\n";
+    return false;
+}
