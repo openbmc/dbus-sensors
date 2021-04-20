@@ -169,10 +169,29 @@ struct Sensor
         }
     }
 
-    int setSensorValue(const double& newValue, double& oldValue)
+    int setSensorValue(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                       const double& newValue, double& oldValue)
     {
         if (!internalSet)
         {
+            bool settable = false;
+            if (objectType.find("ExternalSensor") != std::string::npos)
+            {
+                // always allow External and PWM Sensor
+                settable = true;
+            }
+            else
+            {
+                // intel special mode
+                settable = isSpecialMode(conn);
+            }
+
+            if (!settable)
+            {
+                throw sdbusplus::exception::SdBusError(
+                    -EACCES, "not allow set porperty value");
+            }
+
             oldValue = newValue;
             overriddenState = true;
             // check thresholds for external set
@@ -207,8 +226,9 @@ struct Sensor
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
-            "Value", value, [&](const double& newValue, double& oldValue) {
-                return setSensorValue(newValue, oldValue);
+            "Value", value,
+            [&, conn](const double& newValue, double& oldValue) {
+                return setSensorValue(conn, newValue, oldValue);
             });
         for (auto& threshold : thresholds)
         {
@@ -455,5 +475,96 @@ struct Sensor
         internalSet = true;
         updateProperty(sensorInterface, value, newValue, "Value");
         internalSet = false;
+    }
+
+    bool isOverridingAllowed(const std::string& manufacturingModeStatus)
+    {
+        if (manufacturingModeStatus == "xyz.openbmc_project.Control.Security."
+                                       "SpecialMode.Modes.Manufacturing")
+        {
+            return true;
+        }
+
+#ifdef BMC_VALIDATION_UNSECURE_FEATURE
+        if (manufacturingModeStatus == "xyz.openbmc_project.Control.Security."
+                                       "SpecialMode.Modes.ValidationUnsecure")
+        {
+            return true;
+        }
+
+#endif
+
+        return false;
+    }
+
+    bool isSpecialMode(const std::shared_ptr<sdbusplus::asio::connection>& conn)
+    {
+        auto mapperCall = conn->new_method_call(
+            "xyz.openbmc_project.ObjectMapper",
+            "/xyz/openbmc_project/object_mapper",
+            "xyz.openbmc_project.ObjectMapper", "GetSubTree");
+        mapperCall.append("/");
+        mapperCall.append(5);
+        mapperCall.append(std::vector<std::string>(
+            {"xyz.openbmc_project.Security.SpecialMode"}));
+
+        auto mapperReply = conn->call(mapperCall);
+
+        std::vector<std::pair<
+            std::string,
+            std::vector<std::pair<std::string, std::vector<std::string>>>>>
+            getSubTreeType;
+        mapperReply.read(getSubTreeType);
+
+        if (getSubTreeType.size() != 1)
+        {
+            std::cerr << "Overriding sensor value is not allowed - Internal "
+                         "error in querying SpecialMode property."
+                      << "\n";
+            return false;
+        }
+
+        std::string path = getSubTreeType[0].first;
+        std::string serviceName = getSubTreeType[0].second.begin()->first;
+
+        if (path.empty() || serviceName.empty())
+        {
+            std::cerr << "Path or service name is returned as empty. "
+                      << "\n";
+            return false;
+        }
+        auto methodCall =
+            conn->new_method_call(serviceName.c_str(), path.c_str(),
+                                  "org.freedesktop.DBus.Properties", "Get");
+        methodCall.append("xyz.openbmc_project.Security.SpecialMode",
+                          "SpecialMode");
+
+        auto mapperResponseMsg = conn->call(methodCall);
+
+        std::variant<std::string> getManufactMode;
+        mapperResponseMsg.read(getManufactMode);
+        std::string manufacturingModeStatus =
+            std::get<std::string>(getManufactMode);
+
+        if (manufacturingModeStatus.empty())
+        {
+            std::cerr << "Sensor override mode is not "
+                         "Enabled. Returning ... "
+                      << "\n";
+            return false;
+        }
+
+        if (isOverridingAllowed(manufacturingModeStatus))
+        {
+            std::cout << "Manufacturing mode is Enabled."
+                         " Poceeding further... "
+                      << "\n";
+            return true;
+        }
+        std::cerr << "Manufacturing mode is not Enabled... "
+                     "can't Override the sensor value. "
+                  << "\n";
+
+        return false;
     }
 };
