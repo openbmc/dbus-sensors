@@ -184,5 +184,6 @@ int main()
             std::string(sensorType) + "'",
         eventHandler);
 
+    manufacturingModeMatch(systemBus);
     io.run();
 }

@@ -316,3 +316,6 @@ std::optional<std::tuple<std::string, std::string, std::string>>
     splitFileName(const std::filesystem::path& filePath);
 std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
+void manufacturingModeMatch(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn);
+bool getManufacturingMode();

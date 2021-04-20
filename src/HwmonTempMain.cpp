@@ -334,5 +334,6 @@ int main()
         matches.emplace_back(std::move(match));
     }
 
+    manufacturingModeMatch(systemBus);
     io.run();
 }
