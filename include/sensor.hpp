@@ -1,4 +1,5 @@
 #pragma once
+#include "dbus-sensor_config.h"
 
 #include <SensorPaths.hpp>
 #include <Thresholds.hpp>
@@ -39,12 +40,13 @@ struct Sensor
     Sensor(const std::string& name,
            std::vector<thresholds::Threshold>&& thresholdData,
            const std::string& configurationPath, const std::string& objectType,
-           const double max, const double min,
+           bool isSettable, const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath), objectType(objectType),
-        maxValue(max), minValue(min), thresholds(std::move(thresholdData)),
+        isSensorSettable(isSettable), maxValue(max), minValue(min),
+        thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState), errCount(0),
@@ -57,6 +59,7 @@ struct Sensor
     std::string name;
     std::string configurationPath;
     std::string objectType;
+    bool isSensorSettable = false;
     double maxValue;
     double minValue;
     std::vector<thresholds::Threshold> thresholds;
@@ -173,6 +176,13 @@ struct Sensor
     {
         if (!internalSet)
         {
+            if (insecureSensorOverride == false && isSensorSettable == false &&
+                getSpModeStatus() == false)
+            {
+                throw sdbusplus::exception::SdBusError(
+                    -EACCES, "not allow set porperty value");
+            }
+
             oldValue = newValue;
             overriddenState = true;
             // check thresholds for external set
