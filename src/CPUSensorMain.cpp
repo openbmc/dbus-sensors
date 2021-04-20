@@ -771,5 +771,7 @@ int main()
     }
 
     systemBus->request_name("xyz.openbmc_project.CPUSensor");
+
+    manufacturingModeMatch(systemBus);
     io.run();
 }
