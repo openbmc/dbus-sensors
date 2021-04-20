@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "e4d47377_f147ae30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-04-20T17:35:24Z",
+      "side": 1,
+      "message": "It\u0027s been a while since I looked at this in detail so I\u0027ll need to refresh my understanding of it, but I\u0027m guessing it may have had something to do with the fact that I\u0027m dealing with a CPU SKU that has very limited PECI capabilities and doesn\u0027t support reading DIMM temps, so the sensor never reaches State::READY, only State::ON.  I\u0027ll try to dig back into this and confirm what exactly is going on.",
+      "parentUuid": "ee04ab5f_11973f2c",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "9733da2b4ae1da103622028f5bf42ff1042bfe55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "402df999_33e2e83f",
         "filename": "src/CPUSensorMain.cpp",
         "patchSetId": 1
