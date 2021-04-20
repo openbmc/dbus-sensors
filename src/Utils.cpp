@@ -14,6 +14,8 @@
 // limitations under the License.
 */
 
+#include "dbus-sensor_config.h"
+
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/flat_map.hpp>
@@ -35,6 +37,7 @@ namespace fs = std::filesystem;
 
 static bool powerStatusOn = false;
 static bool biosHasPost = false;
+static bool manufacturingMode = false;
 
 static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match::match> postMatch = nullptr;
@@ -503,4 +506,55 @@ std::optional<std::tuple<std::string, std::string, std::string>>
         }
     }
     return std::nullopt;
+}
+
+void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
+{
+    static std::unique_ptr<sdbusplus::bus::match::match>
+        setupManufacturingModeMatch = std::make_unique<
+            sdbusplus::bus::match::match>(
+            conn,
+            "type='signal',interface='org.freedesktop.DBus."
+            "Properties',member='"
+            "PropertiesChanged',arg0namespace='xyz.openbmc_project."
+            "Security.SpecialMode'",
+            [](sdbusplus::message::message& msg) {
+                std::string interfaceName;
+                boost::container::flat_map<std::string,
+                                           std::variant<std::string>>
+                    propertiesChanged;
+                std::string manufacturingModeStatus;
+
+                msg.read(interfaceName, propertiesChanged);
+                if (propertiesChanged.begin() == propertiesChanged.end())
+                {
+                    return;
+                }
+
+                manufacturingModeStatus =
+                    std::get<std::string>(propertiesChanged.begin()->second);
+                manufacturingMode = false;
+                if (manufacturingModeStatus ==
+                    "xyz.openbmc_project.Control.Security."
+                    "SpecialMode.Modes.Manufacturing")
+                {
+                    manufacturingMode = true;
+                }
+                if (validateUnsecureFeature == true)
+                {
+                    if (manufacturingModeStatus ==
+                        "xyz.openbmc_project.Control.Security."
+                        "SpecialMode.Modes.ValidationUnsecure")
+                    {
+                        manufacturingMode = true;
+                    }
+                }
+            });
+
+    return;
+}
+
+bool getManufacturingMode()
+{
+    return manufacturingMode;
 }
