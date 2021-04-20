@@ -316,3 +316,6 @@ std::optional<std::tuple<std::string, std::string, std::string>>
     splitFileName(const std::filesystem::path& filePath);
 std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
+bool isOverridingAllowed(const std::string& manufacturingModeStatus);
+bool isSpecialMode();
+bool isExtenalSensor(const std::string& objPath);
