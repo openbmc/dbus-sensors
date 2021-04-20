@@ -21,6 +21,14 @@ add_project_arguments(
     language: 'cpp',
 )
 
+if(get_option('validate-unsecure-feature').enabled())
+  add_project_arguments('-DBMC_VALIDATION_UNSECURE_FEATURE', language : 'cpp')
+endif
+
+if(get_option('insecure-sensor-override').enabled())
+  add_project_arguments('-DBMCWEB_INSECURE_UNRESTRICTED_SENSOR_OVERRIDE', language : 'cpp')
+endif
+
 build_tests = get_option('tests')
 gpiodcxx = dependency('libgpiodcxx')
 i2c = meson.get_compiler('cpp').find_library('i2c')
