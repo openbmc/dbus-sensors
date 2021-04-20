@@ -82,6 +82,16 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             {
                 return 1;
             }
+            bool settable = false;
+#ifdef BMC_INSECURE_UNRESTRICTED_SENSOR_OVERRIDE
+            //only allow fan pwm and external sensor
+            settable = true;
+#else
+            settable = isSpecialMode();
+#endif
+            if(!settable)
+                throw sdbusplus::exception::SdBusError(-EACCES, "not allow set porperty value");
+
             setValue(reqInt);
             resp = req;
 
