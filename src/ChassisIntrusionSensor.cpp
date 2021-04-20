@@ -259,6 +259,19 @@ int ChassisIntrusionSensor::setSensorValue(const std::string& req,
 {
     if (!mInternalSet)
     {
+        bool settable = false;
+#ifdef BMC_INSECURE_UNRESTRICTED_SENSOR_OVERRIDE
+        // only allow fan pwm and external sensor
+        settable = false;
+#else
+        settable = isSpecialMode();
+#endif
+        if (!settable)
+        {
+            throw sdbusplus::exception::SdBusError(
+                -EACCES, "not allow set porperty value");
+        }
+
         propertyValue = req;
         mOverridenState = true;
     }
