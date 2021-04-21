@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac10c0f8_b809ad75",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-04-21T20:51:30Z",
+      "side": 1,
+      "message": "I thought we allow external sensor override for PWM sensors and external sensors in normal model. Should it be something like\n\n```\nbool settable \u003d false;\n\n#ifdef BMCWEB_INSECURE_UNRESTRICTED_SENSOR_OVERRIDE\n  settable \u003d true\n#else\n  settable \u003d isSpecialMode() || isExtenalSensor()\n```",
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
