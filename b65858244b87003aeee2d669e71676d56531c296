@@ -16,6 +16,23 @@
       "revId": "b65858244b87003aeee2d669e71676d56531c296",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ece4d004_4f76b0a7",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-04-21T20:56:25Z",
+      "side": 1,
+      "message": "Is it possible to reuse the dbus and use async calls to keep the style consistent?",
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
