@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a34972e6_a9adcc37",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-04-21T07:53:21Z",
+      "side": 1,
+      "message": "The two implementation (gpio interrupt and polling) do share a mount of code, and they are both presence sensors, so for now I prefer to use the same class.",
+      "parentUuid": "81268df6_9eeaa2ec",
+      "range": {
+        "startLine": 206,
+        "startChar": 16,
+        "endLine": 206,
+        "endChar": 30
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1280d23_2cc373a0",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 4
@@ -142,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "ecaadd01_5a49da83",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-04-21T07:53:21Z",
+      "side": 1,
+      "message": "That\u0027s true. Do you have any suggest on how to represent this info? Maybe an extra property on Dbus/json to tell if the GPIO should use interrupt or polling?",
+      "parentUuid": "7e53880d_cf980c27",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 287,
+        "endChar": 5
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "11859e35_2fc2a7e2",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 4
@@ -162,6 +210,30 @@
       "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2e9d2bc_1a074e37",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-04-21T07:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11859e35_2fc2a7e2",
+      "range": {
+        "startLine": 312,
+        "startChar": 26,
+        "endLine": 312,
+        "endChar": 33
+      },
+      "revId": "e853b93febd64782ac32f0f766bc3f5ae70abc25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {

@@ -69,6 +69,30 @@
       "revId": "dbfcd7fea470d8af602493778a4ea8704ea20ac9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29ec46f1_9b9c7cce",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-04-21T07:53:21Z",
+      "side": 1,
+      "message": "This is actually specific to aspeed.\nOn aspeed, gpiochip0 is the \"native\" one on chip, which supports gpio interrupt.\nIf there are other GPIO chips, they are GPIO expanders on i2c that do not support interrupt.\n\nPossibly we should specify this in entity-manager\u0027s json config?",
+      "parentUuid": "5973225f_c08d8130",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 32
+      },
+      "revId": "dbfcd7fea470d8af602493778a4ea8704ea20ac9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
