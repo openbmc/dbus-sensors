@@ -101,7 +101,27 @@ IpmbSensor::~IpmbSensor()
 void IpmbSensor::init(void)
 {
     loadDefaults();
-    setInitialProperties(dbusConnection);
+    const char* unit;
+    switch (subType) {
+        case IpmbSubType::temp:
+            unit = unitDegreesC;
+            break;
+        case IpmbSubType::curr:
+            unit = unitAmperes;
+            break;
+        case IpmbSubType::power:
+            unit = unitWatts;
+            break;
+        case IpmbSubType::volt:
+            unit = unitVolts;
+            break;
+        case IpmbSubType::util:
+            unit = unitPercent;
+            break;
+        default:
+            throw std::runtime_error("Invalid sensor type");
+    }
+    setInitialProperties(dbusConnection, unit);
     if (initCommand)
     {
         runInitCmd();
