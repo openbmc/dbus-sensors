@@ -117,11 +117,24 @@ void createSensors(
                         continue;
                     }
 
+                    auto findDevName =
+                        baseConfiguration->second.find("DevName");
+                    if (findDevName != baseConfiguration->second.end())
+                    {
+                        const std::string& sName =
+                            std::get<std::string>(findDevName->second);
+                        if (deviceName != sName)
+                        {
+                            std::cerr << "failed to find match DevName "
+                                      << sName << "\n";
+                            continue;
+                        }
+                    }
                     /*
                      * Match device name with default name iio-hwmon
                      * for backward compatible
                      */
-                    if (deviceName != defaultADCName)
+                    else if (deviceName != defaultADCName)
                     {
                         continue;
                     }
