@@ -87,7 +87,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             association = objectServer.add_interface(interfacePath,
                                                      association::interface);
 
-            setInitialProperties(conn);
+            setInitialProperties(conn, sensor_paths::unitDegreesC);
         }
     }
 
