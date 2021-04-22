@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "574d456b_2131a3a8",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-22T15:48:43Z",
+      "side": 1,
+      "message": "Please base this on information in the sensor classes themselves.",
+      "range": {
+        "startLine": 184,
+        "startChar": 12,
+        "endLine": 184,
+        "endChar": 39
+      },
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ece4d004_4f76b0a7",
         "filename": "src/Utils.cpp",
         "patchSetId": 10
@@ -30,6 +53,47 @@
       "writtenOn": "2021-04-21T20:56:25Z",
       "side": 1,
       "message": "Is it possible to reuse the dbus and use async calls to keep the style consistent?",
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f411f84_eb0d5123",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-22T15:48:43Z",
+      "side": 1,
+      "message": "+1.  Please don\u0027t open up yet another bus connection just to use this.",
+      "parentUuid": "ece4d004_4f76b0a7",
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79871508_1ee934f4",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-22T15:48:43Z",
+      "side": 1,
+      "message": "?  Why does this code need to exist.  ExternalSensor is determined by code in this repo.  Just have ExternalSensor skip the check, and other sensors keep the check.  THere\u0027s no need to ask the mapper.",
+      "range": {
+        "startLine": 599,
+        "startChar": 0,
+        "endLine": 640,
+        "endChar": 1
+      },
       "revId": "b65858244b87003aeee2d669e71676d56531c296",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
