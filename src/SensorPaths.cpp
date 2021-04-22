@@ -9,8 +9,14 @@ namespace sensor_paths
 // with
 // phosphor-dbus-interfaces/blob/master/xyz/openbmc_project/Sensor/Value.interface.yaml#L35
 
-std::string getPathForUnits(const std::string& units)
+std::string getPathForUnits(const std::string& fullUnits)
 {
+    // So we can accept either "xyz.openbmc_project.Sensor.Value.Unit.Foo" or
+    // just a bare "Foo"
+    size_t lastDot = fullUnits.find_last_of('.');
+    size_t unitStart = (lastDot == std::string::npos) ? 0 : lastDot + 1;
+    const std::string& units = fullUnits.substr(unitStart);
+
     if (units == "DegreesC")
     {
         return "temperature";
