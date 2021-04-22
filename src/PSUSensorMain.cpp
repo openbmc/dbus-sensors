@@ -40,7 +40,7 @@
 
 static constexpr bool debug = false;
 
-static constexpr std::array<const char*, 23> sensorTypes = {
+static constexpr std::array<const char*, 24> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADM1272",
     "xyz.openbmc_project.Configuration.ADM1275",
     "xyz.openbmc_project.Configuration.ADM1278",
@@ -52,6 +52,7 @@ static constexpr std::array<const char*, 23> sensorTypes = {
     "xyz.openbmc_project.Configuration.ISL68223",
     "xyz.openbmc_project.Configuration.ISL69243",
     "xyz.openbmc_project.Configuration.ISL69260",
+    "xyz.openbmc_project.Configuration.LM25066",
     "xyz.openbmc_project.Configuration.MAX16601",
     "xyz.openbmc_project.Configuration.MAX20710",
     "xyz.openbmc_project.Configuration.MAX20730",
@@ -66,10 +67,10 @@ static constexpr std::array<const char*, 23> sensorTypes = {
     "xyz.openbmc_project.Configuration.TPS546D24"};
 
 static std::vector<std::string> pmbusNames = {
-    "adm1272",  "adm1275",   "adm1278",   "dps800",    "ina219",   "ina230",
-    "isl68137", "isl68220",  "isl68223",  "isl69243",  "isl69260", "max16601",
-    "max20710", "max20730",  "max20734",  "max20796",  "max34451", "pmbus",
-    "pxe1610",  "raa228000", "raa228228", "raa229004", "tps546d24"};
+    "adm1272",  "adm1275",  "adm1278",   "dps800",    "ina219",    "ina230",
+    "isl68137", "isl68220", "isl68223",  "isl69243",  "isl69260",  "lm25066",
+    "max16601", "max20710", "max20730",  "max20734",  "max20796",  "max34451",
+    "pmbus",    "pxe1610",  "raa228000", "raa228228", "raa229004", "tps546d24"};
 
 namespace fs = std::filesystem;
 
@@ -907,6 +908,7 @@ void propertyInitialize(void)
                   {"vout30", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout31", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"vout32", PSUProperty("Output Voltage", 255, 0, 3)},
+                  {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3)},
                   {"in1", PSUProperty("Output Voltage", 255, 0, 3)},
                   {"iin", PSUProperty("Input Current", 20, 0, 3)},
                   {"iout1", PSUProperty("Output Current", 255, 0, 3)},
