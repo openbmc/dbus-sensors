@@ -70,7 +70,7 @@ HwmonTempSensor::HwmonTempSensor(
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);
-    setInitialProperties(conn);
+    setInitialProperties(conn, unitDegreesC);
 }
 
 HwmonTempSensor::~HwmonTempSensor()

@@ -10,6 +10,12 @@
 #include <string>
 #include <utility>
 
+struct SensorMetadata
+{
+    std::string type;
+    std::string unit;
+};
+
 class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 {
   public:
@@ -19,7 +25,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               boost::asio::io_service& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
-              std::string& sensorTypeName, unsigned int factor, double max,
+              const SensorMetadata& sensorMeta, unsigned int factor, double max,
               double min, const std::string& label, size_t tSize);
     ~PSUSensor() override;
     void setupRead(void);

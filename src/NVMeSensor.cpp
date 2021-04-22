@@ -462,7 +462,7 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);
 
-    setInitialProperties(conn);
+    setInitialProperties(conn, unitDegreesC);
 }
 
 NVMeSensor::~NVMeSensor()
