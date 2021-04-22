@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7b6c9351_bcc65362",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-04-22T02:58:33Z",
+      "side": 1,
+      "message": "More likely due to me misinterpreting the behavior I saw -- the CPU I\u0027m dealing with doesn\u0027t support reporting DIMM temperatures, so detectCpu() never sets config.state \u003d State::READY, and it just keeps pinging continuously.",
+      "parentUuid": "d0e84ce6_55419f6a",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "9733da2b4ae1da103622028f5bf42ff1042bfe55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0755b4f1_f9a372be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2021-04-20T17:21:00Z",
       "side": 1,
       "message": "what is \"they\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "9733da2b4ae1da103622028f5bf42ff1042bfe55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1a794ce_aae3a603",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-04-22T02:58:33Z",
+      "side": 1,
+      "message": "That was referring to the sensors mentioned in the subject line, though perhaps conflating the sensor with the dbus_interface a bit.",
+      "parentUuid": "0755b4f1_f9a372be",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -83,6 +131,30 @@
       "side": 1,
       "message": "It\u0027s been a while since I looked at this in detail so I\u0027ll need to refresh my understanding of it, but I\u0027m guessing it may have had something to do with the fact that I\u0027m dealing with a CPU SKU that has very limited PECI capabilities and doesn\u0027t support reading DIMM temps, so the sensor never reaches State::READY, only State::ON.  I\u0027ll try to dig back into this and confirm what exactly is going on.",
       "parentUuid": "ee04ab5f_11973f2c",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "9733da2b4ae1da103622028f5bf42ff1042bfe55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d400e314_c4f0e18f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-04-22T02:58:33Z",
+      "side": 1,
+      "message": "So yeah, I think this was an effect of the combination of the continuous pinging and the value-instead-of-reference bug -- the sensor wasn\u0027t ever really \"undetected\", but the host shutting down causes the PECI_IOC_PING on line 474 to fail, leading to the state getting reset to State::OFF, and then when the host comes back up and the state transitions back to State::ON, the following createSensors() call blew up trying to add another instance of the Inventory.Item interface on an object that already had it (which it attempted because the interface wasn\u0027t properly added to inventoryIfaces to start with).",
+      "parentUuid": "e4d47377_f147ae30",
       "range": {
         "startLine": 10,
         "startChar": 22,
@@ -171,6 +243,30 @@
       "side": 1,
       "message": "\u003e But we only reach this point if inventoryIfaces[cpu.name] is null\n\nthe item was null on line 147, then it becomes non-null on line 151.  With that said, I think I see the bug.  line 145 needs to be a shared_ptr reference, not a value.  Value is going to make a copy of the internals, which is not what this method is trying to do.\n\n\u003e (if it\u0027s not, we\u0027d have continued to the next CPUConfig), and then only after reassigning iface from objectServer.add_interface(...).",
       "parentUuid": "887ee41c_9e6a5081",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 57
+      },
+      "revId": "9733da2b4ae1da103622028f5bf42ff1042bfe55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb9e74e3_06a700e9",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-04-22T02:58:33Z",
+      "side": 1,
+      "message": "\u003e line 145 needs to be a shared_ptr reference, not a value.\n\nI just gave this a test (in isolation) and can confirm it avoids the crash I\u0027d been hitting.",
+      "parentUuid": "804ab2db_b70b6787",
       "range": {
         "startLine": 157,
         "startChar": 0,
