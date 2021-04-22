@@ -56,9 +56,11 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
         {
             auto& [type, nr, item] = *fileParts;
             std::string interfacePath;
+            const char* units;
             if (type.compare("power") == 0)
             {
                 interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
+                units = sensor_paths::unitWatts;
                 minValue = 0;
                 maxValue = 511;
             }
@@ -66,6 +68,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             {
                 interfacePath =
                     "/xyz/openbmc_project/sensors/temperature/" + name;
+                units = sensor_paths::unitDegreesC;
                 minValue = -128;
                 maxValue = 127;
             }
@@ -87,7 +90,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             association = objectServer.add_interface(interfacePath,
                                                      association::interface);
 
-            setInitialProperties(conn);
+            setInitialProperties(conn, units);
         }
     }
 

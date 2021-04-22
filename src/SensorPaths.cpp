@@ -1,3 +1,5 @@
+#include <SensorPaths.hpp>
+
 #include <cstring>
 #include <regex>
 #include <string>
@@ -11,35 +13,35 @@ namespace sensor_paths
 
 std::string getPathForUnits(const std::string& units)
 {
-    if (units == "DegreesC")
+    if (units == "DegreesC" || units == unitDegreesC)
     {
         return "temperature";
     }
-    if (units == "RPMS")
+    if (units == "RPMS" || units == unitRPMs)
     {
         return "fan_tach";
     }
-    if (units == "Volts")
+    if (units == "Volts" || units == unitVolts)
     {
         return "voltage";
     }
-    if (units == "Meters")
+    if (units == "Meters" || units == unitMeters)
     {
         return "altitude";
     }
-    if (units == "Amperes")
+    if (units == "Amperes" || units == unitAmperes)
     {
         return "current";
     }
-    if (units == "Watts")
+    if (units == "Watts" || units == unitWatts)
     {
         return "power";
     }
-    if (units == "Joules")
+    if (units == "Joules" || units == unitJoules)
     {
         return "energy";
     }
-    if (units == "Percent")
+    if (units == "Percent" || units == unitPercent)
     {
         return "Utilization";
     }

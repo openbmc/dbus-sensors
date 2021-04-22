@@ -70,7 +70,7 @@ ExternalSensor::ExternalSensor(
 
     association =
         objectServer.add_interface(objectPath, association::interface);
-    setInitialProperties(conn);
+    setInitialProperties(conn, sensorUnits);
 
     if constexpr (debug)
     {

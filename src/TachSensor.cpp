@@ -97,7 +97,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                  "/xyz/openbmc_project/sensors/fan_tach/" + name}});
         itemAssoc->initialize();
     }
-    setInitialProperties(conn);
+    setInitialProperties(conn, sensor_paths::unitRPMs);
     setupRead();
 }
 

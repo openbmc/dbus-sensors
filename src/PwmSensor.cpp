@@ -107,6 +107,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     // pwm sensor interface is in percent
     sensorInterface->register_property("MaxValue", static_cast<int64_t>(100));
     sensorInterface->register_property("MinValue", static_cast<int64_t>(0));
+    sensorInterface->register_property("Unit", sensor_paths::unitPercent);
 
     controlInterface = objectServer.add_interface(
         "/xyz/openbmc_project/control/fanpwm/" + name,
