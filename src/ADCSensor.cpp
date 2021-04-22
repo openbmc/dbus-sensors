@@ -80,7 +80,7 @@ ADCSensor::ADCSensor(const std::string& path,
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
-    setInitialProperties(conn);
+    setInitialProperties(conn, sensor_paths::unitVolts);
 }
 
 ADCSensor::~ADCSensor()

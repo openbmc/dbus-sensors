@@ -87,6 +87,7 @@ struct IpmbSensor : public Sensor
     void checkThresholds(void) override;
     void read(void);
     void init(void);
+    std::string getSubTypeUnits(void);
     void loadDefaults(void);
     void runInitCmd(void);
     bool processReading(const std::vector<uint8_t>& data, double& resp);

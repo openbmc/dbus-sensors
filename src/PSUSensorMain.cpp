@@ -772,8 +772,8 @@ static void createSensorsCallback(
                           << sensorNameSubStr << "\n";
             }
 
-            auto findSensorType = sensorTable.find(sensorNameSubStr);
-            if (findSensorType == sensorTable.end())
+            auto findSensorUnit = sensorTable.find(sensorNameSubStr);
+            if (findSensorUnit == sensorTable.end())
             {
                 std::cerr << sensorNameSubStr
                           << " is not a recognized sensor type\n";
@@ -819,7 +819,7 @@ static void createSensorsCallback(
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
-                findSensorType->second, factor, psuProperty->maxReading,
+                findSensorUnit->second, factor, psuProperty->maxReading,
                 psuProperty->minReading, labelHead, thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
@@ -862,11 +862,11 @@ void createSensors(
 
 void propertyInitialize(void)
 {
-    sensorTable = {{"power", "power/"},
-                   {"curr", "current/"},
-                   {"temp", "temperature/"},
-                   {"in", "voltage/"},
-                   {"fan", "fan_tach/"}};
+    sensorTable = {{"power", sensor_paths::unitWatts},
+                   {"curr", sensor_paths::unitAmperes},
+                   {"temp", sensor_paths::unitDegreesC},
+                   {"in", sensor_paths::unitVolts},
+                   {"fan", sensor_paths::unitRPMs}};
 
     labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},

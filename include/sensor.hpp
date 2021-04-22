@@ -194,6 +194,7 @@ struct Sensor
 
     void
         setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                             const std::string& unit,
                              const std::string& label = std::string(),
                              size_t thresholdSize = 0)
     {
@@ -204,6 +205,7 @@ struct Sensor
 
         createAssociation(association, configurationPath);
 
+        sensorInterface->register_property("Unit", unit);
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
