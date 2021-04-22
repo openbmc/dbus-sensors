@@ -41,7 +41,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration,
-                     std::string& sensorTypeName, unsigned int factor,
+                     const SensorMetadata& sensorMeta, unsigned int factor,
                      double max, double min, const std::string& label,
                      size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
@@ -55,7 +55,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     {
         std::cerr << "Constructed sensor: path " << path << " type "
                   << objectType << " config " << sensorConfiguration
-                  << " typename " << sensorTypeName << " factor " << factor
+                  << " typename " << sensorMeta.type << " factor " << factor
                   << " min " << min << " max " << max << " name \""
                   << sensorName << "\"\n";
     }
@@ -68,7 +68,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     }
     inputDev.assign(fd);
 
-    std::string dbusPath = sensorPathPrefix + sensorTypeName + name;
+    std::string dbusPath = sensorPathPrefix + sensorMeta.type + name;
 
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
@@ -89,11 +89,11 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     // register and initialize "Associations" property.
     if (label.empty() || tSize == thresholds.size())
     {
-        setInitialProperties(conn);
+        setInitialProperties(conn, sensorMeta.unit);
     }
     else
     {
-        setInitialProperties(conn, label, tSize);
+        setInitialProperties(conn, sensorMeta.unit, label, tSize);
     }
 
     association = objectServer.add_interface(dbusPath, association::interface);
