@@ -98,10 +98,29 @@ IpmbSensor::~IpmbSensor()
     objectServer.remove_interface(association);
 }
 
+std::string IpmbSensor::getSubTypeUnits(void)
+{
+    switch (subType)
+    {
+        case IpmbSubType::temp:
+            return sensor_paths::unitDegreesC;
+        case IpmbSubType::curr:
+            return sensor_paths::unitAmperes;
+        case IpmbSubType::power:
+            return sensor_paths::unitWatts;
+        case IpmbSubType::volt:
+            return sensor_paths::unitVolts;
+        case IpmbSubType::util:
+            return sensor_paths::unitPercent;
+        default:
+            throw std::runtime_error("Invalid sensor type");
+    }
+}
+
 void IpmbSensor::init(void)
 {
     loadDefaults();
-    setInitialProperties(dbusConnection);
+    setInitialProperties(dbusConnection, getSubTypeUnits());
     if (initCommand)
     {
         runInitCmd();
