@@ -79,7 +79,7 @@ static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
     combineEvents;
 static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
-static boost::container::flat_map<std::string, std::string> sensorTable;
+static boost::container::flat_map<std::string, SensorMetadata> sensorTable;
 static boost::container::flat_map<std::string, PSUProperty> labelMatch;
 static boost::container::flat_map<std::string, std::string> pwmTable;
 static boost::container::flat_map<std::string, std::vector<std::string>>
@@ -861,11 +861,11 @@ void createSensors(
 
 void propertyInitialize(void)
 {
-    sensorTable = {{"power", "power/"},
-                   {"curr", "current/"},
-                   {"temp", "temperature/"},
-                   {"in", "voltage/"},
-                   {"fan", "fan_tach/"}};
+    sensorTable = {{"power", {"power/", unitWatts}},
+                   {"curr", {"current/", unitAmperes}},
+                   {"temp", {"temperature/", unitDegreesC}},
+                   {"in", {"voltage/", unitVolts}},
+                   {"fan", {"fan_tach/", unitRPMs}}};
 
     labelMatch = {{"pin", PSUProperty("Input Power", 3000, 0, 6)},
                   {"pout1", PSUProperty("Output Power", 3000, 0, 6)},

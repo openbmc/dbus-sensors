@@ -95,7 +95,7 @@ MCUTempSensor::~MCUTempSensor()
 
 void MCUTempSensor::init(void)
 {
-    setInitialProperties(dbusConnection);
+    setInitialProperties(dbusConnection, unitDegreesC);
     read();
 }
 

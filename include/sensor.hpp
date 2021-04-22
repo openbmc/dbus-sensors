@@ -23,6 +23,25 @@ constexpr const char* operationalInterfaceName =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
 constexpr const size_t errorThreshold = 5;
 
+constexpr const char* unitDegreesC =
+    "xyz.openbmc_project.Sensor.Value.Unit.DegreesC";
+constexpr const char* unitRPMs =
+    "xyz.openbmc_project.Sensor.Value.Unit.RPMS";
+constexpr const char* unitVolts =
+    "xyz.openbmc_project.Sensor.Value.Unit.Volts";
+constexpr const char* unitMeters =
+    "xyz.openbmc_project.Sensor.Value.Unit.Meters";
+constexpr const char* unitAmperes =
+    "xyz.openbmc_project.Sensor.Value.Unit.Amperes";
+constexpr const char* unitWatts =
+    "xyz.openbmc_project.Sensor.Value.Unit.Watts";
+constexpr const char* unitJoules =
+    "xyz.openbmc_project.Sensor.Value.Unit.Joules";
+constexpr const char* unitPercent =
+    "xyz.openbmc_project.Sensor.Value.Unit.Percent";
+constexpr const char* unitCFM =
+    "xyz.openbmc_project.Sensor.Value.Unit.CFM";
+
 struct SensorInstrumentation
 {
     // These are for instrumentation for debugging
@@ -194,6 +213,7 @@ struct Sensor
 
     void
         setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                             const std::string& unit,
                              const std::string& label = std::string(),
                              size_t thresholdSize = 0)
     {
@@ -204,6 +224,7 @@ struct Sensor
 
         createAssociation(association, configurationPath);
 
+        sensorInterface->register_property("Unit", unit);
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
