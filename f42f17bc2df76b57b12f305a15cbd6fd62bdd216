@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba571232_7d547dca",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-22T21:50:29Z",
+      "side": 1,
+      "message": "If we\u0027re going to create a class like this, I\u0027d prefer it holds more than just type and units (also, can\u0027t we look up units from type, or vice versa?)",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "f42f17bc2df76b57b12f305a15cbd6fd62bdd216",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c81e1b6_d5e01d3a",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-22T21:50:29Z",
+      "side": 1,
+      "message": "I thought we already had this in an existing method somewhere that we had to build when we did external sensor.  I\u0027d really prefer it live next to there so at least we keep all the unit things in one spot.\n\nFound it, I realize it\u0027s not the best namespace, but lets put it here:\n\nhttps://github.com/openbmc/dbus-sensors/blob/6cb732a31b7664089124b00e806311768bc24a87/src/SensorPaths.cpp#L12",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 76
+      },
+      "revId": "f42f17bc2df76b57b12f305a15cbd6fd62bdd216",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a64e9fbd_cc9c0bd2",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-22T21:50:29Z",
+      "side": 1,
+      "message": "This seems pretty clean.",
+      "revId": "f42f17bc2df76b57b12f305a15cbd6fd62bdd216",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4192b7b_2492c82e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-22T21:50:29Z",
+      "side": 1,
+      "message": "nit, please put this in its own method.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 5
+      },
+      "revId": "f42f17bc2df76b57b12f305a15cbd6fd62bdd216",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
