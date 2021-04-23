@@ -136,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "34f3a0f6_62308aa6",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-04-23T19:20:16Z",
+      "side": 1,
+      "message": "Ah thanks, good point -- fixed in latest revision.",
+      "parentUuid": "2f2c96fb_887c9e01",
+      "range": {
+        "startLine": 90,
+        "startChar": 38,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "revId": "f42f17bc2df76b57b12f305a15cbd6fd62bdd216",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4192b7b_2492c82e",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
