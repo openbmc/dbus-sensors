@@ -113,6 +113,29 @@
     },
     {
       "key": {
+        "uuid": "2f2c96fb_887c9e01",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-23T19:01:03Z",
+      "side": 1,
+      "message": "different unit for power case (line59)",
+      "range": {
+        "startLine": 90,
+        "startChar": 38,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "revId": "f42f17bc2df76b57b12f305a15cbd6fd62bdd216",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4192b7b_2492c82e",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
