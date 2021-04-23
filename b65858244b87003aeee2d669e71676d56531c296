@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f54cda58_dc3c2967",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-04-23T07:55:20Z",
+      "side": 1,
+      "message": "modified",
+      "parentUuid": "ac10c0f8_b809ad75",
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "574d456b_2131a3a8",
         "filename": "include/sensor.hpp",
         "patchSetId": 10
@@ -39,6 +57,30 @@
       "revId": "b65858244b87003aeee2d669e71676d56531c296",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc3ae694_d3a893dd",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-04-23T07:55:20Z",
+      "side": 1,
+      "message": "modified as suggested",
+      "parentUuid": "574d456b_2131a3a8",
+      "range": {
+        "startLine": 184,
+        "startChar": 12,
+        "endLine": 184,
+        "endChar": 39
+      },
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -77,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "c0d62c6e_960a1e66",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-04-23T07:55:20Z",
+      "side": 1,
+      "message": "modified as suggested",
+      "parentUuid": "5f411f84_eb0d5123",
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79871508_1ee934f4",
         "filename": "src/Utils.cpp",
         "patchSetId": 10
@@ -97,6 +157,30 @@
       "revId": "b65858244b87003aeee2d669e71676d56531c296",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5878ef6e_01badec4",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-04-23T07:55:20Z",
+      "side": 1,
+      "message": "modified as suggested",
+      "parentUuid": "79871508_1ee934f4",
+      "range": {
+        "startLine": 599,
+        "startChar": 0,
+        "endLine": 640,
+        "endChar": 1
+      },
+      "revId": "b65858244b87003aeee2d669e71676d56531c296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
