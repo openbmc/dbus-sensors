@@ -180,6 +180,25 @@ if get_option('psu').enabled()
     )
 endif
 
+if get_option('ampere-cpu').enabled()
+    executable(
+        'amperecpusensor',
+        'AmpereCPU.cpp',
+        'AmpereCPUMain.cpp',
+        dependencies: [
+            sdbusplus,
+        ],
+        cpp_args: uring_args,
+        implicit_include_directories: false,
+        include_directories: '../include',
+        install: true,
+        link_with: [
+            thresholds_a,
+            utils_a,
+        ],
+    )
+endif
+
 if get_option('external').enabled()
     executable(
         'externalsensor',
