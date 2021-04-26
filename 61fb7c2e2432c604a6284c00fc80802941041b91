@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65343aeb_d7a3bb1a",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-26T16:24:33Z",
+      "side": 1,
+      "message": "It is not clear to me, when iface will be nullptr.\nIs it only when key cpu.name does not exist in the map? \nIs it better to use inventoryIfaces.find(cpu.name) \u003d\u003d inventoryIfaces.end() and then emplace or move (line 651-661)? \n@Ed Tanous",
+      "range": {
+        "startLine": 145,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 32
+      },
+      "revId": "61fb7c2e2432c604a6284c00fc80802941041b91",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
