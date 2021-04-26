@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48ea8197_b85d1cc2",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-26T19:17:53Z",
+      "side": 1,
+      "message": "Please just do direct matching.  Change the cases below to add xyz.openbmc_project.Sensor.Value.Unit.DegreesC, ect.\n\nand remove this code.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 59
+      },
+      "revId": "f9f713c4a9278ff34809985b201e00950e2a5ed1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
