@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8ad0501_64998502",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-04-26T04:33:43Z",
+      "side": 1,
+      "message": "nit: indent",
+      "range": {
+        "startLine": 192,
+        "startChar": 16,
+        "endLine": 192,
+        "endChar": 18
+      },
+      "revId": "d7fb4dbbdfcebe1096c3915ed4d7041f0397e895",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
