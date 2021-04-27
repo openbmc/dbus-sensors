@@ -311,6 +311,8 @@ int main()
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
+    auto cpuSensorsChanged =
+        std::make_shared<boost::container::flat_set<std::string>>();
     io.post([&]() {
         createSensors(io, objectServer, sensors, systemBus, nullptr);
     });
@@ -345,6 +347,7 @@ int main()
 
     std::function<void(sdbusplus::message::message&)> cpuPresenceHandler =
         [&](sdbusplus::message::message& message) {
+            cpuSensorsChanged->insert(message.get_path());
             std::string path = message.get_path();
             boost::to_lower(path);
 
@@ -386,7 +389,8 @@ int main()
                     std::cerr << "timer error\n";
                     return;
                 }
-                createSensors(io, objectServer, sensors, systemBus, nullptr);
+                createSensors(io, objectServer, sensors, systemBus,
+                              cpuSensorsChanged);
             });
         };
 
