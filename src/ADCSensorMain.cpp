@@ -77,7 +77,6 @@ void createSensors(
         std::move([&io, &objectServer, &sensors, &dbusConnection,
                    sensorsChanged](
                       const ManagedObjectType& sensorConfigurations) {
-            bool firstScan = sensorsChanged == nullptr;
             std::vector<fs::path> paths;
             if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)",
                            paths))
@@ -176,24 +175,34 @@ void createSensors(
 
                 // on rescans, only update sensors we were signaled by
                 auto findSensor = sensors.find(sensorName);
-                if (!firstScan && findSensor != sensors.end())
+                if (findSensor != sensors.end())
                 {
-                    bool found = false;
-                    for (auto it = sensorsChanged->begin();
-                         it != sensorsChanged->end(); it++)
-                    {
-                        if (findSensor->second &&
-                            boost::ends_with(*it, findSensor->second->name))
-                        {
-                            sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
+                    // Since the sensor is found in 'sensors', it has been
+                    // created already, do not need to be re-created.
+                    if (sensorsChanged == nullptr)
                     {
                         continue;
+                    }
+                    // On rescans, only update sensors we were signaled by.
+                    else
+                    {
+                        bool found = false;
+                        for (auto it = sensorsChanged->begin();
+                             it != sensorsChanged->end(); it++)
+                        {
+                            if (findSensor->second &&
+                                boost::ends_with(*it, findSensor->second->name))
+                            {
+                                sensorsChanged->erase(it);
+                                findSensor->second = nullptr;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found)
+                        {
+                            continue;
+                        }
                     }
                 }
                 std::vector<thresholds::Threshold> sensorThresholds;
