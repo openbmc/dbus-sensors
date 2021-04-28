@@ -33,5 +33,6 @@ class HwmonTempSensor :
     unsigned int sensorPollMs;
 
     void handleResponse(const boost::system::error_code& err);
+    void restartRead();
     void checkThresholds(void) override;
 };
