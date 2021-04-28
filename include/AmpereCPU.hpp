@@ -2,7 +2,7 @@
 
 #include <Thresholds.hpp>
 #include <boost/asio/random_access_file.hpp>
-#include <sdbusplus/asio/object_server.hpp>
+#include <gpiod.hpp>
 #include <sensor.hpp>
 
 #include <array>
@@ -58,3 +58,75 @@ class AmpereCPUProperty
     double minReading;
     double sensorScaleFactor;
 };
+
+// this is added to AmpereCPU.hpp to avoid having every sensor have to link
+// against libgpiod, if another sensor needs it we may move it to utils
+inline bool cpuPresence(const SensorData& sensorData)
+{
+    std::string gpioName;
+    bool activeHigh = true;
+    bool matchedPresenceGpio = false;
+
+    for (const SensorBaseConfiguration& suppConfig : sensorData)
+    {
+        if (suppConfig.first.find("PresenceGpio") == std::string::npos)
+        {
+            continue;
+        }
+        auto findName = suppConfig.second.find("Name");
+        if (findName == suppConfig.second.end())
+        {
+            std::cerr << "No name defined\n";
+            return false;
+        }
+
+        gpioName = std::visit(VariantToStringVisitor(), findName->second);
+        if (gpioName.empty())
+        {
+            std::cerr << "No PresenceGpio Name setting.\n";
+            return false;
+        }
+
+        auto findPolarity = suppConfig.second.find("Polarity");
+        if (findPolarity == suppConfig.second.end())
+        {
+            std::cerr << "No PresenceGpio Polarity setting.\n";
+            return false;
+        }
+
+        if (std::string("Low") ==
+            std::visit(VariantToStringVisitor(), findPolarity->second))
+        {
+            activeHigh = false;
+        }
+        matchedPresenceGpio = true;
+        break;
+    }
+    /* Set CPU presence to true for soc don't have PresenceGpio setting */
+    if (!matchedPresenceGpio)
+    {
+        return true;
+    }
+
+    auto line = gpiod::find_line(gpioName);
+    if (!line)
+    {
+        std::cerr << "Error requesting gpio: " << gpioName << "\n";
+        return false;
+    }
+
+    bool resp = false;
+    try
+    {
+        line.request({"socsensor", gpiod::line_request::DIRECTION_INPUT,
+                      activeHigh ? 0 : gpiod::line_request::FLAG_ACTIVE_LOW});
+        resp = (line.get_value() != 0);
+    }
+    catch (std::system_error&)
+    {
+        std::cerr << "Error reading gpio: " << gpioName << "\n";
+        return false;
+    }
+
+    return resp;
+}
