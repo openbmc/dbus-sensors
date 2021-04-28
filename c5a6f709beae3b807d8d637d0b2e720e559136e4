@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fbde01b_13cbe784",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-28T20:16:47Z",
+      "side": 1,
+      "message": "I saw these are removed out of bmcweb with linked Gerrit review. How are these beging set now?",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 11,
+        "endChar": 122
+      },
+      "revId": "c5a6f709beae3b807d8d637d0b2e720e559136e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
