@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73f4135d_bf8d9922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-28T22:22:03Z",
+      "side": 1,
+      "message": "This can be an performance improvement, but shouldn\u0027t be the fix for the below problem you pointed out.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "f3db89ad242408c0e21ebaf8b873772564a14280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f01a031_673048c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-28T22:22:03Z",
+      "side": 1,
+      "message": "lifetime should be managed correctly that the objects can be destructed anytime and recreated without undefined behavior.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 70
+      },
+      "revId": "f3db89ad242408c0e21ebaf8b873772564a14280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
