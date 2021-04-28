@@ -388,8 +388,6 @@ void ThresholdTimer::startTimer(const Threshold& threshold, bool assert,
     pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
     pair->second.async_wait([this, pair, threshold, assert,
                              assertValue](boost::system::error_code ec) {
-        pair->first.used = false;
-
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
@@ -399,6 +397,7 @@ void ThresholdTimer::startTimer(const Threshold& threshold, bool assert,
             std::cerr << "timer error: " << ec.message() << "\n";
             return;
         }
+        pair->first.used = false;
         if (sensor->readingStateGood())
         {
             assertThresholds(sensor, assertValue, threshold.level,
