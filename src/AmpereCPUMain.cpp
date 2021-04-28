@@ -47,6 +47,9 @@ static boost::container::flat_map<std::string, std::shared_ptr<AmpereCPUSensor>>
 static boost::container::flat_map<std::string, std::string> sensorTable;
 static boost::container::flat_map<std::string, AmpereCPUProperty> propMatch;
 static std::vector<AmpereCPUProperty> socProperties;
+boost::container::flat_map<std::string,
+                           std::shared_ptr<sdbusplus::asio::dbus_interface>>
+    inventoryIfaces;
 static std::regex i2cDevRegex(R"((\d+)-([a-fA-F0-9]+))");
 
 static bool createdSensors = false;
@@ -375,6 +378,24 @@ static bool matchSensor(
     return true;
 }
 
+bool addSoCInventory(sdbusplus::asio::object_server& objectServer,
+                     const std::string& name, bool present)
+{
+    std::string socName = std::regex_replace(name, illegalDbusRegex, "_");
+    if (inventoryIfaces.find(socName) == inventoryIfaces.end())
+    {
+        auto iface = objectServer.add_interface(
+            cpuInventoryPath + std::string("/") + socName,
+            "xyz.openbmc_project.Inventory.Item");
+        iface->register_property("PrettyName", socName);
+        iface->register_property("Present", present);
+        iface->initialize();
+        inventoryIfaces[socName] = std::move(iface);
+    }
+
+    return true;
+}
+
 static bool parseSensorConfig(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -394,6 +415,10 @@ static bool parseSensorConfig(
                   << interfacePath << "\n";
         return false;
     }
+
+    addSoCInventory(objectServer,
+                    std::visit(VariantToStringVisitor(), findSOCName->second),
+                    cpuIsPresent(sensorData));
 
     if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
     {
