@@ -3,6 +3,7 @@
 #include <PwmSensor.hpp>
 #include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
+#include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
@@ -58,3 +59,83 @@ class SoCProperty
     double minReading;
     unsigned int sensorScaleFactor;
 };
+
+// this is added to socsensor.hpp to avoid having every sensor have to link
+// against libgpiod, if another sensor needs it we may move it to utils
+inline bool cpuIsPresent(const SensorData* sensorData)
+{
+    std::string gpioName = "";
+    bool activeHigh = true;
+    bool matchedPolarity = false;
+    bool matchedPresenceGpio = false;
+    static boost::container::flat_map<std::string, bool> cpuPresence;
+
+    for (const SensorBaseConfiguration& suppConfig : *sensorData)
+    {
+        if (suppConfig.first.find("PresenceGpio") != std::string::npos)
+        {
+            auto findName = suppConfig.second.find("Name");
+            if (findName != suppConfig.second.end())
+            {
+                matchedPresenceGpio = true;
+                gpioName =
+                    std::visit(VariantToStringVisitor(), findName->second);
+                auto findPolarity = suppConfig.second.find("Polarity");
+                if (findPolarity != suppConfig.second.end())
+                {
+                    matchedPolarity = true;
+                    if (std::string("Low") ==
+                        std::visit(VariantToStringVisitor(),
+                                   findPolarity->second))
+                    {
+                        activeHigh = false;
+                    }
+                }
+            }
+            break;
+        }
+    }
+    /* Set CPU present to true for soc don't have PresenceGpio setting */
+    if (!matchedPresenceGpio)
+    {
+        std::cerr << "No PresenceGpio setting." << std::endl;
+        return true;
+    }
+
+    /* Set CPU present to false when there is no Gpio name setting */
+    if (gpioName.empty())
+    {
+        std::cerr << "No PresenceGpio Name setting." << std::endl;
+        return false;
+    }
+
+    /* Set CPU present to false when there is no Polarity setting */
+    if (!matchedPolarity)
+    {
+        std::cerr << "No PresenceGpio Polarity setting." << std::endl;
+        return false;
+    }
+
+    auto line = gpiod::find_line(gpioName);
+    if (!line)
+    {
+        std::cerr << "Error requesting gpio: " << gpioName << "\n";
+        return false;
+    }
+
+    bool resp;
+    try
+    {
+        line.request({"socsensor", gpiod::line_request::DIRECTION_INPUT,
+                      activeHigh ? 0 : gpiod::line_request::FLAG_ACTIVE_LOW});
+        resp = line.get_value();
+    }
+    catch (std::system_error&)
+    {
+        std::cerr << "Error reading gpio: " << gpioName << "\n";
+        return false;
+    }
+    cpuPresence[gpioName] = resp;
+
+    return resp;
+}

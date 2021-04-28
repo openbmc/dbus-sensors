@@ -51,6 +51,10 @@ static boost::container::flat_map<std::string, std::shared_ptr<CPUSensor>>
 static boost::container::flat_map<std::string, std::string> sensorTable;
 static boost::container::flat_map<std::string, SoCProperty> propMatch;
 static boost::container::flat_map<std::string, int> numCPUSensors;
+boost::container::flat_map<std::string,
+                           std::shared_ptr<sdbusplus::asio::dbus_interface>>
+    inventoryIfaces;
+std::vector<std::string> socInventNames;
 
 static std::vector<SoCProperty> socProperties;
 static std::regex i2cDevRegex(R"((\d+)-([a-fA-F0-9]+))");
@@ -514,6 +518,25 @@ static bool matchSensor(
     return true;
 }
 
+bool addSoCInventory(sdbusplus::asio::object_server& objectServer,
+                     const std::string& name, bool present)
+{
+    std::string socName = std::regex_replace(name, illegalDbusRegex, "_");
+    if (inventoryIfaces.find(socName) == inventoryIfaces.end())
+    {
+        std::cerr << "Add inventory " << socName << ":" << present << "\n";
+        auto iface = objectServer.add_interface(
+            cpuInventoryPath + std::string("/") + socName,
+            "xyz.openbmc_project.Inventory.Item");
+        iface->register_property("PrettyName", socName);
+        iface->register_property("Present", present);
+        iface->initialize();
+        inventoryIfaces[socName] = std::move(iface);
+    }
+
+    return true;
+}
+
 static bool parseSensorConfig(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -590,6 +613,54 @@ static bool parseSensorConfig(
     return true;
 }
 
+bool createCpuPresentDbus(sdbusplus::asio::object_server& objectServer,
+                          const ManagedObjectType& sensorConfigs)
+{
+    const std::pair<std::string,
+                    boost::container::flat_map<std::string, BasicVariantType>>*
+        baseConfig = nullptr;
+    const SensorData* sensorData = nullptr;
+    for (const std::pair<sdbusplus::message::object_path, SensorData>& sensor :
+         sensorConfigs)
+    {
+        sensorData = &(sensor.second);
+        for (const char* type : sensorTypes)
+        {
+            auto sensorBase = sensorData->find(type);
+            if (sensorBase != sensorData->end())
+            {
+                baseConfig = &(*sensorBase);
+                break;
+            }
+        }
+        if (baseConfig == nullptr)
+        {
+            std::cerr << "Can find SoC sensor type " << std::endl;
+            continue;
+        }
+
+        auto findSOCName = baseConfig->second.find("Name");
+        if (findSOCName == baseConfig->second.end())
+        {
+            std::cerr << "could not determine configuration" << std::endl;
+            continue;
+        }
+
+        std::string socName =
+            std::visit(VariantToStringVisitor(), findSOCName->second);
+        if (std::empty(socName))
+        {
+            std::cerr << "Cannot find soc name, invalid configuration\n";
+            continue;
+        }
+
+        auto present = cpuIsPresent(sensorData);
+        addSoCInventory(objectServer, socName, present);
+    }
+
+    return true;
+}
+
 static void createSensorsCallback(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -598,6 +669,15 @@ static void createSensorsCallback(
         sensorsChanged)
 {
     std::vector<fs::path> busPaths;
+
+    if (inventoryIfaces.size() == 0)
+    {
+        if (!createCpuPresentDbus(objectServer, sensorConfigs))
+        {
+            std::cerr << "Can not find SoC config " << std::endl;
+            return;
+        }
+    }
 
     if (!findFiles(fs::path("/sys/class/hwmon"), "name", busPaths))
     {
