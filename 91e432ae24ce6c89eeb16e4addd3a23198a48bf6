@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "93715932_3e2fad68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-04-28T17:07:09Z",
+      "side": 1,
+      "message": "It doesn\u0027t matter what data it will get. This patchset tries to eliminate unnecessary read operation in the first place.",
+      "parentUuid": "93a23747_03fba6b2",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "91e432ae24ce6c89eeb16e4addd3a23198a48bf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aebff127_d5279a38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -53,6 +77,30 @@
       "writtenOn": "2021-04-28T16:53:01Z",
       "side": 1,
       "message": "What happens if the async_read_until is started when PowerState is off?\nEven with this check, there can still have a race condition that Power becomes off after line91 and before 93.\n\nThe check below is meant to prevent updating the sensor value. Why is this not enough?\nhttps://github.com/openbmc/dbus-sensors/blob/master/include/sensor.hpp#L400",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "91e432ae24ce6c89eeb16e4addd3a23198a48bf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4c0d5cf_b61092f9",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-04-28T17:07:09Z",
+      "side": 1,
+      "message": "Everything would be fine because of the code, that you\u0027ve included.\n\nThis patchset just tries to eliminate unnecessary reads when the read operation is not needed.\n\nIt can be critical in some situations.\nFor example I have SB-TSI sensors on I2C APML bus on my board. When the power is off, bus becomes unresponsive, and every read operation would lead to 3 sec timeout. Because of this Dbus Hwmon object can become unresponsive.",
+      "parentUuid": "3209e77a_7c513df6",
       "range": {
         "startLine": 91,
         "startChar": 0,
