@@ -176,6 +176,7 @@ if get_option('ampere-cpu').enabled()
         'AmpereCPU.cpp',
         'AmpereCPUMain.cpp',
         dependencies: [
+            gpiodcxx,
             sdbusplus,
         ],
         implicit_include_directories: false,
