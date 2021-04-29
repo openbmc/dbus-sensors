@@ -292,6 +292,7 @@ void createSensors(
                     path.string(), objectServer, dbusConnection, io, sensorName,
                     std::move(sensorThresholds), scaleFactor, pollRate,
                     readState, *interfacePath, std::move(bridgeGpio));
+                sensor->setupThresholdTimer();
                 sensor->setupRead();
             }
         }));

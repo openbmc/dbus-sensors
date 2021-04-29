@@ -366,23 +366,38 @@ void ThresholdTimer::startTimer(const Threshold& threshold, bool assert,
     pair->first.direction = threshold.direction;
     pair->first.assert = assert;
     pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
-    pair->second.async_wait([this, pair, threshold, assert,
+    auto weakRef = weak_from_this();
+    pair->second.async_wait([weakRef, pair, threshold, assert,
                              assertValue](boost::system::error_code ec) {
-        pair->first.used = false;
+        auto self = weakRef.lock();
+        if (self)
+        {
+            if (pair != nullptr)
+            {
+                pair->first.used = false;
+            }
 
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            return; // we're being canceled
-        }
-        if (ec)
-        {
-            std::cerr << "timer error: " << ec.message() << "\n";
-            return;
-        }
-        if (sensor->readingStateGood())
-        {
-            assertThresholds(sensor, assertValue, threshold.level,
-                             threshold.direction, assert);
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
+
+            if (ec)
+            {
+                std::cerr << "timer error: " << ec.message() << "\n";
+                return;
+            }
+
+            auto sensorPtr = self->sensor.lock();
+            if (sensorPtr)
+            {
+                if (isPowerOn())
+                {
+                    assertThresholds(sensorPtr.get(), assertValue,
+                                     threshold.level, threshold.direction,
+                                     assert);
+                }
+            }
         }
     });
 }
@@ -405,7 +420,8 @@ bool checkThresholds(Sensor* sensor)
     return status;
 }
 
-void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
+void checkThresholdsPowerDelay(Sensor* sensor,
+                               std::shared_ptr<ThresholdTimer> thresholdTimer)
 {
 
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
@@ -424,11 +440,11 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
         // 4. no delays for all high events.
         if (change.threshold.direction == thresholds::Direction::LOW)
         {
-            if (change.asserted || thresholdTimer.hasActiveTimer(
+            if (change.asserted || thresholdTimer->hasActiveTimer(
                                        change.threshold, !change.asserted))
             {
-                thresholdTimer.startTimer(change.threshold, change.asserted,
-                                          change.assertValue);
+                thresholdTimer->startTimer(change.threshold, change.asserted,
+                                           change.assertValue);
                 continue;
             }
         }
