@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "72af2ad7_755cc916",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-29T00:51:34Z",
+      "side": 1,
+      "message": "Again, I am not sure all ADCSensors are always CPU related",
+      "parentUuid": "e00f8823_0b4b05d4",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "f3db89ad242408c0e21ebaf8b873772564a14280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f01a031_673048c4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "I also uploaded another patch to fix the undefined behavior: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42708.",
       "parentUuid": "0f01a031_673048c4",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 70
+      },
+      "revId": "f3db89ad242408c0e21ebaf8b873772564a14280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "676ebad7_e30eef8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-29T00:51:34Z",
+      "side": 1,
+      "message": "The mentioned patch should help, but does not fix the potential race condition completely. I have uploaded a patch to show some idea https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42737",
+      "parentUuid": "aa4c2f5a_489b9179",
       "range": {
         "startLine": 16,
         "startChar": 0,
