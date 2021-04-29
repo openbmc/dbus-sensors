@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bf4fd2a_31703c9a",
+        "filename": "meson.build",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-29T17:41:13Z",
+      "side": 1,
+      "message": "nit: not sure whether we want use BMCWEB in the macro name here",
+      "range": {
+        "startLine": 29,
+        "startChar": 27,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
