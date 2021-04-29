@@ -2,6 +2,259 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a7a1128_013ac3b1",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "I would really like to see this using a config file from meson similar to https://github.com/openbmc/bmcweb/blob/15c27bf8ea1f7e2f8e07d1eaf386466091d69c17/meson.build#L357\n\nWith a regular if (variable) statement to enable this functionality.  I know you copied this from bmcweb, but this was found to be somewhat of an anti-pattern there, so I\u0027d like to no propogate it further.",
+      "range": {
+        "startLine": 178,
+        "startChar": 7,
+        "endLine": 178,
+        "endChar": 51
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea761be5_e00185cb",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "Please don\u0027t hardcode specific instances of a sensor like this in something designed to be generic.\n\nPlease make the sensor side of this generic, with something like \"is sensor settable\" that the parent class can set;  ExternalSensor can then make this value settable.",
+      "range": {
+        "startLine": 181,
+        "startChar": 33,
+        "endLine": 181,
+        "endChar": 47
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38c283aa_7bebc293",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "it seems like the code would be cleaner if, for all the places we set settable \u003d false, we instead just directly threw the exception.",
+      "range": {
+        "startLine": 194,
+        "startChar": 16,
+        "endLine": 195,
+        "endChar": 61
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eb7f1c6_cf51fff6",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "This is going to cause performance problems by requiring a dbus call on every set.  I suspect we need to have a match expression.",
+      "range": {
+        "startLine": 505,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 31
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d092e8dc_68ad9bd9",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "This is a blocking call in an async daemon.  please use async_method_call.",
+      "range": {
+        "startLine": 514,
+        "startChar": 33,
+        "endLine": 514,
+        "endChar": 37
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "828d344b_657c934e",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "Check for validity before dereferencing.",
+      "range": {
+        "startLine": 531,
+        "startChar": 66,
+        "endLine": 531,
+        "endChar": 68
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b598deb5_1bfde065",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "This check isn\u0027t really needed.  It\u0027s roughly covered in the next async_method_call, which will fail.",
+      "range": {
+        "startLine": 533,
+        "startChar": 0,
+        "endLine": 538,
+        "endChar": 9
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75acae08_b4993258",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "Another blocking dbus call.",
+      "range": {
+        "startLine": 545,
+        "startChar": 39,
+        "endLine": 545,
+        "endChar": 43
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c09faa4_6f55ca62",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "Check also not needed.",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 559,
+        "endChar": 0
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8f5a3dd_ef0ae87b",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "nit, load the result of this into a boolean, and return it directly.  That removes the need for separate \"return true\" and \"return false\" statements.",
+      "range": {
+        "startLine": 560,
+        "startChar": 12,
+        "endLine": 560,
+        "endChar": 31
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86d74367_083251de",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "Please remove this.  We don\u0027t want to print this on every set.",
+      "range": {
+        "startLine": 562,
+        "startChar": 0,
+        "endLine": 563,
+        "endChar": 49
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bf4fd2a_31703c9a",
         "filename": "meson.build",
         "patchSetId": 17
@@ -13,6 +266,30 @@
       "writtenOn": "2021-04-29T17:41:13Z",
       "side": 1,
       "message": "nit: not sure whether we want use BMCWEB in the macro name here",
+      "range": {
+        "startLine": 29,
+        "startChar": 27,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3968efa4_0da32c7c",
+        "filename": "meson.build",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-04-29T19:45:01Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6bf4fd2a_31703c9a",
       "range": {
         "startLine": 29,
         "startChar": 27,
