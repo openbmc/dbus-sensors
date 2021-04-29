@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ea13861_b547abcd",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000904
+      },
+      "writtenOn": "2021-04-29T01:01:50Z",
+      "side": 1,
+      "message": "Since this callback function is executed 5 min later, if the ThresholdTimer has been already destroyed at that time, \u0027pair\u0027 became a dangling pointer and this line is writing the unknown memory.",
+      "revId": "9526db038c46f9b8d021cce878c0adb8942a3edd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
