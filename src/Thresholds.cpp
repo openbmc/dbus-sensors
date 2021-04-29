@@ -361,7 +361,8 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
     return thresholdChanges;
 }
 
-void ThresholdTimer::startTimer(const Threshold& threshold, bool assert,
+void ThresholdTimer::startTimer(std::weak_ptr<Sensor> weakSensor,
+                                const Threshold& threshold, bool assert,
                                 double assertValue)
 {
     struct TimerUsed timerUsed = {};
@@ -386,8 +387,14 @@ void ThresholdTimer::startTimer(const Threshold& threshold, bool assert,
     pair->first.direction = threshold.direction;
     pair->first.assert = assert;
     pair->second.expires_from_now(boost::posix_time::seconds(waitTime));
-    pair->second.async_wait([this, pair, threshold, assert,
+    pair->second.async_wait([weakSensor, pair, threshold, assert,
                              assertValue](boost::system::error_code ec) {
+        auto sensorPtr = weakSensor.lock();
+        if (!sensorPtr)
+        {
+            return; // owner sensor has been destructed
+        }
+        // pair is valid as long as sensor is valid
         pair->first.used = false;
 
         if (ec == boost::asio::error::operation_aborted)
@@ -399,9 +406,9 @@ void ThresholdTimer::startTimer(const Threshold& threshold, bool assert,
             std::cerr << "timer error: " << ec.message() << "\n";
             return;
         }
-        if (sensor->readingStateGood())
+        if (sensorPtr->readingStateGood())
         {
-            assertThresholds(sensor, assertValue, threshold.level,
+            assertThresholds(sensorPtr.get(), assertValue, threshold.level,
                              threshold.direction, assert);
         }
     });
@@ -425,9 +432,16 @@ bool checkThresholds(Sensor* sensor)
     return status;
 }
 
-void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
+void checkThresholdsPowerDelay(std::weak_ptr<Sensor> weakSensor,
+                               ThresholdTimer& thresholdTimer)
 {
+    auto sensorPtr = weakSensor.lock();
+    if (!sensorPtr)
+    {
+        return; // sensor is destructed, should never be here
+    }
 
+    Sensor* sensor = sensorPtr.get();
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
     for (const auto& change : changes)
     {
@@ -447,8 +461,8 @@ void checkThresholdsPowerDelay(Sensor* sensor, ThresholdTimer& thresholdTimer)
             if (change.asserted || thresholdTimer.hasActiveTimer(
                                        change.threshold, !change.asserted))
             {
-                thresholdTimer.startTimer(change.threshold, change.asserted,
-                                          change.assertValue);
+                thresholdTimer.startTimer(weakSensor, change.threshold,
+                                          change.asserted, change.assertValue);
                 continue;
             }
         }

@@ -57,11 +57,11 @@ ADCSensor::ADCSensor(const std::string& path,
            "xyz.openbmc_project.Configuration.ADC", false,
            maxVoltageReading / scaleFactor, minVoltageReading / scaleFactor,
            conn, readState),
-    std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    scaleFactor(scaleFactor),
+    std::enable_shared_from_this<ADCSensor>(), ioService(io),
+    objServer(objectServer), inputDev(io, open(path.c_str(), O_RDONLY)),
+    waitTimer(io), path(path), scaleFactor(scaleFactor),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
-    bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io, this)
+    bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
@@ -88,6 +88,7 @@ ADCSensor::~ADCSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
+
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(sensorInterface);
@@ -230,5 +231,5 @@ void ADCSensor::checkThresholds(void)
         return;
     }
 
-    thresholds::checkThresholdsPowerDelay(this, thresholdTimer);
+    thresholds::checkThresholdsPowerDelay(weak_from_this(), thresholdTimer);
 }
