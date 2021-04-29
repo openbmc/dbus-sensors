@@ -118,6 +118,29 @@
       "revId": "f06a9037641e9168024576366f8e21867f81b558",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d9a8084_494eb6b4",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-29T16:02:19Z",
+      "side": 1,
+      "message": "Like we talked about, if there is code cancel timer and continue (without destructing) we could have memory leaks without this flag get cleared. Please check.",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 33
+      },
+      "revId": "f06a9037641e9168024576366f8e21867f81b558",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
