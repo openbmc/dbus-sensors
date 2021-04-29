@@ -94,6 +94,30 @@
       "revId": "f06a9037641e9168024576366f8e21867f81b558",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "228846c3_5f827ff5",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-04-29T01:45:13Z",
+      "side": 1,
+      "message": "There is a race condition, cancel timer and destruct of timer do not remove already queued handler.\nPlus, timer can also be cancelled without being destructed.\nHaving said that, this is definitely a bug because pair can be a dangling pointer.",
+      "parentUuid": "5bc6ed3e_17bea20d",
+      "range": {
+        "startLine": 369,
+        "startChar": 29,
+        "endLine": 369,
+        "endChar": 39
+      },
+      "revId": "f06a9037641e9168024576366f8e21867f81b558",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
