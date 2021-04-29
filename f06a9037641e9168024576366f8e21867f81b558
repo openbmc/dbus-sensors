@@ -46,6 +46,30 @@
       "revId": "f06a9037641e9168024576366f8e21867f81b558",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05c2fc64_6273b998",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000904
+      },
+      "writtenOn": "2021-04-29T00:52:55Z",
+      "side": 1,
+      "message": "Hi Zhikui,\nCould you please also comment the advantage of using week_ptr here? \nI thought this line should move to line 381 anyway as the comments of the code review.\npair-\u003efirst.used \u003d false;",
+      "parentUuid": "9ecbc479_c21a1a72",
+      "range": {
+        "startLine": 369,
+        "startChar": 29,
+        "endLine": 369,
+        "endChar": 39
+      },
+      "revId": "f06a9037641e9168024576366f8e21867f81b558",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
