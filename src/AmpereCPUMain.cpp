@@ -561,6 +561,42 @@ int main()
     systemBus->request_name("xyz.openbmc_project.AmpereCPUSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
     propertyInitialize();
+
+    std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
+    std::function<void(sdbusplus::message::message&)> hostStateHandler =
+        [&](sdbusplus::message::message& message) {
+            std::string objectName;
+            boost::container::flat_map<std::string, std::variant<std::string>>
+                values;
+            if (message.is_method_error())
+            {
+                std::cerr << "callback method error\n";
+                return;
+            }
+
+            message.read(objectName, values);
+            auto findState = values.find(power::property);
+            if (findState == values.end())
+            {
+                return;
+            }
+
+            if (std::get<std::string>(findState->second) !=
+                "xyz.openbmc_project.State.Host.HostState.Running")
+            {
+                return;
+            }
+
+            createSensors(io, objectServer, systemBus);
+        };
+
+    auto match = std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        "type='signal',interface='" + std::string(properties::interface) +
+            "',path='" + std::string(power::path) + "',arg0='" +
+            std::string(power::interface) + "'",
+        hostStateHandler);
+    matches.emplace_back(std::move(match));
     io.run();
 
     return 0;
