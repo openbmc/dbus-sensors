@@ -440,6 +440,15 @@ static void createSensorsCallback(
         checkGroupEvent(directory.string(), groupEventMatch,
                         groupEventPathList);
 
+        auto findPowerOn = baseConfig->second.find("PowerState");
+        PowerState readState = PowerState::always;
+        if (findPowerOn != baseConfig->second.end())
+        {
+            std::string powerState =
+                std::visit(VariantToStringVisitor(), findPowerOn->second);
+            setReadState(powerState, readState);
+        }
+
         /* Check if there are more sensors in the same interface */
         int i = 1;
         std::vector<std::string> psuNames;
@@ -821,8 +830,9 @@ static void createSensorsCallback(
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
-                findSensorUnit->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, labelHead, thresholdConfSize);
+                readState, findSensorUnit->second, factor,
+                psuProperty->maxReading, psuProperty->minReading, labelHead,
+                thresholdConfSize);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (debug)
@@ -835,8 +845,8 @@ static void createSensorsCallback(
         combineEvents[*psuName + "OperationalStatus"] = nullptr;
         combineEvents[*psuName + "OperationalStatus"] =
             std::make_unique<PSUCombineEvent>(
-                objectServer, dbusConnection, io, *psuName, eventPathList,
-                groupEventPathList, "OperationalStatus");
+                objectServer, dbusConnection, io, *psuName, readState,
+                eventPathList, groupEventPathList, "OperationalStatus");
     }
 
     if constexpr (debug)
