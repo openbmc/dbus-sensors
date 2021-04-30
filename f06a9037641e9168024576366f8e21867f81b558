@@ -141,6 +141,30 @@
       "revId": "f06a9037641e9168024576366f8e21867f81b558",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d0c5ccb_77d3fb8e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000904
+      },
+      "writtenOn": "2021-04-30T00:53:49Z",
+      "side": 1,
+      "message": "I checked this concern on by:\n1. Tested a system with an adcsensor across critical low threshold, reboot and \u0027check ipmitool sensor list\u0027 in 100 loops, no issue found.\n2. Keep the 2 systems running ( not rebooting BMC) over night, one system has an adcsensor across critical low threshold; the other system\u0027s adc sensors are in normal state, no memory leak found .",
+      "parentUuid": "8d9a8084_494eb6b4",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 33
+      },
+      "revId": "f06a9037641e9168024576366f8e21867f81b558",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
