@@ -441,6 +441,15 @@ static void createSensorsCallback(
         checkGroupEvent(directory.string(), groupEventMatch,
                         groupEventPathList);
 
+        PowerState readState = PowerState::always;
+        auto findPowerOn = baseConfig->second.find("PowerState");
+        if (findPowerOn != baseConfig->second.end())
+        {
+            std::string powerState =
+                std::visit(VariantToStringVisitor(), findPowerOn->second);
+            setReadState(powerState, readState);
+        }
+
         /* Check if there are more sensors in the same interface */
         int i = 1;
         std::vector<std::string> psuNames;
@@ -853,9 +862,10 @@ static void createSensorsCallback(
             sensors[sensorName] = std::make_shared<PSUSensor>(
                 sensorPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath,
-                findSensorUnit->second, factor, psuProperty->maxReading,
-                psuProperty->minReading, psuProperty->sensorOffset, labelHead,
-                thresholdConfSize, pollRate);
+                readState, findSensorUnit->second, factor,
+                psuProperty->maxReading, psuProperty->minReading,
+                psuProperty->sensorOffset, labelHead, thresholdConfSize,
+                pollRate);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (debug)
@@ -867,9 +877,10 @@ static void createSensorsCallback(
         // OperationalStatus event
         combineEvents[*psuName + "OperationalStatus"] = nullptr;
         combineEvents[*psuName + "OperationalStatus"] =
-            std::make_unique<PSUCombineEvent>(
-                objectServer, dbusConnection, io, *psuName, eventPathList,
-                groupEventPathList, "OperationalStatus", pollRate);
+            std::make_unique<PSUCombineEvent>(objectServer, dbusConnection, io,
+                                              *psuName, readState,
+                                              eventPathList, groupEventPathList,
+                                              "OperationalStatus", pollRate);
     }
 
     if constexpr (debug)

@@ -240,6 +240,20 @@ bool hasBiosPost(void)
     return biosHasPost;
 }
 
+bool readingStateGood(const PowerState& powerState)
+{
+    if (powerState == PowerState::on && !isPowerOn())
+    {
+        return false;
+    }
+    if (powerState == PowerState::biosPost && (!hasBiosPost() || !isPowerOn()))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 static void
     getPowerStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                    size_t retries = 2)
