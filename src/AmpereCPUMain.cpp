@@ -762,6 +762,46 @@ int main()
             });
         };
 
+    std::function<void(sdbusplus::message::message&)> hostStateHandler =
+        [&](sdbusplus::message::message& message) {
+            std::string objectName;
+            boost::container::flat_map<std::string, std::variant<std::string>>
+                values;
+            if (message.is_method_error())
+            {
+                std::cerr << "callback method error\n";
+                return;
+            }
+
+            message.read(objectName, values);
+            auto findState = values.find(power::property);
+            if (findState == values.end())
+            {
+                return;
+            }
+
+            bool on = boost::ends_with(std::get<std::string>(findState->second),
+                                       ".Running");
+            /* only rescan the host sensors when the host changed to Running */
+            if (!on)
+            {
+                return;
+            }
+
+            filterTimer.expires_from_now(boost::posix_time::seconds(5));
+            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return;
+                }
+                if (ec)
+                {
+                    std::cerr << "timer error\n";
+                }
+                createSensors(io, objectServer, systemBus, nullptr);
+            });
+        };
+
     for (const char* type : sensorTypes)
     {
         auto match = std::make_unique<sdbusplus::bus::match::match>(
@@ -771,6 +811,13 @@ int main()
             eventHandler);
         matches.emplace_back(std::move(match));
     }
+    auto match = std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        "type='signal',interface='" + std::string(properties::interface) +
+            "',path='" + std::string(power::path) + "',arg0='" +
+            std::string(power::interface) + "'",
+        hostStateHandler);
+    matches.emplace_back(std::move(match));
 
     io.run();
     return 0;
