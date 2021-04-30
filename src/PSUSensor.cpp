@@ -41,15 +41,16 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration,
+                     const PowerState& powerState,
                      const std::string& sensorUnits, unsigned int factor,
                      double max, double min, const std::string& label,
                      size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
-           conn),
+           conn, powerState),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0)
+    sensorFactor(factor), minMaxReadCounter(0), thresholdTimer(io, this)
 {
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
@@ -131,20 +132,47 @@ PSUSensor::~PSUSensor()
 
 void PSUSensor::setupRead(void)
 {
-    std::shared_ptr<boost::asio::streambuf> buffer =
-        std::make_shared<boost::asio::streambuf>();
+    if (readingStateGood())
+    {
+        std::shared_ptr<boost::asio::streambuf> buffer =
+            std::make_shared<boost::asio::streambuf>();
+        std::weak_ptr<PSUSensor> weakRef = weak_from_this();
+        boost::asio::async_read_until(
+            inputDev, *buffer, '\n',
+            [weakRef, buffer](const boost::system::error_code& ec,
+                              std::size_t /*bytes_transfered*/) {
+                std::shared_ptr<PSUSensor> self = weakRef.lock();
+                if (self)
+                {
+                    self->readBuf = buffer;
+                    self->handleResponse(ec);
+                }
+            });
+    }
+    else
+    {
+        markAvailable(false);
+        updateValue(std::numeric_limits<double>::quiet_NaN());
+        restartRead();
+    }
+}
+
+void PSUSensor::restartRead(void)
+{
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    boost::asio::async_read_until(
-        inputDev, *buffer, '\n',
-        [weakRef, buffer](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<PSUSensor> self = weakRef.lock();
-            if (self)
-            {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
-            }
-        });
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Failed to reschedule\n";
+            return;
+        }
+        if (self)
+        {
+            self->setupRead();
+        }
+    });
 }
 
 void PSUSensor::updateMinMaxValues(void)
@@ -199,24 +227,15 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     }
 
     lseek(fd, 0, SEEK_SET);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
-
-    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        std::shared_ptr<PSUSensor> self = weakRef.lock();
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            std::cerr << "Failed to reschedule\n";
-            return;
-        }
-        if (self)
-        {
-            self->setupRead();
-        }
-    });
+    restartRead();
 }
 
 void PSUSensor::checkThresholds(void)
 {
-    thresholds::checkThresholds(this);
+    if (!readingStateGood())
+    {
+        return;
+    }
+
+    thresholds::checkThresholdsPowerDelay(this, thresholdTimer);
 }
