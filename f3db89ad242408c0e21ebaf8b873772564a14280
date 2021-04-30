@@ -282,6 +282,30 @@
       "revId": "f3db89ad242408c0e21ebaf8b873772564a14280",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73f38711_ea1daff4",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000904
+      },
+      "writtenOn": "2021-04-30T05:39:05Z",
+      "side": 1,
+      "message": "Will update the patch to change createsensor(), please help to review.",
+      "parentUuid": "5f74d02c_6734a65a",
+      "range": {
+        "startLine": 350,
+        "startChar": 1,
+        "endLine": 350,
+        "endChar": 58
+      },
+      "revId": "f3db89ad242408c0e21ebaf8b873772564a14280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
