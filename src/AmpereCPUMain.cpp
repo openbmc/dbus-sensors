@@ -47,6 +47,7 @@ static boost::container::flat_map<std::string, std::string> sensorTable;
 static boost::container::flat_map<std::string, AmpereCPUProperty> propMatch;
 static std::vector<AmpereCPUProperty> socProperties;
 static std::regex i2cDevRegex(R"((\d+)-([a-fA-F0-9]+))");
+static bool createdSensors = false;
 
 static bool getDeviceInfo(const std::string& devPath, size_t* bus, size_t* addr)
 {
@@ -511,6 +512,11 @@ static void createSensorsCallback(
                           *sensorData, *interfacePath, *devType, directory,
                           &numCreated);
 
+        if (numCreated != 0U)
+        {
+            createdSensors = true;
+        }
+
         std::cerr << "Device " << bus << ":" << addr << " have " << numCreated
                   << " sensors \n";
     }
@@ -521,10 +527,13 @@ void createSensors(boost::asio::io_service& io,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        [&io, &objectServer,
-         &dbusConnection](const ManagedObjectType& sensorConfigs) {
-        createSensorsCallback(io, objectServer, dbusConnection, sensorConfigs);
+        dbusConnection, [&io, &objectServer, &dbusConnection](
+                            const ManagedObjectType& sensorConfigs) {
+            if (!createdSensors)
+            {
+                createSensorsCallback(io, objectServer, dbusConnection,
+                                      sensorConfigs);
+            }
         });
     getter->getConfiguration(std::vector<std::string>{smproDrvName});
 }
@@ -546,6 +555,7 @@ int main()
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
 
     systemBus->request_name(ampereDbusName);
     sdbusplus::asio::object_server objectServer(systemBus, true);
@@ -582,6 +592,42 @@ int main()
             std::string(inventoryPath) + "',arg0namespace='" + smproDevType +
             "'",
         eventHandler);
+    matches.emplace_back(std::move(match));
+
+    std::function<void(sdbusplus::message_t&)> hostStateHandler =
+        [&](sdbusplus::message_t& message) {
+        if (message.is_method_error())
+        {
+            std::cerr << "callback method error\n";
+            return;
+        }
+
+        std::string objectName;
+        boost::container::flat_map<std::string, std::variant<std::string>>
+            values;
+        message.read(objectName, values);
+        auto findState = values.find(power::property);
+        if (findState == values.end())
+        {
+            return;
+        }
+
+        if (std::get<std::string>(findState->second) !=
+            "xyz.openbmc_project.State.Host.HostState.Running")
+        {
+            return;
+        }
+
+        createSensors(io, objectServer, systemBus);
+    };
+
+    auto matchHostState = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        "type='signal',interface='" + std::string(properties::interface) +
+            "',path='" + std::string(power::path) + "',arg0='" +
+            std::string(power::interface) + "'",
+        hostStateHandler);
+    matches.emplace_back(std::move(matchHostState));
 
     io.run();
 
