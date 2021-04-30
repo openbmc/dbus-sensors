@@ -36,6 +36,7 @@ PSUCombineEvent::PSUCombineEvent(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& psuName,
+    const PowerState& powerState,
     boost::container::flat_map<std::string, std::vector<std::string>>&
         eventPathList,
     boost::container::flat_map<
@@ -70,8 +71,8 @@ PSUCombineEvent::PSUCombineEvent(
         for (const auto& path : pathList.second)
         {
             auto p = std::make_shared<PSUSubEvent>(
-                eventInterface, path, conn, io, eventName, eventName, assert,
-                combineEvent, state, psuName, pollRate);
+                eventInterface, path, conn, io, powerState, eventName,
+                eventName, assert, combineEvent, state, psuName, pollRate);
             p->setupRead();
 
             events[eventPSUName].emplace_back(p);
@@ -93,7 +94,7 @@ PSUCombineEvent::PSUCombineEvent(
             for (const auto& path : pathList.second)
             {
                 auto p = std::make_shared<PSUSubEvent>(
-                    eventInterface, path, conn, io, groupEventName,
+                    eventInterface, path, conn, io, powerState, groupEventName,
                     groupPathList.first, assert, combineEvent, state, psuName,
                     pollRate);
                 p->setupRead();
@@ -141,16 +142,17 @@ static boost::container::flat_map<std::string,
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
     const std::string& path, std::shared_ptr<sdbusplus::asio::connection>& conn,
-    boost::asio::io_service& io, const std::string& groupEventName,
-    const std::string& eventName,
+    boost::asio::io_service& io, const PowerState& powerState,
+    const std::string& groupEventName, const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
     std::shared_ptr<bool> state, const std::string& psuName, double pollRate) :
     std::enable_shared_from_this<PSUSubEvent>(),
     eventInterface(std::move(eventInterface)), asserts(std::move(asserts)),
     combineEvent(std::move(combineEvent)), assertState(std::move(state)),
-    errCount(0), path(path), eventName(eventName), waitTimer(io), inputDev(io),
-    psuName(psuName), groupEventName(groupEventName), systemBus(conn)
+    errCount(0), path(path), eventName(eventName), readState(powerState),
+    waitTimer(io), inputDev(io), psuName(psuName),
+    groupEventName(groupEventName), systemBus(conn)
 {
     if (pollRate > 0.0)
     {
@@ -188,12 +190,25 @@ PSUSubEvent::PSUSubEvent(
     }
 }
 
+PSUSubEvent::~PSUSubEvent()
+{
+    waitTimer.cancel();
+    inputDev.close();
+}
+
 void PSUSubEvent::setupRead(void)
 {
+    if (!readingStateGood(readState))
+    {
+        // Deassert the event
+        updateValue(0);
+        restartRead();
+        return;
+    }
+
     std::shared_ptr<boost::asio::streambuf> buffer =
         std::make_shared<boost::asio::streambuf>();
     std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
-
     boost::asio::async_read_until(
         inputDev, *buffer, '\n',
         [weakRef, buffer](const boost::system::error_code& ec,
@@ -207,10 +222,21 @@ void PSUSubEvent::setupRead(void)
         });
 }
 
-PSUSubEvent::~PSUSubEvent()
+void PSUSubEvent::restartRead()
 {
-    waitTimer.cancel();
-    inputDev.close();
+    std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(eventPollMs));
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return;
+        }
+        std::shared_ptr<PSUSubEvent> self = weakRef.lock();
+        if (self)
+        {
+            self->setupRead();
+        }
+    });
 }
 
 void PSUSubEvent::handleResponse(const boost::system::error_code& err)
@@ -252,20 +278,7 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
         errCount++;
     }
     lseek(fd, 0, SEEK_SET);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(eventPollMs));
-
-    std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
-    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        std::shared_ptr<PSUSubEvent> self = weakRef.lock();
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            return;
-        }
-        if (self)
-        {
-            self->setupRead();
-        }
-    });
+    restartRead();
 }
 
 // Any of the sub events of one event is asserted, then the event will be

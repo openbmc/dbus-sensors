@@ -79,6 +79,8 @@ enum class PowerState
     always
 };
 
+bool readingStateGood(const PowerState& powerState);
+
 namespace mapper
 {
 constexpr const char* busName = "xyz.openbmc_project.ObjectMapper";
