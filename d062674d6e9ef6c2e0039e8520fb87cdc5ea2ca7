@@ -177,6 +177,75 @@
       "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f0104_e3e2b291",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-03T16:47:25Z",
+      "side": 1,
+      "message": "I\u0027m not quite following why this is here.  Wouldn\u0027t we just assume that indexes that are unspcified are index 1?  Having different behavior if all the indexes are specified seems like it would be confusing.",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 75
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d12d79e8_0b0a1d50",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-03T16:47:25Z",
+      "side": 1,
+      "message": "This is different than I would\u0027ve expected.  Requiring taking an index at a higher scope seems odd;  I would\u0027ve expected something like\n\nint index \u003d 1;\nauto indexFind \u003d item.second.find(\"Index\");\nif (indexFind !\u003d item.second.end()){\n  index \u003d std::visit(VariantToIntVisitor(), indexFind-\u003esecond);\n}\n\nif (index !\u003d matchIndex){\n    ....\n}\n\n\nThis removes the need for the matchIndex parameter to be optional.  Also, unless I\u0027m missing something, it\u0027s not really a \"match\" index, it\u0027s a sensor index, maybe a better variable name like sensorIndex?",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 34
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d21baf04_1fcd975e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-03T16:47:25Z",
+      "side": 1,
+      "message": "See above, I suspect this can be entirely removed.",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 1
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
