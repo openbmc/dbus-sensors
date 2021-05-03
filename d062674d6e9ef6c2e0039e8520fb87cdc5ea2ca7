@@ -227,6 +227,30 @@
     },
     {
       "key": {
+        "uuid": "738db4be_52718de7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-03T21:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8400df09_6eb70e56",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 75
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d12d79e8_0b0a1d50",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 3
@@ -274,6 +298,30 @@
     },
     {
       "key": {
+        "uuid": "11e5f522_272099db",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-03T21:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29748863_2540ad61",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 34
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d21baf04_1fcd975e",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 3
@@ -309,6 +357,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "d21baf04_1fcd975e",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 1
+      },
+      "revId": "d062674d6e9ef6c2e0039e8520fb87cdc5ea2ca7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea9770b8_8d7f8447",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-03T21:50:38Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a81fcce2_fed6a1ce",
       "range": {
         "startLine": 137,
         "startChar": 0,
