@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1044c4_61cd4606",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-05-03T06:03:21Z",
+      "side": 1,
+      "message": "Considering the reading value might go below low thresholds as expected\nafter CPU is powered off, I think it need to use checkThresholdsPowerDelay\nfor the sensor which PowerState is not Always.\n(like https://github.com/openbmc/dbus-sensors/blob/6b6891c52e550c42507d4b413cbc4c6a09235535/src/ADCSensor.cpp#L226 in ADCSensor)\nWhat do you think?",
+      "revId": "3444fc4b0d9d96bf146ed616834f80b602466daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
