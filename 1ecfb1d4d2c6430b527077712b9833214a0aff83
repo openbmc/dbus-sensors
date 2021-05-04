@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87f19298_7a9c428d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-05-04T17:16:36Z",
+      "side": 1,
+      "message": "Added more info",
+      "parentUuid": "3123f746_23fff983",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "1ecfb1d4d2c6430b527077712b9833214a0aff83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd8e53d5_712c0f72",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2021-05-04T16:01:50Z",
       "side": 1,
       "message": "Why 0 here, not NaN like other sensors?",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 23
+      },
+      "revId": "1ecfb1d4d2c6430b527077712b9833214a0aff83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f740200d_07922c8f",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-05-04T17:16:36Z",
+      "side": 1,
+      "message": "Because PSUSubEvent is not inherited from Sensor.\nValue is just a class property and not a DBus value object.\nSo PSUSubEvent doesn\u0027t use generic `updateValue` function\nhttps://github.com/openbmc/dbus-sensors/blob/6b6891c52e550c42507d4b413cbc4c6a09235535/include/sensor.hpp#L392\nBut use an override:\nhttps://github.com/openbmc/dbus-sensors/blob/6b6891c52e550c42507d4b413cbc4c6a09235535/src/PSUEvent.cpp#L269\nIn this override \u00270\u0027 is a value for the event deassertion.",
+      "parentUuid": "bd8e53d5_712c0f72",
       "range": {
         "startLine": 215,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c2b3dbae_163ee07c",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-05-04T17:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cac9beb9_b66e6e3b",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 59
+      },
+      "revId": "1ecfb1d4d2c6430b527077712b9833214a0aff83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a3b78b1_bf99ec59",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2021-05-04T16:01:50Z",
       "side": 1,
       "message": "other ec are ignored? I realize that is not part of this patch. I am OK as is to limit the change scope of this patch",
+      "range": {
+        "startLine": 242,
+        "startChar": 12,
+        "endLine": 242,
+        "endChar": 55
+      },
+      "revId": "1ecfb1d4d2c6430b527077712b9833214a0aff83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2388a0_17e99d45",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-05-04T17:16:36Z",
+      "side": 1,
+      "message": "Yes, I prefer this patch to be concise as possible",
+      "parentUuid": "7a3b78b1_bf99ec59",
       "range": {
         "startLine": 242,
         "startChar": 12,
