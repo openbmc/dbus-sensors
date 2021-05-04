@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3123f746_23fff983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-05-04T16:01:50Z",
+      "side": 1,
+      "message": "Is there a requirement for this? Please provide details.",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "1ecfb1d4d2c6430b527077712b9833214a0aff83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd8e53d5_712c0f72",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-05-04T16:01:50Z",
+      "side": 1,
+      "message": "Why 0 here, not NaN like other sensors?",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 23
+      },
+      "revId": "1ecfb1d4d2c6430b527077712b9833214a0aff83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cac9beb9_b66e6e3b",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-05-04T16:01:50Z",
+      "side": 1,
+      "message": "move before use",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 59
+      },
+      "revId": "1ecfb1d4d2c6430b527077712b9833214a0aff83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3b78b1_bf99ec59",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-05-04T16:01:50Z",
+      "side": 1,
+      "message": "other ec are ignored? I realize that is not part of this patch. I am OK as is to limit the change scope of this patch",
+      "range": {
+        "startLine": 242,
+        "startChar": 12,
+        "endLine": 242,
+        "endChar": 55
+      },
+      "revId": "1ecfb1d4d2c6430b527077712b9833214a0aff83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
