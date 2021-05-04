@@ -16,6 +16,24 @@
       "revId": "3444fc4b0d9d96bf146ed616834f80b602466daa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74d6fed6_c990f31f",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-05-04T12:42:45Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve spend a lot of time trying to understand all this Timer code in a `checkThresholdsPowerDelay` function.\nIt seems like it is coming from this commit (https://github.com/openbmc/dbus-sensors/commit/46342ec359c8e0ed543ebb352cfba8f26ce85afe) that added  2 sec delay (now it is even 5) to check thresholds after a value is acquired, to support a fact, that voltage can drop faster than pgood check.\nBut for me it is not clear what behaviour is needed for the \u0027PowerState\u0027 parameter. I thought that this parameter represents a question \"When should we read value?\", but not \"When do we need to check thresholds for a value?\" (because in your version of a commit it seems like you\u0027ve supported this logic).\nIf we use \"When should we read value?\" logic, we should use code exactly as it currently is in ADC sensor:\nhttps://github.com/openbmc/dbus-sensors/blob/6b6891c52e550c42507d4b413cbc4c6a09235535/src/ADCSensor.cpp#L226\nThis way we will always be using `checkThresholdsPowerDelay` function to check thresholds. So if the limits for voltage sensor for example 8V-12V, we wouldn\u0027t assert on power off (0V) even if the \u0027PowerState\u0027 is \u0027always\u0027. We would be reading 0V, but the app would not create any assertions. The difference with the \u0027PowerState\u0027:\u0027On\u0027/\u0027POST\u0027 is a fact that with these parameters we wouldn\u0027t be reading any values at all in a wrong state, but simply set sensor value to NaN.",
+      "parentUuid": "3c1044c4_61cd4606",
+      "revId": "3444fc4b0d9d96bf146ed616834f80b602466daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
