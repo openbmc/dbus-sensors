@@ -34,6 +34,24 @@
       "revId": "3444fc4b0d9d96bf146ed616834f80b602466daa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7c1299_60db2f87",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2021-05-05T12:02:21Z",
+      "side": 1,
+      "message": "In my conception, the time we need to monitor the reading value is the time we want to check if the sensor reading value is in the limit(threshold) we expected.\nI think that starting to add PowerState in psusensor means we start to take the power status into consideration, so I would like to add checkThresholdsPowerDelay in this patchset.\n\nIf the PowerState is \"Always\", the function readingStateGood will always return True.\nSo, it will always delay 5 seconds to assert low threshold after the reading value is smaller than 8V in your case.",
+      "parentUuid": "74d6fed6_c990f31f",
+      "revId": "3444fc4b0d9d96bf146ed616834f80b602466daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
