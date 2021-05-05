@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd98a926_ca5c73ca",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-05T20:11:52Z",
+      "side": 1,
+      "message": "Doesn\u0027t this duplicate reading of the threshold data between this and line 271?  The only place I see sensorThresholds used is on line 248, which seems like an odd fast path (that frankly, I need to run blame and figure out why it\u0027s there, and hardcoded to something crazy.)",
+      "range": {
+        "startLine": 211,
+        "startChar": 21,
+        "endLine": 211,
+        "endChar": 46
+      },
+      "revId": "db17ed885ab5c62eec9b8a2dee040eadaca023e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44189c13_9849b459",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-05T20:11:52Z",
+      "side": 1,
+      "message": "we don\u0027t need variantToIntVisitor here, as we don\u0027t really want to accept floating point values in this field;  We know that the value in the json will be an int64_t, so we\u0027d normally do something like\n\nconst int64_t* index \u003d indexFind-\u003esecond.get_ptr\u003cuint64_t\u003e();\nif (index \u003d\u003d nullptr){\n    continue;\n}\nif (*index !\u003d sensorIndex){\n    continue;\n}\n\n\nThis is a little nitpicky, but in the future I\u0027d like to reduce our uses of variantToXvisitor, as it\u0027s a crutch to not properly defining and enforcing our config APIs.\n\n\n\nApologies, I should\u0027ve caught this in the first round of comments.",
+      "range": {
+        "startLine": 96,
+        "startChar": 28,
+        "endLine": 96,
+        "endChar": 47
+      },
+      "revId": "db17ed885ab5c62eec9b8a2dee040eadaca023e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
