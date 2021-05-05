@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5b7b83fb_4d9595e1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-05T22:16:34Z",
+      "side": 1,
+      "message": "groan.... ok, that makes sense.  I don\u0027t like the duplication, but I don\u0027t see a clean way to avoid it.... well, I kind of do, but that\u0027s much bigger than your pathset.  This is fine as-is.",
+      "parentUuid": "d93761c1_bf7091c1",
+      "range": {
+        "startLine": 211,
+        "startChar": 21,
+        "endLine": 211,
+        "endChar": 46
+      },
+      "revId": "db17ed885ab5c62eec9b8a2dee040eadaca023e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97347a0f_45654908",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 5
