@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d93761c1_bf7091c1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-05T20:31:57Z",
+      "side": 1,
+      "message": "This path only handles the temp1_input reading and creates the sensor out of it on 248.\n\nThe 271 call is in a loop that starts on line 255 and handles the temp2_, temp3, etc files.  Those sensors are created on 291.",
+      "parentUuid": "cd98a926_ca5c73ca",
+      "range": {
+        "startLine": 211,
+        "startChar": 21,
+        "endLine": 211,
+        "endChar": 46
+      },
+      "revId": "db17ed885ab5c62eec9b8a2dee040eadaca023e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44189c13_9849b459",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "db17ed885ab5c62eec9b8a2dee040eadaca023e1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f72c606_a04e7d6e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-05T20:31:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "44189c13_9849b459",
+      "range": {
+        "startLine": 96,
+        "startChar": 28,
+        "endLine": 96,
+        "endChar": 47
+      },
+      "revId": "db17ed885ab5c62eec9b8a2dee040eadaca023e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
