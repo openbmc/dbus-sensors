@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "97347a0f_45654908",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-05-05T21:43:51Z",
+      "side": 1,
+      "message": "temp1 is hard coded here simply because it was hard coded before commit \nhttps://github.com/openbmc/dbus-sensors/commit/100c20bfcbb35413a137e00095e072c8ae8eb105#\n\nTaking a minute to look at the logic:\nIt looks like if there is a config for hwmontempsensor with just a name.. then just that name will be used to name the first temperature only.\nI suppose this was a convenience feature so that system engs don\u0027t have to do something like this\n\n            {\n                \"Name\": \"max6581_1\",\n                \"Name1\": \"max6581_1\",        \n                \"Type\": \"MAX6581\"\n            },",
+      "range": {
+        "startLine": 242,
+        "startChar": 16,
+        "endLine": 243,
+        "endChar": 74
+      },
+      "revId": "db17ed885ab5c62eec9b8a2dee040eadaca023e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44189c13_9849b459",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 5
