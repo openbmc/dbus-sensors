@@ -117,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "a3d55f30_1364bf4f",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-05-06T10:43:21Z",
+      "side": 1,
+      "message": "if use the use async_method_call then we can not get the return value to check special mode is enable or not. Could you give some advice for this situation and resolve it.",
+      "parentUuid": "d092e8dc_68ad9bd9",
+      "range": {
+        "startLine": 514,
+        "startChar": 33,
+        "endLine": 514,
+        "endChar": 37
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "828d344b_657c934e",
         "filename": "include/sensor.hpp",
         "patchSetId": 17
