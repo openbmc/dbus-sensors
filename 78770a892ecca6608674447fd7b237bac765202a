@@ -141,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "24ec17c8_d531ad11",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-05-06T11:13:17Z",
+      "side": 1,
+      "message": "if we do not throw an Exception to bmcweb to let bmcweb know set success or fail, so I think use async_method_call will not be a  problem.",
+      "parentUuid": "a3d55f30_1364bf4f",
+      "range": {
+        "startLine": 514,
+        "startChar": 33,
+        "endLine": 514,
+        "endChar": 37
+      },
+      "revId": "78770a892ecca6608674447fd7b237bac765202a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "828d344b_657c934e",
         "filename": "include/sensor.hpp",
         "patchSetId": 17
