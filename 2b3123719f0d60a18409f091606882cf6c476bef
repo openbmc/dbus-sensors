@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c8f81c9_474966e1",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-06T18:51:17Z",
+      "side": 1,
+      "message": "It turned out I could only get a number out as a double.  uint64_t nor int worked.  The index() function on the variant returned 4, which is the position of the double in the variant definition.",
+      "revId": "2b3123719f0d60a18409f091606882cf6c476bef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c80be8d_e152465f",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-06T18:51:17Z",
+      "side": 1,
+      "message": "I wonder if I should have this as something unsigned instead.",
+      "range": {
+        "startLine": 103,
+        "startChar": 48,
+        "endLine": 103,
+        "endChar": 51
+      },
+      "revId": "2b3123719f0d60a18409f091606882cf6c476bef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
