@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "33820b2f_f3a0d779",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-07T19:09:22Z",
+      "side": 1,
+      "message": "I\u0027m really sorry, I forgot what context I was in for a second (thought I was in entity-manager).  What you had previously with the visitor was correct.  Again, really sorry about that.\n\nI would like to reduce the usage of the visitors, but there\u0027 entity-manager work that needs to happen before that will work.",
+      "parentUuid": "4c8f81c9_474966e1",
+      "revId": "2b3123719f0d60a18409f091606882cf6c476bef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c80be8d_e152465f",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 6
