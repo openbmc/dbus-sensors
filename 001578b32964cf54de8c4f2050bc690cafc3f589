@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ec864c31_5773d80c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T16:46:12Z",
+      "side": 1,
+      "message": "nit, technically this isn\u0027t intel specific, right?  (although I think they\u0027re the only platform that implements it)",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4868cd1b_d47623b8",
         "filename": "include/meson.build",
         "patchSetId": 21
