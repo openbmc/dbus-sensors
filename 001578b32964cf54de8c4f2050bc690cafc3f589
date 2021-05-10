@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4868cd1b_d47623b8",
+        "filename": "include/meson.build",
+        "patchSetId": 21
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "Should this be set10?  similar to here: https://github.com/openbmc/bmcweb/blob/1b1be67fb8d50293d452316f51227363750a3d00/meson.build#L355",
+      "range": {
+        "startLine": 2,
+        "startChar": 10,
+        "endLine": 2,
+        "endChar": 13
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a82936_dbb94e79",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "should be 0",
+      "range": {
+        "startLine": 519,
+        "startChar": 0,
+        "endLine": 519,
+        "endChar": 25
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "719d544c_f5ed273f",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "please don\u0027t do blocking calls in an async daemon.  use async_method_call.",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 523,
+        "endChar": 46
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db535d74_916bae0e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "This has a race condition if the daemon that publishes xyz.openbmc_project.Security.SpecialMode hasn\u0027t started when this is run.\n\nYou need to remove this from the getsubtree check, and make sure it\u0027s instantiated before you do the mapper call.",
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74423649_de949ed3",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "missing length check.  You need to loop over propertiesChanged",
+      "range": {
+        "startLine": 558,
+        "startChar": 49,
+        "endLine": 558,
+        "endChar": 57
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ea6074_0437d10e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "you need to actually check the value here.  this will enable SP mode for ANY property change, whether enabled or disabled.\n\nAlso, because you have two interfaces you need to track, I suspect you need two variables here.",
+      "range": {
+        "startLine": 564,
+        "startChar": 0,
+        "endLine": 564,
+        "endChar": 54
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d50b95b_5e914548",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "Please be more specific about what exceptions you are catching here.",
+      "range": {
+        "startLine": 576,
+        "startChar": 31,
+        "endLine": 576,
+        "endChar": 47
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69539cb0_3fb9704d",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "If we fail we destroy the match entirely?  that doesn\u0027t seem right.",
+      "range": {
+        "startLine": 580,
+        "startChar": 28,
+        "endLine": 580,
+        "endChar": 59
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e833fb30_47c2f5e7",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 581,
+        "startChar": 0,
+        "endLine": 581,
+        "endChar": 35
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aa644ed_75b9ebd0",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-10T15:08:45Z",
+      "side": 1,
+      "message": "also not needed.",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 583,
+        "endChar": 31
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
