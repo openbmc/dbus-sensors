@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "29e5fdd9_c0cbc2a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-05-11T18:29:08Z",
+      "side": 1,
+      "message": "Right now SBTSI is just a hwmon sensor: https://github.com/torvalds/linux/blob/master/drivers/hwmon/sbtsi_temp.c\nBut I think this patchset is needed regardless of the SBTSI support.\nIf the system doesn\u0027t need to read sensor it shouldn\u0027t perform any dummy I2C transactions that only waste CPU time.",
+      "parentUuid": "8517c540_1a7a28d1",
+      "revId": "635082060fb48b29440176e0de5f8c0ee751158d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22d3f676_25fe0a87",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "b38903ea_684e9a9f",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-05-11T18:29:08Z",
+      "side": 1,
+      "message": "Fixed.\nThis was part of the original code",
+      "parentUuid": "22d3f676_25fe0a87",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 13
+      },
+      "revId": "635082060fb48b29440176e0de5f8c0ee751158d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1cc25a6d_2c8b534e",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2021-05-11T16:38:48Z",
       "side": 1,
       "message": "Considering this is likely a common issue with all sensors, not just hwmontemp sensor, I wonder if this code needs to go somewhere generic.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 1
+      },
+      "revId": "635082060fb48b29440176e0de5f8c0ee751158d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c356834_24025492",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-05-11T18:29:08Z",
+      "side": 1,
+      "message": "I think this idiom should be used in every dbus-sensor app which supports the PowerState JSON configuration parameter. But unfortunately I don\u0027t even have all types of the dbus-sensor apps in my system.",
+      "parentUuid": "1cc25a6d_2c8b534e",
       "range": {
         "startLine": 110,
         "startChar": 0,
