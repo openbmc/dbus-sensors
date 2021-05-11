@@ -22,6 +22,30 @@
       "revId": "28ffff1abeb89004be8517620dfc282f86c5c569",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "495ffd74_8eafc614",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-05-11T23:16:31Z",
+      "side": 1,
+      "message": "The rules of device_name is detail in section 2.2.1 Node name of Devicetree specification v0.03. It should only includes [0:9][a-z][A-Z][,.+_-]. And it\u0027s convention should be node-name@unit-address.",
+      "parentUuid": "37a32336_7a17beff",
+      "range": {
+        "startLine": 9,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "28ffff1abeb89004be8517620dfc282f86c5c569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
