@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22d3f676_25fe0a87",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-11T16:38:48Z",
+      "side": 1,
+      "message": "No need to print anything here.  This path is expected when shutting down.\n\nAlso, once that\u0027s done you can move the line on 116 to line 130.",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 13
+      },
+      "revId": "635082060fb48b29440176e0de5f8c0ee751158d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cc25a6d_2c8b534e",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-11T16:38:48Z",
+      "side": 1,
+      "message": "Considering this is likely a common issue with all sensors, not just hwmontemp sensor, I wonder if this code needs to go somewhere generic.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 1
+      },
+      "revId": "635082060fb48b29440176e0de5f8c0ee751158d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
