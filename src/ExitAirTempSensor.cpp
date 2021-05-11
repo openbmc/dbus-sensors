@@ -553,7 +553,7 @@ void ExitAirTempSensor::setupMatches(void)
         "power", inletTemperatureSensor};
 
     std::weak_ptr<ExitAirTempSensor> weakRef = weak_from_this();
-    for (const std::string& type : matchTypes)
+    for (const std::string type : matchTypes)
     {
         setupSensorMatch(matches, *dbusConnection, type,
                          [weakRef, type](const double& value,
