@@ -248,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "bbc78dc7_f9fbd025",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-11T16:56:33Z",
+      "side": 1,
+      "message": "\u003e Modified.\n\u003e follow origin design, if the specialMode interface exist, then check the subtree information.\n\u003e If other user need to use the specialMode service in their project, they should add the After to wait specialMode service ready before start dbus-sensor.\n\nThat goes against the design of dbus-sensors, but was fine in bmcweb, because we were doing it in the context of a low-rate set request.  in dbus-sensors, all of these are high rate.  At one point dbus-sensors did what you recommended and relied on the AFTER param, but had issues with reliability and handling service restarts, hence why the design today is different.",
+      "parentUuid": "0fc04c6a_0db03e43",
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74423649_de949ed3",
         "filename": "src/Utils.cpp",
         "patchSetId": 21
