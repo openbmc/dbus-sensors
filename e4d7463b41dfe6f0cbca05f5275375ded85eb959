@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b81a8e4c_d83c4bff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001075
+      },
+      "writtenOn": "2021-05-11T23:00:24Z",
+      "side": 1,
+      "message": "The wording seems awkward to me.",
+      "revId": "e4d7463b41dfe6f0cbca05f5275375ded85eb959",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
