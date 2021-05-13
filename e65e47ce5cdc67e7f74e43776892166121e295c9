@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e9b5b38_57f67248",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-13T15:23:10Z",
+      "side": 1,
+      "message": "The fact that we\u0027re looping over in a second pass would kind of imply that our data structure (vector\u003cthreshold\u003e) is wrong, and we should be pairing together the thresholds such that we\u0027re not unrolling the second stage of this loop by hand.\n\nsomething like\n\nstd::vector\u003cstd::pair\u003cThreshold, Threshold\u003e\u003e\n\nor maybe even move the severity to the higher level container so it can be shared.\n\nflat_map\u003cSeverity, std::pair\u003cThreshold, Threshold\u003e\u003e\n\nWhich would allow us to initialize the paired threshold at the same time we initialize the first threshold, instead of having to add a second pass to sweep through and do it.  Additionally, it prepares us for having 5 thresholds in the future.\n\nI need to give this more thought, but I don\u0027t like that this method is going to double in size once we get the next three threshold severities supported (which is already in review).",
+      "revId": "e65e47ce5cdc67e7f74e43776892166121e295c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
