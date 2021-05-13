@@ -212,6 +212,9 @@ struct Sensor
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
             });
+
+        fillMissingThresholds();
+
         for (auto& threshold : thresholds)
         {
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
@@ -451,6 +454,66 @@ struct Sensor
     }
 
   private:
+    // If one of the thresholds for a dbus interface is provided
+    // we have to set the other one as dbus properties are never
+    // optional.
+    void fillMissingThresholds()
+    {
+        bool hasWarningHigh = false;
+        bool hasWarningLow = false;
+        bool hasCriticalHigh = false;
+        bool hasCriticalLow = false;
+
+        for (auto& threshold : thresholds)
+        {
+            if ((threshold.level == thresholds::Level::CRITICAL) &&
+                (threshold.direction == thresholds::Direction::HIGH))
+            {
+                hasCriticalHigh = true;
+            }
+            if ((threshold.level == thresholds::Level::CRITICAL) &&
+                (threshold.direction == thresholds::Direction::LOW))
+            {
+                hasCriticalLow = true;
+            }
+            if ((threshold.level == thresholds::Level::WARNING) &&
+                (threshold.direction == thresholds::Direction::HIGH))
+            {
+                hasWarningHigh = true;
+            }
+            if ((threshold.level == thresholds::Level::WARNING) &&
+                (threshold.direction == thresholds::Direction::LOW))
+            {
+                hasWarningLow = true;
+            }
+        }
+
+        if (hasCriticalLow && !hasCriticalHigh)
+        {
+            thresholds.emplace_back(thresholds::Level::CRITICAL,
+                                    thresholds::Direction::HIGH,
+                                    std::numeric_limits<double>::quiet_NaN());
+        }
+        if (!hasCriticalLow && hasCriticalHigh)
+        {
+            thresholds.emplace_back(thresholds::Level::CRITICAL,
+                                    thresholds::Direction::LOW,
+                                    std::numeric_limits<double>::quiet_NaN());
+        }
+        if (hasWarningLow && !hasWarningHigh)
+        {
+            thresholds.emplace_back(thresholds::Level::WARNING,
+                                    thresholds::Direction::HIGH,
+                                    std::numeric_limits<double>::quiet_NaN());
+        }
+        if (!hasWarningLow && hasWarningHigh)
+        {
+            thresholds.emplace_back(thresholds::Level::WARNING,
+                                    thresholds::Direction::LOW,
+                                    std::numeric_limits<double>::quiet_NaN());
+        }
+    }
+
     void updateValueProperty(const double& newValue)
     {
         // Indicate that it is internal set call, not an external overwrite
