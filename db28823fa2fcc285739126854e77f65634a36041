@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c50383bd_3548f1dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-05-13T01:24:15Z",
+      "side": 1,
+      "message": "I am not sure this is true. What if sensor config is updated? What if threshold values are changed?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "db28823fa2fcc285739126854e77f65634a36041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9cf185e_f5c3fb41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-05-13T01:24:15Z",
+      "side": 1,
+      "message": "the code should be designed to work reliably for all cases including the corner cases. Can you provide more detail on the corner cases? I am aware of timing race conditions and this patch is to fix them https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42737. It may not be bulletproof yet. If you have particular test cases, I can give them a try.",
+      "range": {
+        "startLine": 17,
+        "startChar": 48,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "db28823fa2fcc285739126854e77f65634a36041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
