@@ -273,6 +273,9 @@ struct Sensor
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
             });
+
+        fillMissingThresholds();
+
         for (auto& threshold : thresholds)
         {
             if (std::isnan(threshold.hysteresis))
@@ -536,6 +539,51 @@ struct Sensor
     }
 
   private:
+    // If one of the thresholds for a dbus interface is provided
+    // we have to set the other one as dbus properties are never
+    // optional.
+    void fillMissingThresholds()
+    {
+        for (size_t i = 0; i < thresholdInterfaces.size(); i++)
+        {
+            if (!thresholdInterfaces[i])
+            {
+                continue;
+            }
+
+            bool hasHighLimit = false;
+            bool hasLowLimit = false;
+            thresholds::Level level = static_cast<thresholds::Level>(i);
+
+            for (auto& threshold : thresholds)
+            {
+                if (threshold.level == level)
+                {
+                    if (threshold.direction == thresholds::Direction::HIGH)
+                    {
+                        hasHighLimit = true;
+                    }
+                    if (threshold.direction == thresholds::Direction::LOW)
+                    {
+                        hasLowLimit = true;
+                    }
+                }
+            }
+            if (!hasHighLimit)
+            {
+                thresholds.emplace_back(
+                    level, thresholds::Direction::HIGH,
+                    std::numeric_limits<double>::quiet_NaN());
+            }
+            if (!hasLowLimit)
+            {
+                thresholds.emplace_back(
+                    level, thresholds::Direction::LOW,
+                    std::numeric_limits<double>::quiet_NaN());
+            }
+        }
+    }
+
     void updateValueProperty(const double& newValue)
     {
         // Indicate that it is internal set call, not an external overwrite
