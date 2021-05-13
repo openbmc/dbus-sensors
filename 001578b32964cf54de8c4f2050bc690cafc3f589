@@ -313,6 +313,24 @@
     },
     {
       "key": {
+        "uuid": "ce6af0e1_403c2f23",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-05-13T05:43:23Z",
+      "side": 1,
+      "message": "Could advise how to implement to support the \"make sure it\u0027s instantiated before you do the mapper call\"?",
+      "parentUuid": "bbc78dc7_f9fbd025",
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74423649_de949ed3",
         "filename": "src/Utils.cpp",
         "patchSetId": 21
