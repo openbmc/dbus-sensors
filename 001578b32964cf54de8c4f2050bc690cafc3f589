@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "559882ac_a4ad7f0f",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-05-14T02:50:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4bc8991_80c0cdc1",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 8
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a82936_dbb94e79",
         "filename": "src/Utils.cpp",
         "patchSetId": 21
@@ -349,6 +373,24 @@
     },
     {
       "key": {
+        "uuid": "8c12012d_9824bdea",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-05-14T02:50:49Z",
+      "side": 1,
+      "message": "Remove the getsubtree check, only keep the match expression, when the service starts it will register the propertiesChanged to monitor and change the variable value when getting the change signal.",
+      "parentUuid": "147ecb1f_38c5188c",
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74423649_de949ed3",
         "filename": "src/Utils.cpp",
         "patchSetId": 21
@@ -440,6 +482,30 @@
       "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce318eaf_041317f0",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1000895
+      },
+      "writtenOn": "2021-05-14T02:50:49Z",
+      "side": 1,
+      "message": "Does this still an issue \"two interfaces you need to track, I suspect you need two variables here.\"? or it can match the requirement after removing the getsubtree check.",
+      "parentUuid": "54370bbf_805fa17d",
+      "range": {
+        "startLine": 564,
+        "startChar": 0,
+        "endLine": 564,
+        "endChar": 54
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
