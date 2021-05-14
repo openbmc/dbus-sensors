@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61667ca3_34863773",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000904
+      },
+      "writtenOn": "2021-05-14T02:13:27Z",
+      "side": 1,
+      "message": "If the sensor config or threshold value are changed,PropertiesChanged signal will be set, createsensor will be called but \"sensorsChanged\" will be not nullptr, so the sensor could be get updated.",
+      "parentUuid": "c50383bd_3548f1dd",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "db28823fa2fcc285739126854e77f65634a36041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9cf185e_f5c3fb41",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2021-05-13T01:24:15Z",
       "side": 1,
       "message": "the code should be designed to work reliably for all cases including the corner cases. Can you provide more detail on the corner cases? I am aware of timing race conditions and this patch is to fix them https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42737. It may not be bulletproof yet. If you have particular test cases, I can give them a try.",
+      "range": {
+        "startLine": 17,
+        "startChar": 48,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "db28823fa2fcc285739126854e77f65634a36041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58e61a70_71da0101",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000904
+      },
+      "writtenOn": "2021-05-14T02:13:27Z",
+      "side": 1,
+      "message": "It\u0027s also necessary enhance the code from the perspective of performance or robustness, that\u0027s the current patch is trying to do.\n\nThe corner case I met was sensor P12V_AUX\u0027s value was down across the lcr in a particular board, it introduces the timing race condition that ThresholdTimer::startTimer was not expired while the sensor was destroyed.\n\nI thought there should be a solution for this corner case like https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42737. But the current patch is to enhance the code performance and robustness.",
+      "parentUuid": "a9cf185e_f5c3fb41",
       "range": {
         "startLine": 17,
         "startChar": 48,
