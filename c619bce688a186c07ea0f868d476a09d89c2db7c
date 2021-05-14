@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "205e8a0f_58c869c0",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-05-14T03:52:19Z",
+      "side": 1,
+      "message": "OK, removed the parens, although I think it makes the statement much easier to read.",
+      "parentUuid": "09f07f37_b2f4d7a4",
+      "range": {
+        "startLine": 330,
+        "startChar": 33,
+        "endLine": 330,
+        "endChar": 62
+      },
+      "revId": "c619bce688a186c07ea0f868d476a09d89c2db7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20bd57fa_0b6c3bd6",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "55431607_4511cb6b",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-05-14T03:52:19Z",
+      "side": 1,
+      "message": "This was intentional, for symmetry with the same declaration used in other dbus-sensors daemons.\n\nHowever, it\u0027s a singleton here, so I removed this variable entirely here, just using the constant string in the one place it was needed.\n\nLong-term, many of these repeated string declarations, for repetitive strings used frequently and starting with \"/xyz/openbmc_project/\", should be moved to a common file, to avoid having to repeat them everywhere else, but that is beyond the scope of this patch.",
+      "parentUuid": "20bd57fa_0b6c3bd6",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "c619bce688a186c07ea0f868d476a09d89c2db7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c987a733_4a145fe2",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 11
@@ -68,6 +116,30 @@
       "revId": "c619bce688a186c07ea0f868d476a09d89c2db7c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb503aed_e5e4d4e4",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-05-14T03:52:19Z",
+      "side": 1,
+      "message": "This is intentional.\n\nI don\u0027t want to do any escaping here.\n\nReasons is, the return from this function will be passed into the Sensor() constructor, and then the escaping will be done by the Sensor object.\n\nSo, no additional escaping is necessary, and in fact, adding it here would introduce the risk of double-escaping.",
+      "parentUuid": "c987a733_4a145fe2",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 33
+      },
+      "revId": "c619bce688a186c07ea0f868d476a09d89c2db7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
