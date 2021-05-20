@@ -153,6 +153,7 @@ if get_option('mcu').enabled()
 endif
 
 if get_option('nvme').enabled()
+    mctp = meson.get_compiler('cpp').find_library('libmctp')
     executable(
         'nvmesensor',
         'NVMeSensorMain.cpp',
