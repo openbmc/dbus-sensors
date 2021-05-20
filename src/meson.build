@@ -98,6 +98,24 @@ if get_option('hwmon-temp').enabled()
     )
 endif
 
+if get_option('iio').enabled()
+    executable(
+        'iiosensor',
+        'IIOMain.cpp',
+        'IIOSensor.cpp',
+        dependencies: [
+            sdbusplus,
+        ],
+        implicit_include_directories: false,
+        include_directories: '../include',
+        install: true,
+        link_with: [
+            thresholds_a,
+            utils_a,
+        ],
+    )
+endif
+
 if get_option('intrusion').enabled()
     executable(
         'intrusionsensor',
