@@ -25,7 +25,6 @@ build_tests = get_option('tests')
 gpiodcxx = dependency('libgpiodcxx')
 i2c = meson.get_compiler('cpp').find_library('i2c')
 sdbusplus = dependency('sdbusplus')
-mctp = meson.get_compiler('cpp').find_library('mctp', required : false)
 systemd = dependency('systemd')
 systemd_system_unit_dir = systemd.get_pkgconfig_variable(
     'systemdsystemunitdir',
