@@ -387,7 +387,7 @@ void rxMessage(uint8_t eid, void*, void* msg, size_t len)
 }
 
 NVMeContext::NVMeContext(boost::asio::io_service& io, int rootBus) :
-    rootBus(rootBus), scanTimer(io), nvmeSlaveSocket(io), mctpResponseTimer(io)
+    scanTimer(io), rootBus(rootBus), mctpResponseTimer(io), nvmeSlaveSocket(io)
 {
     nvmeSlaveSocket.assign(boost::asio::ip::tcp::v4(),
                            nvmeMCTP::getInFd(rootBus));
@@ -440,7 +440,7 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
            std::move(thresholdsIn), sensorConfiguration,
            "xyz.openbmc_project.Configuration.NVMe", maxReading, minReading,
            conn, PowerState::on),
-    objServer(objectServer), bus(busNumber)
+    bus(busNumber), objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
