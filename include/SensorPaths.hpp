@@ -25,6 +25,8 @@ constexpr const char* unitJoules =
 constexpr const char* unitPercent =
     "xyz.openbmc_project.Sensor.Value.Unit.Percent";
 constexpr const char* unitCFM = "xyz.openbmc_project.Sensor.Value.Unit.CFM";
+constexpr const char* unitPascals =
+    "xyz.openbmc_project.Sensor.Value.Unit.Pascals";
 
 std::string getPathForUnits(const std::string& units);
 
