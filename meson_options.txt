@@ -3,6 +3,7 @@ option('cpu', type: 'feature', value: 'enabled', description: 'Enable CPU sensor
 option('exit-air', type: 'feature', value: 'enabled', description: 'Enable exit air sensor.',)
 option('fan', type: 'feature', value: 'enabled', description: 'Enable fan sensor.',)
 option('hwmon-temp', type: 'feature', value: 'enabled', description: 'Enable HWMON temperature sensor.',)
+option('iio', type: 'feature', value: 'enabled', description: 'Enable IIO sensor.',)
 option('intrusion', type: 'feature', value: 'enabled', description: 'Enable intrusion sensor.',)
 option('ipmb', type: 'feature', value: 'enabled', description: 'Enable IPMB sensor.',)
 option('mcu', type: 'feature', value: 'enabled', description: 'Enable MCU sensor.',)
