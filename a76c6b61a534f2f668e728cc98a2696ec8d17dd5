@@ -70,6 +70,30 @@
       "revId": "a76c6b61a534f2f668e728cc98a2696ec8d17dd5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9293cf5f_bfb6575c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-05-21T16:48:21Z",
+      "side": 1,
+      "message": "I understand.\n\nAlso another point is you will notice in the commit message\nis I have a line Author: Eddie James \u003ceajames@linux.ibm.com\u003e\nas I am not the original creator.",
+      "parentUuid": "8b257c84_c1dbb58b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "a76c6b61a534f2f668e728cc98a2696ec8d17dd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
