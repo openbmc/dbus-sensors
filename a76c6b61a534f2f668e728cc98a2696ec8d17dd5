@@ -22,6 +22,30 @@
       "revId": "a76c6b61a534f2f668e728cc98a2696ec8d17dd5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae1fa6ed_808a8954",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-05-21T16:39:24Z",
+      "side": 1,
+      "message": "Hi Ed,\n\nThank you for reviewing and feedback.\n\nThe main feature this provides it Altitude of the system,\nthis is (will be) computed from the pressure via standard\nformulas.  This is needed for knowing air density for\ncooling and fan control.  Also used by other subsystems\nto tell if the costumer is using the system above the \nspecified altitude limit.\n\nThese are the requirements I was given:\n    How to handle Altitude in userspace https://github.com/ibm-openbmc/dev/issues/649\n    Rainier - Add DPS310 ambient \u0026 altitude sensor configurations https://github.com/ibm-openbmc/dev/issues/2652\n\nThe associated EM config change 43416: entity-manager:\n    Adds support for DPS310 altitude | https://gerrit.openbmc-project.xyz/c/openbmc/entity-manager/+/43416",
+      "parentUuid": "dc0ec89b_613d1056",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "a76c6b61a534f2f668e728cc98a2696ec8d17dd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
