@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc0ec89b_613d1056",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-21T15:31:48Z",
+      "side": 1,
+      "message": "2 sentences is rarely a large enough commit message for a completely new feature.\n\nSome immediate questions I have:\nWhy were the existing hwmon sensors classes not useful?\nWhat features does this support?\nIs there an associated EM config change?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "a76c6b61a534f2f668e728cc98a2696ec8d17dd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
