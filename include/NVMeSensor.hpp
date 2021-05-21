@@ -44,8 +44,6 @@ struct NVMeContext : std::enable_shared_from_this<NVMeContext>
 
 using NVMEMap = boost::container::flat_map<int, std::shared_ptr<NVMeContext>>;
 
-int verifyIntegrity(uint8_t* msg, size_t len);
-
 namespace nvmeMCTP
 {
 void init(void);
