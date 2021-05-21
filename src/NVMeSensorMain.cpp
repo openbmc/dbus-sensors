@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <NVMeContext.hpp>
 #include <NVMeSensor.hpp>
 #include <boost/asio/deadline_timer.hpp>
 
