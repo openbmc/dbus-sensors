@@ -15,6 +15,8 @@
 */
 
 #include <crc32c.h>
+
+#include <libmctp.h>
 #include <libmctp-smbus.h>
 
 #include <NVMeDevice.hpp>
