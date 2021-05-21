@@ -31,7 +31,7 @@ static constexpr double minReading = 0;
 
 static constexpr bool debug = false;
 
-void rxMessage(uint8_t eid, void* data, void* msg, size_t len);
+static void rxMessage(uint8_t eid, void* data, void* msg, size_t len);
 
 namespace nvmeMCTP
 {
@@ -112,7 +112,7 @@ void init()
 
 } // namespace nvmeMCTP
 
-void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
+static void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
 {
     nvmeDevice->nvmeSlaveSocket.async_wait(
         boost::asio::ip::tcp::socket::wait_error,
@@ -130,7 +130,7 @@ void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
         });
 }
 
-int nvmeMessageTransmit(mctp& mctp, nvme_mi_msg_request& req)
+static int nvmeMessageTransmit(mctp& mctp, nvme_mi_msg_request& req)
 {
     std::array<uint8_t, NVME_MI_MSG_BUFFER_SIZE> messageBuf = {};
 
@@ -180,7 +180,7 @@ int nvmeMessageTransmit(mctp& mctp, nvme_mi_msg_request& req)
     return mctp_message_tx(&mctp, 0, messageBuf.data(), msgSize);
 }
 
-int verifyIntegrity(uint8_t* msg, size_t len)
+static int verifyIntegrity(uint8_t* msg, size_t len)
 {
     uint32_t msgIntegrity = {0};
     if (len < NVME_MI_MSG_RESPONSE_HEADER_SIZE + sizeof(msgIntegrity))
@@ -202,7 +202,7 @@ int verifyIntegrity(uint8_t* msg, size_t len)
     return 0;
 }
 
-void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
+static void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
 {
     struct nvme_mi_msg_request requestMsg = {};
     requestMsg.header.opcode = NVME_MI_OPCODE_HEALTH_STATUS_POLL;
@@ -271,7 +271,7 @@ static double getTemperatureReading(int8_t reading)
     return reading;
 }
 
-void rxMessage(uint8_t eid, void*, void* msg, size_t len)
+static void rxMessage(uint8_t eid, void*, void* msg, size_t len)
 {
     struct nvme_mi_msg_response_header header
     {};
