@@ -107,6 +107,27 @@ void init()
 
 } // namespace nvmeMCTP
 
+static void rxMessage(uint8_t eid, void*, void* msg, size_t len)
+{
+    int inFd = mctp_smbus_get_in_fd(nvmeMCTP::smbus);
+    int rootBus = nvmeMCTP::getRootBus(inFd);
+
+    NVMEMap& nvmeMap = getNVMEMap();
+    auto findMap = nvmeMap.find(rootBus);
+    if (findMap == nvmeMap.end())
+    {
+        std::cerr << "Unable to lookup root bus " << rootBus << "\n";
+        return;
+    }
+
+    if (debug)
+    {
+        std::cout << "Eid from the received messaged: " << eid << "\n";
+    }
+
+    findMap->second->processResponse(msg, len);
+}
+
 static int verifyIntegrity(uint8_t* msg, size_t len)
 {
     uint32_t msgIntegrity = {0};
@@ -143,22 +164,9 @@ static double getTemperatureReading(int8_t reading)
     return reading;
 }
 
-static void rxMessage(uint8_t eid, void*, void* msg, size_t len)
+void NVMeContext::processResponse(void *msg, size_t len)
 {
-    struct nvme_mi_msg_response_header header
-    {};
-
-    int inFd = mctp_smbus_get_in_fd(nvmeMCTP::smbus);
-    int rootBus = nvmeMCTP::getRootBus(inFd);
-
-    NVMEMap& nvmeMap = getNVMEMap();
-    auto findMap = nvmeMap.find(rootBus);
-    if (findMap == nvmeMap.end())
-    {
-        std::cerr << "Unable to lookup root bus " << rootBus << "\n";
-        return;
-    }
-    std::shared_ptr<NVMeContext>& self = findMap->second;
+    struct nvme_mi_msg_response_header header {};
 
     if (msg == nullptr)
     {
@@ -170,11 +178,6 @@ static void rxMessage(uint8_t eid, void*, void* msg, size_t len)
     {
         std::cerr << "Received message not long enough\n";
         return;
-    }
-
-    if (debug)
-    {
-        std::cout << "Eid from the received messaged: " << eid << "\n";
     }
 
     uint8_t* messageData = static_cast<uint8_t*>(msg);
@@ -229,7 +232,7 @@ static void rxMessage(uint8_t eid, void*, void* msg, size_t len)
         return;
     }
 
-    std::shared_ptr<NVMeSensor> sensorInfo = self->sensors.front();
+    std::shared_ptr<NVMeSensor> sensorInfo = sensors.front();
     if (debug)
     {
         std::cout << "Temperature Reading: "
@@ -254,10 +257,10 @@ static void rxMessage(uint8_t eid, void*, void* msg, size_t len)
     }
 
     // move to back of scan queue
-    self->sensors.pop_front();
-    self->sensors.emplace_back(sensorInfo);
+    sensors.pop_front();
+    sensors.emplace_back(sensorInfo);
 
-    self->mctpResponseTimer.cancel();
+    mctpResponseTimer.cancel();
 }
 
 static int nvmeMessageTransmit(mctp& mctp, nvme_mi_msg_request& req)
@@ -310,25 +313,24 @@ static int nvmeMessageTransmit(mctp& mctp, nvme_mi_msg_request& req)
     return mctp_message_tx(&mctp, 0, messageBuf.data(), msgSize);
 }
 
-static void readResponse(const std::shared_ptr<NVMeContext>& nvmeDevice)
+void NVMeContext::readResponse()
 {
-    nvmeDevice->nvmeSlaveSocket.async_wait(
+    nvmeSlaveSocket.async_wait(
         boost::asio::ip::tcp::socket::wait_error,
-        [nvmeDevice](const boost::system::error_code errorCode) {
+        [this](const boost::system::error_code errorCode) {
             if (errorCode)
             {
                 return;
             }
 
-            mctp_smbus_set_in_fd(nvmeMCTP::smbus,
-                                 nvmeMCTP::getInFd(nvmeDevice->rootBus));
+            mctp_smbus_set_in_fd(nvmeMCTP::smbus, nvmeMCTP::getInFd(rootBus));
 
             // through libmctp this will invoke rxMessage
             mctp_smbus_read(nvmeMCTP::smbus);
         });
 }
 
-static void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDevice)
+void NVMeContext::readAndProcessNVMeSensor()
 {
     struct nvme_mi_msg_request requestMsg = {};
     requestMsg.header.opcode = NVME_MI_OPCODE_HEALTH_STATUS_POLL;
@@ -337,19 +339,19 @@ static void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDev
 
     int mctpResponseTimeout = 1;
 
-    if (nvmeDevice->sensors.empty())
+    if (sensors.empty())
     {
         return;
     }
 
-    std::shared_ptr<NVMeSensor>& sensor = nvmeDevice->sensors.front();
+    std::shared_ptr<NVMeSensor>& sensor = sensors.front();
 
     // setup the timeout timer
-    nvmeDevice->mctpResponseTimer.expires_from_now(
+    mctpResponseTimer.expires_from_now(
         boost::posix_time::seconds(mctpResponseTimeout));
 
-    nvmeDevice->mctpResponseTimer.async_wait(
-        [sensor, nvmeDevice](const boost::system::error_code errorCode) {
+    mctpResponseTimer.async_wait(
+        [sensor, this](const boost::system::error_code errorCode) {
             if (errorCode)
             {
                 // timer cancelled successfully
@@ -359,18 +361,18 @@ static void readAndProcessNVMeSensor(const std::shared_ptr<NVMeContext>& nvmeDev
             sensor->incrementError();
 
             // cycle it back
-            nvmeDevice->sensors.pop_front();
-            nvmeDevice->sensors.emplace_back(sensor);
+            sensors.pop_front();
+            sensors.emplace_back(sensor);
 
-            nvmeDevice->nvmeSlaveSocket.cancel();
+            nvmeSlaveSocket.cancel();
         });
 
-    readResponse(nvmeDevice);
+    readResponse();
 
     if (debug)
     {
         std::cout << "Sending message to read data from Drive on bus: "
-                  << sensor->bus << " , rootBus: " << nvmeDevice->rootBus
+                  << sensor->bus << " , rootBus: " << rootBus
                   << " device: " << sensor->name << "\n";
     }
 
@@ -406,7 +408,7 @@ void NVMeContext::pollNVMeDevices()
             }
             else
             {
-                readAndProcessNVMeSensor(self);
+                self->readAndProcessNVMeSensor();
             }
 
             self->pollNVMeDevices();

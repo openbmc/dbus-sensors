@@ -137,7 +137,7 @@ void createSensors(boost::asio::io_service& io,
                         objectServer, io, dbusConnection, sensorName,
                         std::move(sensorThresholds), interfacePath, busNumber);
 
-                context->sensors.emplace_back(sensorPtr);
+                context->addSensor(sensorPtr);
             }
             for (const auto& [_, context] : nvmeDeviceMap)
             {
