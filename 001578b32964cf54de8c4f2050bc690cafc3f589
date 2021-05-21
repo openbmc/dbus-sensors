@@ -509,6 +509,30 @@
     },
     {
       "key": {
+        "uuid": "ec3fd0c7_a7d9dca3",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-05-21T00:27:35Z",
+      "side": 1,
+      "message": "Hi Ed, do you still have concerns here? I don\u0027t fully understand your comment as well. Seems like we are doing the correct thing by performing string comparison.",
+      "parentUuid": "ce318eaf_041317f0",
+      "range": {
+        "startLine": 564,
+        "startChar": 0,
+        "endLine": 564,
+        "endChar": 54
+      },
+      "revId": "001578b32964cf54de8c4f2050bc690cafc3f589",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30644dd6_16c67d8a",
         "filename": "src/Utils.cpp",
         "patchSetId": 21
