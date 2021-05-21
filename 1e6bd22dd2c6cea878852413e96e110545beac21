@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21b0d13d_5c03adce",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-21T15:36:53Z",
+      "side": 1,
+      "message": "nit: can we name this \"setupManufacturingModeMatch\" to make it more clear?",
+      "range": {
+        "startLine": 319,
+        "startChar": 5,
+        "endLine": 319,
+        "endChar": 27
+      },
+      "revId": "1e6bd22dd2c6cea878852413e96e110545beac21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "431b2b53_78eb4538",
+        "filename": "include/dbus-sensor_config.h.in",
+        "patchSetId": 24
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-21T15:36:53Z",
+      "side": 1,
+      "message": "bool?",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 19
+      },
+      "revId": "1e6bd22dd2c6cea878852413e96e110545beac21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fe94553_b1e973a1",
+        "filename": "include/dbus-sensor_config.h.in",
+        "patchSetId": 24
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-21T15:36:53Z",
+      "side": 1,
+      "message": "Same as above.  Bool?",
+      "range": {
+        "startLine": 8,
+        "startChar": 16,
+        "endLine": 8,
+        "endChar": 19
+      },
+      "revId": "1e6bd22dd2c6cea878852413e96e110545beac21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ab42912_032a018a",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-21T15:36:53Z",
+      "side": 1,
+      "message": "Can we split this up a little to make it more clear.\n\nHaving a separate condition for each \"failed to set\" type seems useful.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 48
+      },
+      "revId": "1e6bd22dd2c6cea878852413e96e110545beac21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36e2098e_0a3e1dde",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-21T15:36:53Z",
+      "side": 1,
+      "message": "This method doesn\u0027t need to take ownership of the connection, so this method argument should just be sdbusplus::asio::connection\u0026",
+      "range": {
+        "startLine": 512,
+        "startChar": 4,
+        "endLine": 512,
+        "endChar": 54
+      },
+      "revId": "1e6bd22dd2c6cea878852413e96e110545beac21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
