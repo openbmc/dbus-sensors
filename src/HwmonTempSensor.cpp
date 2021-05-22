@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <errno.h>
 #include <unistd.h>
 
 #include <HwmonTempSensor.hpp>
@@ -48,9 +49,21 @@ HwmonTempSensor::HwmonTempSensor(
            std::move(thresholdsIn), sensorConfiguration, objectType, maxReading,
            minReading, conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    inputDev(io), waitTimer(io), path(path),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
 {
+    // Open here, not in inputDev() constructor call, so error can show
+    int fd = open(path.c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        int err = errno;
+        std::cerr << "Hwmon temp sensor " << name
+                  << " open error: " << std::strerror(err) << "\n";
+    }
+
+    // Even if error, assign anyway, checked by setupRead() before use
+    inputDev.assign(fd);
+
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
@@ -86,6 +99,13 @@ HwmonTempSensor::~HwmonTempSensor()
 
 void HwmonTempSensor::setupRead(void)
 {
+    int fd = inputDev.native_handle();
+    if (fd < 0)
+    {
+        std::cerr << "Hwmon temp sensor " << name << " closed " << path << "\n";
+        return; // we're no longer valid
+    }
+
     std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
 
     boost::asio::async_read_until(inputDev, readBuf, '\n',
@@ -109,37 +129,60 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
                   << "\n";
         return; // we're being destroyed
     }
+
     std::istream responseStream(&readBuf);
+    bool errorHappened = false;
     if (!err)
     {
         std::string response;
-        std::getline(responseStream, response);
         try
         {
+            std::getline(responseStream, response);
             rawValue = std::stod(response);
+            responseStream.clear();
+
             double nvalue = rawValue / sensorScaleFactor;
             updateValue(nvalue);
         }
         catch (const std::invalid_argument&)
         {
-            incrementError();
+            std::cerr << "Hwmon temp sensor " << name << " parse error\n";
+            errorHappened = true;
         }
     }
     else
     {
-        incrementError();
+        std::cerr << "Hwmon temp sensor " << name
+                  << " read error: " << err.message() << "\n";
+        errorHappened = true;
     }
 
-    responseStream.clear();
-    inputDev.close();
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd < 0)
+    if (errorHappened)
     {
-        std::cerr << "Hwmon temp sensor " << name << " not valid " << path
-                  << "\n";
-        return; // we're no longer valid
+        // Invalidate sensor value, to remove old misleading stale value
+        updateValue(std::numeric_limits<double>::quiet_NaN());
+        incrementError();
+
+        // Reopen the hwmon file
+        inputDev.close();
+        int fd = open(path.c_str(), O_RDONLY);
+        if (fd < 0)
+        {
+            int err = errno;
+            std::cerr << "Hwmon temp sensor " << name
+                      << " reopen error: " << std::strerror(err) << "\n";
+        }
+
+        // Even if error, assign anyway, checked by setupRead() before use
+        inputDev.assign(fd);
     }
-    inputDev.assign(fd);
+    else
+    {
+        // Rewind same fd, without reopening the hwmon file
+        int fd = inputDev.native_handle();
+        lseek(fd, 0, SEEK_SET);
+    }
+
     waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
     std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
@@ -156,6 +199,13 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
                 std::cerr << "Hwmon sensor read cancelled, no self\n";
             }
             return; // we're being canceled
+        }
+        if (ec)
+        {
+            std::cerr << "Hwmon temp sensor "
+                      << (self ? self->name : "cancellation")
+                      << " timer error: " << ec.message() << "\n";
+            return;
         }
         if (self)
         {
