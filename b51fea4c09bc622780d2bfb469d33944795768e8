@@ -45,6 +45,30 @@
       "revId": "b51fea4c09bc622780d2bfb469d33944795768e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91ecb7e6_891b5d79",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-05-22T04:40:33Z",
+      "side": 1,
+      "message": "Agreed with Zhikui\u0027s warning. The ordering of setupRead() and handleResponse() is very delicate. This looks unusual, to be setting up both callbacks in the same function, and it looks like it would have some subtle race conditions.",
+      "parentUuid": "987a8190_8d09a083",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 7
+      },
+      "revId": "b51fea4c09bc622780d2bfb469d33944795768e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
