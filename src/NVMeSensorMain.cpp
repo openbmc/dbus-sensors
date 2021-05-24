@@ -129,7 +129,11 @@ void createSensors(boost::asio::io_service& io,
                 }
                 else
                 {
+#if HAVE_NVME_MI_MCTP
                     context = std::make_shared<NVMeMCTPContext>(io, rootBus);
+#else
+                    context = std::make_shared<NVMeBasicContext>(io, rootBus);
+#endif
                     nvmeDeviceMap[rootBus] = context;
                 }
 
@@ -154,7 +158,9 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.NVMeSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
+#if HAVE_NVME_MI_MCTP
     nvmeMCTP::init();
+#endif
 
     io.post([&]() { createSensors(io, objectServer, systemBus); });
 
