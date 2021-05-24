@@ -155,10 +155,16 @@ endif
 if get_option('nvme').enabled()
     nvme_srcs = files('NVMeSensorMain.cpp', 'NVMeSensor.cpp')
     nvme_srcs += files('NVMeBasicContext.cpp')
-    nvme_srcs += files('NVMeMCTPContext.cpp')
 
-    mctp = meson.get_compiler('cpp').find_library('libmctp')
-    nvme_deps = [ i2c, sdbusplus, threads, boost, mctp ]
+    nvme_deps = [ i2c, sdbusplus, threads, boost ]
+
+    mi_mctp = get_option('nvme-mi-mctp')
+    if mi_mctp.enabled()
+        nvme_srcs += files('NVMeMCTPContext.cpp')
+        nvme_deps += meson.get_compiler('cpp').find_library('libmctp')
+        conf_data = configuration_data()
+        conf_data.set('HAVE_NVME_MI_MCTP', true)
+    endif
 
     executable(
         'nvmesensor',
