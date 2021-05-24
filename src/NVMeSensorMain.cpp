@@ -15,6 +15,7 @@
 */
 
 #include <NVMeContext.hpp>
+#include <NVMeMCTPContext.hpp>
 #include <NVMeSensor.hpp>
 
 #include <boost/asio/deadline_timer.hpp>
@@ -128,7 +129,7 @@ void createSensors(boost::asio::io_service& io,
                 }
                 else
                 {
-                    context = std::make_shared<NVMeContext>(io, rootBus);
+                    context = std::make_shared<NVMeMCTPContext>(io, rootBus);
                     nvmeDeviceMap[rootBus] = context;
                 }
 

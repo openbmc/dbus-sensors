@@ -15,7 +15,7 @@
 */
 
 #include "NVMeDevice.hpp"
-#include "NVMeContext.hpp"
+#include "NVMeMCTPContext.hpp"
 
 #include <crc32c.h>
 
@@ -164,7 +164,7 @@ static double getTemperatureReading(int8_t reading)
     return reading;
 }
 
-void NVMeContext::processResponse(void *msg, size_t len)
+void NVMeMCTPContext::processResponse(void *msg, size_t len)
 {
     struct nvme_mi_msg_response_header header {};
 
@@ -313,7 +313,7 @@ static int nvmeMessageTransmit(mctp& mctp, nvme_mi_msg_request& req)
     return mctp_message_tx(&mctp, 0, messageBuf.data(), msgSize);
 }
 
-void NVMeContext::readResponse()
+void NVMeMCTPContext::readResponse()
 {
     nvmeSlaveSocket.async_wait(
         boost::asio::ip::tcp::socket::wait_error,
@@ -330,7 +330,7 @@ void NVMeContext::readResponse()
         });
 }
 
-void NVMeContext::readAndProcessNVMeSensor()
+void NVMeMCTPContext::readAndProcessNVMeSensor()
 {
     struct nvme_mi_msg_request requestMsg = {};
     requestMsg.header.opcode = NVME_MI_OPCODE_HEALTH_STATUS_POLL;
@@ -385,14 +385,15 @@ void NVMeContext::readAndProcessNVMeSensor()
     }
 }
 
-NVMeContext::NVMeContext(boost::asio::io_service& io, int rootBus) :
-    scanTimer(io), rootBus(rootBus), mctpResponseTimer(io), nvmeSlaveSocket(io)
+NVMeMCTPContext::NVMeMCTPContext(boost::asio::io_service& io, int rootBus) :
+    NVMeContext::NVMeContext(io, rootBus),
+    nvmeSlaveSocket(io), mctpResponseTimer(io)
 {
     nvmeSlaveSocket.assign(boost::asio::ip::tcp::v4(),
                            nvmeMCTP::getInFd(rootBus));
 }
 
-void NVMeContext::pollNVMeDevices()
+void NVMeMCTPContext::pollNVMeDevices()
 {
     scanTimer.expires_from_now(boost::posix_time::seconds(1));
     scanTimer.async_wait(
@@ -415,15 +416,16 @@ void NVMeContext::pollNVMeDevices()
         });
 }
 
-void NVMeContext::close()
+void NVMeMCTPContext::close()
 {
-    scanTimer.cancel();
+    this->NVMeContext::close();
+
     mctpResponseTimer.cancel();
     nvmeSlaveSocket.cancel();
     nvmeMCTP::closeInFd(rootBus);
 }
 
-NVMeContext::~NVMeContext()
+NVMeMCTPContext::~NVMeMCTPContext()
 {
     close();
 }

@@ -4,42 +4,52 @@
 
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
-#include <boost/asio/ip/tcp.hpp>
 
 #include <memory>
 
 class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 {
   public:
-    NVMeContext(boost::asio::io_service& io, int rootBus);
+    NVMeContext(boost::asio::io_service& io, int rootBus) :
+        scanTimer(io), rootBus(rootBus)
+    {
+    }
 
-    virtual ~NVMeContext();
+    virtual ~NVMeContext()
+    {
+        close();
+    }
 
     void addSensor(std::shared_ptr<NVMeSensor> sensor)
     {
         sensors.emplace_back(sensor);
     }
 
-    virtual void pollNVMeDevices();
-    virtual void close();
-    virtual void readAndProcessNVMeSensor();
-    virtual void processResponse(void *msg, size_t len);
+    virtual void pollNVMeDevices()
+    {
+    }
 
-  private:
+    virtual void close()
+    {
+        scanTimer.cancel();
+    }
+
+    virtual void readAndProcessNVMeSensor()
+    {
+    }
+
+    virtual void processResponse(void *msg, size_t len)
+    {
+        (void)msg;
+        (void)len;
+    }
+
+  protected:
     boost::asio::deadline_timer scanTimer;
     int rootBus; // Root bus for this drive
-    boost::asio::deadline_timer mctpResponseTimer;
-    boost::asio::ip::tcp::socket nvmeSlaveSocket;
     std::list<std::shared_ptr<NVMeSensor>> sensors; // used as a poll queue
-
-    void readResponse();
 };
 
 using NVMEMap = boost::container::flat_map<int, std::shared_ptr<NVMeContext>>;
-
-namespace nvmeMCTP
-{
-void init(void);
-}
 
 NVMEMap& getNVMEMap(void);
