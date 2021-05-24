@@ -153,17 +153,21 @@ if get_option('mcu').enabled()
 endif
 
 if get_option('nvme').enabled()
-    mctp = meson.get_compiler('cpp').find_library('libmctp')
+    nvme_srcs = files('NVMeSensorMain.cpp', 'NVMeSensor.cpp')
+    nvme_deps = [ i2c, sdbusplus ]
+
+    mi_mctp = get_option('nvme-mi-mctp')
+    if mi_mctp.enabled()
+        nvme_deps += meson.get_compiler('cpp').find_library('libmctp')
+        nvme_srcs += files('NVMeMCTPContext.cpp')
+        conf_data = configuration_data()
+        conf_data.set('HAVE_NVME_MI_MCTP', true)
+    endif
+
     executable(
         'nvmesensor',
-        'NVMeSensorMain.cpp',
-        'NVMeSensor.cpp',
-        'NVMeMCTPContext.cpp',
-        dependencies: [
-            i2c,
-            sdbusplus,
-            mctp,
-	],
+        sources: nvme_srcs,
+        dependencies: nvme_deps,
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
