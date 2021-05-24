@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "176ceb07_0a94a1e3",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-05-24T22:01:57Z",
+      "side": 1,
+      "message": "Hmm, not quite sure what you meant, but here was my thinking. There\u0027s 2 things that can cause an error: a Boost-reported read error number, and (if read was successful) a failure to parse the bytes into a number. Both have their own unique error message above. There\u0027s no need to be unique, as each of these errors should have the same behavior, I believe: close and then reopen the file, so we can try again later.",
+      "parentUuid": "cf44f87a_91fd8138",
+      "revId": "6c3b01427f7c8c7bd3c5331f292ddb88c661c6d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51ea3546_5b1fb8ba",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "6c3b01427f7c8c7bd3c5331f292ddb88c661c6d3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc98ffc_405bb6fd",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-05-24T22:01:57Z",
+      "side": 1,
+      "message": "At first, I thought about eagerly retrying, but the delay should be short (the polling rate is one second). However, an eager retry would add complexity for not much gain. Also, the code is simplified by having the retry take place during the next timer interval, so the timer control flow doesn\u0027t need to vary between the error case and the success case. I also don\u0027t want to get caught in a rapid retry loop that would stall or deny service to other sensors/processes.",
+      "parentUuid": "51ea3546_5b1fb8ba",
+      "revId": "6c3b01427f7c8c7bd3c5331f292ddb88c661c6d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
