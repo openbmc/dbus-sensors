@@ -158,7 +158,7 @@ if get_option('nvme').enabled()
         'nvmesensor',
         'NVMeSensorMain.cpp',
         'NVMeSensor.cpp',
-        'NVMeContext.cpp',
+        'NVMeMCTPContext.cpp',
         dependencies: [
             i2c,
             sdbusplus,
