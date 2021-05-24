@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf44f87a_91fd8138",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000188
+      },
+      "writtenOn": "2021-05-24T09:33:53Z",
+      "side": 1,
+      "message": "I suspect you want to be more specific about the type of error that would cause re-opening, hopefully it is actually unique.",
+      "revId": "6c3b01427f7c8c7bd3c5331f292ddb88c661c6d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ea3546_5b1fb8ba",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000188
+      },
+      "writtenOn": "2021-05-24T09:33:53Z",
+      "side": 1,
+      "message": "You probably want to eagerly retry if you can be specific about the error as it would make the data more quickly available.",
+      "revId": "6c3b01427f7c8c7bd3c5331f292ddb88c661c6d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
