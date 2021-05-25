@@ -80,8 +80,8 @@ void createSensors(boost::asio::io_service& io,
                     continue;
                 }
 
-                unsigned int busNumber =
-                    std::visit(VariantToUnsignedIntVisitor(), findBus->second);
+                int busNumber =
+                    std::visit(VariantToIntVisitor(), findBus->second);
 
                 auto findSensorName = baseConfiguration->second.find("Name");
                 if (findSensorName == baseConfiguration->second.end())
