@@ -175,7 +175,8 @@ int main()
                 {
                     return; // we're being canceled
                 }
-                else if (ec)
+
+                if (ec)
                 {
                     std::cerr << "Error: " << ec.message() << "\n";
                     return;
