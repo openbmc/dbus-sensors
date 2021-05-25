@@ -22,6 +22,30 @@
       "revId": "63086c8f9af9ee3cc849f323ecb87d1dbf714ad0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b76ed7e8_4a0bd604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-05-25T22:43:06Z",
+      "side": 1,
+      "message": "This has been fixed upstream:\n\nhttps://github.com/openbmc/libmctp/commit/8e436af82f11ba7627cd535b3b2352de65c0c6a2\n\nHowever, Intel-BMC/openbmc doesn\u0027t build upstream libmctp, and I was using Intel-BMC/openbmc to get a build environment where I could test these patches.\n\nI don\u0027t really plan on sorting out the libmctp support in Intel-BMC/openbmc.",
+      "parentUuid": "61e4a05d_aa876577",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "63086c8f9af9ee3cc849f323ecb87d1dbf714ad0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
