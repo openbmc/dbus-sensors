@@ -110,7 +110,7 @@ void createSensors(boost::asio::io_service& io,
                 {
                     std::string rootName =
                         std::filesystem::read_symlink(muxPath).filename();
-                    size_t dash = rootName.find("-");
+                    size_t dash = rootName.find('-');
                     if (dash == std::string::npos)
                     {
                         std::cerr << "Error finding root bus for " << rootName
