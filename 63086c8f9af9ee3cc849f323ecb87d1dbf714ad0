@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61e4a05d_aa876577",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-25T16:11:39Z",
+      "side": 1,
+      "message": "Should we just fix that at the source?  Surely we don\u0027t intend for this to be liblibmctp?\n\nWith that said, i\u0027m fine with this patch in the meantime.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "63086c8f9af9ee3cc849f323ecb87d1dbf714ad0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
