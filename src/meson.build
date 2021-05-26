@@ -137,19 +137,17 @@ if get_option('mcu').enabled()
 endif
 
 if get_option('nvme').enabled()
+    nvme_srcs = files('NVMeSensorMain.cpp', 'NVMeSensor.cpp')
+    nvme_srcs += files('NVMeBasicContext.cpp')
+    nvme_srcs += files('NVMeMCTPContext.cpp')
+
     mctp = meson.get_compiler('cpp').find_library('libmctp')
+    nvme_deps = [ default_deps, i2c, mctp, thresholds_dep, utils_dep, threads ]
+
     executable(
         'nvmesensor',
-        'NVMeSensorMain.cpp',
-        'NVMeSensor.cpp',
-        'NVMeMCTPContext.cpp',
-        dependencies: [
-            default_deps,
-            i2c,
-            mctp,
-            thresholds_dep,
-            utils_dep,
-        ],
+        sources: nvme_srcs,
+        dependencies: nvme_deps,
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
