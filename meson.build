@@ -42,6 +42,13 @@ systemd_system_unit_dir = systemd.get_variable(
     pkgconfig_define: ['prefix', get_option('prefix')])
 threads = dependency('threads')
 
+boost = dependency(
+    'boost',
+    disabler: true,
+    required: false,
+    modules: [ 'thread' ],
+)
+
 thresholds_a = static_library(
     'thresholds_a',
     'src/Thresholds.cpp',
