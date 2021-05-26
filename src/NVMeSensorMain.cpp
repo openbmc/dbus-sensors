@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <NVMeBasicContext.hpp>
 #include <NVMeContext.hpp>
 #include <NVMeMCTPContext.hpp>
 #include <NVMeSensor.hpp>
