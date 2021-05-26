@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <NVMeBasicContext.hpp>
 #include <NVMeContext.hpp>
 #include <NVMeMCTPContext.hpp>
 #include <NVMeSensor.hpp>
@@ -131,7 +132,7 @@ void createSensors(boost::asio::io_service& io,
 #if HAVE_NVME_MI_MCTP
                     context = std::make_shared<NVMeMCTPContext>(io, rootBus);
 #else
-                    context = std::make_shared<NVMeContext>(io, rootBus);
+                    context = std::make_shared<NVMeBasicContext>(io, rootBus);
 #endif
                     nvmeDeviceMap[rootBus] = context;
                 }
