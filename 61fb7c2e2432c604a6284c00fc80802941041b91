@@ -22,6 +22,30 @@
       "revId": "61fb7c2e2432c604a6284c00fc80802941041b91",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f332c451_af8530b0",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-05-26T18:54:20Z",
+      "side": 1,
+      "message": "\u003e It is not clear to me, when iface will be nullptr.\n\u003e Is it only when key cpu.name does not exist in the map? \n\u003e Is it better to use inventoryIfaces.find(cpu.name) \u003d\u003d inventoryIfaces.end() and then emplace or move (line 651-661)? \n\u003e @Ed Tanous\n\nI\u0027m assuming the intent here is \"create an interface if it doesn\u0027t already exist for this CPU\".  The issue is that it\u0027s a shared_ptr, and those default construct to nullptr, so we need to check against null to see if it was created.  Ideally we\u0027d do something like try_emplace, but doing a piecewise construct for that gets complex to get to compile for constructing a shared_ptr from scratch, so I\u0027m not sure it\u0027s worth it in this case.\n\nThat\u0027s the long way of saying this changeset isn\u0027t ideal, but I\u0027m ok with it.",
+      "parentUuid": "65343aeb_d7a3bb1a",
+      "range": {
+        "startLine": 145,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 32
+      },
+      "revId": "61fb7c2e2432c604a6284c00fc80802941041b91",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
