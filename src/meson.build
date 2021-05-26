@@ -153,8 +153,8 @@ if get_option('mcu').enabled()
 endif
 
 if get_option('nvme').enabled()
-    nvme_srcs = files('NVMeSensorMain.cpp', 'NVMeSensor.cpp')
-    nvme_deps = [ i2c, sdbusplus ]
+    nvme_srcs = files('NVMeSensorMain.cpp', 'NVMeSensor.cpp', 'NVMeBasicContext.cpp')
+    nvme_deps = [ i2c, sdbusplus, threads, boost ]
 
     mi_mctp = get_option('nvme-mi-mctp')
     if mi_mctp.enabled()
