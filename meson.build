@@ -23,7 +23,10 @@ add_project_arguments(
 
 build_tests = get_option('tests')
 gpiodcxx = dependency('libgpiodcxx')
+
+# i2c-tools doesn't ship a pkg-config file for libi2c
 i2c = meson.get_compiler('cpp').find_library('i2c')
+
 sdbusplus = dependency('sdbusplus')
 systemd = dependency('systemd')
 systemd_system_unit_dir = systemd.get_pkgconfig_variable(
