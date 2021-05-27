@@ -22,6 +22,30 @@
       "revId": "fd01b9b3a0ad38f6bbd4f3542b9c99f81d41a162",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c322b878_48480e89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-05-27T23:43:48Z",
+      "side": 1,
+      "message": "\u003e I would\u0027ve assumed that NVMe-MI basic would\u0027ve been a totally separate implementation, as the IO is pretty different, and I can\u0027t imagine a lot of the code is the same.\n\nHmm, I don\u0027t share that view, yet. I\u0027ll push a patch implementing the basic support and we can take the discussion from there?",
+      "parentUuid": "e3c95e82_32629aa5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "fd01b9b3a0ad38f6bbd4f3542b9c99f81d41a162",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
