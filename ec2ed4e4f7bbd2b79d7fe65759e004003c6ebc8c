@@ -22,6 +22,30 @@
       "revId": "ec2ed4e4f7bbd2b79d7fe65759e004003c6ebc8c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac5b9619_119c4ab6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-05-27T23:40:47Z",
+      "side": 1,
+      "message": "\u003e Can you walk me through this a little bit.  When would we not link NvmeSensor against libmctp?  NVMe-MI basic use cases?  (which is fine if that\u0027s what we want to do btw).\n\nYes, implementing basic support is the aim of the series.\n\nI\u0027ll update the commit message to make that clear.\n\nAnyway, I\u0027m just slashing my way through to make it possible :)\n\n\u003e \n\u003e Other than that (and I assumed that plan was superceeded by mctp) I can\u0027t imagine why we\u0027d have an nvme daemon that didn\u0027t link against mctp.\n\nYep, that\u0027s fair, but basic support is what I\u0027m aiming for. Unfortunately it\u0027s not yet superseded by MCTP to my satisfaction, though it sounds like Jeremy is making good progress.\n\nFor everyone else\u0027s reference, we discussed this on the list previously:\n\nhttps://lore.kernel.org/openbmc/7f0c4e81-4b1e-4c64-9e25-07736b7838e6@www.fastmail.com/",
+      "parentUuid": "fef32788_60905f36",
+      "range": {
+        "startLine": 15,
+        "startChar": 61,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "ec2ed4e4f7bbd2b79d7fe65759e004003c6ebc8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
