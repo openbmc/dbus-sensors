@@ -28,7 +28,14 @@ gpiodcxx = dependency('libgpiodcxx')
 # i2c-tools doesn't ship a pkg-config file for libi2c
 i2c = meson.get_compiler('cpp').find_library('i2c')
 
-sdbusplus = dependency('sdbusplus')
+sdbusplus = dependency(
+    'sdbusplus',
+    fallback: [
+        'sdbusplus',
+        'sdbusplus_dep'
+    ],
+)
+
 systemd = dependency('systemd')
 systemd_system_unit_dir = systemd.get_variable(
     pkgconfig: 'systemdsystemunitdir',
