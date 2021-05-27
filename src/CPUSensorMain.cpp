@@ -77,6 +77,7 @@ struct CPUConfig
 
     bool operator<(const CPUConfig& rhs) const
     {
+        // NOLINTNEXTLINE
         return (name < rhs.name);
     }
 };

@@ -145,6 +145,7 @@ bool ExternalSensor::isAliveAndFresh(
     }
 
     // If age, as of now, is less than timeout, it is deemed fresh
+    // NOLINTNEXTLINE
     return (ageElapsed(now) < writeTimeout);
 }
 
