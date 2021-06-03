@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adb28fd_ff8fb4fe",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-03T22:28:05Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "ec3f9fe1_e3562e9b",
+      "range": {
+        "startLine": 230,
+        "startChar": 21,
+        "endLine": 230,
+        "endChar": 30
+      },
+      "revId": "24e783c5080782aed6043315ca63925b7d5d1ed7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8b6a8af_aaa2505e",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 17
@@ -45,6 +69,30 @@
       "revId": "24e783c5080782aed6043315ca63925b7d5d1ed7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a9d5740_0530e629",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-03T22:28:05Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "c8b6a8af_aaa2505e",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "24e783c5080782aed6043315ca63925b7d5d1ed7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
