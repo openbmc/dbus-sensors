@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55172776_4231ccf8",
+        "filename": "include/NVMeContext.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000410
+      },
+      "writtenOn": "2021-06-03T02:19:38Z",
+      "side": 1,
+      "message": "nit: If we are going to have multiple source files for building NVMe sensor, then better to group them in a separate directory in d-bus sensors.",
+      "revId": "dae6e186327928bb78cd8cb9f0bf328dbb761a44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
