@@ -46,6 +46,30 @@
       "revId": "63086c8f9af9ee3cc849f323ecb87d1dbf714ad0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a0074f5_fe7d9763",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000410
+      },
+      "writtenOn": "2021-06-03T02:08:37Z",
+      "side": 1,
+      "message": "Its sorted in Intel-BMC too. https://github.com/Intel-BMC/libmctp/blob/master/CMakeLists.txt#L10",
+      "parentUuid": "b76ed7e8_4a0bd604",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "63086c8f9af9ee3cc849f323ecb87d1dbf714ad0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
