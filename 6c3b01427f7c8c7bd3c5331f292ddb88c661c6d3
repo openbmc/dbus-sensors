@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9db965c2_8220288b",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-06-03T00:13:02Z",
+      "side": 1,
+      "message": "Good point. I think the intent was to flush readBuf, but this wouldn\u0027t be done here. This call is misleading, it only clears C++ std::ios error flags, it doesn\u0027t flush the underlying content. I changed it, to now properly flush the underlying readBuf.",
+      "parentUuid": "dfee7d73_eafa5193",
+      "range": {
+        "startLine": 142,
+        "startChar": 12,
+        "endLine": 142,
+        "endChar": 35
+      },
+      "revId": "6c3b01427f7c8c7bd3c5331f292ddb88c661c6d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf44f87a_91fd8138",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 2
