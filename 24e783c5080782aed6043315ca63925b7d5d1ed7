@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec3f9fe1_e3562e9b",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-03T21:47:28Z",
+      "side": 1,
+      "message": "This isn\u0027t being used.  It would also need to be used in a call to getFullHwmonPath()",
+      "range": {
+        "startLine": 230,
+        "startChar": 21,
+        "endLine": 230,
+        "endChar": 30
+      },
+      "revId": "24e783c5080782aed6043315ca63925b7d5d1ed7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8b6a8af_aaa2505e",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-03T21:47:28Z",
+      "side": 1,
+      "message": "doesn\u0027t look like this is used.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "24e783c5080782aed6043315ca63925b7d5d1ed7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
