@@ -46,6 +46,30 @@
       "revId": "fd01b9b3a0ad38f6bbd4f3542b9c99f81d41a162",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9854fc8_7e27679c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-03T15:35:30Z",
+      "side": 1,
+      "message": "Sounds good to me.\n\nTo be clear, I\u0027m ok with it if it\u0027s reasonably abstracted, but I assumed that nvme-mi basic looked like a totally different data path than mctp, but maybe I\u0027m being naive",
+      "parentUuid": "c322b878_48480e89",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "fd01b9b3a0ad38f6bbd4f3542b9c99f81d41a162",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
