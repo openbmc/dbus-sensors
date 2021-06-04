@@ -45,8 +45,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      double max, double min, const std::string& label,
                      size_t tSize) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, max, min,
-           conn),
+           std::move(thresholdsIn), sensorConfiguration, objectType, false, max,
+           min, conn),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
     sensorFactor(factor), minMaxReadCounter(0)

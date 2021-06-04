@@ -66,7 +66,7 @@ pwmsensor_a = static_library(
     include_directories: 'include',
 )
 
-
+subdir('include')
 subdir('service_files')
 subdir('src')
 

@@ -1000,5 +1000,7 @@ int main()
             eventHandler);
         matches.emplace_back(std::move(match));
     }
+
+    setupManufacturingModeMatch(*systemBus);
     io.run();
 }
