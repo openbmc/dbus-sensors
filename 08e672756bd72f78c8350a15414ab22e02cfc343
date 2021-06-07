@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a4bf608_997b689d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-07T20:07:27Z",
+      "side": 1,
+      "message": "Please clarify that existing behavior is preserved, i.e. no DevName is defined, iio-hwmon is assumed.",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3b7f53_e3e08255",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-07T20:07:27Z",
+      "side": 1,
+      "message": "Please test for regression, i.e. if no DevName is defined, this sensor still constructed correctly since iio-hwmon is the default.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 38
+      },
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
