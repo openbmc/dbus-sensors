@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a552c6f6_cb3d9f88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-06-07T22:28:18Z",
+      "side": 1,
+      "message": "I will test it more, to find this out. I am curious as well. It \"feels\" like rewinding is better than closing/reopening, but until more testing, I have no hard evidence to back this up. It\u0027s somewhat of a challenge, as HwmonTempSensor doesn\u0027t lend itself to testing/benchmarking in isolation, but I probably can mock up something that will work.",
+      "parentUuid": "17f7711d_8a0dfc86",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abc7efe1_7a8ae133",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd4f17aa_ee4d1b45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-06-07T22:28:18Z",
+      "side": 1,
+      "message": "Will do, when I test it more, as per Ed\u0027s comment.",
+      "parentUuid": "abc7efe1_7a8ae133",
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "415a955a_cf21523b",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-06-07T22:28:18Z",
+      "side": 1,
+      "message": "I didn\u0027t want to change the original behavior. However, trying to reopen might be a rather useful thing in some situations, especially if it\u0027s throttled to take place once per sensor read interval, instead of in a continuous loop.\n\nReasons for failure to open include missing file (hardware misconfiguration, missing kernel driver, or slow-to-register driver/hardware dynamically loaded during boot time and we are racing against it), or removed hardware (for hot-pluggable components), or permissions problem (unlikely, since we are running as root).\n\nA lot of these are permanent failure modes in which permanent failure is more desirable. However, the race at boot against slow-to-register hardware is one scenario in which retrying would be more desirable. Since race conditions shouldn\u0027t happen in well-designed systems, I am leaning more towards permanent failure, just to make it really obvious when there\u0027s a race condition so that people can notice and fix it.\n\nThis is more of a design decision, though. I didn\u0027t want to vary the original design in this patch, just improve the existing implementation as it stood.",
+      "parentUuid": "63c8ff67_1f6c1453",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
