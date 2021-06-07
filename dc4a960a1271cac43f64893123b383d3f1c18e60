@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb6133a_bfa57123",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-07T18:23:54Z",
+      "side": 1,
+      "message": "Why is this needed?  If we\u0027re shutting things down properly, the timers should cancel in the destructors, right?",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "dc4a960a1271cac43f64893123b383d3f1c18e60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
