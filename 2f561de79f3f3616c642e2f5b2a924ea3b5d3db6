@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da726d06_eeb18d2b",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-07T18:11:27Z",
+      "side": 1,
+      "message": "It\u0027s a global, but I\u0027m not following why we need it.  We don\u0027t seem to be doing anything that would set an errno.  std::stod is going to throw an exception on failure.",
+      "parentUuid": "d27b40d5_c119322c",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 18
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2eb4c329_7efe1dc3",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2021-06-07T18:01:33Z",
       "side": 1,
       "message": "It can throw exception, right ? Does it need to be under try-catch block ?\nhttps://en.cppreference.com/w/cpp/string/basic_string/stof",
+      "range": {
+        "startLine": 130,
+        "startChar": 23,
+        "endLine": 130,
+        "endChar": 39
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e383d96c_9b5b3023",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-07T18:11:27Z",
+      "side": 1,
+      "message": "Please use std::from_chars.",
+      "parentUuid": "2eb4c329_7efe1dc3",
       "range": {
         "startLine": 130,
         "startChar": 23,
@@ -64,6 +112,53 @@
         "startChar": 7,
         "endLine": 145,
         "endChar": 23
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cca21587_b351eb18",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-07T18:11:27Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6304d361_7acb996d",
+      "range": {
+        "startLine": 145,
+        "startChar": 7,
+        "endLine": 145,
+        "endChar": 23
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06daa1f7_b251980b",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-07T18:11:27Z",
+      "side": 1,
+      "message": "This looks unrelated to this patch.  Maybe put in a different patch?",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 1
       },
       "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
