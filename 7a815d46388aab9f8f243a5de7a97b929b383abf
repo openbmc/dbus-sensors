@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "17f7711d_8a0dfc86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-07T18:06:34Z",
+      "side": 1,
+      "message": "can we get some test numbers to back up that this is actually an optimization?  In the past when this was suggested, the performance increases we either non-measurable or negative.\n\nIf this is actually an increase, are there other places this optimization is needed?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abc7efe1_7a8ae133",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
