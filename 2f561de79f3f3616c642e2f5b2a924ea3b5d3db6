@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "836c8bd9_c47fcdd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-07T18:14:05Z",
+      "side": 1,
+      "message": "I don\u0027t see anything asyncronous about the current code.  It calls std::getline, which I\u0027m pretty sure is synchronous.",
+      "range": {
+        "startLine": 22,
+        "startChar": 48,
+        "endLine": 22,
+        "endChar": 60
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5459e382_345b9d0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-07T18:14:05Z",
+      "side": 1,
+      "message": "What does it mean to \"turn off\" a server power supply?",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 13
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e46d6b5b_475d5326",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
