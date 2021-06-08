@@ -22,6 +22,30 @@
       "revId": "be79de5f3e0aaf68a77466ee635503c771b2e7d2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93a867e6_46035e22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-06-08T01:30:24Z",
+      "side": 1,
+      "message": "How to add changing a threshold? I have never done that before, can you elaborate?\n\nMaybe I should have put it this way \"The sensor configs that have been used won\u0027t be checked again during the current createSensors().\" I think if sensor configs change, the sensor will get re-inited as long as createSensors() is re-entered.",
+      "parentUuid": "01ebfc0e_96e0b85d",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 70
+      },
+      "revId": "be79de5f3e0aaf68a77466ee635503c771b2e7d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
