@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d337643f_5a7e6d34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T01:34:20Z",
+      "side": 1,
+      "message": "\u003e I will test it more, to find this out. I am curious as well. It \"feels\" like rewinding is better than closing/reopening,\n\nThat was the feeling the last time this was attempted, but no amount of measurement could back that up, and closing and reopening every time is simpler code because it doesn\u0027t\u0027 need the \"rewind\" behavior.\n\n\u003e but until more testing, I have no hard evidence to back this up. It\u0027s somewhat of a challenge, as HwmonTempSensor doesn\u0027t lend itself to testing/benchmarking in isolation, but I probably can mock up something that will work.\n\nIf it doesn\u0027t show up in a profile as a difference, then it probably isn\u0027t worth worrying about performance-wise, and we should prefer simpler code.",
+      "parentUuid": "a552c6f6_cb3d9f88",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abc7efe1_7a8ae133",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
