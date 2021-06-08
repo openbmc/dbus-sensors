@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "91f5d44d_69892e83",
+        "filename": "meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "Yeah, answering that is beyond my ability to C++ right now.",
+      "parentUuid": "f45a1bfd_90150954",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c3aa3aa_7df4571a",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 4
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "7a21dc58_18314641",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "Probably not, it was just a little forward-looking. Anyway, it\u0027s off by one as the maximum block length is 255, not 256 :)",
+      "parentUuid": "3c3aa3aa_7df4571a",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 48
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0535bad3_14cb3f95",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6485fae7_3dd62c1f",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e2ae8a2_48a55d53",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2021-06-08T02:19:13Z",
       "side": 1,
       "message": "Could this be combined into a single read(in, ..., 3)?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "702828d6_fe7c5621",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "Yeah, it could. This was the \"make it work\" version of the code :)",
+      "parentUuid": "3e2ae8a2_48a55d53",
       "range": {
         "startLine": 37,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "748530c6_798c265b",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "13e465ac_d3796250",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 12
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "454e8ec3_ea814a89",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 4
@@ -128,6 +248,30 @@
       "writtenOn": "2021-06-08T02:19:13Z",
       "side": 1,
       "message": "Rather than launching this per-request, should we just keep these two pipes open and reuse them between requests?",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 76
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb2df77_dfdcae59",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "There is that, but if we lose synchronization in some way then the behaviour is undefined until the application is restarted. By creating the pipes each time they are always in a known good state.",
+      "parentUuid": "454e8ec3_ea814a89",
       "range": {
         "startLine": 161,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "19969a81_d6218a1d",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "Yeah, I just ran out of C++ there :)",
+      "parentUuid": "9eed4c60_b6b1c80f",
+      "range": {
+        "startLine": 162,
+        "startChar": 76,
+        "endLine": 162,
+        "endChar": 77
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afedf6e0_2b3b5c44",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 4
@@ -174,6 +342,30 @@
       "writtenOn": "2021-06-08T02:19:13Z",
       "side": 1,
       "message": "Probably could use std::thread here, right?",
+      "range": {
+        "startLine": 167,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 17
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a00edab_30bf8e3f",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "I\u0027ll look into it.",
+      "parentUuid": "afedf6e0_2b3b5c44",
       "range": {
         "startLine": 167,
         "startChar": 4,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "c6dc390c_27856ff9",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "We terminate the thread on return from the lambda. What ownership issues are you concerned about specifically?",
+      "parentUuid": "f78cf1cd_426303e5",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 20
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe0576d7_fae46651",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 4
@@ -229,6 +445,30 @@
       "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cacc6b2d_c8e50324",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe0576d7_fae46651",
+      "range": {
+        "startLine": 188,
+        "startChar": 57,
+        "endLine": 188,
+        "endChar": 58
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "43e97cce_37734077",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "Fair",
+      "parentUuid": "c7a1c441_39998d04",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 0
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f39f5d2_e65852d5",
         "filename": "src/meson.build",
         "patchSetId": 4
@@ -266,6 +530,30 @@
       "writtenOn": "2021-06-08T02:19:13Z",
       "side": 1,
       "message": "nit, seems like we should prefer either one list with 4 members, or adding one member at a time, not adding 2 members, then 1, then 1.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 45
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "397b0ea1_9c6eb6f8",
+        "filename": "src/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:35:25Z",
+      "side": 1,
+      "message": "It just made the diff for the patch that made MCTP support a build option a little less noisy. Also wasn\u0027t sure where we are line-wrapping meson files. 80 chars?",
+      "parentUuid": "3f39f5d2_e65852d5",
       "range": {
         "startLine": 156,
         "startChar": 0,
