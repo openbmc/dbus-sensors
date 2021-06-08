@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6e691b4a_1b4d63bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T18:24:21Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "eb6d3e55_d859963c",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 13
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e46d6b5b_475d5326",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "The original solution was using async_read_until, which was found to be unreliable.\nUsing async_read requires supplying a buffer and reading into that buffer. The problem is that requires apriori knowledge of the stream size, or you have to recreate a function that behaves like async_read_until.\n\nI have spent almost four weeks trying to resolve a defect saying that the PSU2 input power, output power, and output current do not update correctly. I am, subsequently, made aware that Kuiying has already submitted a solution (this commit) that always returns the correct data for PSU1 and PSU2. The solution shifted away from an unreliable collection method to one that is reliable.\n\nIn my opinion the original code with async_read_until was difficult to read and difficult to determine correctness. This code, which Kuiying submitted in patchset 4 or 5, is much easier to  determine the flow of the code, and the correctness of the code. It is unclear to me why an unreliable async method is preferable to a reliable synchronous method.\n\nAdditionally this same model is used in the PSUSubEvent setupRead code. It is also failing, as removing AC from PSU2 does not generate ACLost or PredictiveFailure events. It also occasionally decides that Failure will not be emitted either. The behavior of the events is erratic for both PSUs. PSU1 tends to work correctly, most of the time. After spending a few weeks in this portion of the code I still have no idea how it functions. The async method is making the code obtuse, and unreliable. Which is why I don\u0027t believe we should use it here.",
       "parentUuid": "e46d6b5b_475d5326",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 39
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43eebb4d_89fdad1a",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T18:24:21Z",
+      "side": 1,
+      "message": "\u003e The original solution was using async_read_until, which was found to be unreliable.\n\nAsync_read_until is what\u0027s currently on master.\n\n\u003e Using async_read requires supplying a buffer and reading into that buffer. The problem is that requires apriori knowledge of the stream size, or you have to recreate a function that behaves like async_read_until.\n\nI misspoke, I would expect we should use async_read_some, which does not require prior knowledge of the stream size.\n\n\u003e \n\u003e I have spent almost four weeks trying to resolve a defect saying that the PSU2 input power, output power, and output current do not update correctly. I am, subsequently, made aware that Kuiying has already submitted a solution (this commit) that always returns the correct data for PSU1 and PSU2. The solution shifted away from an unreliable collection method to one that is reliable.\n\nReliable in some contexts, but moves to blocking calls, which now makes every interface in the system slower and less reliable, because a hung power supply can now cause the daemon to stop responding to dbus requests.  This was what James found very early on in developing dbus-sensors, which is why I\u0027m somewhat hesitant to go back to blocking calls, given there was a very good reason we went away from blocking calls in the first place.  If we have solutions to all the problems we avoided, I\u0027m open to it, but I don\u0027t see this patchset proposing any new coding styles or doing any failure/performance testing, which makes me think that this wasn\u0027t considered;  If it has been, I apologize, lets get that documented.\n\nAlso, if you\u0027re blocking, there\u0027s no way to time out a read or interrupt the read, which is required in some contexts.  We\u0027d need solutions to those problems as well.\n\n\u003e \n\u003e In my opinion the original code with async_read_until was difficult to read and difficult to determine correctness. This code, which Kuiying submitted in patchset 4 or 5, is much easier to  determine the flow of the code, and the correctness of the code. It is unclear to me why an unreliable async method is preferable to a reliable synchronous method.\n\nBecause the failure modes matter.  When power supplies fail, the synchronous code can effectively cause all the external interfaces (IPMI and redfish) to lock up and time out, hence why this code is this way today.  I\u0027m open to the possibility that this is better, but I don\u0027t see any testing of those failure modes that this code handles today.\n\n\u003e \n\u003e Additionally this same model is used in the PSUSubEvent setupRead code. It is also failing, as removing AC from PSU2 does not generate ACLost or PredictiveFailure events.\n\nThat\u0027s a little bit surprising considering Kwin built and tested the code, presumably on the same system.  Kwin, is this the same behavior you\u0027re seeing, is it a regression, or is it specific to Jonathans setup?\n\n\u003e It also occasionally decides that Failure will not be emitted either. The behavior of the events is erratic for both PSUs. PSU1 tends to work correctly, most of the time. After spending a few weeks in this portion of the code I still have no idea how it functions. The async method is making the code obtuse, and unreliable. Which is why I don\u0027t believe we should use it here.",
+      "parentUuid": "c6d00dfa_e345c6c7",
       "range": {
         "startLine": 126,
         "startChar": 0,
@@ -237,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "d57d87b1_cc9b3066",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T18:24:21Z",
+      "side": 1,
+      "message": "\u003e GCC does not support the double\u0026 version of the call.\n\nDamn, so right you are......  I thought it had been at the same time as the others.  My bad, fine as is.\n\n\u003e \n\u003e In addition I was trying to get away from a try/catch, as the use of exceptions is undesirable. Am I misunderstanding, and that is primarily a BMCWeb rule?\n\nYes, exceptions are avoided in bmcweb because 99% of bmcweb failures happen in a connection context where the errors can be properly handled by either returning an error code to the user, or closing the connection.  bmcweb does use exceptions for startup issues that are fatal, but there\u0027s very few things that are unrecoverable in a webserver..\n\n\ndbus-sensors doesn\u0027t really have this issue, it can crash without any negative impact to the user (IPMI and bmcweb can both continue and return proper error codes) so exceptions are ok here.\n\nI\u0027m ok if we don\u0027t want to catch this one;  If the kernel is returning a valid code but isn\u0027t obeying its well defined API, it\u0027s fine to throw an exception and crash.",
+      "parentUuid": "fa2208a0_b29a0544",
+      "range": {
+        "startLine": 130,
+        "startChar": 23,
+        "endLine": 130,
+        "endChar": 39
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6304d361_7acb996d",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -308,6 +380,30 @@
     },
     {
       "key": {
+        "uuid": "de3cb8e0_9af6146d",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T18:24:21Z",
+      "side": 1,
+      "message": "\u003e Not required. It isn\u0027t harmful either.\n\u003e Is the guidance of reducing the scope/duration of file open/close pairing passe?\n\u003e If RAII is the preferred method, then should the sensorFile object be placed inside an anonymous block in order for it to close prior to the lseek and timer re-init?\n\nIdeally, yes, but in this case the exact destruction order isn\u0027t super critical, so it\u0027s fine either way.",
+      "parentUuid": "43ba1fcb_72392b4a",
+      "range": {
+        "startLine": 145,
+        "startChar": 7,
+        "endLine": 145,
+        "endChar": 23
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06daa1f7_b251980b",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -343,6 +439,30 @@
       "side": 1,
       "message": "This is git-diff failing to recognize the code block was not actually modified.\nSee earlier in the commit diff history above.",
       "parentUuid": "06daa1f7_b251980b",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 1
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28dea0dc_2f99ba68",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T18:24:21Z",
+      "side": 1,
+      "message": "Can you elaborate a little?  I\u0027m comparing base (ie master) to patchset 9, in which this diff shows these lines were added.  I suspect there was a merge conflict that didn\u0027t get handled well, and this diff ended up here?",
+      "parentUuid": "119ebeff_f9ca4f25",
       "range": {
         "startLine": 170,
         "startChar": 0,
