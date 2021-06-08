@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "eb6d3e55_d859963c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-08T17:54:44Z",
+      "side": 1,
+      "message": "I will update this to read \"Remove AC input from PSU1\"",
+      "parentUuid": "5459e382_345b9d0c",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 13
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e46d6b5b_475d5326",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -59,6 +83,30 @@
       "writtenOn": "2021-06-07T18:12:25Z",
       "side": 1,
       "message": "This is a blocking call.  Why wouldn\u0027t we use boost::asio::async_read here?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 39
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6d00dfa_e345c6c7",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-08T17:54:44Z",
+      "side": 1,
+      "message": "The original solution was using async_read_until, which was found to be unreliable.\nUsing async_read requires supplying a buffer and reading into that buffer. The problem is that requires apriori knowledge of the stream size, or you have to recreate a function that behaves like async_read_until.\n\nI have spent almost four weeks trying to resolve a defect saying that the PSU2 input power, output power, and output current do not update correctly. I am, subsequently, made aware that Kuiying has already submitted a solution (this commit) that always returns the correct data for PSU1 and PSU2. The solution shifted away from an unreliable collection method to one that is reliable.\n\nIn my opinion the original code with async_read_until was difficult to read and difficult to determine correctness. This code, which Kuiying submitted in patchset 4 or 5, is much easier to  determine the flow of the code, and the correctness of the code. It is unclear to me why an unreliable async method is preferable to a reliable synchronous method.\n\nAdditionally this same model is used in the PSUSubEvent setupRead code. It is also failing, as removing AC from PSU2 does not generate ACLost or PredictiveFailure events. It also occasionally decides that Failure will not be emitted either. The behavior of the events is erratic for both PSUs. PSU1 tends to work correctly, most of the time. After spending a few weeks in this portion of the code I still have no idea how it functions. The async method is making the code obtuse, and unreliable. Which is why I don\u0027t believe we should use it here.",
+      "parentUuid": "e46d6b5b_475d5326",
       "range": {
         "startLine": 126,
         "startChar": 0,
@@ -165,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "fa2208a0_b29a0544",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-08T17:54:44Z",
+      "side": 1,
+      "message": "GCC does not support the double\u0026 version of the call.\n\nIn addition I was trying to get away from a try/catch, as the use of exceptions is undesirable. Am I misunderstanding, and that is primarily a BMCWeb rule?",
+      "parentUuid": "e383d96c_9b5b3023",
+      "range": {
+        "startLine": 130,
+        "startChar": 23,
+        "endLine": 130,
+        "endChar": 39
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6304d361_7acb996d",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -212,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "43ba1fcb_72392b4a",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-08T17:54:44Z",
+      "side": 1,
+      "message": "Not required. It isn\u0027t harmful either.\nIs the guidance of reducing the scope/duration of file open/close pairing passe?\nIf RAII is the preferred method, then should the sensorFile object be placed inside an anonymous block in order for it to close prior to the lseek and timer re-init?",
+      "parentUuid": "cca21587_b351eb18",
+      "range": {
+        "startLine": 145,
+        "startChar": 7,
+        "endLine": 145,
+        "endChar": 23
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06daa1f7_b251980b",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -223,6 +319,30 @@
       "writtenOn": "2021-06-07T18:11:27Z",
       "side": 1,
       "message": "This looks unrelated to this patch.  Maybe put in a different patch?",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 1
+      },
+      "revId": "2f561de79f3f3616c642e2f5b2a924ea3b5d3db6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "119ebeff_f9ca4f25",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-08T17:54:44Z",
+      "side": 1,
+      "message": "This is git-diff failing to recognize the code block was not actually modified.\nSee earlier in the commit diff history above.",
+      "parentUuid": "06daa1f7_b251980b",
       "range": {
         "startLine": 170,
         "startChar": 0,
