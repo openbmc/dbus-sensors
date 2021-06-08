@@ -70,6 +70,30 @@
       "revId": "be79de5f3e0aaf68a77466ee635503c771b2e7d2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc1d2196_72b3a647",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001001
+      },
+      "writtenOn": "2021-06-08T18:55:48Z",
+      "side": 1,
+      "message": "Oh, I did not know that before. So you mean there could be multiple sensorConfigurations for an object_path? If there are multiple and according to the old logic the last entry for a certain object_path  overwrites the prior sensorConfigurations in the end, we could start the looping from the back rather than the front in my change. Do you see any need to pursue that or should I just abandon this change?",
+      "parentUuid": "c9b11b16_77be5b59",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 70
+      },
+      "revId": "be79de5f3e0aaf68a77466ee635503c771b2e7d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
