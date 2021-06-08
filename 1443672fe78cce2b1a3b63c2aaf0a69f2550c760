@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f45a1bfd_90150954",
+        "filename": "meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "I understand now why you thought I wouldn\u0027t like this......  I wonder if anyone has a std::executor that works with std::thread yet to avoid this dependency on boost::thread......\n\noh well, I guess I can just cry into my oatmeal later.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c3aa3aa_7df4571a",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "If we\u0027re not calculating PEC ourselves, are we still required to hold the PEC byte in the buffer?",
+      "range": {
+        "startLine": 30,
+        "startChar": 45,
+        "endLine": 30,
+        "endChar": 48
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6485fae7_3dd62c1f",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "nit:  std::array?",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e2ae8a2_48a55d53",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "Could this be combined into a single read(in, ..., 3)?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13e465ac_d3796250",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "For better or worse, dbus-sensors currently uses std::cout/std::cerr for these (on my list to replace with fmt some day).  We should be consistent.",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 12
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "454e8ec3_ea814a89",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "Rather than launching this per-request, should we just keep these two pipes open and reuse them between requests?",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 76
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eed4c60_b6b1c80f",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "command-\u003esize() please.",
+      "range": {
+        "startLine": 162,
+        "startChar": 76,
+        "endLine": 162,
+        "endChar": 77
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afedf6e0_2b3b5c44",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "Probably could use std::thread here, right?",
+      "range": {
+        "startLine": 167,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 17
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78cf1cd_426303e5",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "Doesn\u0027t this cause ownership issues on shutdown without doing a join?  Or because we\u0027re using pipes does it not matter?",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 20
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe0576d7_fae46651",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "nit, use response-\u003esize()",
+      "range": {
+        "startLine": 188,
+        "startChar": 57,
+        "endLine": 188,
+        "endChar": 58
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a1c441_39998d04",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "Comments to list what these are would help a lot.",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 0
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f39f5d2_e65852d5",
+        "filename": "src/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T02:19:13Z",
+      "side": 1,
+      "message": "nit, seems like we should prefer either one list with 4 members, or adding one member at a time, not adding 2 members, then 1, then 1.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 45
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
