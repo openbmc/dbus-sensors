@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c17cfaa0_3e1c8eae",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T01:49:33Z",
+      "side": 1,
+      "message": "I had always imagined this as a runtime construct;  Considering it\u0027s possible there are drives that ONLY support nvme-mi basic (not common, but are generally the result of a broken MCTP implementation needing to fall back to nvme-mi-basic), and there are drives that ONLY support nvme-mi mctp, that would lead me to believe that at this level it should be an entity-manager per-device configuration option;  Right now NVME1000 is the \"type\" keyword for MCTP (PS, I\u0027m not sure where the 1000 came from) maybe we need an \"NVME1000Basic\" type keyword as well that we can use to switch this on and off.\n\nI\u0027m fine with it also being a compile option if people wanted to compile out the MCTP support, but I suspect there will be systems that will want to support both in the same image, given that some systems support lots of models of drives.  It also has the advantage that we can just make the default \"both\"",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "704085304defd3f0e24cbfaa770dcd19e39c5c3a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
