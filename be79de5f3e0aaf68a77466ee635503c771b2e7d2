@@ -46,6 +46,30 @@
       "revId": "be79de5f3e0aaf68a77466ee635503c771b2e7d2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9b11b16_77be5b59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-08T16:46:14Z",
+      "side": 1,
+      "message": "Thinking about this more, there\u0027s a reason we don\u0027t do that.  sensors might need initted multiple times if the configuration changes during startup.  Ideally we\u0027d coalesce and make sure we only init the last sensor of a given name, but that\u0027s not what this patch is doing.",
+      "parentUuid": "93a867e6_46035e22",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 70
+      },
+      "revId": "be79de5f3e0aaf68a77466ee635503c771b2e7d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
