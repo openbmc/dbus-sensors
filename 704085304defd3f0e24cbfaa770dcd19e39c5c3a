@@ -22,6 +22,30 @@
       "revId": "704085304defd3f0e24cbfaa770dcd19e39c5c3a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9207abae_14a7841f",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-08T23:14:56Z",
+      "side": 1,
+      "message": "I\u0027ve made it a build option for two reasons:\n\n1. There\u0027s a bunch of fiddling around you need to do to get a libmctp build that contains appropriate support. Without making it a build option, it\u0027s not possible to build nvmesensor in general\n\n2. I don\u0027t have a requirement to select between the two at runtime - for me just using basic is fine for now.\n\nIn my view, it\u0027s up to the person that has a requirement for selecting the transport at runtime to add the necessary support. When they do that, they first they need to solve the libmctp problem.\n\nHaving said that, it looks like something went wrong in my rebasing; this:\n\n context \u003d std::make_shared\u003cNVMeContext\u003e(io, rootBus);\n\nshould be\n\n context \u003d std::make_shared\u003cNVMeBasicContext\u003e(io, rootBus);",
+      "parentUuid": "c17cfaa0_3e1c8eae",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "704085304defd3f0e24cbfaa770dcd19e39c5c3a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
