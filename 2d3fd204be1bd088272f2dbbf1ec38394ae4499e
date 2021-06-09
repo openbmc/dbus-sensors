@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "3d8cd58b_29a3120b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-06-09T12:39:08Z",
+      "side": 1,
+      "message": "In existing IpmbSensor code, pollrate value is fixed as 1 sec. If the pollRate value is 1 sec, it will increase the frequency of reading sensor value and also increases CPU utilization.\n\nTo reduce CPU usage, pollrate property is added.",
+      "parentUuid": "d79c5baf_9d66d287",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "2d3fd204be1bd088272f2dbbf1ec38394ae4499e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b2f21c5_e9c8f681",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 2
