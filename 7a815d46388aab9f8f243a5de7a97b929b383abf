@@ -152,6 +152,53 @@
       "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "315b6f6c_cbbaa87b",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-09T22:20:05Z",
+      "side": 1,
+      "message": "Than you for the detailed analysis. I think it was not obvious from previous code that if file failed to open during construct timer, there will be no polling since it is buried in the sync handler - handleResponse. Add a comment would be helpful to clarify that is the intention. Thanks.",
+      "parentUuid": "415a955a_cf21523b",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52adf084_42f7fe69",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-09T22:20:05Z",
+      "side": 1,
+      "message": "Why is this needed? Additional lines will be discarded. Is it trying to address specific issue?",
+      "range": {
+        "startLine": 142,
+        "startChar": 12,
+        "endLine": 142,
+        "endChar": 44
+      },
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
