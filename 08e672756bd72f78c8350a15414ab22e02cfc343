@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f44f8791_5cb62148",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-06-11T10:43:04Z",
+      "side": 1,
+      "message": "Yes, the existing behavior is preserved. As this patches.\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42542\nThe default \"iio-hwmons\" is used then there are no option DevName.",
+      "parentUuid": "8a4bf608_997b689d",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef3b7f53_e3e08255",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -39,6 +57,47 @@
       "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4faf4a4_d2e0da13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-06-11T10:43:04Z",
+      "side": 1,
+      "message": "Yes, the test case is included. The default value \"bio-hwmon\" is used when there are no DevName option.",
+      "parentUuid": "ef3b7f53_e3e08255",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 38
+      },
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0592be04_372af64b",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-06-11T10:43:04Z",
+      "side": 1,
+      "message": "The default name iio-hwmon is used in this case.",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
