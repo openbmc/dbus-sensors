@@ -46,6 +46,30 @@
       "revId": "475db89bef7ea3cebaceaef95fc51e9aef9b9585",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e601c5be_b4aaa7d7",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-15T16:26:27Z",
+      "side": 1,
+      "message": "For this patch, device name is set out side the for loop and not changed inside the loop.",
+      "parentUuid": "758ffd77_97a7cdef",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 0
+      },
+      "revId": "475db89bef7ea3cebaceaef95fc51e9aef9b9585",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
