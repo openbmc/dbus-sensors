@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "4d6b6ee4_92c9da7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-06-15T03:00:17Z",
+      "side": 1,
+      "message": "Just update the commit message.",
+      "parentUuid": "c2549a66_d1edba8e",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef3b7f53_e3e08255",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -131,6 +149,24 @@
       "side": 1,
       "message": "Please see my comments in https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42542\nAlso - maybe combine the two patch. IMO, the change go together.",
       "parentUuid": "0592be04_372af64b",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2069d221_5659031e",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-06-15T03:00:17Z",
+      "side": 1,
+      "message": "I updated my comments. The sensor configuration should be checked in three below cases:\n1. deviceName \u003d \"iio-hwmon\", no DevName in the configuration.\n2. deviceName \u003d \"iio-hwmon\", DevName option is \"iio-hwmon\".\n3. deviceName \u003d \"abcd\", DevName option is \"abcd\".\nIf we move if at line 129 out side of for, the case 3 will be bypassed.\n\nCan we keep they are separate? The first patch is remove the current design. And this patch is for support DevName in configuration.",
+      "parentUuid": "f8d0fe0c_0aff27cf",
       "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
