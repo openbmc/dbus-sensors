@@ -22,6 +22,30 @@
       "revId": "475db89bef7ea3cebaceaef95fc51e9aef9b9585",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "758ffd77_97a7cdef",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-06-15T02:37:20Z",
+      "side": 1,
+      "message": "If the device name is always \"iio-hwmon\", it is ok to move these code out side of loop.\nBut it is not, when the device name is not \"iio-hwmon\", the if is always true, the for to get sensor configuration will be bypassed.",
+      "parentUuid": "2eb6a07f_97fe6286",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 0
+      },
+      "revId": "475db89bef7ea3cebaceaef95fc51e9aef9b9585",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
