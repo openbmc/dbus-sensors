@@ -170,6 +170,24 @@
       "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23efd0f7_d5f29816",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-15T16:22:39Z",
+      "side": 1,
+      "message": "\u003cIf we move if at line 129 out side of for, the case 3 will be bypassed\nI guess, my question is: is there a real use case for #3? or is iio-hwmon-xxxx like your test cases meet the current requirements? \n\u003cCan we keep they are separate? The first patch is remove the current design. And this patch is for support DevName in configuration.\nI am ok with keeping them separate.",
+      "parentUuid": "2069d221_5659031e",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
