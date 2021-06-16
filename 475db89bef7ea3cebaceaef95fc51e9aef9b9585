@@ -70,6 +70,30 @@
       "revId": "475db89bef7ea3cebaceaef95fc51e9aef9b9585",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c5986a6_40745f66",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-06-16T00:57:34Z",
+      "side": 1,
+      "message": "Yes, deviceName value is device name from the sensor path and defaultADCName is \"iio-hwmon\". With this patch we can move the if outside of for, but in next patch 42543 we have to move it back to the for. I\u0027m ok with move the if outside of for in this patch, but do we really need to do that?",
+      "parentUuid": "e601c5be_b4aaa7d7",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 0
+      },
+      "revId": "475db89bef7ea3cebaceaef95fc51e9aef9b9585",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
