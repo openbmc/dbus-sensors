@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "158a7279_bf261442",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-16T15:54:31Z",
+      "side": 1,
+      "message": "Some real data would be helpful, what cpu load do you see when it is polling at 1second. What kind of polling rate do you plan to use and how does it affect the cpu load? Any analysis done on impact for fan control?",
+      "parentUuid": "3d8cd58b_29a3120b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "2d3fd204be1bd088272f2dbbf1ec38394ae4499e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b2f21c5_e9c8f681",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 2
