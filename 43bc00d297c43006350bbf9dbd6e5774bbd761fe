@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "abf24ad8_4f784067",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-17T16:10:48Z",
+      "side": 1,
+      "message": "Do this values still make sense for pressure readings?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "43bc00d297c43006350bbf9dbd6e5774bbd761fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8edc67a6_b2591907",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 29
