@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d65a2b5_355d54b7",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "I think it would make sense to wrap these in some raii objects so they get closed properly if we throw an exception, and to abstract out the idea of a \"pipe\" a little.\n\nWith that said, I haven\u0027t driven that idea in depth, so it\u0027s possible it makes it worse.  Feel free to tell me I\u0027m wrong here if it does make the code messier.",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 0
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ac5f081_51919c84",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "Handle your errors please, even if it\u0027s just printing that it happened.",
+      "range": {
+        "startLine": 171,
+        "startChar": 11,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93dcf9b2_f4938ddb",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "Not needed in this patchset, but for nvme devices especially, this will need to be configurable.",
+      "range": {
+        "startLine": 232,
+        "startChar": 58,
+        "endLine": 232,
+        "endChar": 59
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e18a5d57_c2657efe",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "Generally for these timer loops we capture weak_from_this(), and call lock() inside when we need the value.  This prevents memory leaks and shutdown issues where a sensor accidentally \"owns\" itself.",
+      "range": {
+        "startLine": 234,
+        "startChar": 14,
+        "endLine": 234,
+        "endChar": 30
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e03f8f6_6454c4ae",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "Please declare these where they\u0027re used (tc on line 264 and dev on line 272) so we know they\u0027re explicitly initialized in all cases where they\u0027re used.",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 11
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5823c57c_40d3296d",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "This doesn\u0027t look like it needs shared ownership, and is relatively small in size (3 bytes).  This could probably just be passed by value?",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 51
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8671fdde_295610ed",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "Is this something we could do inside nvmeMIBasicQuery to simplify the calling params a little?",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 51
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8272991e_323eb414",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "Can we deduplicate this with the one in NVMeMCTPContext.cpp?  They look like a copy/paste of eachother.  I suspect we can just throw this in a common namespace somewhere.",
+      "range": {
+        "startLine": 299,
+        "startChar": 14,
+        "endLine": 299,
+        "endChar": 35
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16ba7f00_7689d8d4",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "nit, probably doesn\u0027t need static here.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 6
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbf6b2b7_900dde8b",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:45:17Z",
+      "side": 1,
+      "message": "Do we need a methanism to set quiet_nan when either of these conditions happen?",
+      "range": {
+        "startLine": 314,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 5
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
