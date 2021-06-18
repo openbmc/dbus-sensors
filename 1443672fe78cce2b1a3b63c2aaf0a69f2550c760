@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "8301e5b0_287b2224",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:26:20Z",
+      "side": 1,
+      "message": "How would we lose syncronization?  Wouldn\u0027t that imply that the pipe failed?",
+      "parentUuid": "8eb2df77_dfdcae59",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 76
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9eed4c60_b6b1c80f",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 4
@@ -343,6 +367,30 @@
       "side": 1,
       "message": "Yeah, I just ran out of C++ there :)",
       "parentUuid": "9eed4c60_b6b1c80f",
+      "range": {
+        "startLine": 162,
+        "startChar": 76,
+        "endLine": 162,
+        "endChar": 77
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45057c99_205b8469",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:26:20Z",
+      "side": 1,
+      "message": ":)",
+      "parentUuid": "19969a81_d6218a1d",
       "range": {
         "startLine": 162,
         "startChar": 76,
@@ -461,6 +509,30 @@
       "side": 1,
       "message": "We terminate the thread on return from the lambda. What ownership issues are you concerned about specifically?",
       "parentUuid": "f78cf1cd_426303e5",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 20
+      },
+      "revId": "1443672fe78cce2b1a3b63c2aaf0a69f2550c760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3de77926_be4ac144",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-18T17:26:20Z",
+      "side": 1,
+      "message": "If we have a separate thread in the same address space, on shutdown, isn\u0027t is possible for it to continue running and using memory that the main thread has freed?\n\nOr am I overthinking it?  (multithreaded programming is not my strong suit)",
+      "parentUuid": "c6dc390c_27856ff9",
       "range": {
         "startLine": 182,
         "startChar": 0,
