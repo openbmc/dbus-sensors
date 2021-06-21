@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "212add55_bdf154cf",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-21T14:04:23Z",
+      "side": 1,
+      "message": "No, they do not.\n\nAlso I do not see either sensor show up with:\n    ipmitool sensor\nor\n    ipmitool sdr elist\n\nI don\u0027t really understand what they are for.\nProbably need to talk with Eddie on this.",
+      "parentUuid": "abf24ad8_4f784067",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "43bc00d297c43006350bbf9dbd6e5774bbd761fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8edc67a6_b2591907",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 29
@@ -36,6 +60,30 @@
       "writtenOn": "2021-06-14T22:03:47Z",
       "side": 1,
       "message": "sensor type can be set at construct time - avoid rechecking every sensor poll",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 13
+      },
+      "revId": "43bc00d297c43006350bbf9dbd6e5774bbd761fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d530ce57_70da3d22",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-21T14:04:23Z",
+      "side": 1,
+      "message": "Probably need to talk with Eddie on this.",
+      "parentUuid": "8edc67a6_b2591907",
       "range": {
         "startLine": 131,
         "startChar": 12,
