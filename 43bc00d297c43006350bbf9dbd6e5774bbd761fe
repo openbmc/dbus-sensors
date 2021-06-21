@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cb04bd2f_d6f6d424",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-21T23:27:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "212add55_bdf154cf",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "43bc00d297c43006350bbf9dbd6e5774bbd761fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8edc67a6_b2591907",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 29
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Probably need to talk with Eddie on this.",
       "parentUuid": "8edc67a6_b2591907",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 13
+      },
+      "revId": "43bc00d297c43006350bbf9dbd6e5774bbd761fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5328c29e_c44a32d4",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-21T23:27:37Z",
+      "side": 1,
+      "message": "Hello Zhikui Ren,\n\nThis is not my area of expertise, I am more of an embedded C/C++ without object oriented stuff.\nSo could you suggest how and where to make appropriate changes the work well with the OpenBMC\ncommunity?\n\nThank you!\n\n-- \nBruce",
+      "parentUuid": "d530ce57_70da3d22",
       "range": {
         "startLine": 131,
         "startChar": 12,
