@@ -206,6 +206,24 @@
       "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eca3e580_54f8f83b",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-22T00:05:57Z",
+      "side": 1,
+      "message": "Sorry, I am still not convinced that we need to support generic device tree spec here. Do you have a use case that need to make it name generic? The performance hit here may not be a big deal, but I am little worried about accumulative effect. I would be ok with this change if there is a real requirement for it.",
+      "parentUuid": "2ca50e46_7ba811c2",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
