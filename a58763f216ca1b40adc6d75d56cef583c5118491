@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56790f76_34d034c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-06-23T19:43:36Z",
+      "side": 1,
+      "message": "Yes. Also this change was accomodated from the patchset \"PSUSensor: Add PowerState attribute\" (https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/38796) by JinFuLin. This patch is a more complete version of that patchset.\nBy the way, you\u0027ve added +1 to that 38796 patchset.",
+      "parentUuid": "ac1c9a8e_094a89a7",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 49
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "960f5b84_c27e4f9a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2021-06-23T18:03:26Z",
       "side": 1,
       "message": "Can you verify that sensors are n/a also",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 12
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc40fcf5_5b94d26f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-06-23T19:43:36Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve verified it. Also it was verified by JinFuLin in the patchset \"PSUSensor: Add PowerState attribute\" (https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/38796) that is a part of this commit.",
+      "parentUuid": "960f5b84_c27e4f9a",
       "range": {
         "startLine": 19,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a2fa4081_bf712d19",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-06-23T19:43:36Z",
+      "side": 1,
+      "message": "You\u0027ve already asked this question. Please check out https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42786/2/src/PSUEvent.cpp#215 for an answer.\nThis patchset has been far too long in a review process...",
+      "parentUuid": "f5828dce_dbd9957d",
+      "range": {
+        "startLine": 215,
+        "startChar": 7,
+        "endLine": 215,
+        "endChar": 23
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "febc03a8_713d6691",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2021-06-23T18:03:26Z",
       "side": 1,
       "message": "This can be in utilities to avoid have to be duplicated in multiple places.",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 1
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9a38611_96403df1",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-06-23T19:43:36Z",
+      "side": 1,
+      "message": "I agree, but right now it is the only place where it is needed besides the Sensor class.\nIf we want to move all the `readingStateGood` code under utilities, we need to drop it from the Sensor class, which is clearly is needed to be done in a separate commit.\nAlso again this was discussed earlier https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42786/3/src/PSUEvent.cpp#220",
+      "parentUuid": "febc03a8_713d6691",
       "range": {
         "startLine": 220,
         "startChar": 0,
@@ -128,6 +224,30 @@
       "writtenOn": "2021-06-23T18:03:26Z",
       "side": 1,
       "message": "nit: switch the order",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 444,
+        "endChar": 50
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c715b018_454f528a",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-06-23T19:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d32ce7a_0c74c030",
       "range": {
         "startLine": 443,
         "startChar": 0,
