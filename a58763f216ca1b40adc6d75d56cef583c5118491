@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac1c9a8e_094a89a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-23T18:03:26Z",
+      "side": 1,
+      "message": "Any test done for this change?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 49
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "960f5b84_c27e4f9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-23T18:03:26Z",
+      "side": 1,
+      "message": "Can you verify that sensors are n/a also",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 12
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5828dce_dbd9957d",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-23T18:03:26Z",
+      "side": 1,
+      "message": "should this be NaN?",
+      "range": {
+        "startLine": 215,
+        "startChar": 7,
+        "endLine": 215,
+        "endChar": 23
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "febc03a8_713d6691",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-23T18:03:26Z",
+      "side": 1,
+      "message": "This can be in utilities to avoid have to be duplicated in multiple places.",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 1
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8156d790_c76e03db",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-23T18:03:26Z",
+      "side": 1,
+      "message": "nit: this function name is a bit confusing to me (with setupRead). To me it is setup next read or schedule try again. Sorry I don\u0027t have a good suggestion at this moment.",
+      "range": {
+        "startLine": 236,
+        "startChar": 18,
+        "endLine": 236,
+        "endChar": 29
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d32ce7a_0c74c030",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-23T18:03:26Z",
+      "side": 1,
+      "message": "nit: switch the order",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 444,
+        "endChar": 50
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
