@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "00df4353_84357bbe",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "I\u0027ve seen people try this in the past for file descriptors and I don\u0027t really like it. If there was something already in std to do the job I\u0027d use it, but given people were writing these wrapper RAII classes I assume there isn\u0027t.",
+      "parentUuid": "2d65a2b5_355d54b7",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 0
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ac5f081_51919c84",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b09405e0_ab79ed68",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ac5f081_51919c84",
+      "range": {
+        "startLine": 171,
+        "startChar": 11,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "66f5bb11_1d5926c7",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "93dcf9b2_f4938ddb",
+      "range": {
+        "startLine": 232,
+        "startChar": 58,
+        "endLine": 232,
+        "endChar": 59
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e18a5d57_c2657efe",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2021-06-18T17:45:17Z",
       "side": 1,
       "message": "Generally for these timer loops we capture weak_from_this(), and call lock() inside when we need the value.  This prevents memory leaks and shutdown issues where a sensor accidentally \"owns\" itself.",
+      "range": {
+        "startLine": 234,
+        "startChar": 14,
+        "endLine": 234,
+        "endChar": 30
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc088471_e3899818",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "I just copy/pasted this from the MCTP implementation.",
+      "parentUuid": "e18a5d57_c2657efe",
       "range": {
         "startLine": 234,
         "startChar": 14,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "eb6ff1de_4a8df9ff",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2e03f8f6_6454c4ae",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 11
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5823c57c_40d3296d",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 6
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "45d907dd_3f588109",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "I\u0027ve refactored all this a fair bit.",
+      "parentUuid": "5823c57c_40d3296d",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 51
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8671fdde_295610ed",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 6
@@ -160,6 +304,30 @@
       "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e1a1433_e822edd9",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8671fdde_295610ed",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 51
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +377,54 @@
     },
     {
       "key": {
+        "uuid": "ea84a708_4f981116",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "We probably can, but I\u0027m trying to minimise my fish frying for now. I\u0027m going to push a new revision without resolving this.",
+      "parentUuid": "8272991e_323eb414",
+      "range": {
+        "startLine": 299,
+        "startChar": 14,
+        "endLine": 299,
+        "endChar": 35
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e615fc8e_78b08008",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "Why?",
+      "parentUuid": "16ba7f00_7689d8d4",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 6
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dbf6b2b7_900dde8b",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 6
@@ -220,6 +436,30 @@
       "writtenOn": "2021-06-18T17:45:17Z",
       "side": 1,
       "message": "Do we need a methanism to set quiet_nan when either of these conditions happen?",
+      "range": {
+        "startLine": 314,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 5
+      },
+      "revId": "72deeac166f2b8fcff6bee4c0674de7c9787b813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f49ce256_4be96de3",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-06-24T12:39:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure, this was just similar error handling to the MCTP implementation.",
+      "parentUuid": "dbf6b2b7_900dde8b",
       "range": {
         "startLine": 314,
         "startChar": 0,
