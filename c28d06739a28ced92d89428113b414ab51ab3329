@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d330ed7b_6e845ac2",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-24T19:00:37Z",
+      "side": 1,
+      "message": "Not part of this  patch, but related I think. I am wondering if we want to consider\n1. close and try to repoen the file and use wait timer to schedule another read\nor\n2. call incrementError - because no more read going to happen if we return here",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 15
+      },
+      "revId": "c28d06739a28ced92d89428113b414ab51ab3329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13a81c02_cee6c834",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-24T19:00:37Z",
+      "side": 1,
+      "message": "comment to justify why 128 is picked here or use a constexpr with a name.",
+      "range": {
+        "startLine": 168,
+        "startChar": 18,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "c28d06739a28ced92d89428113b414ab51ab3329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca2778d4_3027e729",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-24T19:00:37Z",
+      "side": 1,
+      "message": "DO you need to check if \"\\n\" is read? I don\u0027t know if there is a timing crack that the buffer would only read part of the data.",
+      "range": {
+        "startLine": 176,
+        "startChar": 12,
+        "endLine": 176,
+        "endChar": 41
+      },
+      "revId": "c28d06739a28ced92d89428113b414ab51ab3329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
