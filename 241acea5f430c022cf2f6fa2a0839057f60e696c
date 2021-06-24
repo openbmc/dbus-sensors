@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1ee0cc6_ebe6b771",
+        "filename": "include/IIOSensor.hpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-24T21:32:50Z",
+      "side": 1,
+      "message": "delete - already define din sensor.hpp",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e1522be_2ed32598",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-24T21:32:50Z",
+      "side": 1,
+      "message": "why is this picked?",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43972cc2_517c669e",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-24T21:32:50Z",
+      "side": 1,
+      "message": "use constexpr?",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "078293b7_fc76e4bf",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-24T21:32:50Z",
+      "side": 1,
+      "message": "redundant with line159",
+      "range": {
+        "startLine": 152,
+        "startChar": 36,
+        "endLine": 152,
+        "endChar": 65
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a4c302_2bd7b6b6",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-24T21:32:50Z",
+      "side": 1,
+      "message": "sensorTypeName \u003d\u003d \"temperature\", same below",
+      "range": {
+        "startLine": 153,
+        "startChar": 20,
+        "endLine": 153,
+        "endChar": 62
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
