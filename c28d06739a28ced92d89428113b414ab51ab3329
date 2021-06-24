@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2f9f2dd9_72fb159d",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-24T21:11:30Z",
+      "side": 1,
+      "message": "Interesting question. Is a bad FD even possible here?\nThe file is only opened when the sensor object is created, and failure to open exits the constructor. This code would never get called in that situation.\n\nCan a FD become bad under normal circumstances? Is this just covering the catastrophic? Is this covering the condition where the sensor disappears due to removal? If it is only covering the case where the sensor is removed, then restarting the process is undesirable.",
+      "parentUuid": "d330ed7b_6e845ac2",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 15
+      },
+      "revId": "c28d06739a28ced92d89428113b414ab51ab3329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13a81c02_cee6c834",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "cf617dac_5231e501",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-24T21:11:30Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "13a81c02_cee6c834",
+      "range": {
+        "startLine": 168,
+        "startChar": 18,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "c28d06739a28ced92d89428113b414ab51ab3329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca2778d4_3027e729",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 10
@@ -59,6 +107,30 @@
       "writtenOn": "2021-06-24T19:00:37Z",
       "side": 1,
       "message": "DO you need to check if \"\\n\" is read? I don\u0027t know if there is a timing crack that the buffer would only read part of the data.",
+      "range": {
+        "startLine": 176,
+        "startChar": 12,
+        "endLine": 176,
+        "endChar": 41
+      },
+      "revId": "c28d06739a28ced92d89428113b414ab51ab3329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1819699_3cd70ca8",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-24T21:11:30Z",
+      "side": 1,
+      "message": "I tested this with the \\n character at the end of the buffer. stod did the right thing, and ignored the \\n. It also seemed apparent that the async_wait only terminated once the \\n was present in the sensor file.",
+      "parentUuid": "ca2778d4_3027e729",
       "range": {
         "startLine": 176,
         "startChar": 12,
