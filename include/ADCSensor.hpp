@@ -15,7 +15,9 @@
 class BridgeGpio
 {
   public:
-    BridgeGpio(const std::string& name, const int polarity)
+    BridgeGpio(const std::string& name, const int polarity,
+               const unsigned int enableMs) :
+        enableMs(enableMs)
     {
         line = gpiod::find_line(name);
         if (!line)
@@ -53,6 +55,8 @@ class BridgeGpio
             }
         }
     }
+
+    unsigned int enableMs;
 
   private:
     gpiod::line line;
