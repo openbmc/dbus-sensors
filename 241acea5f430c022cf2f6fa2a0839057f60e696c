@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "0fb9ab35_450d6aac",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b9dfb81_e7a90c23",
+      "range": {
+        "startLine": 26,
+        "startChar": 57,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "211e79a9_db4468b5",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -211,6 +235,30 @@
       "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "713f28de_832a4aca",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:37:00Z",
+      "side": 1,
+      "message": "Because originally there were two, I am yet unsure that there will not be more coming in the near future.",
+      "parentUuid": "211e79a9_db4468b5",
+      "range": {
+        "startLine": 29,
+        "startChar": 44,
+        "endLine": 29,
+        "endChar": 55
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -308,6 +356,30 @@
     },
     {
       "key": {
+        "uuid": "31cde016_41ff5145",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:37:00Z",
+      "side": 1,
+      "message": "I do not know, this was the code I inherited and was asked to get working and done by end of June 2021.",
+      "parentUuid": "097e2bee_36bf3b13",
+      "range": {
+        "startLine": 49,
+        "startChar": 43,
+        "endLine": 49,
+        "endChar": 52
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fd04e25_8fe1ec66",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -319,6 +391,30 @@
       "writtenOn": "2021-06-25T04:37:18Z",
       "side": 1,
       "message": "This seems like a very poor way to identify a pressure sensor versus a temp sensor.  I\u0027m not sure why you\u0027re trying to differentiate (there\u0027s only one physical sensor).  Looking at this a little more, I\u0027m not sure how this would work.  Can you elaborate a little on what you were thinking here?",
+      "range": {
+        "startLine": 98,
+        "startChar": 20,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b00ce235_7b96f282",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:37:00Z",
+      "side": 1,
+      "message": "There is one physical device with two physical sensors.  The Infineon DPS310 has both pressure and temperature sensors.",
+      "parentUuid": "1fd04e25_8fe1ec66",
       "range": {
         "startLine": 98,
         "startChar": 20,
@@ -399,6 +495,30 @@
       "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "063ef062_e5cf56e6",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:37:00Z",
+      "side": 1,
+      "message": "../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp: In lambda function:\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:155:21: error: \u0027findSensorName\u0027 was not declared in this scope\n  155 |                     findSensorName \u003d baseConfigMap-\u003efind(\"Name1\");\n      |                     ^~~~~~~~~~~~~~\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:159:21: error: \u0027findSensorName\u0027 was not declared in this scope\n  159 |                     findSensorName \u003d baseConfigMap-\u003efind(\"Name\");\n      |                     ^~~~~~~~~~~~~~\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:164:21: error: \u0027findSensorName\u0027 was not declared in this scope\n  164 |                     findSensorName \u003d baseConfigMap-\u003efind(\"Unknown\");\n      |                     ^~~~~~~~~~~~~~\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:167:21: error: \u0027findSensorName\u0027 was not declared in this scope\n  167 |                 if (findSensorName \u003d\u003d baseConfigMap-\u003eend())\n      |                     ^~~~~~~~~~~~~~\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:174:43: error: \u0027findSensorName\u0027 was not declared in this scope; did you mean \u0027sensorName\u0027?\n  174 |                     std::get\u003cstd::string\u003e(findSensorName-\u003esecond);\n      |                                           ^~~~~~~~~~~~~~\n      |                                           sensorName",
+      "parentUuid": "dbd715b4_afd1a918",
+      "range": {
+        "startLine": 152,
+        "startChar": 36,
+        "endLine": 152,
+        "endChar": 65
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -519,6 +639,30 @@
     },
     {
       "key": {
+        "uuid": "aba27b55_ee82fd33",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:37:00Z",
+      "side": 1,
+      "message": "I did not copy, someone else had; I inherited from them.\n\nDoing what you requested causes compiler errors:\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp: In lambda function:\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:230:32: error: cannot bind non-const lvalue reference of type \u0027std::nullptr_t\u0026\u0027 to an rvalue of type \u0027std::nullptr_t\u0027\n  230 |                 auto\u0026 sensor \u003d nullptr;\n      |                                ^~~~~~~\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:231:44: error: cannot convert \u0027boost::container::flat_map\u003cstd::__cxx11::basic_string\u003cchar\u003e, std::shared_ptr\u003cIIOSensor\u003e \u003e::mapped_type\u0027 {aka \u0027std::shared_ptr\u003cIIOSensor\u003e\u0027} to \u0027std::nullptr_t\u0027 in assignment\n  231 |                 sensor \u003d sensors[sensorName];\n      |                                            ^",
+      "parentUuid": "6059d973_92719277",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 51
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "706280d5_63e24f9f",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -539,6 +683,30 @@
       "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a940023f_b3bd1e31",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706280d5_63e24f9f",
+      "range": {
+        "startLine": 259,
+        "startChar": 12,
+        "endLine": 259,
+        "endChar": 40
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
