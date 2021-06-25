@@ -739,6 +739,30 @@
     },
     {
       "key": {
+        "uuid": "ba2cabcd_5b6d84a2",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T22:08:40Z",
+      "side": 1,
+      "message": "Here are the files.  we have pressure and temp in the path.\n\nOn a Rainier that has the DPS310 this is what we see:\nroot@rain71bmc:~# ls -la /sys/bus/iio/devices/iio:device0/\ndrwxr-xr-x    3 root     root             0 Jun 25 03:54 .\ndrwxr-xr-x    4 root     root             0 Jun 25 03:54 ..\n-r--r--r--    1 root     root          4096 Jun 25 03:54 dev\n-rw-r--r--    1 root     root          4096 Jun 25 03:54 in_pressure_input\n-rw-r--r--    1 root     root          4096 Jun 25 03:54 in_pressure_oversampling_ratio\n-rw-r--r--    1 root     root          4096 Jun 25 03:54 in_pressure_sampling_frequency\n-rw-r--r--    1 root     root          4096 Jun 25 03:54 in_temp_input\n-rw-r--r--    1 root     root          4096 Jun 25 03:54 in_temp_oversampling_ratio\n-rw-r--r--    1 root     root          4096 Jun 25 03:54 in_temp_sampling_frequency\n-r--r--r--    1 root     root          4096 Jun 25 03:54 name\nlrwxrwxrwx    1 root     root             0 Jun 25 03:54 of_node -\u003e ../../../../../../../../../firmware/devicetree/base/ahb/apb/bus@1e78a000/i2c-bus@400/dps310@76\ndrwxr-xr-x    2 root     root             0 Jun 25 03:54 power\nlrwxrwxrwx    1 root     root             0 Jun 25 03:54 subsystem -\u003e ../../../../../../../../../bus/iio\n-rw-r--r--    1 root     root          4096 Jun 25 03:54 uevent",
+      "parentUuid": "68d81364_fe45d718",
+      "range": {
+        "startLine": 98,
+        "startChar": 20,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "078293b7_fc76e4bf",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
