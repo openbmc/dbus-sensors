@@ -714,6 +714,30 @@
     },
     {
       "key": {
+        "uuid": "d827ad0f_5653d3a2",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-25T17:34:25Z",
+      "side": 1,
+      "message": "That works, too. Just wondering did you use \"auto\" when you had the compiler error?",
+      "parentUuid": "740aaf7f_c7f6dae4",
+      "range": {
+        "startLine": 152,
+        "startChar": 36,
+        "endLine": 152,
+        "endChar": 65
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7a4c302_2bd7b6b6",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -915,6 +939,30 @@
       "side": 1,
       "message": "I did not copy, someone else had; I inherited from them.\n\nDoing what you requested causes compiler errors:\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp: In lambda function:\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:230:32: error: cannot bind non-const lvalue reference of type \u0027std::nullptr_t\u0026\u0027 to an rvalue of type \u0027std::nullptr_t\u0027\n  230 |                 auto\u0026 sensor \u003d nullptr;\n      |                                ^~~~~~~\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:231:44: error: cannot convert \u0027boost::container::flat_map\u003cstd::__cxx11::basic_string\u003cchar\u003e, std::shared_ptr\u003cIIOSensor\u003e \u003e::mapped_type\u0027 {aka \u0027std::shared_ptr\u003cIIOSensor\u003e\u0027} to \u0027std::nullptr_t\u0027 in assignment\n  231 |                 sensor \u003d sensors[sensorName];\n      |                                            ^",
       "parentUuid": "6059d973_92719277",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 51
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24eef6d9_32ec235f",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-25T17:34:25Z",
+      "side": 1,
+      "message": "after line 230, add a call \"sensor \u003d nullptr\"",
+      "parentUuid": "aba27b55_ee82fd33",
       "range": {
         "startLine": 230,
         "startChar": 0,
