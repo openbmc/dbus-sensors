@@ -856,6 +856,30 @@
     },
     {
       "key": {
+        "uuid": "670f8169_1c880943",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000025
+      },
+      "writtenOn": "2021-06-25T16:31:54Z",
+      "side": 1,
+      "message": "It was from the hwmon sensors code. If we\u0027re using boost, may as well use this? Also, I think these are just strings so not sure you can use .filename()?",
+      "parentUuid": "bc538f72_260b38a6",
+      "range": {
+        "startLine": 183,
+        "startChar": 35,
+        "endLine": 183,
+        "endChar": 44
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6059d973_92719277",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
