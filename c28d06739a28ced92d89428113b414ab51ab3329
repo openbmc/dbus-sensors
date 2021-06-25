@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1d29613e_9ca4e863",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-25T14:59:45Z",
+      "side": 1,
+      "message": "I prefer to save the modification of the error handler to another commit.",
+      "parentUuid": "79e075e3_5b3032fb",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 15
+      },
+      "revId": "c28d06739a28ced92d89428113b414ab51ab3329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13a81c02_cee6c834",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 10
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "Ack. Nice! All services that use async_read_until to should be converted to use this pattern.",
       "parentUuid": "e1819699_3cd70ca8",
+      "range": {
+        "startLine": 176,
+        "startChar": 12,
+        "endLine": 176,
+        "endChar": 41
+      },
+      "revId": "c28d06739a28ced92d89428113b414ab51ab3329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b23f839_1479df3e",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-06-25T14:59:45Z",
+      "side": 1,
+      "message": "When this solution is approved the other sensors using async_read should use this paradigm. Which needs to be done in separate commits. :)",
+      "parentUuid": "50cf7259_f45d9209",
       "range": {
         "startLine": 176,
         "startChar": 12,
