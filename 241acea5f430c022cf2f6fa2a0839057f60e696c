@@ -781,6 +781,30 @@
     },
     {
       "key": {
+        "uuid": "69ea7a75_2e7ca344",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-25T15:03:22Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure the idea is that this object will support all the different sensor types in the IIO subsystem.  The immediate uses are pressure, temperature, and humidity.  Not entirely different than how PSUSensor deals with temp, current, voltage, power.",
+      "parentUuid": "686cd823_7b6aabc0",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99ad1985_2d8cdbca",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 33
