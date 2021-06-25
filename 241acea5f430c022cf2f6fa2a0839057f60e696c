@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "1eb6b4da_6548f11e",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33e4752c_198a77f4",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b5222b6_1543f8e0",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -131,6 +155,30 @@
       "writtenOn": "2021-06-25T04:37:18Z",
       "side": 1,
       "message": "This seems inordinately long?  Maybe some commentary on why it was chosen.",
+      "range": {
+        "startLine": 26,
+        "startChar": 57,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b9dfb81_e7a90c23",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T14:01:34Z",
+      "side": 1,
+      "message": "Because it is only really used on initial program load, and then only once every 24 hours after wards.\nGiven altitude \u003d 44331.5 - 4946.62 P**0.190263 (CRC)\nI was trying to minimize the computation of computing the pressure to a fractional power.",
+      "parentUuid": "7b5222b6_1543f8e0",
       "range": {
         "startLine": 26,
         "startChar": 57,
