@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "96fdabaa_fbea2a68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-25T22:03:31Z",
+      "side": 1,
+      "message": "Hmm, I am surprised to see 16%, my system uses 1%. How many sensors do you have? When using 120 sec, what is the CPU load? I am wondering whether there is something else going is your CPU loading. on.",
+      "parentUuid": "1e794fbe_bae05cd7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "2d3fd204be1bd088272f2dbbf1ec38394ae4499e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b2f21c5_e9c8f681",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 2
