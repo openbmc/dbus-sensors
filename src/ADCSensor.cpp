@@ -35,7 +35,6 @@
 #include <vector>
 
 static constexpr size_t warnAfterErrorCount = 10;
-static constexpr unsigned int gpioBridgeEnableMs = 20;
 // scaling factor from hwmon
 static constexpr unsigned int sensorScaleFactor = 1000;
 
@@ -110,7 +109,7 @@ void ADCSensor::setupRead(void)
         // value. Guarantee that the HW signal can be stable, the HW signal
         // could be instability.
         waitTimer.expires_from_now(
-            boost::posix_time::milliseconds(gpioBridgeEnableMs));
+            boost::posix_time::milliseconds(bridgeGpio->setupTimeMs));
         waitTimer.async_wait(
             [weakRef, buffer](const boost::system::error_code& ec) {
                 std::shared_ptr<ADCSensor> self = weakRef.lock();

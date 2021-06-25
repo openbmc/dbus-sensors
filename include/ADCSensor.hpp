@@ -15,7 +15,9 @@
 class BridgeGpio
 {
   public:
-    BridgeGpio(const std::string& name, const int polarity)
+    BridgeGpio(const std::string& name, const int polarity,
+               const float setupTime) :
+        setupTimeMs(static_cast<unsigned int>(setupTime * 1000))
     {
         line = gpiod::find_line(name);
         if (!line)
@@ -53,6 +55,8 @@ class BridgeGpio
             }
         }
     }
+
+    unsigned int setupTimeMs;
 
   private:
     gpiod::line line;

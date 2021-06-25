@@ -37,6 +37,7 @@
 
 static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
+static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
 namespace fs = std::filesystem;
 
@@ -281,7 +282,18 @@ void createSensors(
                                     polarity = gpiod::line::ACTIVE_LOW;
                                 }
                             }
-                            bridgeGpio = BridgeGpio(gpioName, polarity);
+
+                            float setupTime = gpioBridgeSetupTimeDefault;
+                            auto findSetupTime =
+                                suppConfig.second.find("SetupTime");
+                            if (findSetupTime != suppConfig.second.end())
+                            {
+                                setupTime = std::visit(VariantToFloatVisitor(),
+                                                       findSetupTime->second);
+                            }
+
+                            bridgeGpio =
+                                BridgeGpio(gpioName, polarity, setupTime);
                         }
 
                         break;
