@@ -381,6 +381,30 @@
     },
     {
       "key": {
+        "uuid": "df83f584_b082224e",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T15:50:49Z",
+      "side": 1,
+      "message": "Generates a compiler error:\n\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp: In lambda function:\n../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:47:32: error: the type \u0027const std::filesystem::__cxx11::path\u0027 of \u0027constexpr\u0027 variable \u0027root\u0027 is not literal\n   47 |             constexpr fs::path root(\"/sys/bus/iio/devices\");\n      |                                ^~~~\nIn file included from /home/Bruce.Mitchell/GHE/Bruce-Mitchell/openbmc/build/p10bmc/tmp/work/armv7ahf-vfpv4d16-openbmc-linux-gnueabi/dbus-sensors/0.1+git999-r0/recipe-sysroot/usr/include/c++/11.1.1/filesystem:45,\n                 from ../../../../../../workspace/sources/dbus-sensors/include/Utils.hpp:10,\n                 from ../../../../../../workspace/sources/dbus-sensors/include/Thresholds.hpp:2,\n                 from ../../../../../../workspace/sources/dbus-sensors/include/IIOSensor.hpp:3,\n                 from ../../../../../../workspace/sources/dbus-sensors/src/IIOMain.cpp:1:\n/home/Bruce.Mitchell/GHE/Bruce-Mitchell/openbmc/build/p10bmc/tmp/work/armv7ahf-vfpv4d16-openbmc-linux-gnueabi/dbus-sensors/0.1+git999-r0/recipe-sysroot/usr/include/c++/11.1.1/bits/fs_path.h:245:9: note: \u0027std::filesystem::__cxx11::path\u0027 is not literal because:\n  245 |   class path\n      |         ^~~~",
+      "parentUuid": "92b28533_27164e1f",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "097e2bee_36bf3b13",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
