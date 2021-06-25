@@ -971,6 +971,30 @@
     },
     {
       "key": {
+        "uuid": "f3d86fdb_b6c494c2",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T15:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68ca7669_bf7e5091",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a1ac014_56202918",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 33
