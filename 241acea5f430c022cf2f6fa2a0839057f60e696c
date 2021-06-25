@@ -114,6 +114,29 @@
       "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05408956_3dc9ee84",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000224
+      },
+      "writtenOn": "2021-06-25T01:01:23Z",
+      "side": 1,
+      "message": "I notice that most sensors in dbus-sensors use definitions from SensorPaths.hpp (sensor_paths::DegreesC). Could we use that here?  \n\nAlso we should probably add Pascals to that file to keep in sync (if you haven\u0027t already - I could have missed it).",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
