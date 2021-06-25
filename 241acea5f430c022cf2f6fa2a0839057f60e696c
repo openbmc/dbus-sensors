@@ -666,6 +666,30 @@
     },
     {
       "key": {
+        "uuid": "740aaf7f_c7f6dae4",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T15:57:10Z",
+      "side": 1,
+      "message": "To solve the redundancy the follow was removed:\n                else if (sensorTypeName.compare(\"pressure\") \u003d\u003d 0)\n                {\n                    findSensorName \u003d baseConfigMap-\u003efind(\"Name\");\n                }",
+      "parentUuid": "063ef062_e5cf56e6",
+      "range": {
+        "startLine": 152,
+        "startChar": 36,
+        "endLine": 152,
+        "endChar": 65
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7a4c302_2bd7b6b6",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
