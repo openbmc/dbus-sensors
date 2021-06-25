@@ -587,6 +587,30 @@
     },
     {
       "key": {
+        "uuid": "68ca7669_bf7e5091",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000224
+      },
+      "writtenOn": "2021-06-25T05:40:33Z",
+      "side": 1,
+      "message": "Yes, I\u0027m talking about a different file: dbus-sensors/include/SensorPaths.hpp which says \n\"// This is an allowlist of the units a sensor can measure. Should be in sync\n// with\n// phosphor-dbus-interfaces/blob/master/xyz/openbmc_project/Sensor/Value.interface.yaml#L35\"\n\nand I haven\u0027t seen a commit adding Pascals to this file.",
+      "parentUuid": "976d7591_bb79a607",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a1ac014_56202918",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 33
