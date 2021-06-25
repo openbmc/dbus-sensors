@@ -37,6 +37,7 @@
 
 static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
+static constexpr unsigned int gpioBridgeEnableMsDefault = 20;
 
 namespace fs = std::filesystem;
 
@@ -281,7 +282,17 @@ void createSensors(
                                     polarity = gpiod::line::ACTIVE_LOW;
                                 }
                             }
-                            bridgeGpio = BridgeGpio(gpioName, polarity);
+
+                            unsigned int enableMs = gpioBridgeEnableMsDefault;
+                            auto findEnableMs = suppConfig.second.find("EnableMs");
+                            if (findEnableMs != suppConfig.second.end())
+                            {
+                                enableMs = std::visit(
+                                    VariantToUnsignedIntVisitor(),
+                                    findEnableMs->second);
+                            }
+
+                            bridgeGpio = BridgeGpio(gpioName, polarity, enableMs);
                         }
 
                         break;
