@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32d9562b_e9381fdc",
+        "filename": "include/IIOSensor.hpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T03:30:18Z",
+      "side": 1,
+      "message": "OK; I\u0027ll do that.",
+      "parentUuid": "f1ee0cc6_ebe6b771",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e1522be_2ed32598",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -36,6 +60,30 @@
       "writtenOn": "2021-06-24T21:32:50Z",
       "side": 1,
       "message": "why is this picked?",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58cd93a9_056db8fa",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T03:30:18Z",
+      "side": 1,
+      "message": "I like prime numbers, and it is just a little bit less than 1 second.",
+      "parentUuid": "5e1522be_2ed32598",
       "range": {
         "startLine": 25,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2d86d541_724f4916",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T03:30:18Z",
+      "side": 1,
+      "message": "Ok, like I said before \"This is not my area of expertise, I am more of an embedded C/C++ without object oriented stuff.\"  I inherited this code which I was told came from other dbus-sensor code.\n\nExample solutions would greatly be appreciated.",
+      "parentUuid": "43972cc2_517c669e",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "078293b7_fc76e4bf",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -82,6 +154,30 @@
       "writtenOn": "2021-06-24T21:32:50Z",
       "side": 1,
       "message": "redundant with line159",
+      "range": {
+        "startLine": 152,
+        "startChar": 36,
+        "endLine": 152,
+        "endChar": 65
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c95ca1c_95aaf355",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T03:30:18Z",
+      "side": 1,
+      "message": "When I had remove that line I got a compiler error.",
+      "parentUuid": "078293b7_fc76e4bf",
       "range": {
         "startLine": 152,
         "startChar": 36,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5de35998_eae622f2",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T03:30:18Z",
+      "side": 1,
+      "message": "I thought the .compare is prefered.",
+      "parentUuid": "c7a4c302_2bd7b6b6",
+      "range": {
+        "startLine": 153,
+        "startChar": 20,
+        "endLine": 153,
+        "endChar": 62
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05408956_3dc9ee84",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 33
@@ -128,6 +248,30 @@
       "writtenOn": "2021-06-25T01:01:23Z",
       "side": 1,
       "message": "I notice that most sensors in dbus-sensors use definitions from SensorPaths.hpp (sensor_paths::DegreesC). Could we use that here?  \n\nAlso we should probably add Pascals to that file to keep in sync (if you haven\u0027t already - I could have missed it).",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "976d7591_bb79a607",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T03:30:18Z",
+      "side": 1,
+      "message": "Pascals have been added here:\n43729: phosphor-dbus-interfaces: Add enum value \"Pascals\"\nhttps://gerrit.openbmc-project.xyz/c/openbmc/phosphor-dbus-interfaces/+/43729",
+      "parentUuid": "05408956_3dc9ee84",
       "range": {
         "startLine": 60,
         "startChar": 0,
