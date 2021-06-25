@@ -333,6 +333,30 @@
     },
     {
       "key": {
+        "uuid": "92b28533_27164e1f",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-06-25T15:00:14Z",
+      "side": 1,
+      "message": "Never saw constexpr in Bjarne Stroustrup\u0027s book \"The C++ Programming Language\";\nI will google it.",
+      "parentUuid": "6907ca8c_10aedcd5",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "097e2bee_36bf3b13",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
