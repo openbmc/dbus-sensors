@@ -96,6 +96,76 @@
     },
     {
       "key": {
+        "uuid": "33e4752c_198a77f4",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "round numbers please, your love for prime numbers notwithstanding, others will likely use this code in the future, and having reasonable defaults is important.",
+      "parentUuid": "58cd93a9_056db8fa",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b5222b6_1543f8e0",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "This seems inordinately long?  Maybe some commentary on why it was chosen.",
+      "range": {
+        "startLine": 26,
+        "startChar": 57,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "211e79a9_db4468b5",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "Theres\u0027 only one sensor here, no need for it to be an array.",
+      "range": {
+        "startLine": 29,
+        "startChar": 44,
+        "endLine": 29,
+        "endChar": 55
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43972cc2_517c669e",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -143,6 +213,76 @@
     },
     {
       "key": {
+        "uuid": "6907ca8c_10aedcd5",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "constexpr is pretty well documented online.  Give it a couple google searches and I\u0027ll bet you\u0027ll have it figured out.\n\nFYI, constexpr has nothing to do with \"object oriented stuff\"",
+      "parentUuid": "2d86d541_724f4916",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "097e2bee_36bf3b13",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "Why are we searching for two sysfs paths here?  surely the dps310 only gives us one?",
+      "range": {
+        "startLine": 49,
+        "startChar": 43,
+        "endLine": 49,
+        "endChar": 52
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fd04e25_8fe1ec66",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "This seems like a very poor way to identify a pressure sensor versus a temp sensor.  I\u0027m not sure why you\u0027re trying to differentiate (there\u0027s only one physical sensor).  Looking at this a little more, I\u0027m not sure how this would work.  Can you elaborate a little on what you were thinking here?",
+      "range": {
+        "startLine": 98,
+        "startChar": 20,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "078293b7_fc76e4bf",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
@@ -178,6 +318,30 @@
       "side": 1,
       "message": "When I had remove that line I got a compiler error.",
       "parentUuid": "078293b7_fc76e4bf",
+      "range": {
+        "startLine": 152,
+        "startChar": 36,
+        "endLine": 152,
+        "endChar": 65
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbd715b4_afd1a918",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "your compiler error was?",
+      "parentUuid": "9c95ca1c_95aaf355",
       "range": {
         "startLine": 152,
         "startChar": 36,
@@ -237,6 +401,145 @@
     },
     {
       "key": {
+        "uuid": "a3bb8ac3_b7de5ae2",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "not sure what made you think that.....",
+      "parentUuid": "5de35998_eae622f2",
+      "range": {
+        "startLine": 153,
+        "startChar": 20,
+        "endLine": 153,
+        "endChar": 62
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "274816c2_77056b00",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "don\u0027t use endswith in new code.  Use .filename() and \u003d\u003d",
+      "range": {
+        "startLine": 183,
+        "startChar": 35,
+        "endLine": 183,
+        "endChar": 44
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6059d973_92719277",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "this needs a sensor \u003d nullptr; here to null out the old sensor before creating the new one.\n\nWhichever sensor you copied this from clearly got missed when we fixed this a while back, could you also put up a patchset to fix wherever you got this from?",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 51
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "706280d5_63e24f9f",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "const?",
+      "range": {
+        "startLine": 259,
+        "startChar": 12,
+        "endLine": 259,
+        "endChar": 40
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a4ea41_48f8e22e",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "This seems like a bad name for this, as this sensor is going to be specific to pressure sensors, right?",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ad1985_2d8cdbca",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "please init to unknown and drop the final else case.",
+      "range": {
+        "startLine": 56,
+        "startChar": 16,
+        "endLine": 56,
+        "endChar": 21
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05408956_3dc9ee84",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 33
@@ -276,6 +579,29 @@
         "startLine": 60,
         "startChar": 0,
         "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a1ac014_56202918",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-06-25T04:37:18Z",
+      "side": 1,
+      "message": "Do we need to quit after this?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
         "endChar": 26
       },
       "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
