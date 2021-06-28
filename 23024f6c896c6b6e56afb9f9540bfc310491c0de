@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c8978d79_6721fb26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2021-06-28T07:04:49Z",
+      "side": 1,
+      "message": "Any idea whether this 20 ms was initially based on some documentation/Specification or just hard-coded based on trial and error?",
+      "revId": "23024f6c896c6b6e56afb9f9540bfc310491c0de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b9262924_d57dcad3",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
