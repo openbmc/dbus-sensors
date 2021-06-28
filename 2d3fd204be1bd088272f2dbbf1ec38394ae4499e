@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "ae860240_79ba1e88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-06-28T11:05:32Z",
+      "side": 1,
+      "message": "Currently, we have OCP YosemiteV2 target which has 4 removable host, each host has 70(x4) sensors. Based on the requirement, we can also change the pollrate to each sensor.\n\nAlso, IPMB version patch is submitted in gerrit, it does not require to read the version for every second. Therefore, pollrate property is suggested in IPMB.",
+      "parentUuid": "96fdabaa_fbea2a68",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "2d3fd204be1bd088272f2dbbf1ec38394ae4499e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b2f21c5_e9c8f681",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 2
