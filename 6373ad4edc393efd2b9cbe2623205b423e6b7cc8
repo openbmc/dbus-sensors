@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a22e2af_b8d14b09",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-06-28T17:16:33Z",
+      "side": 1,
+      "message": "nit: please take a look at existing code and follow the same naming convention \nhttps://github.com/openbmc/dbus-sensors/blob/master/include/HwmonTempSensor.hpp#L33",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 17
+      },
+      "revId": "6373ad4edc393efd2b9cbe2623205b423e6b7cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
