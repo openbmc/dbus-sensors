@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "0351f101_3ec5e1ef",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-06-29T09:30:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff09fa0b_342de2bd",
+      "range": {
+        "startLine": 215,
+        "startChar": 7,
+        "endLine": 215,
+        "endChar": 23
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "febc03a8_713d6691",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 6
@@ -329,6 +353,30 @@
       "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "886ad848_940b625a",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-06-29T09:30:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0d131bf_5acdd480",
+      "range": {
+        "startLine": 165,
+        "startChar": 7,
+        "endLine": 165,
+        "endChar": 57
+      },
+      "revId": "a58763f216ca1b40adc6d75d56cef583c5118491",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
