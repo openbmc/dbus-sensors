@@ -312,4 +312,5 @@ int main()
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
+    return 0;
 }
