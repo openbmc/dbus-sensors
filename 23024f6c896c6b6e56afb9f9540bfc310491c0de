@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7d9e9fbf_be2a121b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-06-29T02:43:08Z",
+      "side": 1,
+      "message": "My guess is that it was basically a \"this seems to work\" kind of value rather than something rigorously determined or specified, but I\u0027m not sure -- that dates from commit a5b1bbcc6c633220512ed6d78a18965eeeb6c2d2 (https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/19864) from Yunge Zhu, who no longer appears to be active in OpenBMC as far as I can tell.",
+      "parentUuid": "c8978d79_6721fb26",
+      "revId": "23024f6c896c6b6e56afb9f9540bfc310491c0de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9262924_d57dcad3",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
