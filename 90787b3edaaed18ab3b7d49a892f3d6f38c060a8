@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2733cd5f_8df0227c",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-01T13:46:09Z",
+      "side": 1,
+      "message": "Silicon Laboratories Si7020-A20 I2C HUMIDITY AND TEMPERATURE SENSOR",
+      "parentUuid": "bd16d90f_dae8c6c7",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 46
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb5485dd_80950097",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 47
