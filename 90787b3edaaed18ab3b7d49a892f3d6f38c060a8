@@ -1,0 +1,313 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd16d90f_dae8c6c7",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "What\u0027s this about?",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 46
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb5485dd_80950097",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "Do we have to open-code all of this?\n\nDo we have to implement everything in a lambda instead of a named function that we pass captured arguments to?\n\nI expect we can find some abstractions here that make the code less impenetrable.",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e0e9bf4_07339f4e",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "I think it would be helpful to comment in the code what we\u0027re trying to achieve here (document the regexes). Pointing to the relevant kernel documentation would also help.",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 68
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e4e07c0_554fb87b",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "For example, lets pull this logic out into a separate function, maybe call it extractI2CAddress().\n\nI have to say the approach breaks my mind (Find a hyphen and just assume it\u0027s part of the I2C address?) but I expect this has just been copy/pasted from other code in dbus-sensors.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c5a05dd_38b68695",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "Again, logic like this should be pulled out into its own function, maybe call it getSensorType()",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96c11ce7_e2f74fa8",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "Similarly, this looks like something we could call findInterfacePath()",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "446fba3a_893777b7",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "getSensorName()",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 66
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6823a0f5_92b012e5",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "updateActiveSensors()?",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0107bafd_e0871341",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "getPollRate()",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a7fd22d_6cf53208",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "getReadState()",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cfde817_4ff64063",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "Nested lambdas :(",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d675166_0a4ae5de",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "The indentation makes this look ghastly :(",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3752758e_2d42bdc5",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "Nice, I had to introduce this pattern of delegating to a method into nvmesensor. Good to see it used elsewhere.",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb9d9a59_16016500",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "Seems \"expensive\" to use a string search constantly? Why not cache it in the object as an enum value that we derive in the constructor?",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b12a05e9_1af4c8ec",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-01T07:30:59Z",
+      "side": 1,
+      "message": "abort()? Let\u0027s not continue in the face of things that never happen.",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
