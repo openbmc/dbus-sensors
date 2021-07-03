@@ -224,6 +224,24 @@
       "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41f21378_ef37a067",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-07-03T07:06:21Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/linux/blob/dd1e9367157f900616f0eae3cef897c23d4e7452/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts#L271\nwith below kind of device tree of Ampere platform, the change is required.\nThe current design of ADC daemon only supports one ADC device tree and its\u0027 name should be \"iio-hwmon\".",
+      "parentUuid": "eca3e580_54f8f83b",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
