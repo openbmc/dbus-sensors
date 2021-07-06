@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fe05cc86_7c6bbe42",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-06T00:13:48Z",
+      "side": 1,
+      "message": "Yep, but this isn\u0027t mentioned anywhere in the commit message. I think it deserves a separate commit.",
+      "parentUuid": "2733cd5f_8df0227c",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 46
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb5485dd_80950097",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 47
