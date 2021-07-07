@@ -296,6 +296,24 @@
       "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91fe236_a2e4efeb",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-07-07T23:48:23Z",
+      "side": 1,
+      "message": "Correct, that was my question, will that work for you?",
+      "parentUuid": "b6474301_df090905",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
