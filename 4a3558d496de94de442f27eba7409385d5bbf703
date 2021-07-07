@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9ce622e_1ea096c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-07-07T23:43:08Z",
+      "side": 1,
+      "message": "I would get rid off this because \"increase\" does not make sense here. IMO\nMaybe just show your use case and state the need to tune it down.",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "4a3558d496de94de442f27eba7409385d5bbf703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2303120_79b0f664",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-07-07T23:43:08Z",
+      "side": 1,
+      "message": "any reason this needs to be in Seconds instead of MSec? example: https://github.com/openbmc/dbus-sensors/blob/12e3d67e3ba76bc832e2e1e1fc38933b055afd79/include/HwmonTempSensor.hpp#L33",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 22
+      },
+      "revId": "4a3558d496de94de442f27eba7409385d5bbf703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
