@@ -260,6 +260,24 @@
       "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41d251b4_b7c437c0",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-07-07T22:10:03Z",
+      "side": 1,
+      "message": "For your use case, it should work with assumption that the name *starts* with iio-hwmon, which is what I was asking about.",
+      "parentUuid": "7412f860_449ba46e",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
