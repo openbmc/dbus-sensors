@@ -314,6 +314,24 @@
       "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1450565c_d725da3f",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-07-08T00:54:24Z",
+      "side": 1,
+      "message": "Sure, I\u0027m fine with that change. I will update the patches.",
+      "parentUuid": "c91fe236_a2e4efeb",
+      "revId": "08e672756bd72f78c8350a15414ab22e02cfc343",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
