@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42f2a88e_3b518800",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-07-08T15:10:00Z",
+      "side": 1,
+      "message": "This if filters out the sensor path of the ADC device which device name starts with \"iio-hwmon\".",
+      "revId": "b49363b7cb01395f87181966b9cad2163a22dee1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "479db076_5a88ea0f",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-07-08T15:10:00Z",
+      "side": 1,
+      "message": "Match device name with the default ADC device name \"iio-hwmon\" for backward compatible. Next patch will support check the configuration devName with the sensor path device name.",
+      "revId": "b49363b7cb01395f87181966b9cad2163a22dee1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
