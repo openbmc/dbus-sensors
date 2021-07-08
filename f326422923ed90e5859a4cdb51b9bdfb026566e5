@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "450b6a42_092afb05",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 53
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-08T20:43:41Z",
+      "side": 1,
+      "message": "as I mentioned elsewhere, if you do (in_temp_raw + in_temp_offset) * in_temp_scale, then the next person that tries to support a different IIO temp sensor won\u0027t have to figure out how to have this object support multiple formulas.  What you have now of course works for just the single supported device.",
+      "revId": "f326422923ed90e5859a4cdb51b9bdfb026566e5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
