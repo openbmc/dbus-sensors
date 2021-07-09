@@ -189,6 +189,20 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             incrementError();
         }
     }
+    else if (err == boost::system::errc::no_such_device)
+    {
+        std::cerr << "No such device at " << path << ", trying to re-open\n";
+        fd = open(path.c_str(), O_RDONLY);
+        if (fd < 0)
+        {
+            std::cerr << "PSU sensor failed to re-open file\n";
+        }
+        else
+        {
+            inputDev.close();
+            inputDev.assign(fd);
+        }
+    }
     else
     {
         std::cerr << "System error: " << errno << " line: " << __LINE__ << "\n";
