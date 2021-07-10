@@ -141,6 +141,30 @@
       "revId": "4a3558d496de94de442f27eba7409385d5bbf703",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fea8908c_1b605d00",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2021-07-10T06:17:50Z",
+      "side": 1,
+      "message": "+1. What if there is a need to change the pollrate to some MSec ?",
+      "parentUuid": "3176b5b0_9364925c",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 22
+      },
+      "revId": "4a3558d496de94de442f27eba7409385d5bbf703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }

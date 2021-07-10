@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4346fa39_47f66750",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2021-07-10T06:17:50Z",
+      "side": 1,
+      "message": "Suggest to use unit8_t for consistency.",
+      "revId": "8fd0546c69ebfbffc08132f8eb8145f819e1d49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb6e685e_86a9b63a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2021-07-10T06:17:50Z",
+      "side": 1,
+      "message": "Same here, Suggest to use unit8_t for consistency.",
+      "revId": "8fd0546c69ebfbffc08132f8eb8145f819e1d49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
