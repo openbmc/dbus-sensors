@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "656f01ef_a8496c2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2021-07-13T12:15:51Z",
+      "side": 1,
+      "message": "Is the intention to make the value precise?",
+      "revId": "7d192d70ce9a495431b1527f6cf3e2d6ab76f673",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "998c37f3_80b152f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2021-07-13T12:15:51Z",
+      "side": 1,
+      "message": "What will be the value over redfish? Is it same as dbus value or  \"ipmitool SDR elist\" value?",
+      "revId": "7d192d70ce9a495431b1527f6cf3e2d6ab76f673",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
