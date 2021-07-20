@@ -24,6 +24,7 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cerrno>
 #include <iostream>
 #include <istream>
 #include <limits>
@@ -167,7 +168,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
-        std::cerr << "Bad file descriptor from\n";
+        std::cerr << "Bad file descriptor for " << path << "\n";
         return;
     }
 
@@ -195,7 +196,9 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     }
     else
     {
-        std::cerr << "System error: " << errno << " line: " << __LINE__ << "\n";
+        std::cerr << "System error " << errno << " (" << sys_errlist[errno]
+                  << ") reading from " << path << ", line: " << __LINE__
+                  << "\n";
         incrementError();
     }
 
