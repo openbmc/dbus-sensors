@@ -581,7 +581,7 @@ void reinitSensors(sdbusplus::message::message& message)
     if (findStatus != values.end())
     {
         bool powerStatus = boost::ends_with(
-            std::get<std::string>(findStatus->second), "Running");
+            std::get<std::string>(findStatus->second), ".Running");
         if (powerStatus)
         {
             if (!initCmdTimer)

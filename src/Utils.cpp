@@ -268,7 +268,7 @@ static void
                 return;
             }
             powerStatusOn =
-                boost::ends_with(std::get<std::string>(state), "Running");
+                boost::ends_with(std::get<std::string>(state), ".Running");
         },
         power::busname, power::path, properties::interface, properties::get,
         power::interface, power::property);
@@ -330,7 +330,7 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             if (findState != values.end())
             {
                 bool on = boost::ends_with(
-                    std::get<std::string>(findState->second), "Running");
+                    std::get<std::string>(findState->second), ".Running");
                 if (!on)
                 {
                     timer.cancel();
