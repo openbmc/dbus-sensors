@@ -333,6 +333,8 @@ void PSUSubEvent::updateValue(const int& newValue)
     }
     else
     {
+        std::cerr << "PSUSubEvent asserted by " << path << "\n";
+
         if ((*assertState == false) && ((*asserts).empty()))
         {
             *assertState = true;
