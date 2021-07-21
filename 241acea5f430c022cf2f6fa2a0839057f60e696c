@@ -1192,6 +1192,30 @@
     },
     {
       "key": {
+        "uuid": "f357fdcd_0d1c47bf",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T22:20:31Z",
+      "side": 1,
+      "message": "From HwmonTempMain.cpp on Line 194 has the same ends_with code.\n\n                // on rescans, only update sensors we were signaled by\n                auto findSensor \u003d sensors.find(sensorName);\n                if (!firstScan \u0026\u0026 findSensor !\u003d sensors.end())\n                {\n                    bool found \u003d false;\n                    for (auto it \u003d sensorsChanged-\u003ebegin();\n                         it !\u003d sensorsChanged-\u003eend(); it++)\n                    {\n                        if (boost::ends_with(*it, findSensor-\u003esecond-\u003ename))\n                        {\n                            sensorsChanged-\u003eerase(it);\n                            findSensor-\u003esecond \u003d nullptr;\n                            found \u003d true;\n                            break;\n                        }\n                    }\n                    if (!found)\n                    {\n                        continue;\n                    }\n                }",
+      "parentUuid": "53c79f2b_a864e759",
+      "range": {
+        "startLine": 183,
+        "startChar": 35,
+        "endLine": 183,
+        "endChar": 44
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6059d973_92719277",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
