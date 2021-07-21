@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "252a7ce6_d0eebecf",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe05cc86_7c6bbe42",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 46
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb5485dd_80950097",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 47
@@ -87,6 +111,24 @@
       "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e14d1e56_bcf0678d",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Same style as done in Hwmon (and I believe also ADCSensor).",
+      "parentUuid": "fb5485dd_80950097",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -113,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "2e25109a_b35b609d",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon (and I believe also ADCSensor).",
+      "parentUuid": "5e0e9bf4_07339f4e",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 68
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e4e07c0_554fb87b",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 47
@@ -133,6 +199,30 @@
       "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91373ca_015a2cc9",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon.",
+      "parentUuid": "4e4e07c0_554fb87b",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -159,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "38832fc4_7ab72ec6",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon.",
+      "parentUuid": "2c5a05dd_38b68695",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96c11ce7_e2f74fa8",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 47
@@ -179,6 +293,30 @@
       "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc9d50d4_d4c6e17f",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon.",
+      "parentUuid": "96c11ce7_e2f74fa8",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -228,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "f03078ec_4e2a04ab",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon.",
+      "parentUuid": "6823a0f5_92b012e5",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0107bafd_e0871341",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 47
@@ -274,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "bdd6ffc5_48650e3d",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon.",
+      "parentUuid": "7a7fd22d_6cf53208",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 17
+      },
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cfde817_4ff64063",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 47
@@ -288,6 +474,24 @@
       "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18f68721_90a6bff7",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon.",
+      "parentUuid": "1cfde817_4ff64063",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -308,6 +512,24 @@
     },
     {
       "key": {
+        "uuid": "a3bd7916_faed037b",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon.",
+      "parentUuid": "7d675166_0a4ae5de",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3752758e_2d42bdc5",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 47
@@ -322,6 +544,24 @@
       "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5d1841f_791efa6f",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "Again: Same style as done in Hwmon.",
+      "parentUuid": "3752758e_2d42bdc5",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -342,6 +582,24 @@
     },
     {
       "key": {
+        "uuid": "42d90b13_e8e70cdb",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "OK, I am learning how to do that.  I am a C programmer learning.",
+      "parentUuid": "bb9d9a59_16016500",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b12a05e9_1af4c8ec",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 47
@@ -356,6 +614,24 @@
       "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f42af484_caff2263",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-21T16:08:39Z",
+      "side": 1,
+      "message": "I had preferred to report what was read and as unknown.",
+      "parentUuid": "b12a05e9_1af4c8ec",
+      "revId": "90787b3edaaed18ab3b7d49a892f3d6f38c060a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
