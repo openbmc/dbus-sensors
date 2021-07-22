@@ -165,6 +165,54 @@
       "revId": "43bc00d297c43006350bbf9dbd6e5774bbd761fe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb9533b7_35f825eb",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-22T03:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90d58596_db379dc5",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 13
+      },
+      "revId": "43bc00d297c43006350bbf9dbd6e5774bbd761fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c3a9e0e_9e140117",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-22T03:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90d58596_db379dc5",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 13
+      },
+      "revId": "43bc00d297c43006350bbf9dbd6e5774bbd761fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

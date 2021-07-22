@@ -16,6 +16,24 @@
       "revId": "f326422923ed90e5859a4cdb51b9bdfb026566e5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b438ade_ff7308c8",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 53
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-22T03:20:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "450b6a42_092afb05",
+      "revId": "f326422923ed90e5859a4cdb51b9bdfb026566e5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
