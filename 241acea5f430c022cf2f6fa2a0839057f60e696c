@@ -1216,6 +1216,30 @@
     },
     {
       "key": {
+        "uuid": "2f08f0de_7dfd32a8",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-22T01:43:45Z",
+      "side": 1,
+      "message": "Actually all these dbus-sensors files has an ends_with in them:\nsrc/IpmbSensor.cpp:        bool powerStatus \u003d boost::ends_with(\nsrc/ADCSensorMain.cpp:                            boost::ends_with(*it, findSensor-\u003esecond-\u003ename))\nsrc/CPUSensorMain.cpp:            boost::ends_with(directoryName, addrHexStr))\nsrc/IIOMain.cpp:                        if (boost::ends_with(*it, findSensor-\u003esecond-\u003ename))\nsrc/PSUSensorMain.cpp:                                 return boost::ends_with(s, psuNameStr);\nsrc/Utils.cpp:                boost::ends_with(std::get\u003cstd::string\u003e(state), \"On\");\nsrc/Utils.cpp:                bool on \u003d boost::ends_with(\nsrc/ExternalSensorMain.cpp:                        if (boost::ends_with(suffixIt, suffixName))\nsrc/FanMain.cpp:    if (boost::ends_with(canonical, \"1e786000.pwm-tacho-controller\") ||\nsrc/FanMain.cpp:        boost::ends_with(canonical, \"1e610000.pwm-tacho-controller\"))\nsrc/FanMain.cpp:    if (boost::ends_with(canonical, \"f0103000.pwm-fan-controller\"))\nsrc/FanMain.cpp:                        if (boost::ends_with(*it, findSensor-\u003esecond-\u003ename))\nsrc/HwmonTempMain.cpp:                        if (boost::ends_with(*it, findSensor-\u003esecond-\u003ename))\nsrc/ExitAirTempSensor.cpp:                return boost::ends_with(item.first, tachName);\nsrc/ExitAirTempSensor.cpp:                return boost::ends_with(item.first, tachName);\nsrc/ExitAirTempSensor.cpp:                                     boost::ends_with(path, \"Input_Power\"))\nsrc/ExitAirTempSensor.cpp:                    boost::ends_with(sensorName, \"Input_Power\"))",
+      "parentUuid": "f357fdcd_0d1c47bf",
+      "range": {
+        "startLine": 183,
+        "startChar": 35,
+        "endLine": 183,
+        "endChar": 44
+      },
+      "revId": "241acea5f430c022cf2f6fa2a0839057f60e696c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6059d973_92719277",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 33
