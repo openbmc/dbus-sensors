@@ -117,6 +117,30 @@
       "revId": "dca157750e827e6a211828c3d36e127c8edd4350",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1126cd4b_5f69f00d",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 70
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-23T15:33:35Z",
+      "side": 1,
+      "message": "Within dbus-sensors/src all of these have have the same code \nADCSensorMain.cpp ExternalSensorMain.cpp FanMain.cpp HwmonTempMain.cpp\n\nSo are they all broken?",
+      "parentUuid": "5e711b3a_42ab8af6",
+      "range": {
+        "startLine": 201,
+        "startChar": 28,
+        "endLine": 201,
+        "endChar": 54
+      },
+      "revId": "dca157750e827e6a211828c3d36e127c8edd4350",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
