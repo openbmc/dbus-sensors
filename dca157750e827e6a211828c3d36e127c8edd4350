@@ -69,6 +69,30 @@
       "revId": "dca157750e827e6a211828c3d36e127c8edd4350",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0296fea2_b7937f18",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 70
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-23T14:41:49Z",
+      "side": 1,
+      "message": "I honestly do not know; but it is the same code as from dbus-sensors/src/HwmonTempMain.cpp; we should check with Matt Spinler.\n\n                // on rescans, only update sensors we were signaled by\n                auto findSensor \u003d sensors.find(sensorName);\n                if (!firstScan \u0026\u0026 findSensor !\u003d sensors.end())\n                {\n                    bool found \u003d false;\n                    for (auto it \u003d sensorsChanged-\u003ebegin();\n                         it !\u003d sensorsChanged-\u003eend(); it++)\n                    {\n                        if (boost::ends_with(*it, findSensor-\u003esecond-\u003ename))\n                        {\n                            sensorsChanged-\u003eerase(it);\n                            findSensor-\u003esecond \u003d nullptr;\n                            found \u003d true;\n                            break;\n                        }\n                    }\n                    if (!found)\n                    {\n                        continue;\n                    }\n                }",
+      "parentUuid": "563acd65_269ac28f",
+      "range": {
+        "startLine": 201,
+        "startChar": 28,
+        "endLine": 201,
+        "endChar": 54
+      },
+      "revId": "dca157750e827e6a211828c3d36e127c8edd4350",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
