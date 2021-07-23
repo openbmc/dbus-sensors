@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a1dcc32c_8ef579d3",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-07-23T14:42:17Z",
+      "side": 1,
+      "message": "Done. Here and in `PSUSensor::setupRead(void)` as well",
+      "parentUuid": "e71b5182_89a5a1e8",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 27
+      },
+      "revId": "0070f75007e0b30362490f13c8071ee5e28e06f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "950dc26a_a5404451",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2021-07-07T14:53:50Z",
       "side": 1,
       "message": "Please opt to break this out into a free function that is not part of the sensor class.",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 51
+      },
+      "revId": "0070f75007e0b30362490f13c8071ee5e28e06f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "916ccc30_9ffc8e67",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-07-23T14:42:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "950dc26a_a5404451",
       "range": {
         "startLine": 221,
         "startChar": 0,
