@@ -213,6 +213,30 @@
       "revId": "dca157750e827e6a211828c3d36e127c8edd4350",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0836875_08f5d5bc",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 70
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-07-26T16:13:44Z",
+      "side": 1,
+      "message": "Technically shawn is correct.  In practice this is undefined behavior that we just happen to rely on.  The short version is that std::flat_map is based on a vector.  for some vector implementations, end() points to the element past the last element.  When we call erase on the last item, we just happen to rely on this fact.\n\nTechnically this code should be resetting it, as should the rest of them.",
+      "parentUuid": "bf327e44_f5e72874",
+      "range": {
+        "startLine": 201,
+        "startChar": 28,
+        "endLine": 201,
+        "endChar": 54
+      },
+      "revId": "dca157750e827e6a211828c3d36e127c8edd4350",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
