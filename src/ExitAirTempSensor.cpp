@@ -170,24 +170,24 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     objServer(objectServer)
 {
     sensorInterface =
-        objectServer.add_interface("/xyz/openbmc_project/sensors/cfm/" + name,
+        objectServer.add_interface("/xyz/openbmc_project/sensors/airflow/" + name,
                                    "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/cfm/" + name,
+            "/xyz/openbmc_project/sensors/airflow/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/cfm/" + name,
+            "/xyz/openbmc_project/sensors/airflow/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
 
     association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/cfm/" + name, association::interface);
+        "/xyz/openbmc_project/sensors/airflow/" + name, association::interface);
 
     setInitialProperties(conn, sensor_paths::unitCFM);
 
