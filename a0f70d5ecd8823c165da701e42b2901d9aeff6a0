@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da194db5_e1a91fe7",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-26T16:09:03Z",
+      "side": 1,
+      "message": "Nit: drive still here and on line 118.  Is this supposed to be \u0027driver\u0027?",
+      "range": {
+        "startLine": 110,
+        "startChar": 54,
+        "endLine": 110,
+        "endChar": 59
+      },
+      "revId": "a0f70d5ecd8823c165da701e42b2901d9aeff6a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07e7b07a_94cbc220",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-26T16:09:03Z",
+      "side": 1,
+      "message": "Oh shoot.  When I made the comments about erase() invalidating the iterator, I did not see this break here.  That is why the code was OK.  It didn\u0027t continue looping after the erase.  I missed this line and thought it continued looping looking for other things to erase.  Your new version is just fine; I just feel bad for my incorrect comment.",
+      "range": {
+        "startLine": 208,
+        "startChar": 28,
+        "endLine": 208,
+        "endChar": 33
+      },
+      "revId": "a0f70d5ecd8823c165da701e42b2901d9aeff6a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
