@@ -22,6 +22,30 @@
       "revId": "3567b3a20adcb668ab940196284c5f01972f48f2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b82b0133_148b1584",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2021-07-27T07:53:01Z",
+      "side": 1,
+      "message": "It is hard for me to say anything about `hasBiosPost()` because my system (AMD x86) doesn\u0027t really implement it.\nAt this time this code is just a copy of a Sensor class method:\nhttps://github.com/openbmc/dbus-sensors/blob/master/include/sensor.hpp#L346\n\nIn a subsequent commit we should drop Sensor class method and replace it with this function. So I think we should stick with the same code for now, and make all the necessary modification later. This would make the next patch easier to read.\n\nAnyway, this code was added in a commit https://github.com/openbmc/dbus-sensors/commit/961bf09a2c89585601175e74ec3cb2590b911aa8\n\nI think in some cases `isPowerOn()` can change its state before `hasBiosPost()` changes, and that is what this code was trying to cover.",
+      "parentUuid": "07dcb0e9_0476c6c8",
+      "range": {
+        "startLine": 249,
+        "startChar": 46,
+        "endLine": 249,
+        "endChar": 78
+      },
+      "revId": "3567b3a20adcb668ab940196284c5f01972f48f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
