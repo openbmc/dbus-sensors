@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07dcb0e9_0476c6c8",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-07-27T02:30:53Z",
+      "side": 1,
+      "message": "Not something you have to change, but this would be more readable to me if it were\n\n if (powerState \u003d\u003d PowerState::biosPost \u0026\u0026 !(isPowerOn() \u0026\u0026 hasBiosPost()))\n {\n   return false;\n }\n\nHaving said that, do we have to test `isPowerOn()` here? Is `hasBiosPost()` not enough? Or is it not reset if power is removed?",
+      "range": {
+        "startLine": 249,
+        "startChar": 46,
+        "endLine": 249,
+        "endChar": 78
+      },
+      "revId": "3567b3a20adcb668ab940196284c5f01972f48f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
