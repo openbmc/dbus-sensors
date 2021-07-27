@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16750863_d8ee383e",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 74
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-27T17:51:25Z",
+      "side": 1,
+      "message": "All SI7020 type IIO devices will have those values.",
+      "parentUuid": "ebc34c9f_1b8a213a",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "8128955273b6ba77360afa07822eb0d79f17661c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f3c59e5_31525e40",
         "filename": "src/IIOMain.cpp",
         "patchSetId": 74
@@ -45,6 +69,30 @@
       "revId": "8128955273b6ba77360afa07822eb0d79f17661c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26f4753_d53882e0",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 74
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-27T17:51:25Z",
+      "side": 1,
+      "message": "It is set on line 94; outside of the loop, I do not see a problem with that.\nBut feel free to explain further.",
+      "parentUuid": "7f3c59e5_31525e40",
+      "range": {
+        "startLine": 142,
+        "startChar": 24,
+        "endLine": 142,
+        "endChar": 41
+      },
+      "revId": "8128955273b6ba77360afa07822eb0d79f17661c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
