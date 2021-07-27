@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "ebc34c9f_1b8a213a",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 74
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-07-27T17:32:22Z",
+      "side": 1,
+      "message": "Are these pulled from a specific system? Probably should not check this in upstream code if it only works for a specific system.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "8128955273b6ba77360afa07822eb0d79f17661c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f3c59e5_31525e40",
+        "filename": "src/IIOMain.cpp",
+        "patchSetId": 74
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-07-27T17:32:22Z",
+      "side": 1,
+      "message": "Should baseConfiguration be reset to nullptr at the beginning for loop line 130?",
+      "range": {
+        "startLine": 142,
+        "startChar": 24,
+        "endLine": 142,
+        "endChar": 41
+      },
+      "revId": "8128955273b6ba77360afa07822eb0d79f17661c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edbb4ca_427dbda3",
+        "filename": "src/IIOSensor.cpp",
+        "patchSetId": 74
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-07-27T17:32:22Z",
+      "side": 1,
+      "message": "This call does not handle EAGAIN from driver and can cause issues.\nDetails in: \nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/41421",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 33
+      },
+      "revId": "8128955273b6ba77360afa07822eb0d79f17661c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b81102c_276e192e",
         "filename": "src/IIOSensor.cpp",
         "patchSetId": 74
