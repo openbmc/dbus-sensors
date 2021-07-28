@@ -16,6 +16,7 @@
 
 #include <AmpereCPU.hpp>
 #include <Utils.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -246,6 +247,7 @@ static bool matchSensor(
     std::string keyScale = labelHead + "_Scale";
     std::string keyMin = labelHead + "_Min";
     std::string keyMax = labelHead + "_Max";
+    std::string keyAddAssoc = labelHead + "_AddAssoc";
 
     auto findCustomName = baseConfig->second.find(keyName);
     if (findCustomName == baseConfig->second.end())
@@ -352,6 +354,28 @@ static bool matchSensor(
         return false;
     }
 
+    auto findCustomAssoc = baseConfig->second.find(keyAddAssoc);
+    if (findCustomAssoc != baseConfig->second.end())
+    {
+        try
+        {
+            std::string sAssociation =
+                std::visit(VariantToStringVisitor(), findCustomAssoc->second);
+            boost::to_lower(sAssociation);
+            socProperty->addAssociation =
+                sAssociation == "false" ? false : true;
+        }
+        catch (std::invalid_argument&)
+        {
+            std::cerr << "Unable to parse " << keyAddAssoc << "\n";
+            return false;
+        }
+    }
+    else
+    {
+        socProperty->addAssociation = true;
+    }
+
     std::vector<thresholds::Threshold> sensorThresholds;
     if (!parseThresholdsFromConfig(*sensorData, sensorThresholds, &labelHead))
     {
@@ -371,8 +395,9 @@ static bool matchSensor(
     sensors[sensorName] = std::make_shared<AmpereCPUSensor>(
         sensorPathStr, devType, objectServer, dbusConnection, io, sensorName,
         std::move(sensorThresholds), interfacePath, findSensorType->second,
-        factor, socProperty->maxReading, socProperty->minReading, labelHead,
-        sensorThresholds.size(), readState);
+        factor, socProperty->maxReading, socProperty->minReading,
+        socProperty->addAssociation, labelHead, sensorThresholds.size(),
+        readState);
     sensors[sensorName]->setupRead();
 
     return true;
@@ -572,10 +597,11 @@ void propertyInitialize(void)
                    {"temp", "temperature/"},
                    {"in", "voltage/"}};
 
-    propMatch = {{"power", AmpereCPUProperty("Power Property", 30000, 0, 1)},
-                 {"curr", AmpereCPUProperty("Curr property", 30000, 0, 1)},
-                 {"temp", AmpereCPUProperty("Temp property", 255, 0, 1)},
-                 {"in", AmpereCPUProperty("Voltage property", 30000, 0, 1)}};
+    propMatch = {
+        {"power", AmpereCPUProperty("Power Property", 30000, 0, 1, true)},
+        {"curr", AmpereCPUProperty("Curr property", 30000, 0, 1, true)},
+        {"temp", AmpereCPUProperty("Temp property", 255, 0, 1, true)},
+        {"in", AmpereCPUProperty("Voltage property", 30000, 0, 1, true)}};
 }
 
 int main()

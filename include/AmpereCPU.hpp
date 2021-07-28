@@ -22,8 +22,9 @@ class AmpereCPUSensor :
                     std::vector<thresholds::Threshold>&& thresholds,
                     const std::string& sensorConfiguration,
                     std::string& sensorTypeName, unsigned int factor,
-                    double max, double min, const std::string& label,
-                    size_t tSize, PowerState readState);
+                    double max, double min, bool addAssociation,
+                    const std::string& label, size_t tSize,
+                    PowerState readState);
     ~AmpereCPUSensor() override;
     void setupRead(void);
 
@@ -46,9 +47,10 @@ class AmpereCPUProperty
 {
   public:
     AmpereCPUProperty(std::string name, double max, double min,
-                      unsigned int factor) :
+                      unsigned int factor, bool addAss) :
         labelTypeName(std::move(name)),
-        maxReading(max), minReading(min), sensorScaleFactor(factor)
+        maxReading(max), minReading(min), sensorScaleFactor(factor),
+        addAssociation(addAss)
     {}
     ~AmpereCPUProperty() = default;
 
@@ -56,6 +58,7 @@ class AmpereCPUProperty
     double maxReading;
     double minReading;
     unsigned int sensorScaleFactor;
+    bool addAssociation;
 };
 
 // this is added to socsensor.hpp to avoid having every sensor have to link

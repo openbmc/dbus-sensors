@@ -42,8 +42,8 @@ AmpereCPUSensor::AmpereCPUSensor(
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, std::string& sensorTypeName,
-    unsigned int factor, double max, double min, const std::string& label,
-    size_t tSize, PowerState readState) :
+    unsigned int factor, double max, double min, bool addAssociation,
+    const std::string& label, size_t tSize, PowerState readState) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false, max,
            min, conn, readState),
@@ -81,10 +81,17 @@ AmpereCPUSensor::AmpereCPUSensor(
     }
     else
     {
-        setInitialProperties(conn, sensorTypeName, label, tSize);
+        setInitialProperties(conn, sensorTypeName, label, tSize,
+                             addAssociation);
     }
-    association = objectServer.add_interface(dbusPath, association::interface);
-    createInventoryAssoc(conn, association, configurationPath);
+    if (addAssociation)
+    {
+        association =
+            objectServer.add_interface(dbusPath, association::interface);
+        createInventoryAssoc(conn, association, configurationPath);
+    }
+
+    return;
 }
 
 AmpereCPUSensor::~AmpereCPUSensor()
