@@ -16,6 +16,7 @@
 
 #include <AmpereCPU.hpp>
 #include <Utils.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -317,6 +318,7 @@ static bool matchSensor(
     std::string keyScale = labelHead + "_Scale";
     std::string keyMin = labelHead + "_Min";
     std::string keyMax = labelHead + "_Max";
+    std::string keyAddAssoc = labelHead + "_AddAssoc";
 
     bool customizedName = false;
     auto findCustomName = baseConfig->second.find(keyName);
@@ -392,6 +394,28 @@ static bool matchSensor(
             std::cerr << "Unable to parse " << keyMax << "\n";
             return false;
         }
+    }
+
+    auto findCustomAssoc = baseConfig->second.find(keyAddAssoc);
+    if (findCustomAssoc != baseConfig->second.end())
+    {
+        try
+        {
+            std::string sAssociation =
+                std::visit(VariantToStringVisitor(), findCustomAssoc->second);
+            boost::to_lower(sAssociation);
+            socProperty->addAssociation =
+                sAssociation == "false" ? false : true;
+        }
+        catch (std::invalid_argument&)
+        {
+            std::cerr << "Unable to parse " << keyAddAssoc << "\n";
+            return false;
+        }
+    }
+    else
+    {
+        socProperty->addAssociation = true;
     }
 
     if (!(socProperty->minReading < socProperty->maxReading))
@@ -511,8 +535,8 @@ static bool matchSensor(
     sensors[sensorName] = std::make_shared<CPUSensor>(
         sensorPathStr, sensorType, objectServer, dbusConnection, io, sensorName,
         std::move(sensorThresholds), *interfacePath, findSensorType->second,
-        factor, socProperty->maxReading, socProperty->minReading, labelHead,
-        thresholdConfSize, readState);
+        factor, socProperty->maxReading, socProperty->minReading,
+        socProperty->addAssociation, labelHead, thresholdConfSize, readState);
     sensors[sensorName]->setupRead();
 
     return true;

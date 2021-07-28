@@ -211,14 +211,17 @@ struct Sensor
         setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              const std::string& unit,
                              const std::string& label = std::string(),
-                             size_t thresholdSize = 0)
+                             size_t thresholdSize = 0, bool createAssoc = true)
     {
         if (readState == PowerState::on || readState == PowerState::biosPost)
         {
             setupPowerMatch(conn);
         }
 
-        createAssociation(association, configurationPath);
+        if (createAssoc)
+        {
+            createAssociation(association, configurationPath);
+        }
 
         sensorInterface->register_property("Unit", unit);
         sensorInterface->register_property("MaxValue", maxValue);
