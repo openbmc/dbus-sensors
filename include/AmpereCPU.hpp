@@ -21,8 +21,8 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
               std::string& sensorTypeName, unsigned int factor, double max,
-              double min, const std::string& label, size_t tSize,
-              PowerState readState);
+              double min, bool addAssociation, const std::string& label,
+              size_t tSize, PowerState readState);
     ~CPUSensor() override;
     void setupRead(void);
 
@@ -57,6 +57,7 @@ class SoCProperty
     std::string labelTypeName;
     double maxReading;
     double minReading;
+    bool addAssociation;
     unsigned int sensorScaleFactor;
 };
 
