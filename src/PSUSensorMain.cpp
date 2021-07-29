@@ -243,7 +243,7 @@ static void
 
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
             "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
-            objectServer, interfacePath + "_" + pwmName.second, "PSU");
+            objectServer, interfacePath + "_" + pwmName.second, "PSU", false);
     }
 }
 
