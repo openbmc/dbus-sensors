@@ -320,3 +320,7 @@ std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);
 bool getManufacturingMode();
+
+// reads offset or scale from IIO _raw devices
+// from sysfs like /sys/bus/iio/devices/iio:device0/in_temp_raw
+std::optional<double> readRawSensorCompValue(const std::string& path);
