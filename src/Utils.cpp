@@ -558,3 +558,26 @@ bool getManufacturingMode()
 {
     return manufacturingMode;
 }
+
+// reads offset or scale from IIO _raw devices
+// from sysfs like /sys/bus/iio/devices/iio:device0/in_temp_raw
+std::optional<double> readRawSensorCompValue(const std::string& path)
+{
+    // open path for reading if possible
+    std::ifstream inputFile(path);
+    if (!inputFile.is_open())
+    {
+        return std::nullopt;
+    }
+
+    // read a line from inputFile
+    // if read fails close inputFile and return
+    std::string sensorCompValueRead;
+    if (!std::getline(inputFile, sensorCompValueRead))
+    {
+        return std::nullopt;
+    }
+
+    // convert the number from a string to a double and return
+    return std::stod(sensorCompValueRead);
+}
