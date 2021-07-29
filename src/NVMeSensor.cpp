@@ -31,7 +31,7 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
                        const int busNumber) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.NVMe", false, maxReading,
+           "xyz.openbmc_project.Configuration.NVMe", false, false, maxReading,
            minReading, conn, PowerState::on),
     bus(busNumber), objServer(objectServer)
 {
