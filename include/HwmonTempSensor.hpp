@@ -8,6 +8,16 @@
 #include <string>
 #include <vector>
 
+struct SensorParams
+{
+    double minValue;
+    double maxValue;
+    double offsetValue;
+    double scaleValue;
+    std::string units;
+    std::string typeName;
+};
+
 class HwmonTempSensor :
     public Sensor,
     public std::enable_shared_from_this<HwmonTempSensor>
@@ -18,6 +28,7 @@ class HwmonTempSensor :
                     std::shared_ptr<sdbusplus::asio::connection>& conn,
                     boost::asio::io_service& io, const std::string& sensorName,
                     std::vector<thresholds::Threshold>&& thresholds,
+                    const struct SensorParams thisSensorParameters,
                     const float pollRate,
                     const std::string& sensorConfiguration,
                     const PowerState powerState);
@@ -30,6 +41,8 @@ class HwmonTempSensor :
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string path;
+    double offsetValue;
+    double scaleValue;
     unsigned int sensorPollMs;
 
     void handleResponse(const boost::system::error_code& err);
