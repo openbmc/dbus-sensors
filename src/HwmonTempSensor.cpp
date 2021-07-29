@@ -1,3 +1,4 @@
+
 /*
 // Copyright (c) 2017 Intel Corporation
 //
@@ -31,46 +32,63 @@
 #include <string>
 #include <vector>
 
-static constexpr unsigned int sensorScaleFactor = 1000;
-static constexpr size_t warnAfterErrorCount = 10;
+// The pressure units we receive are kilopascal.
+// From: https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-iio
+// Units after application of scale and offset are kilopascal.
+// 1 kilopascal = 10 hectopascal = 1000 Pascals
+// The standard unit for used in atmospheric pressure measurements or
+// readings is the hectopascal (hPa), in meteorology, for atmospheric
+// pressure, the modern equivalent of the traditional millibar.
+// However we tend to not put prefixes on dbus APIs, so our pressure
+// is in Pascals.
 
-static constexpr double maxReading = 127;
-static constexpr double minReading = -128;
+static constexpr double maxReadingPressure = 120000; // Pascals
+static constexpr double minReadingPressure = 30000;  // Pascals
+
+static constexpr double maxReadingTemperature = 127;  // DegreesC
+static constexpr double minReadingTemperature = -128; // DegreesC
 
 HwmonTempSensor::HwmonTempSensor(
     const std::string& path, const std::string& objectType,
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& sensorName,
-    std::vector<thresholds::Threshold>&& thresholdsIn, const float pollRate,
-    const std::string& sensorConfiguration, const PowerState powerState) :
+    std::vector<thresholds::Threshold>&& thresholdsIn, const double offsetValue,
+    const double scaleValue, const std::string& units, const float pollRate,
+    const std::string& sensorConfiguration, const PowerState powerState,
+    const std::string& sensorType) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
-           maxReading, minReading, conn, powerState),
+           sensorType.compare("pressure") ? maxReadingTemperature
+                                          : maxReadingPressure,
+           sensorType.compare("pressure") ? minReadingTemperature
+                                          : minReadingPressure,
+           conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    offsetValue(offsetValue), scaleValue(scaleValue), units(units),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
 {
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+        "/xyz/openbmc_project/sensors/" + sensorType + "/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+            "/xyz/openbmc_project/sensors/" + sensorType + "/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+            "/xyz/openbmc_project/sensors/" + sensorType + "/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        association::interface);
-    setInitialProperties(conn, sensor_paths::unitDegreesC);
+    association = objectServer.add_interface("/xyz/openbmc_project/sensors/" +
+                                                 sensorType + "/" + name,
+                                             association::interface);
+    setInitialProperties(conn, units);
 }
 
 HwmonTempSensor::~HwmonTempSensor()
@@ -141,8 +159,9 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         std::getline(responseStream, response);
         try
         {
+            double nvalue;
             rawValue = std::stod(response);
-            double nvalue = rawValue / sensorScaleFactor;
+            nvalue = (rawValue + offsetValue) * scaleValue;
             updateValue(nvalue);
         }
         catch (const std::invalid_argument&)
