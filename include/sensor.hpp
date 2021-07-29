@@ -18,6 +18,8 @@ constexpr size_t sensorFailedPollTimeMs = 5000;
 constexpr bool enableInstrumentation = false;
 
 constexpr const char* sensorValueInterface = "xyz.openbmc_project.Sensor.Value";
+constexpr const char* valueMutabilityInterfaceName =
+    "xyz.openbmc_project.Sensor.ValueMutability";
 constexpr const char* availableInterfaceName =
     "xyz.openbmc_project.State.Decorator.Availability";
 constexpr const char* operationalInterfaceName =
@@ -69,6 +71,7 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> valueMutabilityInterface;
     double value = std::numeric_limits<double>::quiet_NaN();
     double rawValue = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
@@ -309,6 +312,20 @@ struct Sensor
             !thresholdInterfaceCritical->initialize(true))
         {
             std::cerr << "error initializing critical threshold interface\n";
+        }
+
+        if (isSensorSettable)
+        {
+            valueMutabilityInterface =
+                std::make_shared<sdbusplus::asio::dbus_interface>(
+                    conn, sensorInterface->get_object_path(),
+                    valueMutabilityInterfaceName);
+            valueMutabilityInterface->register_property("Mutable", true);
+            if (!valueMutabilityInterface->initialize())
+            {
+                std::cerr
+                    << "error initializing sensor value mutability interface\n";
+            }
         }
 
         if (!availableInterface)
