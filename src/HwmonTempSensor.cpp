@@ -39,47 +39,47 @@
 // https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-iio
 // For IIO RAW sensors we get a raw_value, an offset, and scale to compute
 // the value = (raw_value + offset) * scale
-static constexpr double sensorOffset = 0.0;
-static constexpr double sensorScale = 0.001;
-static constexpr size_t warnAfterErrorCount = 10;
-
-static constexpr double maxReading = 127;
-static constexpr double minReading = -128;
 
 HwmonTempSensor::HwmonTempSensor(
     const std::string& path, const std::string& objectType,
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& sensorName,
-    std::vector<thresholds::Threshold>&& thresholdsIn, const float pollRate,
-    const std::string& sensorConfiguration, const PowerState powerState) :
+    std::vector<thresholds::Threshold>&& thresholdsIn, const double offsetValue,
+    const double scaleValue, const double minReadingThreshold,
+    const double maxReadingThreshold, const std::string& units,
+    const float pollRate, const std::string& sensorConfiguration,
+    const PowerState powerState, const std::string& sensorType) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
-           maxReading, minReading, conn, powerState),
+           maxReadingThreshold, minReadingThreshold, conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    offsetValue(offsetValue), scaleValue(scaleValue),
+    minReadingThreshold(minReadingThreshold),
+    maxReadingThreshold(maxReadingThreshold), units(units),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
 {
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+        "/xyz/openbmc_project/sensors/" + sensorType + "/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+            "/xyz/openbmc_project/sensors/" + sensorType + "/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Warning");
     }
     if (thresholds::hasCriticalInterface(thresholds))
     {
         thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
+            "/xyz/openbmc_project/sensors/" + sensorType + "/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        association::interface);
-    setInitialProperties(conn, sensor_paths::unitDegreesC);
+    association = objectServer.add_interface("/xyz/openbmc_project/sensors/" +
+                                                 sensorType + "/" + name,
+                                             association::interface);
+    setInitialProperties(conn, units);
 }
 
 HwmonTempSensor::~HwmonTempSensor()
@@ -151,7 +151,7 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             rawValue = std::stod(response);
-            double nvalue = (rawValue + sensorOffset) * sensorScale;
+            double nvalue = (rawValue + offsetValue) * scaleValue;
             updateValue(nvalue);
         }
         catch (const std::invalid_argument&)
