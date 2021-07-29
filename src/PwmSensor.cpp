@@ -31,7 +31,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& sensorConfiguration,
-                     const std::string& sensorType) :
+                     const std::string& sensorType, bool isSettable) :
     sysPath(sysPath),
     objectServer(objectServer), name(name)
 {
@@ -146,8 +146,23 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
             }
             return curVal;
         });
+
     sensorInterface->initialize();
     controlInterface->initialize();
+
+    if (isSettable)
+    {
+        valueMutabilityInterface =
+            std::make_shared<sdbusplus::asio::dbus_interface>(
+                conn, sensorInterface->get_object_path(),
+                valueMutabilityInterfaceName);
+        valueMutabilityInterface->register_property("Mutable", true);
+        if (!valueMutabilityInterface->initialize())
+        {
+            std::cerr
+                << "error initializing sensor value mutability interface\n";
+        }
+    }
 
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_pwm/" + name, association::interface);
