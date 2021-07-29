@@ -18,9 +18,12 @@ class HwmonTempSensor :
                     std::shared_ptr<sdbusplus::asio::connection>& conn,
                     boost::asio::io_service& io, const std::string& sensorName,
                     std::vector<thresholds::Threshold>&& thresholds,
+                    const double offsetValue, const double scaleValue,
+                    const double minReadingThreshold,
+                    const double maxReadingThreshold, const std::string& units,
                     const float pollRate,
                     const std::string& sensorConfiguration,
-                    const PowerState powerState);
+                    const PowerState powerState, const std::string& sensorType);
     ~HwmonTempSensor() override;
     void setupRead(void);
 
@@ -30,6 +33,11 @@ class HwmonTempSensor :
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;
     std::string path;
+    double offsetValue;
+    double scaleValue;
+    double minReadingThreshold;
+    double maxReadingThreshold;
+    std::string units;
     unsigned int sensorPollMs;
 
     void handleResponse(const boost::system::error_code& err);
