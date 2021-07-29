@@ -27,10 +27,6 @@ ExternalSensor::ExternalSensor(
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, double maxReading,
     double minReading, double timeoutSecs, const PowerState& powerState) :
-    // TODO(): When the Mutable feature is integrated,
-    // make sure all ExternalSensor instances are mutable,
-    // because that is the entire point of ExternalSensor,
-    // to accept sensor values written by an external source.
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, true,
            maxReading, minReading, conn, powerState),
