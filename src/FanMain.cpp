@@ -379,6 +379,8 @@ void createSensors(
                 std::string pwmName;
                 fs::path pwmPath;
 
+                // The Mutable parameter is optional, defaulting to false
+                bool isValueMutable = false;
                 if (connector != sensorData->end())
                 {
                     auto findPwm = connector->second.find("Pwm");
@@ -403,6 +405,18 @@ void createSensors(
                         else
                         {
                             pwmName = "Pwm_" + std::to_string(pwm + 1);
+                        }
+
+                        // Check PWM sensor mutability
+                        auto findMutable = connector->second.find("Mutable");
+                        if (findMutable != connector->second.end())
+                        {
+                            auto ptrMutable =
+                                std::get_if<bool>(&(findMutable->second));
+                            if (ptrMutable)
+                            {
+                                isValueMutable = *ptrMutable;
+                            }
                         }
                     }
                     else
@@ -440,7 +454,7 @@ void createSensors(
                 {
                     pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
                         pwmName, pwmPath, dbusConnection, objectServer,
-                        *interfacePath, "Fan");
+                        *interfacePath, "Fan", isValueMutable);
                 }
             }
 
