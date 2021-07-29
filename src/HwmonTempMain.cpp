@@ -39,8 +39,14 @@
 static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
 
+static constexpr double maxReadingPressure = 120000; // Pascals
+static constexpr double minReadingPressure = 30000;  // Pascals
+
+static constexpr double maxReadingTemperature = 127;  // DegreesC
+static constexpr double minReadingTemperature = -128; // DegreesC
+
 namespace fs = std::filesystem;
-static constexpr std::array<const char*, 16> sensorTypes = {
+static constexpr std::array<const char*, 18> sensorTypes = {
     "xyz.openbmc_project.Configuration.EMC1412",
     "xyz.openbmc_project.Configuration.EMC1413",
     "xyz.openbmc_project.Configuration.EMC1414",
@@ -56,7 +62,46 @@ static constexpr std::array<const char*, 16> sensorTypes = {
     "xyz.openbmc_project.Configuration.TMP441",
     "xyz.openbmc_project.Configuration.LM75A",
     "xyz.openbmc_project.Configuration.TMP75",
-    "xyz.openbmc_project.Configuration.W83773G"};
+    "xyz.openbmc_project.Configuration.W83773G",
+    "xyz.openbmc_project.Configuration.DPS310",
+    "xyz.openbmc_project.Configuration.SI7020"};
+
+static constexpr size_t maxLineLen = 80;
+
+// reads offset or scale from IIO _raw devices
+// from sysfs like /sys/bus/iio/devices/iio:device0/in_temp_raw
+static double readRawSensorCompValue(const std::string& path)
+{
+    FILE* readCompStream;
+    char sensorCompValueRead[maxLineLen];
+
+    // check that the file sensorCompFilename is accessible
+    if (0 != access(path.c_str(), R_OK))
+    {
+        return SNAN;
+    }
+
+    // open sensorCompFilename for reading if possible
+    readCompStream = fopen(path.c_str(), "r");
+    if (nullptr == readCompStream)
+    {
+        return SNAN;
+    }
+
+    // read a line from readCompStream
+    // if read fails close readCompStream and return
+    if (sensorCompValueRead !=
+        fgets(sensorCompValueRead, maxLineLen - 1, readCompStream))
+    {
+        fclose(readCompStream);
+        return SNAN;
+    }
+
+    fclose(readCompStream);
+
+    // convert the number from a string to a double and return
+    return strtod(sensorCompValueRead, nullptr);
+}
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -73,32 +118,45 @@ void createSensors(
                       const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
 
+            // IIO _raw devices look like this on sysfs:
+            //     /sys/bus/iio/devices/iio:device0/in_temp_raw
+            //     /sys/bus/iio/devices/iio:device0/in_temp_offset
+            //     /sys/bus/iio/devices/iio:device0/in_temp_scale
+            //
+            // Other IIO devices look like this on sysfs:
+            //     /sys/bus/iio/devices/iio:device1/in_temp_input
+            //     /sys/bus/iio/devices/iio:device1/in_pressure_input
             std::vector<fs::path> paths;
-            if (!findFiles(fs::path("/sys/class/hwmon"), R"(temp\d+_input)",
-                           paths))
+            fs::path root("/sys/bus/iio/devices");
+            findFiles(root, R"(in_temp\d*_(input|raw))", paths);
+            findFiles(root, R"(in_pressure\d*_(input|raw))", paths);
+            findFiles(fs::path("/sys/class/hwmon"), R"(temp\d+_input)", paths);
+
+            if (paths.empty())
             {
-                std::cerr << "No temperature sensors in system\n";
                 return;
             }
 
-            boost::container::flat_set<std::string> directories;
-
-            // iterate through all found temp sensors, and try to match them
-            // with configuration
+            // iterate through all found temp and pressure sensors,
+            // and try to match them with configuration
             for (auto& path : paths)
             {
                 std::smatch match;
                 const std::string& pathStr = path.string();
                 auto directory = path.parent_path();
+                fs::path device;
 
-                auto ret = directories.insert(directory.string());
-                if (!ret.second)
+                std::string deviceName;
+                if (pathStr.starts_with("/sys/bus/iio/devices"))
                 {
-                    continue; // already searched this path
+                    device = fs::canonical(directory);
+                    deviceName = device.parent_path().stem();
                 }
-
-                fs::path device = directory / "device";
-                std::string deviceName = fs::canonical(device).stem();
+                else
+                {
+                    device = directory / "device";
+                    deviceName = fs::canonical(device).stem();
+                }
                 auto findHyphen = deviceName.find('-');
                 if (findHyphen == std::string::npos)
                 {
@@ -124,6 +182,81 @@ void createSensors(
                 const char* sensorType = nullptr;
                 const SensorBaseConfiguration* baseConfiguration = nullptr;
                 const SensorBaseConfigMap* baseConfigMap = nullptr;
+                std::string sensorTypeName = "temperature";
+
+                double minReadingThreshold = minReadingTemperature;
+                double maxReadingThreshold = maxReadingTemperature;
+                double offsetValue = 0.0;
+                double scaleValue = 1.0;
+                std::string units = "DegreesC";
+
+                // For IIO RAW sensors we get a raw_value, an offset, and scale
+                // to compute the value = (raw_value + offset) * scale
+                // with a _raw IIO device we need to get the
+                // offsetValue and scaleValue from the driver
+                // these are used to compute the reading in
+                // units that have yet to be scaled for D-Bus.
+                if (pathStr.ends_with("_raw"))
+                {
+                    std::string rawStr = "raw";
+
+                    std::string offsetStr = "offset";
+                    std::string pathOffsetStr;
+                    pathOffsetStr.assign(pathStr);
+                    std::size_t offsetRawFound =
+                        pathOffsetStr.find_last_of(rawStr) - rawStr.length() +
+                        1;
+                    pathOffsetStr.replace(offsetRawFound, rawStr.length(),
+                                          offsetStr);
+
+                    double tmpOffsetValue =
+                        readRawSensorCompValue(pathOffsetStr);
+                    // In case there is nothing to read keep original value
+                    if (SNAN != tmpOffsetValue)
+                    {
+                        offsetValue = tmpOffsetValue;
+                    }
+
+                    std::string scaleStr = "scale";
+                    std::string pathScaleStr;
+                    pathScaleStr.assign(pathStr);
+                    std::size_t scaleRawFound =
+                        pathScaleStr.find_last_of(rawStr) - rawStr.length() + 1;
+                    pathScaleStr.replace(scaleRawFound, rawStr.length(),
+                                         scaleStr);
+
+                    double tmpScaleValue = readRawSensorCompValue(pathScaleStr);
+                    // In case there is nothing to read keep original value
+                    if (SNAN != tmpScaleValue)
+                    {
+                        scaleValue = tmpScaleValue;
+                    }
+                }
+
+                // Temperatures are read in milli degrees Celsius, we need
+                // degrees Celsius. Pressures are read in kilopascal, we need
+                // Pascals.  On D-Bus for Open BMC we use the International
+                // System of Units without prefixes. Links to the kernel
+                // documentation:
+                // https://www.kernel.org/doc/Documentation/hwmon/sysfs-interface
+                // https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-iio
+
+                if (path.string().ends_with("in_pressure_input") ||
+                    path.string().ends_with("in_pressure_raw"))
+                {
+                    minReadingThreshold = minReadingPressure;
+                    maxReadingThreshold = maxReadingPressure;
+                    // Pressures are read in kilopascal, we need Pascals.
+                    scaleValue *= 1000.0;
+                    sensorTypeName = "pressure";
+                    units = "Pascals";
+                }
+                else
+                {
+                    // Temperatures are read in milli degrees Celsius,
+                    // we need degrees Celsius.
+                    scaleValue *= 0.001;
+                }
 
                 for (const std::pair<sdbusplus::message::object_path,
                                      SensorData>& sensor : sensorConfigurations)
@@ -242,12 +375,20 @@ void createSensors(
                 sensor = nullptr;
                 auto hwmonFile = getFullHwmonFilePath(directory.string(),
                                                       "temp1", permitSet);
+#if 0
+                if (pathStr.starts_with("/sys/bus/iio/devices"))
+                {
+                    hwmonFile = pathStr;
+                }
+#endif
                 if (hwmonFile)
                 {
                     sensor = std::make_shared<HwmonTempSensor>(
                         *hwmonFile, sensorType, objectServer, dbusConnection,
-                        io, sensorName, std::move(sensorThresholds), pollRate,
-                        *interfacePath, readState);
+                        io, sensorName, std::move(sensorThresholds),
+                        offsetValue, scaleValue, minReadingThreshold,
+                        maxReadingThreshold, units, pollRate, *interfacePath,
+                        readState, sensorTypeName);
                     sensor->setupRead();
                 }
                 // Looking for keys like "Name1" for temp2_input,
@@ -289,8 +430,10 @@ void createSensors(
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
-                            std::move(thresholds), pollRate, *interfacePath,
-                            readState);
+                            std::move(thresholds), offsetValue, scaleValue,
+                            minReadingThreshold, maxReadingThreshold, units,
+                            pollRate, *interfacePath, readState,
+                            sensorTypeName);
                         sensor->setupRead();
                     }
                 }
