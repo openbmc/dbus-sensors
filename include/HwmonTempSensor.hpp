@@ -16,7 +16,7 @@ class HwmonTempSensor :
     HwmonTempSensor(const std::string& path, const std::string& objectType,
                     sdbusplus::asio::object_server& objectServer,
                     std::shared_ptr<sdbusplus::asio::connection>& conn,
-                    boost::asio::io_service& io, const std::string& fanName,
+                    boost::asio::io_service& io, const std::string& sensorName,
                     std::vector<thresholds::Threshold>&& thresholds,
                     const float pollRate,
                     const std::string& sensorConfiguration,
