@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "599f3fa7_1c7e69bb",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-07-30T17:25:16Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be coming from the configuration.....   this sensor is always implicitly settable, right?",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 77
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c23f735_e99ebf14",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-07-30T17:25:16Z",
+      "side": 1,
+      "message": "Aren\u0027t PSU pwm sensors settable?",
+      "range": {
+        "startLine": 246,
+        "startChar": 71,
+        "endLine": 246,
+        "endChar": 76
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74cbad72_e8f50cd8",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-07-30T17:25:16Z",
+      "side": 1,
+      "message": "Please avoid duplicating this string with line 41",
+      "range": {
+        "startLine": 154,
+        "startChar": 22,
+        "endLine": 154,
+        "endChar": 69
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
