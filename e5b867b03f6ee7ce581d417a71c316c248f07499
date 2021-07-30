@@ -22,6 +22,30 @@
       "revId": "e5b867b03f6ee7ce581d417a71c316c248f07499",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c47f382_2601f48d",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-07-30T13:57:57Z",
+      "side": 0,
+      "message": "Because our sensors only have 1 temperature per device,\nyet some of our devices have multiple different sensors\nthat need supporting.  This code seems to break the\nsupport for having temperature and pressure sensors\nwithin the DPS310.",
+      "parentUuid": "b734a7c9_9def62dc",
+      "range": {
+        "startLine": 252,
+        "startChar": 15,
+        "endLine": 268,
+        "endChar": 35
+      },
+      "revId": "e5b867b03f6ee7ce581d417a71c316c248f07499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
