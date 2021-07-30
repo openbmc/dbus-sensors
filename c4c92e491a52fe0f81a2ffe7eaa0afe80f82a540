@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c12be37_aa395499",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-30T14:45:11Z",
+      "side": 1,
+      "message": "spelling",
+      "range": {
+        "startLine": 149,
+        "startChar": 19,
+        "endLine": 149,
+        "endChar": 43
+      },
+      "revId": "c4c92e491a52fe0f81a2ffe7eaa0afe80f82a540",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d09a6a4_cbd90452",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-30T14:45:11Z",
+      "side": 1,
+      "message": "maybe remove this since it will always be overridden anyway?",
+      "range": {
+        "startLine": 153,
+        "startChar": 108,
+        "endLine": 155,
+        "endChar": 37
+      },
+      "revId": "c4c92e491a52fe0f81a2ffe7eaa0afe80f82a540",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60578122_81082d3e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-30T14:45:11Z",
+      "side": 1,
+      "message": "Just to make it clear, maybe add that the SI7020 is the only supported IIO device right now, so the only device that will use _raw",
+      "revId": "c4c92e491a52fe0f81a2ffe7eaa0afe80f82a540",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7b36a75_ac3936c4",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-30T14:45:11Z",
+      "side": 1,
+      "message": "There are multi-temperature devices that also use NameX, which was what for loop on line 255 in the previous code was doing.  We have some TMP423s in our current systems that you could make a config for and test that you can get them all to show up OK.",
+      "revId": "c4c92e491a52fe0f81a2ffe7eaa0afe80f82a540",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
