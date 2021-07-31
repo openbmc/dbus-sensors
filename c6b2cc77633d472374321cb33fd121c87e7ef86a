@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5e38b6cc_0f369493",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-07-31T17:00:42Z",
+      "side": 1,
+      "message": "\"This is to follow the the phopshor-host-impid fashion, which checks the mutability of sensor before overwriting the value. \"\n\nThis seems really inefficient for something that we are going to be doing multiple times a second for host sensors.  I expected (and what was talked about a while ago, which quanta implemented) was for dbus-sensors to enforce the read-writeability of sensors, and this flag was only to drive the writable bit in the SDR, although you do bring up the corner case..... hmmm, this probably needs thought.\n\n\n\"Are there any concerns if we expose all PWM sensors as mutable sensors to IPMI?\"\nSo long as we\u0027re checking either a compile time option, or the \"is in manufacturing mode\" state, I don\u0027t think there\u0027s a concern, but I\u0027m open to other opinions there.\n\n\" For security, all sensors are read-only, to preserve the previous existing behavior\"\n\nPrevious behavior was that sensors were read only unless in manufacturing mode.  We\u0027ll need to account for that in the mutability flag.\n\n\"I believe it would be best to have mutability be on an opt-in basis: the person writing the BMC configuration files must opt into this behavior, if they want their sensors to be writable.\"\n\nI think I agree with what you said, but in a different way than you were thinking.  A \"writable from IPMI\" sensor is a different class of sensor than a \"only internally writable\" sensor.  Maybe they share a lot of the backend code, but they are fundamentally a different type.\n\n\n\"Doing it for the fan PWM sensor is up to the system designer: do they want their fans to be externally settable, or not?\"\nThis imposes a serious security concern, because writable-from-the-host PWM sensors have thermal consequences.  I would really prefer that this just not be allowed outside of manufacturing mode.\n\n\n\"Note that it\u0027s also important to include fan auto/manual mode selection, if so, because otherwise, if they try to write the PWM while in auto mode, the PID loop will just overwrite their settings about a second later.\"\nThis is already handled in Redfish, IPMI just doesn\u0027t have the code to deal with this use case yet.",
+      "parentUuid": "53c6c61c_71da3a06",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 77
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c23f735_e99ebf14",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
