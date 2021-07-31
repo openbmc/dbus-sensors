@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e630d419_77e1be1d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-07-31T00:50:28Z",
+      "side": 1,
+      "message": "That is the previous downstream implementation. IIUC, all sensors are settable through d-bus. This is to follow the the phopshor-host-impid fashion, which checks the mutability of sensor before overwriting the value. \n\nAre there any concerns if we expose all PWM sensors as mutable sensors to IPMI?",
+      "parentUuid": "599f3fa7_1c7e69bb",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 77
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c23f735_e99ebf14",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2021-07-30T17:25:16Z",
       "side": 1,
       "message": "Aren\u0027t PSU pwm sensors settable?",
+      "range": {
+        "startLine": 246,
+        "startChar": 71,
+        "endLine": 246,
+        "endChar": 76
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3a39681_0f9965be",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-07-31T00:50:28Z",
+      "side": 1,
+      "message": "the original downstream implementation does this way. All sensor mutability is false at default except external sensors. The sensor mutability is configured through entity config.\n\nJosh, any comments? Are we safe to set all PWM mutability with true?",
+      "parentUuid": "6c23f735_e99ebf14",
       "range": {
         "startLine": 246,
         "startChar": 71,
@@ -68,6 +116,30 @@
       "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a723ab_93de80b4",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-07-31T00:50:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74cbad72_e8f50cd8",
+      "range": {
+        "startLine": 154,
+        "startChar": 22,
+        "endLine": 154,
+        "endChar": 69
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
