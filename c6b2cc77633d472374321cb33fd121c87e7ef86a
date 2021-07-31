@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "53c6c61c_71da3a06",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-07-31T02:21:43Z",
+      "side": 1,
+      "message": "It should come from the configuration. For security, all sensors are read-only, to preserve the previous existing behavior. I believe it would be best to have mutability be on an opt-in basis: the person writing the BMC configuration files must opt into this behavior, if they want their sensors to be writable.\n\nAs for defaulting certain classes of sensors to always be read-write instead of read-only, this should be done for ExternalSensor (because that\u0027s the main purpose of ExternalSensor). Doing it for the fan PWM sensor is up to the system designer: do they want their fans to be externally settable, or not? Note that it\u0027s also important to include fan auto/manual mode selection, if so, because otherwise, if they try to write the PWM while in auto mode, the PID loop will just overwrite their settings about a second later.",
+      "parentUuid": "e630d419_77e1be1d",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 77
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c23f735_e99ebf14",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "70632c18_0ca899e8",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-07-31T02:21:43Z",
+      "side": 1,
+      "message": "See my comments around FanSensor. I\u0027m honestly unsure why PSUSensor was expanded to also include PWM support here, that seems to be more the domain of FanSensor, I would think. Maybe it\u0027s because power supplies contain fans in them.\n\nIt\u0027s acceptable to default all PWM mutability to true instead of false, if we want to have a special case to encourage this behavior. It seems easiest just to rely on the system configuration, setting Mutable to True, for the desired PWM sensors that the system designer wishes to have externally settable by the user.",
+      "parentUuid": "e3a39681_0f9965be",
+      "range": {
+        "startLine": 246,
+        "startChar": 71,
+        "endLine": 246,
+        "endChar": 76
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74cbad72_e8f50cd8",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 3
@@ -131,6 +179,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "74cbad72_e8f50cd8",
+      "range": {
+        "startLine": 154,
+        "startChar": 22,
+        "endLine": 154,
+        "endChar": 69
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a50895e1_41b9ffbd",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-07-31T02:21:43Z",
+      "side": 1,
+      "message": "Good catch. In general, dbus-sensors is full of repeated string constants, which we should try to refactor out as we make changes over time.",
+      "parentUuid": "30a723ab_93de80b4",
       "range": {
         "startLine": 154,
         "startChar": 22,
