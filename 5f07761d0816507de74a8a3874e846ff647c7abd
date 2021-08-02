@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f234a46_4ebcc932",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-08-02T23:31:46Z",
+      "side": 1,
+      "message": "I wonder if we\u0027re better off disabling clang formatting here and listing these one-per-line in alphabetical order?",
+      "revId": "5f07761d0816507de74a8a3874e846ff647c7abd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
