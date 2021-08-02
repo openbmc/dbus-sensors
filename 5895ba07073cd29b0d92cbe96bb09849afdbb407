@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab99730_bc3d1e8d",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-02T18:23:15Z",
+      "side": 1,
+      "message": "Please give this a distinct name from the other implementation of CPU sensor.",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6387150_2604812b",
+        "filename": "service_files/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-02T18:23:15Z",
+      "side": 1,
+      "message": "Need a precursor patchset to rename this to intel-cpu.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 53
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
