@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "24ae6699_a60254e8",
+        "filename": "meson_options.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-03T23:14:57Z",
+      "side": 1,
+      "message": "I agree. I will set amperecpu is disabled by default.",
+      "parentUuid": "8f7665c8_26f98887",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6387150_2604812b",
         "filename": "service_files/meson.build",
         "patchSetId": 3
@@ -167,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "a141ba60_a6182fea",
+        "filename": "service_files/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-03T23:14:57Z",
+      "side": 1,
+      "message": "We can change the name of source files, but the option name, service file name maybe not.",
+      "parentUuid": "1125a00e_8c1496fe",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 53
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24daec74_e5e84dbd",
         "filename": "src/meson.build",
         "patchSetId": 3
@@ -178,6 +226,30 @@
       "writtenOn": "2021-08-03T15:16:08Z",
       "side": 1,
       "message": "is this needed?",
+      "range": {
+        "startLine": 210,
+        "startChar": 12,
+        "endLine": 210,
+        "endChar": 24
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ee07c1a_c8a9ced6",
+        "filename": "src/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-03T23:14:57Z",
+      "side": 1,
+      "message": "No, it is not. I will remove the dependence.",
+      "parentUuid": "24daec74_e5e84dbd",
       "range": {
         "startLine": 210,
         "startChar": 12,
