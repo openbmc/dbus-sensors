@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9f27583_64557ac2",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-03T18:01:20Z",
+      "side": 1,
+      "message": "do we still want to incrementError for both or just when fd \u003c 0 ? I am not sure what could be causing the no_such_device in real usage (not because driver is manually removed for testing).",
+      "range": {
+        "startLine": 196,
+        "startChar": 7,
+        "endLine": 204,
+        "endChar": 9
+      },
+      "revId": "2359942ce4f97fa4383d812f2747cf09fd6cacd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
