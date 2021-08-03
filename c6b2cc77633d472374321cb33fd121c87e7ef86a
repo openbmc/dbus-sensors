@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "88ab83f3_a5b5464c",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-03T07:26:46Z",
+      "side": 1,
+      "message": "\"This seems really inefficient for something that we are going to be doing multiple times a second for host sensors.  I expected (and what was talked about a while ago, which quanta implemented) was for dbus-sensors to enforce the read-writeability of sensors, and this flag was only to drive the writable bit in the SDR, although you do bring up the corner case..... hmmm, this probably needs thought.\"\n\nI double check the downstream code. As you expected, this flag is only for the writable bit in the SDR. https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-host-ipmid/+/45407\n\n\"So long as we\u0027re checking either a compile time option, or the \"is in manufacturing mode\" state, I don\u0027t think there\u0027s a concern, but I\u0027m open to other opinions there\"\n\nI think the mutability is case by case depending on sensors, that is why we can not determine it at compile time and why Josh would like hardcoded it in the entity config and phosphor-host-ipmid requires to hardcode it in a YAML file. Checking manufacturing mode is an intel-ipmi-oem feature?\n\n\n\"Previous behavior was that sensors were read only unless in manufacturing mode.  We\u0027ll need to account for that in the mutability flag\"\n\nmutability is a dbus interface shows if a sensor value is settable in prod environment. (only external sensors and pwn sensors are settable in prod and will have this interface).\n\n\"I think I agree with what you said, but in a different way than you were thinking.  A \"writable from IPMI\" sensor is a different class of sensor than a \"only internally writable\" sensor.  Maybe they share a lot of the backend code, but they are fundamentally a different type.\"\n\nLooking through the code only internally writable sensor can be overwritten in manufacturing mode. But from mutability viewpoint, it is always not writable through IPMI. IPMI checks if a mutability interface exist and then checks the boolean.\n\n\n\"Note that it\u0027s also important to include fan auto/manual mode selection, if so, because otherwise, if they try to write the PWM while in auto mode, the PID loop will just overwrite their settings about a second later.\"\n\u003e This is already handled in Redfish, IPMI just doesn\u0027t have the code to deal with this use case yet.\"\n\nIn order to move forward, 1. all pwm sensor are brutally settable now. I did not see any settable flag and manufacturing check present in Pwmsensor. 2. I do not have many contexts in pid loop. Sounds like fan manual mode will only be enable when sensor mutability is true. Question is is it safe to set all PWM sensors mutability true?",
+      "parentUuid": "5e38b6cc_0f369493",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 77
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c23f735_e99ebf14",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
