@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72c4b2af_174c97b1",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-03T12:41:27Z",
+      "side": 1,
+      "message": "I will update the class name to AmpereCPUSensor",
+      "parentUuid": "dab99730_bc3d1e8d",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6387150_2604812b",
         "filename": "service_files/meson.build",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2021-08-02T18:23:15Z",
       "side": 1,
       "message": "Need a precursor patchset to rename this to intel-cpu.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 53
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f405af_643d5f20",
+        "filename": "service_files/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-03T12:41:27Z",
+      "side": 1,
+      "message": "In the dbus-sensors_git.bb,\nhttps://github.com/openbmc/openbmc/blob/master/meta-phosphor/recipes-phosphor/sensors/dbus-sensors_git.bb\nThe \u0027cpu\u0027 option is used to build cpusensor daemon, and the service name is \u0027xyz.openbmc_project.cpusensor.service\u0027. Changing these configuration can cause the changing of dbus-sensors_git.bb.\nDo we need to do that?",
+      "parentUuid": "e6387150_2604812b",
       "range": {
         "startLine": 3,
         "startChar": 0,
