@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e46b68cf_00912a9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-03T15:16:46Z",
+      "side": 1,
+      "message": "nit: a bit misleading. This depends on the existence of driver and uses it, but not adding driver though.",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "5f07761d0816507de74a8a3874e846ff647c7abd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f234a46_4ebcc932",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
