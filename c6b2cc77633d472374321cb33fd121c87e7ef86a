@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "92e835f4_32b39eb5",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-03T17:44:03Z",
+      "side": 1,
+      "message": "\u003c 1. all pwm sensor are brutally settable now. I did not see any settable flag and manufacturing check present in Pwmsensor. \nline 540 is checking for manufacture mode",
+      "parentUuid": "88ab83f3_a5b5464c",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 77
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c23f735_e99ebf14",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
