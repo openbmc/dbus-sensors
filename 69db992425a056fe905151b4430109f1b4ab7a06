@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75af1d7e_16b4766b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-03T17:40:08Z",
+      "side": 1,
+      "message": "I did not find changes for external sensor",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f20f1c5_fc8f8ac0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-03T17:40:08Z",
+      "side": 1,
+      "message": "Is the Mutability only used through ipmi? How would manufacturing unsecure mode work with this change?",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3facdbd_80ac7c7c",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-03T17:40:08Z",
+      "side": 1,
+      "message": "should valueMutabilityInterface set back to be nullptr?",
+      "range": {
+        "startLine": 324,
+        "startChar": 12,
+        "endLine": 328,
+        "endChar": 13
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f819767c_77a3db40",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-03T17:40:08Z",
+      "side": 1,
+      "message": "Should this be only for pwm sensor, ie. inside line 398?",
+      "range": {
+        "startLine": 373,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 17
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7aae112_45042c1c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-03T17:40:08Z",
+      "side": 1,
+      "message": "The default behavior should be the same - PSU\u0027s pwm and other pwm. Here the default is true while pwm needs to opt in - add it in config file.",
+      "range": {
+        "startLine": 246,
+        "startChar": 71,
+        "endLine": 246,
+        "endChar": 75
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
