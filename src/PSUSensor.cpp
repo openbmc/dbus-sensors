@@ -168,8 +168,22 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
-        std::cerr << "Bad file descriptor for " << path << "\n";
-        return;
+        std::cerr << "Bad file descriptor for " << path
+                  << ", attempting to re-open\n";
+        fd = open(path.c_str(), O_RDONLY);
+        if (fd < 0)
+        {
+            std::cerr << "Failed to re-open " << path << ": " << errno << " ("
+                      << std::generic_category()
+                             .default_error_condition(errno)
+                             .message()
+                      << ")\n";
+            incrementError();
+        }
+        else
+        {
+            inputDev.assign(fd);
+        }
     }
 
     std::string buffer;
@@ -193,6 +207,12 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             std::cerr << "Could not parse  input from " << path << "\n";
             incrementError();
         }
+    }
+    else if (errno == ENODEV)
+    {
+        std::cerr << "No such device at " << path << ", closing fd\n";
+        incrementError();
+        inputDev.close();
     }
     else
     {
