@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "11e31eed_341a3f3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-04T00:59:30Z",
+      "side": 1,
+      "message": "In ExternalSensor, the flag is \"true\" always, as should be the case for ExternalSensor sensors (the entire purpose of ExternalSensor is to accept externally-issued values, thus, the sensor must be writable by external users).\n\nhttps://github.com/openbmc/dbus-sensors/blob/5cf0f99210890d0cd52d5929e919316d238a5701/src/ExternalSensor.cpp#L35\n\nUnfortunately, the comment above this line was not removed, but we can do that in another patch. The work was already done, but the TODO comment was not removed.",
+      "parentUuid": "b4deb2c8_7bb22bc7",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f20f1c5_fc8f8ac0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

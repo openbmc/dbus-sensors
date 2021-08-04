@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "a9323503_41969513",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-04T00:59:30Z",
+      "side": 1,
+      "message": "As for this being inefficient, it is only used once during the initialization of each sensor. So, it\u0027s OK to be inefficient here. The value of the Mutable parameter is cached locally by each dbus-sensor daemon (and also the IPMI implementation, but that\u0027s another patch, not here). \n\nI do not see a use case in which we would want to change the Mutable parameter at runtime. If somebody wants to add that, I\u0027m OK with it, but it would be very inefficient to have to poll that parameter every time, you\u0027re right about that, so a new implementation would be required (subscribe, not poll) if anybody actually wanted to add this use case.\n\nAs for \"manufacturing mode\", I\u0027m not sure about that, and it\u0027s intended for use in a different environment. Regardless, I don\u0027t see it overlapping or conflicting with Mutable in any way, so it should be OK. Remember, the Mutable parameter is only to give us feature equivalence to the old \"Mutability\" parameter in the old hardcoded YAML way of doing things. It doesn\u0027t introduce a new feature that didn\u0027t exist before, but rather, merely restores a feature that used to exist in the previous implementation but no longer does until now.\n\nAs for allowing PWM sensors to be settable all the time, this should be OK. If the BMC is in automatic mode (the default), then the BMC will issue new fan speed commands regularly, so the lifetime of a manually-changed PWM sensor value should be fairly short, as it will get overwritten internally when the BMC decides that the fans should be spinning at a different speed in order to keep the system cool.",
+      "parentUuid": "226182c4_4d250295",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 77
+      },
+      "revId": "c6b2cc77633d472374321cb33fd121c87e7ef86a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c23f735_e99ebf14",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
