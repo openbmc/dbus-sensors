@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b4deb2c8_7bb22bc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-04T00:24:41Z",
+      "side": 1,
+      "message": "It is in sensor.hpp. We reuse the `isSettable` flag for this mutability interface.",
+      "parentUuid": "75af1d7e_16b4766b",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f20f1c5_fc8f8ac0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "595ea174_4afa3f07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-04T00:24:41Z",
+      "side": 1,
+      "message": "IIUC, manufacturing unsecure mode is intel oem? It is included in `phopshor-host-ipmid`? This is for phosphor-host-ipmid user. Set the mutability bit in ipmi SDR.",
+      "parentUuid": "0f20f1c5_fc8f8ac0",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0a3cf8a2_f76d1d99",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-04T00:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3facdbd_80ac7c7c",
+      "range": {
+        "startLine": 324,
+        "startChar": 12,
+        "endLine": 328,
+        "endChar": 13
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f819767c_77a3db40",
         "filename": "src/FanMain.cpp",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "80c3f969_bd852213",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-04T00:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f819767c_77a3db40",
+      "range": {
+        "startLine": 373,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 17
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7aae112_45042c1c",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 5
@@ -114,6 +210,30 @@
       "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c72cb902_2f8f6e33",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-04T00:24:41Z",
+      "side": 1,
+      "message": "Done. Change the constructor. Default value is false.",
+      "parentUuid": "e7aae112_45042c1c",
+      "range": {
+        "startLine": 246,
+        "startChar": 71,
+        "endLine": 246,
+        "endChar": 75
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
