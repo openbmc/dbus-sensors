@@ -22,6 +22,29 @@
       "revId": "0588ee5a0357c3372903f06abcdf181a0404d20d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96b867ac_3206d62e",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-08-05T23:52:39Z",
+      "side": 1,
+      "message": "is this correct? I don\u0027t see ENODEV specified as an errno that gets set by read which makes me think that this conditional can never be hit.",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 29
+      },
+      "revId": "0588ee5a0357c3372903f06abcdf181a0404d20d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
