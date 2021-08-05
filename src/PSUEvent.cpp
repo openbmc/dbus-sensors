@@ -340,15 +340,6 @@ void PSUSubEvent::updateValue(const int& newValue)
             *assertState = true;
             if (!assertMessage.empty())
             {
-                // For failure and configure error, spec requires a beep
-                if ((assertMessage == "OpenBMC.0.1.PowerSupplyFailed") ||
-                    (assertMessage ==
-                     "OpenBMC.0.1.PowerSupplyConfigurationError"))
-                {
-                    std::cout << " beep for " << assertMessage << "\n";
-                    beep(beepPSUFailure);
-                }
-
                 // Fan Failed has two args
                 std::string sendMessage = eventName + " assert";
                 if (assertMessage == "OpenBMC.0.1.PowerSupplyFanFailed")
@@ -377,18 +368,4 @@ void PSUSubEvent::updateValue(const int& newValue)
         (*asserts).emplace(path);
     }
     value = newValue;
-}
-
-void PSUSubEvent::beep(const uint8_t& beepPriority)
-{
-    systemBus->async_method_call(
-        [](boost::system::error_code ec) {
-            if (ec)
-            {
-                std::cerr << "beep error (ec = " << ec << ")\n";
-                return;
-            }
-        },
-        "xyz.openbmc_project.BeepCode", "/xyz/openbmc_project/BeepCode",
-        "xyz.openbmc_project.BeepCode", "Beep", uint8_t(beepPriority));
 }
