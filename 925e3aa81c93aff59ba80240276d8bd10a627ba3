@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "507c7cb3_ec605dfa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T22:40:51Z",
+      "side": 1,
+      "message": "Going back to find as start_with breaks the build as follows\n\nFAILED: src/hwmontempsensor.p/HwmonTempMain.cpp.o \nc++ -Isrc/hwmontempsensor.p -Iinclude -I../include -I/usr/local/include -fdiagnostics-color\u003dnever -D_FILE_OFFSET_BITS\u003d64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std\u003dc++20 -g -DBOOST_NO_RTTI -DBOOST_NO_TYPEID -DBOOST_ALLOW_DEPRECATED_HEADERS -DBOOST_ASIO_DISABLE_THREADS -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_NO_DEPRECATED -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_COROUTINES_NO_DEPRECATION_WARNING -MD -MQ src/hwmontempsensor.p/HwmonTempMain.cpp.o -MF src/hwmontempsensor.p/HwmonTempMain.cpp.o.d -o src/hwmontempsensor.p/HwmonTempMain.cpp.o -c ../src/HwmonTempMain.cpp\n../src/HwmonTempMain.cpp: In lambda function:\n../src/HwmonTempMain.cpp:100:65: error: comparison of constant ‘18446744073709551615’ with boolean expression is always true [-Werror\u003dbool-compare]\n  100 |                 if (pathStr.starts_with(\"/sys/bus/iio/devices\") !\u003d\n      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~\n  101 |                     std::string::npos)\n      |                     ~~~~~~~~~~~~~~~~~                            \ncc1plus: all warnings being treated as errors",
+      "parentUuid": "9f1b0f81_5246fd88",
+      "range": {
+        "startLine": 100,
+        "startChar": 28,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5f2acc3_9d7bfc90",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 19
