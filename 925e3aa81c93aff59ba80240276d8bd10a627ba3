@@ -450,6 +450,30 @@
     },
     {
       "key": {
+        "uuid": "706e861b_04631865",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T23:06:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7c98be1d_b783e9e8",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 33
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1577a5a_f9948be2",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 19
