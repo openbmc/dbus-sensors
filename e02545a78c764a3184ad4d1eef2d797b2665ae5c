@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66c0d6bd_9d836f3e",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-08-05T00:25:46Z",
+      "side": 1,
+      "message": "strerror(errno) would be helpful here.",
+      "revId": "e02545a78c764a3184ad4d1eef2d797b2665ae5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
