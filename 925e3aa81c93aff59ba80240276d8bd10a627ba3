@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6072dc59_b0b52e10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T22:08:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bbbd891_5ea83488",
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a67d672_112a5e92",
         "filename": "/COMMIT_MSG",
         "patchSetId": 19
@@ -33,6 +51,24 @@
       "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79fd81f_c8ec7b4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T22:08:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a67d672_112a5e92",
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "9f1b0f81_5246fd88",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T22:08:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e7dce40_498c0661",
+      "range": {
+        "startLine": 100,
+        "startChar": 28,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5f2acc3_9d7bfc90",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 19
@@ -79,6 +139,30 @@
       "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9407579f_658cdcfa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T22:08:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c5f2acc3_9d7bfc90",
+      "range": {
+        "startLine": 141,
+        "startChar": 28,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "2ed51094_1d9a15e1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T22:08:26Z",
+      "side": 1,
+      "message": "No, only in the case of _raw devices, not in the case of _input devices.\nThe _raw case is handle in line 150.\n\nroot@rain71bmc:/sys/bus/iio/devices# ls -la iio\\:device0/ iio\\:device1/\niio:device0/:\ndrwxr-xr-x    3 root     root             0 Aug  5 19:35 .\ndrwxr-xr-x    4 root     root             0 Aug  5 19:35 ..\n-r--r--r--    1 root     root          4096 Aug  5 21:57 dev\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_humidityrelative_offset\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_humidityrelative_raw\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_humidityrelative_scale\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_temp_offset\n-rw-r--r--    1 root     root          4096 Aug  5 19:35 in_temp_raw\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_temp_scale\n-r--r--r--    1 root     root          4096 Aug  5 21:57 name\nlrwxrwxrwx    1 root     root             0 Aug  5 21:57 of_node -\u003e ../../../../../../../../../firmware/devicetree/base/ahb/apb/bus@1e78a000/i2c-bus@400/si7021-a20@40\ndrwxr-xr-x    2 root     root             0 Aug  5 21:57 power\nlrwxrwxrwx    1 root     root             0 Aug  5 21:57 subsystem -\u003e ../../../../../../../../../bus/iio\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 uevent\n\niio:device1/:\ndrwxr-xr-x    3 root     root             0 Aug  5 19:35 .\ndrwxr-xr-x    4 root     root             0 Aug  5 19:35 ..\n-r--r--r--    1 root     root          4096 Aug  5 21:57 dev\n-rw-r--r--    1 root     root          4096 Aug  5 19:35 in_pressure_input\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_pressure_oversampling_ratio\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_pressure_sampling_frequency\n-rw-r--r--    1 root     root          4096 Aug  5 19:35 in_temp_input\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_temp_oversampling_ratio\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 in_temp_sampling_frequency\n-r--r--r--    1 root     root          4096 Aug  5 21:57 name\nlrwxrwxrwx    1 root     root             0 Aug  5 21:57 of_node -\u003e ../../../../../../../../../firmware/devicetree/base/ahb/apb/bus@1e78a000/i2c-bus@400/dps310@76\ndrwxr-xr-x    2 root     root             0 Aug  5 21:57 power\nlrwxrwxrwx    1 root     root             0 Aug  5 21:57 subsystem -\u003e ../../../../../../../../../bus/iio\n-rw-r--r--    1 root     root          4096 Aug  5 21:57 uevent",
+      "parentUuid": "b6b51aa8_15562c50",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 40
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a7e9b9f_0096e362",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 19
@@ -125,6 +233,30 @@
       "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe6b4135_8c328518",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T22:08:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0a7e9b9f_0096e362",
+      "range": {
+        "startLine": 152,
+        "startChar": 23,
+        "endLine": 152,
+        "endChar": 27
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
