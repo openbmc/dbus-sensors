@@ -33,9 +33,8 @@
 #include <vector>
 
 PSUCombineEvent::PSUCombineEvent(
-    sdbusplus::asio::object_server& objectServer,
-    std::shared_ptr<sdbusplus::asio::connection>& conn,
-    boost::asio::io_service& io, const std::string& psuName,
+    sdbusplus::asio::object_server& objectServer, boost::asio::io_service& io,
+    const std::string& psuName,
     boost::container::flat_map<std::string, std::vector<std::string>>&
         eventPathList,
     boost::container::flat_map<
@@ -140,9 +139,8 @@ static boost::container::flat_map<std::string,
 
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
-    const std::string& path, std::shared_ptr<sdbusplus::asio::connection>& conn,
-    boost::asio::io_service& io, const std::string& groupEventName,
-    const std::string& eventName,
+    const std::string& path, boost::asio::io_service& io,
+    const std::string& groupEventName, const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
     std::shared_ptr<bool> state, const std::string& psuName, double pollRate) :
@@ -150,7 +148,7 @@ PSUSubEvent::PSUSubEvent(
     eventInterface(std::move(eventInterface)), asserts(std::move(asserts)),
     combineEvent(std::move(combineEvent)), assertState(std::move(state)),
     errCount(0), path(path), eventName(eventName), waitTimer(io), inputDev(io),
-    psuName(psuName), groupEventName(groupEventName), systemBus(conn)
+    psuName(psuName), groupEventName(groupEventName)
 {
     if (pollRate > 0.0)
     {
@@ -340,15 +338,6 @@ void PSUSubEvent::updateValue(const int& newValue)
             *assertState = true;
             if (!assertMessage.empty())
             {
-                // For failure and configure error, spec requires a beep
-                if ((assertMessage == "OpenBMC.0.1.PowerSupplyFailed") ||
-                    (assertMessage ==
-                     "OpenBMC.0.1.PowerSupplyConfigurationError"))
-                {
-                    std::cout << " beep for " << assertMessage << "\n";
-                    beep(beepPSUFailure);
-                }
-
                 // Fan Failed has two args
                 std::string sendMessage = eventName + " assert";
                 if (assertMessage == "OpenBMC.0.1.PowerSupplyFanFailed")
@@ -377,18 +366,4 @@ void PSUSubEvent::updateValue(const int& newValue)
         (*asserts).emplace(path);
     }
     value = newValue;
-}
-
-void PSUSubEvent::beep(const uint8_t& beepPriority)
-{
-    systemBus->async_method_call(
-        [](boost::system::error_code ec) {
-            if (ec)
-            {
-                std::cerr << "beep error (ec = " << ec << ")\n";
-                return;
-            }
-        },
-        "xyz.openbmc_project.BeepCode", "/xyz/openbmc_project/BeepCode",
-        "xyz.openbmc_project.BeepCode", "Beep", uint8_t(beepPriority));
 }
