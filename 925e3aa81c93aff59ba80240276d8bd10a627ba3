@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bbbd891_5ea83488",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "50/72 please.",
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a67d672_112a5e92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "This also presumably adds \"pressure\" as a type of sensor?",
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e7dce40_498c0661",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "starts_with would be better here.",
+      "range": {
+        "startLine": 100,
+        "startChar": 28,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5f2acc3_9d7bfc90",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "Please make this search more specific.  This should only be matching the beginning of the filename, not the whole path.",
+      "range": {
+        "startLine": 141,
+        "startChar": 28,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6b51aa8_15562c50",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be read from sysfs?",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 40
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a7e9b9f_0096e362",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "TODO not implemented?",
+      "range": {
+        "startLine": 152,
+        "startChar": 23,
+        "endLine": 152,
+        "endChar": 27
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750ae95f_bc9deaf0",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "This seems like the wrong spot for this comment;  Could it go somewhere that\u0027s pressure specfic?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdfa1824_eccbdbd0",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "SensorType is analygous to units, which we already have above.  one can be converted to another pretty easily.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 33
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1577a5a_f9948be2",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "\u003d\u003d please.\n\nAlso, if this ever gets more types, this is going to be a mess.  Can we move this logic up a level, and just take in min/max like some other sensors do?",
+      "range": {
+        "startLine": 61,
+        "startChar": 22,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a1b652d_b77ed103",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-05T21:54:54Z",
+      "side": 1,
+      "message": "Why did this declaration move?",
+      "range": {
+        "startLine": 161,
+        "startChar": 12,
+        "endLine": 161,
+        "endChar": 18
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
