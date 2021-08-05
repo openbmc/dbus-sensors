@@ -22,6 +22,30 @@
       "revId": "2359942ce4f97fa4383d812f2747cf09fd6cacd6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b4272fe_e7cac117",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-08-05T23:35:21Z",
+      "side": 1,
+      "message": "I added incrementError when fd \u003c 0 while attempting to re-open, and when the first ENODEV is encountered. One real usage case where ENODEV occurs is when a firmware update to a PMBus device requires unbinding the device\u0027s hwmon driver to prevent i2c collisions.",
+      "parentUuid": "e9f27583_64557ac2",
+      "range": {
+        "startLine": 196,
+        "startChar": 7,
+        "endLine": 204,
+        "endChar": 9
+      },
+      "revId": "2359942ce4f97fa4383d812f2747cf09fd6cacd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }

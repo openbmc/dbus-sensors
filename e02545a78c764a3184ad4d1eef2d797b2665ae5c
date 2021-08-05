@@ -16,6 +16,24 @@
       "revId": "e02545a78c764a3184ad4d1eef2d797b2665ae5c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eddd9473_ee01794a",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-08-05T23:35:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66c0d6bd_9d836f3e",
+      "revId": "e02545a78c764a3184ad4d1eef2d797b2665ae5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
