@@ -61,8 +61,6 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     void restartRead();
     void handleResponse(const boost::system::error_code& err);
     void updateValue(const int& newValue);
-    void beep(const uint8_t& beepPriority);
-    static constexpr uint8_t beepPSUFailure = 2;
     boost::asio::posix::stream_descriptor inputDev;
     std::string psuName;
     std::string groupEventName;
