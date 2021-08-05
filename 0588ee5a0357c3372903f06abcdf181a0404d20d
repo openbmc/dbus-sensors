@@ -69,6 +69,30 @@
       "revId": "0588ee5a0357c3372903f06abcdf181a0404d20d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83151917_524f73dc",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-08-05T23:56:40Z",
+      "side": 1,
+      "message": "Yeah from https://man7.org/linux/man-pages/man2/read.2.html\n\n\u003e On error, -1 is returned, and errno is set to indicate the error.\n\nAlso from `journalctl` while testing:\n`psusensor[1872]: No such device at /sys/class/hwmon/hwmon18/temp2_input, closing fd`",
+      "parentUuid": "96b867ac_3206d62e",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 29
+      },
+      "revId": "0588ee5a0357c3372903f06abcdf181a0404d20d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
