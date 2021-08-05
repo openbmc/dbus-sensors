@@ -545,6 +545,30 @@
     },
     {
       "key": {
+        "uuid": "a540ec43_b8e7b9de",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T23:20:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "752b65ad_c7b1429f",
+      "range": {
+        "startLine": 61,
+        "startChar": 22,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a1b652d_b77ed103",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 19
@@ -580,6 +604,30 @@
       "side": 1,
       "message": "Code evolution, I have set it back.",
       "parentUuid": "0a1b652d_b77ed103",
+      "range": {
+        "startLine": 161,
+        "startChar": 12,
+        "endLine": 161,
+        "endChar": 18
+      },
+      "revId": "925e3aa81c93aff59ba80240276d8bd10a627ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2c60661_f207a7a7",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-05T23:20:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "32476294_956167e4",
       "range": {
         "startLine": 161,
         "startChar": 12,
