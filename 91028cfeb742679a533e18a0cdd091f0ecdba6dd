@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8357b26_e725b546",
+        "filename": "service_files/xyz.openbmc_project.adcsensor.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-06T18:10:12Z",
+      "side": 1,
+      "message": "Please give thought to how non-ampere systems need to use the adc daemon.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 50
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
