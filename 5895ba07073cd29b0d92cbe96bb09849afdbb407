@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "768dda48_812fd595",
+        "filename": "meson_options.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-06T17:55:44Z",
+      "side": 1,
+      "message": "No, please leave it enabled.  The basic rule in dbus-sensors is that all services are enabled on startup, and only the ones with configurations are used.  The only time we disable things by default when they\u0027re in progress, or have bad behaviors that all systems can\u0027t tolerate (ie nvme).",
+      "parentUuid": "24ae6699_a60254e8",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6387150_2604812b",
         "filename": "service_files/meson.build",
         "patchSetId": 3
@@ -203,6 +227,30 @@
       "side": 1,
       "message": "We can change the name of source files, but the option name, service file name maybe not.",
       "parentUuid": "1125a00e_8c1496fe",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 53
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca90fbf_be6032b6",
+        "filename": "service_files/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-06T17:55:44Z",
+      "side": 1,
+      "message": "Yes, we should be changing the recipe as well.",
+      "parentUuid": "a141ba60_a6182fea",
       "range": {
         "startLine": 3,
         "startChar": 0,
