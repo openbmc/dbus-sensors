@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c7ef1187_01a5d2e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-06T15:44:34Z",
+      "side": 1,
+      "message": "ACK. My confusion came from not seeing changes in external sensor. This change affects all sensors that have isSettable set to true. Please clarify in the commit message",
+      "parentUuid": "11e31eed_341a3f3e",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f20f1c5_fc8f8ac0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "IIUC, manufacturing unsecure mode is intel oem? It is included in `phopshor-host-ipmid`? This is for phosphor-host-ipmid user. Set the mutability bit in ipmi SDR.",
       "parentUuid": "0f20f1c5_fc8f8ac0",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc1d18d1_ae383ca5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-06T15:44:34Z",
+      "side": 1,
+      "message": "sensors value can be overwritten when in manufacturing mode regardless of is settable to aid manufacturing test.\nhttps://github.com/openbmc/dbus-sensors/blob/master/include/sensor.hpp#L183\nThis change would break the feature if it is blocked at IPMI level base on Mutability at construct time and sensors are default to readonly unless config files are updated.",
+      "parentUuid": "595ea174_4afa3f07",
       "range": {
         "startLine": 10,
         "startChar": 34,
