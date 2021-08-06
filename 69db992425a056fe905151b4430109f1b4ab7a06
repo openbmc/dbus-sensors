@@ -262,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "2781537e_08362c06",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-06T16:26:56Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "80c3f969_bd852213",
+      "range": {
+        "startLine": 373,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 17
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7aae112_45042c1c",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 5
@@ -297,6 +321,30 @@
       "side": 1,
       "message": "Done. Change the constructor. Default value is false.",
       "parentUuid": "e7aae112_45042c1c",
+      "range": {
+        "startLine": 246,
+        "startChar": 71,
+        "endLine": 246,
+        "endChar": 75
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab2d816_97ec1daa",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-06T16:26:56Z",
+      "side": 1,
+      "message": "Sorry, looking back I think I made a mistake. PwmSensor does not inherit from sensor and PwmSensor should default to be isSettable\u003dtrue if we want to be backwards compatible and not break phosphor-pid-control.\nActually, since it has its own setValue function, isSettable flag is not checked like in sensors.hpp, so pid-control still works regardless of this flag here.",
+      "parentUuid": "c72cb902_2f8f6e33",
       "range": {
         "startLine": 246,
         "startChar": 71,

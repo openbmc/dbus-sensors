@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1b17818f_eb349638",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-06T16:26:56Z",
+      "side": 1,
+      "message": "isSettable and Mutibility seem to be redundant. isSettable \u003d (valueMutabilityInterface !\u003d nullptr). \nShould isSettable be deleted from the sensor member?",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 78
+      },
+      "revId": "a72fd141bb1ba489f111249d057a05e986b61534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79a08081_3c54ac90",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 7
