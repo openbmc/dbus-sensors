@@ -22,6 +22,98 @@
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55210378_3c9c85a5",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-06T18:13:41Z",
+      "side": 1,
+      "message": "There\u0027s only one type in the sensorTypes array.  I suspect it doesn\u0027t need to be an array.",
+      "range": {
+        "startLine": 629,
+        "startChar": 0,
+        "endLine": 637,
+        "endChar": 9
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfe30a9e_eea78fa4",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-06T18:13:41Z",
+      "side": 1,
+      "message": "Why this check?  I don\u0027t think it\u0027s needed, given it was verified further up the stack.",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 657,
+        "endChar": 9
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6746ce59_321dadd0",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-06T18:13:41Z",
+      "side": 1,
+      "message": "Why is this check here?",
+      "range": {
+        "startLine": 675,
+        "startChar": 0,
+        "endLine": 675,
+        "endChar": 36
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b9933d3_c2f50af3",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-06T18:13:41Z",
+      "side": 1,
+      "message": "Please don\u0027t print this on lack of a configuration.  Same thing goes for several error messages in createCPUPresentDbus.",
+      "range": {
+        "startLine": 679,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 65
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
