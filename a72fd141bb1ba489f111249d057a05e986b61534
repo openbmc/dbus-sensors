@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79a08081_3c54ac90",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-06T06:12:46Z",
+      "side": 1,
+      "message": "This is `isSettable`. How are these configurable? \n\nOr is this only depends ont he type of sensors.\n\nDo we want a way to config each sensor to see if we want to to be set able?",
+      "range": {
+        "startLine": 31,
+        "startChar": 69,
+        "endLine": 31,
+        "endChar": 73
+      },
+      "revId": "a72fd141bb1ba489f111249d057a05e986b61534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
