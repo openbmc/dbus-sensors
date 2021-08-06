@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e06bf27b_146f65c8",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000224
+      },
+      "writtenOn": "2021-08-06T09:06:47Z",
+      "side": 1,
+      "message": "Is there a reason why we can\u0027t do this in HwmonTempMain and pass through the relavant min and max values in the HwmonTempSensor creation? I think it would be cleaner.",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 78
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
