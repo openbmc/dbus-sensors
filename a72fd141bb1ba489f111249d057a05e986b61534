@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b43e951_a9edb890",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-06T19:22:46Z",
+      "side": 1,
+      "message": "It is werid to make a flag equivalent to a interface, as the property under the interface  might change. I would like to keep this.",
+      "parentUuid": "1b17818f_eb349638",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 78
+      },
+      "revId": "a72fd141bb1ba489f111249d057a05e986b61534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79a08081_3c54ac90",
         "filename": "src/ExternalSensor.cpp",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "a72fd141bb1ba489f111249d057a05e986b61534",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "202892d1_ffdd8aa4",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-06T19:22:46Z",
+      "side": 1,
+      "message": "I did not touch this. https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/42453 check this if you are interested.",
+      "parentUuid": "79a08081_3c54ac90",
+      "range": {
+        "startLine": 31,
+        "startChar": 69,
+        "endLine": 31,
+        "endChar": 73
+      },
+      "revId": "a72fd141bb1ba489f111249d057a05e986b61534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

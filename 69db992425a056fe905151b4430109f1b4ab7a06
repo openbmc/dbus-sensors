@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "3de199d8_2d00d3e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-08-06T19:22:46Z",
+      "side": 1,
+      "message": "I do not know how the manufacturing mode works before. phoshor-host-ipmid always block if no mutability property, unless you override the ipmi Set command.\n\nhttps://github.com/openbmc/phosphor-host-ipmid/blob/43a88109831d8e62150575e200af449194a5b6a8/sensorhandler.cpp#L376",
+      "parentUuid": "cc1d18d1_ae383ca5",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "69db992425a056fe905151b4430109f1b4ab7a06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3facdbd_80ac7c7c",
         "filename": "include/sensor.hpp",
         "patchSetId": 5
