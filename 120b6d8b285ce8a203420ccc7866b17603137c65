@@ -2,6 +2,190 @@
   "comments": [
     {
       "key": {
+        "uuid": "17c78d81_db7e4dc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-07T23:26:19Z",
+      "side": 1,
+      "message": "Nit: through",
+      "range": {
+        "startLine": 14,
+        "startChar": 49,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64bf536e_a254dd65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-07T23:26:19Z",
+      "side": 1,
+      "message": "Nit: it adds?",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9e67c6d_46af927c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-07T23:26:19Z",
+      "side": 1,
+      "message": "This method is getting really long (300 lines).  I realize it was long before this commit, but it seems like a candidate for refactoring.  Really long methods are hard to read and test.",
+      "range": {
+        "startLine": 63,
+        "startChar": 5,
+        "endLine": 63,
+        "endChar": 18
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "534cce07_0b93b9aa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-07T23:26:19Z",
+      "side": 1,
+      "message": "Not sure if it matters,but this is subtle change in behavior from before.\n\nPreviously it would write that error message and exit if findFiles() returned false, which only happened if the directory did not exist.\n\nNow it happens if no files are found that match the regex.\n\nMaybe that ends up being the same thing in practice?",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 3
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcc21b38_4f062cee",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-07T23:26:19Z",
+      "side": 1,
+      "message": "temp and pressure?",
+      "range": {
+        "startLine": 90,
+        "startChar": 41,
+        "endLine": 90,
+        "endChar": 46
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc248a5e_001643fa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-07T23:26:19Z",
+      "side": 1,
+      "message": "Nit: typos",
+      "range": {
+        "startLine": 149,
+        "startChar": 19,
+        "endLine": 149,
+        "endChar": 44
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa9c697_2a608783",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-07T23:26:19Z",
+      "side": 1,
+      "message": "driver?",
+      "range": {
+        "startLine": 152,
+        "startChar": 69,
+        "endLine": 152,
+        "endChar": 75
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03830d75_7ac6d9d9",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-07T23:26:19Z",
+      "side": 1,
+      "message": "that supports?",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 32
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e06bf27b_146f65c8",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 28
