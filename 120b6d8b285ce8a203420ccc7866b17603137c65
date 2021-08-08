@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "1f5356b9_f12ddd30",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-08-08T01:37:09Z",
+      "side": 1,
+      "message": "I left a number of comments on the previous incarnation of this patch that are relevant here too:\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/43410/47/src/IIOMain.cpp",
+      "parentUuid": "b9e67c6d_46af927c",
+      "range": {
+        "startLine": 63,
+        "startChar": 5,
+        "endLine": 63,
+        "endChar": 18
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "534cce07_0b93b9aa",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 28
