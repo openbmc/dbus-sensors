@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ade9790_139d83d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2021-08-09T10:52:12Z",
+      "side": 1,
+      "message": "bmcweb shows all sensors from Redfish and no problem with this. The problem is that dbus-sensor adds all sensors into association. By the use of phosphor-virtual-sensor, sensors that are used in the formation for virtual sensors should not be added into association and this change support the option to remove the sensor added to association.",
+      "parentUuid": "13dd876e_af9dc311",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "5c73b27d5c08653892106572505976216f9b53ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b938bd5b_d963a975",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2021-08-06T18:15:24Z",
       "side": 1,
       "message": "Why does this need to be configurable at all?  This is likely not the way to do this in the config format, as it explicitly mentions associations, which should be avoided where possible.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 68
+      },
+      "revId": "5c73b27d5c08653892106572505976216f9b53ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5ea775_b40b8f9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2021-08-09T10:52:12Z",
+      "side": 1,
+      "message": "Do you thing \u003clabel\u003e_RmAssoc is better? All sensors are added to association by default. Any sensors that we don\u0027t want to be in association will use this attribute to configure?",
+      "parentUuid": "b938bd5b_d963a975",
       "range": {
         "startLine": 14,
         "startChar": 0,
