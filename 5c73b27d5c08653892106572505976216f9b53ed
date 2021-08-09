@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f1401da1_a1264937",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-09T15:19:06Z",
+      "side": 1,
+      "message": "\u003e bmcweb shows all sensors from Redfish and no problem with this. The problem is that dbus-sensor adds all sensors into association. \n\nThat\u0027s not really a \"problem\" that\u0027s by design.\n\n\u003e By the use of phosphor-virtual-sensor, sensors that are used in the formation for virtual sensors should not be added into association and this change support the option to remove the sensor added to association.\n\nAgain.... this needs a design doc for exactly the reason you\u0027ve pointed out.  the Sensor interfaces are spread across many different repositories, and will all need updated if we were able to \"hide\" sensors, although I suspect my personal opinion is that we shouldn\u0027t be hiding sensor values at all.",
+      "parentUuid": "1ade9790_139d83d8",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "5c73b27d5c08653892106572505976216f9b53ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b938bd5b_d963a975",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Do you thing \u003clabel\u003e_RmAssoc is better? All sensors are added to association by default. Any sensors that we don\u0027t want to be in association will use this attribute to configure?",
       "parentUuid": "b938bd5b_d963a975",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 68
+      },
+      "revId": "5c73b27d5c08653892106572505976216f9b53ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "135d273c_6fee092b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-09T15:19:06Z",
+      "side": 1,
+      "message": "No I don\u0027t like that better, I\u0027d like to see a consistent set of sensors across systems.  Unless there\u0027s a good reason why one system might hide a sensor, and another system wouldn\u0027t (which I can\u0027t think of off the top of my head) there\u0027s no reason to allow it to be configurable like this.",
+      "parentUuid": "0b5ea775_b40b8f9b",
       "range": {
         "startLine": 14,
         "startChar": 0,
