@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34721ba8_8f5ce47b",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-10T17:57:05Z",
+      "side": 1,
+      "message": "I recommend the name \"isMutable\" here, for the temporary bool that is passed in by the caller, to avoid shadowing the \"isValueMutable\" member of this class. It also fits the established pattern set by \"isSettable\" to \"isSensorSettable\".",
+      "revId": "bd2f8e869b97d4aa41b8fc7ce642a94348fe42aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06a18dbb_bed9ab4c",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-10T17:57:05Z",
+      "side": 1,
+      "message": "Not just IPMI. This feature isn\u0027t tied to IPMI. There\u0027s nothing about the ValueMutability feature that prevents it from being used with Redfish as well (once writeable sensors in Redfish are implemented, a future project).",
+      "revId": "bd2f8e869b97d4aa41b8fc7ce642a94348fe42aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aefb9b5_6b815d3f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-10T17:57:05Z",
+      "side": 1,
+      "message": "We should rename this to isValueMutable, to be consistent with how it is done in the main Sensor object.",
+      "revId": "bd2f8e869b97d4aa41b8fc7ce642a94348fe42aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bc8f809_32740481",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-10T17:57:05Z",
+      "side": 1,
+      "message": "Same as above, please rename to isValueMutable.",
+      "revId": "bd2f8e869b97d4aa41b8fc7ce642a94348fe42aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f5505da_bfed88c2",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-10T17:57:05Z",
+      "side": 1,
+      "message": "In this error block, we should also do what we did in the main Sensor class: valueMutabilityInterface \u003d nullptr;",
+      "revId": "bd2f8e869b97d4aa41b8fc7ce642a94348fe42aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
