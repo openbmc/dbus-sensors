@@ -31,7 +31,16 @@
 #include <string>
 #include <vector>
 
-static constexpr unsigned int sensorScaleFactor = 1000;
+// Temperatures are read in milli degrees Celsius, we need degrees Celsius.
+// Pressures are read in kilopascal, we need Pascals.  On D-Bus for Open BMC
+// we use the International System of Units without prefixes.
+// Links to the kernel documentation:
+// https://www.kernel.org/doc/Documentation/hwmon/sysfs-interface
+// https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-iio
+// For IIO RAW sensors we get a raw_value, an offset, and scale to compute
+// the value = (raw_value + offset) * scale
+static constexpr double sensorOffset = 0.0;
+static constexpr double sensorScale = 0.001;
 static constexpr size_t warnAfterErrorCount = 10;
 
 static constexpr double maxReading = 127;
@@ -142,7 +151,7 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             rawValue = std::stod(response);
-            double nvalue = rawValue / sensorScaleFactor;
+            double nvalue = (rawValue + sensorOffset) * sensorScale;
             updateValue(nvalue);
         }
         catch (const std::invalid_argument&)
