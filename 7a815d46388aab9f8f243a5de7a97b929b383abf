@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "8a7d168d_32693b87",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-11T20:01:39Z",
+      "side": 1,
+      "message": "There are no sensors now that provide multi-line output. By calling consume(), it makes sure any trailing cruft, such as end-of-line markers, are properly swallowed and discarded. Because \"readBuf\" is long-lived, failing to clean up could cause problems during the next reading attempt, if there is garbage already in the read buffer from the previous reading attempt. In short, this is defensive programming against any unexpected data from a hwmon file.",
+      "parentUuid": "52adf084_42f7fe69",
+      "range": {
+        "startLine": 142,
+        "startChar": 12,
+        "endLine": 142,
+        "endChar": 44
+      },
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4dacb53_29162bd8",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 4
@@ -213,6 +237,24 @@
       "writtenOn": "2021-08-11T06:18:16Z",
       "side": 1,
       "message": "What about using pread(2) instead of the read(2)s affected by this lseek()? Then we can drop the lseek().\n\nhttps://linux.die.net/man/2/pread\n\n(🍿)",
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cfb4164_69663401",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-11T20:01:39Z",
+      "side": 1,
+      "message": "Not a bad idea, thanks for the suggestion.",
+      "parentUuid": "c4dacb53_29162bd8",
       "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
