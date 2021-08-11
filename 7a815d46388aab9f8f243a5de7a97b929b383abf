@@ -199,6 +199,23 @@
       "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4dacb53_29162bd8",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-08-11T06:18:16Z",
+      "side": 1,
+      "message": "What about using pread(2) instead of the read(2)s affected by this lseek()? Then we can drop the lseek().\n\nhttps://linux.die.net/man/2/pread\n\n(🍿)",
+      "revId": "7a815d46388aab9f8f243a5de7a97b929b383abf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
