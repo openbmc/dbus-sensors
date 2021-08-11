@@ -354,7 +354,8 @@ bool createSensors(boost::asio::io_service& io,
              * set it if configured or else set it to 0
              */
             double dtsOffset = 0;
-            if (label == "DTS")
+            if ((label == "DTS") || (label == "Die") ||
+                (label.find("Core") != std::string::npos))
             {
                 auto findThrOffset =
                     baseConfiguration->second.find("DtsCritOffset");
