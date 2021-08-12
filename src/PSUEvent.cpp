@@ -18,6 +18,7 @@
 
 #include <PSUEvent.hpp>
 #include <SensorPaths.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
@@ -36,11 +37,13 @@ PSUCombineEvent::PSUCombineEvent(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& psuName,
-    boost::container::flat_map<std::string, std::vector<std::string>>&
+    const boost::container::flat_map<
+        std::string, std::vector<std::pair<std::string, std::string>>>&
         eventPathList,
-    boost::container::flat_map<
+    const boost::container::flat_map<
         std::string,
-        boost::container::flat_map<std::string, std::vector<std::string>>>&
+        boost::container::flat_map<
+            std::string, std::vector<std::pair<std::string, std::string>>>>&
         groupEventPathList,
     const std::string& combineEventName, double pollRate) :
     objServer(objectServer)
@@ -67,11 +70,12 @@ PSUCombineEvent::PSUCombineEvent(
 
         const std::string& eventName = pathList.first;
         std::string eventPSUName = eventName + psuName;
-        for (const auto& path : pathList.second)
+        for (const auto& namedPath : pathList.second)
         {
             auto p = std::make_shared<PSUSubEvent>(
-                eventInterface, path, conn, io, eventName, eventName, assert,
-                combineEvent, state, psuName, pollRate);
+                eventInterface, namedPath.second, namedPath.first, conn, io,
+                eventName, eventName, assert, combineEvent, state, psuName,
+                pollRate);
             p->setupRead();
 
             events[eventPSUName].emplace_back(p);
@@ -90,12 +94,12 @@ PSUCombineEvent::PSUCombineEvent(
 
             const std::string& groupEventName = pathList.first;
             std::string eventPSUName = groupEventName + psuName;
-            for (const auto& path : pathList.second)
+            for (const auto& namedPath : pathList.second)
             {
                 auto p = std::make_shared<PSUSubEvent>(
-                    eventInterface, path, conn, io, groupEventName,
-                    groupPathList.first, assert, combineEvent, state, psuName,
-                    pollRate);
+                    eventInterface, namedPath.second, namedPath.first, conn, io,
+                    groupEventName, groupPathList.first, assert, combineEvent,
+                    state, psuName, pollRate);
                 p->setupRead();
                 events[eventPSUName].emplace_back(p);
 
@@ -140,7 +144,8 @@ static boost::container::flat_map<std::string,
 
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
-    const std::string& path, std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::string& path, const std::string& objectPath,
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& groupEventName,
     const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
@@ -149,8 +154,9 @@ PSUSubEvent::PSUSubEvent(
     std::enable_shared_from_this<PSUSubEvent>(),
     eventInterface(std::move(eventInterface)), asserts(std::move(asserts)),
     combineEvent(std::move(combineEvent)), assertState(std::move(state)),
-    errCount(0), path(path), eventName(eventName), waitTimer(io), inputDev(io),
-    psuName(psuName), groupEventName(groupEventName), systemBus(conn)
+    errCount(0), path(path), objectPath(objectPath), eventName(eventName),
+    waitTimer(io), inputDev(io), psuName(psuName),
+    groupEventName(groupEventName), systemBus(conn)
 {
     if (pollRate > 0.0)
     {
@@ -268,6 +274,60 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
     });
 }
 
+inline std::optional<std::string>
+    getEventTriggerFromPath(const std::string& path, bool asserted)
+{
+    std::string assertedStr = "AlarmDeasserted";
+    if (asserted)
+    {
+        assertedStr = "AlarmAsserted";
+    }
+
+    if (boost::algorithm::ends_with(path, "_crit_alarm"))
+    {
+        return "WarningHigh" + assertedStr;
+    }
+    if (boost::algorithm::ends_with(path, "_lcrit_alarm"))
+    {
+        return "WarningLow" + assertedStr;
+    }
+    if (boost::algorithm::ends_with(path, "_max_alarm"))
+    {
+        return "CriticalHigh" + assertedStr;
+    }
+    if (boost::algorithm::ends_with(path, "_min_alarm"))
+    {
+        return "CriticalLow" + assertedStr;
+    }
+
+    return std::nullopt;
+}
+
+inline void sendPSUEventTrigger(
+    const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+    const std::string& path, const std::string& objectPath, bool asserted,
+    double value)
+{
+    try
+    {
+        auto eventTrigger = getEventTriggerFromPath(path, asserted);
+        if (!eventTrigger)
+        {
+            return;
+        }
+        auto signal = systemBus->new_signal(objectPath.c_str(),
+                                            "xyz.openbmc_project.PSUSensor",
+                                            eventTrigger->c_str());
+        signal.append(value);
+        signal.signal_send();
+    }
+    catch (const sdbusplus::exception::SdBusError& err)
+    {
+        std::cerr << "PSUSubEvent: failed to send sensor event trigger: "
+                  << err.what() << "\n";
+    }
+}
+
 // Any of the sub events of one event is asserted, then the event will be
 // asserted. Only if none of the sub events are asserted, the event will be
 // deasserted.
@@ -323,6 +383,9 @@ void PSUSubEvent::updateValue(const int& newValue)
                         deassertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
                         psuName.c_str(), NULL);
                 }
+
+                sendPSUEventTrigger(systemBus, path, objectPath, false,
+                                    newValue);
             }
 
             if ((*combineEvent).empty())
@@ -333,8 +396,6 @@ void PSUSubEvent::updateValue(const int& newValue)
     }
     else
     {
-        std::cerr << "PSUSubEvent asserted by " << path << "\n";
-
         if ((*assertState == false) && ((*asserts).empty()))
         {
             *assertState = true;
@@ -367,6 +428,9 @@ void PSUSubEvent::updateValue(const int& newValue)
                         assertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
                         psuName.c_str(), NULL);
                 }
+
+                sendPSUEventTrigger(systemBus, path, objectPath, true,
+                                    newValue);
             }
             if ((*combineEvent).empty())
             {
