@@ -268,6 +268,58 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
     });
 }
 
+inline std::optional<std::string>
+    getEventTriggerFromPath(const std::string& path, bool asserted)
+{
+    const std::string& signalPrefix = "xyz.openbmc_project.Sensor.Threshold.";
+    std::string assertedStr = "AlarmDeasserted";
+    if (asserted)
+    {
+        assertedStr = "AlarmAsserted";
+    }
+    if (boost::algorithm::ends_with(path, "_crit_alarm"))
+    {
+        return signalPrefix + "WarningHigh" + assertedStr;
+    }
+    if (boost::algorithm::ends_with(path, "_lcrit_alarm"))
+    {
+        return signalPrefix + "WarningLow" + assertedStr;
+    }
+    if (boost::algorithm::ends_with(path, "_max_alarm"))
+    {
+        return signalPrefix + "CriticalHigh" + assertedStr;
+    }
+    if (boost::algorithm::ends_with(path, "_min_alarm"))
+    {
+        return signalPrefix + "CriticalLow" + assertedStr;
+    }
+
+    return std::nullopt;
+}
+
+inline void
+    sendPSUEventTrigger(std::shared_ptr<sdbusplus::asio::connection> systemBus,
+                        const std::string& path, bool asserted, int value)
+{
+    try
+    {
+        auto eventTrigger = getEventTriggerFromPath(path, asserted);
+        if (!eventTrigger)
+        {
+            return;
+        }
+        auto signal = systemBus->new_signal(
+            path.c_str(), "xyz.openbmc_project.PSUSensor", *eventTrigger);
+        signal.append(value);
+        signal.signal_send();
+    }
+    catch (const SdBusError& e)
+    {
+        log<level::ERR>("PSU Sensor Event: failed to send sensor event trigger",
+                        entry("ERROR=%s", e.what()));
+    }
+}
+
 // Any of the sub events of one event is asserted, then the event will be
 // asserted. Only if none of the sub events are asserted, the event will be
 // deasserted.
@@ -323,6 +375,7 @@ void PSUSubEvent::updateValue(const int& newValue)
                         deassertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
                         psuName.c_str(), NULL);
                 }
+                sendPSUEventTrigger(systemBus, path, false, newValue);
             }
 
             if ((*combineEvent).empty())
@@ -367,6 +420,8 @@ void PSUSubEvent::updateValue(const int& newValue)
                         assertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
                         psuName.c_str(), NULL);
                 }
+
+                sendPSUEventTrigger(systemBus, path, true, newValue);
             }
             if ((*combineEvent).empty())
             {
