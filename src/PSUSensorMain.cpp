@@ -432,9 +432,23 @@ static void createSensorsCallback(
 
             if (it == sensorsChanged->end())
             {
-                continue;
+                // Intentionally do not continue to next sensor here,
+                // allow all sensors to be constructed.
+                // The sensorsChanged feature is fundamentally unreliable,
+                // as depending on incoming messages to notify of all new
+                // sensors is brittle, especially under startup conditions,
+                // when many sensors are added all at once.
+                // Simply constructing every sensor discovered by iteration
+                // is safer and easier, so just do that.
+                std::cerr
+                    << "This psuName would have been skipped if sensorsChanged "
+                       "optimization had not been disabled: "
+                    << psuNameStr << "\n";
             }
-            sensorsChanged->erase(it);
+            else
+            {
+                sensorsChanged->erase(it);
+            }
         }
         checkEvent(directory.string(), eventMatch, eventPathList);
         checkGroupEvent(directory.string(), groupEventMatch,
