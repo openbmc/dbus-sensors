@@ -48,8 +48,6 @@ static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
 static constexpr float pollRateDefault = 1; // in seconds
 
-static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
-
 using IpmbMethodType =
     std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
 

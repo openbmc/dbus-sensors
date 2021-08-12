@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
+
 constexpr size_t sensorFailedPollTimeMs = 5000;
 
 // Enable useful logging with sensor instrumentation

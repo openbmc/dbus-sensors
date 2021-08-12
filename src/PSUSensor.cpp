@@ -32,8 +32,6 @@
 #include <system_error>
 #include <vector>
 
-static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
-
 static constexpr bool debug = false;
 
 PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,

@@ -31,7 +31,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
 {
   public:
     PSUSubEvent(std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
-                const std::string& path,
+                const std::string& path, const std::string& objectPath,
                 std::shared_ptr<sdbusplus::asio::connection>& conn,
                 boost::asio::io_service& io, const std::string& groupEventName,
                 const std::string& eventName,
@@ -52,6 +52,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     int fd;
     size_t errCount;
     std::string path;
+    std::string objectPath;
     std::string eventName;
 
     boost::asio::deadline_timer waitTimer;
@@ -79,11 +80,13 @@ class PSUCombineEvent
         sdbusplus::asio::object_server& objectSever,
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         boost::asio::io_service& io, const std::string& psuName,
-        boost::container::flat_map<std::string, std::vector<std::string>>&
+        const boost::container::flat_map<
+            std::string, std::vector<std::pair<std::string, std::string>>>&
             eventPathList,
-        boost::container::flat_map<
+        const boost::container::flat_map<
             std::string,
-            boost::container::flat_map<std::string, std::vector<std::string>>>&
+            boost::container::flat_map<
+                std::string, std::vector<std::pair<std::string, std::string>>>>&
             groupEventPathList,
         const std::string& combineEventName, double pollRate);
     ~PSUCombineEvent();
