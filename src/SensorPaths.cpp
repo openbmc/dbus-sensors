@@ -1,4 +1,5 @@
 #include <SensorPaths.hpp>
+#include <sdbusplus/message/types.hpp>
 
 #include <cstring>
 #include <regex>
@@ -50,7 +51,7 @@ std::string getPathForUnits(const std::string& units)
 
 std::string escapePathForDbus(const std::string& name)
 {
-    return std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_");
+    return (sdbusplus::message::object_path("/") / name).str.substr(1);
 }
 
 } // namespace sensor_paths
