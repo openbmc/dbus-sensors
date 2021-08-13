@@ -49,3 +49,18 @@ test(
     )
 )
 endif
+
+
+test(
+    'test_sensor_paths',
+    executable(
+        'test_sensor_paths',
+        'test_SensorPaths.cpp'
+        dependencies: [
+            gtest,
+            sdbusplus,
+        ],
+        implicit_include_directories: false,
+        include_directories: '../include',
+    )
+)
