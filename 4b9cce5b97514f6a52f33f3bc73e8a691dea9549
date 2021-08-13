@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "d41e7c44_4985afea",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-13T19:10:33Z",
+      "side": 1,
+      "message": "This looks like it\u0027s completely inverting the logic?  This stuff scares me, so how sure are we this is the right thing to do.",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 44
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b94cb0b_aeb9ff45",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-13T19:10:33Z",
+      "side": 1,
+      "message": "?  I\u0027m not following that statement.  In what way is it unreliable?",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 59
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec949ce9_4461cefe",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-13T19:10:33Z",
+      "side": 1,
+      "message": "This breaks changing a single sensor threshold value, and requires all sensors to reset on a threshold change, which is unexpected and arguably a bug.",
+      "range": {
+        "startLine": 441,
+        "startChar": 0,
+        "endLine": 442,
+        "endChar": 56
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f67749c_e858c68a",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-13T19:10:33Z",
+      "side": 1,
+      "message": "This is a level of verbosity we don\u0027t need on something that\u0027s expected and \"normal\".",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 42
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "21b28023_b53ebf5f",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 1
