@@ -53,9 +53,9 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              std::vector<thresholds::Threshold>&& thresholdData,
                              uint8_t busId, uint8_t mcuAddress,
                              uint8_t tempReg) :
-    Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, "MCUTempSensor", false, false,
-           mcuTempMaxReading, mcuTempMinReading, conn),
+    Sensor(sensorName, std::move(thresholdData), sensorConfiguration,
+           "MCUTempSensor", false, false, mcuTempMaxReading, mcuTempMinReading,
+           conn),
     busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
     objectServer(objectServer), waitTimer(io)
 {

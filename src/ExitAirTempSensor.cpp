@@ -15,6 +15,7 @@
 */
 
 #include <ExitAirTempSensor.hpp>
+#include <SensorPaths.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -158,9 +159,9 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
                      std::vector<thresholds::Threshold>&& thresholdData,
                      std::shared_ptr<ExitAirTempSensor>& parent) :
-    Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, "CFMSensor", false, false, cfmMaxReading,
-           cfmMinReading, conn, PowerState::on),
+    Sensor(sensorName, std::move(thresholdData), sensorConfiguration,
+           "CFMSensor", false, false, cfmMaxReading, cfmMinReading, conn,
+           PowerState::on),
     parent(parent), objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
@@ -495,9 +496,9 @@ ExitAirTempSensor::ExitAirTempSensor(
     const std::string& sensorName, const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData) :
-    Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, "ExitAirTemp", false, false, exitAirMaxReading,
-           exitAirMinReading, conn, PowerState::on),
+    Sensor(sensorName, std::move(thresholdData), sensorConfiguration,
+           "ExitAirTemp", false, false, exitAirMaxReading, exitAirMinReading,
+           conn, PowerState::on),
     objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
@@ -848,7 +849,7 @@ static void loadVariantPathArray(const SensorBaseConfigMap& data,
     std::vector<std::string> config = std::get<std::vector<std::string>>(copy);
     for (auto& str : config)
     {
-        boost::replace_all(str, " ", "_");
+        str = sensor_paths::escapePathForDbus(str);
     }
     resp = std::move(config);
 }

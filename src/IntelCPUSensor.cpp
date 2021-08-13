@@ -40,8 +40,8 @@ IntelCPUSensor::IntelCPUSensor(
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, int cpuId, bool show,
     double dtsOffset) :
-    Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           objectType, false, false, 0, 0, conn, PowerState::on),
+    Sensor(sensorName, std::move(thresholdsIn), sensorConfiguration, objectType,
+           false, false, 0, 0, conn, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io),
     nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),

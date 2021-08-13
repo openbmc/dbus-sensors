@@ -61,3 +61,20 @@ test(
         include_directories: '../include',
     )
 )
+
+test(
+    'test_sensor_paths',
+    executable(
+        'test_sensor_paths',
+        'test_SensorPaths.cpp',
+        dependencies: [
+            gtest_dep,
+            sdbusplus,
+        ],
+        implicit_include_directories: false,
+        include_directories: '../include',
+        link_with: [
+            utils_a,
+        ],
+    )
+)
