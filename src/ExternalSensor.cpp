@@ -24,8 +24,8 @@ ExternalSensor::ExternalSensor(
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, double maxReading,
     double minReading, double timeoutSecs, const PowerState& powerState) :
-    Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           objectType, true, true, maxReading, minReading, conn, powerState),
+    Sensor(sensorName, std::move(thresholdsIn), sensorConfiguration, objectType,
+           true, true, maxReading, minReading, conn, powerState),
     objServer(objectServer), writeLast(std::chrono::steady_clock::now()),
     writeTimeout(
         std::chrono::duration_cast<std::chrono::steady_clock::duration>(

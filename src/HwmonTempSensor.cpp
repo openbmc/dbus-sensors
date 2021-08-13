@@ -46,10 +46,9 @@ HwmonTempSensor::HwmonTempSensor(
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const struct SensorParams& thisSensorParameters, const float pollRate,
     const std::string& sensorConfiguration, const PowerState powerState) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, false,
-           false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
-           conn, powerState),
+    Sensor(sensorName, std::move(thresholdsIn), sensorConfiguration, objectType,
+           false, false, thisSensorParameters.maxValue,
+           thisSensorParameters.minValue, conn, powerState),
     objServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), offsetValue(thisSensorParameters.offsetValue),
