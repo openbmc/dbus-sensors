@@ -17,6 +17,7 @@
 #include <fcntl.h>
 
 #include <CPUSensor.hpp>
+#include <SensorPaths.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
@@ -634,8 +635,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 }
                 std::string nameRaw =
                     std::visit(VariantToStringVisitor(), findName->second);
-                std::string name =
-                    std::regex_replace(nameRaw, illegalDbusRegex, "_");
+                std::string name = sensor_paths::escapePathForDbus(nameRaw);
 
                 auto present = std::optional<bool>();
                 // if we can't detect it via gpio, we set presence later
