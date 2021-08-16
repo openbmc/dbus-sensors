@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "40314451_fc7b23d1",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-16T09:16:11Z",
+      "side": 1,
+      "message": "Here\u0027s the old logic: If the psuName is not found in the whitelist, the continue statement would cause this sensor to be skipped over. If the psuName is found in the whitelist, however, this block is skipped. So, the erasure from the whitelist takes place, and the sensor is allowed to be created.\n\nThis is an example of a bug: some psuName contain more than one sensor, and because the erasure takes place the first time a matching sensor is found, subsequent sensors will no longer find their psuName in the whitelist, thus those sensors will be wrongly skipped over.\n\nI changed it to simply disable this feature, by only printing a message if the psuName is not found in the whitelist, and no longer skipping it over. This would lead to wrongly performing an erasure on an invalid iterator, though. So, I added an else-clause to this statement, preventing the erasure from being done in this case.\n\nAs for determining if it\u0027s the right thing to do or not, that is quickly discovered during testing, when one sees if it works or doesn\u0027t work.",
+      "parentUuid": "d41e7c44_4985afea",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 44
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b94cb0b_aeb9ff45",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc93c850_bb66ae4f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-16T09:16:11Z",
+      "side": 1,
+      "message": "For a variety of reasons. It\u0027s much more reliable to enumerate a list of sensors yourself than it is to await incoming messages that identify each sensor. There won\u0027t be 100% guarantee all newly created sensors generate a message. It\u0027s the same reason you would want to poll a directory to enumerate all files instead of passively setting up an inotify() on the directory and expecting the filesystem to notify you about every new file.",
+      "parentUuid": "3b94cb0b_aeb9ff45",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 59
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "facd6a59_f2a1683c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-16T09:16:11Z",
+      "side": 1,
+      "message": "Hmm. How often are thresholds values changed? I don\u0027t use the thresholds feature, so wouldn\u0027t know. Do they often vary once the sensor is created?",
+      "parentUuid": "ec949ce9_4461cefe",
+      "range": {
+        "startLine": 441,
+        "startChar": 0,
+        "endLine": 442,
+        "endChar": 56
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f67749c_e858c68a",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "21d8d1b2_af3de8c6",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-16T09:16:11Z",
+      "side": 1,
+      "message": "As I said in the comments, I\u0027m willing to write a more complete excision of this feature, once the idea is settled. For now, though, I want it loud on purpose, to be able to see how many sensors it affects.",
+      "parentUuid": "4f67749c_e858c68a",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 42
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21b28023_b53ebf5f",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2021-08-13T03:47:37Z",
       "side": 1,
       "message": "Ah, nice. Good catch Josh!.\n\nTested and seems to work fine.",
+      "range": {
+        "startLine": 433,
+        "startChar": 12,
+        "endLine": 451,
+        "endChar": 13
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72d16db1_4d6165db",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-16T09:16:11Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "21b28023_b53ebf5f",
       "range": {
         "startLine": 433,
         "startChar": 12,
