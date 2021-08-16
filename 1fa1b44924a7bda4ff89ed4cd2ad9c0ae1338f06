@@ -403,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "1555a096_89aff555",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T20:26:37Z",
+      "side": 1,
+      "message": "\u003e Still need use weak_ptr to prevent invalid access after this is destructed.\n\u003e When async calls are aborted because of sensor destruction, already queued work may exist and not removed.\n\nif we ensure that waitTimer is destroyed before \"this\" (ie ADCSensor), then this code will callback before the sensor is destroyed, and therefore be valid.  What\u0027s interesting, is this code looks right\n\nOk, I see the real problem here.  InputDev is owned by AdcSensor, but is calling into sensorCommon.  in theory, if we move sensorCommon to be declared above inputDev in the .h file, that should clear this up.\n\n\nWith that said, i\u0027ll do that in another patch.  Thanks for helping test.",
+      "parentUuid": "2abd762c_efdeb240",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 23
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70e3e658_357af833",
         "filename": "src/ADCSensor.cpp",
         "patchSetId": 21
@@ -414,6 +438,30 @@
       "writtenOn": "2021-02-25T20:58:23Z",
       "side": 1,
       "message": "If abort is caused by destruction, will \"this\" be invalid?",
+      "range": {
+        "startLine": 189,
+        "startChar": 41,
+        "endLine": 189,
+        "endChar": 47
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fe51555_6cd27f49",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T20:26:37Z",
+      "side": 1,
+      "message": "yes, good point.  I missed that.  I\u0027ll put in a new patch.",
+      "parentUuid": "70e3e658_357af833",
       "range": {
         "startLine": 189,
         "startChar": 41,
@@ -473,6 +521,30 @@
     },
     {
       "key": {
+        "uuid": "6effc6d3_9a585f3d",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T20:26:37Z",
+      "side": 1,
+      "message": "yeah, this is totally wrong.  Will go back to the old one.",
+      "parentUuid": "be702af6_9a18450c",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 75
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "84fb7387_468c5c89",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 21
@@ -484,6 +556,30 @@
       "writtenOn": "2021-03-08T18:55:14Z",
       "side": 1,
       "message": "add check if(it.second) {}",
+      "range": {
+        "startLine": 279,
+        "startChar": 16,
+        "endLine": 279,
+        "endChar": 45
+      },
+      "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fb7dfa5_8a61ccfe",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T20:26:37Z",
+      "side": 1,
+      "message": "If this were kept as emplace, you\u0027d be right, but with this moving to insert_or_assign, won\u0027t this still be needed?",
+      "parentUuid": "84fb7387_468c5c89",
       "range": {
         "startLine": 279,
         "startChar": 16,
