@@ -22,6 +22,30 @@
       "revId": "461a6f605c6dbe04bc109d214a41af8b080cb603",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f50a7acc_6fe787b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-16T22:36:26Z",
+      "side": 1,
+      "message": "For the most part, we just need to make sure that all of them are using filename() to decode the name, right?\n\nI will do a more detailed system integration tests.\n\nRedfish: RedfishValidator\n\nIPMI: ipmisdr with dynamic sensor stack.",
+      "parentUuid": "c44bf22b_a228b398",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 65
+      },
+      "revId": "461a6f605c6dbe04bc109d214a41af8b080cb603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
