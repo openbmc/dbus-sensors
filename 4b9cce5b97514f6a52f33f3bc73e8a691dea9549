@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "86886694_72050079",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T16:10:47Z",
+      "side": 1,
+      "message": "\u003e Here\u0027s the old logic: If the psuName is not found in the whitelist, the continue statement would cause this sensor to be skipped over. If the psuName is found in the whitelist, however, this block is skipped. So, the erasure from the whitelist takes place, and the sensor is allowed to be created.\n\u003e \n\u003e This is an example of a bug: some psuName contain more than one sensor,\n\nI\u0027m not following this statement.  psuName in this context is equal to the \"Name\" parameter of the exposes node.  There should only be one, even if there are multiple sensors with their own names.\n\n\u003e and because the erasure takes place the first time a matching sensor is found, subsequent sensors will no longer find their psuName in the whitelist, thus those sensors will be wrongly skipped over.\n\u003e \n\u003e I changed it to simply disable this feature, by only printing a message if the psuName is not found in the whitelist, and no longer skipping it over. This would lead to wrongly performing an erasure on an invalid iterator, though. So, I added an else-clause to this statement, preventing the erasure from being done in this case.\n\u003e \n\u003e As for determining if it\u0027s the right thing to do or not, that is quickly discovered during testing, when one sees if it works or doesn\u0027t work.\n\nLooking forward to seeing the rest of your testing then.  Individual sensor config changes need tested, ideally both with the removeNode API and something like IPMI to set the threshold.",
+      "parentUuid": "40314451_fc7b23d1",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 44
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b94cb0b_aeb9ff45",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08d41d5a_8c4c6deb",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T16:10:47Z",
+      "side": 1,
+      "message": "\u003e For a variety of reasons. It\u0027s much more reliable to enumerate a list of sensors yourself than it is to await incoming messages that identify each sensor.\n\nConsidering that dbus is assumed to be reliable (if it\u0027s not, the connections close) this statement wouldn\u0027t really seem to be true?\n\n\u003e1 There won\u0027t be 100% guarantee all newly created sensors generate a message.\n\nGiven the dbus spec says that it will happen, there is a guarantee.  We should not be designing around hypothetical unreliabilities.  If dbus is dropping messages, lots of things would be broken, not just this.  For example, the mapper relies on these same messages.\n\n\u003e It\u0027s the same reason you would want to poll a directory to enumerate all files instead of passively setting up an inotify() on the directory and expecting the filesystem to notify you about every new file.\n\nI\u0027m not sure I understand the point.  Both guarantee that you will see all changes to files, and inotify is far more efficient.  Also, the inotify pattern is used in OpenBMC today in other places to great effect in efficiency.  If we\u0027re arguing that these sensors should go back to polling, that\u0027s a very different discussion.",
+      "parentUuid": "bc93c850_bb66ae4f",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 59
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "fb46162b_655613b0",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T16:10:47Z",
+      "side": 1,
+      "message": "More than zero, and as often as a user chooses to via the \"set senor threshold\" IPMI command.  Please test this use case, and ensure that only the sensor that was changed is re-inited.",
+      "parentUuid": "facd6a59_f2a1683c",
+      "range": {
+        "startLine": 441,
+        "startChar": 0,
+        "endLine": 442,
+        "endChar": 56
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f67749c_e858c68a",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 1
@@ -187,6 +259,30 @@
       "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7b1ed40_42fbb325",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T16:10:47Z",
+      "side": 1,
+      "message": "\u003e As I said in the comments, I\u0027m willing to write a more complete excision of this feature, once the idea is settled. For now, though, I want it loud on purpose, to be able to see how many sensors it affects.\n\nSo long as we\u0027re on the same page that this won\u0027t be merged with the \"loud\" print statements, I think we\u0027re on the same page.",
+      "parentUuid": "21d8d1b2_af3de8c6",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 42
+      },
+      "revId": "4b9cce5b97514f6a52f33f3bc73e8a691dea9549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
