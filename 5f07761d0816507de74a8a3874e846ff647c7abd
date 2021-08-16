@@ -129,6 +129,24 @@
       "revId": "5f07761d0816507de74a8a3874e846ff647c7abd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01e93ffd_2560dfcf",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T22:09:34Z",
+      "side": 1,
+      "message": "I mean, this code is fine as-written.  If we want to de-clang-format this code in a new review, that would be fine too.",
+      "parentUuid": "34ef8abd_9fb5ee49",
+      "revId": "5f07761d0816507de74a8a3874e846ff647c7abd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
