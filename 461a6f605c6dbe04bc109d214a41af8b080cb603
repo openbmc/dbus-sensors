@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c44bf22b_a228b398",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-16T19:41:28Z",
+      "side": 1,
+      "message": "A dbus level test isn\u0027t really sufficient here, as this is very likely to break both IPMI and/or Redfish (both of which rely on these names).  I would expect we need to test each of those, and ensure that in Redfish, walking the tree isn\u0027t broken, and in IPMI, that the SDR generates properly.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 65
+      },
+      "revId": "461a6f605c6dbe04bc109d214a41af8b080cb603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
