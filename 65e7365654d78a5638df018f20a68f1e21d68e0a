@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cb889e79_cf67b034",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-17T21:06:16Z",
+      "side": 1,
+      "message": "Also don\u0027t most compilers do the multiplication at compile time so that is not done every time?\n(Unless debugging and all optimizations are off, and then often it seems like multiplication at compile time is still done.)",
+      "parentUuid": "4e11b008_9abae555",
+      "range": {
+        "startLine": 162,
+        "startChar": 33,
+        "endLine": 162,
+        "endChar": 53
+      },
+      "revId": "65e7365654d78a5638df018f20a68f1e21d68e0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4c64b70_61a1155b",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 29
