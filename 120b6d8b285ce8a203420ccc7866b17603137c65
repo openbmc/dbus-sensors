@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "b94467eb_b8432320",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-17T17:36:56Z",
+      "side": 1,
+      "message": "Yes, refactoring of dbus-sensor including Hwmon is would be useful, but\nEd T. has not seemed to ask for that presently.",
+      "parentUuid": "1f5356b9_f12ddd30",
+      "range": {
+        "startLine": 63,
+        "startChar": 5,
+        "endLine": 63,
+        "endChar": 18
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "534cce07_0b93b9aa",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 28
@@ -163,6 +187,30 @@
       "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba91af0f_b28fc5a7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-17T17:36:56Z",
+      "side": 1,
+      "message": "We are searching for 2 sensors per device for DPS310 and SI7020 type,\nthe existing devices only had 1 sensor per device.  Thus it is the\nequivalent functionality.",
+      "parentUuid": "534cce07_0b93b9aa",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 3
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -189,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "93516588_dbbb3abb",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-17T17:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcc21b38_4f062cee",
+      "range": {
+        "startLine": 90,
+        "startChar": 41,
+        "endLine": 90,
+        "endChar": 46
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc248a5e_001643fa",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 28
@@ -209,6 +281,30 @@
       "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c6d4871_55e22c1b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-17T17:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc248a5e_001643fa",
+      "range": {
+        "startLine": 149,
+        "startChar": 19,
+        "endLine": 149,
+        "endChar": 44
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -235,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "45396137_2716a51c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-17T17:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aa9c697_2a608783",
+      "range": {
+        "startLine": 152,
+        "startChar": 69,
+        "endLine": 152,
+        "endChar": 75
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03830d75_7ac6d9d9",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 28
@@ -255,6 +375,30 @@
       "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12a61093_9f187d03",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-17T17:36:56Z",
+      "side": 1,
+      "message": "_raw and therefore _offset and _scale",
+      "parentUuid": "03830d75_7ac6d9d9",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 32
+      },
+      "revId": "120b6d8b285ce8a203420ccc7866b17603137c65",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
