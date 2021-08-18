@@ -57,7 +57,8 @@ HwmonTempSensor::HwmonTempSensor(
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            maxReading, minReading, conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io),
+    sysfsReadWatchdog(io), path(path),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
 {
     sensorInterface = objectServer.add_interface(
@@ -104,6 +105,20 @@ void HwmonTempSensor::setupRead(void)
     }
 
     std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
+
+    // Monitor the read thread.
+    // If the read is not advancing for a long period of time, cancel it.
+    sysfsReadWatchdog.expires_from_now(
+        boost::posix_time::milliseconds(10 * sensorPollMs));
+    sysfsReadWatchdog.async_wait([weakRef](const boost::system::error_code& ec) {
+      if (ec == boost::asio::error::operation_aborted) {
+        return;
+      }
+      std::cerr << "hwmon read is not advancing, cancelling" << std::endl;
+      std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
+      self->inputDev.close();
+    });
+
     boost::asio::async_read_until(inputDev, readBuf, '\n',
                                   [weakRef](const boost::system::error_code& ec,
                                             std::size_t /*bytes_transfered*/) {
@@ -113,6 +128,7 @@ void HwmonTempSensor::setupRead(void)
                                       {
                                           self->handleResponse(ec);
                                       }
+                                      self->sysfsReadWatchdog.cancel();
                                   });
 }
 
