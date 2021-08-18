@@ -47,7 +47,6 @@ struct Sensor
         configurationPath(configurationPath), objectType(objectType),
         isSensorSettable(isSettable), maxValue(max), minValue(min),
         thresholds(std::move(thresholdData)),
-        hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState), errCount(0),
         instrumentation(enableInstrumentation
@@ -73,7 +72,6 @@ struct Sensor
     double rawValue = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
     bool internalSet = false;
-    double hysteresisTrigger;
     double hysteresisPublish;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
@@ -423,7 +421,7 @@ struct Sensor
         updateInstrumentation(newValue);
 
         // Always check thresholds after changing the value,
-        // as the test against hysteresisTrigger now takes place in
+        // as the test against the hysteresis now takes place in
         // the thresholds::checkThresholds() method,
         // which is called by checkThresholds() below,
         // in all current implementations of sensors that have thresholds.
