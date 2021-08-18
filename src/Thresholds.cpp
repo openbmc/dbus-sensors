@@ -100,6 +100,12 @@ bool parseThresholdsFromConfig(
             }
         }
 
+        auto hysteresisFind = item.second.find("Hysteresis");
+        if (hysteresisFind != item.second.end())
+        {
+            std::cerr << "Hysteresis supplied but not supported\n";
+        }
+
         auto directionFind = item.second.find("Direction");
         auto severityFind = item.second.find("Severity");
         auto valueFind = item.second.find("Value");
@@ -171,6 +177,12 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     {
                         return;
                     }
+                }
+
+                auto hysteresisFind = result.find("Hysteresis");
+                if (hysteresisFind != result.end())
+                {
+                    std::cerr << "Hysteresis supplied but not supported\n";
                 }
 
                 auto directionFind = result.find("Direction");
