@@ -28,6 +28,7 @@ class HwmonTempSensor :
     sdbusplus::asio::object_server& objServer;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
+    boost::asio::deadline_timer sysfsReadWatchdog;
     boost::asio::streambuf readBuf;
     std::string path;
     unsigned int sensorPollMs;
