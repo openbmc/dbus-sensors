@@ -178,6 +178,37 @@ if get_option('psu').enabled()
     )
 endif
 
+# boost dependency
+boost_dep = dependency('boost')
+# libgpiod dependency
+libgpiod = dependency('libgpiod')
+boost_cpp_args = [
+  '-DBOOST_ASIO_DISABLE_THREADS',
+  '-DBOOST_ALL_NO_LIB',
+  '-DBOOST_COROUTINES_NO_DEPRECATION_WARNING',
+  '-DBOOST_ERROR_CODE_HEADER_ONLY',
+  '-DBOOST_NO_RTTI',
+  '-DBOOST_NO_TYPEID',
+  '-DBOOST_SYSTEM_NO_DEPRECATED',
+  '-DBOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT',
+]
+if get_option('gpiosensor').enabled()
+    executable(
+        'gpiosensor',
+        'GPIOCableSensor.cpp',
+        'GPIOCableSensorMain.cpp',
+        dependencies: [
+            sdbusplus,
+            boost_dep,
+            libgpiod
+        ],
+        cpp_args: boost_cpp_args,
+        implicit_include_directories: false,
+        include_directories: '../include',
+        install: true
+    )
+endif
+
 if get_option('external').enabled()
     executable(
         'externalsensor',
