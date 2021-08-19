@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f18b37d_b4a9f1ae",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-19T23:52:24Z",
+      "side": 1,
+      "message": "If this fails, the read call below will happen on an invalid FD, so it will return EBADF below. Is the intention to retry every timer tick, until that file is ready again? If so, might want to catch EBADF as well as ENODEV. Or, is the intention to retry only once and then give up?\n\nAlso, if retrying every timer tick, it might generate a large amount of logging text if the device has been removed and not quickly replaced.",
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c46ec7a_cf5ceaaf",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-19T23:52:24Z",
+      "side": 1,
+      "message": "I am concerned about doing the read immediately after the reopen. This bypasses the flow of ASIO, which is to typically wait for an asynchronous event, to be sure the read buffer has content in it, and then to do the read. Otherwise, this risks blocking on the read call.\n\nIt might be preferable to do the reopen immediately after the close, instead of doing the reopen immediately before the read.",
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
