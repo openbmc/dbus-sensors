@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65a07381_e8bda332",
+        "filename": "include/PSUEvent.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-19T23:40:28Z",
+      "side": 1,
+      "message": "The type std::vector\u003cstd::pair\u003cstd::string, std::string\u003e\u003e seems to be often repeated throughout this patch. It\u0027s a lot of typing, too. Suggest making this a typedef or a trivial struct/class?",
+      "revId": "96f36861e7541096e30e4fdf5860cbeb2d8e1ae6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cebc779_62bb3717",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-08-19T23:40:28Z",
+      "side": 1,
+      "message": "Does this need to be static? The other constants nearby are not static.",
+      "revId": "96f36861e7541096e30e4fdf5860cbeb2d8e1ae6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
