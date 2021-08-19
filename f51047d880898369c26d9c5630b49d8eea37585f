@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f376688d_da050419",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-19T17:43:31Z",
+      "side": 1,
+      "message": "A one sentence description is rarely enough detail for a commit message.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9f59065_7118c3ee",
+        "filename": "include/PSUEvent.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-19T17:43:31Z",
+      "side": 1,
+      "message": "I\u0027m having trouble following why this new path is needed, or what it\u0027s supposed to point to.  Maybe we need a better variable name?",
+      "range": {
+        "startLine": 34,
+        "startChar": 60,
+        "endLine": 34,
+        "endChar": 70
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60d67f44_1d990f5b",
+        "filename": "include/PSUEvent.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-19T17:43:31Z",
+      "side": 1,
+      "message": "This worries me a little bit;  I suspect there\u0027s a better map data structure we can be using here, but without seeing the details of what the new parameter is, I\u0027m having trouble rendering an option.  Could you take another look and see if this can be optimized?\n\nAt a minimum, the use of pair here seems like it obfuscates some variable names that would help make this simpler, but I suspect that the two paths are somehow parents/children of one another?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3cb1159_f10550db",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-19T17:43:31Z",
+      "side": 1,
+      "message": "This whole method is effectively matching on \"Name\" which shouldn\u0027t be done as a rule.  We should be matching on severity.",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 27
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84ef849f_f21a092d",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-19T17:43:31Z",
+      "side": 1,
+      "message": "no error logging needed here?",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 19
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59f20c21_5fd0610e",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-19T17:43:31Z",
+      "side": 1,
+      "message": "This looks incorrect.  Please verify with phosphor-dbus-interfaces.  What you\u0027ve put here looks like a well known name, when this method takes an interface name.",
+      "range": {
+        "startLine": 319,
+        "startChar": 44,
+        "endLine": 319,
+        "endChar": 76
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "964d6d00_ba1c7609",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-19T17:43:31Z",
+      "side": 1,
+      "message": "I don\u0027t see a call to register_signal for this.  missing?",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 29
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537478fe_afbfe691",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-19T17:43:31Z",
+      "side": 1,
+      "message": "We should delcare this in one of the common headers.  This isn\u0027t specific to PSU sensor.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 80
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
