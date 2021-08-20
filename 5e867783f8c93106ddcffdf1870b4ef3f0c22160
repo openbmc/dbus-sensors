@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ebc83dc_c2a40ea7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-20T23:23:11Z",
+      "side": 1,
+      "message": "d+? same as below",
+      "range": {
+        "startLine": 80,
+        "startChar": 39,
+        "endLine": 80,
+        "endChar": 41
+      },
+      "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "483d43c7_597a94eb",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-20T23:23:11Z",
+      "side": 1,
+      "message": "nit: use constexpr for the default scale and value",
+      "range": {
+        "startLine": 147,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 17
+      },
+      "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
