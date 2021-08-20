@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51ac940c_42292ce0",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-20T20:30:40Z",
+      "side": 1,
+      "message": "+1 avoid flooding journal log.\nAlso should not go continue to read at line 188+",
+      "parentUuid": "7f18b37d_b4a9f1ae",
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c46ec7a_cf5ceaaf",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2021-08-19T23:52:24Z",
       "side": 1,
       "message": "I am concerned about doing the read immediately after the reopen. This bypasses the flow of ASIO, which is to typically wait for an asynchronous event, to be sure the read buffer has content in it, and then to do the read. Otherwise, this risks blocking on the read call.\n\nIt might be preferable to do the reopen immediately after the close, instead of doing the reopen immediately before the read.",
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "649c81ca_bbae14b4",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-20T20:30:40Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6c46ec7a_cf5ceaaf",
       "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
