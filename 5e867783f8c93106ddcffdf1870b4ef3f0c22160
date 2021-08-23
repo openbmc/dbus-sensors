@@ -213,6 +213,30 @@
       "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "110d63ac_c6ea274b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-08-23T16:22:05Z",
+      "side": 1,
+      "message": "IMO - this documents the intend and usage of default values:\nAdd after line 40:\n  static constexpr double offsetDefault \u003d 0.0;\n  static constexpr double scaleDefault \u003d 1.0;\n\nAnd change here:\n double offsetValue \u003d offsetDefault;\n double scaleValue \u003d scaleDefault;",
+      "parentUuid": "4ff5adca_7798cd2c",
+      "range": {
+        "startLine": 147,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 17
+      },
+      "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
