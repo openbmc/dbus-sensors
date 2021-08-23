@@ -81,6 +81,30 @@
       "revId": "f8d3185ff7cd79bc0feb3f9f107eb2c1b5616a0f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51bae020_7547c962",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T18:41:36Z",
+      "side": 1,
+      "message": "Ed, if you prefer I can abandon this Gerrit review and not have this change in\n45406: DPS310 temperature pressure, SI7020 temperature\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/45406\n\nIt doesn\u0027t bother me either way.\n\n-- \nBruce",
+      "parentUuid": "17ef61c4_053fd3c6",
+      "range": {
+        "startLine": 200,
+        "startChar": 28,
+        "endLine": 200,
+        "endChar": 33
+      },
+      "revId": "f8d3185ff7cd79bc0feb3f9f107eb2c1b5616a0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
