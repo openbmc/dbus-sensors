@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1de67423_1155cc3b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-23T18:22:49Z",
+      "side": 1,
+      "message": "nit prefer to call continue here, and avoid the else on line 198 pushing to another scope",
+      "revId": "f8d3185ff7cd79bc0feb3f9f107eb2c1b5616a0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9765a87c_59053d29",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-23T18:22:49Z",
+      "side": 1,
+      "message": "ok, looking at this now on it\u0027s own, it\u0027s clear why we didn\u0027t do this in the first place.  In the only condition where \"it\" is invalidated, we also exit the loop, thus invalidating \"it\" via the scope anyway, so its invalidation when we call erase doesn\u0027t matter.\n\nI guess this code is kind of better?  but functionally it\u0027s the same.",
+      "range": {
+        "startLine": 200,
+        "startChar": 28,
+        "endLine": 200,
+        "endChar": 33
+      },
+      "revId": "f8d3185ff7cd79bc0feb3f9f107eb2c1b5616a0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
