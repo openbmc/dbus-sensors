@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a3e5487d_4aadb420",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T22:41:35Z",
+      "side": 1,
+      "message": "Hi Ed,\n\nHere is what pathStr has for values on an Everest without a SI7020 type device installed.\n    pathStr \u003d /sys/bus/iio/devices/iio:device0/in_temp_input\n    pathStr \u003d /sys/bus/iio/devices/iio:device0/in_pressure_input\n\nI do not believe that starts_with or ends_with will work here.\nWhat search would you recommend?\n\nThanks!\n\n-- \nBruce",
+      "parentUuid": "3e4f11ea_46d16ead",
+      "range": {
+        "startLine": 151,
+        "startChar": 34,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d62c5f9d_8cf1b166",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
