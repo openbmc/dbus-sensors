@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "da5941f1_f930d9ea",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-23T17:58:11Z",
+      "side": 1,
+      "message": "sure, let me know when you\u0027re onto the next \"step\" in your refinement, but duplicating linux kernel offsets and scales here doesn\u0027t seem right, and isn\u0027t in line with the interface we\u0027re reading in, regardless of whether this is the only sensor that uses it at the moment.",
+      "parentUuid": "1425b90d_d963fd95",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 54
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c0e9958_f4cc0917",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
