@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "a5beeeec_59c77f28",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T23:12:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d495bf08_f286a69c",
+      "range": {
+        "startLine": 151,
+        "startChar": 34,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d62c5f9d_8cf1b166",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
@@ -402,6 +426,30 @@
       "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63eb9613_89217284",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T23:12:45Z",
+      "side": 1,
+      "message": "And this handles devices that have pressure sensors, such as the DPS310.",
+      "parentUuid": "8b779685_89f3e074",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 49
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
