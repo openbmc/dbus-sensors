@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7f9f1ad_1f05e192",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T13:42:37Z",
+      "side": 1,
+      "message": "What is the question?\nWhat is d+?",
+      "parentUuid": "3ebc83dc_c2a40ea7",
+      "range": {
+        "startLine": 80,
+        "startChar": 39,
+        "endLine": 80,
+        "endChar": 41
+      },
+      "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "483d43c7_597a94eb",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 34
@@ -45,6 +69,30 @@
       "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1005e2_c7599557",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T13:42:37Z",
+      "side": 1,
+      "message": "They will be read from the driver in the future, thus the reason the are variables.",
+      "parentUuid": "483d43c7_597a94eb",
+      "range": {
+        "startLine": 147,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 17
+      },
+      "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
