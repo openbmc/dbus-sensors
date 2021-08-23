@@ -404,6 +404,30 @@
     },
     {
       "key": {
+        "uuid": "32c6d48b_97dc5e11",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T22:45:03Z",
+      "side": 1,
+      "message": "This commit separates that change out so it is not part of adding iio support.\n46124: Corrects bug in using boost::container erase()\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/46124",
+      "parentUuid": "eb9978e7_275a35ae",
+      "range": {
+        "startLine": 253,
+        "startChar": 28,
+        "endLine": 253,
+        "endChar": 59
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7363a8c_533a8d4f",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
