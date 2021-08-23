@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "614ee073_8b7b24a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-23T09:52:13Z",
+      "side": 1,
+      "message": "As my understanding, the entity-manager will probe the device base on the FRU info which it got from Fru EEPROM in that device. Our Altras don\u0027t have Fru only the chassis have Fru EEPROM.\n\nWhen Bmc boots up with the host is off, the Altra drivers were not bind, they are probed but no sensor paths are created.\nThe drivers only are binded when the Altra chip are already On which identify by the CurrentHostState. At this moment, the sensor paths are available. The AmperCPUSensor daemon has to rescan the sensors.",
+      "parentUuid": "d440efb6_3f09eebf",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed786f5c_d39ae740",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2021-08-06T18:09:20Z",
       "side": 1,
       "message": "This seems like a problem for dbus interfaces.  Unless there\u0027s runtime data needed to make the sensors (which I don\u0027t see in this daemons current form) we should be creating the interfaces at all times.",
+      "range": {
+        "startLine": 11,
+        "startChar": 62,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e8386f3_0364f233",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-23T09:52:13Z",
+      "side": 1,
+      "message": "I don\u0027t see any problem with the dbus interface here, the sensors interfaces are not created because the sensor paths are not available.",
+      "parentUuid": "ed786f5c_d39ae740",
       "range": {
         "startLine": 11,
         "startChar": 62,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d23cf8cc_e26c97cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-23T09:52:13Z",
+      "side": 1,
+      "message": "We knew the path, but at the first scan when BMC boot up with the host is off, the path is not available because the Altra driver is not binded.\nOne more case, in 2P system, when the host boots up with only 1 CPU, the second CPU is failed to boot. Only one sensor path is created. In this case only one driver is binded. At the next boot, 2 CPU boot normally, then there are 2 Altra drivers, one for CPU1 and one for CPU2.",
+      "parentUuid": "2d1a12ed_ad47386e",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd8454a7_70e56f7e",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "33b28eff_62eb5740",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-23T09:52:13Z",
+      "side": 1,
+      "message": "Yes, I\u0027m updating code.",
+      "parentUuid": "dd8454a7_70e56f7e",
+      "range": {
+        "startLine": 782,
+        "startChar": 22,
+        "endLine": 782,
+        "endChar": 38
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "457995a0_77275135",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2021-08-06T18:09:20Z",
       "side": 1,
       "message": "This block doesn\u0027t track for me.  We should not be rearming the filter timer, and shouldn\u0027t be re-calling createSensors, which will create sensors every time the host boots, instead of only the first time.\n\nI suspect this needs an abstraction to create the sensors at all times, but only read them when the host is on, like the other sensors in this space do.",
+      "range": {
+        "startLine": 790,
+        "startChar": 0,
+        "endLine": 801,
+        "endChar": 15
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32b53a5a_15405149",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-08-23T09:52:13Z",
+      "side": 1,
+      "message": "Because there are no sensor paths until the host is on and the CPU drivers are binded. So we need rescan the host sensors each the boot time of host.\nThe number of the CPU drivers can be difference between the boot time and the number of sensors in the driver can be different too. It is depend on the number of device is plugged in CPU peripheral interfaces.\n\nAbout the filter timer, I will check it.",
+      "parentUuid": "457995a0_77275135",
       "range": {
         "startLine": 790,
         "startChar": 0,
