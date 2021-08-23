@@ -189,6 +189,30 @@
       "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ff5adca_7798cd2c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T16:02:24Z",
+      "side": 1,
+      "message": "Undone because build fails as follows.\n\nFAILED: src/hwmontempsensor.p/HwmonTempMain.cpp.o \nc++ -Isrc/hwmontempsensor.p -Iinclude -I../include -I/usr/local/include -fdiagnostics-color\u003dnever -D_FILE_OFFSET_BITS\u003d64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std\u003dc++20 -g -DBOOST_NO_RTTI -DBOOST_NO_TYPEID -DBOOST_ALLOW_DEPRECATED_HEADERS -DBOOST_ASIO_DISABLE_THREADS -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_NO_DEPRECATED -DBOOST_ERROR_CODE_HEADER_ONLY -DBOOST_COROUTINES_NO_DEPRECATION_WARNING -MD -MQ src/hwmontempsensor.p/HwmonTempMain.cpp.o -MF src/hwmontempsensor.p/HwmonTempMain.cpp.o.d -o src/hwmontempsensor.p/HwmonTempMain.cpp.o -c ../src/HwmonTempMain.cpp\n../src/HwmonTempMain.cpp: In lambda function:\n../src/HwmonTempMain.cpp:154:32: error: assignment of read-only variable ‘scaleValue’\n  154 |                     scaleValue \u003d 1000.0;\n      |                     ~~~~~~~~~~~^~~~~~~~\n../src/HwmonTempMain.cpp:171:33: error: assignment of read-only variable ‘offsetValue’\n  171 |                     offsetValue \u003d -4368.0;\n      |                     ~~~~~~~~~~~~^~~~~~~~~\n../src/HwmonTempMain.cpp:172:32: error: assignment of read-only variable ‘scaleValue’\n  172 |                     scaleValue \u003d 10.725097656 * 0.001;\n      |                     ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~",
+      "parentUuid": "bec5e8c7_7ac534cc",
+      "range": {
+        "startLine": 147,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 17
+      },
+      "revId": "5e867783f8c93106ddcffdf1870b4ef3f0c22160",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
