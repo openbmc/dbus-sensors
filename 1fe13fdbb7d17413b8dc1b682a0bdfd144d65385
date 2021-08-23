@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3e4f11ea_46d16ead",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T16:59:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ef430a6a_ff23ea95",
+      "range": {
+        "startLine": 151,
+        "startChar": 34,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d62c5f9d_8cf1b166",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f9a98e17_a9970dad",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T16:59:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d62c5f9d_8cf1b166",
+      "range": {
+        "startLine": 160,
+        "startChar": 28,
+        "endLine": 160,
+        "endChar": 32
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "802ce4d1_c41af970",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
@@ -106,6 +154,30 @@
       "writtenOn": "2021-08-23T16:48:44Z",
       "side": 1,
       "message": "This seems like it would be wrong for 99% of devices.  These are just the values that your device uses, which is probably something we shouldn\u0027t merge yet.  Maybe along with another commit?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 54
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1425b90d_d963fd95",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T16:59:49Z",
+      "side": 1,
+      "message": "Presently there is only the SI7020 type in the list that is using this.\nI am trying for stepwise refinement here, instead of solving everything at once.",
+      "parentUuid": "802ce4d1_c41af970",
       "range": {
         "startLine": 162,
         "startChar": 0,
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "fd53d7a5_e581dcb8",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T16:59:49Z",
+      "side": 1,
+      "message": "I\u0027ll investigate.",
+      "parentUuid": "2c0e9958_f4cc0917",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 49
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24c84496_1f8ec4ab",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
@@ -161,6 +257,30 @@
       "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b180eab_f35a2988",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T16:59:49Z",
+      "side": 1,
+      "message": "Due to the change requested by Shawn about changing from a for loop to a while loop\nSee here:\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/43410/70/src/IIOMain.cpp#201",
+      "parentUuid": "24c84496_1f8ec4ab",
+      "range": {
+        "startLine": 253,
+        "startChar": 28,
+        "endLine": 253,
+        "endChar": 59
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -187,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "fa471f69_c67b921b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T16:59:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a7363a8c_533a8d4f",
+      "range": {
+        "startLine": 299,
+        "startChar": 28,
+        "endLine": 299,
+        "endChar": 32
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7642581_f03b84be",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
@@ -207,6 +351,30 @@
       "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474dde6a_8cac17e1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-23T16:59:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b7642581_f03b84be",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 40
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
