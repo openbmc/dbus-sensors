@@ -188,16 +188,20 @@ void createSensors(
                 if (!firstScan && findSensor != sensors.end())
                 {
                     bool found = false;
-                    for (auto it = sensorsChanged->begin();
-                         it != sensorsChanged->end(); it++)
+                    auto it = sensorsChanged->begin();
+                    while (it != sensorsChanged->end())
                     {
-                        if (boost::ends_with(*it, findSensor->second->name))
+                        if (!boost::ends_with(*it, findSensor->second->name))
                         {
-                            sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
-                            found = true;
-                            break;
+                            ++it;
                         }
+                        else
+                            {
+                                it = sensorsChanged->erase(it);
+                                findSensor->second = nullptr;
+                                found = true;
+                                break;
+                            }
                     }
                     if (!found)
                     {
