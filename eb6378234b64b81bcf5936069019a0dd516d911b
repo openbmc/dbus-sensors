@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3029003_9e863642",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-08-24T00:11:17Z",
+      "side": 1,
+      "message": "yeah, so this is in a \"debug\" context. That is hardware engineers perform voltage margining by unbinding a driver, using iotools to modify pmbus registers and then rebind the drivers and expect the sensors to report sensible values.\n\nWe initially just told the HW engineers to restart the service but their margining operations would adjust the voltage many times across several devices.. waiting seconds for the service to restart and become available ended up drastically increasing the test time.",
+      "parentUuid": "7b6a963c_c3a126a9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9bd5b39_231cefd6",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 6
