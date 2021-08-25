@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "b7d614af_6c658d3e",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T16:43:45Z",
+      "side": 1,
+      "message": "I guess that comes down to where we can get that severity information.\n\nThey are created from \n\n```\nlimitEventMatch \u003d {{\"PredictiveFailure\", {\"max_alarm\", \"min_alarm\"}},\n                       {\"Failure\", {\"crit_alarm\", \"lcrit_alarm\"}}}\n```\n\nwhich get turn into the Name. I have to see where else contain that information.",
+      "parentUuid": "b3cb1159_f10550db",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 27
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "84ef849f_f21a092d",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 4
@@ -186,6 +210,30 @@
       "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb7607c_b793ab12",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T16:43:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6ae00eb_f32eebf4",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 19
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -327,6 +375,30 @@
       "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af527501_0304da8d",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T16:43:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee9b6995_26ccb83b",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 80
+      },
+      "revId": "f51047d880898369c26d9c5630b49d8eea37585f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
