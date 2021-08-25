@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "478ee4ca_9897f7fe",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T17:03:18Z",
+      "side": 1,
+      "message": "shouldn\u0027t the name space be in lower case only?",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "65340a893985b21c925310b08a02d74019a36d3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2da8fca4_d16e9c0a",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T17:03:18Z",
+      "side": 1,
+      "message": "just activeLow here is fine.",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 20
+      },
+      "revId": "65340a893985b21c925310b08a02d74019a36d3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5cdd320_5e4dce2e",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T17:03:18Z",
+      "side": 1,
+      "message": "const std::string\u0026",
+      "range": {
+        "startLine": 62,
+        "startChar": 29,
+        "endLine": 62,
+        "endChar": 40
+      },
+      "revId": "65340a893985b21c925310b08a02d74019a36d3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "791a0c70_844a4f1d",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T17:03:18Z",
+      "side": 1,
+      "message": "Does this have to be defined in here? Move to main?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "65340a893985b21c925310b08a02d74019a36d3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40d3e2c3_d2feea1d",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T17:03:18Z",
+      "side": 1,
+      "message": "rm",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "65340a893985b21c925310b08a02d74019a36d3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21dd5994_b9dd3bc3",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2021-08-25T17:03:18Z",
+      "side": 1,
+      "message": "just pass in io in here instead of making it global?",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 22
+      },
+      "revId": "65340a893985b21c925310b08a02d74019a36d3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
