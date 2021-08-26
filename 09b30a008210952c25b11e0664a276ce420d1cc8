@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "01581b07_4e962aec",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T19:16:57Z",
+      "side": 1,
+      "message": "Please prefer constexpr to #defines.  Also, it\u0027s a little surprising we didn\u0027t have this already.  Can you do the same thing we already had in the existing read() calls?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfe029e3_ab56b270",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T19:16:57Z",
+      "side": 1,
+      "message": "This protype has no way of handling failures.  I suspect you\u0027ll want to return a std::optional\u003cdouble\u003e in this case?",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 78
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "353ef25e_2263772d",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T19:16:57Z",
+      "side": 1,
+      "message": "Declare your variables where they\u0027re used as the rest of this file does please.\n\n\nAs I\u0027m reading this code, it looks like you took a C example, and compiled it as c++.  Can you please look through and rewrite this routine in modern C++?\n\nSome general rules:\nconst std::string\u0026 or std::string_view are preferred to const char*\nstd::array is prefered to c style arrays.\n\niostreams is preferred over FILE*.\n\nOnce this has been moved to c++ following the style of this codebase, we can re-review to clean up the rest, but as-written, I was spending too much time commenting on things that all matched the common theme of \"this is C++17 not C11\"",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aeedbbc8_6ebefd20",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
@@ -41,6 +110,98 @@
         "startChar": 45,
         "endLine": 149,
         "endChar": 52
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90f351bd_7277fa8c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T19:16:57Z",
+      "side": 1,
+      "message": "nit, \"In case\"",
+      "range": {
+        "startLine": 252,
+        "startChar": 23,
+        "endLine": 252,
+        "endChar": 29
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79460197_3b36e5a3",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T19:16:57Z",
+      "side": 1,
+      "message": "I suspect this should be path.filename() \u003d\u003d  Same with the below comparison.",
+      "range": {
+        "startLine": 271,
+        "startChar": 21,
+        "endLine": 271,
+        "endChar": 44
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e712868_50c7d488",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T19:16:57Z",
+      "side": 1,
+      "message": "same comment as last patch;  Why is \"pressure\" special here.  can we reuse the existing NameN code like we already do for tmp421s?",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 17
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5c20031_8a02faaa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T19:16:57Z",
+      "side": 1,
+      "message": "Considering these two paths are 99% the same code, can we deduplicate at least the construction of the HwmonTempSensor instance?  It looks like there\u0027s only 1 variable name difference between the two instantiations",
+      "range": {
+        "startLine": 411,
+        "startChar": 0,
+        "endLine": 430,
+        "endChar": 65
       },
       "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
