@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c2849fea_5ad17d1d",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-26T19:37:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "01581b07_4e962aec",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfe029e3_ab56b270",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8fc513a7_dfc276cc",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-26T19:37:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cfe029e3_ab56b270",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 78
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "353ef25e_2263772d",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
@@ -59,6 +107,30 @@
       "writtenOn": "2021-08-26T19:16:57Z",
       "side": 1,
       "message": "Declare your variables where they\u0027re used as the rest of this file does please.\n\n\nAs I\u0027m reading this code, it looks like you took a C example, and compiled it as c++.  Can you please look through and rewrite this routine in modern C++?\n\nSome general rules:\nconst std::string\u0026 or std::string_view are preferred to const char*\nstd::array is prefered to c style arrays.\n\niostreams is preferred over FILE*.\n\nOnce this has been moved to c++ following the style of this codebase, we can re-review to clean up the rest, but as-written, I was spending too much time commenting on things that all matched the common theme of \"this is C++17 not C11\"",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d5a80a_3dbb6b5e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-26T19:37:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "353ef25e_2263772d",
       "range": {
         "startLine": 75,
         "startChar": 0,
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "51d2e155_8b2c8265",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-26T19:37:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "90f351bd_7277fa8c",
+      "range": {
+        "startLine": 252,
+        "startChar": 23,
+        "endLine": 252,
+        "endChar": 29
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79460197_3b36e5a3",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
@@ -151,6 +247,30 @@
       "writtenOn": "2021-08-26T19:16:57Z",
       "side": 1,
       "message": "I suspect this should be path.filename() \u003d\u003d  Same with the below comparison.",
+      "range": {
+        "startLine": 271,
+        "startChar": 21,
+        "endLine": 271,
+        "endChar": 44
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b0deaae_ff5c54b5",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-26T19:37:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "79460197_3b36e5a3",
       "range": {
         "startLine": 271,
         "startChar": 21,
@@ -186,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "88e0ddc0_3e1a7e8f",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-26T19:37:44Z",
+      "side": 1,
+      "message": "Due to the entity-manager \"Exposes\", I have 2 different sensors on 1 device.\n\ncat Blyth.json\n{\n    \"Exposes\": [\n        {\n            \"Address\": \"0x40\",\n            \"Bus\": 7,\n            \"Name\": \"Ambient 2 Temp\",\n            \"Type\": \"SI7020\"\n        },\n        {\n            \"Address\": \"0x48\",\n            \"Bus\": 7,\n            \"Name\": \"Ambient 0 Temp\",\n            \"Type\": \"TMP75\"\n        },\n        {\n            \"Address\": \"0x76\",\n            \"Bus\": 7,\n            \"Name\": \"Ambient 1 Temp\",\n            \"Name1\": \"Station Pressure\",\n            \"Type\": \"DPS310\"\n        }\n    ],\n    \"Name\": \"Blyth Panel\",\n    \"Probe\": \"com.ibm.ipzvpd.VINI({\u0027CC\u0027: [54, 66, 56, 53]})\",\n    \"Type\": \"Board\"\n}",
+      "parentUuid": "4e712868_50c7d488",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 17
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f5c20031_8a02faaa",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
@@ -197,6 +341,30 @@
       "writtenOn": "2021-08-26T19:16:57Z",
       "side": 1,
       "message": "Considering these two paths are 99% the same code, can we deduplicate at least the construction of the HwmonTempSensor instance?  It looks like there\u0027s only 1 variable name difference between the two instantiations",
+      "range": {
+        "startLine": 411,
+        "startChar": 0,
+        "endLine": 430,
+        "endChar": 65
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff5b6d2_3f2eef2a",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-26T19:37:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f5c20031_8a02faaa",
       "range": {
         "startLine": 411,
         "startChar": 0,
