@@ -330,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "583850e3_014d0048",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T19:47:43Z",
+      "side": 1,
+      "message": "Right, that\u0027s the same as a TMP421, which is not a pressure sensor, but has a Name1 component that\u0027s handled later in the code.",
+      "parentUuid": "88e0ddc0_3e1a7e8f",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 17
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f5c20031_8a02faaa",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
