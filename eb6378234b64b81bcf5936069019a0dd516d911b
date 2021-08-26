@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "607e1741_be83ad32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-26T15:55:23Z",
+      "side": 1,
+      "message": "\u003e yeah, so this is in a \"debug\" context. That is hardware engineers perform voltage margining by unbinding a driver, using iotools to modify pmbus registers and then rebind the drivers and expect the sensors to report sensible values.\n\u003e \n\u003e We initially just told the HW engineers to restart the service but their margining operations would adjust the voltage many times across several devices.. waiting seconds for the service to restart and become available ended up drastically increasing the test time.\n\nAll of this detail would be great to have in the commit message, and explains a lot better what you\u0027re trying to accomplish;  It\u0027d be good to better understand what exactly is taking seconds.  I would\u0027ve expected the tests to run, then at the end, the sensor subsystem restarts once.  Lets get a next level of detail added here, and we can go from there.",
+      "parentUuid": "a3029003_9e863642",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9bd5b39_231cefd6",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 6
