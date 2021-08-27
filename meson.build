@@ -67,6 +67,7 @@ threads = dependency('threads')
 
 default_deps = [
     nlohmann_json,
+    phosphor_logging_dep,
     sdbusplus,
 ]
 
