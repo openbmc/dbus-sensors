@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e253357_cbfad99f",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "still can\u0027t return errors.",
+      "range": {
+        "startLine": 71,
+        "startChar": 7,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0bd1b7e_57786d3e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "declare your variables near where they\u0027re used.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 36
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a08a4e13_e76dde30",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "You don\u0027t need to check for access, just access it.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 0
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f033d7b0_b9b1c464",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "No need to do this explicitly.  let raii deal with it.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 22
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25909d03_adcd9e99",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "no need to set this explicitly to what\u0027s already the default value.",
+      "range": {
+        "startLine": 99,
+        "startChar": 42,
+        "endLine": 99,
+        "endChar": 49
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc0774aa_22f617f9",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "You construct this on the line previous, if it\u0027s needed, just use \u003d on the construction.",
+      "range": {
+        "startLine": 200,
+        "startChar": 20,
+        "endLine": 200,
+        "endChar": 50
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6252d6d1_29d37526",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "If the path ends with _raw, you know where raw occurs in the string.  There\u0027s no need to re-search for it, just clip off the end of the sting.",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 26
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e64c847a_55330e2a",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "This seems like the wrong way to fail.  If we have a raw value that we can\u0027t scale, we probably shouldn\u0027t put it on dbus at all?",
+      "range": {
+        "startLine": 208,
+        "startChar": 20,
+        "endLine": 208,
+        "endChar": 75
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69501948_1223b731",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "this is the exact same search done on line 201.  Same comment applies, you already know where \"_raw\" is in this context.",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 79
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}

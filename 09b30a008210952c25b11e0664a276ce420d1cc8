@@ -546,6 +546,30 @@
     },
     {
       "key": {
+        "uuid": "10c00b39_a140efb9",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "Probably time to break out GDB?  I don\u0027t see anything obvious that would be causing them.",
+      "parentUuid": "52b5ed60_5e7d991f",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 17
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f5c20031_8a02faaa",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
@@ -605,6 +629,30 @@
       "side": 1,
       "message": "/usr/bin/hwmontempsensor faults and fails when I try to remove the duplicate code.\nIf you have detailed suggestions I would appreciate it.",
       "parentUuid": "bff5b6d2_3f2eef2a",
+      "range": {
+        "startLine": 411,
+        "startChar": 0,
+        "endLine": 430,
+        "endChar": 65
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8cc2826_9767f983",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-27T23:34:01Z",
+      "side": 1,
+      "message": "man gdb.  I don\u0027t see anything obvious, and there\u0027s no weird lifetime issues in this context.  You\u0027ll need to capture more information on where it\u0027s crashing.",
+      "parentUuid": "2d93a979_fce962ba",
       "range": {
         "startLine": 411,
         "startChar": 0,
