@@ -14,13 +14,12 @@
 // limitations under the License.
 */
 
-#include <systemd/sd-journal.h>
-
 #include <ChassisIntrusionSensor.hpp>
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/asio/sd_event.hpp>
@@ -310,18 +309,15 @@ static void processLanStatusChange(sdbusplus::message::message& message)
     if (oldLanConnected != newLanConnected)
     {
         std::string strEthNum = "eth" + std::to_string(ethNum) + lanInfo;
-        std::string strEvent = strEthNum + " LAN leash " +
-                               (newLanConnected ? "connected" : "lost");
-        std::string strMsgId =
+        std::string strState = (newLanConnected ? "connected" : "lost");
+        auto strMsgId =
             newLanConnected ? "OpenBMC.0.1.LanRegained" : "OpenBMC.0.1.LanLost";
-        sd_journal_send("MESSAGE=%s", strEvent.c_str(), "PRIORITY=%i", LOG_INFO,
-                        "REDFISH_MESSAGE_ID=%s", strMsgId.c_str(),
-                        "REDFISH_MESSAGE_ARGS=%s", strEthNum.c_str(), NULL);
+
+        lg2::info("{ETHDEV} LAN leash {STATE}", "ETHDEV", strEthNum, "STATE",
+                  strState, "REDFISH_MESSAGE_ID", strMsgId,
+                  "REDFISH_MESSAGE_ARGS", strEthNum);
+
         lanStatusMap[ethNum] = newLanConnected;
-        if (debugLanLeash)
-        {
-            std::cout << "log redfish event: " << strEvent << "\n";
-        }
     }
 }
 
