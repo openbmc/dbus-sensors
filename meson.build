@@ -42,6 +42,11 @@ sdbusplus = dependency(
     ],
 )
 
+phosphor_logging_dep = dependency(
+    'phosphor-logging',
+    fallback: ['phosphor-logging', 'phosphor_logging_dep'],
+)
+
 if cpp.has_header('nlohmann/json.hpp')
     nlohmann_json = declare_dependency()
 else
