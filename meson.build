@@ -23,7 +23,11 @@ add_project_arguments(
 )
 
 build_tests = get_option('tests')
-gpiodcxx = dependency('libgpiodcxx')
+gpiodcxx = dependency(
+    'libgpiodcxx',
+    fallback: ['libgpiod', 'gpiodcxx_dep'],
+    default_options: ['bindings=cxx'],
+)
 
 # i2c-tools doesn't ship a pkg-config file for libi2c
 i2c = meson.get_compiler('cpp').find_library('i2c')
