@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7765053_0f7ca093",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 71
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-27T21:09:43Z",
+      "side": 1,
+      "message": "nit: not sensorCompFilename now it is path",
+      "range": {
+        "startLine": 75,
+        "startChar": 27,
+        "endLine": 75,
+        "endChar": 45
+      },
+      "revId": "78860cef5545f87698a8f521aa5d9c9c5133c458",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
