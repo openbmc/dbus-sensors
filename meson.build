@@ -22,6 +22,8 @@ add_project_arguments(
     language: 'cpp',
 )
 
+cpp = meson.get_compiler('cpp')
+
 build_tests = get_option('tests')
 gpiodcxx = dependency(
     'libgpiodcxx',
@@ -39,6 +41,18 @@ sdbusplus = dependency(
         'sdbusplus_dep'
     ],
 )
+
+if cpp.has_header('nlohmann/json.hpp')
+    nlohmann_json = declare_dependency()
+else
+    subproject('nlohmann-json')
+    nlohmann_json = declare_dependency(
+        include_directories: include_directories(
+            'subprojects/nlohmann-json/single_include',
+            'subprojects/nlohmann-json/single_include/nlohmann',
+        )
+    )
+endif
 
 systemd = dependency('systemd')
 systemd_system_unit_dir = systemd.get_variable(
