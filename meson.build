@@ -63,9 +63,14 @@ threads = dependency('threads')
 thresholds_a = static_library(
     'thresholds_a',
     'src/Thresholds.cpp',
-    dependencies: [ sdbusplus ],
+    dependencies: [ sdbusplus, nlohmann_json ],
     implicit_include_directories: false,
     include_directories: 'include',
+)
+
+thresholds_dep = declare_dependency(
+    link_with: [ thresholds_a ],
+    dependencies: [ nlohmann_json ],
 )
 
 utils_a = static_library(
@@ -76,12 +81,22 @@ utils_a = static_library(
     include_directories: 'include',
 )
 
+utils_dep = declare_dependency(
+    link_with: [ utils_a ],
+    dependencies: [ sdbusplus ],
+)
+
 pwmsensor_a = static_library(
     'pwmsensor_a',
     'src/PwmSensor.cpp',
-    dependencies: [ sdbusplus ],
+    dependencies: [ sdbusplus, thresholds_dep ],
     implicit_include_directories: false,
     include_directories: 'include',
+)
+
+pwmsensor_dep = declare_dependency(
+    link_with: [ pwmsensor_a ],
+    dependencies: [ sdbusplus, thresholds_dep ],
 )
 
 subdir('include')

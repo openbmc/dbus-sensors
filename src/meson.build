@@ -11,14 +11,12 @@ if get_option('adc').enabled()
         dependencies: [
             gpiodcxx,
             sdbusplus,
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            thresholds_a,
-            utils_a,
-        ],
     )
 endif
 
@@ -30,16 +28,14 @@ if get_option('cpu').enabled()
         dependencies: [
             gpiodcxx,
             sdbusplus,
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: [
             '../include'
         ] + peci_incdirs,
         install: true,
-        link_with: [
-            thresholds_a,
-            utils_a,
-        ],
     )
 endif
 
@@ -49,14 +45,12 @@ if get_option('exit-air').enabled()
         'ExitAirTempSensor.cpp',
         dependencies: [
             sdbusplus,
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            thresholds_a,
-            utils_a,
-        ],
     )
 endif
 
@@ -67,16 +61,14 @@ if get_option('fan').enabled()
         'TachSensor.cpp',
         'PwmSensor.cpp',
         dependencies: [
+            gpiodcxx,
             sdbusplus,
-            gpiodcxx
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            thresholds_a,
-            utils_a,
-        ],
     )
 endif
 
@@ -87,14 +79,12 @@ if get_option('hwmon-temp').enabled()
         'HwmonTempSensor.cpp',
         dependencies: [
             sdbusplus,
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            thresholds_a,
-            utils_a,
-        ],
     )
 endif
 
@@ -104,16 +94,14 @@ if get_option('intrusion').enabled()
         'ChassisIntrusionSensor.cpp',
         'IntrusionSensorMain.cpp',
         dependencies: [
+            gpiodcxx,
             i2c,
             sdbusplus,
-            gpiodcxx,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            utils_a,
-        ],
     )
 endif
 
@@ -123,14 +111,12 @@ if get_option('ipmb').enabled()
         'IpmbSensor.cpp',
         dependencies: [
             sdbusplus,
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            thresholds_a,
-            utils_a,
-        ],
     )
 endif
 
@@ -141,14 +127,12 @@ if get_option('mcu').enabled()
         dependencies: [
             i2c,
             sdbusplus,
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            utils_a,
-            thresholds_a,
-        ],
     )
 endif
 
@@ -161,16 +145,14 @@ if get_option('nvme').enabled()
         'NVMeMCTPContext.cpp',
         dependencies: [
             i2c,
-            sdbusplus,
             mctp,
-	],
+            sdbusplus,
+            thresholds_dep,
+            utils_dep,
+	    ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            utils_a,
-            thresholds_a,
-        ],
     )
 endif
 
@@ -181,16 +163,14 @@ if get_option('psu').enabled()
         'PSUSensor.cpp',
         'PSUSensorMain.cpp',
         dependencies: [
+            pwmsensor_dep,
             sdbusplus,
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            pwmsensor_a,
-            thresholds_a,
-            utils_a,
-        ],
     )
 endif
 
@@ -201,13 +181,11 @@ if get_option('external').enabled()
         'ExternalSensorMain.cpp',
         dependencies: [
             sdbusplus,
+            thresholds_dep,
+            utils_dep,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
-        link_with: [
-            thresholds_a,
-            utils_a,
-        ],
     )
 endif
