@@ -9,8 +9,8 @@ if get_option('adc').enabled()
         'ADCSensor.cpp',
         'ADCSensorMain.cpp',
         dependencies: [
+            default_deps,
             gpiodcxx,
-            sdbusplus,
             thresholds_dep,
             utils_dep,
         ],
@@ -26,8 +26,8 @@ if get_option('cpu').enabled()
         'CPUSensorMain.cpp',
         'CPUSensor.cpp',
         dependencies: [
+            default_deps,
             gpiodcxx,
-            sdbusplus,
             thresholds_dep,
             utils_dep,
         ],
@@ -44,7 +44,7 @@ if get_option('exit-air').enabled()
         'exitairtempsensor',
         'ExitAirTempSensor.cpp',
         dependencies: [
-            sdbusplus,
+            default_deps,
             thresholds_dep,
             utils_dep,
         ],
@@ -61,8 +61,8 @@ if get_option('fan').enabled()
         'TachSensor.cpp',
         'PwmSensor.cpp',
         dependencies: [
+            default_deps,
             gpiodcxx,
-            sdbusplus,
             thresholds_dep,
             utils_dep,
         ],
@@ -78,7 +78,7 @@ if get_option('hwmon-temp').enabled()
         'HwmonTempMain.cpp',
         'HwmonTempSensor.cpp',
         dependencies: [
-            sdbusplus,
+            default_deps,
             thresholds_dep,
             utils_dep,
         ],
@@ -94,9 +94,9 @@ if get_option('intrusion').enabled()
         'ChassisIntrusionSensor.cpp',
         'IntrusionSensorMain.cpp',
         dependencies: [
+            default_deps,
             gpiodcxx,
             i2c,
-            sdbusplus,
             utils_dep,
         ],
         implicit_include_directories: false,
@@ -110,7 +110,7 @@ if get_option('ipmb').enabled()
         'ipmbsensor',
         'IpmbSensor.cpp',
         dependencies: [
-            sdbusplus,
+            default_deps,
             thresholds_dep,
             utils_dep,
         ],
@@ -125,8 +125,8 @@ if get_option('mcu').enabled()
         'mcutempsensor',
         'MCUTempSensor.cpp',
         dependencies: [
+            default_deps,
             i2c,
-            sdbusplus,
             thresholds_dep,
             utils_dep,
         ],
@@ -144,12 +144,12 @@ if get_option('nvme').enabled()
         'NVMeSensor.cpp',
         'NVMeMCTPContext.cpp',
         dependencies: [
+            default_deps,
             i2c,
             mctp,
-            sdbusplus,
             thresholds_dep,
             utils_dep,
-	    ],
+        ],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
@@ -163,8 +163,8 @@ if get_option('psu').enabled()
         'PSUSensor.cpp',
         'PSUSensorMain.cpp',
         dependencies: [
+            default_deps,
             pwmsensor_dep,
-            sdbusplus,
             thresholds_dep,
             utils_dep,
         ],
@@ -180,7 +180,7 @@ if get_option('external').enabled()
         'ExternalSensor.cpp',
         'ExternalSensorMain.cpp',
         dependencies: [
-            sdbusplus,
+            default_deps,
             thresholds_dep,
             utils_dep,
         ],

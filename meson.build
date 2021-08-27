@@ -60,23 +60,28 @@ systemd_system_unit_dir = systemd.get_variable(
     pkgconfig_define: ['prefix', get_option('prefix')])
 threads = dependency('threads')
 
+default_deps = [
+    nlohmann_json,
+    sdbusplus,
+]
+
 thresholds_a = static_library(
     'thresholds_a',
     'src/Thresholds.cpp',
-    dependencies: [ sdbusplus, nlohmann_json ],
+    dependencies: default_deps,
     implicit_include_directories: false,
     include_directories: 'include',
 )
 
 thresholds_dep = declare_dependency(
     link_with: [ thresholds_a ],
-    dependencies: [ nlohmann_json ],
+    dependencies: default_deps,
 )
 
 utils_a = static_library(
     'utils_a',
     ['src/Utils.cpp', 'src/SensorPaths.cpp'],
-    dependencies: [ sdbusplus ],
+    dependencies: default_deps,
     implicit_include_directories: false,
     include_directories: 'include',
 )
@@ -89,14 +94,14 @@ utils_dep = declare_dependency(
 pwmsensor_a = static_library(
     'pwmsensor_a',
     'src/PwmSensor.cpp',
-    dependencies: [ sdbusplus, thresholds_dep ],
+    dependencies: [ default_deps, thresholds_dep ],
     implicit_include_directories: false,
     include_directories: 'include',
 )
 
 pwmsensor_dep = declare_dependency(
     link_with: [ pwmsensor_a ],
-    dependencies: [ sdbusplus, thresholds_dep ],
+    dependencies: [ default_deps, thresholds_dep ],
 )
 
 subdir('include')
