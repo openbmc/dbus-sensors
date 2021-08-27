@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "7d3fda06_3c1c4ad2",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-27T20:16:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7d5a80a_3dbb6b5e",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeedbbc8_6ebefd20",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
