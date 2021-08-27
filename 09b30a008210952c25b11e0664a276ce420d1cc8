@@ -522,6 +522,30 @@
     },
     {
       "key": {
+        "uuid": "52b5ed60_5e7d991f",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-27T21:05:58Z",
+      "side": 1,
+      "message": "I am getting faults when try to remove the \"pressure\" special case here.\n\nroot@rain104bmc:~# systemctl status xyz.openbmc_project.hwmontempsensor.service\n× xyz.openbmc_project.hwmontempsensor.service - Hwmon Temp Sensor\n     Loaded: loaded (/lib/systemd/system/xyz.openbmc_project.hwmontempsensor.service; enabled; vendor preset: enabled)\n     Active: failed (Result: core-dump) since Fri 2021-08-27 20:55:53 UTC; 3min 24s ago\n    Process: 1035 ExecStart\u003d/usr/bin/hwmontempsensor (code\u003ddumped, signal\u003dSEGV)\n   Main PID: 1035 (code\u003ddumped, signal\u003dSEGV)\n\nAug 27 20:55:53 rain104bmc systemd[1]: xyz.openbmc_project.hwmontempsensor.service: Scheduled restart job, restart counter is at 4.\nAug 27 20:55:53 rain104bmc systemd[1]: Stopped Hwmon Temp Sensor.\nAug 27 20:55:53 rain104bmc systemd[1]: xyz.openbmc_project.hwmontempsensor.service: Start request repeated too quickly.\nAug 27 20:55:53 rain104bmc systemd[1]: xyz.openbmc_project.hwmontempsensor.service: Failed with result \u0027core-dump\u0027.\nAug 27 20:55:53 rain104bmc systemd[1]: Failed to start Hwmon Temp Sensor.\nroot@rain104bmc:~# /usr/bin/hwmontempsensor\nfailed to find match for 9-004d\nfailed to find match for 9-004d\nfailed to find match for 9-004d\nfailed to find match for 9-004d\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 7-0052\nfailed to find match for 3-0068\nfailed to find match for 3-0068\nfailed to find match for 3-0068\nfailed to find match for 3-0068\nfailed to find match for 3-0068\nfailed to find match for 3-0068\nfailed to find match for 10-004c\nfailed to find match for 10-004c\nfailed to find match for 10-004c\nfailed to find match for 10-004c\nfailed to find match for 9-004c\nfailed to find match for 9-004c\nfailed to find match for 9-004c\nfailed to find match for 9-004c\nfailed to find match for 8-0011\nfailed to find match for 3-0069\nfailed to find match for 3-0069\nfailed to find match for 3-0069\nfailed to find match for 3-0069\nfailed to find match for 3-0069\nfailed to find match for 3-0069\nfailed to find match for 10-004d\nfailed to find match for 10-004d\nfailed to find match for 10-004d\nfailed to find match for 10-004d\nSegmentation fault (core dumped)",
+      "parentUuid": "583850e3_014d0048",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 17
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f5c20031_8a02faaa",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
@@ -557,6 +581,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "f5c20031_8a02faaa",
+      "range": {
+        "startLine": 411,
+        "startChar": 0,
+        "endLine": 430,
+        "endChar": 65
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d93a979_fce962ba",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-27T21:05:58Z",
+      "side": 1,
+      "message": "/usr/bin/hwmontempsensor faults and fails when I try to remove the duplicate code.\nIf you have detailed suggestions I would appreciate it.",
+      "parentUuid": "bff5b6d2_3f2eef2a",
       "range": {
         "startLine": 411,
         "startChar": 0,
