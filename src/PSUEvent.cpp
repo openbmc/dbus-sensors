@@ -14,13 +14,12 @@
 // limitations under the License.
 */
 
-#include <systemd/sd-journal.h>
-
 #include <PSUEvent.hpp>
 #include <SensorPaths.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -319,22 +318,18 @@ void PSUSubEvent::updateValue(const int& newValue)
             if (!deassertMessage.empty())
             {
                 // Fan Failed has two args
-                std::string sendMessage = eventName + " deassert";
                 if (deassertMessage == "OpenBMC.0.1.PowerSupplyFanRecovered")
                 {
-                    sd_journal_send(
-                        "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
-                        LOG_INFO, "REDFISH_MESSAGE_ID=%s",
-                        deassertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s,%s",
-                        psuName.c_str(), fanName.c_str(), NULL);
+                    lg2::info("{EVENT} deassert", "EVENT", eventName,
+                              "REDFISH_MESSAGE_ID", deassertMessage,
+                              "REDFISH_MESSAGE_ARGS",
+                              (psuName + ',' + fanName));
                 }
                 else
                 {
-                    sd_journal_send(
-                        "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
-                        LOG_INFO, "REDFISH_MESSAGE_ID=%s",
-                        deassertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
-                        psuName.c_str(), NULL);
+                    lg2::info("{EVENT} deassert", "EVENT", eventName,
+                              "REDFISH_MESSAGE_ID", deassertMessage,
+                              "REDFISH_MESSAGE_ARGS", psuName);
                 }
             }
 
@@ -363,22 +358,18 @@ void PSUSubEvent::updateValue(const int& newValue)
                 }
 
                 // Fan Failed has two args
-                std::string sendMessage = eventName + " assert";
                 if (assertMessage == "OpenBMC.0.1.PowerSupplyFanFailed")
                 {
-                    sd_journal_send(
-                        "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
-                        LOG_WARNING, "REDFISH_MESSAGE_ID=%s",
-                        assertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s,%s",
-                        psuName.c_str(), fanName.c_str(), NULL);
+                    lg2::warning("{EVENT} assert", "EVENT", eventName,
+                                 "REDFISH_MESSAGE_ID", assertMessage,
+                                 "REDFISH_MESSAGE_ARGS",
+                                 (psuName + ',' + fanName));
                 }
                 else
                 {
-                    sd_journal_send(
-                        "MESSAGE=%s", sendMessage.c_str(), "PRIORITY=%i",
-                        LOG_WARNING, "REDFISH_MESSAGE_ID=%s",
-                        assertMessage.c_str(), "REDFISH_MESSAGE_ARGS=%s",
-                        psuName.c_str(), NULL);
+                    lg2::warning("{EVENT} assert", "EVENT", eventName,
+                                 "REDFISH_MESSAGE_ID", assertMessage,
+                                 "REDFISH_MESSAGE_ARGS", psuName);
                 }
             }
             if ((*combineEvent).empty())
