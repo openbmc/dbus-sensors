@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "e832e1f1_ee03a33a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-08-30T10:20:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "74a42355_14d32296",
+      "range": {
+        "startLine": 111,
+        "startChar": 46,
+        "endLine": 111,
+        "endChar": 50
+      },
+      "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97af8b97_ece903f3",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 20
@@ -74,6 +98,24 @@
       "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa721c3b_a3274b04",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-08-30T10:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97af8b97_ece903f3",
+      "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -100,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "9fcfa6a3_5dccb58b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-08-30T10:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3ec90bb_7ef8bf3c",
+      "range": {
+        "startLine": 146,
+        "startChar": 32,
+        "endLine": 146,
+        "endChar": 34
+      },
+      "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f80fe5d2_cf7945b9",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 20
@@ -120,6 +186,30 @@
       "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71264b05_a36e8bd6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-08-30T10:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f80fe5d2_cf7945b9",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 186,
+        "endChar": 21
+      },
+      "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -146,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "e48924f4_89b41331",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-08-30T10:20:33Z",
+      "side": 1,
+      "message": "Version can be validated only by checking whether the data is empty or not and it is already checked in the above code.",
+      "parentUuid": "44d46bbc_9bd51d01",
+      "range": {
+        "startLine": 188,
+        "startChar": 58,
+        "endLine": 188,
+        "endChar": 65
+      },
+      "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6038c0e8_dc4cb048",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 20
@@ -160,6 +274,24 @@
       "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e06189f6_c39f73d6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-08-30T10:20:33Z",
+      "side": 1,
+      "message": "Enabled OBMC_HOST_INSTANCES in machine layer and received in meson build, this will verify the number of IPMB bus in BMC.",
+      "parentUuid": "6038c0e8_dc4cb048",
+      "revId": "9a6dbb5b78a9719d9132bca3e1bbd1d27ef66930",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
