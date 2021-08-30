@@ -8,6 +8,7 @@ unit_files = [
     ['intrusion', 'xyz.openbmc_project.intrusionsensor.service'],
     ['mcu', 'xyz.openbmc_project.mcutempsensor.service'],
     ['nvme', 'xyz.openbmc_project.nvmesensor.service'],
+    ['pldm', 'xyz.openbmc_project.pldmsensor.service'],
     ['psu', 'xyz.openbmc_project.psusensor.service'],
     ['external', 'xyz.openbmc_project.externalsensor.service'],
 ]
