@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7b49952_e2ac83d2",
+        "filename": "meson_options.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-30T20:35:09Z",
+      "side": 1,
+      "message": "This is going to turn them on for yocto builds as well.  Do we need a recipe change as well to shut them off in that scope?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 80
+      },
+      "revId": "2932a7bb38e49ee79ec87114927b3d95a82f18cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
