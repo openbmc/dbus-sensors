@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14f05eb5_309b9ecc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-30T16:07:56Z",
+      "side": 1,
+      "message": "It seems odd this would be settable;  Is this not detectable in the sensor query response?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 88
+      },
+      "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e63fabd3_f81eeece",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-30T16:07:56Z",
+      "side": 1,
+      "message": "This can be removed.  There is a lookup table for Sensor units to type.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b391df26_52cb05c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-30T16:07:56Z",
+      "side": 1,
+      "message": "This should follow the other sensors, and not prefix the dbus namespace.",
+      "range": {
+        "startLine": 19,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 74
+      },
+      "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e180c012_85e8c564",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-30T16:07:56Z",
+      "side": 1,
+      "message": "More details needed here;  What does a \"pldm sensor\" do?  Why is it useful?  How does it differ from other similar sensors like external sensor?  What do each of the parameters actually control?  Why is this a separate service from PLDM?\n\nPlease answer these in the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
