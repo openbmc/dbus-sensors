@@ -211,3 +211,23 @@ if get_option('external').enabled()
         ],
     )
 endif
+
+if get_option('pldm').enabled()
+    pldm = meson.get_compiler('cpp').find_library('pldm')
+    executable(
+        'pldmsensor',
+        'PLDMSensor.cpp',
+        'PLDMSensorMain.cpp',
+        dependencies: [
+            pldm,
+            sdbusplus,
+        ],
+        implicit_include_directories: false,
+        include_directories: '../include',
+        install: true,
+        link_with: [
+            utils_a,
+            thresholds_a,
+        ],
+    )
+endif
