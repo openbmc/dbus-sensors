@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e4e3bb9_947753e1",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-30T21:29:20Z",
+      "side": 1,
+      "message": "We should be doing this math and branch once, in the constructor where it was before, not every single time through the loop.",
+      "range": {
+        "startLine": 304,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 9
+      },
+      "revId": "053d5b995b7b6dd78afeae9dd7c70bbd1e4d3844",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
