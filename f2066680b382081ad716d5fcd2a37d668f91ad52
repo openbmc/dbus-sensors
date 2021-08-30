@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "bdd34c25_dde19140",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-08-30T18:29:03Z",
+      "side": 1,
+      "message": "Ed, I think I\u0027ve done what you are asking for.",
+      "parentUuid": "409312f5_cb1d64d8",
+      "range": {
+        "startLine": 71,
+        "startChar": 7,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0bd1b7e_57786d3e",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 73
