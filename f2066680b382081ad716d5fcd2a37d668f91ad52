@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "409312f5_cb1d64d8",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 73
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-30T16:09:24Z",
+      "side": 1,
+      "message": "off the top of my head, std::optional\u003cdouble\u003e.  Assuming that hwmon can\u0027t return NAN in any case (which needs research), that might work as a failure type, but please use the C++ type for it.",
+      "parentUuid": "6f21e7c6_3f7db042",
+      "range": {
+        "startLine": 71,
+        "startChar": 7,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "f2066680b382081ad716d5fcd2a37d668f91ad52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0bd1b7e_57786d3e",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 73
