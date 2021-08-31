@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "05de1ee7_9e90e294",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-08-31T01:16:22Z",
+      "side": 1,
+      "message": "I went ahead and updated the commit message with the motivating factors. Justin, please look through it and see if you agree.\n\nAs far as why systemctl restart xyz.openbmc_project.psusensor.service causes unacceptable test times in our setup:\n\nThe rough process is as follows:\n\n-- via a BMC shell --\n1.)unbind driver\n2.) use iotools smbus to adjust voltage\n3.) rebind driver\n\n-- through the IPMI interface on another machine --\n4.) Read numerous sensor values through the IPMI interface\n\n\nIf instead we did systemctl restart xyz.openbmc_project.psusensor.service we\u0027d have to wait an additional 2-3 seconds.\nAlso at this point since you\u0027re using dynamic-IPMI the SDR ordering could potentially change, so you have to fetch the SDR from the external side.\n\nThen when you take into account that the external tool requires a \u0027rescan\u0027 operation that takes 15 seconds to force refreshing the SDR.. you end up with a ridiculously long test time.\n\nWe know this because this was my first suggestion , \"just systemctl restart psusensors but make sure you do a rescan to guarantee a consistent SDR\"\n\nThis was also an obvious work-around and we thought we could help improve the code base instead. \nSo here we are, with a patch that tries to make PSUSensors more tolerant to corner conditions.",
+      "parentUuid": "607e1741_be83ad32",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9bd5b39_231cefd6",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 6
