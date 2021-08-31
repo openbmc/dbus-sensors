@@ -2,6 +2,132 @@
   "comments": [
     {
       "key": {
+        "uuid": "f7043bfc_77cd5382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-31T22:33:06Z",
+      "side": 1,
+      "message": "Please wrap your commit message 52/70",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "701ba4c8_0758d2a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-31T22:33:06Z",
+      "side": 1,
+      "message": "You should mention the similarities and differences between this and IPMB sensor.",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7618cf48_f0459d13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-31T22:33:06Z",
+      "side": 1,
+      "message": "Do PLDM sensors not publish their units to the bus?  It seems odd that they don\u0027t have that covered in the standard.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 50
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "850835cd_ee233c06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-31T22:33:06Z",
+      "side": 1,
+      "message": "Some things that might be missing:\nMinValue/Maxvalue?\nOffset/scale?  (might not be required)\nThresholds?",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b4521ed_470723ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-31T22:33:06Z",
+      "side": 1,
+      "message": "Does PLDM have the equivalent of the IPMI SDR command?  SHould we be using that instead of adding it to the config?  That duplicates some information that we probably shouldn\u0027t be.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df21c32f_ff37253c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-08-31T22:33:06Z",
+      "side": 1,
+      "message": "This would imply that we need 4 different commits.  Lets pick which one is most important (I\u0027m guessing NumericSensor, as it\u0027s very similar to IPMBsensor), then lets add the rest of these in later commits.\n\nIt looks like you\u0027ve done that, but lets remove it from the commit message.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 19
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2edeb1b4_a9e33e6c",
         "filename": "src/PLDMSensor.cpp",
         "patchSetId": 12
