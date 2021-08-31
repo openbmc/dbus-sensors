@@ -53,7 +53,15 @@ struct Sensor
         instrumentation(enableInstrumentation
                             ? std::make_unique<SensorInstrumentation>()
                             : nullptr)
-    {}
+    {
+        for (auto& threshold : thresholds)
+        {
+            if (std::isnan(threshold.hysteresis))
+            {
+                threshold.hysteresis = hysteresisTrigger;
+            }
+        }
+    }
     virtual ~Sensor() = default;
     virtual void checkThresholds(void) = 0;
     std::string name;
