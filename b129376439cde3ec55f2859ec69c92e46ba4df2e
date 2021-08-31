@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e11ea6e_e614accc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-08-31T11:12:26Z",
+      "side": 1,
+      "message": "It is removed. the libpldm api decode_get_sensor_reading_resp() needs the value to check if BMC can handle the returned data size.\nIt should be okay to be fixed value in code.",
+      "parentUuid": "14f05eb5_309b9ecc",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 88
+      },
+      "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e63fabd3_f81eeece",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59e63f36_75733b0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-08-31T11:12:26Z",
+      "side": 1,
+      "message": "Fixed. the new patch use getPathFornits() instead.",
+      "parentUuid": "e63fabd3_f81eeece",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "470f8206_51f78743",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-08-31T11:12:26Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "b391df26_52cb05c7",
+      "range": {
+        "startLine": 19,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 74
+      },
+      "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e180c012_85e8c564",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -91,6 +163,30 @@
       "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "909ed1b5_1b394ff3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-08-31T11:12:26Z",
+      "side": 1,
+      "message": "The commit message is updated with more details.",
+      "parentUuid": "e180c012_85e8c564",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "b129376439cde3ec55f2859ec69c92e46ba4df2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
