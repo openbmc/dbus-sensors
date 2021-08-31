@@ -25,14 +25,17 @@ enum Direction
 };
 struct Threshold
 {
-    Threshold(const Level& lev, const Direction& dir, const double& val,
-              bool write = true) :
+    Threshold(
+        const Level& lev, const Direction& dir, const double& val,
+        const double hysteresis = std::numeric_limits<double>::quiet_NaN(),
+        bool write = true) :
         level(lev),
-        direction(dir), value(val), writeable(write)
+        direction(dir), value(val), hysteresis(hysteresis), writeable(write)
     {}
     Level level;
     Direction direction;
     double value;
+    double hysteresis;
     bool writeable;
 
     bool operator==(const Threshold& rhs) const

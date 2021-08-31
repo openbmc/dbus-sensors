@@ -230,6 +230,10 @@ struct Sensor
             });
         for (auto& threshold : thresholds)
         {
+            if (std::isnan(threshold.hysteresis))
+            {
+                threshold.hysteresis = hysteresisTrigger;
+            }
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
             std::string level;
             std::string alarm;
