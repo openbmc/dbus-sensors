@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2edeb1b4_a9e33e6c",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-08-31T17:25:46Z",
+      "side": 1,
+      "message": "Can the function be made bool and return false or true? \nWhy are we using -1 and 0. I am not able to find a reason by looking at the code.\n\nIf you still want to keep int as function type, define static constexpr int \u0027pldmSuccess\u0027 and \u0027pldmFailure\u0027 and use that.",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 18
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faf8c0af_2f0f530a",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-08-31T17:25:46Z",
+      "side": 1,
+      "message": "Can we make pollTime a member of the class as in other sensor classes.",
+      "range": {
+        "startLine": 225,
+        "startChar": 39,
+        "endLine": 225,
+        "endChar": 40
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939874b7_8c6d6309",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-08-31T17:25:46Z",
+      "side": 1,
+      "message": "Either just use \u0027return;\u0027, or define success and failure and then use that to return.",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 18
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
