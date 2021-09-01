@@ -594,6 +594,30 @@
     },
     {
       "key": {
+        "uuid": "3f90c7d2_41b1a2b8",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-01T18:31:13Z",
+      "side": 1,
+      "message": "I believe that removing of getting \"pressure\"\u0027s \"Name1\" here will make\nthe code here\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/45406/82/src/HwmonTempMain.cpp#392\nharder to read with if-elses",
+      "parentUuid": "8b976c78_e1716d32",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 17
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5c20031_8a02faaa",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 59
@@ -710,6 +734,30 @@
       "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "956e4c75_3cfd6ded",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-01T18:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5227001b_c0c7d12b",
+      "range": {
+        "startLine": 411,
+        "startChar": 0,
+        "endLine": 430,
+        "endChar": 65
+      },
+      "revId": "09b30a008210952c25b11e0664a276ce420d1cc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
