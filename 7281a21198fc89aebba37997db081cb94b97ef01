@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "859cc33b_65bd5820",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-02T16:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a916ab49_c084df12",
+      "range": {
+        "startLine": 198,
+        "startChar": 39,
+        "endLine": 198,
+        "endChar": 51
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "396cc6c1_a4d89bbc",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 82
@@ -186,6 +210,30 @@
       "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "575de72e_980ba2cf",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-02T16:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "396cc6c1_a4d89bbc",
+      "range": {
+        "startLine": 200,
+        "startChar": 24,
+        "endLine": 200,
+        "endChar": 32
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -212,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "d272fbeb_996b3fb2",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-02T16:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dc656c0_c1c0d0e7",
+      "range": {
+        "startLine": 202,
+        "startChar": 34,
+        "endLine": 202,
+        "endChar": 56
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3606ed9_d1f2cd2c",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 82
@@ -232,6 +304,30 @@
       "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16b807b4_bd0fd529",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-02T16:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3606ed9_d1f2cd2c",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 33
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
