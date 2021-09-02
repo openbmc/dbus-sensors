@@ -34,7 +34,6 @@
 #include <string>
 #include <vector>
 
-static constexpr size_t warnAfterErrorCount = 10;
 // scaling factor from hwmon
 static constexpr unsigned int sensorScaleFactor = 1000;
 

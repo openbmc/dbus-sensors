@@ -203,27 +203,26 @@ void CFMSensor::setupMatches()
 {
 
     std::weak_ptr<CFMSensor> weakRef = weak_from_this();
-    setupSensorMatch(matches, *dbusConnection, "fan_tach",
-                     std::move([weakRef](const double& value,
-                                         sdbusplus::message::message& message) {
-                         auto self = weakRef.lock();
-                         if (!self)
-                         {
-                             return;
-                         }
-                         self->tachReadings[message.get_path()] = value;
-                         if (self->tachRanges.find(message.get_path()) ==
-                             self->tachRanges.end())
-                         {
-                             // calls update reading after updating ranges
-                             self->addTachRanges(message.get_sender(),
-                                                 message.get_path());
-                         }
-                         else
-                         {
-                             self->updateReading();
-                         }
-                     }));
+    setupSensorMatch(
+        matches, *dbusConnection, "fan_tach",
+        [weakRef](const double& value, sdbusplus::message::message& message) {
+            auto self = weakRef.lock();
+            if (!self)
+            {
+                return;
+            }
+            self->tachReadings[message.get_path()] = value;
+            if (self->tachRanges.find(message.get_path()) ==
+                self->tachRanges.end())
+            {
+                // calls update reading after updating ranges
+                self->addTachRanges(message.get_sender(), message.get_path());
+            }
+            else
+            {
+                self->updateReading();
+            }
+        });
 
     dbusConnection->async_method_call(
         [weakRef](const boost::system::error_code ec,
@@ -883,9 +882,8 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         return;
     }
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        std::move([&objectServer, &dbusConnection,
-                   &exitAirSensor](const ManagedObjectType& resp) {
+        dbusConnection, [&objectServer, &dbusConnection,
+                         &exitAirSensor](const ManagedObjectType& resp) {
             cfmSensors.clear();
             for (const auto& pathPair : resp)
             {
@@ -955,7 +953,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                 exitAirSensor->setupMatches();
                 exitAirSensor->updateReading();
             }
-        }));
+        });
     getter->getConfiguration(
         std::vector<std::string>(monitorIfaces.begin(), monitorIfaces.end()));
 }

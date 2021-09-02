@@ -183,8 +183,7 @@ static void getNicNameInfo(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        std::move([](const ManagedObjectType& sensorConfigurations) {
+        dbusConnection, [](const ManagedObjectType& sensorConfigurations) {
             // Get NIC name and save to map
             lanInfoMap.clear();
             for (const std::pair<sdbusplus::message::object_path, SensorData>&
@@ -228,7 +227,7 @@ static void getNicNameInfo(
             {
                 std::cerr << "can't find matched NIC name. \n";
             }
-        }));
+        });
 
     getter->getConfiguration(
         std::vector<std::string>{nicTypes.begin(), nicTypes.end()});

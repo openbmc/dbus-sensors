@@ -28,7 +28,6 @@ class PresenceSensor
 
   private:
     bool status = true;
-    bool inverted;
     gpiod::line gpioLine;
     boost::asio::posix::stream_descriptor gpioFd;
     std::string name;
