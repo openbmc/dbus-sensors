@@ -181,7 +181,6 @@ bool createSensors(boost::asio::io_service& io,
 
     for (const fs::path& hwmonNamePath : hwmonNamePaths)
     {
-        const std::string& pathStr = hwmonNamePath.string();
         auto hwmonDirectory = hwmonNamePath.parent_path();
 
         auto ret = scannedDirectories.insert(hwmonDirectory.string());

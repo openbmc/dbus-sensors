@@ -38,7 +38,6 @@
 #include <vector>
 
 static constexpr unsigned int pwmPollMs = 500;
-static constexpr size_t warnAfterErrorCount = 10;
 
 TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        sdbusplus::asio::object_server& objectServer,
@@ -204,8 +203,8 @@ void TachSensor::checkThresholds(void)
 PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
                                boost::asio::io_service& io,
                                const std::string& name) :
-    inverted(inverted),
-    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name)
+    gpioLine(gpiod::find_line(gpioName)),
+    gpioFd(io), name(name)
 {
     if (!gpioLine)
     {

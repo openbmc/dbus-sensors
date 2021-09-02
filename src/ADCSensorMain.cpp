@@ -35,7 +35,6 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
 static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
@@ -75,9 +74,8 @@ void createSensors(
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        std::move([&io, &objectServer, &sensors, &dbusConnection,
-                   sensorsChanged](
-                      const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &sensors, &dbusConnection,
+         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
             std::vector<fs::path> paths;
             if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)",
@@ -306,7 +304,7 @@ void createSensors(
                     readState, *interfacePath, std::move(bridgeGpio));
                 sensor->setupRead();
             }
-        }));
+        });
 
     getter->getConfiguration(
         std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()});

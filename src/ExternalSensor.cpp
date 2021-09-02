@@ -95,7 +95,7 @@ void ExternalSensor::initWriteHook(
 
     // Connect ExternalSensor with Sensor
     auto weakThis = weak_from_this();
-    externalSetHook = std::move([weakThis]() {
+    externalSetHook = [weakThis]() {
         auto lockThis = weakThis.lock();
         if (lockThis)
         {
@@ -106,7 +106,7 @@ void ExternalSensor::initWriteHook(
         {
             std::cerr << "ExternalSensor receive ignored, sensor gone\n";
         }
-    });
+    };
 }
 
 ExternalSensor::~ExternalSensor()
