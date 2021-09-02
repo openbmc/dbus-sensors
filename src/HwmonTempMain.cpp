@@ -36,7 +36,6 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
 
 namespace fs = std::filesystem;
@@ -68,9 +67,8 @@ void createSensors(
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        std::move([&io, &objectServer, &sensors, &dbusConnection,
-                   sensorsChanged](
-                      const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &sensors, &dbusConnection,
+         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
 
             std::vector<fs::path> paths;
@@ -88,7 +86,6 @@ void createSensors(
             for (auto& path : paths)
             {
                 std::smatch match;
-                const std::string& pathStr = path.string();
                 auto directory = path.parent_path();
 
                 auto ret = directories.insert(directory.string());
@@ -294,7 +291,7 @@ void createSensors(
                     }
                 }
             }
-        }));
+        });
     getter->getConfiguration(
         std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
 }

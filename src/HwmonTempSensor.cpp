@@ -32,7 +32,6 @@
 #include <vector>
 
 static constexpr unsigned int sensorScaleFactor = 1000;
-static constexpr size_t warnAfterErrorCount = 10;
 
 static constexpr double maxReading = 127;
 static constexpr double minReading = -128;

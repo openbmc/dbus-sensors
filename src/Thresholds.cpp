@@ -344,13 +344,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         }
     }
 
-    if constexpr (debug)
+    // Throttle debug output, so that it does not continuously spam
+    ++cDebugThrottle;
+    if (cDebugThrottle >= 1000)
     {
-        // Throttle debug output, so that it does not continuously spam
-        ++cDebugThrottle;
-        if (cDebugThrottle >= 1000)
+        cDebugThrottle = 0;
+        if constexpr (debug)
         {
-            cDebugThrottle = 0;
             std::cerr << "checkThresholds: High T=" << cHiTrue
                       << " F=" << cHiFalse << " M=" << cHiMidstate
                       << ", Low T=" << cLoTrue << " F=" << cLoFalse

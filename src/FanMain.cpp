@@ -39,8 +39,6 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool debug = false;
-
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
@@ -163,9 +161,8 @@ void createSensors(
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        std::move([&io, &objectServer, &tachSensors, &pwmSensors,
-                   &dbusConnection, sensorsChanged](
-                      const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &tachSensors, &pwmSensors, &dbusConnection,
+         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
             std::vector<fs::path> paths;
             if (!findFiles(fs::path("/sys/class/hwmon"), R"(fan\d+_input)",
@@ -448,7 +445,7 @@ void createSensors(
             }
 
             createRedundancySensor(tachSensors, dbusConnection, objectServer);
-        }));
+        });
     getter->getConfiguration(
         std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()},
         retries);
