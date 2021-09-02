@@ -354,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "34ce0b35_4cc44a90",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-02T16:58:56Z",
+      "side": 1,
+      "message": "I chose to have the \"_raw\" scale we read not also do this scaling,\nthus chose to have this scale ALL temp specific adjustment to \ndegrees Celsius from degrees Celsius in one place.\n\nI see your point but feel then it splits up the IIO \"_raw\" devices\ninstead.",
+      "parentUuid": "2af67a4b_42e3b256",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e7068732_5c40c332",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 82
@@ -365,6 +389,30 @@
       "writtenOn": "2021-09-02T15:45:08Z",
       "side": 1,
       "message": "is this needed?  it seems odd that getFullHwmonPath would return a \"correct\" path for iio devices.  for IIO devices I would expect the branch on line 399 to negate the need for this.",
+      "range": {
+        "startLine": 395,
+        "startChar": 0,
+        "endLine": 398,
+        "endChar": 21
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5226c134_e0151527",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-02T16:58:56Z",
+      "side": 1,
+      "message": "Investigating.",
+      "parentUuid": "e7068732_5c40c332",
       "range": {
         "startLine": 395,
         "startChar": 0,
