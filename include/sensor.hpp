@@ -182,8 +182,9 @@ struct Sensor
                 { // sensor is not settable.
                     if (getManufacturingMode() == false)
                     { // manufacture mode is not enable.
-                        throw sdbusplus::exception::SdBusError(
-                            -EACCES, "Not allow set porperty value.");
+                        std::err << "Sensor " << name
+                                 << ": Not allowed to set property value.\n";
+                        return -EACCES;
                     }
                 }
             }
