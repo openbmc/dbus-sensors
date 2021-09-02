@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fe473b8_efd0743c",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "nit, these really shouldn\u0027t be called \"threshold\".  That is an overloaded term.  just maxReading should be fine.",
+      "range": {
+        "startLine": 38,
+        "startChar": 11,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "326abbff_f4ae67c7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "lets move this into the utils.cpp file.",
+      "range": {
+        "startLine": 72,
+        "startChar": 29,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c4a1783_c61a6b74",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "not needed.  rely on RAII here.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a916ab49_c084df12",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "This isn\u0027t needed.  Just do if(!tmpOffsetValue)",
+      "range": {
+        "startLine": 198,
+        "startChar": 39,
+        "endLine": 198,
+        "endChar": 51
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "396cc6c1_a4d89bbc",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "do we need to log something here?",
+      "range": {
+        "startLine": 200,
+        "startChar": 24,
+        "endLine": 200,
+        "endChar": 32
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dc656c0_c1c0d0e7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "nit: prefer *tmpOffsetValue here.",
+      "range": {
+        "startLine": 202,
+        "startChar": 34,
+        "endLine": 202,
+        "endChar": 56
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3606ed9_d1f2cd2c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "Same here.  logging?",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 33
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2af67a4b_42e3b256",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "COnsidering temperatures are already in this switch statement, should be be setting ALL the temp-specific fields here?  As-is, we\u0027ve kind of split up the initialization.  Once that\u0027s done, we should probably declare an \"else\" for \"not a temp or pressure sensor\" so we can return and not initialize the sensor at all.",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7068732_5c40c332",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-02T15:45:08Z",
+      "side": 1,
+      "message": "is this needed?  it seems odd that getFullHwmonPath would return a \"correct\" path for iio devices.  for IIO devices I would expect the branch on line 399 to negate the need for this.",
+      "range": {
+        "startLine": 395,
+        "startChar": 0,
+        "endLine": 398,
+        "endChar": 21
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
