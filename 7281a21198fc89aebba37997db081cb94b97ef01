@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32af7ab7_30990745",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-02T15:57:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fe473b8_efd0743c",
+      "range": {
+        "startLine": 38,
+        "startChar": 11,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "326abbff_f4ae67c7",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 82
