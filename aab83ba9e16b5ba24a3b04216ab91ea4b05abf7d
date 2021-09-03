@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "f5537003_c8da79dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-03T19:28:07Z",
+      "side": 1,
+      "message": "\u003e The PDR is planned to be implemented in another service. The service  fetchs the PDR from PLDM terminus and exposes the setting to dbus. I would like to keep PldmSensor to get setting from dbus like other dbus-sensor dose.\n\nI\u0027m assuming for a moment that PDR is equivalent to IPMIs SDR.  If it\u0027s not, feel free to ignore the following.\n\nIn that case, we should be getting both.  dbus should be invoking the openbmc specific configurations, which in this case might just be \"has a PLDM device\", then the pldm daemon can go read the PDR to determine which sensors it needs to expose, and that their units and thresholds are.  I could imagine wanting to have a list of sensor names to expose, but \n\n\u003e So that the sensor settings can be from PDR or EntityManage\u0027s json files.\n\nI\u0027d like to minimize the amount of information we\u0027re pulling from entity-manager for things that already have a mechanism for dynamically publishing a sensor list if we can.  This isolates entity-manager configs from firmware changes that might add, remove, or change sensors on dependent devices.",
+      "parentUuid": "cc7f0347_1e494ded",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "701ba4c8_0758d2a6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -124,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "6c7e5fac_e5785c85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-03T19:28:07Z",
+      "side": 1,
+      "message": "\u003e Yes, PLDM does publish their units in DSP0248 Table 74-sensorUnits enumeration table.\n\u003e My idea is that SensorUnit here is used for dbus sensor, so it should follow the defines in phosphor-dbus-interfaces/blob/master/xyz/openbmc_project/Sensor/Value.interface.yaml.\n\nLooking at table 74, it looks like a simple lookup table of PLDM ID to dbus sensor units could be put into code, which would remove the need for the user to explicitly set the type.  We should do that.  At the moment, the only place we generally set Units is for ExternalSensor, where the units are unknowable by any API at runtime, and not provided by any specification.\n\n\u003e The provider of the xyz.openbmc_project.Configuration.PldmNumericSensor should take care to convert PLDM\u0027s units to dbus-interface\u0027s units.\n\nConsidering that provider is entity-manager, no, entity-manager should not have PLDM specific lookup tables or code in it, that should be kept within the PLDM sensor implementation.\n\n\u003e \n\u003e Is my understanding correct?\n\nNot quite.  Let me know if my above descriptions help you.",
+      "parentUuid": "467d80c0_ccd3b7ce",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 50
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "850835cd_ee233c06",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -176,6 +218,30 @@
       "side": 1,
       "message": "Yes, PLDM has PDR like what IPMI SDR does. According to the DSP0248 8.3.1, the PDR is not mandatory. BMC uses PLDM only as a mechanism for accessing monitoring and control functions.\nThis proposal let pldmsensor always gets the setting from dbus interface.\nFor use case of PLDM for access only, the sensor settings are defined in configurations json file of EntityManager.\nFor the use case of PLDM with PDR, there will be a service to fetch PDR and expose to dbus interface directly",
       "parentUuid": "0b4521ed_470723ad",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c74d65d6_f6b42353",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-03T19:28:07Z",
+      "side": 1,
+      "message": "\u003e Yes, PLDM has PDR like what IPMI SDR does. According to the DSP0248 8.3.1, the PDR is not mandatory.\n\nA quick reading of the spec shows that this is only for \"static devices\", which generally wouldn\u0027t populate sensors?  Are you developing for a device that doesn\u0027t expose a PDR?\n\n\u003e BMC uses PLDM only as a mechanism for accessing monitoring and control functions.\n\u003e This proposal let pldmsensor always gets the setting from dbus interface.\n\u003e For use case of PLDM for access only, the sensor settings are defined in configurations json file of EntityManager.\n\u003e For the use case of PLDM with PDR, there will be a service to fetch PDR and expose to dbus interface directly\n\nI think I answered my above question.  The devices you are using have PDRs, so we should be using that to drive our decisions to keep the entity-manager configs small and self contained.",
+      "parentUuid": "13b031cd_01f2055f",
       "range": {
         "startLine": 31,
         "startChar": 0,
