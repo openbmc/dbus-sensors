@@ -163,6 +163,52 @@
     },
     {
       "key": {
+        "uuid": "ce66d71f_18496900",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-03T08:19:29Z",
+      "side": 1,
+      "message": "Where this variable is used ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 25,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b996ab92_2d0f3a40",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-03T08:19:29Z",
+      "side": 1,
+      "message": "Suggest to use variable instead of hardcoded string here.",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 72,
+        "endChar": 47
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2edeb1b4_a9e33e6c",
         "filename": "src/PLDMSensor.cpp",
         "patchSetId": 12
@@ -202,6 +248,52 @@
         "startChar": 39,
         "endLine": 225,
         "endChar": 40
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35557d23_5e19681a",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-03T08:19:29Z",
+      "side": 1,
+      "message": "Suggest to use meaningful variable.",
+      "range": {
+        "startLine": 245,
+        "startChar": 19,
+        "endLine": 245,
+        "endChar": 20
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b83b039_35548f63",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-03T08:19:29Z",
+      "side": 1,
+      "message": "Any config file submitted for PLDM sensor?",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 77
       },
       "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
