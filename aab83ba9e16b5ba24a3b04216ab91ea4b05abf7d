@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "cc7f0347_1e494ded",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-03T07:00:08Z",
+      "side": 1,
+      "message": "The PDR is planned to be implemented in another service. The service  fetchs the PDR from PLDM terminus and exposes the setting to dbus. I would like to keep PldmSensor to get setting from dbus like other dbus-sensor dose. So that the sensor settings can be from PDR or EntityManage\u0027s json files.",
+      "parentUuid": "523492d2_6184509d",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "701ba4c8_0758d2a6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
