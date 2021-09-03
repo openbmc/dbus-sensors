@@ -100,6 +100,30 @@
     },
     {
       "key": {
+        "uuid": "467d80c0_ccd3b7ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-03T09:45:45Z",
+      "side": 1,
+      "message": "Yes, PLDM does publish their units in DSP0248 Table 74-sensorUnits enumeration table.\nMy idea is that SensorUnit here is used for dbus sensor, so it should follow the defines in phosphor-dbus-interfaces/blob/master/xyz/openbmc_project/Sensor/Value.interface.yaml.\nThe provider of the xyz.openbmc_project.Configuration.PldmNumericSensor should take care to convert PLDM\u0027s units to dbus-interface\u0027s units.\n\nIs my understanding correct?",
+      "parentUuid": "7618cf48_f0459d13",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 50
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "850835cd_ee233c06",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -128,6 +152,30 @@
       "writtenOn": "2021-08-31T22:33:06Z",
       "side": 1,
       "message": "Does PLDM have the equivalent of the IPMI SDR command?  SHould we be using that instead of adding it to the config?  That duplicates some information that we probably shouldn\u0027t be.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13b031cd_01f2055f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-03T09:45:45Z",
+      "side": 1,
+      "message": "Yes, PLDM has PDR like what IPMI SDR does. According to the DSP0248 8.3.1, the PDR is not mandatory. BMC uses PLDM only as a mechanism for accessing monitoring and control functions.\nThis proposal let pldmsensor always gets the setting from dbus interface.\nFor use case of PLDM for access only, the sensor settings are defined in configurations json file of EntityManager.\nFor the use case of PLDM with PDR, there will be a service to fetch PDR and expose to dbus interface directly",
+      "parentUuid": "0b4521ed_470723ad",
       "range": {
         "startLine": 31,
         "startChar": 0,
