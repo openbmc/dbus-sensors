@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df5cf957_8cd51f0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-05T09:11:52Z",
+      "side": 1,
+      "message": "Will fix in new patch.",
+      "parentUuid": "f7043bfc_77cd5382",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "523492d2_6184509d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -166,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "2a0527ac_fac7b487",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-05T09:11:52Z",
+      "side": 1,
+      "message": "Thanks for the feedback, I will update the commit message. The new patch will use PLDM ID instead of dbus sensor unit string and implement a lookup table in pldmsensor to covert the unit.",
+      "parentUuid": "6c7e5fac_e5785c85",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 50
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "850835cd_ee233c06",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -254,6 +302,30 @@
     },
     {
       "key": {
+        "uuid": "3f6de7a8_48bba571",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-05T09:11:52Z",
+      "side": 1,
+      "message": "\u003e A quick reading of the spec shows that this is only for \"static devices\", which generally wouldn\u0027t populate sensors?  Are you developing for a device that doesn\u0027t expose a PDR?\n\nYes, I am developing for a device that doesn\u0027t expose a PDR.I think the \"static device\" shows in \"figure 1-PLDM used for access only\" does populate sensor. \nBecause the device is without PDR, the semantic or descriptive information should be in a vendor-specific configuration provided by the system integrator. In this implementation, it is expected to be defined in one of configs of EntityManager.\n \n\u003e I think I answered my above question.  The devices you are using have PDRs, so we should be using that to drive our decisions to keep the entity-manager configs small and self contained.\n\nAgree with that for device with PDR, PldmSensor can be implemented to fetch all setting from PDR directly to keep entity-manager configs small and self contained. But for the device that is \"PLDM for access only\" still needs these properties in dbus-interface.",
+      "parentUuid": "c74d65d6_f6b42353",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df21c32f_ff37253c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -265,6 +337,30 @@
       "writtenOn": "2021-08-31T22:33:06Z",
       "side": 1,
       "message": "This would imply that we need 4 different commits.  Lets pick which one is most important (I\u0027m guessing NumericSensor, as it\u0027s very similar to IPMBsensor), then lets add the rest of these in later commits.\n\nIt looks like you\u0027ve done that, but lets remove it from the commit message.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 19
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a286a21_5462bac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-05T09:11:52Z",
+      "side": 1,
+      "message": "I will remove it from commit message in new patch.",
+      "parentUuid": "df21c32f_ff37253c",
       "range": {
         "startLine": 42,
         "startChar": 0,
