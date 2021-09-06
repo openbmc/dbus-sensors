@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "2fdbc7e6_d0c8fdc2",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-09-06T08:02:49Z",
+      "side": 1,
+      "message": "Updated code.",
+      "parentUuid": "33b28eff_62eb5740",
+      "range": {
+        "startLine": 782,
+        "startChar": 22,
+        "endLine": 782,
+        "endChar": 38
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "457995a0_77275135",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 3
@@ -225,6 +249,30 @@
       "side": 1,
       "message": "Because there are no sensor paths until the host is on and the CPU drivers are binded. So we need rescan the host sensors each the boot time of host.\nThe number of the CPU drivers can be difference between the boot time and the number of sensors in the driver can be different too. It is depend on the number of device is plugged in CPU peripheral interfaces.\n\nAbout the filter timer, I will check it.",
       "parentUuid": "457995a0_77275135",
+      "range": {
+        "startLine": 790,
+        "startChar": 0,
+        "endLine": 801,
+        "endChar": 15
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3283bad8_3b85d1fb",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-09-06T08:02:49Z",
+      "side": 1,
+      "message": "Removed the block.",
+      "parentUuid": "32b53a5a_15405149",
       "range": {
         "startLine": 790,
         "startChar": 0,
