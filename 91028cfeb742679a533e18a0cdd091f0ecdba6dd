@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85d8401a_22c4cd22",
+        "filename": "service_files/xyz.openbmc_project.adcsensor.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-09-06T08:13:23Z",
+      "side": 1,
+      "message": "I removed the dependence.",
+      "parentUuid": "a8357b26_e725b546",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 50
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55210378_3c9c85a5",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 3
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "5ebb3668_17c8ef42",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-09-06T08:13:23Z",
+      "side": 1,
+      "message": "Correctly, I removed the code.",
+      "parentUuid": "dfe30a9e_eea78fa4",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 657,
+        "endChar": 9
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6746ce59_321dadd0",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 3
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "12cf7cd3_b401962d",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-09-06T08:13:23Z",
+      "side": 1,
+      "message": "Because in the patchset 3, I scan rescan the sensor each time the host is on.\nIn patchset 4, I removes these codes in part 4.",
+      "parentUuid": "6746ce59_321dadd0",
+      "range": {
+        "startLine": 675,
+        "startChar": 0,
+        "endLine": 675,
+        "endChar": 36
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b9933d3_c2f50af3",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 3
@@ -105,6 +177,30 @@
       "writtenOn": "2021-08-06T18:13:41Z",
       "side": 1,
       "message": "Please don\u0027t print this on lack of a configuration.  Same thing goes for several error messages in createCPUPresentDbus.",
+      "range": {
+        "startLine": 679,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 65
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52b193e0_1bf2c1be",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-09-06T08:13:23Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "3b9933d3_c2f50af3",
       "range": {
         "startLine": 679,
         "startChar": 0,
