@@ -396,6 +396,30 @@
     },
     {
       "key": {
+        "uuid": "a6e8ddc6_9aed2888",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-06T13:54:38Z",
+      "side": 1,
+      "message": "Removed in patchset 13.",
+      "parentUuid": "ce66d71f_18496900",
+      "range": {
+        "startLine": 49,
+        "startChar": 25,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b996ab92_2d0f3a40",
         "filename": "src/PLDMSensor.cpp",
         "patchSetId": 12
@@ -416,6 +440,30 @@
       "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "963765d5_0aefded2",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-06T13:54:38Z",
+      "side": 1,
+      "message": "Fixed by patchset 13",
+      "parentUuid": "b996ab92_2d0f3a40",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 72,
+        "endChar": 47
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -442,6 +490,30 @@
     },
     {
       "key": {
+        "uuid": "ce6d7151_5ef45096",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-06T13:54:38Z",
+      "side": 1,
+      "message": "Fixed by patchset 13",
+      "parentUuid": "2edeb1b4_a9e33e6c",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 18
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "faf8c0af_2f0f530a",
         "filename": "src/PLDMSensor.cpp",
         "patchSetId": 12
@@ -462,6 +534,30 @@
       "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d20a8ab2_3d0eab18",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-06T13:54:38Z",
+      "side": 1,
+      "message": "Fixed by patched 13",
+      "parentUuid": "faf8c0af_2f0f530a",
+      "range": {
+        "startLine": 225,
+        "startChar": 39,
+        "endLine": 225,
+        "endChar": 40
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -488,6 +584,30 @@
     },
     {
       "key": {
+        "uuid": "4a818770_2700608f",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-06T13:54:38Z",
+      "side": 1,
+      "message": "Fixed by patchset 13",
+      "parentUuid": "35557d23_5e19681a",
+      "range": {
+        "startLine": 245,
+        "startChar": 19,
+        "endLine": 245,
+        "endChar": 20
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b83b039_35548f63",
         "filename": "src/PLDMSensorMain.cpp",
         "patchSetId": 12
@@ -511,6 +631,30 @@
     },
     {
       "key": {
+        "uuid": "6725667a_afdcafaa",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-06T13:54:38Z",
+      "side": 1,
+      "message": "There is a config file under my forked entity-manager repo for your reference. It is still under developing.\nhttps://github.com/gilbert225/entity-manager/blob/pldm-support/configurations/SatMC.json",
+      "parentUuid": "4b83b039_35548f63",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 77
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "939874b7_8c6d6309",
         "filename": "src/PLDMSensorMain.cpp",
         "patchSetId": 12
@@ -531,6 +675,30 @@
       "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91198b5a_09939eb4",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-06T13:54:38Z",
+      "side": 1,
+      "message": "fixed by patchset 13",
+      "parentUuid": "939874b7_8c6d6309",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 18
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
