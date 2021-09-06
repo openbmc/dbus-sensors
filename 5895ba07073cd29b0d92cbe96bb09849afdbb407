@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "e947d3bb_c4ff6416",
+        "filename": "meson_options.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-09-06T08:06:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "768dda48_812fd595",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6387150_2604812b",
         "filename": "service_files/meson.build",
         "patchSetId": 3
@@ -274,6 +298,30 @@
       "writtenOn": "2021-08-06T18:03:36Z",
       "side": 1,
       "message": "Why is this here?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1432b31b_fe2424fd",
+        "filename": "service_files/xyz.openbmc_project.amperecpusensor.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-09-06T08:06:54Z",
+      "side": 1,
+      "message": "I expected that amperecpusensor run after phosphor-host-state. But it is unnecessary. Just removes the dependence.",
+      "parentUuid": "c9c1ca51_b5fe2c25",
       "range": {
         "startLine": 6,
         "startChar": 0,
