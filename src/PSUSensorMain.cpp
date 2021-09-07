@@ -257,6 +257,7 @@ static void createSensorsCallback(
 {
     int numCreated = 0;
     bool firstScan = sensorsChanged == nullptr;
+    boost::container::flat_set<std::string> sensorChangesConsumed;
 
     std::vector<fs::path> pmbusPaths;
     if (!findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths))
@@ -422,6 +423,7 @@ static void createSensorsCallback(
         }
 
         // on rescans, only update sensors we were signaled by
+        bool sensorChangeNeeded = true;
         if (!firstScan)
         {
             std::string psuNameStr = "/" + *psuName;
@@ -433,13 +435,31 @@ static void createSensorsCallback(
 
             if (it == sensorsChanged->end())
             {
-                continue;
+                // This sensor was not found in the set of sensor change
+                // notifications received, therefore, avoid needlessly
+                // deleting and re-creating this sensor, which would cause
+                // bad side effects regarding thresholds and hysteresis.
+                sensorChangeNeeded = false;
+                if constexpr (debug)
+                {
+                    std::cerr << "PSU name \"" << *psuName
+                              << "\" lacks change notification\n";
+                }
             }
-            sensorsChanged->erase(it);
+            else
+            {
+                // At least one sensor was found that needs change, so mark
+                // this notification as consumed, for later cleanup. Do not
+                // immediately delete it from sensorsChanged set, because more
+                // sensors might be found during subsequent loop iterations.
+                sensorChangesConsumed.insert(*it);
+                if constexpr (debug)
+                {
+                    std::cerr << "PSU name \"" << *psuName
+                              << "\" has change notification " << *it << "\n";
+                }
+            }
         }
-        checkEvent(directory.string(), eventMatch, eventPathList);
-        checkGroupEvent(directory.string(), groupEventMatch,
-                        groupEventPathList);
 
         PowerState readState = PowerState::always;
         auto findPowerOn = baseConfig->second.find("PowerState");
@@ -587,9 +607,6 @@ static void createSensorsCallback(
                 std::cerr << "Sensor type=\"" << sensorNameSubStr
                           << "\" label=\"" << labelHead << "\"\n";
             }
-
-            checkPWMSensor(sensorPath, labelHead, *interfacePath,
-                           dbusConnection, objectServer, psuNames[0]);
 
             if (!findLabels.empty())
             {
@@ -773,8 +790,6 @@ static void createSensorsCallback(
                 }
             }
 
-            checkEventLimits(sensorPathStr, limitEventMatch, eventPathList);
-
             // Similarly, if sensor scaling factor is being customized,
             // then the below power-of-10 constraint becomes unnecessary,
             // as config should be able to specify an arbitrary divisor.
@@ -851,12 +866,51 @@ static void createSensorsCallback(
                     psuNameFromIndex + " " + psuProperty->labelTypeName;
             }
 
+            // The sensor name is now determined, thus it can now be checked
+            // for existence. If this sensor does not exist yet, always allow
+            // creation, even if it did not appear in a change notification.
+            if (!sensorChangeNeeded)
+            {
+                auto sensorFound = sensors.find(sensorName);
+                if (sensorFound == sensors.end())
+                {
+                    sensorChangeNeeded = true;
+                    if constexpr (debug)
+                    {
+                        std::cerr
+                            << "Sensor \"" << sensorName
+                            << "\" allowing creation without notification\n";
+                    }
+                }
+            }
+
+            // The remainder of this block contains destructive operations,
+            // so avoid them, unless this sensor needs to be changed.
+            if (!sensorChangeNeeded)
+            {
+                if constexpr (debug)
+                {
+                    std::cerr << "Sensor \"" << sensorName << "\" unchanged\n";
+                }
+                continue;
+            }
+
             if constexpr (debug)
             {
                 std::cerr << "Sensor name \"" << sensorName << "\" path \""
                           << sensorPathStr << "\" type \"" << sensorType
                           << "\"\n";
             }
+
+            checkEvent(directory.string(), eventMatch, eventPathList);
+            checkGroupEvent(directory.string(), groupEventMatch,
+                            groupEventPathList);
+
+            checkPWMSensor(sensorPath, labelHead, *interfacePath,
+                           dbusConnection, objectServer, psuNames[0]);
+
+            checkEventLimits(sensorPathStr, limitEventMatch, eventPathList);
+
             // destruct existing one first if already created
             sensors[sensorName] = nullptr;
             sensors[sensorName] = std::make_shared<PSUSensor>(
@@ -881,6 +935,21 @@ static void createSensorsCallback(
                                               *psuName, readState,
                                               eventPathList, groupEventPathList,
                                               "OperationalStatus", pollRate);
+    }
+
+    // Remove consumed changes from the sensorsChanged set
+    for (const auto& change : sensorChangesConsumed)
+    {
+        auto changeFound = sensorsChanged->find(change);
+        if (changeFound != sensorsChanged->end())
+        {
+            sensorsChanged->erase(changeFound);
+            if constexpr (debug)
+            {
+                std::cerr << "Finalized change notification: " << change
+                          << "\n";
+            }
+        }
     }
 
     if constexpr (debug)
