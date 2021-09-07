@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba0ff716_9a9380e9",
+        "filename": "include/meson.build",
+        "patchSetId": 23
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-07T09:09:04Z",
+      "side": 1,
+      "message": "Fixed in latest patchset.",
+      "parentUuid": "a1c10030_7142b7ca",
+      "range": {
+        "startLine": 4,
+        "startChar": 48,
+        "endLine": 4,
+        "endChar": 64
+      },
+      "revId": "98e603fb93cd414557029ab48f999c05723ad938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b1a55f2_bb4fa5cf",
         "filename": "meson_options.txt",
         "patchSetId": 23
@@ -45,6 +69,30 @@
       "revId": "98e603fb93cd414557029ab48f999c05723ad938",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5537a5ec_286da520",
+        "filename": "meson_options.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-07T09:09:04Z",
+      "side": 1,
+      "message": "Fixed in latest patchset.",
+      "parentUuid": "8b1a55f2_bb4fa5cf",
+      "range": {
+        "startLine": 15,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "98e603fb93cd414557029ab48f999c05723ad938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
