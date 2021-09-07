@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a365cb96_23c8ced3",
+        "filename": "include/PSUEvent.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-07T18:35:28Z",
+      "side": 1,
+      "message": "To that end, we\u0027re taking this already opaque structure, and making it more opaque by using std::pair.  I suspect we need a struct here to not only describe the data that\u0027s in the pair, but to also call out what each variable means.  Once that\u0027s done, I suspect the typedef wont be needed.",
+      "parentUuid": "65a07381_e8bda332",
+      "revId": "96f36861e7541096e30e4fdf5860cbeb2d8e1ae6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cebc779_62bb3717",
         "filename": "include/sensor.hpp",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2021-08-19T23:40:28Z",
       "side": 1,
       "message": "Does this need to be static? The other constants nearby are not static.",
+      "revId": "96f36861e7541096e30e4fdf5860cbeb2d8e1ae6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83de1352_1b2bec96",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-07T18:35:28Z",
+      "side": 1,
+      "message": "We\u0027re not consistent on this, and in practice it doesn\u0027t change anything.  Up to willy if he wants to change it.",
+      "parentUuid": "7cebc779_62bb3717",
       "revId": "96f36861e7541096e30e4fdf5860cbeb2d8e1ae6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
