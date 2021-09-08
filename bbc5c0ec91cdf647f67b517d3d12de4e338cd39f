@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "2c726d3c_1430e8bc",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-08T22:14:39Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "68b415aa_0de78b52",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 80
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3caa2e47_cf3f14c7",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 92
@@ -227,6 +251,30 @@
       "side": 1,
       "message": "I\u0027m not seeing where that\u0027s guaranteed;  Can you link the docs/code that you\u0027re reading?",
       "parentUuid": "ae6c2122_828548bd",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 33
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12136c5_220992ca",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-08T22:14:39Z",
+      "side": 1,
+      "message": "You are right in that the answer does not seem clear.\n\nI\u0027ve sent an email to linux-iio@vger.kernel.org and CCed openbmc@lists.ozlabs.org\n\nLinks to the kernel documentation:\n    https://www.kernel.org/doc/Documentation/hwmon/sysfs-interface\n    https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-iio",
+      "parentUuid": "0d3d6468_5527d5e7",
       "range": {
         "startLine": 180,
         "startChar": 0,
