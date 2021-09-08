@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5965c9bc_3bb7a8ef",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-09-08T21:25:48Z",
+      "side": 1,
+      "message": "I sent Bruce some info on this offline.",
+      "parentUuid": "f16d4e12_a1a18a24",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 70
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "528657d3_b43fc735",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 92
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I thought this https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/45406/89..94/src/HwmonTempMain.cpp#169\nhad fixed what you were asking.  I think I understand what you want now.\nDo strings just automagicly grow as needed?",
       "parentUuid": "528657d3_b43fc735",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 80
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d60cbd_bbd5ea56",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-09-08T21:25:48Z",
+      "side": 1,
+      "message": "I sent Bruce some info on std::string offline.",
+      "parentUuid": "649678bf_bc4d9628",
       "range": {
         "startLine": 171,
         "startChar": 0,
