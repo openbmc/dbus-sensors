@@ -114,6 +114,9 @@ void HwmonTempSensor::setupRead(void)
                                           self->handleResponse(ec);
                                       }
                                   });
+    // Schedule the next read.
+    // TODO(linchuyuan@): Consider the alternative of using a deadline_timer.
+    restartRead();
 }
 
 void HwmonTempSensor::restartRead()
@@ -130,6 +133,19 @@ void HwmonTempSensor::restartRead()
         {
             return;
         }
+        // We should expect the previous operation to finish within the
+        // sensorPollMs interval.
+        // If it is not finished, it may not be advancing.
+        // Therefore, cancel the previous read and schedule a new one.
+        self->inputDev.close();
+        int fd = open(self->path.c_str(), O_RDONLY);
+        if (fd < 0)
+        {
+            std::cerr << "Hwmon temp sensor " << self->name << " not valid "
+                      << self->path << std::endl;
+            return; // we're no longer valid
+        }
+        self->inputDev.assign(fd);
         self->setupRead();
     });
 }
@@ -163,18 +179,7 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
     {
         incrementError();
     }
-
     responseStream.clear();
-    inputDev.close();
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd < 0)
-    {
-        std::cerr << "Hwmon temp sensor " << name << " not valid " << path
-                  << "\n";
-        return; // we're no longer valid
-    }
-    inputDev.assign(fd);
-    restartRead();
 }
 
 void HwmonTempSensor::checkThresholds(void)
