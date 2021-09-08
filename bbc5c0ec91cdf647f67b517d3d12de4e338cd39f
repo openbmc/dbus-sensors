@@ -2,6 +2,121 @@
   "comments": [
     {
       "key": {
+        "uuid": "b1c666ed_d31a18d2",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-08T19:54:17Z",
+      "side": 1,
+      "message": "If you\u0027re going to put this in its own patch, that\u0027s fine, but please series your commits such that this doesn\u0027t show up in 2 different diffs.",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 70
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "528657d3_b43fc735",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-08T19:54:17Z",
+      "side": 1,
+      "message": "I thought I already commented this, but you don\u0027t need to do a find and replace here.  You already know that the string ends with _raw, you just need to replace those chars.",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 80
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3caa2e47_cf3f14c7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-08T19:54:17Z",
+      "side": 1,
+      "message": "is there such thing as a raw sensor without an offset?  should this just continue to init the sensor with the default offset?  Same question for scale.",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 33
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91f781e7_0244c703",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-08T19:54:17Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 78
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7a1588b_d3f16e40",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-08T19:54:17Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 33
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df76e04d_839e3a10",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 92
