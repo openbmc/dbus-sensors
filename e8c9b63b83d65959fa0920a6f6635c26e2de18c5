@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78ad8545_f54184dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-08T18:17:42Z",
+      "side": 1,
+      "message": "Lets run some more tests by changing thresholds of existing sensors, and ensuring that they get re-initted, and the runtime-modification behavior you\u0027re changing the code for isn\u0027t effected.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 0
+      },
+      "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
