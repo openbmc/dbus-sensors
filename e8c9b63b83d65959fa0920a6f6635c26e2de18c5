@@ -46,6 +46,30 @@
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84a9b1bd_5f693861",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-09-09T20:15:32Z",
+      "side": 1,
+      "message": "IPMI sensor commands can be used:\nread sensor value and thresholds: ipmitool raw 0x04 0x27 sensor_number \nset sensor threshold thresholds: ipmitool raw 0x04 0x26 sensor_number 0x1b low-non-critical low-critical 0x00 upper-non-critical upper-critical 0x00",
+      "parentUuid": "e311ad96_d013e5dd",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 0
+      },
+      "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
