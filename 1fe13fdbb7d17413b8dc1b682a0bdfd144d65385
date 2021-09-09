@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "49713f59_1b223328",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T15:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5beeeec_59c77f28",
+      "range": {
+        "startLine": 151,
+        "startChar": 34,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d62c5f9d_8cf1b166",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 36
@@ -331,6 +355,30 @@
       "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b5bc517_37827dd1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T15:05:32Z",
+      "side": 1,
+      "message": "Solved by readRawSensorCompValue()",
+      "parentUuid": "e4d43436_605a69f0",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 54
+      },
+      "revId": "1fe13fdbb7d17413b8dc1b682a0bdfd144d65385",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
