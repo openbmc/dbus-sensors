@@ -70,6 +70,29 @@
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "139103c2_ead2bf82",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-09-09T23:12:21Z",
+      "side": 1,
+      "message": "I am not following the purpose of keeping not consumed changes in sensorsChanged. Is it going to be used in a scan later and be consumed? Any risk of this becomes a memory leak?",
+      "range": {
+        "startLine": 940,
+        "startChar": 0,
+        "endLine": 954,
+        "endChar": 0
+      },
+      "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
