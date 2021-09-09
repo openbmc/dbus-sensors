@@ -331,6 +331,174 @@
     },
     {
       "key": {
+        "uuid": "832b1864_faa72977",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4542e1_00924c60",
+      "range": {
+        "startLine": 205,
+        "startChar": 33,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4ef742c_3d1764de",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4542e1_00924c60",
+      "range": {
+        "startLine": 205,
+        "startChar": 33,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b69d097_dd23bb82",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4542e1_00924c60",
+      "range": {
+        "startLine": 205,
+        "startChar": 33,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a3e91e5_a9481581",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4542e1_00924c60",
+      "range": {
+        "startLine": 205,
+        "startChar": 33,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7874820a_56ed71e7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4542e1_00924c60",
+      "range": {
+        "startLine": 205,
+        "startChar": 33,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0184f9a7_be9bcc9e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4542e1_00924c60",
+      "range": {
+        "startLine": 205,
+        "startChar": 33,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01019bb9_2d19c821",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4542e1_00924c60",
+      "range": {
+        "startLine": 205,
+        "startChar": 33,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3606ed9_d1f2cd2c",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 82
@@ -413,6 +581,30 @@
       "side": 1,
       "message": "I chose to have the \"_raw\" scale we read not also do this scaling,\nthus chose to have this scale ALL temp specific adjustment to \ndegrees Celsius from degrees Celsius in one place.\n\nI see your point but feel then it splits up the IIO \"_raw\" devices\ninstead.",
       "parentUuid": "2af67a4b_42e3b256",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 40
+      },
+      "revId": "7281a21198fc89aebba37997db081cb94b97ef01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a92d5ca_e705ddb5",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 82
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:35:09Z",
+      "side": 1,
+      "message": "Ed, your thoughts?",
+      "parentUuid": "34ce0b35_4cc44a90",
       "range": {
         "startLine": 236,
         "startChar": 0,
