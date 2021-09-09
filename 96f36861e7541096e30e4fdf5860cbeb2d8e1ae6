@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "52efe0af_c3873fe8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-09-09T22:45:18Z",
+      "side": 1,
+      "message": "Few questions:\n1. what are the corresponding sel-logger journal logs?\n2. what is the result if temp1_input \u003e temp1_max and tem1_crit at the same time? \nFor real use cases temp1_crit \u003e temp1_max, temp1 can be temp1_crit\u003etemp1_input\u003etemp1_max, temp1_input\u003etemp1_crit\u003etemp1_max or normal case temp1_crit?temp1_max\u003etemp1_input\n3. what about other limits for fans, power etc.",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 48,
+        "endChar": 89
+      },
+      "revId": "96f36861e7541096e30e4fdf5860cbeb2d8e1ae6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65a07381_e8bda332",
         "filename": "include/PSUEvent.hpp",
         "patchSetId": 5
