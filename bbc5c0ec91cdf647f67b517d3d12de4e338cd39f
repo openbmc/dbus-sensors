@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1532c698_920823cc",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:30:25Z",
+      "side": 1,
+      "message": "Since I started this off wrong I just abandoned\n46646: Enhances Utils with readRawSensorCompValue for IIO | https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/46646",
+      "parentUuid": "5965c9bc_3bb7a8ef",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 70
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "528657d3_b43fc735",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 92
@@ -189,6 +213,30 @@
       "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd7cfb3d_2943a407",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c726d3c_1430e8bc",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 80
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -355,6 +403,30 @@
       "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a8d5b2d_c904e6fe",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c348879_0e188827",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 78
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
