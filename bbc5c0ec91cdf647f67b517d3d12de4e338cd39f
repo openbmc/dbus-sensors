@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "59ceabfb_853e8035",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-09T18:17:19Z",
+      "side": 1,
+      "message": "No.... it\u0027s not.  You added it here.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1c666ed_d31a18d2",
         "filename": "include/Utils.hpp",
         "patchSetId": 92
@@ -569,6 +592,30 @@
       "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10b8eb44_8f4c66ca",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-09T18:17:19Z",
+      "side": 1,
+      "message": "MaxValue !\u003d MaxReading.  Sensor requires maxValue, this is initializing maxReading.  I\u0027ve left a comment in your patchset where you added this, and I don\u0027t think it\u0027s needed, and I think it duplicates maxValue in the Sensor class, hence this comment.",
+      "parentUuid": "a659d60c_d25af371",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 26
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
