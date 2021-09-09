@@ -521,6 +521,30 @@
       "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a659d60c_d25af371",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-09T14:53:58Z",
+      "side": 1,
+      "message": "It is required by Sensor\nsee https://github.com/openbmc/dbus-sensors/blob/master/include/sensor.hpp#L48",
+      "parentUuid": "7518e165_f3e1805d",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 26
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
