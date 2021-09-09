@@ -359,6 +359,30 @@
     },
     {
       "key": {
+        "uuid": "daf2682d_7d1a36cb",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-09T18:15:10Z",
+      "side": 1,
+      "message": "Looks like I was right, offset and scale aren\u0027t required and this shouldn\u0027t be a fatal error?",
+      "parentUuid": "f12355ac_69db5a89",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 33
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91f781e7_0244c703",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 92
