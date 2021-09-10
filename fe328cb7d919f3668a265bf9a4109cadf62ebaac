@@ -46,6 +46,30 @@
       "revId": "fe328cb7d919f3668a265bf9a4109cadf62ebaac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "969e1091_c0037cb0",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 102
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-10T19:01:15Z",
+      "side": 1,
+      "message": "That doesn\u0027t explain why it needs to be a class variable.  I asked you to move the selection of scales to the calling scope, not to split them into a separate unused class variable.",
+      "parentUuid": "eedbb19d_71163bdc",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 20
+      },
+      "revId": "fe328cb7d919f3668a265bf9a4109cadf62ebaac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
