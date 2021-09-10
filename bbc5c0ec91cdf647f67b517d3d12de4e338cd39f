@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "edce617d_771f4120",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-10T18:54:36Z",
+      "side": 1,
+      "message": "Because you didn\u0027t like the trinary operator here:\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/45406/35/src/HwmonTempSensor.cpp#61",
+      "parentUuid": "c6f7f7ae_bc2cc357",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1c666ed_d31a18d2",
         "filename": "include/Utils.hpp",
         "patchSetId": 92
@@ -727,6 +751,30 @@
       "side": 1,
       "message": "Now you\u0027ve just changed the variable name to shadow the one in Sensor (which is bad btw), but you still haven\u0027t explained why or how this is different from Sensor::maxValue.",
       "parentUuid": "51479f84_1afdf72a",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 26
+      },
+      "revId": "bbc5c0ec91cdf647f67b517d3d12de4e338cd39f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b798ba3_a6e267c9",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 92
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-09-10T18:54:36Z",
+      "side": 1,
+      "message": "Because you didn\u0027t like the trinary operator here:\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/45406/35/src/HwmonTempSensor.cpp#61",
+      "parentUuid": "82c682a4_1e2a8d61",
       "range": {
         "startLine": 59,
         "startChar": 3,
