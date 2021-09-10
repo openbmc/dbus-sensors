@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a99dc7b3_f51375b8",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-09-10T03:54:04Z",
+      "side": 1,
+      "message": "should read be skipped below?",
+      "range": {
+        "startLine": 174,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 9
+      },
+      "revId": "0fad8a39e20a66fa296bae10fc5ec2e11cfafb2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
