@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "6a2a8964_0cfb7836",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-09-10T19:46:50Z",
+      "side": 1,
+      "message": "Thanks for these IPMI commands! I will try them soon.",
+      "parentUuid": "84a9b1bd_5f693861",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 0
+      },
+      "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "139103c2_ead2bf82",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
@@ -93,6 +117,30 @@
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27de9f76_8f4be499",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-09-10T19:46:50Z",
+      "side": 1,
+      "message": "This preserves existing behavior. I wanted to stay true to the existing behavior, by fixing merely a bug in implementation, not changing behavior. If a PSU name comes in that does not match any existing sensor, yes, it will stay in memory. However, that is mitigated by the fact the main loop coalesces duplicate PSU names together. It\u0027s a set, not a list. Somebody could still wrongly fill up memory by sending lots of bogus D-Bus messages under a variety of made-up PSU names, though. This vulnerability also exists in the original code. Should this be addressed? If so, should we have a hardcoded limit on the number of outstanding PSU names that can be addressed by notification messages?",
+      "parentUuid": "139103c2_ead2bf82",
+      "range": {
+        "startLine": 940,
+        "startChar": 0,
+        "endLine": 954,
+        "endChar": 0
+      },
+      "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
