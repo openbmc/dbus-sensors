@@ -633,6 +633,7 @@ static void createSensorsCallback(
             std::string keyMin = labelHead + "_Min";
             std::string keyMax = labelHead + "_Max";
             std::string keyOffset = labelHead + "_Offset";
+            std::string keyPowerState = labelHead + "_PowerState";
 
             bool customizedName = false;
             auto findCustomName = baseConfig->second.find(keyName);
@@ -725,6 +726,14 @@ static void createSensorsCallback(
                 }
             }
 
+            // if we find label head power state set ，override the powerstate.
+            auto findPowerState = baseConfig->second.find(keyPowerState);
+            if (findPowerState != baseConfig->second.end())
+            {
+                std::string powerState = std::visit(VariantToStringVisitor(),
+                                                    findPowerState->second);
+                setReadState(powerState, readState);
+            }
             if (!(psuProperty->minReading < psuProperty->maxReading))
             {
                 std::cerr << "Min must be less than Max\n";
