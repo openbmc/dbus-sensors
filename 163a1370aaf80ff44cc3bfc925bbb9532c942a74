@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a420f790_128424cf",
+        "filename": "include/TachSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-09-10T03:44:04Z",
+      "side": 1,
+      "message": "Not part of this change. But this looks odd to me: Fan inserted resulted in Fan Redundancy Lost message.",
+      "range": {
+        "startLine": 112,
+        "startChar": 16,
+        "endLine": 112,
+        "endChar": 28
+      },
+      "revId": "163a1370aaf80ff44cc3bfc925bbb9532c942a74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
