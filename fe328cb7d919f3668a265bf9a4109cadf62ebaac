@@ -142,6 +142,30 @@
       "revId": "fe328cb7d919f3668a265bf9a4109cadf62ebaac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb0b0114_e3f2760a",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 102
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-10T20:00:21Z",
+      "side": 1,
+      "message": "I think you understood incorrectly.  these can be completely removed.",
+      "parentUuid": "bb478794_08f0aa87",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 20
+      },
+      "revId": "fe328cb7d919f3668a265bf9a4109cadf62ebaac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
