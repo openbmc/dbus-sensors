@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2ae71bf5_d1c27c98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-14T09:07:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "df5cf957_8cd51f0c",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "523492d2_6184509d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -99,6 +123,24 @@
       "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da196d44_0a441b8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-14T09:07:55Z",
+      "side": 1,
+      "message": "The information still needs to be provided by entity-manager for the device that PLDM is for access only.",
+      "parentUuid": "f5537003_c8da79dd",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -214,6 +256,30 @@
     },
     {
       "key": {
+        "uuid": "ca819df5_a01c7275",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-14T09:07:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2a0527ac_fac7b487",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 50
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850835cd_ee233c06",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -228,6 +294,24 @@
       "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f17ea45_97cdb151",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-14T09:07:55Z",
+      "side": 1,
+      "message": "The missed properties were added in commit message",
+      "parentUuid": "850835cd_ee233c06",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -326,6 +410,30 @@
     },
     {
       "key": {
+        "uuid": "b9501f96_18247068",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-14T09:07:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3f6de7a8_48bba571",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df21c32f_ff37253c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -370,6 +478,30 @@
       "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78d5d8c5_0a0b55d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-14T09:07:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7a286a21_5462bac3",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 19
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
