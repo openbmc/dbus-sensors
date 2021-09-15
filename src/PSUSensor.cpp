@@ -18,6 +18,7 @@
 
 #include <PSUSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -48,9 +49,11 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), sensorFactor(factor),
-    sensorOffset(offset), thresholdTimer(io)
+    inputDev(io, path, boost::asio::random_access_file::read_only),
+    waitTimer(io), path(path), sensorFactor(factor), sensorOffset(offset),
+    thresholdTimer(io)
 {
+    buffer = std::make_shared<std::array<char, 128>>();
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
     {
@@ -64,15 +67,6 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     {
         sensorPollMs = static_cast<unsigned int>(pollRate * 1000);
     }
-
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
-    if (fd < 0)
-    {
-        std::cerr << "PSU sensor failed to open file\n";
-        return;
-    }
-    inputDev.assign(fd);
 
     std::string dbusPath = sensorPathPrefix + unitPath + "/" + name;
 
@@ -125,15 +119,29 @@ void PSUSensor::setupRead(void)
         return;
     }
 
-    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
-                        [weakRef](const boost::system::error_code& ec) {
-                            std::shared_ptr<PSUSensor> self = weakRef.lock();
-                            if (self)
-                            {
-                                self->handleResponse(ec);
-                            }
-                        });
+    if (buffer == nullptr)
+    {
+        std::cerr << "Buffer was invalid?";
+        return;
+    }
+
+    std::weak_ptr<PSUSensor> weak = weak_from_this();
+    // Note, we are building a asio buffer that is one char smaller than
+    // the actual data structure, so that we can always append the null
+    // terminator.  This can go away once std::from_chars<double> is available
+    // in the standard
+    inputDev.async_read_some_at(
+        0, boost::asio::buffer(buffer->data(), buffer->size() - 1),
+        [weak, buffer{buffer}](const boost::system::error_code& ec,
+                               size_t bytesRead) {
+            std::shared_ptr<PSUSensor> self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
+
+            self->handleResponse(ec, bytesRead);
+        });
 }
 
 void PSUSensor::restartRead(void)
@@ -156,40 +164,32 @@ void PSUSensor::restartRead(void)
 
 // Create a buffer expected to be able to hold more characters than will be
 // present in the input file.
-static constexpr uint32_t psuBufLen = 128;
-void PSUSensor::handleResponse(const boost::system::error_code& err)
+void PSUSensor::handleResponse(const boost::system::error_code& err,
+                               size_t bytesRead)
 {
+    if (err == boost::asio::error::operation_aborted)
+    {
+        std::cerr << "Read aborted\n";
+        return;
+    }
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
         std::cerr << "Bad file descriptor for " << path << "\n";
         return;
     }
+    // null terminate the string so we don't walk off the end
+    std::array<char, 128>& bufferRef = *buffer;
+    bufferRef[bytesRead] = '\0';
 
-    std::string buffer;
-    buffer.resize(psuBufLen);
-    lseek(fd, 0, SEEK_SET);
-    int rdLen = read(fd, buffer.data(), psuBufLen);
-
-    if (rdLen > 0)
+    try
     {
-        try
-        {
-            rawValue = std::stod(buffer);
-            updateValue((rawValue / sensorFactor) + sensorOffset);
-        }
-        catch (const std::invalid_argument&)
-        {
-            std::cerr << "Could not parse  input from " << path << "\n";
-            incrementError();
-        }
+        rawValue = std::stod(bufferRef.data());
+        updateValue((rawValue / sensorFactor) + sensorOffset);
     }
-    else
+    catch (const std::invalid_argument&)
     {
-        std::cerr
-            << "System error " << errno << " ("
-            << std::generic_category().default_error_condition(errno).message()
-            << ") reading from " << path << ", line: " << __LINE__ << "\n";
+        std::cerr << "Could not parse  input from " << path << "\n";
         incrementError();
     }
 

@@ -21,6 +21,9 @@ add_project_arguments(
     '-DBOOST_ALL_NO_LIB',
     '-DBOOST_ASIO_DISABLE_THREADS',
     '-DBOOST_ALLOW_DEPRECATED_HEADERS',
+    '-DBOOST_ASIO_HAS_IO_URING',
+    '-DBOOST_ASIO_DISABLE_EPOLL',
+    '-DBOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT',
     language: 'cpp',
 )
 
@@ -67,7 +70,10 @@ systemd_system_unit_dir = systemd.get_variable(
     pkgconfig_define: ['prefix', get_option('prefix')])
 threads = dependency('threads')
 
+uring = cpp.find_library('uring')
+
 default_deps = [
+    uring,
     nlohmann_json,
     phosphor_logging_dep,
     sdbusplus,
