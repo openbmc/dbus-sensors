@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "45d8c75b_76766166",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-15T16:05:03Z",
+      "side": 1,
+      "message": "The SDR is rebuilt essentially every time the user asks for it (there is a 5 second cache, but we will ignore that for the moment).\n\nWhen this device is removed, the SDR should be updated, as it is with everything else.",
+      "parentUuid": "7439e9eb_5f83e40b",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "fcee741cb8c0399a196719783eef2f9ac7bc6e6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "810424b5_8a2fea4b",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 1
