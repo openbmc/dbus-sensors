@@ -2,10 +2,11 @@
 
 #include <PwmSensor.hpp>
 #include <Thresholds.hpp>
-#include <boost/asio/streambuf.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
+#include <array>
 #include <memory>
 #include <string>
 #include <utility>
@@ -26,15 +27,19 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     void setupRead(void);
 
   private:
+    // Note, this buffer is a shared_ptr because during a read, its lifetime
+    // might have to outlive the PSUSensor class if the object gets destroyed
+    // while in the middle of a read operation
+    std::shared_ptr<std::array<char, 128>> buffer;
     sdbusplus::asio::object_server& objServer;
-    boost::asio::posix::stream_descriptor inputDev;
+    boost::asio::random_access_file inputDev;
     boost::asio::deadline_timer waitTimer;
     std::string path;
     unsigned int sensorFactor;
     double sensorOffset;
     thresholds::ThresholdTimer thresholdTimer;
     void restartRead();
-    void handleResponse(const boost::system::error_code& err);
+    void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void checkThresholds(void) override;
     unsigned int sensorPollMs = defaultSensorPollMs;
 
