@@ -23,6 +23,7 @@
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <array>
 #include <memory>
 #include <set>
 #include <string>
@@ -57,9 +58,10 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
 
     PowerState readState;
     boost::asio::deadline_timer waitTimer;
-    std::shared_ptr<boost::asio::streambuf> readBuf;
+    std::shared_ptr<std::array<char, 128>> buffer;
     void restartRead();
-    void handleResponse(const boost::system::error_code& err);
+    void handleResponse(const boost::system::error_code& err,
+                        size_t bytes_transferred);
     void updateValue(const int& newValue);
     boost::asio::posix::stream_descriptor inputDev;
     std::string psuName;
