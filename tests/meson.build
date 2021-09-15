@@ -19,6 +19,12 @@ if not gtest_dep.found() or not gmock_dep.found()
     endif
 endif
 
+ut_deps_list = [
+    gtest_dep,
+]
+
+ut_deps_list += default_deps
+
 have_boost_dbus = meson.get_compiler('cpp').has_header('dbus/connection.hpp')
 if have_boost_dbus
 test(
@@ -26,10 +32,7 @@ test(
     executable(
         'test_hwmon_temp_sensor',
         'test_HwmonTempSensor.cpp',
-        dependencies: [
-            gtest,
-            boost_dbus,
-        ],
+        dependencies: ut_deps_list,
         implicit_include_directories: false,
         include_directories: '../include',
     )
@@ -40,10 +43,7 @@ test(
     executable(
         'test_tach_sensor',
         'test_TachSensor.cpp',
-        dependencies: [
-            gtest,
-            boost_dbus,
-        ],
+        dependencies: ut_deps_list,
         implicit_include_directories: false,
         include_directories: '../include',
     )
@@ -56,10 +56,7 @@ test(
         'test_utils',
         'test_Utils.cpp',
         '../src/Utils.cpp',
-        dependencies: [
-            sdbusplus,
-            gtest_dep,
-        ],
+        dependencies: ut_deps_list,
         implicit_include_directories: false,
         include_directories: '../include',
     )
