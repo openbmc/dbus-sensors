@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7439e9eb_5f83e40b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-09-15T14:28:32Z",
+      "side": 1,
+      "message": "That\u0027s right.  Unfortunately, my platforms don\u0027t yet implement dynamic SDR so I can\u0027t test it.  Looking at the code though, it looks like removing one is supported:  https://github.com/openbmc/phosphor-host-ipmid/blob/master/dbus-sdr/sdrutils.cpp#L45",
+      "parentUuid": "e2f757bb_845edcf2",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "fcee741cb8c0399a196719783eef2f9ac7bc6e6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "810424b5_8a2fea4b",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2021-09-14T20:47:56Z",
       "side": 1,
       "message": "Can we make the bulk of this a normal method?  I\u0027m still fine with the lambda, but it would be better if the lambda were minimal, and just called into this as a method declared just above main().",
+      "range": {
+        "startLine": 347,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 13
+      },
+      "revId": "fcee741cb8c0399a196719783eef2f9ac7bc6e6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbeebb2e_e0c10a07",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-09-15T14:28:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "810424b5_8a2fea4b",
       "range": {
         "startLine": 347,
         "startChar": 0,
