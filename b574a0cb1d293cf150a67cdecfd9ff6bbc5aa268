@@ -22,6 +22,30 @@
       "revId": "b574a0cb1d293cf150a67cdecfd9ff6bbc5aa268",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02b88b66_12ae8212",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-16T15:38:57Z",
+      "side": 1,
+      "message": "This API is from libpldm library. https://github.com/openbmc/pldm/blob/master/libpldm/requester/pldm.c#L140\nI am not an expert in NCSI but I think it should be reasonable to add the implementation in libpldm to support the PLDM over NCSI based on RBT layer.",
+      "parentUuid": "4327f637_2720237a",
+      "range": {
+        "startLine": 126,
+        "startChar": 14,
+        "endLine": 126,
+        "endChar": 28
+      },
+      "revId": "b574a0cb1d293cf150a67cdecfd9ff6bbc5aa268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
