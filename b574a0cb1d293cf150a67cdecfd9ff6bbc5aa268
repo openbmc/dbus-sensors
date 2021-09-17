@@ -46,6 +46,30 @@
       "revId": "b574a0cb1d293cf150a67cdecfd9ff6bbc5aa268",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f947c7c_bd90cded",
+        "filename": "src/PLDMSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-17T19:02:34Z",
+      "side": 1,
+      "message": "+1 to the answer.",
+      "parentUuid": "02b88b66_12ae8212",
+      "range": {
+        "startLine": 126,
+        "startChar": 14,
+        "endLine": 126,
+        "endChar": 28
+      },
+      "revId": "b574a0cb1d293cf150a67cdecfd9ff6bbc5aa268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
