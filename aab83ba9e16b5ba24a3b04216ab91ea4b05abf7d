@@ -315,6 +315,24 @@
     },
     {
       "key": {
+        "uuid": "8f0fae84_c2a700f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-17T19:04:20Z",
+      "side": 1,
+      "message": "Did they appear in your testing?",
+      "parentUuid": "2f17ea45_97cdb151",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b4521ed_470723ad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -431,6 +449,30 @@
       "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ed94e59_4c0a2691",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-17T19:04:20Z",
+      "side": 1,
+      "message": "\"it is expected to be defined in one of configs of EntityManager.\"  Understood.  Lets do what we can to keep this runtime-config driven information minimal, and only convey the things that the static device does not convey already.",
+      "parentUuid": "b9501f96_18247068",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
