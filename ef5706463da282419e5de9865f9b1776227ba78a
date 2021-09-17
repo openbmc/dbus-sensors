@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ba838c8_ff602451",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-17T17:13:36Z",
+      "side": 1,
+      "message": "I realize the other ones of these abbreviate, but lets call this out by the full name \"hysteresis\" to make it more obvious.  The other ones ideally wouldn\u0027t be abbreviated, but \"Level\u0026 lev\" is a lot more obvious than \"double\u0026 hys\" as to what it is.  Ideally in another patch we\u0027d also change the variables to not abbreviate, but that\u0027s a different patch.\n\nAlso, doubles should be passed by value, not reference.",
+      "range": {
+        "startLine": 29,
+        "startChar": 28,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "ef5706463da282419e5de9865f9b1776227ba78a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd9653e_1d071b3d",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-17T17:13:36Z",
+      "side": 1,
+      "message": "This should be done as part of setInitialProperties, as that\u0027s where the other threshold parameters are initted.  Unless there\u0027s a good reason to do it here?",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "ef5706463da282419e5de9865f9b1776227ba78a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
