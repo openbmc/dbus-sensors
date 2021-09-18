@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786adb51_083fed71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-09-18T06:02:03Z",
+      "side": 1,
+      "message": "Better to indicate it\u0027s adding label support for power state.\nE.g. \"psusensor: Add power state for label\" or something similar.",
+      "revId": "9d18cc90e36ef984727c1a8b25ebf30e7671639f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
