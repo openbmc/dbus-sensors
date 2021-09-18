@@ -16,6 +16,24 @@
       "revId": "cb9410a9c43edab8c0367660da38c909cd6c275e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b59fc36_bc4e0c45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000632
+      },
+      "writtenOn": "2021-09-18T01:42:41Z",
+      "side": 1,
+      "message": "Tested. Updated in commit message",
+      "parentUuid": "b036718a_6048412b",
+      "revId": "cb9410a9c43edab8c0367660da38c909cd6c275e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
