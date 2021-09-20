@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "90c05953_74e9cce7",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-20T22:47:41Z",
+      "side": 1,
+      "message": "variables should be lowerCamelCase, https://github.com/openbmc/docs/blob/master/cpp-style-and-conventions.md#constants",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "038695bc_f357c855",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 6
@@ -84,6 +107,30 @@
       "side": 1,
       "message": "I think if we just end the program like this we will end with a crash loop.",
       "parentUuid": "121162f0_ecf6afb9",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 66
+      },
+      "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "084bc9d9_bee98aac",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-20T22:47:41Z",
+      "side": 1,
+      "message": "What I\u0027m getting at is, \"Should the caller be informed that gpioLineRead was not successful in a more descriptive way than returning -1?\" , obmc prefers using exceptions for error handling see https://github.com/openbmc/docs/blob/master/cpp-style-and-conventions.md#exceptions\n\nThe caller would need to be aware that this function throws and wrap it in a try catch.",
+      "parentUuid": "e9bd00cf_b0ebf0ba",
       "range": {
         "startLine": 26,
         "startChar": 9,

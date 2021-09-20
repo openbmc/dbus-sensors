@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af78bbfa_2568f919",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-20T22:47:41Z",
+      "side": 1,
+      "message": "doesn\u0027t look like properties is mutated so use const qualifier?",
+      "range": {
+        "startLine": 88,
+        "startChar": 20,
+        "endLine": 88,
+        "endChar": 35
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51681f98_c31ab34f",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-20T22:47:41Z",
+      "side": 1,
+      "message": "forceUpdate, coding standards.",
+      "range": {
+        "startLine": 85,
+        "startChar": 55,
+        "endLine": 85,
+        "endChar": 67
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1036216_396d9bf9",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-20T22:47:41Z",
+      "side": 1,
+      "message": "Unless there are multiple io contexts you should be able to just call bus.get_io_context()\n(And if there are multiple IO contexts I\u0027d be very surprised)\n\nsee\nhttps://github.com/openbmc/sdbusplus/blob/master/include/sdbusplus/asio/connection.hpp#L321",
+      "range": {
+        "startLine": 85,
+        "startChar": 21,
+        "endLine": 85,
+        "endChar": 48
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "531e88b1_fedc3860",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-20T22:47:41Z",
+      "side": 1,
+      "message": "currently this can be -1 under error conditions but this isn\u0027t checked.\nSo it looks like a GPIO line that can\u0027t be read\nIf changed to throw exceptions then this should then be wrapped in try catch.",
+      "range": {
+        "startLine": 109,
+        "startChar": 21,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bb8f61f_e5887c07",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-20T22:47:41Z",
+      "side": 1,
+      "message": "const auto\u0026?",
+      "range": {
+        "startLine": 123,
+        "startChar": 25,
+        "endLine": 123,
+        "endChar": 33
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d99c3845_862e498c",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-20T22:47:41Z",
+      "side": 1,
+      "message": "needChange, coding standards.",
+      "range": {
+        "startLine": 129,
+        "startChar": 16,
+        "endLine": 129,
+        "endChar": 27
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
