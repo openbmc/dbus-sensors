@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c3d1d37f_0f0c194d",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-20T18:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "038695bc_f357c855",
+      "range": {
+        "startLine": 16,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 78
+      },
+      "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "121162f0_ecf6afb9",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9bd00cf_b0ebf0ba",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-20T18:20:32Z",
+      "side": 1,
+      "message": "I think if we just end the program like this we will end with a crash loop.",
+      "parentUuid": "121162f0_ecf6afb9",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 66
+      },
+      "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "943c1ed9_4ff4b6d9",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-20T18:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8864d13_7c3cf9bf",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "041e89cd_0d7d6135",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 6
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "046d0a7d_50543ab9",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-20T18:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "041e89cd_0d7d6135",
+      "range": {
+        "startLine": 119,
+        "startChar": 41,
+        "endLine": 119,
+        "endChar": 54
+      },
+      "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c27fac_97440915",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 6
@@ -114,6 +210,30 @@
       "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f985a0d1_c6aa7aff",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-20T18:20:32Z",
+      "side": 1,
+      "message": "Tested with `EM restart`",
+      "parentUuid": "e3c27fac_97440915",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 44
+      },
+      "revId": "6e495a5db1f30b17dd2020354f8f787ac593d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
