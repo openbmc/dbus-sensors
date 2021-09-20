@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "84e9a963_072ec116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-09-20T07:03:52Z",
+      "side": 1,
+      "message": "I reworded the text to avoid the \"true mutability\" phrase, hopefully to make it more clear.",
+      "parentUuid": "3d148403_89d662e0",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "d95a9f5d125a08dd935efcf8e9d651a6ab639b8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5ebc2c2_c3d3e3ee",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
