@@ -846,6 +846,24 @@
     },
     {
       "key": {
+        "uuid": "10b6a167_a5aff56e",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-20T19:37:51Z",
+      "side": 1,
+      "message": "\u003e Sorry, joining the review party late here. Some questions:\n\u003e \n\u003e - Was there a design doc published for this that I missed?\n\nNot that I saw;  Author should be able to know for sure\n\n\u003e - Why would this not live within pldmd? That way you could use PDRs (equivalent of IPMI SDRs) and other contextual information.\n\nProbably because IPMB took this same pattern of separating out the transport from the implementations (See IPMBBridge and IPMBSensor).  Considering it\u0027s a pattern we already do, I\u0027m assuming the author assumed it was ok.",
+      "parentUuid": "b286c583_925cf4b7",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "939874b7_8c6d6309",
         "filename": "src/PLDMSensorMain.cpp",
         "patchSetId": 12
