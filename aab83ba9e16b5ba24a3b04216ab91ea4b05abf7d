@@ -882,6 +882,24 @@
     },
     {
       "key": {
+        "uuid": "dc81f37b_484c7fc4",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-09-21T03:29:47Z",
+      "side": 1,
+      "message": "How about using PDRs from PLDM devices? You can still support in a single image for your platforms because PDRs are fetched and processed dynamically. My main concern is this is assuming static information, and that may not work with most PLDM requesters.\n\nGilbert - you can post the design doc on Gerrit as well to the docs repo - https://github.com/openbmc/docs/blob/master/designs/design-template.md. I think it would be note in that document the pros/cons of doing this in pldmd vs here.",
+      "parentUuid": "bb83708c_b279375b",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "939874b7_8c6d6309",
         "filename": "src/PLDMSensorMain.cpp",
         "patchSetId": 12
