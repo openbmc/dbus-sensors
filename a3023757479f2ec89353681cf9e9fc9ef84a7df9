@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "bb7ebb2e_f663f1e9",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\nis get property from dbus a better name?",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 22
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "759c71f0_7d3616ab",
         "filename": "include/GPIOSensor.hpp",
         "patchSetId": 8
@@ -35,6 +58,52 @@
         "startChar": 8,
         "endLine": 81,
         "endChar": 38
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "772fbdad_8e9a456a",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "Add check for std::get, use std::get_if or use the code below\n\nif(std::holds_alternative\u003cT\u003e(found-\u003esecond))\n{\n  ret \u003d std::get\u003cT\u003e(found-\u003esecond);\n}\n\nalso log error for this failure too, as Jason Ling has mentioned in that previous comment.",
+      "range": {
+        "startLine": 83,
+        "startChar": 18,
+        "endLine": 83,
+        "endChar": 44
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b495f32_e0796c97",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\n\nI would suggest to make the function bool to indicate if the function has failed. \nSo the caller can use if condition to check success before using ret value.",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
@@ -65,6 +134,52 @@
     },
     {
       "key": {
+        "uuid": "a3c6b9aa_690f4be8",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\n\nis get config a better name?",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 19
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "041d94f8_de040000",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\n\nWhat if found \u003d\u003d ifcAndProperties.end()? \nShouldn\u0027t we handle this situation?",
+      "range": {
+        "startLine": 16,
+        "startChar": 12,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "deead0f2_577b0136",
         "filename": "src/GPIOSensor.cpp",
         "patchSetId": 8
@@ -81,6 +196,167 @@
         "startChar": 52,
         "endLine": 18,
         "endChar": 75
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "985cec47_d6aefab6",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\n\nif conn is null will this crash?",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ba0d27d_571cbe86",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "is this used? if not, remove this.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 30
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0fa665c_44f96ddf",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "Out of these lines, which is expected to throw an error? \nCan keep only the required statements in try and move everything outside the try statement? \nLike the for loop and it\u0027s contents.",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0fa84cd_b5b69b8b",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\n\nHow are we achieving this? we are still going ahead and making ifcAdded in line 55 rt?",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8632a74_476cdedb",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "use lower camel case",
+      "range": {
+        "startLine": 12,
+        "startChar": 53,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef2ef127_3a91d80c",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\n\nCan we use boost flat map?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "682f2a5a_09180e1c",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\n\ndo you think it will be a cleaner code if we use bool return type and passed value as argument? \nSo all failure path can return false.\n\nyou can use std::tuple\u003cbool, int\u003e as return type too.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
@@ -134,6 +410,75 @@
     },
     {
       "key": {
+        "uuid": "27cb7ade_7c1eb2b8",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "??",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 65
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64bdab3_6b239a6e",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\n\nCan we use boost flat map?",
+      "range": {
+        "startLine": 104,
+        "startChar": 12,
+        "endLine": 104,
+        "endChar": 30
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "407b8b88_6617c373",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "Can\u0027t we use force_update itself? why do we need new variable?\nforce_update is passed by value and not by reference rt?",
+      "range": {
+        "startLine": 105,
+        "startChar": 12,
+        "endLine": 105,
+        "endChar": 44
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "531e88b1_fedc3860",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -150,6 +495,52 @@
         "startChar": 21,
         "endLine": 109,
         "endChar": 26
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3f17321_b27cbfac",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "What are we trying to do here?",
+      "range": {
+        "startLine": 110,
+        "startChar": 62,
+        "endLine": 110,
+        "endChar": 69
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b2f61cb_58906cdc",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "is this line supposed to be error? or just a info message?",
+      "range": {
+        "startLine": 116,
+        "startChar": 20,
+        "endLine": 116,
+        "endChar": 29
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
@@ -180,6 +571,29 @@
     },
     {
       "key": {
+        "uuid": "de1251b0_2ee08ac6",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "Can you use the actual type instead of auto?\nSo that line 125 becomes more readable.",
+      "range": {
+        "startLine": 123,
+        "startChar": 25,
+        "endLine": 123,
+        "endChar": 33
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d99c3845_862e498c",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -196,6 +610,121 @@
         "startChar": 16,
         "endLine": 129,
         "endChar": 27
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cf7f194_1d13ccde",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "nit:\nhave you tested to see if this will in-turn throw error? \nname suggest we will assert, that is why I am curious.",
+      "range": {
+        "startLine": 133,
+        "startChar": 20,
+        "endLine": 133,
+        "endChar": 63
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ce09b81_9baa5d6b",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "Can we use boost flat map?",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 22
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec4b86f2_c94b2204",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "what if cableIfc is null?",
+      "range": {
+        "startLine": 174,
+        "startChar": 12,
+        "endLine": 174,
+        "endChar": 20
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcfe4bf8_3abeb3ed",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "what if connectorIfc is null?",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 24
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecb5fd4c_0dd4328f",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-21T10:27:09Z",
+      "side": 1,
+      "message": "what if statusIfc is null?",
+      "range": {
+        "startLine": 184,
+        "startChar": 12,
+        "endLine": 184,
+        "endChar": 21
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
