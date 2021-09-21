@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ffcbcb2_cc626900",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-21T08:35:59Z",
+      "side": 1,
+      "message": "So, is it more \"Cable Sensor\" or \"GPIO sensor\"? Is it something generic, like phosphor-gpio-monitor?\nThis commit catastrophically lack of any documentation. I know, dbus-sensors lack of docs at all, but we should start fixing this.\nI propose you to add \"docs\" subdirectory and put there description of the daemon: purpose, expected configuration options, exported dbus objects, emitted events, etc.",
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "759c71f0_7d3616ab",
         "filename": "include/GPIOSensor.hpp",
         "patchSetId": 8
