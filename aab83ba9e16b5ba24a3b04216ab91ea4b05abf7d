@@ -864,6 +864,24 @@
     },
     {
       "key": {
+        "uuid": "bb83708c_b279375b",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-21T02:47:15Z",
+      "side": 1,
+      "message": "\u003e \u003e Sorry, joining the review party late here. Some questions:\n\u003e \u003e \n\u003e \u003e - Was there a design doc published for this that I missed?\n\u003e \n\u003e Not that I saw;  Author should be able to know for sure\nWhere should I post design doc? Sorry for missing the doc if it is a necessary. \n\u003e \n\u003e \u003e - Why would this not live within pldmd? That way you could use PDRs (equivalent of IPMI SDRs) and other contextual information.\n\u003e \n\u003e Probably because IPMB took this same pattern of separating out the transport from the implementations (See IPMBBridge and IPMBSensor).  Considering it\u0027s a pattern we already do, I\u0027m assuming the author assumed it was ok.\nYes, I follow the same pattern. Furthermore, I would like to take advantage of \"Probe\" key in json file provided by Entity-Manager. It would be easier to support different PLDM devices by one image.",
+      "parentUuid": "10b6a167_a5aff56e",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "939874b7_8c6d6309",
         "filename": "src/PLDMSensorMain.cpp",
         "patchSetId": 12

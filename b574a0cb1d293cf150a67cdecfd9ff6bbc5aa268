@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e0a34607_31dd32bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-21T02:47:15Z",
+      "side": 1,
+      "message": "Thanks for the review! Will fix in new patchset.",
+      "parentUuid": "579472dd_891060ea",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 7
+      },
+      "revId": "b574a0cb1d293cf150a67cdecfd9ff6bbc5aa268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4327f637_2720237a",
         "filename": "src/PLDMSensor.cpp",
         "patchSetId": 13
