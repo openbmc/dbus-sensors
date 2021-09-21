@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ff1b2504_4082ccb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-21T17:44:05Z",
+      "side": 1,
+      "message": "For reference,\n\nhttps://github.com/openbmc/docs/blob/master/designs/gpio-based-cable-presence.md\n\nWhat do you think about adding a reference to the design doc in the root README.md?",
+      "parentUuid": "5ffcbcb2_cc626900",
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb7ebb2e_f663f1e9",
         "filename": "include/GPIOSensor.hpp",
         "patchSetId": 8
@@ -433,6 +451,52 @@
     },
     {
       "key": {
+        "uuid": "38b2dc66_4bc581fa",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-21T17:44:05Z",
+      "side": 1,
+      "message": "a bit more descriptive? mention that the timer is canceled, print the stringified EC and something to identify which GPIO object it corresponds to. Maybe the dbus path is a good starter point?",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 58
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a558cec6_e5a4840a",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-21T17:44:05Z",
+      "side": 1,
+      "message": "This should be an impossible scenario according to Boost documentation.\nhttps://www.boost.org/doc/libs/1_66_0/doc/html/boost_asio/reference/basic_waitable_timer/async_wait.html\n\n Can we be a bit more loud with the error message?",
+      "range": {
+        "startLine": 100,
+        "startChar": 16,
+        "endLine": 100,
+        "endChar": 68
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b64bdab3_6b239a6e",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -610,6 +674,29 @@
         "startChar": 16,
         "endLine": 129,
         "endChar": 27
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7141e171_07e0f9e7",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-09-21T17:44:05Z",
+      "side": 1,
+      "message": "Also it looks like you can completely eliminate need_change and place this code in the conditional surrounding line 115.\nThat appears to be the only place where you would update the LED right?\n(either the functional state has changed or you\u0027re forcing an update)",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 28
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
