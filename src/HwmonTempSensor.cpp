@@ -52,13 +52,16 @@ HwmonTempSensor::HwmonTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn, const float pollRate,
-    const std::string& sensorConfiguration, const PowerState powerState) :
+    const float staggerDelay, const std::string& sensorConfiguration,
+    const PowerState powerState) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            maxReading, minReading, conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
+    sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
+    staggerMs(static_cast<unsigned int>(staggerDelay * 1000)),
+    staggerFirst(true)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -119,7 +122,15 @@ void HwmonTempSensor::setupRead(void)
 void HwmonTempSensor::restartRead()
 {
     std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+    unsigned int nextMs = sensorPollMs;
+    if (staggerFirst)
+    {
+        staggerFirst = false;
+        nextMs += staggerMs;
+        std::cerr << "Sensor \"" << name << "\" first " << nextMs << " then "
+                  << sensorPollMs << " ms\n";
+    }
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(nextMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

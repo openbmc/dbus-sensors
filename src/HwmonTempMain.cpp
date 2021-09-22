@@ -36,7 +36,8 @@
 #include <variant>
 #include <vector>
 
-static constexpr float pollRateDefault = 0.5;
+static constexpr float pollRateDefault = 3.0;
+static constexpr float staggerSpacing = 0.1;
 
 namespace fs = std::filesystem;
 static constexpr std::array<const char*, 17> sensorTypes = {
@@ -81,6 +82,8 @@ void createSensors(
             }
 
             boost::container::flat_set<std::string> directories;
+
+            float staggerOffset = 0.0;
 
             // iterate through all found temp sensors, and try to match them
             // with configuration
@@ -245,7 +248,8 @@ void createSensors(
                     sensor = std::make_shared<HwmonTempSensor>(
                         *hwmonFile, sensorType, objectServer, dbusConnection,
                         io, sensorName, std::move(sensorThresholds), pollRate,
-                        *interfacePath, readState);
+                        staggerOffset, *interfacePath, readState);
+                    staggerOffset += staggerSpacing;
                     sensor->setupRead();
                 }
                 // Looking for keys like "Name1" for temp2_input,
@@ -287,8 +291,9 @@ void createSensors(
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
-                            std::move(thresholds), pollRate, *interfacePath,
-                            readState);
+                            std::move(thresholds), pollRate, staggerOffset,
+                            *interfacePath, readState);
+                        staggerOffset += staggerSpacing;
                         sensor->setupRead();
                     }
                 }

@@ -38,6 +38,8 @@
 #include <variant>
 #include <vector>
 
+static constexpr float staggerSpacing = 0.1;
+
 static constexpr bool debug = false;
 
 static constexpr std::array<const char*, 27> sensorTypes = {
@@ -267,6 +269,9 @@ static void createSensorsCallback(
     }
 
     boost::container::flat_set<std::string> directories;
+
+    float staggerOffset = 0.0;
+
     for (const auto& pmbusPath : pmbusPaths)
     {
         boost::container::flat_map<std::string, std::vector<std::string>>
@@ -866,7 +871,8 @@ static void createSensorsCallback(
                 readState, findSensorUnit->second, factor,
                 psuProperty->maxReading, psuProperty->minReading,
                 psuProperty->sensorOffset, labelHead, thresholdConfSize,
-                pollRate);
+                pollRate, staggerOffset);
+            staggerOffset += staggerSpacing;
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (debug)
