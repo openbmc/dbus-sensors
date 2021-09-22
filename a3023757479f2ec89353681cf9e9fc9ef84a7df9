@@ -592,6 +592,30 @@
     },
     {
       "key": {
+        "uuid": "98b75d8d_b219679f",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T22:02:23Z",
+      "side": 1,
+      "message": "I converted to exception for error handling.",
+      "parentUuid": "682f2a5a_09180e1c",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51681f98_c31ab34f",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
