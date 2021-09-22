@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a029c7e2_7b50c8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "I added the link to the doc in the commit message.",
+      "parentUuid": "ff1b2504_4082ccb0",
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb7ebb2e_f663f1e9",
         "filename": "include/GPIOSensor.hpp",
         "patchSetId": 8
@@ -57,6 +75,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bb480ef_b4242588",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb7ebb2e_f663f1e9",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 22
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "fde795e8_263cb8fa",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "I changed the implementation to handle the exception from the caller function.",
+      "parentUuid": "759c71f0_7d3616ab",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 38
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "772fbdad_8e9a456a",
         "filename": "include/GPIOSensor.hpp",
         "patchSetId": 8
@@ -106,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "333861b9_3c3a0eb8",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "I changed the implementation to handle the exception from the caller function.",
+      "parentUuid": "772fbdad_8e9a456a",
+      "range": {
+        "startLine": 83,
+        "startChar": 18,
+        "endLine": 83,
+        "endChar": 44
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b495f32_e0796c97",
         "filename": "include/GPIOSensor.hpp",
         "patchSetId": 8
@@ -126,6 +216,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aa019cb_edf2a5e5",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "I changed the implementation to handle the exception from the caller function.",
+      "parentUuid": "3b495f32_e0796c97",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 19
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -172,6 +286,54 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a54dd77c_f97ff2d7",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af78bbfa_2568f919",
+      "range": {
+        "startLine": 88,
+        "startChar": 20,
+        "endLine": 88,
+        "endChar": 35
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea75d671_f1102d58",
+        "filename": "include/GPIOSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3c6b9aa_690f4be8",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 19
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -336,6 +498,30 @@
     },
     {
       "key": {
+        "uuid": "923ff50d_649af150",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8632a74_476cdedb",
+      "range": {
+        "startLine": 12,
+        "startChar": 53,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef2ef127_3a91d80c",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -356,6 +542,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99fc3ef7_82f9113a",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef2ef127_3a91d80c",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -428,6 +638,54 @@
     },
     {
       "key": {
+        "uuid": "e2ff3e61_8b9f9ab0",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51681f98_c31ab34f",
+      "range": {
+        "startLine": 85,
+        "startChar": 55,
+        "endLine": 85,
+        "endChar": 67
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e95a6ee_45aab85c",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1036216_396d9bf9",
+      "range": {
+        "startLine": 85,
+        "startChar": 21,
+        "endLine": 85,
+        "endChar": 48
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27cb7ade_7c1eb2b8",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -448,6 +706,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8b7c7f4_862eab5f",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "changed it to 1 second polling interval.",
+      "parentUuid": "27cb7ade_7c1eb2b8",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 65
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -474,6 +756,30 @@
     },
     {
       "key": {
+        "uuid": "da654851_2501aafd",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "There is only one timer for all dbus objects but I changed it to include the error message.",
+      "parentUuid": "38b2dc66_4bc581fa",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 58
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a558cec6_e5a4840a",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -494,6 +800,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "211b8bd9_c7e42c98",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a558cec6_e5a4840a",
+      "range": {
+        "startLine": 100,
+        "startChar": 16,
+        "endLine": 100,
+        "endChar": 68
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -520,6 +850,30 @@
     },
     {
       "key": {
+        "uuid": "0da68eb6_a932459a",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64bdab3_6b239a6e",
+      "range": {
+        "startLine": 104,
+        "startChar": 12,
+        "endLine": 104,
+        "endChar": 30
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "407b8b88_6617c373",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -540,6 +894,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ee565b_2d0dd837",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "407b8b88_6617c373",
+      "range": {
+        "startLine": 105,
+        "startChar": 12,
+        "endLine": 105,
+        "endChar": 44
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -566,6 +944,30 @@
     },
     {
       "key": {
+        "uuid": "68a5f192_1a69ba8b",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "531e88b1_fedc3860",
+      "range": {
+        "startLine": 109,
+        "startChar": 21,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3f17321_b27cbfac",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -589,6 +991,30 @@
     },
     {
       "key": {
+        "uuid": "ec833525_4c46b13f",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3f17321_b27cbfac",
+      "range": {
+        "startLine": 110,
+        "startChar": 62,
+        "endLine": 110,
+        "endChar": 69
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b2f61cb_58906cdc",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -609,6 +1035,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89f23678_a1c6929d",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b2f61cb_58906cdc",
+      "range": {
+        "startLine": 116,
+        "startChar": 20,
+        "endLine": 116,
+        "endChar": 29
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -658,6 +1108,54 @@
     },
     {
       "key": {
+        "uuid": "297340c3_a0ea0776",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de1251b0_2ee08ac6",
+      "range": {
+        "startLine": 123,
+        "startChar": 25,
+        "endLine": 123,
+        "endChar": 33
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba13baa_c09dc27c",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bb8f61f_e5887c07",
+      "range": {
+        "startLine": 123,
+        "startChar": 25,
+        "endLine": 123,
+        "endChar": 33
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d99c3845_862e498c",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -704,6 +1202,54 @@
     },
     {
       "key": {
+        "uuid": "1952554f_99cee197",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d99c3845_862e498c",
+      "range": {
+        "startLine": 129,
+        "startChar": 16,
+        "endLine": 129,
+        "endChar": 27
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fe7250c_46aa12d9",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "I was trying to minimize calling the same dbus object too many times. For example, if two cables are associated to the same fault led group, it might call to the same led dbus object to turn it on/off. We can still eliminate this clause and place it in the line you suggested but I thought the code is more readable in this way.",
+      "parentUuid": "7141e171_07e0f9e7",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 28
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cf7f194_1d13ccde",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -724,6 +1270,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17bf3999_02a84ddb",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "ah, \"assert on fault led group\" means turn the led group if the corresponding cable is not properly seated. I have changed the to driverFaultLedGroup to be more descriptive.",
+      "parentUuid": "0cf7f194_1d13ccde",
+      "range": {
+        "startLine": 133,
+        "startChar": 20,
+        "endLine": 133,
+        "endChar": 63
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -750,6 +1320,30 @@
     },
     {
       "key": {
+        "uuid": "6cc81d26_929306ee",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ce09b81_9baa5d6b",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 22
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec4b86f2_c94b2204",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -770,6 +1364,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d749d65_798c567f",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "yes it is empty in the case. The reason why we want a such empty interface is to give the searching ability for ipmid. For example, if ipmid wants to list all the cables from the system, it can call to dbus GetSubTree with interface equal to the cable interface. This will give a list of objects that has the cable interface.",
+      "parentUuid": "ec4b86f2_c94b2204",
+      "range": {
+        "startLine": 174,
+        "startChar": 12,
+        "endLine": 174,
+        "endChar": 20
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -796,6 +1414,30 @@
     },
     {
       "key": {
+        "uuid": "1989ff20_bc4a4816",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "yes, see the explanation from cableifc",
+      "parentUuid": "dcfe4bf8_3abeb3ed",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 24
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecb5fd4c_0dd4328f",
         "filename": "src/GPIOSensorMain.cpp",
         "patchSetId": 8
@@ -816,6 +1458,30 @@
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14a391fe_17758f04",
+        "filename": "src/GPIOSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-22T21:44:28Z",
+      "side": 1,
+      "message": "yes, see the explanation from cableifc",
+      "parentUuid": "ecb5fd4c_0dd4328f",
+      "range": {
+        "startLine": 184,
+        "startChar": 12,
+        "endLine": 184,
+        "endChar": 21
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
