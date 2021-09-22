@@ -45,7 +45,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      const PowerState& powerState,
                      const std::string& sensorUnits, unsigned int factor,
                      double max, double min, double offset,
-                     const std::string& label, size_t tSize, double pollRate) :
+                     const std::string& label, size_t tSize, double pollRate,
+                     double staggerDelay) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false, max,
            min, conn, powerState),
@@ -66,6 +67,10 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     if (pollRate > 0.0)
     {
         sensorPollMs = static_cast<unsigned int>(pollRate * 1000);
+    }
+    if (staggerDelay > 0.0)
+    {
+        staggerMs = static_cast<unsigned int>(staggerDelay * 1000);
     }
 
     fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
@@ -160,7 +165,15 @@ void PSUSensor::setupRead(void)
 void PSUSensor::restartRead(void)
 {
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+    unsigned int nextMs = sensorPollMs;
+    if (staggerFirst)
+    {
+        staggerFirst = false;
+        nextMs += staggerMs;
+        std::cerr << "Sensor \"" << name << "\" first " << nextMs << " then "
+                  << sensorPollMs << " ms\n";
+    }
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(nextMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
