@@ -21,7 +21,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const std::string& sensorConfiguration,
               const PowerState& powerState, const std::string& sensorUnits,
               unsigned int factor, double max, double min, double offset,
-              const std::string& label, size_t tSize, double pollRate);
+              const std::string& label, size_t tSize, double pollRate,
+              double staggerDelay);
     ~PSUSensor() override;
     void setupRead(void);
 
@@ -41,6 +42,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
     unsigned int sensorPollMs = defaultSensorPollMs;
+    unsigned int staggerMs = 0;
+    bool staggerFirst = true;
 
     int fd;
     static constexpr size_t warnAfterErrorCount = 10;
