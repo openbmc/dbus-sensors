@@ -918,6 +918,24 @@
     },
     {
       "key": {
+        "uuid": "32db77aa_6144f95d",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-09-23T06:38:52Z",
+      "side": 1,
+      "message": "I understand the case of a PLDM devices without PDRs, but it looks like there are other assumptions being made here. For example, no PLDM Type 0 commands are sent, so - does the PLDM device not even support PLDM Type 0? Even if such a device exists, I don\u0027t see why this can\u0027t be done in the PLDM service, because you get the other benefits/requirements of a PLDM requester (which this patchset isn\u0027t doing) - retries, timing, etc. which https://github.com/openbmc/pldm/tree/master/requester implements.\n\n\n\u003e I will complete the design doc and post to Gerrit for the design review.\nThanks, we should discuss the above and state why doing this outside of pldmd might be benefical/without issues. So far I\u0027m not convinced this has considered all the aspects of a PLDM requester. Even if this is for a very specific type of atypical PLDM device, why does that warrant doing this out of pldmd?",
+      "parentUuid": "525bba67_fe4d1710",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "939874b7_8c6d6309",
         "filename": "src/PLDMSensorMain.cpp",
         "patchSetId": 12
