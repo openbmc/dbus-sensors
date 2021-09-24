@@ -51,8 +51,10 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
            min, conn, powerState),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0), sensorOffset(offset),
-    thresholdTimer(io)
+    sensorFactor(factor), ratedReadCounter(0),
+    maxRatedValue(std::numeric_limits<double>::quiet_NaN()),
+    minRatedValue(std::numeric_limits<double>::quiet_NaN()),
+    sensorOffset(offset), thresholdTimer(io)
 {
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
@@ -81,6 +83,9 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
+    ratedValueInterface = objectServer.add_interface(
+        dbusPath, "xyz.openbmc_project.Sensor.RatedValue");
+
     if (thresholds::hasWarningInterface(thresholds))
     {
         thresholdInterfaceWarning = objectServer.add_interface(
@@ -90,6 +95,13 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     {
         thresholdInterfaceCritical = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+    }
+
+    ratedValueInterface->register_property("MaxValue", maxRatedValue);
+    ratedValueInterface->register_property("MinValue", minRatedValue);
+    if (!ratedValueInterface->initialize())
+    {
+        std::cerr << "error initializing rated value interface\n";
     }
 
     // This should be called before initializing association.
@@ -131,6 +143,7 @@ PSUSensor::~PSUSensor()
     waitTimer.cancel();
     inputDev.close();
     objServer.remove_interface(sensorInterface);
+    objServer.remove_interface(ratedValueInterface);
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
     objServer.remove_interface(association);
@@ -175,16 +188,16 @@ void PSUSensor::restartRead(void)
     });
 }
 
-void PSUSensor::updateMinMaxValues(void)
+void PSUSensor::updateRatedValues(void)
 {
     if (auto newVal = readFile(pathRatedMin, sensorFactor))
     {
-        updateProperty(sensorInterface, minValue, *newVal, "MinValue");
+        updateProperty(ratedValueInterface, minValue, *newVal, "MinValue");
     }
 
     if (auto newVal = readFile(pathRatedMax, sensorFactor))
     {
-        updateProperty(sensorInterface, maxValue, *newVal, "MaxValue");
+        updateProperty(ratedValueInterface, maxValue, *newVal, "MaxValue");
     }
 }
 
@@ -211,9 +224,9 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         {
             rawValue = std::stod(buffer);
             updateValue((rawValue / sensorFactor) + sensorOffset);
-            if (minMaxReadCounter++ % 8 == 0)
+            if (ratedReadCounter++ % 8 == 0)
             {
-                updateMinMaxValues();
+                updateRatedValues();
             }
         }
         catch (const std::invalid_argument&)
