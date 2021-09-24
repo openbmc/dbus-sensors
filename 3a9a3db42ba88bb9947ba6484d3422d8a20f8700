@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0201c616_ac163ddf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-24T18:51:14Z",
+      "side": 1,
+      "message": "Looking back at it, I actually did comment on this when the patchset first merged, but I was late, and James was the maintainer at the time.  Oh well.",
+      "parentUuid": "3848a461_193808fc",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "3a9a3db42ba88bb9947ba6484d3422d8a20f8700",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c298c8b6_34c269d5",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 1
