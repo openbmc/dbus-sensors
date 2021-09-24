@@ -27,6 +27,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 
   private:
     sdbusplus::asio::object_server& objServer;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> ratedValueInterface;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     std::string path;
@@ -34,6 +35,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     std::string pathRatedMin;
     unsigned int sensorFactor;
     uint8_t minMaxReadCounter;
+    double maxRatedValue;
+    double minRatedValue;
     double sensorOffset;
     thresholds::ThresholdTimer thresholdTimer;
     void restartRead();
