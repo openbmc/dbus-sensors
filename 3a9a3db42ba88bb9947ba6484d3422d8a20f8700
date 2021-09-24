@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "3848a461_193808fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-24T18:34:02Z",
+      "side": 1,
+      "message": "This is a really good point, and something I didn\u0027t really realize when I first merged the patch.  With that said, the behavior I think we need to work on:\n\nInstead of creating a whole new interface for these values, what if we just had the logic:\n\nIf explicit values are provided in the config, take MaxValue and MinValue from those\nOtherwise, use RatedMax + 20% for MaxValue (MinValue is presumably 0 most of the time).\n\nDoes that meet your needs, or did you have an explicit desire to expose the rated value to dbus?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "3a9a3db42ba88bb9947ba6484d3422d8a20f8700",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c298c8b6_34c269d5",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-24T18:34:02Z",
+      "side": 1,
+      "message": "This interface doesn\u0027t exist....  I suspect you forgot to push a phosphor-dbus-interfaces patch as well?\n\nIt seems odd that this would go under sensor, but lets discuss in the context of phosphor-dbus-interfaces.",
+      "range": {
+        "startLine": 87,
+        "startChar": 46,
+        "endLine": 87,
+        "endChar": 56
+      },
+      "revId": "3a9a3db42ba88bb9947ba6484d3422d8a20f8700",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2614534_d3035063",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 1
@@ -18,6 +64,29 @@
         "startChar": 16,
         "endLine": 191,
         "endChar": 34
+      },
+      "revId": "3a9a3db42ba88bb9947ba6484d3422d8a20f8700",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b876c369_c2780b70",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-24T18:34:02Z",
+      "side": 1,
+      "message": "Extra formatting?",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 25
       },
       "revId": "3a9a3db42ba88bb9947ba6484d3422d8a20f8700",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
