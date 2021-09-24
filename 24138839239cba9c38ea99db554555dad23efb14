@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84de7945_301d97cc",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 103
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-24T18:46:35Z",
+      "side": 1,
+      "message": "I just realized, this helper function already exists:\n\nhttps://github.com/openbmc/dbus-sensors/blob/c7a1ae6b02e767174f5efc0520f763a448c58c4c/src/Utils.cpp#L482\n\nIt\u0027s almost line for line the same as yours, and does exactly the same operation for PSU sensor for reading in max/min values.  It should be directly usable here.",
+      "range": {
+        "startLine": 579,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 69
+      },
+      "revId": "24138839239cba9c38ea99db554555dad23efb14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
