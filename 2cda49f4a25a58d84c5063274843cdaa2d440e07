@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c55bb77_24cbb1b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-24T12:44:31Z",
+      "side": 1,
+      "message": "I still ask you to be more consistent:\n* If this is intended to be some generic solution, remove mention \"cable\" from name and, probably, interfaces. Let it be just \"GPIOSensor\" or \"PresenceSensor\".\n* If this is just about Cables, don\u0027t name source files like \"GPIOSensor.cpp\"\n\nAccording to design doc it more like exactly \"CableDetectionSensor\" but I still don\u0027t see, why this so specific: why can\u0027t we same way detect presence of e.g. risers, storage drives, etc.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "2cda49f4a25a58d84c5063274843cdaa2d440e07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
