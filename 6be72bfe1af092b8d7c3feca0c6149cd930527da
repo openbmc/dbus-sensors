@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "788bcf5f_06fbd978",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-24T18:53:21Z",
+      "side": 1,
+      "message": "Are there also changes to entity-manager to add this to the schemas?",
+      "revId": "6be72bfe1af092b8d7c3feca0c6149cd930527da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
