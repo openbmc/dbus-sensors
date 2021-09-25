@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f21476d8_fb93627a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-25T17:17:44Z",
+      "side": 1,
+      "message": "Why did it do this if the sensor was functional?  Was it non-functional for some period of time?  More description of the problem would be helpful here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "07fb98903cb3d1d3899388e4f018eac23d70db32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72079135_e32ababb",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-25T17:17:44Z",
+      "side": 1,
+      "message": "No, we shouldn\u0027t.  This timer between read behavior was originally intentionally done to ensure that we don\u0027t get thundering herd behavior if the system gets blocked for some period of time, or the CPU cycles get used up for a while, as tends to happen on startup, or host system boot.  This change largely defeats that architecture choice, so I\u0027d like to understand why we need it, so we can see if there\u0027s a solution that meets both goals.\n\nWhat are the cases where a hwmon device would stop completely?  I thought the kernel made some guarantees about the read returning eventually.\n\nIf the kernel can\u0027t give us guarantees, I suspect the answer here is to have a secondary timer that\u0027s much slower (think 10X the poll rate) to \"unstick\" the sensor.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 33
+      },
+      "revId": "07fb98903cb3d1d3899388e4f018eac23d70db32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec5267e5_100af504",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-25T17:17:44Z",
+      "side": 1,
+      "message": "This is completely closing the descriptor and adding a new one, not canceling as it claims.  Shouldn\u0027t we be calling cancel()?",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 70
+      },
+      "revId": "07fb98903cb3d1d3899388e4f018eac23d70db32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
