@@ -16,6 +16,24 @@
       "revId": "6be72bfe1af092b8d7c3feca0c6149cd930527da",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b590d7c_e83744c9",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-09-26T02:12:59Z",
+      "side": 1,
+      "message": "The `PowerState` is an existing schema.\nThe idea here is similar to other lables, e.g. for `_Name`, we could use `vout1_Name` to specify the sensor name, and `vout1_Offset` to specify the offset;\n\nDo we need to add additional schemas for such case?\nThe current schema does have something like, pin_Min, iout1_Offset, etc.\nBut there is no `xxx_Name`.",
+      "parentUuid": "788bcf5f_06fbd978",
+      "revId": "6be72bfe1af092b8d7c3feca0c6149cd930527da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
