@@ -1,4 +1,6 @@
 #pragma once
+#include <Utils.hpp>
+#include <VariantVisitors.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sensor.hpp>
@@ -34,8 +36,12 @@ enum class ReadingFormat
     byte3,
     elevenBit,
     elevenBitShift,
-    linearElevenBit
+    linearElevenBit,
+    readMeLinearElevenBit,
 };
+
+using ReadFunction =
+    std::function<bool(const std::vector<uint8_t>& data, double& resp)>;
 
 namespace ipmi
 {
@@ -43,6 +49,40 @@ namespace sensor
 {
 constexpr uint8_t netFn = 0x04;
 constexpr uint8_t getSensorReading = 0x2d;
+
+namespace readME
+{
+constexpr uint8_t getSensorReading = 0xF5;
+constexpr uint8_t bytesForTimestamp = 4;
+constexpr uint8_t bytesForDeviceId = 3;
+constexpr uint8_t fixedOffset = bytesForTimestamp + bytesForDeviceId;
+
+bool getRawData(uint8_t registerToRead, const std::vector<uint8_t>& input,
+                std::vector<uint8_t>& result)
+{
+    /* Every register is two bytes*/
+    uint8_t offset = fixedOffset + (registerToRead * 2);
+
+    if (input.size() < (size_t)(offset + 1))
+    {
+        return false;
+    }
+
+    result.clear();
+    result.reserve(5);
+
+    // ID
+    result.emplace_back(input[0]);
+    result.emplace_back(input[1]);
+    result.emplace_back(input[2]);
+
+    // Value in registerToRead
+    result.emplace_back(input[offset]);
+    result.emplace_back(input[offset + 1]);
+
+    return true;
+}
+} // namespace readME
 
 static bool isValid(const std::vector<uint8_t>& data)
 {
@@ -85,12 +125,8 @@ struct IpmbSensor : public Sensor
     ~IpmbSensor() override;
 
     void checkThresholds(void) override;
-    void read(void);
     void init(void);
-    std::string getSubTypeUnits(void);
-    void loadDefaults(void);
     void runInitCmd(void);
-    bool processReading(const std::vector<uint8_t>& data, double& resp);
 
     IpmbType type;
     IpmbSubType subType;
@@ -102,14 +138,148 @@ struct IpmbSensor : public Sensor
     uint8_t deviceAddress;
     uint8_t errorCount;
     uint8_t hostSMbusIndex;
+    uint8_t registerToRead;
+    bool isProxyRead;
+    uint8_t sensorMeAddress;
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
     int sensorPollMs;
-
     ReadingFormat readingFormat;
+
+    bool setSensorType(std::string& sensorClass)
+    {
+        if (sensorClass == "PxeBridgeTemp")
+        {
+            type = IpmbType::PXE1410CVR;
+        }
+        else if (sensorClass == "IRBridgeTemp")
+        {
+            type = IpmbType::IR38363VR;
+        }
+        else if (sensorClass == "HSCBridge")
+        {
+            type = IpmbType::ADM1278HSC;
+        }
+        else if (sensorClass == "MpsBridgeTemp")
+        {
+            type = IpmbType::mpsVR;
+        }
+        else if (sensorClass == "METemp" || sensorClass == "MESensor")
+        {
+            type = IpmbType::meSensor;
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    void setSensorSubType(std::string& sensorTypeName)
+    {
+        if (sensorTypeName == "voltage")
+        {
+            subType = IpmbSubType::volt;
+        }
+        else if (sensorTypeName == "power")
+        {
+            subType = IpmbSubType::power;
+        }
+        else if (sensorTypeName == "current")
+        {
+            subType = IpmbSubType::curr;
+        }
+        else if (sensorTypeName == "utilization")
+        {
+            subType = IpmbSubType::util;
+        }
+    }
+
+    void setScaleAndOffset(const SensorBaseConfigMap& sensorBaseConfig)
+    {
+        auto findScaleVal = sensorBaseConfig.find("ScaleValue");
+        if (findScaleVal != sensorBaseConfig.end())
+        {
+            scaleVal =
+                std::visit(VariantToDoubleVisitor(), findScaleVal->second);
+        }
+
+        auto findOffsetVal = sensorBaseConfig.find("OffsetValue");
+        if (findOffsetVal != sensorBaseConfig.end())
+        {
+            offsetVal =
+                std::visit(VariantToDoubleVisitor(), findOffsetVal->second);
+        }
+
+        auto findPowerState = sensorBaseConfig.find("PowerState");
+        if (findPowerState != sensorBaseConfig.end())
+        {
+            std::string powerState =
+                std::visit(VariantToStringVisitor(), findPowerState->second);
+
+            setReadState(powerState, readState);
+        }
+    }
+
+    void setReadMethod(const SensorBaseConfigMap& sensorBaseConfig)
+    {
+        /*
+         * Some sensor can be read in two ways
+         * 1) Using proxy: BMC read command is proxy forward by ME
+         * to sensor. 2) Using 'Get PMBUS Readings': ME responds to
+         * BMC with sensor data.
+         *
+         * By default we assume the method is 1. And if ReadMethod
+         * == "IPMI" we switch to method 2.
+         */
+        auto readMethod = sensorBaseConfig.find("ReadMethod");
+        if (readMethod != sensorBaseConfig.end())
+        {
+            if (std::visit(VariantToStringVisitor(), readMethod->second) ==
+                "IPMI")
+            {
+                /*
+                 * In 'Get PMBUS Readings' the response containt a
+                 * set of registers from the sensor. And different
+                 * values such as temperature power voltage will be
+                 * mapped to different registers.
+                 */
+                auto registerToReadConfig = sensorBaseConfig.find("Register");
+                if (registerToReadConfig != sensorBaseConfig.end())
+                {
+                    registerToRead = std::visit(VariantToUnsignedIntVisitor(),
+                                                registerToReadConfig->second);
+
+                    /*
+                     * In 'Get PMBUS Readings' since ME is
+                     * responding with the sensor data we need
+                     * to use the address for sensor in ME, this
+                     * is different from the actual sensor
+                     * address.
+                     */
+                    auto sensorMeAddressConfig =
+                        sensorBaseConfig.find("SensorMeAddress");
+                    if (sensorMeAddressConfig != sensorBaseConfig.end())
+                    {
+                        sensorMeAddress =
+                            std::visit(VariantToUnsignedIntVisitor(),
+                                       sensorMeAddressConfig->second);
+                        isProxyRead = false;
+                    }
+                }
+            }
+        }
+    }
 
   private:
     sdbusplus::asio::object_server& objectServer;
     boost::asio::deadline_timer waitTimer;
+    ReadFunction readFunction;
+
+    void read(void);
+    std::string getSubTypeUnits(void);
+    void loadDefaults(void);
+    void setReadFunction();
 };
