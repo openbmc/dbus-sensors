@@ -70,6 +70,7 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
            "xyz.openbmc_project.Configuration.ExitAirTemp", false,
            ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
+    registerForTemperature(0), isProxyRead(true), sensorMeAddress(0),
     sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
     waitTimer(io)
 {
@@ -164,19 +165,30 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::PXE1410CVR)
     {
-        commandAddress = meAddress;
-        netfn = ipmi::me_bridge::netFn;
-        command = ipmi::me_bridge::sendRawPmbus;
-        initCommand = ipmi::me_bridge::sendRawPmbus;
-        // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8d};
-        // goto page 0
-        initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
-                    deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                    0x02,          0x00, 0x00, 0x00};
-        readingFormat = ReadingFormat::linearElevenBit;
+        if (isProxyRead)
+        {
+            commandAddress = meAddress;
+            netfn = ipmi::me_bridge::netFn;
+            command = ipmi::me_bridge::sendRawPmbus;
+            initCommand = ipmi::me_bridge::sendRawPmbus;
+            // pmbus read temp
+            commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
+                           deviceAddress, 0x00, 0x00, 0x00, 0x00,
+                           0x01,          0x02, 0x8d};
+            // goto page 0
+            initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
+                        deviceAddress, 0x00, 0x00, 0x00, 0x00,
+                        0x02,          0x00, 0x00, 0x00};
+            readingFormat = ReadingFormat::linearElevenBit;
+        }
+        else
+        {
+            commandAddress = meAddress;
+            netfn = ipmi::me_bridge::netFn;
+            command = ipmi::sensor::readME::getSensorReading;
+            commandData = {0x57, 0x01, 0x00, sensorMeAddress, 0x0F, 0x00};
+            readingFormat = ReadingFormat::readMeLinearElevenBit;
+        }
     }
     else if (type == IpmbType::IR38363VR)
     {
@@ -224,19 +236,30 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::mpsVR)
     {
-        commandAddress = meAddress;
-        netfn = ipmi::me_bridge::netFn;
-        command = ipmi::me_bridge::sendRawPmbus;
-        initCommand = ipmi::me_bridge::sendRawPmbus;
-        // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8d};
-        // goto page 0
-        initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
-                    deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                    0x02,          0x00, 0x00, 0x00};
-        readingFormat = ReadingFormat::byte3;
+        if (isProxyRead)
+        {
+            commandAddress = meAddress;
+            netfn = ipmi::me_bridge::netFn;
+            command = ipmi::me_bridge::sendRawPmbus;
+            initCommand = ipmi::me_bridge::sendRawPmbus;
+            // pmbus read temp
+            commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
+                           deviceAddress, 0x00, 0x00, 0x00, 0x00,
+                           0x01,          0x02, 0x8d};
+            // goto page 0
+            initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
+                        deviceAddress, 0x00, 0x00, 0x00, 0x00,
+                        0x02,          0x00, 0x00, 0x00};
+            readingFormat = ReadingFormat::byte3;
+        }
+        else
+        {
+            commandAddress = meAddress;
+            netfn = ipmi::me_bridge::netFn;
+            command = ipmi::sensor::readME::getSensorReading;
+            commandData = {0x57, 0x01, 0x00, sensorMeAddress, 0x0F, 0x00};
+            readingFormat = ReadingFormat::readMeByte0;
+        }
     }
     else
     {
@@ -283,6 +306,20 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
             resp = data[3];
+            return true;
+        }
+        case (ReadingFormat::readMeByte0):
+        {
+            if (data.size() < 2)
+            {
+                if (!errCount)
+                {
+                    std::cerr << "Invalid data length returned for " << name
+                              << "\n";
+                }
+                return false;
+            }
+            resp = data[0];
             return true;
         }
         case (ReadingFormat::elevenBit):
@@ -335,6 +372,25 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             resp = value;
             return true;
         }
+        case (ReadingFormat::readMeLinearElevenBit):
+        {
+            if (data.size() < 2)
+            {
+                if (!errCount)
+                {
+                    std::cerr << "Invalid data length returned for " << name
+                              << "\n";
+                }
+                return false;
+            }
+
+            int16_t value = ((data[1] << 8) | data[0]);
+            constexpr const size_t shift = 16 - 11; // 11bit into 16bit
+            value <<= shift;
+            value >>= shift;
+            resp = value;
+            return true;
+        }
         default:
             throw std::runtime_error("Invalid reading type");
     }
@@ -364,7 +420,26 @@ void IpmbSensor::read(void)
                     read();
                     return;
                 }
-                const std::vector<uint8_t>& data = std::get<5>(response);
+
+                double value = 0;
+                std::vector<uint8_t> data;
+
+                if (isProxyRead)
+                {
+                    data = std::get<5>(response);
+                }
+                else
+                {
+                    if (!ipmi::sensor::readME::getRawData(
+                            registerForTemperature, std::get<5>(response),
+                            data))
+                    {
+                        incrementError();
+                        read();
+                        return;
+                    }
+                }
+
                 if constexpr (debug)
                 {
                     std::cout << name << ": ";
@@ -374,14 +449,13 @@ void IpmbSensor::read(void)
                     }
                     std::cout << "\n";
                 }
+
                 if (data.empty())
                 {
                     incrementError();
                     read();
                     return;
                 }
-
-                double value = 0;
 
                 if (!processReading(data, value))
                 {
@@ -402,6 +476,7 @@ void IpmbSensor::read(void)
 
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;
+
                 updateValue(value);
                 read();
             },
@@ -486,6 +561,43 @@ void createSensors(
                         dbusConnection, io, name, pathPair.first, objectServer,
                         std::move(sensorThresholds), deviceAddress,
                         hostSMbusIndex, pollRate, sensorTypeName);
+
+                    /*
+                     * Some sensor can be read in two ways
+                     * 1) Using proxy: BMC read command is proxy forward by ME
+                     * to sensor. 2) Using 'Get PMBUS Readings': ME responds to
+                     * BMC with sensor data.
+                     *
+                     * By default we assume the method is 1. And if ReadMethod
+                     * == "IPMI" we switch to method 2.
+                     */
+                    auto readMethod = entry.second.find("ReadMethod");
+                    if (readMethod != entry.second.end())
+                    {
+                        if (std::visit(VariantToStringVisitor(),
+                                       readMethod->second) == "IPMI")
+                        {
+                            sensor->isProxyRead = false;
+
+                            /*
+                             * In 'Get PMBUS Readings' the response containt a
+                             * set of registers from the sensor. And different
+                             * values such as temperature power voltage will be
+                             * mapped to different registers.
+                             */
+                            sensor->registerForTemperature =
+                                loadVariant<uint8_t>(entry.second, "Register");
+
+                            /*
+                             * In 'Get PMBUS Readings' since ME is responding
+                             * with the sensor data we need to use the address
+                             * for sensor in ME, this is different from the
+                             * actual sensor address.
+                             */
+                            sensor->sensorMeAddress = loadVariant<uint8_t>(
+                                entry.second, "SensorMeAddress");
+                        }
+                    }
 
                     /* Initialize scale and offset value */
                     sensor->scaleVal = 1;

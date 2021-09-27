@@ -32,9 +32,12 @@ enum class ReadingFormat
 {
     byte0,
     byte3,
+    readMeByte0,
+    ReadoneByteME,
     elevenBit,
     elevenBitShift,
-    linearElevenBit
+    linearElevenBit,
+    readMeLinearElevenBit
 };
 
 namespace ipmi
@@ -43,6 +46,32 @@ namespace sensor
 {
 constexpr uint8_t netFn = 0x04;
 constexpr uint8_t getSensorReading = 0x2d;
+
+namespace readME
+{
+constexpr uint8_t getSensorReading = 0xF5;
+constexpr uint8_t bytesForTimestamp = 4;
+constexpr uint8_t bytesForDeviceId = 3;
+constexpr uint8_t fixedOffset = bytesForTimestamp + bytesForDeviceId;
+
+bool getRawData(uint8_t registerToRead, const std::vector<uint8_t>& input,
+                std::vector<uint8_t>& result)
+{
+    /* Every register is two bytes*/
+    uint8_t offset = fixedOffset + (registerToRead * 2);
+
+    if (input.size() < (size_t)(offset + 1))
+    {
+        return false;
+    }
+
+    result.clear();
+    result.emplace_back(input[offset]);
+    result.emplace_back(input[offset + 1]);
+
+    return true;
+}
+} // namespace readME
 
 static bool isValid(const std::vector<uint8_t>& data)
 {
@@ -102,6 +131,9 @@ struct IpmbSensor : public Sensor
     uint8_t deviceAddress;
     uint8_t errorCount;
     uint8_t hostSMbusIndex;
+    uint8_t registerForTemperature;
+    bool isProxyRead;
+    uint8_t sensorMeAddress;
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
