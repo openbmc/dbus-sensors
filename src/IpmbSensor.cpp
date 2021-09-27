@@ -15,7 +15,6 @@
 */
 
 #include <IpmbSensor.hpp>
-#include <Utils.hpp>
 #include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -69,6 +68,7 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", false,
            ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
+    subType(IpmbSubType::temp), commandAddress(meAddress),
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
     sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
     waitTimer(io)
@@ -122,6 +122,7 @@ std::string IpmbSensor::getSubTypeUnits(void)
 void IpmbSensor::init(void)
 {
     loadDefaults();
+    setReadFunction();
     setInitialProperties(dbusConnection, getSubTypeUnits());
     if (initCommand)
     {
@@ -152,11 +153,174 @@ void IpmbSensor::runInitCmd()
     }
 }
 
+/**
+ * Refernce:
+ * Intelligent Power Node Manager External Interface Specification
+ */
+std::vector<uint8_t> IpmbSensor::getMeCommand()
+{
+    std::vector<uint8_t> commandBytes;
+
+    /*
+     * Byte 1, 2, 3 = Manufacturer ID.
+     */
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[0]);
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[1]);
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[2]);
+
+    /*
+     * Byte 4 = Device Index.
+     */
+    commandBytes.emplace_back(deviceIndex);
+
+    /*
+     * Byte 5 = History index.
+     *   bit 0 to 3 = History index. Supported value: 0Fh to retrieve
+     *      current samples.
+     *   bit 4 to 7 = Page number – used only for devices which support
+     *      pages.
+     */
+    commandBytes.emplace_back(0x0F);
+
+    /*
+     * Byte 6 = First Register Offset.
+     */
+    commandBytes.emplace_back(0x00);
+
+    return commandBytes;
+}
+
+/**
+ * Refernce:
+ * Intelligent Power Node Manager External Interface Specification
+ */
+std::vector<uint8_t> IpmbSensor::getRawPmbusCommand(
+    uint8_t messageType, const std::vector<uint8_t>& pmbusCommand,
+    uint8_t readLength, bool isExtendedDeviceAddress = true,
+    bool doEnablePec = false, bool doReportPecErrors = false)
+{
+    std::vector<uint8_t> commandBytes;
+
+    /*
+     * Byte 1, 2, 3 = Manufacturer ID.
+     */
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[0]);
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[1]);
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[2]);
+
+    /*
+     * Byte 4
+     *   bit 0 = Reserved.
+     *   bit 1, 2, 3 = SMBUS message transaction type.
+     *   bit 4, 5 = Device address format.
+     *       0 for Standard device address
+     *       1 for Extended device address
+     *   bit 6 = 1 means "Do not report PEC errors in Completion Code".
+     *   bit 7 = 1 means "Enable PEC".
+     */
+    uint8_t byte4 = 0x00;
+    if (isExtendedDeviceAddress)
+    {
+        byte4 |= (1 << 4);
+    }
+
+    if (doReportPecErrors)
+    {
+        byte4 |= (1 << 6);
+    }
+
+    if (doEnablePec)
+    {
+        byte4 |= (1 << 7);
+    }
+
+    byte4 |= messageType << 1;
+
+    commandBytes.emplace_back(byte4);
+
+    if (isExtendedDeviceAddress)
+    {
+        /*
+         * Byte 5 = Sensor Bus.
+         *    00 - SMBUS
+         *    01 - SMLINK0/SMLINK0B
+         *    02 - SMLINK1
+         *    03 - SMLINK2
+         *    04 - SMLINK3
+         *    05 - SMLINK4
+         */
+        commandBytes.emplace_back(hostSMbusIndex);
+
+        /*
+         * Byte 6 = Target PSU Address.
+         *    bit 0 is Reserved.
+         *    bit 1 to 7 is 7-bit SMBUS address
+         */
+        commandBytes.emplace_back(deviceAddress);
+
+        /*
+         * Byte 7 = MUX Address.
+         */
+        commandBytes.emplace_back(0x00);
+
+        /*
+         * Byte 8 = MUX channel selection.
+         */
+        commandBytes.emplace_back(0x00);
+
+        /*
+         * Byte 8 = MUX configuration state.
+         */
+        commandBytes.emplace_back(0x00);
+    }
+    else
+    {
+        /*
+         * Byte 6 = Target PSU Address.
+         *    bit 0 is Reserved.
+         *    bit 1 to 7 is 7-bit SMBUS address
+         */
+        commandBytes.emplace_back(deviceAddress);
+
+        /*
+         * Byte 8 = MGPIO MUX configuration.
+         */
+        commandBytes.emplace_back(0x00);
+    }
+
+    /*
+     * Byte 7 or 10 = Transmission Protocol parameter
+     *   bit 0, 4 = Reserved.
+     *   bit 5 = Transmission Protocol (0 for PMBus 1 for I2C).
+     *   bit 6, 7 = Reserved.
+     */
+    commandBytes.emplace_back(0x00);
+
+    /*
+     * Byte 8 or 11 = Write Length.
+     */
+    commandBytes.emplace_back(static_cast<uint8_t>(pmbusCommand.size()));
+
+    /*
+     * Byte 9 or 12 = Read Length.
+     */
+    commandBytes.emplace_back(readLength);
+
+    /*
+     * Byte Byte 10 or 13 to M = PMBUS command.
+     */
+    for (uint8_t byte : pmbusCommand)
+    {
+        commandBytes.emplace_back(byte);
+    }
+
+    return commandBytes;
+}
+
 void IpmbSensor::loadDefaults()
 {
     if (type == IpmbType::meSensor)
     {
-        commandAddress = meAddress;
         netfn = ipmi::sensor::netFn;
         command = ipmi::sensor::getSensorReading;
         commandData = {deviceAddress};
@@ -164,51 +328,51 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::PXE1410CVR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
-        command = ipmi::me_bridge::sendRawPmbus;
-        initCommand = ipmi::me_bridge::sendRawPmbus;
-        // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8d};
-        // goto page 0
-        initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
-                    deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                    0x02,          0x00, 0x00, 0x00};
         readingFormat = ReadingFormat::linearElevenBit;
+        if (isProxyRead)
+        {
+            command = ipmi::me_bridge::sendRawPmbus;
+            initCommand = ipmi::me_bridge::sendRawPmbus;
+            commandData = getRawPmbusCommand(
+                ipmi::sensor::readWord, {ipmi::sensor::readTemperature}, 0x02);
+            initData =
+                getRawPmbusCommand(ipmi::sensor::writeByte, {0x00, 0x00}, 0x00);
+        }
+        else
+        {
+            command = ipmi::sensor::read_me::getPmbusReadings;
+            commandData = getMeCommand();
+        }
     }
     else if (type == IpmbType::IR38363VR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
         command = ipmi::me_bridge::sendRawPmbus;
-        // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 00,   0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8D};
+        commandData = getRawPmbusCommand(ipmi::sensor::readWord,
+                                         {ipmi::sensor::readTemperature}, 0x02);
         readingFormat = ReadingFormat::elevenBitShift;
     }
     else if (type == IpmbType::ADM1278HSC)
     {
-        commandAddress = meAddress;
         switch (subType)
         {
             case IpmbSubType::temp:
             case IpmbSubType::curr:
-                uint8_t snsNum;
-                if (subType == IpmbSubType::temp)
+                netfn = ipmi::me_bridge::netFn;
+                command = ipmi::me_bridge::sendRawPmbus;
+                if (IpmbSubType::temp == subType)
                 {
-                    snsNum = 0x8d;
+                    commandData = getRawPmbusCommand(
+                        ipmi::sensor::readWord, {ipmi::sensor::readTemperature},
+                        0x02, false, true);
                 }
                 else
                 {
-                    snsNum = 0x8c;
+                    commandData = getRawPmbusCommand(
+                        ipmi::sensor::readWord,
+                        {ipmi::sensor::readCurrentOutput}, 0x02, false, true);
                 }
-                netfn = ipmi::me_bridge::netFn;
-                command = ipmi::me_bridge::sendRawPmbus;
-                commandData = {0x57, 0x01, 0x00, 0x86, deviceAddress,
-                               0x00, 0x00, 0x01, 0x02, snsNum};
                 readingFormat = ReadingFormat::elevenBit;
                 break;
             case IpmbSubType::power:
@@ -224,19 +388,22 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::mpsVR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
-        command = ipmi::me_bridge::sendRawPmbus;
-        initCommand = ipmi::me_bridge::sendRawPmbus;
-        // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8d};
-        // goto page 0
-        initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
-                    deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                    0x02,          0x00, 0x00, 0x00};
         readingFormat = ReadingFormat::byte3;
+        if (isProxyRead)
+        {
+            command = ipmi::me_bridge::sendRawPmbus;
+            initCommand = ipmi::me_bridge::sendRawPmbus;
+            commandData = getRawPmbusCommand(
+                ipmi::sensor::readWord, {ipmi::sensor::readTemperature}, 0x02);
+            initData =
+                getRawPmbusCommand(ipmi::sensor::writeByte, {0x00, 0x00}, 0x00);
+        }
+        else
+        {
+            command = ipmi::sensor::read_me::getPmbusReadings;
+            commandData = getMeCommand();
+        }
     }
     else
     {
@@ -256,85 +423,73 @@ void IpmbSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
-bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
+void IpmbSensor::setReadFunction()
 {
-
     switch (readingFormat)
     {
         case (ReadingFormat::byte0):
-        {
-            if (command == ipmi::sensor::getSensorReading &&
-                !ipmi::sensor::isValid(data))
-            {
-                return false;
-            }
-            resp = data[0];
-            return true;
-        }
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (!ipmi::sensor::isValid(data))
+                {
+                    return false;
+                }
+                resp = data[0];
+                return true;
+            };
+            break;
         case (ReadingFormat::byte3):
-        {
-            if (data.size() < 4)
-            {
-                if (!errCount)
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (data.size() < 4)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    return false;
                 }
-                return false;
-            }
-            resp = data[3];
-            return true;
-        }
+                resp = data[3];
+                return true;
+            };
+            break;
         case (ReadingFormat::elevenBit):
-        {
-            if (data.size() < 5)
-            {
-                if (!errCount)
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (data.size() < 5)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    return false;
                 }
-                return false;
-            }
 
-            int16_t value = ((data[4] << 8) | data[3]);
-            resp = value;
-            return true;
-        }
+                int16_t value = ((data[4] << 8) | data[3]);
+                resp = value;
+                return true;
+            };
+            break;
         case (ReadingFormat::elevenBitShift):
-        {
-            if (data.size() < 5)
-            {
-                if (!errCount)
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (data.size() < 5)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    return false;
                 }
-                return false;
-            }
 
-            resp = ((data[4] << 8) | data[3]) >> 3;
-            return true;
-        }
+                resp = ((data[4] << 8) | data[3]) >> 3;
+                return true;
+            };
+            break;
         case (ReadingFormat::linearElevenBit):
-        {
-            if (data.size() < 5)
-            {
-                if (!errCount)
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (data.size() < 5)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    return false;
                 }
-                return false;
-            }
 
-            int16_t value = ((data[4] << 8) | data[3]);
-            constexpr const size_t shift = 16 - 11; // 11bit into 16bit
-            value <<= shift;
-            value >>= shift;
-            resp = value;
-            return true;
-        }
+                int16_t value = ((data[4] << 8) | data[3]);
+                constexpr const size_t shift = 16 - 11; // 11bit into 16bit
+                value <<= shift;
+                value >>= shift;
+                resp = value;
+                return true;
+            };
+            break;
         default:
             throw std::runtime_error("Invalid reading type");
     }
@@ -364,7 +519,20 @@ void IpmbSensor::read(void)
                     read();
                     return;
                 }
-                const std::vector<uint8_t>& data = std::get<5>(response);
+
+                double value = 0;
+                std::vector<uint8_t> data;
+
+                if (isProxyRead)
+                {
+                    data = std::get<5>(response);
+                }
+                else
+                {
+                    ipmi::sensor::read_me::getRawData(
+                        registerToRead, std::get<5>(response), data);
+                }
+
                 if constexpr (debug)
                 {
                     std::cout << name << ": ";
@@ -381,10 +549,13 @@ void IpmbSensor::read(void)
                     return;
                 }
 
-                double value = 0;
-
-                if (!processReading(data, value))
+                if (!readFunction(data, value))
                 {
+                    if (!errCount)
+                    {
+                        std::cerr << "readFunction failed for " << name << "\n";
+                    }
+
                     incrementError();
                     read();
                     return;
@@ -410,6 +581,149 @@ void IpmbSensor::read(void)
             "sendRequest", commandAddress, netfn, lun, command, commandData);
     });
 }
+
+bool IpmbSensor::setSensorType(const std::string& sensorClass)
+{
+    if (sensorClass == "PxeBridgeTemp")
+    {
+        type = IpmbType::PXE1410CVR;
+    }
+    else if (sensorClass == "IRBridgeTemp")
+    {
+        type = IpmbType::IR38363VR;
+    }
+    else if (sensorClass == "HSCBridge")
+    {
+        type = IpmbType::ADM1278HSC;
+    }
+    else if (sensorClass == "MpsBridgeTemp")
+    {
+        type = IpmbType::mpsVR;
+    }
+    else if (sensorClass == "METemp" || sensorClass == "MESensor")
+    {
+        type = IpmbType::meSensor;
+    }
+    else
+    {
+        return false;
+    }
+
+    return true;
+}
+
+void IpmbSensor::setSensorSubType(const std::string& sensorTypeName)
+{
+    if (sensorTypeName == "voltage")
+    {
+        subType = IpmbSubType::volt;
+    }
+    else if (sensorTypeName == "power")
+    {
+        subType = IpmbSubType::power;
+    }
+    else if (sensorTypeName == "current")
+    {
+        subType = IpmbSubType::curr;
+    }
+    else if (sensorTypeName == "utilization")
+    {
+        subType = IpmbSubType::util;
+    }
+}
+
+void IpmbSensor::setScaleAndOffset(const SensorBaseConfigMap& sensorBaseConfig)
+{
+    auto findScaleVal = sensorBaseConfig.find("ScaleValue");
+    if (findScaleVal != sensorBaseConfig.end())
+    {
+        scaleVal = std::visit(VariantToDoubleVisitor(), findScaleVal->second);
+    }
+
+    auto findOffsetVal = sensorBaseConfig.find("OffsetValue");
+    if (findOffsetVal != sensorBaseConfig.end())
+    {
+        offsetVal = std::visit(VariantToDoubleVisitor(), findOffsetVal->second);
+    }
+
+    auto findPowerState = sensorBaseConfig.find("PowerState");
+    if (findPowerState != sensorBaseConfig.end())
+    {
+        std::string powerState =
+            std::visit(VariantToStringVisitor(), findPowerState->second);
+
+        setReadState(powerState, readState);
+    }
+}
+
+void IpmbSensor::setReadMethod(const SensorBaseConfigMap& sensorBaseConfig)
+{
+    /*
+     * Some sensor can be read in two ways
+     * 1) Using proxy: BMC read command is proxy forward by ME
+     * to sensor. 2) Using 'Get PMBUS Readings': ME responds to
+     * BMC with sensor data.
+     *
+     * By default we assume the method is 1. And if ReadMethod
+     * == "IPMI" we switch to method 2.
+     */
+    auto readMethod = sensorBaseConfig.find("ReadMethod");
+    if (readMethod == sensorBaseConfig.end())
+    {
+        std::cerr << "'ReadMethod' not found, defaulting to "
+                     "proxy method of reading sensor\n";
+        return;
+    }
+
+    if (std::visit(VariantToStringVisitor(), readMethod->second) != "ReadME")
+    {
+        std::cerr << "'ReadMethod' != 'ReadME', defaulting to "
+                     "proxy method of reading sensor\n";
+        return;
+    }
+
+    /*
+     * In 'Get PMBUS Readings' the response containt a
+     * set of registers from the sensor. And different
+     * values such as temperature power voltage will be
+     * mapped to different registers.
+     */
+    auto registerToReadConfig = sensorBaseConfig.find("Register");
+    if (registerToReadConfig == sensorBaseConfig.end())
+    {
+        std::cerr << "'Register' not found, defaulting to "
+                     "proxy method of reading sensor\n";
+        return;
+    }
+
+    registerToRead =
+        std::visit(VariantToUnsignedIntVisitor(), registerToReadConfig->second);
+
+    /*
+     * In 'Get PMBUS Readings' since ME is
+     * responding with the sensor data we need
+     * to use the address for sensor in ME, this
+     * is different from the actual sensor
+     * address.
+     */
+    auto deviceIndexConfig = sensorBaseConfig.find("DeviceIndex");
+    if (deviceIndexConfig == sensorBaseConfig.end())
+    {
+        std::cerr << "'DeviceIndex' not found, defaulting to "
+                     "proxy method of reading sensor\n";
+        return;
+    }
+
+    deviceIndex =
+        std::visit(VariantToUnsignedIntVisitor(), deviceIndexConfig->second);
+
+    /*
+     * We found all parameters to use 'Get PMBUS Readings'
+     * method.
+     */
+    isProxyRead = false;
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>>&
@@ -487,81 +801,11 @@ void createSensors(
                         std::move(sensorThresholds), deviceAddress,
                         hostSMbusIndex, pollRate, sensorTypeName);
 
-                    /* Initialize scale and offset value */
-                    sensor->scaleVal = 1;
-                    sensor->offsetVal = 0;
+                    sensor->setReadMethod(entry.second);
+                    sensor->setScaleAndOffset(entry.second);
+                    sensor->setSensorType(sensorClass);
+                    sensor->setSensorSubType(sensorTypeName);
 
-                    auto findScaleVal = entry.second.find("ScaleValue");
-                    if (findScaleVal != entry.second.end())
-                    {
-                        sensor->scaleVal = std::visit(VariantToDoubleVisitor(),
-                                                      findScaleVal->second);
-                    }
-
-                    auto findOffsetVal = entry.second.find("OffsetValue");
-                    if (findOffsetVal != entry.second.end())
-                    {
-                        sensor->offsetVal = std::visit(VariantToDoubleVisitor(),
-                                                       findOffsetVal->second);
-                    }
-
-                    auto findPowerState = entry.second.find("PowerState");
-
-                    if (findPowerState != entry.second.end())
-                    {
-                        std::string powerState = std::visit(
-                            VariantToStringVisitor(), findPowerState->second);
-
-                        setReadState(powerState, sensor->readState);
-                    }
-
-                    if (sensorClass == "PxeBridgeTemp")
-                    {
-                        sensor->type = IpmbType::PXE1410CVR;
-                    }
-                    else if (sensorClass == "IRBridgeTemp")
-                    {
-                        sensor->type = IpmbType::IR38363VR;
-                    }
-                    else if (sensorClass == "HSCBridge")
-                    {
-                        sensor->type = IpmbType::ADM1278HSC;
-                    }
-                    else if (sensorClass == "MpsBridgeTemp")
-                    {
-                        sensor->type = IpmbType::mpsVR;
-                    }
-                    else if (sensorClass == "METemp" ||
-                             sensorClass == "MESensor")
-                    {
-                        sensor->type = IpmbType::meSensor;
-                    }
-                    else
-                    {
-                        std::cerr << "Invalid class " << sensorClass << "\n";
-                        continue;
-                    }
-
-                    if (sensorTypeName == "voltage")
-                    {
-                        sensor->subType = IpmbSubType::volt;
-                    }
-                    else if (sensorTypeName == "power")
-                    {
-                        sensor->subType = IpmbSubType::power;
-                    }
-                    else if (sensorTypeName == "current")
-                    {
-                        sensor->subType = IpmbSubType::curr;
-                    }
-                    else if (sensorTypeName == "utilization")
-                    {
-                        sensor->subType = IpmbSubType::util;
-                    }
-                    else
-                    {
-                        sensor->subType = IpmbSubType::temp;
-                    }
                     sensor->init();
                 }
             }
