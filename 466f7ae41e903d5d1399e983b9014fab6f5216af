@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "730ced27_1cc4d85f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-09-27T16:08:19Z",
+      "side": 1,
+      "message": "Are these methods mutually exclusive?\nCan they be selected dynamically?\nIf dynamic, how do you select the access method?\nIs the mechanism described inside the code to assist devs in enabling/disabling the access method?\nIs this an Intel only entity, or do we need to make sure other users can choose the method for getting to VR\u0027s?",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f43ce83b_b459f3bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-09-27T16:08:19Z",
+      "side": 1,
+      "message": "Is ipmitool used for both examples?\nThe output appears to be \"ipmitool sdr elist\" in both cases.",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89c04b43_88c84144",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-09-27T16:08:19Z",
+      "side": 1,
+      "message": "Is registerToRead eqn performing an I2C 7-bit to 8-bit translation?\nIs this being doubled for some other purpose?\nPlease document what this is doing in some fashion.",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2bc87fea_9fdd3b84",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 1
@@ -30,6 +81,24 @@
       "writtenOn": "2021-09-27T13:29:46Z",
       "side": 1,
       "message": "Is this dependent on JSON file for the initial configs be loaded to determine isProxyRead for a particular VR sensor? If so what would happen if we do not use the latest BMC firmware with this change(Just wanted to understand the backward compatibility)??",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46b28c59_16ff2234",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-09-27T16:08:19Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "9317f46f_137f9f37",
       "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
