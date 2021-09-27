@@ -45,6 +45,51 @@ namespace sensor
 {
 constexpr uint8_t netFn = 0x04;
 constexpr uint8_t getSensorReading = 0x2d;
+constexpr std::array<uint8_t> manufacturerId = {0x57, 0x01, 0x00};
+
+namespace read_me
+{
+/**
+ * Refernce:
+ * Intelligent Power Node Manager External Interface Specification
+ * getPmbusReadings = Get PMBUS Readings (F5h)
+ *
+ * bytesForTimestamp and bytesForManufacturerId are decoded from
+ * response bytes for Get PMBUS Readings.
+ */
+constexpr uint8_t getPmbusReadings = 0xF5;
+constexpr uint8_t bytesForTimestamp = 4;
+constexpr uint8_t bytesForManufacturerId = 3;
+
+constexpr size_t fixedOffset = bytesForTimestamp + bytesForManufacturerId;
+
+void getRawData(uint8_t registerToRead, const std::vector<uint8_t>& input,
+                std::vector<uint8_t>& result)
+{
+    if (input.size() < 3)
+    {
+        return;
+    }
+
+    /* Every register is two bytes*/
+    size_t offset = fixedOffset + (registerToRead * 2);
+    if (input.size() <= (offset + 1))
+    {
+        return;
+    }
+
+    result.reserve(5);
+
+    // ID
+    result.emplace_back(input[0]);
+    result.emplace_back(input[1]);
+    result.emplace_back(input[2]);
+
+    // Value in registerToRead
+    result.emplace_back(input[offset]);
+    result.emplace_back(input[offset + 1]);
+}
+} // namespace read_me
 
 static bool isValid(const std::vector<uint8_t>& data)
 {
@@ -96,6 +141,7 @@ struct IpmbSensor : public Sensor
     void parseConfigValues(const SensorBaseConfigMap& entry);
     bool sensorClassType(const std::string& sensorClass);
     void sensorSubType(const std::string& sensorTypeName);
+    void setReadMethod(const SensorBaseConfigMap& sensorBaseConfig);
 
     IpmbType type = IpmbType::none;
     IpmbSubType subType = IpmbSubType::none;
@@ -107,14 +153,18 @@ struct IpmbSensor : public Sensor
     uint8_t deviceAddress = 0;
     uint8_t errorCount = 0;
     uint8_t hostSMbusIndex = 0;
+    uint8_t registerToRead = 0;
+    bool isReadMe = false;
+    uint8_t deviceIndex = 0;
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
     int sensorPollMs;
-
     ReadingFormat readingFormat = ReadingFormat::byte0;
 
   private:
     sdbusplus::asio::object_server& objectServer;
     boost::asio::deadline_timer waitTimer;
+
+    void getMeCommand();
 };
