@@ -15,8 +15,6 @@
 */
 
 #include <IpmbSensor.hpp>
-#include <Utils.hpp>
-#include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -69,9 +67,11 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
            std::move(thresholdData), sensorConfiguration,
            "xyz.openbmc_project.Configuration.ExitAirTemp", false,
            ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
-    deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
-    sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
-    waitTimer(io)
+    subType(IpmbSubType::temp), scaleVal(1), offsetVal(0),
+    commandAddress(meAddress), deviceAddress(deviceAddress),
+    hostSMbusIndex(hostSMbusIndex), registerToRead(0), isProxyRead(true),
+    sensorMeAddress(0), sensorPollMs(static_cast<int>(pollRate * 1000)),
+    objectServer(objectServer), waitTimer(io)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
 
@@ -122,6 +122,7 @@ std::string IpmbSensor::getSubTypeUnits(void)
 void IpmbSensor::init(void)
 {
     loadDefaults();
+    setReadFunction();
     setInitialProperties(dbusConnection, getSubTypeUnits());
     if (initCommand)
     {
@@ -156,7 +157,6 @@ void IpmbSensor::loadDefaults()
 {
     if (type == IpmbType::meSensor)
     {
-        commandAddress = meAddress;
         netfn = ipmi::sensor::netFn;
         command = ipmi::sensor::getSensorReading;
         commandData = {deviceAddress};
@@ -164,23 +164,29 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::PXE1410CVR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
-        command = ipmi::me_bridge::sendRawPmbus;
-        initCommand = ipmi::me_bridge::sendRawPmbus;
-        // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8d};
-        // goto page 0
-        initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
-                    deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                    0x02,          0x00, 0x00, 0x00};
         readingFormat = ReadingFormat::linearElevenBit;
+        if (isProxyRead)
+        {
+            command = ipmi::me_bridge::sendRawPmbus;
+            initCommand = ipmi::me_bridge::sendRawPmbus;
+            // pmbus read temp
+            commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
+                           deviceAddress, 0x00, 0x00, 0x00, 0x00,
+                           0x01,          0x02, 0x8d};
+            // goto page 0
+            initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
+                        deviceAddress, 0x00, 0x00, 0x00, 0x00,
+                        0x02,          0x00, 0x00, 0x00};
+        }
+        else
+        {
+            command = ipmi::sensor::readMe::getSensorReading;
+            commandData = {0x57, 0x01, 0x00, sensorMeAddress, 0x0F, 0x00};
+        }
     }
     else if (type == IpmbType::IR38363VR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
         command = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
@@ -191,7 +197,6 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::ADM1278HSC)
     {
-        commandAddress = meAddress;
         switch (subType)
         {
             case IpmbSubType::temp:
@@ -224,19 +229,26 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::mpsVR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
-        command = ipmi::me_bridge::sendRawPmbus;
-        initCommand = ipmi::me_bridge::sendRawPmbus;
-        // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8d};
-        // goto page 0
-        initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
-                    deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                    0x02,          0x00, 0x00, 0x00};
         readingFormat = ReadingFormat::byte3;
+        if (isProxyRead)
+        {
+            command = ipmi::me_bridge::sendRawPmbus;
+            initCommand = ipmi::me_bridge::sendRawPmbus;
+            // pmbus read temp
+            commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
+                           deviceAddress, 0x00, 0x00, 0x00, 0x00,
+                           0x01,          0x02, 0x8d};
+            // goto page 0
+            initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
+                        deviceAddress, 0x00, 0x00, 0x00, 0x00,
+                        0x02,          0x00, 0x00, 0x00};
+        }
+        else
+        {
+            command = ipmi::sensor::readMe::getSensorReading;
+            commandData = {0x57, 0x01, 0x00, sensorMeAddress, 0x0F, 0x00};
+        }
     }
     else
     {
@@ -256,85 +268,94 @@ void IpmbSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
-bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
+void IpmbSensor::setReadFunction()
 {
-
     switch (readingFormat)
     {
         case (ReadingFormat::byte0):
-        {
-            if (command == ipmi::sensor::getSensorReading &&
-                !ipmi::sensor::isValid(data))
-            {
-                return false;
-            }
-            resp = data[0];
-            return true;
-        }
+            readFunction = [this](const std::vector<uint8_t>& data,
+                                  double& resp) -> bool {
+                if (command == ipmi::sensor::getSensorReading &&
+                    !ipmi::sensor::isValid(data))
+                {
+                    return false;
+                }
+                resp = data[0];
+                return true;
+            };
+            break;
         case (ReadingFormat::byte3):
-        {
-            if (data.size() < 4)
-            {
-                if (!errCount)
+            readFunction = [this](const std::vector<uint8_t>& data,
+                                  double& resp) -> bool {
+                if (data.size() < 4)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    if (!errCount)
+                    {
+                        std::cerr << "Invalid data length returned for "
+                                  << this->name << "\n";
+                    }
+                    return false;
                 }
-                return false;
-            }
-            resp = data[3];
-            return true;
-        }
+                resp = data[3];
+                return true;
+            };
+            break;
         case (ReadingFormat::elevenBit):
-        {
-            if (data.size() < 5)
-            {
-                if (!errCount)
+            readFunction = [this](const std::vector<uint8_t>& data,
+                                  double& resp) -> bool {
+                if (data.size() < 5)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    if (!errCount)
+                    {
+                        std::cerr << "Invalid data length returned for "
+                                  << this->name << "\n";
+                    }
+                    return false;
                 }
-                return false;
-            }
 
-            int16_t value = ((data[4] << 8) | data[3]);
-            resp = value;
-            return true;
-        }
+                int16_t value = ((data[4] << 8) | data[3]);
+                resp = value;
+                return true;
+            };
+            break;
         case (ReadingFormat::elevenBitShift):
-        {
-            if (data.size() < 5)
-            {
-                if (!errCount)
+            readFunction = [this](const std::vector<uint8_t>& data,
+                                  double& resp) -> bool {
+                if (data.size() < 5)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    if (!errCount)
+                    {
+                        std::cerr << "Invalid data length returned for "
+                                  << this->name << "\n";
+                    }
+                    return false;
                 }
-                return false;
-            }
 
-            resp = ((data[4] << 8) | data[3]) >> 3;
-            return true;
-        }
+                resp = ((data[4] << 8) | data[3]) >> 3;
+                return true;
+            };
+            break;
         case (ReadingFormat::linearElevenBit):
-        {
-            if (data.size() < 5)
-            {
-                if (!errCount)
+            readFunction = [this](const std::vector<uint8_t>& data,
+                                  double& resp) -> bool {
+                if (data.size() < 5)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    if (!errCount)
+                    {
+                        std::cerr << "Invalid data length returned for "
+                                  << this->name << "\n";
+                    }
+                    return false;
                 }
-                return false;
-            }
 
-            int16_t value = ((data[4] << 8) | data[3]);
-            constexpr const size_t shift = 16 - 11; // 11bit into 16bit
-            value <<= shift;
-            value >>= shift;
-            resp = value;
-            return true;
-        }
+                int16_t value = ((data[4] << 8) | data[3]);
+                constexpr const size_t shift = 16 - 11; // 11bit into 16bit
+                value <<= shift;
+                value >>= shift;
+                resp = value;
+                return true;
+            };
+            break;
         default:
             throw std::runtime_error("Invalid reading type");
     }
@@ -364,7 +385,20 @@ void IpmbSensor::read(void)
                     read();
                     return;
                 }
-                const std::vector<uint8_t>& data = std::get<5>(response);
+
+                double value = 0;
+                std::vector<uint8_t> data;
+
+                if (isProxyRead)
+                {
+                    data = std::get<5>(response);
+                }
+                else
+                {
+                    ipmi::sensor::readMe::getRawData(
+                        registerToRead, std::get<5>(response), data);
+                }
+
                 if constexpr (debug)
                 {
                     std::cout << name << ": ";
@@ -374,16 +408,8 @@ void IpmbSensor::read(void)
                     }
                     std::cout << "\n";
                 }
-                if (data.empty())
-                {
-                    incrementError();
-                    read();
-                    return;
-                }
 
-                double value = 0;
-
-                if (!processReading(data, value))
+                if (data.empty() || !readFunction(data, value))
                 {
                     incrementError();
                     read();
@@ -402,6 +428,7 @@ void IpmbSensor::read(void)
 
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;
+
                 updateValue(value);
                 read();
             },
@@ -436,6 +463,7 @@ void createSensors(
                     {
                         continue;
                     }
+
                     std::string name =
                         loadVariant<std::string>(entry.second, "Name");
 
@@ -487,81 +515,11 @@ void createSensors(
                         std::move(sensorThresholds), deviceAddress,
                         hostSMbusIndex, pollRate, sensorTypeName);
 
-                    /* Initialize scale and offset value */
-                    sensor->scaleVal = 1;
-                    sensor->offsetVal = 0;
+                    sensor->setReadMethod(entry.second);
+                    sensor->setScaleAndOffset(entry.second);
+                    sensor->setSensorType(sensorClass);
+                    sensor->setSensorSubType(sensorTypeName);
 
-                    auto findScaleVal = entry.second.find("ScaleValue");
-                    if (findScaleVal != entry.second.end())
-                    {
-                        sensor->scaleVal = std::visit(VariantToDoubleVisitor(),
-                                                      findScaleVal->second);
-                    }
-
-                    auto findOffsetVal = entry.second.find("OffsetValue");
-                    if (findOffsetVal != entry.second.end())
-                    {
-                        sensor->offsetVal = std::visit(VariantToDoubleVisitor(),
-                                                       findOffsetVal->second);
-                    }
-
-                    auto findPowerState = entry.second.find("PowerState");
-
-                    if (findPowerState != entry.second.end())
-                    {
-                        std::string powerState = std::visit(
-                            VariantToStringVisitor(), findPowerState->second);
-
-                        setReadState(powerState, sensor->readState);
-                    }
-
-                    if (sensorClass == "PxeBridgeTemp")
-                    {
-                        sensor->type = IpmbType::PXE1410CVR;
-                    }
-                    else if (sensorClass == "IRBridgeTemp")
-                    {
-                        sensor->type = IpmbType::IR38363VR;
-                    }
-                    else if (sensorClass == "HSCBridge")
-                    {
-                        sensor->type = IpmbType::ADM1278HSC;
-                    }
-                    else if (sensorClass == "MpsBridgeTemp")
-                    {
-                        sensor->type = IpmbType::mpsVR;
-                    }
-                    else if (sensorClass == "METemp" ||
-                             sensorClass == "MESensor")
-                    {
-                        sensor->type = IpmbType::meSensor;
-                    }
-                    else
-                    {
-                        std::cerr << "Invalid class " << sensorClass << "\n";
-                        continue;
-                    }
-
-                    if (sensorTypeName == "voltage")
-                    {
-                        sensor->subType = IpmbSubType::volt;
-                    }
-                    else if (sensorTypeName == "power")
-                    {
-                        sensor->subType = IpmbSubType::power;
-                    }
-                    else if (sensorTypeName == "current")
-                    {
-                        sensor->subType = IpmbSubType::curr;
-                    }
-                    else if (sensorTypeName == "utilization")
-                    {
-                        sensor->subType = IpmbSubType::util;
-                    }
-                    else
-                    {
-                        sensor->subType = IpmbSubType::temp;
-                    }
                     sensor->init();
                 }
             }
