@@ -936,6 +936,24 @@
     },
     {
       "key": {
+        "uuid": "52cb372c_1e3775b3",
+        "filename": "src/PLDMSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000957
+      },
+      "writtenOn": "2021-09-27T17:20:06Z",
+      "side": 1,
+      "message": "The design doc is posted to gerrit link below.\nhttps://gerrit.openbmc-project.xyz/c/openbmc/docs/+/47252",
+      "parentUuid": "32db77aa_6144f95d",
+      "revId": "aab83ba9e16b5ba24a3b04216ab91ea4b05abf7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "939874b7_8c6d6309",
         "filename": "src/PLDMSensorMain.cpp",
         "patchSetId": 12
