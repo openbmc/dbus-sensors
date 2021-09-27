@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "8d65efb0_4a27c632",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001093
+      },
+      "writtenOn": "2021-09-27T18:56:45Z",
+      "side": 1,
+      "message": "since utils.hpp has these headers included already, remove these header inclusions here.",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5356a6f_72dac888",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 25
@@ -64,6 +87,69 @@
         "startChar": 0,
         "endLine": 109,
         "endChar": 11
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c4c2787_2f05a1fc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001093
+      },
+      "writtenOn": "2021-09-27T18:56:45Z",
+      "side": 1,
+      "message": "IpmbFWVersion is a much suitable name for this class.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 11
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5598f6dd_e2741ec9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001093
+      },
+      "writtenOn": "2021-09-27T18:56:45Z",
+      "side": 1,
+      "message": "Is this part of code handled in case of other platforms. It is better that we display error  and skip to idle \nstate instead of throwing and stopping the execution for false condition.",
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bcea4c3_395c8bb4",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1001093
+      },
+      "writtenOn": "2021-09-27T18:56:45Z",
+      "side": 1,
+      "message": "this method name can be just read() as the class name contains version",
+      "range": {
+        "startLine": 166,
+        "startChar": 18,
+        "endLine": 166,
+        "endChar": 29
       },
       "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
@@ -156,6 +242,29 @@
         "startChar": 35,
         "endLine": 630,
         "endChar": 45
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22dff24b_5ce54b56",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001093
+      },
+      "writtenOn": "2021-09-27T18:56:45Z",
+      "side": 1,
+      "message": "These header inclusions can be removed as it is there in utils.hpp file",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 8
       },
       "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
