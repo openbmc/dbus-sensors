@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "936524bc_9b2eff13",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-27T17:30:35Z",
+      "side": 1,
+      "message": "Put in its own header please.",
+      "range": {
+        "startLine": 139,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 17
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12ad76b8_ea649b4b",
+        "filename": "include/dbus-sensor_config.h.in",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-27T17:30:35Z",
+      "side": 1,
+      "message": "This should be coming from entity-manager configuration, not a compile time config.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5356a6f_72dac888",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-27T17:30:35Z",
+      "side": 1,
+      "message": "Please don\u0027t put code for a class called \"IpmbVersion\" in a file for \"IpmbSensor\"",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 11
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a44d8c3d_e9e8b44a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-27T17:30:35Z",
+      "side": 1,
+      "message": "Unaddressed comment.  Version needs to be pulling from its own type, not reusing the subtype of the sensor based one.",
+      "range": {
+        "startLine": 612,
+        "startChar": 0,
+        "endLine": 612,
+        "endChar": 52
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b927afd0_fd1ab6b4",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-27T17:30:35Z",
+      "side": 1,
+      "message": "versions.emplace()?",
+      "range": {
+        "startLine": 614,
+        "startChar": 0,
+        "endLine": 617,
+        "endChar": 73
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882a1781_c7d4354a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-27T17:30:35Z",
+      "side": 1,
+      "message": "This error needs handled earlier.  If we hit this case, the IpmbVersion object has still been constructed and is now empty.",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 25
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59e5c97e_6541149b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-27T17:30:35Z",
+      "side": 1,
+      "message": "The other classes call this \"init()\".  lets be consistent.",
+      "range": {
+        "startLine": 630,
+        "startChar": 35,
+        "endLine": 630,
+        "endChar": 45
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dcbbeb1_bfc33848",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-27T17:30:35Z",
+      "side": 1,
+      "message": "Once you\u0027re reading from the entity-manager config, I suspect both of these will go away.",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 613,
+        "endChar": 1
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
