@@ -37,6 +37,10 @@ enum class ReadingFormat
     linearElevenBit
 };
 
+constexpr uint8_t bytesForTimestamp = 4;
+constexpr uint8_t bytesForDeviceId = 3;
+constexpr uint8_t fixedOffset = bytesForTimestamp + bytesForDeviceId;
+
 namespace ipmi
 {
 namespace sensor
@@ -70,6 +74,7 @@ namespace me_bridge
 {
 constexpr uint8_t netFn = 0x2e;
 constexpr uint8_t sendRawPmbus = 0xd9;
+constexpr uint8_t getSensorReading = 0xF5;
 } // namespace me_bridge
 } // namespace ipmi
 
@@ -91,6 +96,9 @@ struct IpmbSensor : public Sensor
     void loadDefaults(void);
     void runInitCmd(void);
     bool processReading(const std::vector<uint8_t>& data, double& resp);
+    void setReadMethod(const SensorBaseConfigMap& sensorBaseConfig);
+    void getRawData(uint8_t registerToRead, const std::vector<uint8_t>& input,
+                    std::vector<uint8_t>& result);
 
     IpmbType type;
     IpmbSubType subType;
@@ -102,6 +110,9 @@ struct IpmbSensor : public Sensor
     uint8_t deviceAddress;
     uint8_t errorCount;
     uint8_t hostSMbusIndex;
+    uint8_t registerToRead = 0;
+    bool isProxyRead = true;
+    uint8_t sensorMeAddress = 0;
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
