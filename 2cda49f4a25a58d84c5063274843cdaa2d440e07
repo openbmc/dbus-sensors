@@ -22,6 +22,30 @@
       "revId": "2cda49f4a25a58d84c5063274843cdaa2d440e07",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c65ec93_d097ce41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-09-27T22:00:01Z",
+      "side": 1,
+      "message": "I am agree with that this doesn\u0027t need to be that specific. However, I am not sure what the interface should be for other components like risers and drivers. I named it cable to point out it populates the cable interface on dbus for search purpose (so ipmid can find it). Once there is use case for risers/drivers, perhaps, it becomes more clear of what the interfaces should be and we can add the support for additional devices at that time. What do you think?",
+      "parentUuid": "6c55bb77_24cbb1b6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "2cda49f4a25a58d84c5063274843cdaa2d440e07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
