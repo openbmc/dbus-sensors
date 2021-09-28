@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "15dd233f_fc448755",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-28T16:40:37Z",
+      "side": 1,
+      "message": "Are these methods mutually exclusive?\n- Yes the methods are mutually exclusive, what method is used to \n  read the sensor is depended on xx_baseboard.json file. \n\nCan they be selected dynamically?\n- Current code does not support changing the read method during \n  runtime. But if we dynamically make isProxy \u003d true, the code \n  will switch to reading using proxy method. \n\nIs the mechanism described inside the code to assist devs in enabling/disabling the access method?\n- I will add more comments in code to enable this. \n\nIs this an Intel only entity, or do we need to make sure other users can choose the method for getting to VR\u0027s?\n- It is not Intel only, others can make use of this method, \n  assuming the ME at their end is capable of retrieving correct \n  data to \u0027Get PMBUS Readings\u0027 request.",
+      "parentUuid": "730ced27_1cc4d85f",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f43ce83b_b459f3bb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2021-09-27T16:08:19Z",
       "side": 1,
       "message": "Is ipmitool used for both examples?\nThe output appears to be \"ipmitool sdr elist\" in both cases.",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29724e65_d0e3f0e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-28T16:40:37Z",
+      "side": 1,
+      "message": "In both cases we are using ipmitool sdr elist, only change is what method we are using internally to read the sensor data. \nAnd that method is based on configuration in xx_baseboard.json",
+      "parentUuid": "f43ce83b_b459f3bb",
       "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e9484c81_ef12930d",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-28T16:40:37Z",
+      "side": 1,
+      "message": "In NM External Interface Spec, go to \"Get PMBUS Readings\". We see that response is a set of register values from the sensor.\nAnd we need to map which register is mapped to temperature. This configuration is right now being read from xx_baseboard.json and fille into \u0027registerToRead\u0027.",
+      "parentUuid": "89c04b43_88c84144",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2bc87fea_9fdd3b84",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2021-09-27T13:29:46Z",
       "side": 1,
       "message": "I think that printing the errors when the read failure happens may flood this way. It would be good that we have a limit to check for until it reaches those count and print the error strings till that point of time??",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04a504ed_8a48ec98",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-28T16:40:37Z",
+      "side": 1,
+      "message": "The logic right now is to print the error only once. That is if errCount \u003d\u003d 0. \nAfter this we increment errCount. So we do not print again. \nAnd the parent sensor structure is looking if this count is crossing a threshold. \nThis happens inside incrementError function. And if we cross the threshold of errors, we make it markFunctional(false);",
+      "parentUuid": "2bc87fea_9fdd3b84",
       "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -99,6 +171,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "9317f46f_137f9f37",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "247373f7_7a3c78e9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-09-28T16:40:37Z",
+      "side": 1,
+      "message": "It is backward compatible, and is tested, result is added in commit message. \nIf we use old configuration json file, the code reads the sensor as it use to, that is using proxy method.",
+      "parentUuid": "46b28c59_16ff2234",
       "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
