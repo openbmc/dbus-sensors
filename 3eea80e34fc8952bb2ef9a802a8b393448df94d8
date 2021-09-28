@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1427e104_90af0cdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000588
+      },
+      "writtenOn": "2021-09-28T14:34:00Z",
+      "side": 1,
+      "message": "\u003e are you planning to revert changes part of below commit  ..? https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/33812 \n\n\nYes, with this change values read from rated hwmon files will be exposed with MinValue/MaxValue properties from Sensor.RatedValue interface instead of MinValue/MaxValue properties from Sensor.Value interface.\n\nBehavior of MinValue/MaxValue properties from Sensor.Value interface is reverted - they are initialized with hardcoded values from configuration and there is no update of these values, as it was previously.",
+      "parentUuid": "5c0bcb8a_ace5f24b",
+      "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cec52b31_dded18bc",
         "filename": "include/PSUSensor.hpp",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6671549b_8b13e788",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000588
+      },
+      "writtenOn": "2021-09-28T14:34:00Z",
+      "side": 1,
+      "message": "MinValue/MaxValue for Sensor.Value interface are not updated, they are hardcoded. This is as it was before introducing https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/33812 .",
+      "parentUuid": "cec52b31_dded18bc",
+      "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3322cec8_a0100c37",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2021-09-28T13:06:15Z",
       "side": 1,
       "message": "Query : Why new function is not added for xyz.openbmc_project.Sensor.RatedValue instead modified exiting one \nwhich is originally implemented for xyz.openbmc_project.Sensor.Value ..?",
+      "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b5f8357_4f0cae8a",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000588
+      },
+      "writtenOn": "2021-09-28T14:34:00Z",
+      "side": 1,
+      "message": "As in previous comment, MinValue/MaxValue for Sensor.Value interface are not updated, they are hardcoded. This is as it was before introducing https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/33812 .\nValue read from hwmon max rated power file can be lower than max peak power for PSU, so it is not adequate here.",
+      "parentUuid": "3322cec8_a0100c37",
       "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
