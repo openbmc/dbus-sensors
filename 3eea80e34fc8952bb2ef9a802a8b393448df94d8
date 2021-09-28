@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "cf97f79b_1ab87a05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2021-09-28T15:25:22Z",
+      "side": 1,
+      "message": "Thanks for clarification .",
+      "parentUuid": "1427e104_90af0cdd",
+      "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cec52b31_dded18bc",
         "filename": "include/PSUSensor.hpp",
         "patchSetId": 3
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "ea8ab3df_0cfcbd87",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2021-09-28T15:25:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6671549b_8b13e788",
+      "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3322cec8_a0100c37",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 3
@@ -104,6 +140,24 @@
       "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81499bb3_7df9d855",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2021-09-28T15:25:22Z",
+      "side": 1,
+      "message": "Thanks for clarifications .",
+      "parentUuid": "7b5f8357_4f0cae8a",
+      "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
