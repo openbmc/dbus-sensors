@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72c57287_edb6859d",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-28T12:25:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "936524bc_9b2eff13",
+      "range": {
+        "startLine": 139,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 17
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12ad76b8_ea649b4b",
         "filename": "include/dbus-sensor_config.h.in",
         "patchSetId": 25
@@ -36,6 +60,30 @@
       "writtenOn": "2021-09-27T17:30:35Z",
       "side": 1,
       "message": "This should be coming from entity-manager configuration, not a compile time config.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abac2737_e41f05a3",
+        "filename": "include/dbus-sensor_config.h.in",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-28T12:25:23Z",
+      "side": 1,
+      "message": "Entity manager config will provide single instance, this OBMC_HOST_INSTANCES is coming from dbus-sensors bb file and it will represent the host instances of each platform to validate the value coming from entity-manager config.",
+      "parentUuid": "12ad76b8_ea649b4b",
       "range": {
         "startLine": 10,
         "startChar": 0,
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "caef3d80_059a894c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-28T12:25:23Z",
+      "side": 1,
+      "message": "Ack, Whether the common code for FWversion \u0026 sensor needs to be refactored and put in a separate file like IpmbMain.cpp and other codes in separate file such as IpmbSensor.cpp, IpmbFWVersion.cpp \n(or)\nonly IpmbFWVersion code needs to be moved to another file by creating new service and not disturbing the existing file IpmbSensor.cpp ?",
+      "parentUuid": "e5356a6f_72dac888",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 11
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5598f6dd_e2741ec9",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 25
@@ -180,6 +252,30 @@
     },
     {
       "key": {
+        "uuid": "79872c07_4780a301",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-28T12:25:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a44d8c3d_e9e8b44a",
+      "range": {
+        "startLine": 612,
+        "startChar": 0,
+        "endLine": 612,
+        "endChar": 52
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b927afd0_fd1ab6b4",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 25
@@ -200,6 +296,30 @@
       "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "770489df_f92c85e4",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-28T12:25:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b927afd0_fd1ab6b4",
+      "range": {
+        "startLine": 614,
+        "startChar": 0,
+        "endLine": 617,
+        "endChar": 73
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -226,6 +346,30 @@
     },
     {
       "key": {
+        "uuid": "3f5bda45_103b3960",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-28T12:25:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "882a1781_c7d4354a",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 25
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59e5c97e_6541149b",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 25
@@ -246,6 +390,30 @@
       "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a2faa09_383e781b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-28T12:25:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "59e5c97e_6541149b",
+      "range": {
+        "startLine": 630,
+        "startChar": 35,
+        "endLine": 630,
+        "endChar": 45
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -283,6 +451,30 @@
       "writtenOn": "2021-09-27T17:30:35Z",
       "side": 1,
       "message": "Once you\u0027re reading from the entity-manager config, I suspect both of these will go away.",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 613,
+        "endChar": 1
+      },
+      "revId": "214e17d5c11faecddfb4fbf075b0c3e6e139129f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd005763_d0b73b5b",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-09-28T12:25:23Z",
+      "side": 1,
+      "message": "I am reading host index from entity manager config only, these two functions is to validate the host index value which is getting from the config file.\n\nOBMC_HOST_INSTANCES will have the host instances for each platform. \nEx: OBMC_HOST_INSTANCES \u003d 1 2 3 4\n\nWhile reading value as 4 from entity-manager config, it will check whether the value is present in these instances.",
+      "parentUuid": "1dcbbeb1_bfc33848",
       "range": {
         "startLine": 576,
         "startChar": 0,
