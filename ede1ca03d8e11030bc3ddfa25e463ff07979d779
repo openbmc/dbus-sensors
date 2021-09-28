@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79d04363_af528b8a",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-09-28T19:20:49Z",
+      "side": 1,
+      "message": "OK, I will have it print only if \"debug\" is enabled.",
+      "parentUuid": "cd7f87ce_4dd880f6",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 17
+      },
+      "revId": "ede1ca03d8e11030bc3ddfa25e463ff07979d779",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7394a2c_683d8fcf",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2021-09-28T16:26:48Z",
       "side": 1,
       "message": "I like this idea in concept, but instead of picking a hardcoded value at the top scope and passing it through all the layers, would it make more sense to just pick a uniform random number between 0 and poll rate for each sensor and use that as the first delay?  That way, the sensors get staggered randomly based on their poll rate?  As written, because we don\u0027t take poll rate into account, if I had 100 tmp75 sensors, it would take 10 seconds for all of them to init, which doesn\u0027t seem great.\n\nAlso, that would greatly simplify this patch.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "ede1ca03d8e11030bc3ddfa25e463ff07979d779",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249f55dd_3ade0f57",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-09-28T19:20:49Z",
+      "side": 1,
+      "message": "That\u0027s a good idea. We don\u0027t know the total number of sensors in the system in advance, otherwise it would be easy to evenly split up the polling interval.\n\nAs for a random number, I don\u0027t like introducing intentional randomness into the BMC, which is supposed to act deterministically. I really like the idea of making it pseudorandom, though. Do the existing libraries on the BMC contain a CRC32 function call or anything like that? Taking a CRC32, or other good equivalent, over the sensor name, then mod it over the polling interval, would be enough to accomplish the goal of breaking up the \"thundering herd\" without being truly random.",
+      "parentUuid": "c7394a2c_683d8fcf",
       "range": {
         "startLine": 128,
         "startChar": 0,
