@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "483f22ad_06a41bf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-09-28T16:30:09Z",
+      "side": 1,
+      "message": "Understood.  Lets do this in two steps then, first, lets fix MinValue/MaxValue (I suspect by reverting the rated patch).  Then get the Rated interface into phosphor-dbus-interfaces in a patch, then get that code added back here.\n\nDoes that work for you?",
+      "parentUuid": "84c9e5bf_e4354cd3",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "3a9a3db42ba88bb9947ba6484d3422d8a20f8700",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c298c8b6_34c269d5",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 1
