@@ -50,9 +50,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
            std::move(thresholdsIn), sensorConfiguration, objectType, false, max,
            min, conn, powerState),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), pathRatedMax(""), pathRatedMin(""),
-    sensorFactor(factor), minMaxReadCounter(0), sensorOffset(offset),
-    thresholdTimer(io)
+    inputDev(io), waitTimer(io), path(path), sensorFactor(factor),
+    sensorOffset(offset), thresholdTimer(io)
 {
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
@@ -107,23 +106,6 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     association = objectServer.add_interface(dbusPath, association::interface);
 
     createInventoryAssoc(conn, association, configurationPath);
-
-    if (auto fileParts = splitFileName(path))
-    {
-        auto& [type, nr, item] = *fileParts;
-        if (item.compare("input") == 0)
-        {
-            pathRatedMax = boost::replace_all_copy(path, item, "rated_max");
-            pathRatedMin = boost::replace_all_copy(path, item, "rated_min");
-        }
-    }
-    if constexpr (debug)
-    {
-        std::cerr << "File: " << pathRatedMax
-                  << " will be used to update MaxValue\n";
-        std::cerr << "File: " << pathRatedMin
-                  << " will be used to update MinValue\n";
-    }
 }
 
 PSUSensor::~PSUSensor()
@@ -175,19 +157,6 @@ void PSUSensor::restartRead(void)
     });
 }
 
-void PSUSensor::updateMinMaxValues(void)
-{
-    if (auto newVal = readFile(pathRatedMin, sensorFactor))
-    {
-        updateProperty(sensorInterface, minValue, *newVal, "MinValue");
-    }
-
-    if (auto newVal = readFile(pathRatedMax, sensorFactor))
-    {
-        updateProperty(sensorInterface, maxValue, *newVal, "MaxValue");
-    }
-}
-
 // Create a buffer expected to be able to hold more characters than will be
 // present in the input file.
 static constexpr uint32_t psuBufLen = 128;
@@ -211,10 +180,6 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         {
             rawValue = std::stod(buffer);
             updateValue((rawValue / sensorFactor) + sensorOffset);
-            if (minMaxReadCounter++ % 8 == 0)
-            {
-                updateMinMaxValues();
-            }
         }
         catch (const std::invalid_argument&)
         {

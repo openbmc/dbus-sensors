@@ -30,16 +30,12 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     std::string path;
-    std::string pathRatedMax;
-    std::string pathRatedMin;
     unsigned int sensorFactor;
-    uint8_t minMaxReadCounter;
     double sensorOffset;
     thresholds::ThresholdTimer thresholdTimer;
     void restartRead();
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
-    void updateMinMaxValues(void);
     unsigned int sensorPollMs = defaultSensorPollMs;
 
     int fd;
