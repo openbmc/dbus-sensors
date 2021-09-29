@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da1c1e96_ad23d07a",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-29T10:30:24Z",
+      "side": 1,
+      "message": "Thank you so much for adding this doc, it is brilliant!\n\nBut I still little bit confused: you rename source files to \"GPIOCableSensor.*\" according to my request, but here you mention this as generic Presence Detection again...",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 32
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "986c2aa6_27d11893",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-29T10:30:24Z",
+      "side": 1,
+      "message": "How IPMI spec affects this gpiocablesensor daemon design? For me looks like this reference excess.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 115
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d3bd471_0f3e802d",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-29T10:30:24Z",
+      "side": 1,
+      "message": "Looks like something happens with formatting?..",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de847f87_c641c98f",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-29T10:30:24Z",
+      "side": 1,
+      "message": "Saying about to make it generic: I propose to transform this to something like\n\"Type\": \"GPIOPresenceSensing\",\n\"Class\": \"Cable\",\n\nand then in the code you can have a map of interfaces lists to implement depending on class.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 33
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd32aa85_80877c58",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-29T10:30:24Z",
+      "side": 1,
+      "message": "If this intended to represent Inventory Item, then, please, add also `xyz.openbmc_project.Inventory.Item` interface. Not all services now follow this rule, but lets not make this practice common.\nAnd, BTW, I believe, presence should be represented by xyz.openbmc_project.Inventory.Item-\u003ePresent or  xyz.openbmc_project.State.Decorator.Availability-\u003eAvailable, but not by  xyz.openbmc_project.State.Decorator.OperationalStatus-\u003eFunctional\n\nActually, I don\u0027t like the idea that dbus-sensors will expose inventory items, but this is another story... Did you look how same thing implemented by PSUSensor, CPUSensor, FanSensor?",
+      "range": {
+        "startLine": 90,
+        "startChar": 53,
+        "endLine": 91,
+        "endChar": 54
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e548c6ff_c6eed4ac",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-29T10:30:24Z",
+      "side": 1,
+      "message": "drives, not drivers",
+      "range": {
+        "startLine": 117,
+        "startChar": 34,
+        "endLine": 117,
+        "endChar": 41
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "700c6403_fa70dcf6",
+        "filename": "src/GPIOCableSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-09-29T10:30:24Z",
+      "side": 1,
+      "message": "Hm... Generally all other daemons in dbus-sensors have actual logic here and configration/detection/EM-communication in \"xxxMain.cpp\". Why did you decide to change the pattern?",
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
