@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "40c2ee3e_943fae89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000588
+      },
+      "writtenOn": "2021-09-29T08:15:53Z",
+      "side": 1,
+      "message": "Yes, I will do it this way.\n\nI put a review request for patch reverting: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47297",
+      "parentUuid": "483f22ad_06a41bf8",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "3a9a3db42ba88bb9947ba6484d3422d8a20f8700",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c298c8b6_34c269d5",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 1
