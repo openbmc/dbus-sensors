@@ -1047,6 +1047,6 @@ int main()
         matches.emplace_back(std::move(match));
     }
 
-    setupManufacturingModeMatch(*systemBus);
+    setupManufacturingModeMatch(systemBus);
     io.run();
 }
