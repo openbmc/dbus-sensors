@@ -416,6 +416,6 @@ int main()
             "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
         cpuPresenceHandler));
 
-    setupManufacturingModeMatch(*systemBus);
+    setupManufacturingModeMatch(systemBus);
     io.run();
 }

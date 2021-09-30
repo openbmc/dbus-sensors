@@ -657,7 +657,7 @@ int main()
             std::string(power::interface) + "'",
         reinitSensors);
 
-    setupManufacturingModeMatch(*systemBus);
+    setupManufacturingModeMatch(systemBus);
     io.run();
     return 0;
 }

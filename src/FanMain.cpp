@@ -522,7 +522,7 @@ int main()
         std::move(redundancyHandler));
     matches.emplace_back(std::move(match));
 
-    setupManufacturingModeMatch(*systemBus);
+    setupManufacturingModeMatch(systemBus);
     io.run();
     return 0;
 }

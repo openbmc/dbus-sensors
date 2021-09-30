@@ -386,7 +386,7 @@ int main()
         matches.emplace_back(std::move(match));
     }
 
-    setupManufacturingModeMatch(*systemBus);
+    setupManufacturingModeMatch(systemBus);
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
