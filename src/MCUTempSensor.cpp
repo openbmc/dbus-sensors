@@ -310,7 +310,7 @@ int main()
             configInterface + "'",
         eventHandler);
 
-    setupManufacturingModeMatch(*systemBus);
+    setupManufacturingModeMatch(systemBus);
     io.run();
     return 0;
 }

@@ -522,12 +522,13 @@ std::optional<std::tuple<std::string, std::string, std::string>>
     return std::nullopt;
 }
 
-void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
+void setupManufacturingModeMatch(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
     static std::unique_ptr<sdbusplus::bus::match::match>
         setupManufacturingModeMatch =
             std::make_unique<sdbusplus::bus::match::match>(
-                conn,
+                static_cast<sdbusplus::bus::bus&>(*conn),
                 "type='signal',interface='org.freedesktop.DBus."
                 "Properties',member='"
                 "PropertiesChanged',arg0namespace='xyz.openbmc_project."
@@ -548,12 +549,6 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
                     manufacturingModeStatus = std::get<std::string>(
                         propertiesChanged.begin()->second);
                     manufacturingMode = false;
-                    if (manufacturingModeStatus ==
-                        "xyz.openbmc_project.Control.Security."
-                        "SpecialMode.Modes.Manufacturing")
-                    {
-                        manufacturingMode = true;
-                    }
                     if (validateUnsecureFeature == true)
                     {
                         if (manufacturingModeStatus ==
@@ -564,10 +559,45 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
                         }
                     }
                 });
-
+    getSpecialMode(conn);
     return;
 }
 
+void getSpecialMode(const std::shared_ptr<sdbusplus::asio::connection>& conn)
+{
+    conn->async_method_call(
+        [conn](boost::system::error_code ec,
+               std::variant<std::string>& getManufactMode) {
+            if (ec)
+            {
+                std::cerr << "error getting  SpecialMode status "
+                          << ec.message() << "\n";
+                return;
+            }
+            std::string manufacturingModeStatus;
+            manufacturingModeStatus = std::get<std::string>(getManufactMode);
+            manufacturingMode = false;
+            if (manufacturingModeStatus ==
+                "xyz.openbmc_project.Control.Security."
+                "SpecialMode.Modes.Manufacturing")
+            {
+                manufacturingMode = true;
+            }
+            if (validateUnsecureFeature == true)
+            {
+                if (manufacturingModeStatus ==
+                    "xyz.openbmc_project.Control.Security."
+                    "SpecialMode.Modes.ValidationUnsecure")
+                {
+                    manufacturingMode = true;
+                }
+            }
+        },
+        "xyz.openbmc_project.SpecialMode",
+        "/xyz/openbmc_project/security/special_mode",
+        "org.freedesktop.DBus.Properties", "Get",
+        "xyz.openbmc_project.Security.SpecialMode", "SpecialMode");
+}
 bool getManufacturingMode()
 {
     return manufacturingMode;
