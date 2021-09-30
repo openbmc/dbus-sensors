@@ -86,6 +86,60 @@ struct Sensor
     // construction of your Sensor subclass. See ExternalSensor for example.
     std::function<void()> externalSetHook;
 
+    void setValue(const double& newValue, double& oldValue)
+    {
+        oldValue = newValue;
+        overriddenState = true;
+        // check thresholds for external set
+        value = newValue;
+        checkThresholds();
+
+        // Trigger the hook, as an external set has just happened
+        if (externalSetHook)
+        {
+            externalSetHook();
+        }
+    }
+
+    // Set sensor value by checking whether BMC is in Manufacturing Mode
+    // or Validation Unsecure Mode
+    void setSpecialModeValue(const double& newValue, double& oldValue)
+    {
+        dbusConnection->async_method_call(
+            [newValue, &oldValue,
+             this](const boost::system::error_code ec,
+                   const std::variant<std::string>& getManufactMode) {
+                if (ec)
+                {
+                    std::cerr << "error getting  SpecialMode status "
+                              << ec.message() << "\n";
+                    return;
+                }
+                auto manufacturingModeStatus =
+                    std::get_if<std::string>(&getManufactMode);
+                if (*manufacturingModeStatus ==
+                    "xyz.openbmc_project.Control.Security."
+                    "SpecialMode.Modes.Manufacturing")
+                {
+                    setValue(newValue, oldValue);
+                }
+                if (validateUnsecureFeature == true)
+                {
+                    if (*manufacturingModeStatus ==
+                        "xyz.openbmc_project.Control.Security."
+                        "SpecialMode.Modes.ValidationUnsecure")
+                    {
+                        setValue(newValue, oldValue);
+                    }
+                }
+            },
+            "xyz.openbmc_project.SpecialMode",
+            "/xyz/openbmc_project/security/special_mode",
+            "org.freedesktop.DBus.Properties", "Get",
+            "xyz.openbmc_project.Security.SpecialMode", "SpecialMode");
+        return;
+    }
+
     void updateInstrumentation(double readValue)
     {
         // Do nothing if this feature is not enabled
@@ -180,26 +234,18 @@ struct Sensor
             { // insecure sesnor override.
                 if (isSensorSettable == false)
                 { // sensor is not settable.
-                    if (getManufacturingMode() == false)
-                    { // manufacture mode is not enable.
-                        std::cerr << "Sensor " << name
-                                  << ": Not allowed to set property value.\n";
-                        return -EACCES;
-                    }
+                    setSpecialModeValue(newValue, oldValue);
+                    return 1;
                 }
             }
-
-            oldValue = newValue;
-            overriddenState = true;
-            // check thresholds for external set
-            value = newValue;
-            checkThresholds();
-
-            // Trigger the hook, as an external set has just happened
-            if (externalSetHook)
+            else
             {
-                externalSetHook();
+                std::cerr << "Sensor " << name
+                          << ": Not allowed to set property value.\n";
+                return -EACCES;
             }
+
+            setValue(newValue, oldValue);
         }
         else if (!overriddenState)
         {

@@ -564,11 +564,5 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
                         }
                     }
                 });
-
     return;
-}
-
-bool getManufacturingMode()
-{
-    return manufacturingMode;
 }
