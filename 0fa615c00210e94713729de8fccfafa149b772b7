@@ -42,6 +42,29 @@
     },
     {
       "key": {
+        "uuid": "df385624_952e1417",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-01T21:45:04Z",
+      "side": 1,
+      "message": "I don\u0027t like keep expanding this switch statement. The ReadingFormat is known at construct time and remains the same for the life of the object. There is no reason to do the switch for every read. It maybe time to abstract this out.",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 9
+      },
+      "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d2bfa6ca_3adc165c",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
