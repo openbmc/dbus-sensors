@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fca94c7_8dc5bfdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-03T00:28:15Z",
+      "side": 1,
+      "message": "More details here needed.  The old code looks more correct than the new code, and the new code adds a race condition while waiting for the mode switch to return.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "bd0a8a8bba297dbf28e523dd47b3b9b2e15cf17f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28976d0f_98c03a5e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-03T00:28:15Z",
+      "side": 1,
+      "message": "We are already maching on the propertiesChanged event from this interface, why do we need to get it again?",
+      "range": {
+        "startLine": 568,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 67
+      },
+      "revId": "bd0a8a8bba297dbf28e523dd47b3b9b2e15cf17f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
