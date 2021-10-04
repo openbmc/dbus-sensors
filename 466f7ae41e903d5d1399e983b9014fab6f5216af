@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "cc12ccb5_1827f2d1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1001006
+      },
+      "writtenOn": "2021-10-04T05:49:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04a504ed_8a48ec98",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9317f46f_137f9f37",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 1
@@ -192,6 +210,24 @@
       "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e920630e_9bd5b780",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1001006
+      },
+      "writtenOn": "2021-10-04T05:49:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "247373f7_7a3c78e9",
+      "revId": "466f7ae41e903d5d1399e983b9014fab6f5216af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

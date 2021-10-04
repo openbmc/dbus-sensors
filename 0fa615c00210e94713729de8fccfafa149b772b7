@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "570119ee_cbcf88f1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001006
+      },
+      "writtenOn": "2021-10-04T05:49:41Z",
+      "side": 1,
+      "message": "I think that the if else conditions can also be moved out to header file and just calling a function here by passing the IpmbType should do the required functionalities and command selections, so that the code readability will also be nice to have in place even though it is existing from legacy.",
+      "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1690a537_1d5a8180",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
