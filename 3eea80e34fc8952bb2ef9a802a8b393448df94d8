@@ -108,6 +108,23 @@
     },
     {
       "key": {
+        "uuid": "4fd8ea42_fc7fdb9f",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001006
+      },
+      "writtenOn": "2021-10-04T06:51:09Z",
+      "side": 1,
+      "message": "I understand this changes are tested on the real platform but i do like to know about the case of any other way to simulate and check it out? which means using busctl set property?? If so, then do we need to worry about manufacturing mode??",
+      "revId": "3eea80e34fc8952bb2ef9a802a8b393448df94d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3322cec8_a0100c37",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 3
