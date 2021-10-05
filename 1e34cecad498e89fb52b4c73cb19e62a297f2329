@@ -22,6 +22,30 @@
       "revId": "1e34cecad498e89fb52b4c73cb19e62a297f2329",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de52d09b_7777de67",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1000652
+      },
+      "writtenOn": "2021-10-05T10:34:26Z",
+      "side": 0,
+      "message": "Wanted to use conn in async_call_method",
+      "parentUuid": "46ab2d7b_da2876f7",
+      "range": {
+        "startLine": 525,
+        "startChar": 33,
+        "endLine": 525,
+        "endChar": 66
+      },
+      "revId": "1e34cecad498e89fb52b4c73cb19e62a297f2329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }

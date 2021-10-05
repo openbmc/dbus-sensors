@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d0dc4a8d_59c8d543",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000652
+      },
+      "writtenOn": "2021-10-05T10:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c119a13_c757d17f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "bd0a8a8bba297dbf28e523dd47b3b9b2e15cf17f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28976d0f_98c03a5e",
         "filename": "src/Utils.cpp",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "bd0a8a8bba297dbf28e523dd47b3b9b2e15cf17f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ede4534f_e2dcda41",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000652
+      },
+      "writtenOn": "2021-10-05T10:34:26Z",
+      "side": 1,
+      "message": "As we enter manufacturing mode before the bmc bootup, sdbusplus checks the special mode when signal triggers. There are different sensor services in dbus-sensors are called after specialmode service, so signal triggering is not detected by sdbusplus. Manufacturing mode is not detected while validation Unsecure mode is getting detected as we set it after bmc boot.\n\nCan suggest us any other way to fix this?",
+      "parentUuid": "28976d0f_98c03a5e",
+      "range": {
+        "startLine": 568,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 67
+      },
+      "revId": "bd0a8a8bba297dbf28e523dd47b3b9b2e15cf17f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
