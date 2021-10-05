@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d13c2cec_1ccff6e6",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-05T14:57:22Z",
+      "side": 1,
+      "message": "we tried these commits out, and they don\u0027t work because of this check here. Since the deviceName is supposed to match DevName as you have above, I\u0027m not sure why it\u0027s still checked against iio-hwmon?\n\nif you had an \u0027else if\u0027 here instead, then it would probably be OK.",
+      "range": {
+        "startLine": 139,
+        "startChar": 19,
+        "endLine": 139,
+        "endChar": 53
+      },
+      "revId": "9b194d723cb514f76b7290871a6bd7e7af82bcf4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
