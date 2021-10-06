@@ -113,7 +113,7 @@ void createSensors(
                     bus = std::stoi(busStr);
                     addr = std::stoi(addrStr, nullptr, 16);
                 }
-                catch (std::invalid_argument&)
+                catch (const std::invalid_argument&)
                 {
                     continue;
                 }
