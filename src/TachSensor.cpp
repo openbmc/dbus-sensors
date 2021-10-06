@@ -228,7 +228,7 @@ PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
 
         gpioFd.assign(gpioLineFd);
     }
-    catch (std::system_error&)
+    catch (const std::system_error&)
     {
         std::cerr << "Error reading gpio: " << gpioName << "\n";
         status = false;

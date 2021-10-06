@@ -100,7 +100,7 @@ inline bool cpuIsPresent(
                       activeHigh ? 0 : gpiod::line_request::FLAG_ACTIVE_LOW});
         resp = line.get_value();
     }
-    catch (std::system_error&)
+    catch (const std::system_error&)
     {
         std::cerr << "Error reading gpio: " << gpioName << "\n";
         return false;

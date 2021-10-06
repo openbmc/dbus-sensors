@@ -34,7 +34,7 @@ class BridgeGpio
                                   ? 0
                                   : gpiod::line_request::FLAG_ACTIVE_LOW});
             }
-            catch (std::system_error&)
+            catch (const std::system_error&)
             {
                 std::cerr << "Error requesting gpio: " << name << "\n";
             }
@@ -49,7 +49,7 @@ class BridgeGpio
             {
                 line.set_value(value);
             }
-            catch (std::system_error& exc)
+            catch (const std::system_error& exc)
             {
                 std::cerr << "Error set_value: " << exc.what() << "\n";
             }
