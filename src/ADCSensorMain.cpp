@@ -81,7 +81,7 @@ void createSensors(
             if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)",
                            paths))
             {
-                std::cerr << "No temperature sensors in system\n";
+                std::cerr << "No adc sensors in system\n";
                 return;
             }
 
