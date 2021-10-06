@@ -367,7 +367,7 @@ int main()
             {
                 index = std::stoi(path.substr(path.size() - 1));
             }
-            catch (std::invalid_argument&)
+            catch (const std::invalid_argument&)
             {
                 std::cerr << "Found invalid path " << path << "\n";
                 return;

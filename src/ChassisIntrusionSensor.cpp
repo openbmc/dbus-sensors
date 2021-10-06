@@ -246,7 +246,7 @@ void ChassisIntrusionSensor::initGpioDeviceFile()
 
         mGpioFd.assign(gpioLineFd);
     }
-    catch (std::system_error&)
+    catch (const std::system_error&)
     {
         std::cerr << "ChassisInrtusionSensor error requesting gpio pin name: "
                   << mPinName << "\n";

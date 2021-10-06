@@ -326,7 +326,7 @@ static void createSensorsCallback(
             bus = std::stoi(busStr);
             addr = std::stoi(addrStr, nullptr, 16);
         }
-        catch (std::invalid_argument&)
+        catch (const std::invalid_argument&)
         {
             std::cerr << "Error parsing bus " << busStr << " addr " << addrStr
                       << "\n";
@@ -642,7 +642,7 @@ static void createSensorsCallback(
                     psuProperty->labelTypeName = std::visit(
                         VariantToStringVisitor(), findCustomName->second);
                 }
-                catch (std::invalid_argument&)
+                catch (const std::invalid_argument&)
                 {
                     std::cerr << "Unable to parse " << keyName << "\n";
                     continue;
@@ -661,7 +661,7 @@ static void createSensorsCallback(
                     psuProperty->sensorScaleFactor = std::visit(
                         VariantToUnsignedIntVisitor(), findCustomScale->second);
                 }
-                catch (std::invalid_argument&)
+                catch (const std::invalid_argument&)
                 {
                     std::cerr << "Unable to parse " << keyScale << "\n";
                     continue;
@@ -687,7 +687,7 @@ static void createSensorsCallback(
                     psuProperty->minReading = std::visit(
                         VariantToDoubleVisitor(), findCustomMin->second);
                 }
-                catch (std::invalid_argument&)
+                catch (const std::invalid_argument&)
                 {
                     std::cerr << "Unable to parse " << keyMin << "\n";
                     continue;
@@ -702,7 +702,7 @@ static void createSensorsCallback(
                     psuProperty->maxReading = std::visit(
                         VariantToDoubleVisitor(), findCustomMax->second);
                 }
-                catch (std::invalid_argument&)
+                catch (const std::invalid_argument&)
                 {
                     std::cerr << "Unable to parse " << keyMax << "\n";
                     continue;
@@ -717,7 +717,7 @@ static void createSensorsCallback(
                     psuProperty->sensorOffset = std::visit(
                         VariantToDoubleVisitor(), findCustomOffset->second);
                 }
-                catch (std::invalid_argument&)
+                catch (const std::invalid_argument&)
                 {
                     std::cerr << "Unable to parse " << keyOffset << "\n";
                     continue;

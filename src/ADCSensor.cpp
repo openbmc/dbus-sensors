@@ -172,7 +172,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
             nvalue = std::round(nvalue * roundFactor) / roundFactor;
             updateValue(nvalue);
         }
-        catch (std::invalid_argument&)
+        catch (const std::invalid_argument&)
         {
             incrementError();
         }
