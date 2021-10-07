@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "baaed493_7a69c4d1",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-10-07T20:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e548c6ff_c6eed4ac",
+      "range": {
+        "startLine": 117,
+        "startChar": 34,
+        "endLine": 117,
+        "endChar": 41
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "700c6403_fa70dcf6",
         "filename": "src/GPIOCableSensor.cpp",
         "patchSetId": 15
