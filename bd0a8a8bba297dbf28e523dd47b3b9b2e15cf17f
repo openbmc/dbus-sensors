@@ -117,6 +117,30 @@
       "revId": "bd0a8a8bba297dbf28e523dd47b3b9b2e15cf17f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "970d15a5_abfd4cc0",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-07T18:26:39Z",
+      "side": 1,
+      "message": "\u003e As we enter manufacturing mode before the bmc bootup, sdbusplus checks the special mode when signal triggers.\n\nAh, I think I understand now.  That makes some sense, I thought this was in the handler call.\n\nWhy is manufacturing mode happening before bmc bootup though?  Manufacturing mode by design is non-persistent, and doesn\u0027t get set before bmc bootup, given that it\u0027s a user interaction requirement, so I\u0027m not sure how you could see this bug in a real system unless the design of manufacturing mode changed?\n\n\u003e There are different sensor services in dbus-sensors are called after specialmode service, so signal triggering is not detected by sdbusplus.\n\nthis doesn\u0027t make sense to me.  sdbusplus is a dbus binding.  it doesn\u0027t \"detect\" anything.  The match expression itself \"detects\" the change, and if match expressions don\u0027t detect a change, that is a much more significant issue.\n\n\u003e Manufacturing mode is not detected while validation Unsecure mode is getting detected as we set it after bmc boot.\n\u003e \n\u003e Can suggest us any other way to fix this?\n\nI\u0027m happy to once I understand the problem, but right now, I\u0027m not sure how you\u0027re even hitting this in a real system.",
+      "parentUuid": "ede4534f_e2dcda41",
+      "range": {
+        "startLine": 568,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 67
+      },
+      "revId": "bd0a8a8bba297dbf28e523dd47b3b9b2e15cf17f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
