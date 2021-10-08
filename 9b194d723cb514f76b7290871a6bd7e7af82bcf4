@@ -22,6 +22,30 @@
       "revId": "9b194d723cb514f76b7290871a6bd7e7af82bcf4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e78f862a_1f790fc5",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-10-08T02:18:52Z",
+      "side": 1,
+      "message": "You are right. The patch 12 cause the original \"else if\" is changed to \"if\".\nI update patch 13 to fix this.\n\nThanks.",
+      "parentUuid": "d13c2cec_1ccff6e6",
+      "range": {
+        "startLine": 139,
+        "startChar": 19,
+        "endLine": 139,
+        "endChar": 53
+      },
+      "revId": "9b194d723cb514f76b7290871a6bd7e7af82bcf4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
