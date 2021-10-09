@@ -354,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "98bc9313_ffab0210",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-09T07:22:15Z",
+      "side": 1,
+      "message": "sensorPollMs is of type int, that is why we are using static_cast\u003cint\u003e.\n\nAnd if you want me to change type of sensorPollMs, we can do that. \nAnd a better choice will be boost::posix_time::milliseconds. \nAs sensorPollMs is used in waitTimer.expires_from_now. \nBut can I push it as separate review? As I think it has nothing to do with the current patch.",
+      "parentUuid": "0d55f38a_7ade55dc",
+      "range": {
+        "startLine": 73,
+        "startChar": 37,
+        "endLine": 73,
+        "endChar": 70
+      },
+      "revId": "2766306db8891240b1178b01f4e2e3b7a64fb0bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05494a7f_a1b5a7ed",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
