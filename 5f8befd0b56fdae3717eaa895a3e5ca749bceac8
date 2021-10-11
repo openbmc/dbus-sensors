@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1c6ff80_18d0589d",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-11T15:52:19Z",
+      "side": 1,
+      "message": "nit:remove",
+      "range": {
+        "startLine": 39,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "5f8befd0b56fdae3717eaa895a3e5ca749bceac8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
