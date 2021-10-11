@@ -378,6 +378,30 @@
     },
     {
       "key": {
+        "uuid": "85225c27_238b3a31",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000278
+      },
+      "writtenOn": "2021-10-11T14:22:12Z",
+      "side": 1,
+      "message": "I did not notice the sensorPollMs init was identical.\nLeave the code as is.\n\nI\u0027m not sure I understand your assertion though.\nstd::chrono::milliseconds is an int type.\nFrom BMCWeb there is this example code:\ncreateTimer-\u003eexpires_after(std::chrono::milliseconds(500));\n\nIt appears to my eye the code I flagged could be changed to std::chrono::milliseconds(pollRate) without causing any issues. I don\u0027t understand why there would be a need to involve boost.",
+      "parentUuid": "98bc9313_ffab0210",
+      "range": {
+        "startLine": 73,
+        "startChar": 37,
+        "endLine": 73,
+        "endChar": 70
+      },
+      "revId": "2766306db8891240b1178b01f4e2e3b7a64fb0bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05494a7f_a1b5a7ed",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
