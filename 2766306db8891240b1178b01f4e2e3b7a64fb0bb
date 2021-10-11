@@ -402,6 +402,30 @@
     },
     {
       "key": {
+        "uuid": "5a8dd4fd_e2b6d5db",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-11T14:34:43Z",
+      "side": 1,
+      "message": "I said that looking at the usage of sensorPollMs\nwaitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));\nin line 368",
+      "parentUuid": "85225c27_238b3a31",
+      "range": {
+        "startLine": 73,
+        "startChar": 37,
+        "endLine": 73,
+        "endChar": 70
+      },
+      "revId": "2766306db8891240b1178b01f4e2e3b7a64fb0bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05494a7f_a1b5a7ed",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
