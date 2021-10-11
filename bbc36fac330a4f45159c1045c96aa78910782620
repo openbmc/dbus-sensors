@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcdc1004_d195dfb4",
+        "filename": "src/IpmbFWVersion.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-10-11T16:58:35Z",
+      "side": 1,
+      "message": "Instead hardcoding, can we use constexpr string for this interface name ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "bbc36fac330a4f45159c1045c96aa78910782620",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
