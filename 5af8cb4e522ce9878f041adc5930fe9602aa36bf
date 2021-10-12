@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "e95c4633_229184ea",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-10-12T08:19:02Z",
+      "side": 1,
+      "message": "Pseudographics still looks broken. Are you sure it is okey?",
+      "parentUuid": "6cc5313d_61853fbf",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de847f87_c641c98f",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 15
@@ -225,6 +249,30 @@
       "side": 1,
       "message": "Yes, PSUSensor implements both xyz.openbmc_project.State.Decorator.Availability and xyz.openbmc_project.State.Decorator.OperationalStatus. However, for a presence signal, do we need two indicators for the same signal?",
       "parentUuid": "cd32aa85_80877c58",
+      "range": {
+        "startLine": 90,
+        "startChar": 53,
+        "endLine": 91,
+        "endChar": 54
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0a60aa5_dfa06bd8",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-10-12T08:19:02Z",
+      "side": 1,
+      "message": "Well, I agree that having several interfaces here may be excess.\nWhat is the idea of the sensing? \nIs it expected to have or have no the cables and intention is to detect Presence, or it expected the cables would always present and intention is to detect it they are damaged/undesirable unpluged?\nIn first case I prefer to use Present, in second - Functional should fit well.",
+      "parentUuid": "5a201903_86530a39",
       "range": {
         "startLine": 90,
         "startChar": 53,
