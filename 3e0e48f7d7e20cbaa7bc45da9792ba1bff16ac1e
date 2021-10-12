@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "216396d6_f61bc5b0",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2021-10-12T07:19:03Z",
+      "side": 1,
+      "message": "nit : You can replace it with static constexpr .",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 6
+      },
+      "revId": "3e0e48f7d7e20cbaa7bc45da9792ba1bff16ac1e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "065ec792_94674feb",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2021-10-12T07:19:03Z",
+      "side": 1,
+      "message": "nit : it is possible to use any enumeration here instead magic number ,Just to improve readability of code .",
+      "range": {
+        "startLine": 44,
+        "startChar": 41,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "3e0e48f7d7e20cbaa7bc45da9792ba1bff16ac1e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
