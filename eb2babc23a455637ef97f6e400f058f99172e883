@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58c2625d_7d8ac3f1",
+        "filename": "src/IpmbFWVersion.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "do we need to throw here?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 40
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f06558_8532d303",
+        "filename": "src/IpmbFWVersion.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "incrementError??",
+      "range": {
+        "startLine": 118,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 33
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c203c6b_18dd7102",
+        "filename": "src/IpmbFWVersion.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "incrementError??",
+      "range": {
+        "startLine": 125,
+        "startChar": 16,
+        "endLine": 125,
+        "endChar": 33
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceb49c72_46aabcc4",
+        "filename": "src/IpmbFWVersion.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "What are we doing here?",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 61
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce126ea3_1b8c177e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "Can you write a code comment for this function so that it is easy for the reader?",
+      "range": {
+        "startLine": 576,
+        "startChar": 5,
+        "endLine": 576,
+        "endChar": 18
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b3784d9_8c47e38a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "Make the return type clear by mentioning std::vector\u003cstd::string\u003e\nor use std::optional\u003cstd::vector\u003cstd::string\u003e\u003e",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 576,
+        "endChar": 4
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b31af21_4cdb94cd",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "Make this const expression",
+      "range": {
+        "startLine": 578,
+        "startChar": 4,
+        "endLine": 578,
+        "endChar": 32
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13953611_87fdbdfd",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "Or use \" \" directly here",
+      "range": {
+        "startLine": 583,
+        "startChar": 33,
+        "endLine": 583,
+        "endChar": 42
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d41bca8_84c4540c",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "nit:\nYou can use std::istringstream and std::getline to split the string using a delimiter.",
+      "range": {
+        "startLine": 583,
+        "startChar": 4,
+        "endLine": 588,
+        "endChar": 5
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41a05094_0e30d863",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-13T16:44:55Z",
+      "side": 1,
+      "message": "Can you write a code comment for this function so that it is easy for the reader?",
+      "range": {
+        "startLine": 594,
+        "startChar": 22,
+        "endLine": 594,
+        "endChar": 39
+      },
+      "revId": "eb2babc23a455637ef97f6e400f058f99172e883",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
