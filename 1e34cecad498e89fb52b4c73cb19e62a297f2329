@@ -94,6 +94,29 @@
       "revId": "1e34cecad498e89fb52b4c73cb19e62a297f2329",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4214a88_cb4e6839",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2021-10-14T16:42:52Z",
+      "side": 0,
+      "message": "Why is this removed? Can\u0027t manufacturing mode be entered at any time?",
+      "range": {
+        "startLine": 551,
+        "startChar": 19,
+        "endLine": 556,
+        "endChar": 21
+      },
+      "revId": "1e34cecad498e89fb52b4c73cb19e62a297f2329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }

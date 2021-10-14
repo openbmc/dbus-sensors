@@ -180,6 +180,24 @@
       "revId": "e6da512c26432ec854e152f0dc68dad68983bf8e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f08cdac_fa441e21",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2021-10-14T16:42:52Z",
+      "side": 1,
+      "message": "+1 the cast is unnecessary",
+      "parentUuid": "200cbaf0_37bcaa04",
+      "revId": "e6da512c26432ec854e152f0dc68dad68983bf8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
