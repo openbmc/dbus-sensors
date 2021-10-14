@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "1559c1a7_ea0d98b0",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-10-14T22:24:15Z",
+      "side": 1,
+      "message": "It should be fixed in patch20.",
+      "parentUuid": "e95c4633_229184ea",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de847f87_c641c98f",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 15
@@ -282,6 +306,30 @@
       "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614c86b7_edcec1cc",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-10-14T22:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0a60aa5_dfa06bd8",
+      "range": {
+        "startLine": 90,
+        "startChar": 53,
+        "endLine": 91,
+        "endChar": 54
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
