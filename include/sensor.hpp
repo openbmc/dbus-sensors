@@ -63,12 +63,16 @@ struct Sensor
     double maxValue;
     double minValue;
     std::vector<thresholds::Threshold> thresholds;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> association;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface = nullptr;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning =
+        nullptr;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        thresholdInterfaceCritical = nullptr;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association = nullptr;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface =
+        nullptr;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface =
+        nullptr;
     double value = std::numeric_limits<double>::quiet_NaN();
     double rawValue = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
