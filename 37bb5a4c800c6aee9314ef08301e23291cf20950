@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db1aadcf_7abe37c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2021-10-14T17:13:03Z",
+      "side": 1,
+      "message": "Did you observe any bad behavior?\nAccording to the documentation I could find, the default constructor and the (std::nullptr_t) constructor do the same thing, so I wouldn\u0027t think this change is necessary/useful.",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "37bb5a4c800c6aee9314ef08301e23291cf20950",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
