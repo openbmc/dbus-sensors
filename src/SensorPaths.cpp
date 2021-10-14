@@ -45,6 +45,10 @@ std::string getPathForUnits(const std::string& units)
     {
         return "Utilization";
     }
+    if (units == "Pascals" || units == unitPascals)
+    {
+        return "pressure";
+    }
     return "";
 }
 
