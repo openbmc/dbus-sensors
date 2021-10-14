@@ -22,6 +22,29 @@
       "revId": "37bb5a4c800c6aee9314ef08301e23291cf20950",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e99c4fc8_5e5f8855",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-14T20:32:03Z",
+      "side": 1,
+      "message": "Is this actually necessary? I thought an empty shared_ptr here is equivalent to nullptr. Did you see any issue without it?",
+      "range": {
+        "startLine": 66,
+        "startChar": 69,
+        "endLine": 66,
+        "endChar": 78
+      },
+      "revId": "37bb5a4c800c6aee9314ef08301e23291cf20950",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
