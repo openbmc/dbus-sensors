@@ -45,6 +45,30 @@
       "revId": "37bb5a4c800c6aee9314ef08301e23291cf20950",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4b28338_c99bcbc9",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-16T18:06:48Z",
+      "side": 1,
+      "message": "These two statements are equivalent.  To my understanding and reading of the standard library, both the nullptr constructor, and the normal constructor would give the same result.\n\nto the author:\nCan you cite something that says that what we did previously is undefined behavior?",
+      "parentUuid": "e99c4fc8_5e5f8855",
+      "range": {
+        "startLine": 66,
+        "startChar": 69,
+        "endLine": 66,
+        "endChar": 78
+      },
+      "revId": "37bb5a4c800c6aee9314ef08301e23291cf20950",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
