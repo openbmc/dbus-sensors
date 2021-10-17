@@ -1,0 +1,406 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6da35f85_4c06a996",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "More details needed here.  Is this:\nA. A complete replacement for the old way?  In which case, is it known to be compatible with older systems?\nB. A per-system configurable option?  In which case, how does the option work, and is there a configuration item for it?\nC. An additional mechanism, in which case, what additional data does it provide.\n\nPlease answer in your commit message.",
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b17b4b0_58576126",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Did you consider a design that makes this a new type of sensor class?  It seems like a majority of the implementation and configuration has been replaced.\n\nAs a maintainer, I\u0027m probalby ok either way, but it seems like something we should consider.",
+      "range": {
+        "startLine": 114,
+        "startChar": 7,
+        "endLine": 114,
+        "endChar": 17
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99b388f5_06e45b7a",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "This is a header file.  Please put your implementations in a cpp file.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 48
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a404c77a_3c4f343a",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "const?",
+      "range": {
+        "startLine": 148,
+        "startChar": 23,
+        "endLine": 149,
+        "endChar": 5
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1837fa6a_b0e5f055",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "const?",
+      "range": {
+        "startLine": 178,
+        "startChar": 26,
+        "endLine": 178,
+        "endChar": 38
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b4c1919_a5e357dc",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "else return error?",
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "358bd1f9_8299a403",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Why does any of this need to be runtime configurable?  Doesn\u0027t the PMBUS specification already give us these things for scaling and offset?  Also, isn\u0027t the PowerState parameter for ME always set to PowerOn?  (ie, not available when power isn\u0027t applied).",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 9
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b92b86ad_aadecef8",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Why does this need to be configurable at a register level?  Shouldn\u0027t this be an index, or a name in the pmbus device?\n\nGiven there\u0027s no description in the commit message of what this parameter really controls, it\u0027s kind of hard to know the answer to the above.",
+      "range": {
+        "startLine": 247,
+        "startChar": 67,
+        "endLine": 247,
+        "endChar": 75
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df226299_2a999d9f",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "This should be moved to the scope above, such that you can appropriately return errors if you get a config like\n\nReadMethod: Proxy\nRegister: 0x11",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 67
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ebd0250_3a7df74a",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Can\u0027t we just reuse the address parameter name that was used previously in the old IPMB implementation?  Is there a reason we would need to define both this and the old one?",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 31
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "867ffc9c_64b76d4d",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Please prefer a pattern of \n\nif(error check){\n   // log error\n   return\n}\n\nThis makes the code much more readable, and avoids significant scopes at the bottom of the file.",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 13
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22037037_efb2ba36",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "These look like they got moved?",
+      "range": {
+        "startLine": 295,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 27
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e35248e5_6807d743",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Is there a way to avoid this bool?  considering that we now have a settable \"get reading\" function, it seems like this would just be uneeded?",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 24
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5bdfb0d_91dbaecd",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Magic numbers (yes, I realize the old one had magic numbers, but lets avoid it where possible.",
+      "range": {
+        "startLine": 249,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 74
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "555ea553_b65bb0be",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "It would\u0027ve made this patchset significantly easier to review if the \"configurable read function\" parts were put in their own patchset.  As-is, I\u0027m not really following why it\u0027s necessary, considering essentially every one of these handlers is doing the same operation (switch on type, and grab the right byte or bytes from the data structure).\n\nWhat necessitated moving this to a separate configurable method call?",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 36
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef7321a_e13e2514",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Capturing by this can have significant lifetime issues.  I\u0027d probably recommend making this method return a struct of the data you need, and avoid the capture entirely.",
+      "range": {
+        "startLine": 275,
+        "startChar": 28,
+        "endLine": 275,
+        "endChar": 32
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "514f9ce4_d7b742bf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "Please put on it\u0027s own line like it was before.",
+      "range": {
+        "startLine": 411,
+        "startChar": 37,
+        "endLine": 411,
+        "endChar": 49
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91163525_ea8e9075",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "This looks like a great cleanup;  It would\u0027ve been really nice if it were in a patchset ahead of adding the new features;  Otherwise, it makes this very hard to review.",
+      "range": {
+        "startLine": 517,
+        "startChar": 0,
+        "endLine": 521,
+        "endChar": 0
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}

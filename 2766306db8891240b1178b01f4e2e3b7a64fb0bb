@@ -426,6 +426,30 @@
     },
     {
       "key": {
+        "uuid": "4ab99dc7_3dfc917c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-17T18:31:58Z",
+      "side": 1,
+      "message": "\u003e sensorPollMs is of type int, that is why we are using static_cast\u003cint\u003e.\n\u003e \n\u003e And if you want me to change type of sensorPollMs, we can do that.\n\nI agree, using a std::chrono type would be better here;  Some of the reason this is the way it is is because of history;  Old asio timers couldn\u0027t take a std::chrono for a time value, so int milliseconds was an ok compromise.\n\n\u003e And a better choice will be boost::posix_time::milliseconds. \n\nPer the coding standard, please prefer the std implementations of this, so std::chrono::milliseconds.\n\n\u003e As sensorPollMs is used in waitTimer.expires_from_now. \n\u003e But can I push it as separate review? As I think it has nothing to do with the current patch.\n\nAgreed, that should be done in a different patchset.  This patch is making no changes to the types of this value, it\u0027s just in the diff because of how it\u0027s initialized.",
+      "parentUuid": "98bc9313_ffab0210",
+      "range": {
+        "startLine": 73,
+        "startChar": 37,
+        "endLine": 73,
+        "endChar": 70
+      },
+      "revId": "2766306db8891240b1178b01f4e2e3b7a64fb0bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05494a7f_a1b5a7ed",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
