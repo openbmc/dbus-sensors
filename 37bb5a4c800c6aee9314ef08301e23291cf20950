@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "16f36cc1_c4cbde01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-18T17:30:05Z",
+      "side": 1,
+      "message": "\u003e My bad. You are right.\n\u003e \n\u003e There was a Segmentation fault issue(difficult to reproduce) reported and the coredump analysis was pointing out to operationalInterface-\u003eset_property() in sensor.hpp.\n\u003e From the code analysis the uninitialized smart pointer was a suspect. But as you mentioned the default constructor does the job here. Missed that part.\n\nGenerally this occurs when we have callbacks that don\u0027t take proper ownership of the objects, and an event happens as a sensor is being destroyed.  Check for anyplace in the set_property callback where we capture by reference instead of by weak_ptr, and I\u0027ll bet that\u0027s your culprit.\n\n\u003e \n\u003e I will try to dig deeper to the issue.",
+      "parentUuid": "3708a23f_bfc53493",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "37bb5a4c800c6aee9314ef08301e23291cf20950",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e99c4fc8_5e5f8855",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
