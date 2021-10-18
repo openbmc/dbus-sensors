@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aff331a_262ea1de",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2021-10-18T12:13:11Z",
+      "side": 1,
+      "message": "+1, It can be static function.",
+      "parentUuid": "6de0ed34_416ae1b6",
+      "revId": "60bf8e177632c6981a4ccbb9dfea2d0087e781d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e4839ca_d5d28d77",
         "filename": "src/Utils.cpp",
         "patchSetId": 4
@@ -82,6 +100,53 @@
         "startChar": 9,
         "endLine": 570,
         "endChar": 13
+      },
+      "revId": "60bf8e177632c6981a4ccbb9dfea2d0087e781d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ea43499_9618ccc0",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2021-10-18T12:13:11Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "54163c83_8777f93a",
+      "range": {
+        "startLine": 570,
+        "startChar": 9,
+        "endLine": 570,
+        "endChar": 13
+      },
+      "revId": "60bf8e177632c6981a4ccbb9dfea2d0087e781d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2d2f748_23101ee5",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2021-10-18T12:13:11Z",
+      "side": 1,
+      "message": "use std::get_if",
+      "range": {
+        "startLine": 579,
+        "startChar": 42,
+        "endLine": 579,
+        "endChar": 46
       },
       "revId": "60bf8e177632c6981a4ccbb9dfea2d0087e781d3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
