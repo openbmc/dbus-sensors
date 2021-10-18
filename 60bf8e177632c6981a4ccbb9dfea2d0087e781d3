@@ -169,6 +169,30 @@
       "revId": "60bf8e177632c6981a4ccbb9dfea2d0087e781d3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcc6a840_796d7d9e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-18T17:28:15Z",
+      "side": 1,
+      "message": "While I agree that get_if would be better, exceptions are allowed in dbus-sensors, so it\u0027s up to the author if he wanted to make that change.",
+      "parentUuid": "c2d2f748_23101ee5",
+      "range": {
+        "startLine": 579,
+        "startChar": 42,
+        "endLine": 579,
+        "endChar": 46
+      },
+      "revId": "60bf8e177632c6981a4ccbb9dfea2d0087e781d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
