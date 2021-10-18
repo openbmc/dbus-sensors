@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "16900c67_40bfb950",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:18:19Z",
+      "side": 1,
+      "message": "It is not a new type of sensor*",
+      "parentUuid": "f8a22271_b8021d32",
+      "range": {
+        "startLine": 114,
+        "startChar": 7,
+        "endLine": 114,
+        "endChar": 17
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99b388f5_06e45b7a",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
