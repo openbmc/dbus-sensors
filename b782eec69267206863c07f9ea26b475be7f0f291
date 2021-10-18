@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5be3914_8bc4af33",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-18T15:25:26Z",
+      "side": 1,
+      "message": "FWIW, I dislike that the design makes these non-RAII objects that have to be explicitly deleted, but it\u0027s the design we have right now.\n\nAny thoughts or patchset you have on making writing correct code more trivial would be appreciated.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 57
+      },
+      "revId": "b782eec69267206863c07f9ea26b475be7f0f291",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
