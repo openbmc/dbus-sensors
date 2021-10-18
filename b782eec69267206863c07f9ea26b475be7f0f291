@@ -22,6 +22,30 @@
       "revId": "b782eec69267206863c07f9ea26b475be7f0f291",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "402172d6_1e2bb347",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-10-18T16:02:58Z",
+      "side": 1,
+      "message": "Yep. \nPromoting the use of unique_ptr d-bus interfaces instead of shared_ptr can help in this context. In that case we don\u0027t need to worry about destructing it explicitly.\nAlso, in our internal discussion I got a question why Sensor class can\u0027t have a destructor which removes the interfaces. I am not exactly sure why we are not doing it as a generic way. Any thoughts?",
+      "parentUuid": "d5be3914_8bc4af33",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 57
+      },
+      "revId": "b782eec69267206863c07f9ea26b475be7f0f291",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
