@@ -110,6 +110,8 @@ CPUSensor::~CPUSensor()
         objServer.remove_interface(thresholdInterfaceCritical);
         objServer.remove_interface(sensorInterface);
         objServer.remove_interface(association);
+        objServer.remove_interface(availableInterface);
+        objServer.remove_interface(operationalInterface);
     }
 }
 
