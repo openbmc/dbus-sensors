@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "b2f80618_7fd8ca4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-18T15:27:23Z",
+      "side": 1,
+      "message": "\u003e A. A complete replacement for the old way?  In which case, is it known to be compatible with older systems?\n\u003e - It is not a complete replacement for the old way, we are adding one more way to read these sensors. And the implementation is backwards compatible, as in, new code with old configuration file (xx_Baseboard.json) will work (using the old method of reading the sensor). \n\u003e \n\u003e B. A per-system configurable option?  In which case, how does the option work, and is there a configuration item for it?\n\u003e - There is a configuration item, which is read in entity manager code. And is a baseboard.json file. We configure sensors and there addresses there. If the user adds \"ReadMethod\", \"Register\" and \"SensorMeAddress\" then the user will be able to switch to new method of reading the sensor data. \n\u003e \n\u003e C. An additional mechanism, in which case, what additional data does it provide.\n\u003e - It is a additional method, and we read the exact same sensor data. The new method is used in systems where ME can not proxy forward PMBUS command (for example, due to security reasons proxy forward is disabled at ME end). \n\u003e \n\u003e Please answer in your commit message.\n\u003e - Will address this.\n\nLets get this put in the commit message, and we can discuss more there.",
+      "parentUuid": "069a0f94_79fc07bd",
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b17b4b0_58576126",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
@@ -155,6 +173,30 @@
     },
     {
       "key": {
+        "uuid": "72d6dd87_52e5b698",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-18T15:27:23Z",
+      "side": 1,
+      "message": "From a code perspective, it is a fairly different form of sensor, that might share a method or two with the old one that might be abstracted.  I\u0027m not that worried about it, but it would be good to go through a first pass of simplification here.",
+      "parentUuid": "16900c67_40bfb950",
+      "range": {
+        "startLine": 114,
+        "startChar": 7,
+        "endLine": 114,
+        "endChar": 17
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99b388f5_06e45b7a",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
@@ -190,6 +232,30 @@
       "side": 1,
       "message": "Will address this. \nQuestion: Any particular reason why this is not recommended?",
       "parentUuid": "99b388f5_06e45b7a",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 48
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "912cc2dd_39d4983f",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-18T15:27:23Z",
+      "side": 1,
+      "message": "Because if it\u0027s in a header, all implementations have to compile the code for it.",
+      "parentUuid": "93009ec1_3eb61e3b",
       "range": {
         "startLine": 148,
         "startChar": 0,
