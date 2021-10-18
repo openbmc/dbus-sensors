@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "075bc076_2400879f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "Will address it.",
+      "parentUuid": "f2a24bbc_7766628f",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6da35f85_4c06a996",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "069a0f94_79fc07bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "A. A complete replacement for the old way?  In which case, is it known to be compatible with older systems?\n- It is not a complete replacement for the old way, we are adding one more way to read these sensors. And the implementation is backwards compatible, as in, new code with old configuration file (xx_Baseboard.json) will work (using the old method of reading the sensor). \n\nB. A per-system configurable option?  In which case, how does the option work, and is there a configuration item for it?\n- There is a configuration item, which is read in entity manager code. And is a baseboard.json file. We configure sensors and there addresses there. If the user adds \"ReadMethod\", \"Register\" and \"SensorMeAddress\" then the user will be able to switch to new method of reading the sensor data. \n\nC. An additional mechanism, in which case, what additional data does it provide.\n- It is a additional method, and we read the exact same sensor data. The new method is used in systems where ME can not proxy forward PMBUS command (for example, due to security reasons proxy forward is disabled at ME end). \n\nPlease answer in your commit message.\n- Will address this.",
+      "parentUuid": "6da35f85_4c06a996",
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b17b4b0_58576126",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
@@ -53,6 +95,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 1,
       "message": "Did you consider a design that makes this a new type of sensor class?  It seems like a majority of the implementation and configuration has been replaced.\n\nAs a maintainer, I\u0027m probalby ok either way, but it seems like something we should consider.",
+      "range": {
+        "startLine": 114,
+        "startChar": 7,
+        "endLine": 114,
+        "endChar": 17
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8a22271_b8021d32",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "It is not a type of sensor, and that is why we are not moving it into a new sensor class. \nWe are adding a alternative option to read the same set of sensors.",
+      "parentUuid": "3b17b4b0_58576126",
       "range": {
         "startLine": 114,
         "startChar": 7,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "93009ec1_3eb61e3b",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "Will address this. \nQuestion: Any particular reason why this is not recommended?",
+      "parentUuid": "99b388f5_06e45b7a",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 48
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a404c77a_3c4f343a",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
@@ -99,6 +189,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 1,
       "message": "const?",
+      "range": {
+        "startLine": 148,
+        "startChar": 23,
+        "endLine": 149,
+        "endChar": 5
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9e1d685_fe1b3e62",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "Yes it can be made const. Will address this.",
+      "parentUuid": "a404c77a_3c4f343a",
       "range": {
         "startLine": 148,
         "startChar": 23,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "787d8868_d7656402",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "Yes it can be made const. Will address this.",
+      "parentUuid": "1837fa6a_b0e5f055",
+      "range": {
+        "startLine": 178,
+        "startChar": 26,
+        "endLine": 178,
+        "endChar": 38
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b4c1919_a5e357dc",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "a4ce93f0_bb61e095",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "This is not a new code I have added. I just cleaned up the code by abstracting some of the set functionalities. \nOriginally in else we use subType \u003d IpmbSubType::temp\nI moved most of the default settings to initialization at constructor. So the else is not required here, or can be called as redundant code.",
+      "parentUuid": "2b4c1919_a5e357dc",
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "358bd1f9_8299a403",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
@@ -162,6 +318,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 1,
       "message": "Why does any of this need to be runtime configurable?  Doesn\u0027t the PMBUS specification already give us these things for scaling and offset?  Also, isn\u0027t the PowerState parameter for ME always set to PowerOn?  (ie, not available when power isn\u0027t applied).",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 9
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05d865c3_869140b9",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "This is not a new code that I added. I have only abstracted these as part of clean up. \nI will move these functions to private members so that it cannot be accessed outside by mistake.",
+      "parentUuid": "358bd1f9_8299a403",
       "range": {
         "startLine": 200,
         "startChar": 0,
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "84b62049_6c1c32fa",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "The Get PMBUS Readings method (new method of reading same sensor data), reads the data from ME rather than reading it directly from the sensors. \nAs mentioned earlier, this method is used when ME cannot proxy forward BMC commands to sensors. \nAnd as response to Get PMBUS Readings, BMC receive all the registers in sensor. That is register for temperature, voltage, current etc. \nNow if BMC us looking for temperature, BMC needs to read the corresponding 2 bytes of register, that is what this configuration is for.\n\nInformation of these registers are defined in PMBus-Specification-Rev-1-2-Part-II.",
+      "parentUuid": "b92b86ad_aadecef8",
+      "range": {
+        "startLine": 247,
+        "startChar": 67,
+        "endLine": 247,
+        "endChar": 75
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df226299_2a999d9f",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
@@ -208,6 +412,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 1,
       "message": "This should be moved to the scope above, such that you can appropriately return errors if you get a config like\n\nReadMethod: Proxy\nRegister: 0x11",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 67
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e9182f_3e7cafe1",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "If read method is proxy we will not come to line 248. \nThis check is done in line 239.",
+      "parentUuid": "df226299_2a999d9f",
       "range": {
         "startLine": 247,
         "startChar": 0,
@@ -243,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "46b7c886_7322fa1e",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "This is done so that both method can co-exist. And also to not disturb the previous implementation. And just in case we don\u0027t find a valid configuration for new method we can default to reading by proxy method. \n\nI do understand the method you are proposing. Reuse the address variable and log error if we see some configuration mistake. Patch set 1 was like that. But then we thought it is better to go with a co-existing model.",
+      "parentUuid": "1ebd0250_3a7df74a",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 31
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "867ffc9c_64b76d4d",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 7
@@ -254,6 +506,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 1,
       "message": "Please prefer a pattern of \n\nif(error check){\n   // log error\n   return\n}\n\nThis makes the code much more readable, and avoids significant scopes at the bottom of the file.",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 13
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37f4b638_afef4b89",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "867ffc9c_64b76d4d",
       "range": {
         "startLine": 269,
         "startChar": 0,
@@ -289,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "0b1cc026_0ccb4d78",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "They where moved to private space, as they should not be invoked externally during runtime.",
+      "parentUuid": "22037037_efb2ba36",
+      "range": {
+        "startLine": 295,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 27
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e35248e5_6807d743",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 7
@@ -300,6 +600,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 1,
       "message": "Is there a way to avoid this bool?  considering that we now have a settable \"get reading\" function, it seems like this would just be uneeded?",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 24
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64a5d957_5e6a64c5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "setReadMethod will set isProxyRead. \n\nThis flag is used to switch between old and new method of reading. \nAnd plays important role in the command that we send and how the response is handled. \n\nWe can avoid this variable by passing it as argument to loadDefaults and setReadMethod.\nOr I can make a enum for ReadMethod and use a variable called readMethod. \ndoes any of the above two option seems desirable to you?",
+      "parentUuid": "e35248e5_6807d743",
       "range": {
         "startLine": 233,
         "startChar": 0,
@@ -335,6 +659,30 @@
     },
     {
       "key": {
+        "uuid": "81b2fed4_1cb8930e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "I will define these in code, no issues. \n0x57, 0x01, 0x00 is Intel manufacturers ID\n0x0F is PMBUS-enabled Device Index\n0x00 is reserved byte",
+      "parentUuid": "d5bdfb0d_91dbaecd",
+      "range": {
+        "startLine": 249,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 74
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "555ea553_b65bb0be",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 7
@@ -346,6 +694,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 1,
       "message": "It would\u0027ve made this patchset significantly easier to review if the \"configurable read function\" parts were put in their own patchset.  As-is, I\u0027m not really following why it\u0027s necessary, considering essentially every one of these handlers is doing the same operation (switch on type, and grab the right byte or bytes from the data structure).\n\nWhat necessitated moving this to a separate configurable method call?",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 36
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0125dcc_d14e2bc5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "previous implementation (processReading function) was called from read() function, which means every time we read we use the switch case to switch to the corresponding read method, grab the bytes and process it. \n\nWith new implementation (setReadFunction function) we store the read method in a std::function member variable during initialization.  \nSo that we don\u0027t call a switch case every time we read. It was an optimization done as per one of the review comments in a earlier patch set.",
+      "parentUuid": "555ea553_b65bb0be",
       "range": {
         "startLine": 274,
         "startChar": 0,
@@ -381,6 +753,30 @@
     },
     {
       "key": {
+        "uuid": "ab3a0eb8_ff9ee545",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "readFunction is called from read() and is used to decode the response. \nreturning a structure idea is not that clear to me. \n\n\u0027this\u0027 can be avoided if I can pass \u0027command\u0027 as argument in lambda. \nis that an acceptable alternative?",
+      "parentUuid": "bef7321a_e13e2514",
+      "range": {
+        "startLine": 275,
+        "startChar": 28,
+        "endLine": 275,
+        "endChar": 32
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "514f9ce4_d7b742bf",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 7
@@ -404,6 +800,30 @@
     },
     {
       "key": {
+        "uuid": "562cb5a7_6ec343bc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "This was done as per one of the review comments in an earlier patch set. \nIs there any particular reason why we want it back in original place? \n\nThe change do make the code a bit clean rt?",
+      "parentUuid": "514f9ce4_d7b742bf",
+      "range": {
+        "startLine": 411,
+        "startChar": 37,
+        "endLine": 411,
+        "endChar": 49
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91163525_ea8e9075",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 7
@@ -415,6 +835,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 1,
       "message": "This looks like a great cleanup;  It would\u0027ve been really nice if it were in a patchset ahead of adding the new features;  Otherwise, it makes this very hard to review.",
+      "range": {
+        "startLine": 517,
+        "startChar": 0,
+        "endLine": 521,
+        "endChar": 0
+      },
+      "revId": "0a43a5123b11824256bfe643f996574ab8e02d18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82283796_59fde55f",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 1,
+      "message": "I will keep this in mind for future commits.",
+      "parentUuid": "91163525_ea8e9075",
       "range": {
         "startLine": 517,
         "startChar": 0,

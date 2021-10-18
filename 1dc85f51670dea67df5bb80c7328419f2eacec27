@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dbba5d09_12594958",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 0,
+      "message": "I will move the abstracted function definitions to cpp file and if that allows me to move these back to where they were, I will do that too.",
+      "parentUuid": "49247884_a71e019e",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 30
+      },
+      "revId": "1dc85f51670dea67df5bb80c7328419f2eacec27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe0022ab_dd312acb",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2021-10-17T18:31:58Z",
       "side": 0,
       "message": "Doesn\u0027t this break existing me sensors?",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 35
+      },
+      "revId": "1dc85f51670dea67df5bb80c7328419f2eacec27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b34f379_3209ed4e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-18T12:11:47Z",
+      "side": 0,
+      "message": "It does not break anything, I had tested for backwards compatibility. I have just moved all default initialization to constructor. Or where the variables are declared. \n\ncommandAddress \u003d meAddress; was common for all the if else cases.",
+      "parentUuid": "fe0022ab_dd312acb",
       "range": {
         "startLine": 159,
         "startChar": 0,
