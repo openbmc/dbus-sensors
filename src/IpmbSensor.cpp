@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <IpmbPowerState.hpp>
 #include <IpmbSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
@@ -38,21 +39,25 @@ constexpr const bool debug = false;
 
 constexpr const char* configInterface =
     "xyz.openbmc_project.Configuration.IpmbSensor";
+constexpr const char* hostControllerInterface =
+    "xyz.openbmc_project.Configuration.HostController";
 static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
 
 static constexpr uint8_t meAddress = 1;
-static constexpr uint8_t lun = 0;
-static constexpr uint8_t hostSMbusIndexDefault = 0x03;
 static constexpr uint8_t ipmbBusIndexDefault = 0;
+static constexpr uint8_t hostSMbusIndexDefault = 0x03;
 static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
-using IpmbMethodType =
-    std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
-
 boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
+
+boost::container::flat_map<std::string, std::shared_ptr<IpmbPowerMonitor>>
+    ipmbPowers;
+
+constexpr const auto monitorIfaces{
+    std::to_array<const char*>({configInterface, hostControllerInterface})};
 
 std::unique_ptr<boost::asio::deadline_timer> initCmdTimer;
 
@@ -482,6 +487,8 @@ void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>>&
         sensors,
+    boost::container::flat_map<std::string, std::shared_ptr<IpmbPowerMonitor>>&
+        ipmbPowers,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     if (!dbusConnection)
@@ -500,7 +507,7 @@ void createSensors(
         {
             for (const auto& [intf, cfg] : interfaces)
             {
-                if (intf != configInterface)
+                if (intf != configInterface && intf != hostControllerInterface)
                 {
                     continue;
                 }
@@ -555,7 +562,26 @@ void createSensors(
                     sensorTypeName =
                         std::visit(VariantToStringVisitor(), findType->second);
                 }
+                if (intf == hostControllerInterface)
+                {
+                    std::vector<std::string> ipmbStateNames;
+                    auto findIpmbStateNames = cfg.find("ChannelNames");
+                    if (findIpmbStateNames == cfg.end())
+                    {
+                        std::cerr << "ChannelNames not configured \n";
+                        continue;
+                    }
+                    ipmbStateNames = std::get<std::vector<std::string>>(
+                        findIpmbStateNames->second);
 
+                    auto& ipmbPower = ipmbPowers[name];
+                    ipmbPower = std::make_shared<IpmbPowerMonitor>(
+                        dbusConnection, io, pollRate, objectServer, name,
+                        ipmbBusIndex, deviceAddress, sensorClass,
+                        ipmbStateNames);
+                    ipmbPower->read();
+                    continue;
+                }
                 auto& sensor = sensors[name];
                 sensor = std::make_unique<IpmbSensor>(
                     dbusConnection, io, name, path, objectServer,
@@ -628,7 +654,9 @@ int main()
 
     initCmdTimer = std::make_unique<boost::asio::deadline_timer>(io);
 
-    io.post([&]() { createSensors(io, objectServer, sensors, systemBus); });
+    io.post([&]() {
+        createSensors(io, objectServer, sensors, ipmbPowers, systemBus);
+    });
 
     boost::asio::deadline_timer configTimer(io);
 
@@ -641,7 +669,7 @@ int main()
             {
                 return; // we're being canceled
             }
-            createSensors(io, objectServer, sensors, systemBus);
+            createSensors(io, objectServer, sensors, ipmbPowers, systemBus);
             if (sensors.empty())
             {
                 std::cout << "Configuration not detected\n";
@@ -650,9 +678,7 @@ int main()
     };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({configInterface}),
-            eventHandler);
+        setupPropertiesChangedMatches(*systemBus, monitorIfaces, eventHandler);
 
     sdbusplus::bus::match_t powerChangeMatch(
         static_cast<sdbusplus::bus_t&>(*systemBus),
