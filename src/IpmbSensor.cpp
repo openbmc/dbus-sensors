@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <GpioStateSensor.hpp>
 #include <IpmbSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
@@ -39,21 +40,22 @@ constexpr const bool debug = false;
 
 constexpr const char* configInterface =
     "xyz.openbmc_project.Configuration.IpmbSensor";
+constexpr const char* twinlakeInterface =
+    "xyz.openbmc_project.Configuration.TwinlakeHostController";
 static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
 
 static constexpr uint8_t meAddress = 1;
-static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
 static constexpr uint8_t ipmbBusIndexDefault = 0;
 static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
-using IpmbMethodType =
-    std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
-
 boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
+
+boost::container::flat_map<std::string, std::unique_ptr<IpmbGpioStateMonitor>>
+    gpios;
 
 std::unique_ptr<boost::asio::deadline_timer> initCmdTimer;
 
@@ -491,6 +493,8 @@ void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>>&
         sensors,
+    boost::container::flat_map<std::string,
+                               std::unique_ptr<IpmbGpioStateMonitor>>& gpios,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     if (!dbusConnection)
@@ -509,7 +513,8 @@ void createSensors(
             {
                 for (const auto& entry : pathPair.second)
                 {
-                    if (entry.first != configInterface)
+                    if (entry.first != configInterface &&
+                        entry.first != twinlakeInterface)
                     {
                         continue;
                     }
@@ -568,6 +573,28 @@ void createSensors(
                                                     findType->second);
                     }
 
+                    if (sensorTypeName == "ipmbGpioState")
+                    {
+                        std::vector<std::string> ipmbGpioStates;
+                        auto findIpmbGpioStates =
+                            entry.second.find("ChannelNames");
+                        if (findIpmbGpioStates != entry.second.end())
+                        {
+                            ipmbGpioStates = std::get<std::vector<std::string>>(
+                                findIpmbGpioStates->second);
+                        }
+                        else
+                        {
+                            std::cerr << "Error ChannelNames read from Json \n";
+                            continue;
+                        }
+                        auto& gpio = gpios[name];
+                        gpio = std::make_unique<IpmbGpioStateMonitor>(
+                            dbusConnection, io, pollRate, objectServer, name,
+                            ipmbBusIndex, deviceAddress, sensorClass,
+                            ipmbGpioStates);
+                        continue;
+                    }
                     auto& sensor = sensors[name];
                     sensor = std::make_unique<IpmbSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
@@ -640,7 +667,8 @@ int main()
 
     initCmdTimer = std::make_unique<boost::asio::deadline_timer>(io);
 
-    io.post([&]() { createSensors(io, objectServer, sensors, systemBus); });
+    io.post(
+        [&]() { createSensors(io, objectServer, sensors, gpios, systemBus); });
 
     boost::asio::deadline_timer configTimer(io);
 
@@ -653,7 +681,7 @@ int main()
                 {
                     return; // we're being canceled
                 }
-                createSensors(io, objectServer, sensors, systemBus);
+                createSensors(io, objectServer, sensors, gpios, systemBus);
                 if (sensors.empty())
                 {
                     std::cout << "Configuration not detected\n";
@@ -666,6 +694,13 @@ int main()
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" + configInterface +
             "'",
+        eventHandler);
+
+    sdbusplus::bus::match::match twinlakeMatch(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        "type='signal',member='PropertiesChanged',path_namespace='" +
+            std::string(inventoryPath) + "',arg0namespace='" +
+            twinlakeInterface + "'",
         eventHandler);
 
     sdbusplus::bus::match::match powerChangeMatch(
