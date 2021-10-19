@@ -109,6 +109,7 @@ if get_option('ipmb').enabled()
     executable(
         'ipmbsensor',
         'IpmbSensor.cpp',
+        'GpioStateSensor.cpp',
         dependencies: [
             default_deps,
             thresholds_dep,
