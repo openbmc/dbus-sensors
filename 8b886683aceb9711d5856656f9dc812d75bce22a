@@ -1,0 +1,372 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4eef987a_fc95d788",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "PGood is polled periodically, may not represent current state. Is that a problem? Can you provide more info about the use case?",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f49ad222_6f896c21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "Is there a review for this change?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 56
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2108e3_909a6291",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a2dbf7b_44f2046b",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "const?",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f75becf6_b3697a1e",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "struct with names would be easier to understand and maintain",
+      "range": {
+        "startLine": 7,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 78
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0894771f_4d525b57",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "initialization list",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 51
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5a0eb74_6efe9aa1",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "should it return here?",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ef654e_ee38b9af",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "seems like the two variables are the same, can just use one",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 34
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1980d0b_2e42db5f",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "Is there a catch somewhere? Or should it crash the service?",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 77,
+        "endChar": 5
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1408aba3_610b9388",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "read() here to try again?",
+      "range": {
+        "startLine": 102,
+        "startChar": 20,
+        "endLine": 102,
+        "endChar": 27
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cf3907f_8970a173",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "variable name does not make sense",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 32
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ddd1b08_3dd0c5ff",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "where is this initialized?",
+      "range": {
+        "startLine": 108,
+        "startChar": 40,
+        "endLine": 108,
+        "endChar": 52
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa0b494_1d13c93e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "gpios",
+      "range": {
+        "startLine": 421,
+        "startChar": 72,
+        "endLine": 421,
+        "endChar": 76
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f6d5288_eb87061b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "gpio",
+      "range": {
+        "startLine": 499,
+        "startChar": 30,
+        "endLine": 499,
+        "endChar": 35
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb7a8dc3_46ec9aeb",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "gpios",
+      "range": {
+        "startLine": 499,
+        "startChar": 38,
+        "endLine": 499,
+        "endChar": 42
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7803ab2_0ebd48ce",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-10-20T03:19:27Z",
+      "side": 1,
+      "message": "what if they are not specified?",
+      "range": {
+        "startLine": 505,
+        "startChar": 24,
+        "endLine": 508,
+        "endChar": 72
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
