@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "889925de_de7b3d0d",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-10-20T07:48:03Z",
+      "side": 1,
+      "message": "Hard ?",
+      "range": {
+        "startLine": 362,
+        "startChar": 39,
+        "endLine": 362,
+        "endChar": 43
+      },
+      "revId": "0dac58235da78d4d3915f768f0517b0102b2dafb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce0ec3fb_37ac4bd3",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-10-20T07:48:03Z",
+      "side": 1,
+      "message": "Can we add condition to check whether severity is 3 ?",
+      "revId": "0dac58235da78d4d3915f768f0517b0102b2dafb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
