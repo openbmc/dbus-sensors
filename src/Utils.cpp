@@ -192,28 +192,98 @@ bool getSensorConfiguration(
     return true;
 }
 
-bool findFiles(const fs::path& dirPath, const std::string& matchString,
-               std::vector<fs::path>& foundPaths, int symlinkDepth)
+bool findFiles(const std::filesystem::path& dirPath,
+               std::string_view matchString,
+               std::vector<std::filesystem::path>& foundPaths, int symlinkDepth)
 {
-    if (!fs::exists(dirPath))
+    if (!std::filesystem::exists(dirPath))
     {
         return false;
     }
 
-    std::regex search(matchString);
-    std::smatch match;
-    for (auto p = fs::recursive_directory_iterator(
-             dirPath, fs::directory_options::follow_directory_symlink);
-         p != fs::recursive_directory_iterator(); ++p)
+    std::vector<std::regex> matchPieces;
+
+    size_t pos = 0;
+    std::string token;
+    // Generate the regex expressions list from the match we were given
+    while ((pos = matchString.find('/')) != std::string::npos)
     {
-        std::string path = p->path().string();
+        token = matchString.substr(0, pos);
+        matchPieces.emplace_back(token);
+        matchString.remove_prefix(pos + 1);
+    }
+    matchPieces.emplace_back(std::string{matchString});
+
+    // Check if the match string contains directories, and skip the match of
+    // subdirectory if not
+    if (matchPieces.size() <= 1)
+    {
+        std::regex search(std::string{matchString});
+        std::smatch match;
+        for (auto p = fs::recursive_directory_iterator(
+                 dirPath, fs::directory_options::follow_directory_symlink);
+             p != fs::recursive_directory_iterator(); ++p)
+        {
+            std::string path = p->path().string();
+            if (!is_directory(*p))
+            {
+                if (std::regex_search(path, match, search))
+                {
+                    foundPaths.emplace_back(p->path());
+                }
+            }
+            if (p.depth() >= symlinkDepth)
+            {
+                p.disable_recursion_pending();
+            }
+        }
+        return true;
+    }
+
+    // The match string contains directories, verify each level of sub
+    // directories
+    for (auto p = std::filesystem::recursive_directory_iterator(
+             dirPath,
+             std::filesystem::directory_options::follow_directory_symlink);
+         p != std::filesystem::recursive_directory_iterator(); ++p)
+    {
+        std::vector<std::regex>::iterator matchPiece = matchPieces.begin();
+        std::filesystem::path::iterator pathIt = p->path().begin();
+        for (const std::filesystem::path& dir : dirPath)
+        {
+            (void)dir; // Unused
+            pathIt++;
+        }
+
+        while (pathIt != p->path().end())
+        {
+            // Found a path deeper than match.
+            if (matchPiece == matchPieces.end())
+            {
+                p.disable_recursion_pending();
+                break;
+            }
+            std::smatch match;
+            std::string component = pathIt->string();
+            std::regex regexPiece(*matchPiece);
+            if (!std::regex_match(component, match, regexPiece))
+            {
+                // path prefix doesn't match, no need to iterate further
+                p.disable_recursion_pending();
+                break;
+            }
+            matchPiece++;
+            pathIt++;
+        }
+
         if (!is_directory(*p))
         {
-            if (std::regex_search(path, match, search))
+            if (matchPiece == matchPieces.end())
             {
                 foundPaths.emplace_back(p->path());
             }
         }
+
         if (p.depth() >= symlinkDepth)
         {
             p.disable_recursion_pending();

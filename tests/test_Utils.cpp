@@ -33,7 +33,7 @@ class TestUtils : public testing::Test
         createPECIDir();
     }
 
-    ~TestUtils()
+    ~TestUtils() override
     {
         fs::remove_all(testDir);
     }
@@ -59,7 +59,7 @@ class TestUtils : public testing::Test
              p != fs::recursive_directory_iterator(); ++p)
         {
             std::string path = p->path().string();
-            fprintf(stderr, "MINEDBG: %s\n", path.c_str());
+            fprintf(stderr, "%s\n", path.c_str());
             if (p.depth() >= 6)
             {
                 p.disable_recursion_pending();
