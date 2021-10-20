@@ -123,3 +123,21 @@ TEST_F(TestUtils, findFiles_in_peci_match)
     EXPECT_TRUE(ret);
     EXPECT_EQ(foundPaths.size(), 3u);
 }
+
+TEST_F(TestUtils, findFiles_in_sub_peci_match)
+{
+    std::vector<fs::path> foundPaths;
+    auto ret =
+        findFiles(peciDir / "peci-0", R"(\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
+                  foundPaths, 5);
+    EXPECT_TRUE(ret);
+    EXPECT_EQ(foundPaths.size(), 1u);
+
+    foundPaths.clear();
+
+    ret = findFiles(peciDir / "peci-0",
+                    R"(\d+-.+/peci-.+/hwmon/hwmon\d+/temp\d+_input)",
+                    foundPaths, 5);
+    EXPECT_TRUE(ret);
+    EXPECT_EQ(foundPaths.size(), 3u);
+}
