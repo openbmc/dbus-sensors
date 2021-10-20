@@ -168,9 +168,10 @@ bool createSensors(boost::asio::io_service& io,
     }
 
     std::vector<fs::path> hwmonNamePaths;
+    std::set<std::string> excludes{"subsystem"};
     if (!findFiles(fs::path(R"(/sys/bus/peci/devices)"),
                    R"(peci-\d+/\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
-                   hwmonNamePaths, 6))
+                   hwmonNamePaths, 6, excludes))
     {
         std::cerr << "No CPU sensors in system\n";
         return true;

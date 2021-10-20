@@ -193,7 +193,8 @@ bool getSensorConfiguration(
 }
 
 bool findFiles(const fs::path& dirPath, const std::string& matchString,
-               std::vector<fs::path>& foundPaths, int symlinkDepth)
+               std::vector<fs::path>& foundPaths, int symlinkDepth,
+               const std::set<std::string>& excludePathLeaf)
 {
     if (!fs::exists(dirPath))
     {
@@ -206,6 +207,11 @@ bool findFiles(const fs::path& dirPath, const std::string& matchString,
              dirPath, fs::directory_options::follow_directory_symlink);
          p != fs::recursive_directory_iterator(); ++p)
     {
+        if (excludePathLeaf.contains(p->path().filename().string()))
+        {
+            p.disable_recursion_pending();
+            continue;
+        }
         std::string path = p->path().string();
         if (!is_directory(*p))
         {

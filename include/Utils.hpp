@@ -50,7 +50,8 @@ std::set<std::string> getPermitSet(const SensorBaseConfigMap& config);
 bool findFiles(const std::filesystem::path& dirPath,
                const std::string& matchString,
                std::vector<std::filesystem::path>& foundPaths,
-               int symlinkDepth = 1);
+               int symlinkDepth = 1,
+               const std::set<std::string>& excludePathLeaf = {});
 bool isPowerOn(void);
 bool hasBiosPost(void);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
