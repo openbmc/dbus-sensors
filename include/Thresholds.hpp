@@ -16,7 +16,9 @@ namespace thresholds
 enum Level
 {
     WARNING,
-    CRITICAL
+    CRITICAL,
+    SOFTSHUTDOWN,
+    HARDSHUTDOWN
 };
 enum Direction
 {
@@ -121,6 +123,12 @@ bool hasCriticalInterface(
     const std::vector<thresholds::Threshold>& thresholdVector);
 
 bool hasWarningInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector);
+
+bool hasSoftShutdownInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector);
+
+bool hasHardShutdownInterface(
     const std::vector<thresholds::Threshold>& thresholdVector);
 
 void persistThreshold(const std::string& baseInterface, const std::string& path,

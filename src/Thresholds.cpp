@@ -31,6 +31,14 @@ unsigned int toBusValue(const Level& level)
         {
             return 1;
         }
+        case (Level::SOFTSHUTDOWN):
+        {
+            return 2;
+        }
+        case (Level::HARDSHUTDOWN):
+        {
+            return 3;
+        }
         default:
         {
             return -1;
@@ -126,10 +134,21 @@ bool parseThresholdsFromConfig(
         {
             level = Level::WARNING;
         }
-        else
+        else if (std::visit(VariantToUnsignedIntVisitor(),
+                            severityFind->second) == 1)
         {
             level = Level::CRITICAL;
         }
+        else if (std::visit(VariantToUnsignedIntVisitor(),
+                            severityFind->second) == 2)
+        {
+            level = Level::SOFTSHUTDOWN;
+        }
+        else
+        {
+            level = Level::HARDSHUTDOWN;
+        }
+
         if (std::visit(VariantToStringVisitor(), directionFind->second) ==
             "less than")
         {
@@ -251,6 +270,30 @@ void updateThresholds(Sensor* sensor)
             else
             {
                 property = "WarningLow";
+            }
+        }
+        else if (threshold.level == thresholds::Level::SOFTSHUTDOWN)
+        {
+            interface = sensor->thresholdInterfaceSoftShutdown;
+            if (threshold.direction == thresholds::Direction::HIGH)
+            {
+                property = "SoftShutdownHigh";
+            }
+            else
+            {
+                property = "SoftShutdownLow";
+            }
+        }
+        else if (threshold.level == thresholds::Level::HARDSHUTDOWN)
+        {
+            interface = sensor->thresholdInterfaceHardShutdown;
+            if (threshold.direction == thresholds::Direction::HIGH)
+            {
+                property = "HardShutdownHigh";
+            }
+            else
+            {
+                property = "HardShutdownLow";
             }
         }
         else
@@ -509,6 +552,30 @@ void assertThresholds(Sensor* sensor, double assertValue,
         property = "CriticalAlarmLow";
         interface = sensor->thresholdInterfaceCritical;
     }
+    else if (level == thresholds::Level::SOFTSHUTDOWN &&
+             direction == thresholds::Direction::HIGH)
+    {
+        property = "SoftShutdownAlarmHigh";
+        interface = sensor->thresholdInterfaceSoftShutdown;
+    }
+    else if (level == thresholds::Level::SOFTSHUTDOWN &&
+             direction == thresholds::Direction::LOW)
+    {
+        property = "SoftShutdownAlarmLow";
+        interface = sensor->thresholdInterfaceSoftShutdown;
+    }
+    else if (level == thresholds::Level::HARDSHUTDOWN &&
+             direction == thresholds::Direction::HIGH)
+    {
+        property = "HardShutdownAlarmHigh";
+        interface = sensor->thresholdInterfaceHardShutdown;
+    }
+    else if (level == thresholds::Level::HARDSHUTDOWN &&
+             direction == thresholds::Direction::LOW)
+    {
+        property = "HardShutdownAlarmLow";
+        interface = sensor->thresholdInterfaceHardShutdown;
+    }
     else
     {
         std::cerr << "Unknown threshold, level " << level << "direction "
@@ -612,6 +679,32 @@ bool hasWarningInterface(
     for (auto& threshold : thresholdVector)
     {
         if (threshold.level == Level::WARNING)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool hasSoftShutdownInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector)
+{
+    for (auto& threshold : thresholdVector)
+    {
+        if (threshold.level == Level::SOFTSHUTDOWN)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool hasHardShutdownInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector)
+{
+    for (auto& threshold : thresholdVector)
+    {
+        if (threshold.level == Level::HARDSHUTDOWN)
         {
             return true;
         }

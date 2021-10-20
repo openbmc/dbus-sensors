@@ -66,6 +66,10 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        thresholdInterfaceSoftShutdown;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        thresholdInterfaceHardShutdown;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
@@ -265,6 +269,34 @@ struct Sensor
                     alarm = "WarningAlarmLow";
                 }
             }
+            else if (threshold.level == thresholds::Level::SOFTSHUTDOWN)
+            {
+                iface = thresholdInterfaceSoftShutdown;
+                if (threshold.direction == thresholds::Direction::HIGH)
+                {
+                    level = "SoftShutdownHigh";
+                    alarm = "SoftShutdownAlarmHigh";
+                }
+                else
+                {
+                    level = "SoftShutdownLow";
+                    alarm = "SoftShutdownAlarmLow";
+                }
+            }
+            else if (threshold.level == thresholds::Level::HARDSHUTDOWN)
+            {
+                iface = thresholdInterfaceHardShutdown;
+                if (threshold.direction == thresholds::Direction::HIGH)
+                {
+                    level = "HardShutdownHigh";
+                    alarm = "HardShutdownAlarmHigh";
+                }
+                else
+                {
+                    level = "HardShutdownLow";
+                    alarm = "HardShutdownAlarmLow";
+                }
+            }
             else
             {
                 std::cerr << "Unknown threshold level" << threshold.level
@@ -314,6 +346,20 @@ struct Sensor
             !thresholdInterfaceCritical->initialize(true))
         {
             std::cerr << "error initializing critical threshold interface\n";
+        }
+
+        if (thresholdInterfaceSoftShutdown &&
+            !thresholdInterfaceSoftShutdown->initialize(true))
+        {
+            std::cerr
+                << "error initializing SoftShutdown threshold interface\n";
+        }
+
+        if (thresholdInterfaceHardShutdown &&
+            !thresholdInterfaceHardShutdown->initialize(true))
+        {
+            std::cerr
+                << "error initializing SoftShutdown threshold interface\n";
         }
 
         if (!availableInterface)
