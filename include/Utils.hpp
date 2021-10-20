@@ -54,7 +54,7 @@ std::optional<std::string>
                          const std::set<std::string>& permitSet);
 std::set<std::string> getPermitSet(const SensorBaseConfigMap& config);
 bool findFiles(const std::filesystem::path& dirPath,
-               const std::string& matchString,
+               std::string_view matchString,
                std::vector<std::filesystem::path>& foundPaths,
                int symlinkDepth = 1);
 bool isPowerOn(void);

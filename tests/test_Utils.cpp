@@ -59,7 +59,7 @@ class TestUtils : public testing::Test
              p != fs::recursive_directory_iterator(); ++p)
         {
             std::string path = p->path().string();
-            fprintf(stderr, "MINEDBG: %s\n", path.c_str());
+            fprintf(stderr, "%s\n", path.c_str());
             if (p.depth() >= 6)
             {
                 p.disable_recursion_pending();
@@ -122,4 +122,14 @@ TEST_F(TestUtils, findFiles_in_peci_match)
                     foundPaths, 6);
     EXPECT_TRUE(ret);
     EXPECT_EQ(foundPaths.size(), 3u);
+}
+
+TEST_F(TestUtils, findFiles_path_end_with_slash)
+{
+    std::string p = hwmonDir.string() + "/";
+    std::vector<fs::path> foundPaths;
+    auto ret = findFiles(p, R"(temp\d+_input)", foundPaths);
+
+    EXPECT_TRUE(ret);
+    EXPECT_EQ(foundPaths.size(), 2u);
 }
