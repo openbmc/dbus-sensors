@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a5f911d_44890dd5",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-20T11:52:56Z",
+      "side": 1,
+      "message": "Can we DRY up all this logic?  Optionally you could look at what was done in phosphor-virtual-sensors because there we implemented a small template class to abstract this and make the inline code much less cluttered.\n\n// optionally turn this into an unordered_map-lookup.\nswitch (threshold.level) {\n    case Critical:\n        iface \u003d thresholdInterfaceCritical;\n        level \u003d \"Critical\";\n        break;\n\n    case Warning:\n        iface \u003d thresholdInterfaceWarning;\n        level \u003d \"Warning\";\n        break;\n\n    ....\n}\nalarm \u003d level + \"Alarm\";\nif (direction \u003d\u003d HIGH) {\n    level +\u003d \"High\";\n    alarm +\u003d \"High\";\n} else {\n    level +\u003d \"Low\";\n    alarm +\u003d \"Low\";\n}",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 13
+      },
+      "revId": "dcf92475c9ea911ee308d728fe5d09939f737a9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe884ca4_730e0d30",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-20T11:52:56Z",
+      "side": 1,
+      "message": "At some point I wonder if it is useful to have N variables for each threshold or if you should hold them in an array/vector.",
+      "revId": "dcf92475c9ea911ee308d728fe5d09939f737a9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf2e65ce_c6bc62ca",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-20T11:52:56Z",
+      "side": 1,
+      "message": "Can you capture this in a variable?  It looks relatively expensive.",
+      "range": {
+        "startLine": 137,
+        "startChar": 17,
+        "endLine": 138,
+        "endChar": 49
+      },
+      "revId": "dcf92475c9ea911ee308d728fe5d09939f737a9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e884d980_d5795e7b",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-20T11:52:56Z",
+      "side": 1,
+      "message": "Suggest DRYing this out also.",
+      "revId": "dcf92475c9ea911ee308d728fe5d09939f737a9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
