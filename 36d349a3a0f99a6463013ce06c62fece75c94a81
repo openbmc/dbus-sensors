@@ -70,6 +70,30 @@
       "revId": "36d349a3a0f99a6463013ce06c62fece75c94a81",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a87691b3_08a1d667",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2021-10-22T06:38:33Z",
+      "side": 1,
+      "message": "+1, better to add necessary header required but I\u0027m wondering  how code is compiled without it.",
+      "parentUuid": "368915e9_0a2f7d37",
+      "range": {
+        "startLine": 61,
+        "startChar": 23,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "36d349a3a0f99a6463013ce06c62fece75c94a81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
