@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ef810598_62a3474c",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-22T20:36:41Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure what your asking.\n\n\u003e If we go with template class, we need to refactor the code and code changes will be more.\n\nMinimizing the amount of code touched is not something we should optimize for; improving the readability and maintainability  is.  Which ever approach is more readable is probably what I\u0027d go for.\n\nIf you are going to do refactoring, it might be helpful to do the refactoring commit first and then add your new threshold feature on top of the refactored code.",
+      "parentUuid": "a5490ee1_3a680dec",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 13
+      },
+      "revId": "dcf92475c9ea911ee308d728fe5d09939f737a9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe884ca4_730e0d30",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
