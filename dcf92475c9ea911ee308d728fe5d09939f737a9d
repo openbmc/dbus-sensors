@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "520e9ae1_63b78220",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-10-23T05:40:16Z",
+      "side": 1,
+      "message": "Thanks Patrick. I will refactor the code and commit first. then will add this feature.",
+      "parentUuid": "ef810598_62a3474c",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 13
+      },
+      "revId": "dcf92475c9ea911ee308d728fe5d09939f737a9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe884ca4_730e0d30",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
