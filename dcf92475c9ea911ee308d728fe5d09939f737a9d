@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3e4a48c6_e9642f2b",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-25T16:08:03Z",
+      "side": 1,
+      "message": "I suspect these need to be combined into a single \"hasThresholdInterface\" method, that accepts an enum for the level (we already have the enum).\n\nSimply continuing to make more of these per type gets messy in a hurry.",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 63
+      },
+      "revId": "dcf92475c9ea911ee308d728fe5d09939f737a9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a5f911d_44890dd5",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
@@ -109,6 +132,30 @@
       "side": 1,
       "message": "Thanks Patrick. I will refactor the code and commit first. then will add this feature.",
       "parentUuid": "ef810598_62a3474c",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 13
+      },
+      "revId": "dcf92475c9ea911ee308d728fe5d09939f737a9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c3dc8b1_162a4220",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-25T16:08:03Z",
+      "side": 1,
+      "message": "+1 to patricks comment, especially about \"Minimizing the amount of code touched is not something we should optimize for\"\n\nIt was pointed out in another review that this code would need to be refactored to support more than two interfaces, and we shouldn\u0027t just be adding to the existing so hopefully this isn\u0027t a surprise.",
+      "parentUuid": "520e9ae1_63b78220",
       "range": {
         "startLine": 244,
         "startChar": 0,
