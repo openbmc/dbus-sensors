@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "078d02bc_36a2c33e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eef987a_fc95d788",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f49ad222_6f896c21",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2021-10-20T03:19:27Z",
       "side": 1,
       "message": "Is there a review for this change?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 56
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93413e29_eda2ed02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Yes, \nhttps://gerrit.openbmc-project.xyz/c/openbmc/entity-manager/+/48005",
+      "parentUuid": "f49ad222_6f896c21",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3fdde88e_c9f3e5ce",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "in case, if oem specific IPMB command format varies,then this enum type class can be used to load the IPMB commands.",
+      "parentUuid": "bc2108e3_909a6291",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a2dbf7b_44f2046b",
         "filename": "include/GpioStateSensor.hpp",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "2a72c421_6aa17b25",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5a2dbf7b_44f2046b",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f75becf6_b3697a1e",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2021-10-20T03:19:27Z",
       "side": 1,
       "message": "struct with names would be easier to understand and maintain",
+      "range": {
+        "startLine": 7,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 78
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "966c5e2e_d4fdfbc7",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "It is taken as reference from the IPMBsensor to keep the code implementation similar.\nIs it okay keep it or make it struct with names?",
+      "parentUuid": "f75becf6_b3697a1e",
       "range": {
         "startLine": 7,
         "startChar": 1,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "bb196685_1aa691b1",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0894771f_4d525b57",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 51
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5a0eb74_6efe9aa1",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 2
@@ -160,6 +304,30 @@
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ea10bd9_80987a3d",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b5a0eb74_6efe9aa1",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "4847f167_50a28759",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d2ef654e_ee38b9af",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 34
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1980d0b_2e42db5f",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 2
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "5678c67d_98cdadc0",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f1980d0b_2e42db5f",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 77,
+        "endChar": 5
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e1fe6af_6ea12ff1",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 2
@@ -226,6 +442,24 @@
     },
     {
       "key": {
+        "uuid": "a465e7ae_eb4236bd",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3e1fe6af_6ea12ff1",
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d06203e_6ac26afe",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 2
@@ -240,6 +474,24 @@
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33205131_a5e53771",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9d06203e_6ac26afe",
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -263,6 +515,30 @@
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9daad06b_5122e1ae",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1408aba3_610b9388",
+      "range": {
+        "startLine": 102,
+        "startChar": 20,
+        "endLine": 102,
+        "endChar": 27
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -312,6 +588,54 @@
     },
     {
       "key": {
+        "uuid": "0fb97107_699dd094",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "It will be initialized from json file",
+      "parentUuid": "7ddd1b08_3dd0c5ff",
+      "range": {
+        "startLine": 108,
+        "startChar": 40,
+        "endLine": 108,
+        "endChar": 52
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d43ba487_12590ccd",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2cf3907f_8970a173",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 32
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fa0b494_1d13c93e",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
@@ -332,6 +656,30 @@
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d0586d4_5a5c69fa",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8fa0b494_1d13c93e",
+      "range": {
+        "startLine": 421,
+        "startChar": 72,
+        "endLine": 421,
+        "endChar": 76
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -381,6 +729,54 @@
     },
     {
       "key": {
+        "uuid": "961d4130_b75e1063",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb7a8dc3_46ec9aeb",
+      "range": {
+        "startLine": 499,
+        "startChar": 38,
+        "endLine": 499,
+        "endChar": 42
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da68fcc_32397399",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1f6d5288_eb87061b",
+      "range": {
+        "startLine": 499,
+        "startChar": 30,
+        "endLine": 499,
+        "endChar": 35
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7803ab2_0ebd48ce",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
@@ -392,6 +788,30 @@
       "writtenOn": "2021-10-20T03:19:27Z",
       "side": 1,
       "message": "what if they are not specified?",
+      "range": {
+        "startLine": 505,
+        "startChar": 24,
+        "endLine": 508,
+        "endChar": 72
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cd1cb9d_bbaac845",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-10-26T16:51:49Z",
+      "side": 1,
+      "message": "If EntityId and Index empty GPIO sensor creation is skipped.",
+      "parentUuid": "c7803ab2_0ebd48ce",
       "range": {
         "startLine": 505,
         "startChar": 24,
