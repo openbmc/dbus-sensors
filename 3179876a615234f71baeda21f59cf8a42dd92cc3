@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2e403181_c5e203f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T21:59:17Z",
+      "side": 1,
+      "message": "Device Index is configured while making an IFWI. So can change, and that is why we keep it as configuration in BMC as well.",
+      "parentUuid": "c7c3d6d9_0ec2403d",
+      "range": {
+        "startLine": 26,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b64691b_428e2829",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
