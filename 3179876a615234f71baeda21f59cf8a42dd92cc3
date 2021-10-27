@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "628eaeb2_c2562837",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "Please call this something over than \"Address\"  Maybe \"ID\"?  Ideally this would match whatever the term that\u0027s used in the ME EDS, such that one could reference it when finding these IDs.\n\n\nIs there no way to determine these IDs automatically?",
+      "range": {
+        "startLine": 26,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b64691b_428e2829",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "Aren\u0027t both of these using \"IPMI\", just variations of the commands?  Maybe we need some better names here?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 52
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21cedf99_114344c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "Why is this needed?  More details here, is this an index?  An enum?  an array?  Why can\u0027t we determine this automatically?  How does this relate to the PMbus specification.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63bfb7d6_f62a28de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "Does this sensor deserve a new \"Type\" in the configuration?  Given the level of changes it\u0027s going through, it feels like it would need one.",
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e750b7a4_460b663d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "Please rephrase to \"the old implementation is still present\"  \"backward compatible\" implies that we replaced something.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c298d8c7_f7fa5460",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "nit: This is stated previously on line 13, no need to repeat.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee1aab0d_d90a21cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "nit: typo.",
+      "range": {
+        "startLine": 53,
+        "startChar": 22,
+        "endLine": 53,
+        "endChar": 31
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba35de8f_44399ad8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "As a general rule, I would like to see cleanups done in other commits, but I guess we\u0027re here now, so it is what it is.",
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be02c6c1_3136ae49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:08:20Z",
+      "side": 1,
+      "message": "ok, so from the comment above, I see that this is an index.  What does it index?  Why is it needed, when it wasn\u0027t needed previously?",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 18
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
