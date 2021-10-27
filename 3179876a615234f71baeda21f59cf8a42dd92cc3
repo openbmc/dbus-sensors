@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7c3d6d9_0ec2403d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "628eaeb2_c2562837",
+      "range": {
+        "startLine": 26,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b64691b_428e2829",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2021-10-27T18:08:20Z",
       "side": 1,
       "message": "Aren\u0027t both of these using \"IPMI\", just variations of the commands?  Maybe we need some better names here?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 52
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c751315_cfa2a78e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Yes both are IPMI, will address this.",
+      "parentUuid": "1b64691b_428e2829",
       "range": {
         "startLine": 27,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8589e4cf_63786939",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Imagine a sensor X which has values for temperature, voltage and current. These values are stored in different registers. \nLet us assume a mapping.\n\nregisters 1 \u003d temperature\nregisters 2 \u003d voltage\nregisters 3 \u003d current\n\nIn \"Get PMBUS Readings\" we get all the registers in response, and our code should read the register corresponding to the type we are interested in. That is what this variable is for. \n\nAnd this mapping is taken as a configuration parameter while building the IFWI. And that is why it is kept as a configuration parameter in BMC.",
+      "parentUuid": "21cedf99_114344c4",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63bfb7d6_f62a28de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "90ee64f3_06ab6fb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "These are not a different type of sensors rt? The sensor class is still the same (like MpsBridgeTemp, PxeBridgeTemp etc). Only how we read is different, that is why we have introduced \"ReadMethod\" in configuration.",
+      "parentUuid": "63bfb7d6_f62a28de",
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e750b7a4_460b663d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -99,6 +189,30 @@
       "writtenOn": "2021-10-27T18:08:20Z",
       "side": 1,
       "message": "Please rephrase to \"the old implementation is still present\"  \"backward compatible\" implies that we replaced something.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bdfb084_be2d8f49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "e750b7a4_460b663d",
       "range": {
         "startLine": 33,
         "startChar": 0,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "f3978ee8_57387bbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will remove this.",
+      "parentUuid": "c298d8c7_f7fa5460",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee1aab0d_d90a21cb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -145,6 +283,30 @@
       "writtenOn": "2021-10-27T18:08:20Z",
       "side": 1,
       "message": "nit: typo.",
+      "range": {
+        "startLine": 53,
+        "startChar": 22,
+        "endLine": 53,
+        "endChar": 31
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bcd13bf_e7f4725a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "ee1aab0d_d90a21cb",
       "range": {
         "startLine": 53,
         "startChar": 22,
@@ -174,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "58eb666a_05a69cd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Yes I understand this. Clean up was not part of my original plan (you can check initial patch sets). \n\nBut I will keep this in mind for future patches.",
+      "parentUuid": "ba35de8f_44399ad8",
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be02c6c1_3136ae49",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -185,6 +365,30 @@
       "writtenOn": "2021-10-27T18:08:20Z",
       "side": 1,
       "message": "ok, so from the comment above, I see that this is an index.  What does it index?  Why is it needed, when it wasn\u0027t needed previously?",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 18
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e735825e_ca2478f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Already answered in line 28.\n\nAnd in old method (proxy), we could send request to get just Temperature or Current Output. \n\nLike\n0x8D means read Temperature\n0x8C means read Current Output\n\nHere 8D means Temperature and is fixed, and it is sensor\u0027s responsibility to return the appropriate register. \n\nBut in new method we receive all mapped registers, typically 6 or 7 register values, we need to know which register is corresponding to  Temperature or Current Output etc. \n\nIn the above example register 1 of response is Temperature.",
+      "parentUuid": "be02c6c1_3136ae49",
       "range": {
         "startLine": 83,
         "startChar": 4,
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "3ef0597a_d0d35257",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will give a different name.",
+      "parentUuid": "c0603a9f_69640b3b",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 42
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a1356f1_7c49bdb8",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 13
@@ -231,6 +459,30 @@
       "writtenOn": "2021-10-27T18:17:22Z",
       "side": 1,
       "message": "Please add a comment where these are coming from.  Is this the pmbus specification?",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 39
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78a83858_8a984928",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "2a1356f1_7c49bdb8",
       "range": {
         "startLine": 78,
         "startChar": 0,
@@ -266,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "9e207c4c_0efd5f8d",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "1c7ee0c8_bc9ff92a",
+      "range": {
+        "startLine": 80,
+        "startChar": 10,
+        "endLine": 80,
+        "endChar": 17
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36f31c42_a1659b57",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 13
@@ -277,6 +553,30 @@
       "writtenOn": "2021-10-27T18:17:22Z",
       "side": 1,
       "message": "This seems like something we should rely on the user for, and in this code doesn\u0027t look neccesary, please remove.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 19
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614e6fa4_c269e9a7",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will remove.",
+      "parentUuid": "36f31c42_a1659b57",
       "range": {
         "startLine": 85,
         "startChar": 0,
@@ -312,6 +612,30 @@
     },
     {
       "key": {
+        "uuid": "dd0ab65f_558aa3e1",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "e97eef0a_a3144fcd",
+      "range": {
+        "startLine": 90,
+        "startChar": 43,
+        "endLine": 90,
+        "endChar": 49
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac7724c9_96534f8a",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 13
@@ -323,6 +647,30 @@
       "writtenOn": "2021-10-27T18:17:22Z",
       "side": 1,
       "message": "Why does this need to be a method;  Wouldn\u0027t a switch statement be simpler and optimize better?",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 21
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51089dd8_e9f23ad1",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "read() is a function which is called continuously, with the interval of sensorPollMs. \nIt was a switch statement inside read() function, which means the switch is called every time. \nThere was a suggestion from one of the reviewers in one of the earlier patch to optimize the same. Hence I removed the switch case and added this readFunction. \n\nDuring init() we use the switch case (one time) to initialize the readFunction with the appropriate code. And in runtime read() function will use readFunction instead of switch case.",
+      "parentUuid": "ac7724c9_96534f8a",
       "range": {
         "startLine": 176,
         "startChar": 0,
@@ -358,6 +706,30 @@
     },
     {
       "key": {
+        "uuid": "7b14c9c8_5a6877f1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "I did not get you.\nThis code is same as line 367 in code to left.",
+      "parentUuid": "edfe8c17_4220eb27",
+      "range": {
+        "startLine": 528,
+        "startChar": 27,
+        "endLine": 528,
+        "endChar": 48
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f977d8f_a40cf5cc",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 13
@@ -369,6 +741,24 @@
       "writtenOn": "2021-10-27T18:17:22Z",
       "side": 1,
       "message": "nit, another set of whitespace.",
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5a6c637_16322cfb",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will remove.",
+      "parentUuid": "6f977d8f_a40cf5cc",
       "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -392,6 +782,24 @@
     },
     {
       "key": {
+        "uuid": "a6098fe6_615df021",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Will remove.",
+      "parentUuid": "b169f939_8abe78fa",
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "502cdc4a_04b94b74",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 13
@@ -403,6 +811,30 @@
       "writtenOn": "2021-10-27T18:17:22Z",
       "side": 1,
       "message": "I\u0027m having a lot of trouble determining which parts of this are rearranging code, and which parts of this are new code for this new feature.  Please separate them into different patches.",
+      "range": {
+        "startLine": 807,
+        "startChar": 3,
+        "endLine": 810,
+        "endChar": 61
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ab0d63e_d2026d24",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-27T20:37:26Z",
+      "side": 1,
+      "message": "Only line 807 (setReadMethod) is code corresponding to new feature.\n\nLines 808, 809, 810 are abstracted as part of clean up.",
+      "parentUuid": "502cdc4a_04b94b74",
       "range": {
         "startLine": 807,
         "startChar": 3,
