@@ -194,6 +194,224 @@
       "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0603a9f_69640b3b",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "These shadow the names of the variables on line 46 (I realize they\u0027re in a different namespace).  Please make these names somewhat unique, instead of putting them in a namespace.  This makes them easier to search for later.",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 42
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a1356f1_7c49bdb8",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "Please add a comment where these are coming from.  Is this the pmbus specification?",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 39
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c7ee0c8_bc9ff92a",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "Please use size_t for offsets.",
+      "range": {
+        "startLine": 80,
+        "startChar": 10,
+        "endLine": 80,
+        "endChar": 17
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36f31c42_a1659b57",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "This seems like something we should rely on the user for, and in this code doesn\u0027t look neccesary, please remove.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 19
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e97eef0a_a3144fcd",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "Why not just make offset size_t on the line above and avoid the static_cast altogether.",
+      "range": {
+        "startLine": 90,
+        "startChar": 43,
+        "endLine": 90,
+        "endChar": 49
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac7724c9_96534f8a",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "Why does this need to be a method;  Wouldn\u0027t a switch statement be simpler and optimize better?",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 21
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edfe8c17_4220eb27",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "This looks duplicated between the branches.",
+      "range": {
+        "startLine": 528,
+        "startChar": 27,
+        "endLine": 528,
+        "endChar": 48
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f977d8f_a40cf5cc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "nit, another set of whitespace.",
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b169f939_8abe78fa",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "nit: extra whitespace injected.",
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "502cdc4a_04b94b74",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T18:17:22Z",
+      "side": 1,
+      "message": "I\u0027m having a lot of trouble determining which parts of this are rearranging code, and which parts of this are new code for this new feature.  Please separate them into different patches.",
+      "range": {
+        "startLine": 807,
+        "startChar": 3,
+        "endLine": 810,
+        "endChar": 61
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
