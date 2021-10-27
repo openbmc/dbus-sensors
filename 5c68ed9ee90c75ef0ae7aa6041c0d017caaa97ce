@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0aea54e_ebbc0ac5",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-27T17:20:05Z",
+      "side": 1,
+      "message": "Sensor values are expected to be set on the order of once a second in some scenarios.  We can\u0027t be invoking a dbus method call for every set.\n\n\nAlso, you\u0027ve now made the match unused, without actually removing it, although i think it\u0027s still required.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 34
+      },
+      "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
