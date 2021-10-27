@@ -213,6 +213,30 @@
       "revId": "1e34cecad498e89fb52b4c73cb19e62a297f2329",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9346c3f_27318d18",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1000652
+      },
+      "writtenOn": "2021-10-27T08:50:59Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2e96d6c3_ec87a27a",
+      "range": {
+        "startLine": 551,
+        "startChar": 19,
+        "endLine": 556,
+        "endChar": 21
+      },
+      "revId": "1e34cecad498e89fb52b4c73cb19e62a297f2329",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
