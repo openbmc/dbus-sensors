@@ -70,6 +70,30 @@
       "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c9471db_c53c51c1",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-28T16:16:34Z",
+      "side": 1,
+      "message": "\u003e @Ed, the code before this used to read /xyz/openbmc_project/security/special_mode once during boot up of dbus-sensors and store the value in a member variable (getManufactMode). The disadvantage of that approach is that if dbus-sensors boots up before /xyz/openbmc_project/security/special_mode interface is up, then the dbus call will fail and the member variable getManufactMode will always stay false. Which means user will never be able to set a value. \n\u003e We can solve this in two ways\n1) Make sure dbus-senors boots up only after /xyz/openbmc_project/security/special_mode interface is up.\n2) Read /xyz/openbmc_project/security/special_mode interface every time we are trying to set a value. \n\nYou\u0027ve forgotten option 3, which is read the property on startup AND set up a match to see if the property ever changes, which solves the startup race condition.  We use this same pattern all over the place to great effect.\n\n\u003e As manufacturing mode cannot change in runtime.\n\nI would prefer to not rely on that assumption.  There are likely scenarios where it can change at runtime.",
+      "parentUuid": "8d4a4a0d_9bb7aa1b",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 34
+      },
+      "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
