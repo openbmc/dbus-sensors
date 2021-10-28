@@ -22,6 +22,30 @@
       "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0a7774e_c0042ac8",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-10-28T07:52:55Z",
+      "side": 1,
+      "message": "@Ed, the code before this used to read /xyz/openbmc_project/security/special_mode once during boot up of dbus-sensors and store the value in a member variable (getManufactMode). The disadvantage of that approach is that if dbus-sensors boots up before /xyz/openbmc_project/security/special_mode interface is up, then the dbus call will fail and the member variable getManufactMode will always stay false. Which means user will never be able to set a value. \n\nWe can solve this in two ways\n1) Make sure dbus-senors boots up only after /xyz/openbmc_project/security/special_mode interface is up.\n2) Read /xyz/openbmc_project/security/special_mode interface every time we are trying to set a value. \n\nSnehalatha has implemented the 2nd method. \n\n@Snehalatha, I would suggest to stop the dbus call after the first successful read of the interface /xyz/openbmc_project/security/special_mode. \nThat is, if interface /xyz/openbmc_project/security/special_mode is not up \u0027if (ec){return;}\u0027 will be called. But once the interface is up and we are successfully able to read the manufacturing mode, stop the dbus calls. And just use getManufactMode from thereafter. \n\nAs manufacturing mode cannot change in runtime.",
+      "parentUuid": "d0aea54e_ebbc0ac5",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 34
+      },
+      "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
