@@ -46,6 +46,30 @@
       "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d4a4a0d_9bb7aa1b",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-10-28T08:35:04Z",
+      "side": 1,
+      "message": "I agree with Ed here. Adding a D-Bus call on every sensor value update will be an overhead.\n\nFrom @Arunlal\u0027s comment i understand the issue is because we are not getting the latest updated value for mfg mode since the specialModeManager starts late. To solve the same we can use a variable in sensor.hpp to cache the mfg mode and register for interface added signal with specialModeManager. So even after the initial D-Bus call to read the property failed, later once the service is up we get the interface added signal and we can read and cache the correct value.\n\nI suppose we are already monitoring for propertyChanged signal to listen for any further change in value.",
+      "parentUuid": "a0a7774e_c0042ac8",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 34
+      },
+      "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
