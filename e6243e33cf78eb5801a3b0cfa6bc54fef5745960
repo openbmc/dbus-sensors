@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9201d497_6574204a",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-29T18:48:16Z",
+      "side": 1,
+      "message": "FWIW, it looks like ADCSensor, HwMonTempSensor, and TachSensor have this bug as well;  I suspect we should test and fix those (but it can be in another patch if you like).",
+      "parentUuid": "3acd6038_d7ddff0a",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39060017_32e89ee8",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
