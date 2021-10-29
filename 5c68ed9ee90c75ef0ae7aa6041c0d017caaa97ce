@@ -94,6 +94,30 @@
       "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc4788c6_1cd0e0d9",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2021-10-29T20:52:10Z",
+      "side": 1,
+      "message": "\u003e \u003e As manufacturing mode cannot change in runtime.\n\u003e \n\u003e I would prefer to not rely on that assumption.  There are likely scenarios where it can change at runtime.\n\nIntel platforms automatically exit manufacturing mode after 15 minutes if no timer reset command is sent. So yes, we need to continue to monitor it.",
+      "parentUuid": "9c9471db_c53c51c1",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 34
+      },
+      "revId": "5c68ed9ee90c75ef0ae7aa6041c0d017caaa97ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
