@@ -146,13 +146,55 @@ void PSUSensor::restartRead(void)
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            std::cerr << "Failed to reschedule\n";
+            std::cerr << "Failed to reschedule read\n";
             return;
         }
         std::shared_ptr<PSUSensor> self = weakRef.lock();
         if (self)
         {
             self->setupRead();
+        }
+    });
+}
+
+void PSUSensor::setupAttemptRecover(void)
+{
+    std::cerr << "Trying to recover " << path << "\n";
+    inputDev.close();
+    markAvailable(false);
+    updateValue(std::numeric_limits<double>::quiet_NaN());
+    attemptRecover();
+}
+
+void PSUSensor::attemptRecover(void)
+{
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd >= 0)
+    {
+        inputDev.assign(fd);
+        restartRead();
+        std::cerr << "Recovered " << path << "\n";
+    }
+    else
+    {
+        restartAttemptRecover();
+    }
+}
+
+void PSUSensor::restartAttemptRecover(void)
+{
+    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Failed to reschedule recover\n";
+            return;
+        }
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
+        if (self)
+        {
+            self->attemptRecover();
         }
     });
 }
@@ -194,6 +236,13 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             << std::generic_category().default_error_condition(errno).message()
             << ") reading from " << path << ", line: " << __LINE__ << "\n";
         incrementError();
+        if (errno == ENODEV)
+        {
+            std::cerr << "No such device at " << path
+                      << ", (driver unbound?)\n";
+            setupAttemptRecover();
+            return;
+        }
     }
 
     lseek(fd, 0, SEEK_SET);

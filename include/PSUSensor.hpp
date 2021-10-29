@@ -34,6 +34,9 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     double sensorOffset;
     thresholds::ThresholdTimer thresholdTimer;
     void restartRead();
+    void setupAttemptRecover();
+    void attemptRecover();
+    void restartAttemptRecover();
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     unsigned int sensorPollMs = defaultSensorPollMs;
