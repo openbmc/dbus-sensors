@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3acd6038_d7ddff0a",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-29T18:45:12Z",
+      "side": 1,
+      "message": "I see the issue;  Move the declaration of readBuf to line 38, above inputDev, and leave it as-is.\n\nThe bug here is that inputDevice can hold a reference to readBuf, so readBuf MUST be declared first, such that it\u0027s destroyed after.  Once you\u0027ve done that, the shared_ptr isn\u0027t required anymore.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39060017_32e89ee8",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-29T18:45:12Z",
+      "side": 1,
+      "message": "This is going to malloc a buffer every loop, which is pretty inefficient, and I\u0027m not sure why it\u0027s required.  Considering at CpuSensor::buffer is now covered by the weak_ptr like you\u0027ve done on the line below, isn\u0027t that all that\u0027s needed?\n\nUpdate, I see the issue, see comment above.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 51
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ab05b00_c07e2cd7",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-29T18:45:12Z",
+      "side": 1,
+      "message": "Declare your variables in the scope they\u0027re used.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 56
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2cef9ce_3b0f7240",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-29T18:45:12Z",
+      "side": 1,
+      "message": "Please invert this check and have it return early to reduce the number of scopes.",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 21
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02b2c3ed_5d78aa26",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-29T18:45:12Z",
+      "side": 1,
+      "message": "Generally we prefer *readBuf, but in this case, I suspect readBuf doesn\u0027t need to be a shared_ptr at all.",
+      "range": {
+        "startLine": 241,
+        "startChar": 32,
+        "endLine": 241,
+        "endChar": 46
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0560c55d_cfdbc1d0",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-10-29T18:45:12Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed here?  Or was there a change that necessitated this?",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 35
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
