@@ -292,6 +292,13 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
 
     std::shared_ptr<NVMeSensor>& sensor = sensors.front();
 
+    if (!sensor->readingStateGood())
+    {
+        sensor->markAvailable(false);
+        sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
+        return;
+    }
+
     /* Ensure sensor query parameters are sensible */
     if (sensor->bus < 0)
     {
