@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "adfa8ee4_cef43464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-10-29T01:05:38Z",
+      "side": 1,
+      "message": "Thanks for updating the commit message Jason. I described another important use case which is unbinding drivers while device firmware updates occur.",
+      "parentUuid": "05de1ee7_9e90e294",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9bd5b39_231cefd6",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 6
@@ -117,6 +141,30 @@
       "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "093b147b_cc3530c4",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-10-29T01:05:38Z",
+      "side": 1,
+      "message": "I reverted these lines back to how they were to avoid flooding the journal.",
+      "parentUuid": "f9bd5b39_231cefd6",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 49
+      },
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +221,24 @@
     },
     {
       "key": {
+        "uuid": "9e52c95a_96fb7eff",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-10-29T01:05:38Z",
+      "side": 1,
+      "message": "I refactored this change to put all the recover logic in separate functions and to avoid flooding the journal, please take a look.",
+      "parentUuid": "8123e4ac_5375a853",
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c06cbed_ace505fc",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 6
@@ -187,6 +253,24 @@
       "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58297891_bc79e888",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-10-29T01:05:38Z",
+      "side": 1,
+      "message": "Good point, the latest change should avoid seeking a negative fd.",
+      "parentUuid": "2c06cbed_ace505fc",
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -240,6 +324,24 @@
       "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e02d0f52_fb075153",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-10-29T01:05:38Z",
+      "side": 1,
+      "message": "With the latest change the ASIO flow is started again once re-opened, rather than immediately reading after the re-open.",
+      "parentUuid": "0e212698_8e363f4c",
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
