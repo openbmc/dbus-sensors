@@ -146,7 +146,7 @@ void PSUSensor::restartRead(void)
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            std::cerr << "Failed to reschedule\n";
+            std::cerr << "Failed to reschedule read\n";
             return;
         }
         std::shared_ptr<PSUSensor> self = weakRef.lock();
@@ -155,6 +155,48 @@ void PSUSensor::restartRead(void)
             self->setupRead();
         }
     });
+}
+
+void PSUSensor::restartAttemptRecover(void)
+{
+    std::weak_ptr<PSUSensor> weakRef = weak_from_this();
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Failed to reschedule recover\n";
+            return;
+        }
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
+        if (self)
+        {
+            self->attemptRecover();
+        }
+    });
+}
+
+void PSUSensor::setupAttemptRecover(void)
+{
+    std::cerr << "Trying to recover " << path << "\n";
+    inputDev.close();
+    markAvailable(false);
+    updateValue(std::numeric_limits<double>::quiet_NaN());
+    attemptRecover();
+}
+
+void PSUSensor::attemptRecover(void)
+{
+    fd = open(path.c_str(), O_RDONLY);
+    if (fd > 0)
+    {
+      inputDev.assign(fd);
+      restartRead();
+      std::cerr << "Recovered " << path << "\n";
+    }
+    else
+    {
+      restartAttemptRecover();
+    }
 }
 
 // Create a buffer expected to be able to hold more characters than will be
@@ -186,6 +228,13 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             std::cerr << "Could not parse  input from " << path << "\n";
             incrementError();
         }
+    }
+    else if (errno == ENODEV)
+    {
+        std::cerr << "No such device at " << path << ", (driver unbound?)\n";
+        incrementError();
+        setupAttemptRecover();
+        return;
     }
     else
     {
