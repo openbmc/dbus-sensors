@@ -43,7 +43,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false, 0,
            0, conn, PowerState::on),
-    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
+    std::enable_shared_from_this<CPUSensor>(), objServer(objectServer),
+    inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
     minMaxReadCounter(0)
@@ -96,7 +97,6 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
 
     // call setup always as not all sensors call setInitialProperties
     setupPowerMatch(conn);
-    setupRead();
 }
 
 CPUSensor::~CPUSensor()
@@ -117,6 +117,10 @@ CPUSensor::~CPUSensor()
 
 void CPUSensor::setupRead(void)
 {
+    std::shared_ptr<boost::asio::streambuf> buffer =
+        std::make_shared<boost::asio::streambuf>();
+    std::weak_ptr<CPUSensor> weakRef = weak_from_this();
+
     if (readingStateGood())
     {
         inputDev.close();
@@ -126,9 +130,16 @@ void CPUSensor::setupRead(void)
             inputDev.assign(fd);
 
             boost::asio::async_read_until(
-                inputDev, readBuf, '\n',
-                [&](const boost::system::error_code& ec,
-                    std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+                inputDev, *buffer, '\n',
+                [weakRef, buffer](const boost::system::error_code& ec,
+                                  std::size_t /*bytes_transfered*/) {
+                    std::shared_ptr<CPUSensor> self = weakRef.lock();
+                    if (self)
+                    {
+                        self->readBuf = buffer;
+                        self->handleResponse(ec);
+                    }
+                });
         }
         else
         {
@@ -141,13 +152,16 @@ void CPUSensor::setupRead(void)
         pollTime = sensorFailedPollTimeMs;
         markAvailable(false);
     }
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<CPUSensor> self = weakRef.lock();
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
-        setupRead();
+        if (self)
+        {
+            self->setupRead();
+        }
     });
 }
 
@@ -224,7 +238,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     }
     loggedInterfaceDown = false;
     pollTime = CPUSensor::sensorPollMs;
-    std::istream responseStream(&readBuf);
+    std::istream responseStream(readBuf.get());
     if (!err)
     {
         std::string response;

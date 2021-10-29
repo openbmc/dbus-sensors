@@ -16,7 +16,7 @@
 #include <variant>
 #include <vector>
 
-class CPUSensor : public Sensor
+class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
 {
   public:
     CPUSensor(const std::string& path, const std::string& objectType,
@@ -31,12 +31,13 @@ class CPUSensor : public Sensor
     static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
     static constexpr const char* labelTcontrol = "Tcontrol";
+    void setupRead(void);
 
   private:
     sdbusplus::asio::object_server& objServer;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
-    boost::asio::streambuf readBuf;
+    std::shared_ptr<boost::asio::streambuf> readBuf;
     std::string nameTcontrol;
     std::string path;
     double privTcontrol;
@@ -45,13 +46,12 @@ class CPUSensor : public Sensor
     size_t pollTime;
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter;
-    void setupRead(void);
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
 };
 
-extern boost::container::flat_map<std::string, std::unique_ptr<CPUSensor>>
+extern boost::container::flat_map<std::string, std::shared_ptr<CPUSensor>>
     gCpuSensors;
 
 // this is added to cpusensor.hpp to avoid having every sensor have to link
