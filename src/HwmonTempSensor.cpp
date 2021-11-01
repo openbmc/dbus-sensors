@@ -18,7 +18,6 @@
 
 #include <HwmonTempSensor.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -53,9 +52,8 @@ HwmonTempSensor::HwmonTempSensor(
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn, const float pollRate,
     const std::string& sensorConfiguration, const PowerState powerState) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdsIn), sensorConfiguration, objectType, false,
-           false, maxReading, minReading, conn, powerState),
+    Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
+           objectType, false, false, maxReading, minReading, conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))

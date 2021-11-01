@@ -425,8 +425,7 @@ static void createSensorsCallback(
         // on rescans, only update sensors we were signaled by
         if (!firstScan)
         {
-            std::string psuNameStr =
-                "/" + boost::replace_all_copy(*psuName, " ", "_");
+            std::string psuNameStr = "/" + escapeName(*psuName);
             auto it =
                 std::find_if(sensorsChanged->begin(), sensorsChanged->end(),
                              [psuNameStr](std::string& s) {
@@ -458,7 +457,8 @@ static void createSensorsCallback(
         do
         {
             // Individual string fields: Name, Name1, Name2, Name3, ...
-            psuNames.push_back(std::get<std::string>(findPSUName->second));
+            psuNames.push_back(
+                escapeName(std::get<std::string>(findPSUName->second)));
             findPSUName = baseConfig->second.find("Name" + std::to_string(i++));
         } while (findPSUName != baseConfig->second.end());
 

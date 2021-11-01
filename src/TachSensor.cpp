@@ -19,7 +19,6 @@
 #include <TachSensor.hpp>
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <gpiod.hpp>
@@ -50,9 +49,9 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        const std::pair<size_t, size_t>& limits,
                        const PowerState& powerState,
                        const std::optional<std::string>& ledIn) :
-    Sensor(boost::replace_all_copy(fanName, " ", "_"), std::move(thresholdsIn),
-           sensorConfiguration, objectType, false, false, limits.second,
-           limits.first, conn, powerState),
+    Sensor(escapeName(fanName), std::move(thresholdsIn), sensorConfiguration,
+           objectType, false, false, limits.second, limits.first, conn,
+           powerState),
     objServer(objectServer), redundancy(redundancy),
     presence(std::move(presenceSensor)),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
@@ -184,7 +183,8 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
 
 void TachSensor::checkThresholds(void)
 {
-    bool status = thresholds::checkThresholds(this);
+    // WA - treat value <= 0 as not present
+    bool status = false;
 
     if (redundancy && *redundancy)
     {

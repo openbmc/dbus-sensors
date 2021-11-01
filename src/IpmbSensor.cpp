@@ -18,7 +18,6 @@
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -65,10 +64,9 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        std::vector<thresholds::Threshold>&& thresholdData,
                        uint8_t deviceAddress, uint8_t hostSMbusIndex,
                        const float pollRate, std::string& sensorTypeName) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", false, false,
-           ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
+    Sensor(escapeName(sensorName), std::move(thresholdData),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
+           false, false, ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
     sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
     waitTimer(io)
