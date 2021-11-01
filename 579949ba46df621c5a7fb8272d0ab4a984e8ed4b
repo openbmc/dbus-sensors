@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02fc0dc7_9dc035a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-11-01T22:05:42Z",
+      "side": 1,
+      "message": "This suggests its cable specific, as does the linked design document, but the build option, the source files and the resulting executable don\u0027t have \u0027cable\u0027 in their name. I\u0027d prefer the intended use case was more obvious at first glance.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "579949ba46df621c5a7fb8272d0ab4a984e8ed4b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
