@@ -478,6 +478,24 @@
       "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "197b2020_70bb6f53",
+        "filename": "src/GPIOCableSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-01T19:24:41Z",
+      "side": 1,
+      "message": "thank you",
+      "parentUuid": "b9b617bc_a353f13b",
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
