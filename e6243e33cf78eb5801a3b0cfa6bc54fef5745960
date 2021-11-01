@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "45488780_80a72904",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-01T16:56:47Z",
+      "side": 1,
+      "message": "\u003e Will inputDev destructor access the \"dangled\" readBuf reference when CPUSensor gets destructed, which I suppose will cause service to crash? If that is the case, why it does not happen more often including all the other services?\n\nYes, it will access the dangled constructor.  It probably doesn\u0027t happen in the other services because the way the stack is, readBuf isn\u0027t pointing at non-program owned memory, so accessing it doesn\u0027t cause any harm, even if it is undefined behavior.\n\n\u003e \n\u003e Also, this defect is a separate defect than async_read_util handler need to ensure CPUSensor is still valid. If CPUSensor is valid the readBuf should be valid, right?\n\nCorrect.  readBuf is part of CPUSensor, so if CPU sensor hasn\u0027t been destroyed, readBuf won\u0027t be destroyed.  The issue that I see is when CPUSensor is in the process of being destroyed, readbuf will be destroyed before inputDev, with inputDev still having a pointer (reference) to readBuf, which causes an issue.",
+      "parentUuid": "8fd9b51c_b1bca371",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39060017_32e89ee8",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
