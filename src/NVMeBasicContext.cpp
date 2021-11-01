@@ -83,8 +83,9 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
     if (::ioctl(dev, I2C_SLAVE, addr) == -1)
     {
         rc = -errno;
-        std::cerr << "Failed to configure device address: " << strerror(errno)
-                  << "\n";
+        std::cerr << "Failed to configure device address 0x" << std::hex
+                  << (int)addr << " for bus " << std::dec << bus << ": "
+                  << strerror(errno) << "\n";
         goto cleanup_fds;
     }
 
@@ -95,14 +96,17 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
     if (size < 0)
     {
         rc = size;
-        std::cerr << "Failed to read block data: " << strerror(errno) << "\n";
+        std::cerr << "Failed to read block data from device 0x" << std::hex
+                  << (int)addr << " on bus " << std::dec << bus << ": "
+                  << strerror(errno) << "\n";
         goto cleanup_fds;
     }
     else if (size > UINT8_MAX + 1)
     {
         rc = -EBADMSG;
-        std::cerr << "Unexpected message length: " << size << " (" << UINT8_MAX
-                  << ")\n";
+        std::cerr << "Unexpected message length from device 0x" << std::hex
+                  << (int)addr << " on bus " << std::dec << bus << ": " << size
+                  << " (" << UINT8_MAX << ")\n";
         goto cleanup_fds;
     }
 
@@ -111,7 +115,8 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
 cleanup_fds:
     if (::close(dev) == -1)
     {
-        std::cerr << "Failed to close device descriptor: " << strerror(errno)
+        std::cerr << "Failed to close device descriptor " << std::dec << dev
+                  << " for bus " << std::dec << bus << ": " << strerror(errno)
                   << "\n";
     }
 
@@ -141,8 +146,8 @@ static ssize_t processBasicQueryStream(int in, int out)
             rc = rc ? -errno : -EIO;
             if (errno)
             {
-                std::cerr << "Failed to read request: " << strerror(errno)
-                          << "\n";
+                std::cerr << "Failed to read request from in descriptor ("
+                          << std::dec << in << "): " << strerror(errno) << "\n";
             }
             goto done;
         }
@@ -174,8 +179,9 @@ static ssize_t processBasicQueryStream(int in, int out)
         {
             assert(rc < 1);
             rc = rc ? -errno : -EIO;
-            std::cerr << "Failed to write block length to out pipe: "
-                      << strerror(-rc) << "\n";
+            std::cerr << "Failed to write block (" << std::dec << len
+                      << ") length to out descriptor (" << std::dec << out
+                      << "): " << strerror(-rc) << "\n";
             goto done;
         }
 
@@ -188,8 +194,8 @@ static ssize_t processBasicQueryStream(int in, int out)
             if ((egress = ::write(out, cursor, len)) == -1)
             {
                 rc = -errno;
-                std::cerr << "Failed to write block data to out pipe: "
-                          << strerror(errno) << "\n";
+                std::cerr << "Failed to write block data of length " << std::dec
+                          << len << " to out pipe: " << strerror(errno) << "\n";
                 goto done;
             }
 
@@ -201,14 +207,14 @@ static ssize_t processBasicQueryStream(int in, int out)
 done:
     if (::close(in) == -1)
     {
-        std::cerr << "Failed to close in descriptor: " << strerror(errno)
-                  << "\n";
+        std::cerr << "Failed to close in descriptor " << std::dec << in << ": "
+                  << strerror(errno) << "\n";
     }
 
     if (::close(out) == -1)
     {
-        std::cerr << "Failed to close out descriptor: " << strerror(errno)
-                  << "\n";
+        std::cerr << "Failed to close out descriptor " << std::dec << in << ": "
+                  << strerror(errno) << "\n";
     }
 
     return rc;
