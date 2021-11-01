@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "5c842173_c674208c",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-01T18:39:57Z",
+      "side": 1,
+      "message": "Um. let me check. My IDE looks fine. Not sure what happen.",
+      "parentUuid": "b1548805_8136fa31",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de847f87_c641c98f",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 15
@@ -433,6 +457,24 @@
       "side": 1,
       "message": "So, as I see, you don\u0027t have intentions to make this more in line with other services, right?",
       "parentUuid": "700c6403_fa70dcf6",
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9b617bc_a353f13b",
+        "filename": "src/GPIOCableSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-01T18:39:57Z",
+      "side": 1,
+      "message": "No, I will make the change. Sorry, for some reason, I missed this comment. Sorry about that.",
+      "parentUuid": "339fce94_42d33221",
       "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
