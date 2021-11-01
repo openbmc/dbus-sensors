@@ -17,7 +17,6 @@
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -56,10 +55,9 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              std::vector<thresholds::Threshold>&& thresholdData,
                              uint8_t busId, uint8_t mcuAddress,
                              uint8_t tempReg) :
-    Sensor(boost::replace_all_copy(sensorName, " ", "_"),
-           std::move(thresholdData), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ExitAirTemp", false, false,
-           mcuTempMaxReading, mcuTempMinReading, conn),
+    Sensor(escapeName(sensorName), std::move(thresholdData),
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
+           false, false, mcuTempMaxReading, mcuTempMinReading, conn),
     busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
     objectServer(objectServer), waitTimer(io)
 {
