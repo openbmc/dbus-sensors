@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "fa785136_7e4970ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-01T20:19:48Z",
+      "side": 1,
+      "message": "That would kind of imply that we now need a single config that takes a list of registers to produce as sensors, rather than breaking it up per sensor.  If they\u0027re all returned in one response, we shouldn\u0027t be duplicating the request for the same data, right?",
+      "parentUuid": "8589e4cf_63786939",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63bfb7d6_f62a28de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -413,6 +437,30 @@
       "side": 1,
       "message": "Already answered in line 28.\n\nAnd in old method (proxy), we could send request to get just Temperature or Current Output. \n\nLike\n0x8D means read Temperature\n0x8C means read Current Output\n\nHere 8D means Temperature and is fixed, and it is sensor\u0027s responsibility to return the appropriate register. \n\nBut in new method we receive all mapped registers, typically 6 or 7 register values, we need to know which register is corresponding to  Temperature or Current Output etc. \n\nIn the above example register 1 of response is Temperature.",
       "parentUuid": "be02c6c1_3136ae49",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 18
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "155594b7_f921dde0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-01T20:19:48Z",
+      "side": 1,
+      "message": "please answer by making your commit message more clear.",
+      "parentUuid": "e735825e_ca2478f1",
       "range": {
         "startLine": 83,
         "startChar": 4,
@@ -859,6 +907,30 @@
       "side": 1,
       "message": "Only line 807 (setReadMethod) is code corresponding to new feature.\n\nLines 808, 809, 810 are abstracted as part of clean up.",
       "parentUuid": "502cdc4a_04b94b74",
+      "range": {
+        "startLine": 807,
+        "startChar": 3,
+        "endLine": 810,
+        "endChar": 61
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e8bb2cd_12e71578",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-01T20:19:48Z",
+      "side": 1,
+      "message": "If it\u0027s that trivial, then please split them into separate patches.",
+      "parentUuid": "8ab0d63e_d2026d24",
       "range": {
         "startLine": 807,
         "startChar": 3,
