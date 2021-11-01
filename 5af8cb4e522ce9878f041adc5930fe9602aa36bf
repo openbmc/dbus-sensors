@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "b1548805_8136fa31",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-01T12:42:58Z",
+      "side": 1,
+      "message": "no changes here",
+      "parentUuid": "1559c1a7_ea0d98b0",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de847f87_c641c98f",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 15
@@ -391,6 +415,24 @@
       "writtenOn": "2021-09-29T10:30:24Z",
       "side": 1,
       "message": "Hm... Generally all other daemons in dbus-sensors have actual logic here and configration/detection/EM-communication in \"xxxMain.cpp\". Why did you decide to change the pattern?",
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "339fce94_42d33221",
+        "filename": "src/GPIOCableSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-01T12:42:58Z",
+      "side": 1,
+      "message": "So, as I see, you don\u0027t have intentions to make this more in line with other services, right?",
+      "parentUuid": "700c6403_fa70dcf6",
       "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
