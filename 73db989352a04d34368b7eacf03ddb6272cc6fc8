@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "090e82a2_8183a801",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-11-02T00:23:35Z",
+      "side": 1,
+      "message": "\u003eConsidering your temperature control loops are now invalidated, why wouldn\u0027t you disable PSUSensor, run your tests, then reenable it once?\n\nFlow is to change the voltage on a rail, read the voltage from some other device rinse and repeat.\n\n@Vernon\n\n\u003eThis appears to behave like a bandaid for poorly behaved PSUs that keep getting errors (like if you didn\u0027t want the errors to show up in logs). By simply restarting the sensor whenever it goes awol, it hides any real errors.\n\nDon\u0027t quite follow. If you\u0027re talking about the part where we restart PSUSensors - we only do that because PSUSensors doesn\u0027t deal well with a /sys/class/hwmon/**/ path disappearing and then reappearing. This patch would make it so that you no longer have to restart PSUSensors to achieve this behavior.\n\nIf you\u0027re talking about unbinding/rebinding drivers to hide errors - that\u0027s not what the use-case is about. We\u0027re unbinding drivers to allow a hardware test have exclusive access to the device and rebinding them to give the device back to PSUSensors.",
+      "parentUuid": "4facfb74_8fa51688",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "959842ed_6d5f5089",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
