@@ -22,6 +22,53 @@
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4facfb74_8fa51688",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2021-11-02T00:10:57Z",
+      "side": 1,
+      "message": "I would tend to agree here. This appears to behave like a bandaid for poorly behaved PSUs that keep getting errors (like if you didn\u0027t want the errors to show up in logs). By simply restarting the sensor whenever it goes awol, it hides any real errors.",
+      "parentUuid": "6c759c92_e84c79c0",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "959842ed_6d5f5089",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2021-11-02T00:10:57Z",
+      "side": 1,
+      "message": "fd is valid if it is \u003e\u003d 0\n\nwhile 0,1,2 are commonly assigned to stdin, stdout, stderr, it is possible to close those and get them assigned as new file handles.",
+      "range": {
+        "startLine": 190,
+        "startChar": 11,
+        "endLine": 190,
+        "endChar": 12
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
