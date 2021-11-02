@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "8c891a3a_0f8a17d6",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-02T18:49:12Z",
+      "side": 1,
+      "message": "\u003e Changing the order of declaration may solve the issue. But I myself was not able to reproduce this crash on demand. So I won\u0027t be able to confirm it. Similar issue was discussed in https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/31189/1/include/ADCSensor.hpp.\n\u003e \n\u003e But the async_read_until says the caller should make sure the buffer is valid until the handler is getting called. https://www.boost.org/doc/libs/1_71_0/doc/html/boost_asio/reference/async_read_until/overload1.html\n\nYep.  And if a read is in progress, the handler is called when the object is destroyed with operation_aborted.\n\n\u003e \n\u003e Considering that until the \u0027weakRef\u0027 is validated, we need the buffer to be valid. In that case I suppose we can\u0027t make use of a class variable directly.\n\nI\u0027m not understanding why you can\u0027t use a class variable?  Class variables are destroyed in the reverse order from which they were created.  So long as readBuf is destroyed after inputDev, we\u0027ve met the definition of what the boost docs require.",
+      "parentUuid": "699842ee_4d41df55",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39060017_32e89ee8",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
