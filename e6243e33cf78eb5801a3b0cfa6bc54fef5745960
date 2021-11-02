@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "699842ee_4d41df55",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-02T12:03:16Z",
+      "side": 1,
+      "message": "Changing the order of declaration may solve the issue. But I myself was not able to reproduce this crash on demand. So I won\u0027t be able to confirm it. Similar issue was discussed in https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/31189/1/include/ADCSensor.hpp.\n\nBut the async_read_until says the caller should make sure the buffer is valid until the handler is getting called. https://www.boost.org/doc/libs/1_71_0/doc/html/boost_asio/reference/async_read_until/overload1.html\n\nConsidering that until the \u0027weakRef\u0027 is validated, we need the buffer to be valid. In that case I suppose we can\u0027t make use of a class variable directly.",
+      "parentUuid": "45488780_80a72904",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39060017_32e89ee8",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
@@ -108,6 +132,30 @@
       "writtenOn": "2021-10-29T18:45:12Z",
       "side": 1,
       "message": "This is going to malloc a buffer every loop, which is pretty inefficient, and I\u0027m not sure why it\u0027s required.  Considering at CpuSensor::buffer is now covered by the weak_ptr like you\u0027ve done on the line below, isn\u0027t that all that\u0027s needed?\n\nUpdate, I see the issue, see comment above.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 51
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad44865d_570d2c79",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-02T12:03:16Z",
+      "side": 1,
+      "message": "Please find the comments above.",
+      "parentUuid": "39060017_32e89ee8",
       "range": {
         "startLine": 120,
         "startChar": 0,
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "15dacf7e_62b936fd",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-02T12:03:16Z",
+      "side": 1,
+      "message": "It\u0027s used at L156 as well.",
+      "parentUuid": "1ab05b00_c07e2cd7",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 56
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2cef9ce_3b0f7240",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
@@ -163,6 +235,30 @@
       "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8171a683_97426692",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-02T12:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2cef9ce_3b0f7240",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 21
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -189,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "198d8509_ecdea83a",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-02T12:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b24c506_730f5487",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 156,
+        "endChar": 57
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02b2c3ed_5d78aa26",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
@@ -212,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "86049a20_b2cc119b",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-02T12:03:16Z",
+      "side": 1,
+      "message": "*readBuf gives below error.\n\n| ../../../../../../workspace/sources/dbus-sensors/src/CPUSensor.cpp:244:41: error: no matching function for call to \u0027std::basic_istream\u003cchar\u003e::basic_istream(std::__shared_ptr_access\u003cboost::asio::basic_streambuf\u003c\u003e, __gnu_cxx::_S_atomic, false, false\u003e::element_type\u0026)\u0027\n|   244 |     std::istream responseStream(*readBuf);",
+      "parentUuid": "02b2c3ed_5d78aa26",
+      "range": {
+        "startLine": 241,
+        "startChar": 32,
+        "endLine": 241,
+        "endChar": 46
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0560c55d_cfdbc1d0",
         "filename": "src/CPUSensorMain.cpp",
         "patchSetId": 2
@@ -223,6 +367,30 @@
       "writtenOn": "2021-10-29T18:45:12Z",
       "side": 1,
       "message": "I don\u0027t think this is needed here?  Or was there a change that necessitated this?",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 35
+      },
+      "revId": "e6243e33cf78eb5801a3b0cfa6bc54fef5745960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "267f6aea_8195567e",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-02T12:03:16Z",
+      "side": 1,
+      "message": "Yes. Without this change the setupRead is not working as expected.\n\nFor setupRead() to work, it needs a shared_ptr of the CPUSensor object. If we keep the setupRead() call inside constructor, before the shared_ptr gets created, it will invoke setupRead() and it fails.",
+      "parentUuid": "0560c55d_cfdbc1d0",
       "range": {
         "startLine": 388,
         "startChar": 0,
