@@ -522,50 +522,97 @@ std::optional<std::tuple<std::string, std::string, std::string>>
     return std::nullopt;
 }
 
+static void handleSpecialModeChange(const std::string manufacturingModeStatus)
+{
+    manufacturingMode = false;
+    if (manufacturingModeStatus == "xyz.openbmc_project.Control.Security."
+                                   "SpecialMode.Modes.Manufacturing")
+    {
+        manufacturingMode = true;
+    }
+    if (validateUnsecureFeature == true)
+    {
+        if (manufacturingModeStatus == "xyz.openbmc_project.Control.Security."
+                                       "SpecialMode.Modes.ValidationUnsecure")
+        {
+            manufacturingMode = true;
+        }
+    }
+}
+
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
 {
-    static std::unique_ptr<sdbusplus::bus::match::match>
-        setupManufacturingModeMatch =
-            std::make_unique<sdbusplus::bus::match::match>(
-                conn,
-                "type='signal',interface='org.freedesktop.DBus."
-                "Properties',member='"
-                "PropertiesChanged',arg0namespace='xyz.openbmc_project."
-                "Security.SpecialMode'",
-                [](sdbusplus::message::message& msg) {
-                    std::string interfaceName;
+    namespace rules = sdbusplus::bus::match::rules;
+
+    const std::string filterSpecialModeIntfAdd =
+        rules::interfacesAdded() +
+        rules::argNpath(0, "/xyz/openbmc_project/security/special_mode");
+    static std::unique_ptr<sdbusplus::bus::match::match> specialModeIntfMatch =
+        std::make_unique<sdbusplus::bus::match::match>(
+            conn, filterSpecialModeIntfAdd, [](sdbusplus::message::message& m) {
+                sdbusplus::message::object_path path;
+                using PropertyMap =
                     boost::container::flat_map<std::string,
-                                               std::variant<std::string>>
-                        propertiesChanged;
-                    std::string manufacturingModeStatus;
+                                               std::variant<std::string>>;
+                boost::container::flat_map<std::string, PropertyMap>
+                    interfaceAdded;
+                m.read(path, interfaceAdded);
+                auto intfItr = interfaceAdded.find(
+                    "xyz.openbmc_project.Security.SpecialMode");
+                if (intfItr == interfaceAdded.end())
+                {
+                    return;
+                }
+                PropertyMap& propertyList = intfItr->second;
+                auto itr = propertyList.find("SpecialMode");
+                if (itr == propertyList.end())
+                {
+                    return;
+                }
+                auto manufacturingModeStatus =
+                    std::get_if<std::string>(&itr->second);
+                handleSpecialModeChange(*manufacturingModeStatus);
+            });
 
-                    msg.read(interfaceName, propertiesChanged);
-                    if (propertiesChanged.begin() == propertiesChanged.end())
-                    {
-                        return;
-                    }
+    const std::string filterSpecialModeChange =
+        rules::type::signal() + rules::member("PropertiesChanged") +
+        rules::interface("org.freedesktop.DBus.Properties") +
+        rules::argN(0, "xyz.openbmc_project.Security.SpecialMode");
+    static std::unique_ptr<sdbusplus::bus::match::match>
+        specialModeChangeMatch = std::make_unique<sdbusplus::bus::match::match>(
+            conn, filterSpecialModeChange, [](sdbusplus::message::message& m) {
+                std::string interfaceName;
+                boost::container::flat_map<std::string,
+                                           std::variant<std::string>>
+                    propertiesChanged;
 
-                    manufacturingModeStatus = std::get<std::string>(
-                        propertiesChanged.begin()->second);
-                    manufacturingMode = false;
-                    if (manufacturingModeStatus ==
-                        "xyz.openbmc_project.Control.Security."
-                        "SpecialMode.Modes.Manufacturing")
-                    {
-                        manufacturingMode = true;
-                    }
-                    if (validateUnsecureFeature == true)
-                    {
-                        if (manufacturingModeStatus ==
-                            "xyz.openbmc_project.Control.Security."
-                            "SpecialMode.Modes.ValidationUnsecure")
-                        {
-                            manufacturingMode = true;
-                        }
-                    }
-                });
+                m.read(interfaceName, propertiesChanged);
+                if (propertiesChanged.begin() == propertiesChanged.end())
+                {
+                    return;
+                }
+                auto manufacturingModeStatus = std::get_if<std::string>(
+                    &propertiesChanged.begin()->second);
+                handleSpecialModeChange(*manufacturingModeStatus);
+            });
 
-    return;
+    conn.async_method_call(
+        [](const boost::system::error_code ec,
+           const std::variant<std::string>& getManufactMode) {
+            if (ec)
+            {
+                std::cerr << "error getting  SpecialMode status "
+                          << ec.message() << "\n";
+                return;
+            }
+            auto manufacturingModeStatus =
+                std::get_if<std::string>(&getManufactMode);
+            handleSpecialModeChange(*manufacturingModeStatus);
+        },
+        "xyz.openbmc_project.SpecialMode",
+        "/xyz/openbmc_project/security/special_mode",
+        "org.freedesktop.DBus.Properties", "Get",
+        "xyz.openbmc_project.Security.SpecialMode", "SpecialMode");
 }
 
 bool getManufacturingMode()
