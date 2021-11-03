@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "02692572_c4f304fc",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-03T18:58:51Z",
+      "side": 1,
+      "message": "Can you see if https://gerrit.openbmc-project.xyz/plugins/gitiles/openbmc/dbus-sensors/+/ffd24fdf78c50d970835d627e5131787d03df201/docs/gpio-based-presence-detection.md looks ok to you?",
+      "parentUuid": "5c842173_c674208c",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de847f87_c641c98f",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 15
@@ -496,6 +520,24 @@
       "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28642582_37ebd7e9",
+        "filename": "src/GPIOCableSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-03T18:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "197b2020_70bb6f53",
+      "revId": "5af8cb4e522ce9878f041adc5930fe9602aa36bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
