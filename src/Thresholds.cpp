@@ -121,8 +121,8 @@ bool parseThresholdsFromConfig(
         }
         Level level;
         Direction direction;
-        if (std::visit(VariantToUnsignedIntVisitor(), severityFind->second) ==
-            0)
+        if (std::visit(VariantToStringVisitor(), severityFind->second) ==
+            "Warning")
         {
             level = Level::WARNING;
         }
@@ -190,8 +190,16 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     std::cerr << "Malformed threshold in configuration\n";
                     return;
                 }
-                unsigned int level = std::visit(VariantToUnsignedIntVisitor(),
-                                                severityFind->second);
+                Level level;
+                if (std::visit(VariantToStringVisitor(),
+                               severityFind->second) == "Warning")
+                {
+                    level = Level::WARNING;
+                }
+                else
+                {
+                    level = Level::CRITICAL;
+                }
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
