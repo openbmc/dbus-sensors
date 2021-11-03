@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66fd12ea_6ac6549b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-03T00:16:09Z",
+      "side": 1,
+      "message": "I was wrong about changing the threshold would cause sensors get destroyed and recreated. It is true for some sensors, but not cpusensor. Unfortunately, I could not find a good way to trick it to call destructor without code change.\nOne option is add a test timer in the main function to call createSensors() function.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "d1f41f33bb7f51543b5508c7213b57096ddc9b0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
