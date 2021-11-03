@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "1b2ec1cf_54a3650a",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-11-03T18:58:06Z",
+      "side": 1,
+      "message": "I think by keeping this code in a separate function it keeps handleResponse a little cleaner and more compact. Following the code path in handleResponse to the recover logic will require reading the neighboring functions anyways.",
+      "parentUuid": "10ace64e_8a86d60b",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 1
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "959842ed_6d5f5089",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -119,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "feac60dc_0f51cee5",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-11-03T18:58:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "959842ed_6d5f5089",
+      "range": {
+        "startLine": 190,
+        "startChar": 11,
+        "endLine": 190,
+        "endChar": 12
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff9e9995_8409d07e",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
@@ -139,6 +187,30 @@
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9acf8756_3de86cc7",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-11-03T18:58:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff9e9995_8409d07e",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 5
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
