@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "db4be26e_358bb512",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-11-04T17:39:32Z",
+      "side": 1,
+      "message": "Good idea, done.",
+      "parentUuid": "7ffa743b_4711c4b0",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 1
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "959842ed_6d5f5089",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
