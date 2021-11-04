@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "7ffa743b_4711c4b0",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-04T17:29:41Z",
+      "side": 1,
+      "message": "That is fair.\n(really) nit: what do you think move restartAttemptRecover() after attemptRecover() so it is easier to follow the flow: setupAttemptRecover()-\u003eattemptRecover()-\u003erestartAttemptRecover-\u003eattemptRecover()-\u003e\n                                              ^                                         |\n                                              |-----------------------------------------|",
+      "parentUuid": "1b2ec1cf_54a3650a",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 1
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "959842ed_6d5f5089",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
