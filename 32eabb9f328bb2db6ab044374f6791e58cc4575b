@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a647d90e_6e24ce35",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-11-04T16:39:20Z",
+      "side": 1,
+      "message": "Should we add a utility in Thresholds.hpp to turn strings\u003c-\u003eenum for this one?  There are now more than two thresholds in the dbus interface and I think there is some desire to support them in dbus-sensors also.",
+      "revId": "32eabb9f328bb2db6ab044374f6791e58cc4575b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
