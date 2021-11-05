@@ -34,9 +34,9 @@ class CPUSensor : public Sensor
 
   private:
     sdbusplus::asio::object_server& objServer;
+    boost::asio::streambuf readBuf;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
-    boost::asio::streambuf readBuf;
     std::string nameTcontrol;
     std::string path;
     double privTcontrol;
