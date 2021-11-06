@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5af0391d_e52ca66f",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-06T00:31:42Z",
+      "side": 1,
+      "message": "Lets not have this listed.  It requires we update this doc every time a new type is added, which I don\u0027t want to do.  I think the link below should be enough, and is the authority on which of these are allowed.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 84
+      },
+      "revId": "9d9029d416899dcc789de2b3fe6aa0647d719362",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6a27ddf_e1a51f9a",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-06T00:31:42Z",
+      "side": 1,
+      "message": "Please wrap your lines",
+      "range": {
+        "startLine": 41,
+        "startChar": 80,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "9d9029d416899dcc789de2b3fe6aa0647d719362",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0797a5f_703938ce",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-06T00:31:42Z",
+      "side": 1,
+      "message": "Can we reword to \"if the sensor is determined to be faulty\".  Not all reads result in operational status changes.",
+      "range": {
+        "startLine": 46,
+        "startChar": 66,
+        "endLine": 46,
+        "endChar": 79
+      },
+      "revId": "9d9029d416899dcc789de2b3fe6aa0647d719362",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e59c987_d7a3558e",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-06T00:31:42Z",
+      "side": 1,
+      "message": "This should be in the entity-manager config schemas.  Not all of these items apply to all sensors, and I\u0027d like one source of truth for this documentation.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 81
+      },
+      "revId": "9d9029d416899dcc789de2b3fe6aa0647d719362",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
