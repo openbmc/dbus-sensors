@@ -94,6 +94,30 @@
       "revId": "f32399ec69176fbcff65fcf01dc141a215c8d202",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad37ef7_0ba50af7",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-08T17:49:47Z",
+      "side": 1,
+      "message": "That makes sense. I will take a look.",
+      "parentUuid": "2a13b1fa_503e222a",
+      "range": {
+        "startLine": 461,
+        "startChar": 38,
+        "endLine": 461,
+        "endChar": 54
+      },
+      "revId": "f32399ec69176fbcff65fcf01dc141a215c8d202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
