@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21785971_e952363c",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2021-11-08T05:42:59Z",
+      "side": 1,
+      "message": "nit: Better make this as constexpr as its been used in many places.",
+      "range": {
+        "startLine": 561,
+        "startChar": 21,
+        "endLine": 561,
+        "endChar": 61
+      },
+      "revId": "8e78bfeb6bc6ca190ad97b83cf640824e7139fdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dda5196d_6cc7df49",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2021-11-08T05:42:59Z",
+      "side": 1,
+      "message": "Log an error log, As this case should not hit at all. Its hitting means, there is some thing wrong.",
+      "range": {
+        "startLine": 570,
+        "startChar": 20,
+        "endLine": 570,
+        "endChar": 27
+      },
+      "revId": "8e78bfeb6bc6ca190ad97b83cf640824e7139fdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
