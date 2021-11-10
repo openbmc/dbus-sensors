@@ -89,9 +89,9 @@ namespace fs = std::filesystem;
 
 static constexpr const char* configPrefix =
     "xyz.openbmc_project.Configuration.";
-static constexpr std::array<const char*, 1> sensorTypes = {"XeonCPU"};
-static constexpr std::array<const char*, 3> hiddenProps = {
-    CPUSensor::labelTcontrol, "Tthrottle", "Tjmax"};
+static constexpr auto sensorTypes{std::to_array<const char*>({"XeonCPU"})};
+static constexpr auto hiddenProps{std::to_array<const char*>(
+    {CPUSensor::labelTcontrol, "Tthrottle", "Tjmax"})};
 
 void detectCpuAsync(
     boost::asio::deadline_timer& pingTimer,
