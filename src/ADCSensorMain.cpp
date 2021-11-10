@@ -40,7 +40,7 @@ static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
 namespace fs = std::filesystem;
 
-static constexpr std::array<const char*, 1> sensorTypes = {
+static constexpr std::array<const char*> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADC"};
 static std::regex inputRegex(R"(in(\d+)_input)");
 

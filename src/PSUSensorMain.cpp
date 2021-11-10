@@ -40,7 +40,7 @@
 
 static constexpr bool debug = false;
 
-static constexpr std::array<const char*, 27> sensorTypes = {
+static constexpr std::array<const char*> sensorTypes = {
     "xyz.openbmc_project.Configuration.ADM1266",
     "xyz.openbmc_project.Configuration.ADM1272",
     "xyz.openbmc_project.Configuration.ADM1275",

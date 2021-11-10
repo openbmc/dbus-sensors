@@ -39,7 +39,7 @@
 static constexpr float pollRateDefault = 0.5;
 
 namespace fs = std::filesystem;
-static constexpr std::array<const char*, 17> sensorTypes = {
+static constexpr std::array<const char*> sensorTypes = {
     "xyz.openbmc_project.Configuration.EMC1412",
     "xyz.openbmc_project.Configuration.EMC1413",
     "xyz.openbmc_project.Configuration.EMC1414",

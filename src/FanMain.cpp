@@ -42,7 +42,7 @@
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
-static constexpr std::array<const char*, 3> sensorTypes = {
+static constexpr std::array<const char*> sensorTypes = {
     "xyz.openbmc_project.Configuration.AspeedFan",
     "xyz.openbmc_project.Configuration.I2CFan",
     "xyz.openbmc_project.Configuration.NuvotonFan"};

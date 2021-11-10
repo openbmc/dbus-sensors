@@ -57,8 +57,8 @@ static constexpr double cfmMinReading = 0;
 
 static constexpr size_t minSystemCfm = 50;
 
-constexpr const std::array<const char*, 2> monitorIfaces = {exitAirIface,
-                                                            cfmIface};
+constexpr const std::array<const char*> monitorIfaces = {exitAirIface,
+                                                         cfmIface};
 
 static std::vector<std::shared_ptr<CFMSensor>> cfmSensors;
 
@@ -153,7 +153,7 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
             }
         },
         mapper::busName, mapper::path, mapper::interface, mapper::subtree, "/",
-        0, std::array<std::string, 1>{pidConfigurationType});
+        0, std::array<std::string>{pidConfigurationType});
 }
 
 CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -548,7 +548,7 @@ ExitAirTempSensor::~ExitAirTempSensor()
 
 void ExitAirTempSensor::setupMatches(void)
 {
-    constexpr const std::array<const char*, 2> matchTypes = {
+    constexpr const std::array<const char*> matchTypes = {
         "power", inletTemperatureSensor};
 
     std::weak_ptr<ExitAirTempSensor> weakRef = weak_from_this();
