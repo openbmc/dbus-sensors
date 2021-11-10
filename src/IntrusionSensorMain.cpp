@@ -47,7 +47,7 @@ static constexpr bool debug = false;
 static constexpr const char* sensorType =
     "xyz.openbmc_project.Configuration.ChassisIntrusionSensor";
 static constexpr const char* nicType = "xyz.openbmc_project.Configuration.NIC";
-static constexpr std::array<const char*, 1> nicTypes = {nicType};
+static constexpr auto nicTypes{std::to_array<const char*>({nicType})};
 
 namespace fs = std::filesystem;
 

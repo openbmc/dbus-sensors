@@ -57,8 +57,8 @@ static constexpr double cfmMinReading = 0;
 
 static constexpr size_t minSystemCfm = 50;
 
-constexpr const std::array<const char*, 2> monitorIfaces = {exitAirIface,
-                                                            cfmIface};
+constexpr const auto monitorIfaces{
+    std::to_array<const char*>({exitAirIface, cfmIface})};
 
 static std::vector<std::shared_ptr<CFMSensor>> cfmSensors;
 
@@ -547,8 +547,8 @@ ExitAirTempSensor::~ExitAirTempSensor()
 
 void ExitAirTempSensor::setupMatches(void)
 {
-    constexpr const std::array<const char*, 2> matchTypes = {
-        "power", inletTemperatureSensor};
+    constexpr const auto matchTypes{
+        std::to_array<const char*>({"power", inletTemperatureSensor})};
 
     std::weak_ptr<ExitAirTempSensor> weakRef = weak_from_this();
     for (const std::string type : matchTypes)
