@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f270088_10b2330e",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000388
+      },
+      "writtenOn": "2021-11-10T05:06:49Z",
+      "side": 0,
+      "message": "We have some patches downstream to add a few custom sensors that cannot be upstreamed. Moving towards arrays without array size would make at least those patch conflicts easier to manage.\n\nIn the long term, we want to make it so we don\u0027t have to add the sensors in a patch format - do others have suggestions on how we could make it so we could add to this list (and the vector below, which seem redundant?)",
+      "range": {
+        "startLine": 43,
+        "startChar": 41,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "45f844ac6ca41a6ed452fdc8add009d816e14665",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
