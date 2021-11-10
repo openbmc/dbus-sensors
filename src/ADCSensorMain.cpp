@@ -40,8 +40,8 @@ static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
 namespace fs = std::filesystem;
 
-static constexpr std::array<const char*, 1> sensorTypes = {
-    "xyz.openbmc_project.Configuration.ADC"};
+static constexpr auto sensorTypes{
+    std::to_array<const char*>({"xyz.openbmc_project.Configuration.ADC"})};
 static std::regex inputRegex(R"(in(\d+)_input)");
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
