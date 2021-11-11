@@ -46,6 +46,30 @@
       "revId": "45f844ac6ca41a6ed452fdc8add009d816e14665",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fb56f7a_e0c610d2",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000388
+      },
+      "writtenOn": "2021-11-11T00:06:11Z",
+      "side": 0,
+      "message": "I\u0027m not sure if we can even upstream the names. I\u0027ll add Peter in case he\u0027s able to answer this better for some of his platforms.",
+      "parentUuid": "1b9e9925_6f68ad81",
+      "range": {
+        "startLine": 43,
+        "startChar": 41,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "45f844ac6ca41a6ed452fdc8add009d816e14665",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
