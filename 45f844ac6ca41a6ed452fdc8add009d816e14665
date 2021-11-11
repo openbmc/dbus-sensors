@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d8537290_ab5fd221",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000388
+      },
+      "writtenOn": "2021-11-11T22:46:19Z",
+      "side": 0,
+      "message": "Hmm, I thought auto is preferred when the type is obvious (in this case, from the std::to_array\u003cconst char*\u003e, which, it seems like std::to_array is needed to make it so we can initialize the array with out the size param).\n\nI don\u0027t mind changing the auto back, let me know what you think",
+      "parentUuid": "80c205e4_7e4f40aa",
+      "range": {
+        "startLine": 43,
+        "startChar": 17,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "45f844ac6ca41a6ed452fdc8add009d816e14665",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f270088_10b2330e",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
@@ -117,6 +141,30 @@
       "revId": "45f844ac6ca41a6ed452fdc8add009d816e14665",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39b02587_ee1845fd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000388
+      },
+      "writtenOn": "2021-11-11T22:46:19Z",
+      "side": 0,
+      "message": "Right, I will need to get familiar with that to figure out how to do that.",
+      "parentUuid": "b45fb437_9aa899ee",
+      "range": {
+        "startLine": 43,
+        "startChar": 41,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "45f844ac6ca41a6ed452fdc8add009d816e14665",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
