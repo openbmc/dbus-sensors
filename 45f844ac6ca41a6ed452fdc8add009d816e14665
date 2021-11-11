@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "80c205e4_7e4f40aa",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-11T22:00:09Z",
+      "side": 0,
+      "message": "Shouldn\u0027t this just be std::array\u003cconst char*\u003e ?\n\nI don\u0027t like moving to auto here, as it\u0027s a little messier.",
+      "range": {
+        "startLine": 43,
+        "startChar": 17,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "45f844ac6ca41a6ed452fdc8add009d816e14665",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f270088_10b2330e",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
