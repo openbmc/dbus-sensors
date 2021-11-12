@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "40c9e37d_74c6523a",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "Is there a better name for it. I am not sure we want use platform name in variable names.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6227facc_9ffc3359",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 3
@@ -48,6 +71,52 @@
     },
     {
       "key": {
+        "uuid": "d2b59ebd_fb9950a7",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "do we still want wait when initialize fails?",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5c5bb4c_c03690a6",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "class and type has a one to one mapping, I don\u0027t understand why both are needed",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38bb425c_f50e888f",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 3
@@ -64,6 +133,98 @@
         "startChar": 25,
         "endLine": 97,
         "endChar": 26
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86a92e85_8f561558",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "where is this initialized?",
+      "range": {
+        "startLine": 100,
+        "startChar": 20,
+        "endLine": 100,
+        "endChar": 25
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9e1f645_0e55d5d6",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "Should do range check",
+      "range": {
+        "startLine": 124,
+        "startChar": 33,
+        "endLine": 124,
+        "endChar": 46
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39a5e2ad_7c0adb96",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "powerGoodValue is bool already",
+      "range": {
+        "startLine": 126,
+        "startChar": 44,
+        "endLine": 126,
+        "endChar": 64
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c66c32c3_0ed2cbb6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "move it before use, i.e. when line 497 is true",
+      "range": {
+        "startLine": 480,
+        "startChar": 20,
+        "endLine": 486,
+        "endChar": 21
       },
       "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",

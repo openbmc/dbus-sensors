@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "992f2d3a_eeefef0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "93413e29_eda2ed02",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 56
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc2108e3_909a6291",
         "filename": "include/GpioStateSensor.hpp",
         "patchSetId": 2
@@ -234,6 +258,30 @@
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab91c54c_db2251fd",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-12T22:06:45Z",
+      "side": 1,
+      "message": "Ack. Maybe later can be improved for IPMBsensor in a separate patch",
+      "parentUuid": "966c5e2e_d4fdfbc7",
+      "range": {
+        "startLine": 7,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 78
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
