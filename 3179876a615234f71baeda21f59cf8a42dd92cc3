@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "5b44121d_5b12a149",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000929
+      },
+      "writtenOn": "2021-11-12T14:20:08Z",
+      "side": 1,
+      "message": "yes if Get PMBUS Reading is used instead of pmbus proxy, the response will contain reading  for all the mapped sensors",
+      "parentUuid": "fa785136_7e4970ca",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63bfb7d6_f62a28de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -931,6 +955,30 @@
       "side": 1,
       "message": "If it\u0027s that trivial, then please split them into separate patches.",
       "parentUuid": "8ab0d63e_d2026d24",
+      "range": {
+        "startLine": 807,
+        "startChar": 3,
+        "endLine": 810,
+        "endChar": 61
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9527a861_cc30a1e3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1000929
+      },
+      "writtenOn": "2021-11-12T14:20:08Z",
+      "side": 1,
+      "message": "sure will do",
+      "parentUuid": "9e8bb2cd_12e71578",
       "range": {
         "startLine": 807,
         "startChar": 3,
