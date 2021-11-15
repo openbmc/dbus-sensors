@@ -497,6 +497,30 @@
     },
     {
       "key": {
+        "uuid": "b08cd4c5_c1a7672a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000929
+      },
+      "writtenOn": "2021-11-15T18:33:23Z",
+      "side": 1,
+      "message": "updated",
+      "parentUuid": "155594b7_f921dde0",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 18
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0603a9f_69640b3b",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 13
@@ -979,6 +1003,30 @@
       "side": 1,
       "message": "sure will do",
       "parentUuid": "9e8bb2cd_12e71578",
+      "range": {
+        "startLine": 807,
+        "startChar": 3,
+        "endLine": 810,
+        "endChar": 61
+      },
+      "revId": "3179876a615234f71baeda21f59cf8a42dd92cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee5a9d3e_b8a1d8f7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1000929
+      },
+      "writtenOn": "2021-11-15T18:33:23Z",
+      "side": 1,
+      "message": "splited the patch, will push the clean as another patch",
+      "parentUuid": "9527a861_cc30a1e3",
       "range": {
         "startLine": 807,
         "startChar": 3,
