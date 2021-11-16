@@ -49,3 +49,18 @@ test(
     )
 )
 endif
+
+test(
+    'test_utils',
+    executable(
+        'test_utils',
+        'test_Utils.cpp',
+        '../src/Utils.cpp',
+        dependencies: [
+            sdbusplus,
+            gtest_dep,
+        ],
+        implicit_include_directories: false,
+        include_directories: '../include',
+    )
+)
