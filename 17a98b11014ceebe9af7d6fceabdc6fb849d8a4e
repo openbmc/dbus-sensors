@@ -22,6 +22,30 @@
       "revId": "17a98b11014ceebe9af7d6fceabdc6fb849d8a4e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc27dac8_243eb114",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2021-11-17T01:08:22Z",
+      "side": 1,
+      "message": "This commit adds useful documentation, though. It seems correct to me. Where is it incorrect? It\u0027s true that it might be too much detail for a README file, though. A better approach might be to simply point the user at the commits, which have good commit messages in them:\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/phosphor-dbus-interfaces/+/36333\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/45405\nhttps://gerrit.openbmc-project.xyz/c/openbmc/phosphor-host-ipmid/+/45407",
+      "parentUuid": "c2d3830b_bd4dea20",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "17a98b11014ceebe9af7d6fceabdc6fb849d8a4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
