@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c98a5334_5bf78d1c",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T22:43:30Z",
+      "side": 1,
+      "message": "extra space",
+      "range": {
+        "startLine": 83,
+        "startChar": 64,
+        "endLine": 83,
+        "endChar": 65
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb494f59_eef419cf",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T22:43:30Z",
+      "side": 1,
+      "message": "Will this be better: /cable/osfp0 or item/gpiopresence/osfp0 ?\nI don\u0027t know what else can show up under item.",
+      "range": {
+        "startLine": 89,
+        "startChar": 46,
+        "endLine": 89,
+        "endChar": 51
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "335d8cda_e4e06c5a",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T22:43:30Z",
+      "side": 1,
+      "message": "const char* service \n\nOther places also",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 31
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9070f91d_d547821c",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T22:43:30Z",
+      "side": 1,
+      "message": "missing?",
+      "range": {
+        "startLine": 53,
+        "startChar": 54,
+        "endLine": 53,
+        "endChar": 65
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4052fe05_4490483d",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T22:43:30Z",
+      "side": 1,
+      "message": "move before use",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aa03015_fa24dade",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T22:43:30Z",
+      "side": 1,
+      "message": "define a pollRate as other sensor service",
+      "range": {
+        "startLine": 89,
+        "startChar": 45,
+        "endLine": 89,
+        "endChar": 46
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
