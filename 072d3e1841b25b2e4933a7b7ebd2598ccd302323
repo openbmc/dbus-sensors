@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8a0cece_bb416563",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T01:24:45Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da2a01c6_33429a1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T01:24:45Z",
+      "side": 1,
+      "message": "This does not seem right, since the new command is NOT for ME to forward raw PMBUS command",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15489e97_638f513d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T01:24:45Z",
+      "side": 1,
+      "message": "This is in-correct. The code checks for \"IPMI\"",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1caef956_6592d7ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T01:24:45Z",
+      "side": 1,
+      "message": "Do they need to be added to EntityManager\u0027s schema?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 27
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "431b612e_d65eff45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T01:24:45Z",
+      "side": 1,
+      "message": "IMO - This overlaps with line 27-34, can be consolidated",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4508e4ed_8a70c512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T01:24:45Z",
+      "side": 1,
+      "message": "not sure this is necessary",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 57
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30228de5_252bf514",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T01:24:45Z",
+      "side": 1,
+      "message": "I would also want to understand more on the use cases for these two methods.\n1. I agree that the change should not break existing functionality. Existing config file should still work as before.\n2. But, should we make the new method a \"preferred\" way, i.e. if \"DeviceIndex\" and \"Register\" are defined, new method is assumed. Will there ever be a case, that Proxy mode should be used with the new configuration? If yes, why?\n3. Will ME be configured to support one of the two modes or both? Is it possible to query ME which mode is supported run time and use the proper one in ipmb sensor daemon?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 57
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9a71100_24a62ac1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-17T01:24:45Z",
+      "side": 1,
+      "message": "If multiple readings are returned - it is more efficient to read once and unpack all the available data.",
+      "range": {
+        "startLine": 159,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 43
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
