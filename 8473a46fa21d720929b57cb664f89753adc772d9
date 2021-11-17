@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5b0fca8_db3defc0",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-17T17:48:35Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be a shared_ptr.",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
