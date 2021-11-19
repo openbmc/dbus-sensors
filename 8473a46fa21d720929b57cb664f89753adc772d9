@@ -70,6 +70,30 @@
       "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "284f1394_e82d36db",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-19T19:39:28Z",
+      "side": 1,
+      "message": "\u003e Re-read the docs, to me, it implies the buffer is being accessed under the hood until delimiter or error is received, then handler gets called in this process. So I am not 100% sure that we can cancel the underlining usage before destruction. The destructor does cancel timer, but that does not cancel async_read_until in progress. Only when handler is called, we know the buffer ownership is back to the caller, i.e. sensor process.\n\u003e So I think shared_ptr may still be needed here.\n\nAny in progress reads are automatically canceled with an error code of operation_aborted when the boost::asio::posix::stream_descriptor is destroyed.  Given that, there\u0027s no way to have a read that\u0027s still occurring when readBuf is destroyed, because readBuf is now destroyed after inputDev.  \n\n\u003eAre we sure, even if the class(readBuf) is destructed before the handler is called\n\nGiven the patch of mine that I just merged, there is no way that readBuf can be destroyed before inputDev, and because inputDev owns the handler, there\u0027s no way the handler can be called with an invalid inputBuf given c++ destructor ordering.\n\n\u003eRe-read the docs, to me, it implies the buffer is being accessed under the hood until delimiter or error is received, then handler gets called in this process.\n\nIn this context, aborting, canceling, or destroying the object are all considered \"errors\" even if some are errors that are expected.\n\n\n\nFWIW, all of this code should be transitioned to use async_read.  The kernel guarantees that all of these descriptors will return a read in a single operation, so we should be using a fixed std::array buffer rather than a stream operator to be more efficient.",
+      "parentUuid": "c533d20f_cd1a07d2",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
