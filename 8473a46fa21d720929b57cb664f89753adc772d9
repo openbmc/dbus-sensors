@@ -46,6 +46,30 @@
       "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c533d20f_cd1a07d2",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-11-19T17:31:15Z",
+      "side": 1,
+      "message": "Re-read the docs, to me, it implies the buffer is being accessed under the hood until delimiter or error is received, then handler gets called in this process. So I am not 100% sure that we can cancel the underlining usage before destruction. The destructor does cancel timer, but that does not cancel async_read_until in progress. Only when handler is called, we know the buffer ownership is back to the caller, i.e. sensor process.\nSo I think shared_ptr may still be needed here.",
+      "parentUuid": "e7c02886_47c1bc83",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
