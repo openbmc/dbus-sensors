@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f80e2cd0_ed00b272",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "40c9e37d_74c6523a",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6227facc_9ffc3359",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfc1b734_15e3b0fa",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6227facc_9ffc3359",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 45
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "50f3a908_1d1d75e8",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1b5cb4da_c84a8310",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2b59ebd_fb9950a7",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "49b97451_f7701910",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d2b59ebd_fb9950a7",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5c5bb4c_c03690a6",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2021-11-12T22:06:45Z",
       "side": 1,
       "message": "class and type has a one to one mapping, I don\u0027t understand why both are needed",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cce385b_48c97024",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "For differnt platform, multiple types also be added in future\nkeeping this type as place holder",
+      "parentUuid": "b5c5bb4c_c03690a6",
       "range": {
         "startLine": 56,
         "startChar": 0,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "91483f96_101b7c46",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "38bb425c_f50e888f",
+      "range": {
+        "startLine": 97,
+        "startChar": 25,
+        "endLine": 97,
+        "endChar": 26
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86a92e85_8f561558",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 3
@@ -151,6 +295,30 @@
       "writtenOn": "2021-11-12T22:06:45Z",
       "side": 1,
       "message": "where is this initialized?",
+      "range": {
+        "startLine": 100,
+        "startChar": 20,
+        "endLine": 100,
+        "endChar": 25
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35dd4b11_18731b2e",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "it is initialized here,\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47952/3/src/IpmbSensor.cpp#524",
+      "parentUuid": "86a92e85_8f561558",
       "range": {
         "startLine": 100,
         "startChar": 20,
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "116ca8f0_a22a3b74",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b9e1f645_0e55d5d6",
+      "range": {
+        "startLine": 124,
+        "startChar": 33,
+        "endLine": 124,
+        "endChar": 46
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39a5e2ad_7c0adb96",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 3
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "a042b7ae_5302dfcd",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "39a5e2ad_7c0adb96",
+      "range": {
+        "startLine": 126,
+        "startChar": 44,
+        "endLine": 126,
+        "endChar": 64
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c66c32c3_0ed2cbb6",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
@@ -229,6 +445,30 @@
       "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f38123e_e9e62a0e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-11-19T12:42:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c66c32c3_0ed2cbb6",
+      "range": {
+        "startLine": 480,
+        "startChar": 20,
+        "endLine": 486,
+        "endChar": 21
+      },
+      "revId": "38ef73ebe199e0940635657e49dd90612761da7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
