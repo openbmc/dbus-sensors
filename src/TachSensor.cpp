@@ -183,8 +183,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
 
 void TachSensor::checkThresholds(void)
 {
-    // WA - treat value <= 0 as not present
-    bool status = false;
+    bool status = thresholds::checkThresholds(this);
 
     if (redundancy && *redundancy)
     {
