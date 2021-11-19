@@ -45,6 +45,30 @@
       "revId": "b2763b7b3bfcfe17d873aae77ed82e645e013293",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90c0a3a1_5a1c886c",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-19T18:32:26Z",
+      "side": 1,
+      "message": "\u003e If dirPath ends with \"/\", like \"/sys/bus/peci/devices/\",  this will move one extra dir. \n\u003e I think it is a good idea to fix it to handle the case.\n\nI would prefer we just be consistent, and make sure that we either do or don\u0027t include a trailing slash, but I don\u0027t have a strong opinion here, so I\u0027m happy with whichever one you and Leiu want to agree to and code up.\n\n\u003e Also add this case into the unit test.\n\n+1 to unit tests.",
+      "parentUuid": "09d7aa6e_e826f365",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 256,
+        "endChar": 9
+      },
+      "revId": "b2763b7b3bfcfe17d873aae77ed82e645e013293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
