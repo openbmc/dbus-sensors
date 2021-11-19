@@ -22,6 +22,30 @@
       "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7c02886_47c1bc83",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-19T09:33:48Z",
+      "side": 1,
+      "message": "Doing a final confirmation before I make the change.\nAs per boost(https://www.boost.org/doc/libs/1_77_0/doc/html/boost_asio/reference/async_read_until/overload1.html) the async_read_until buffer definition says as\n\n\"The dynamic buffer sequence into which the data will be read. Although the buffers object may be copied as necessary, ownership of the underlying memory blocks is retained by the caller, which must guarantee that they remain valid until the handler is called.\"\n\nAre we sure, even if the class(readBuf) is destructed before the handler is called, it will not create any issue, since we validate the weak_ptr to the class in the handler first.\n@Zhikui \u0026 @Ed to confirm.",
+      "parentUuid": "c5b0fca8_db3defc0",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
