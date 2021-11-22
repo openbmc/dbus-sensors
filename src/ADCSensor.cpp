@@ -37,7 +37,7 @@
 static constexpr unsigned int sensorScaleFactor = 1000;
 
 static constexpr double roundFactor = 10000;     // 3 decimal places
-static constexpr double maxVoltageReading = 1.8; // pre sensor scaling
+static constexpr double maxVoltageReading = 2.5; // pre sensor scaling
 static constexpr double minVoltageReading = 0;
 
 ADCSensor::ADCSensor(const std::string& path,
