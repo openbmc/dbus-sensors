@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1353477e_2da776ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-22T22:06:23Z",
+      "side": 1,
+      "message": "Considering that this is global, all configurations would need to be changed to not have a negative effect on some systems.  Does this break some interfaces?",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "c0e059f08a384bf129add0e12affe28d1ec2be2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
