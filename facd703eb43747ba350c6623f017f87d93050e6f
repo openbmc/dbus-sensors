@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "027289e3_70db5625",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-22T22:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c98a5334_5bf78d1c",
+      "range": {
+        "startLine": 83,
+        "startChar": 64,
+        "endLine": 83,
+        "endChar": 65
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb494f59_eef419cf",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 24
@@ -45,6 +69,30 @@
       "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a17ad7c_52d9fbed",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-22T22:35:28Z",
+      "side": 1,
+      "message": "Per discussion, I don\u0027t think we are adding more interface for gpiopresence. In addition, we want to use the present attribute in the item interface.",
+      "parentUuid": "cb494f59_eef419cf",
+      "range": {
+        "startLine": 89,
+        "startChar": 46,
+        "endLine": 89,
+        "endChar": 51
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e5db95c3_76c72470",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-22T22:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "335d8cda_e4e06c5a",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 31
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070f91d_d547821c",
         "filename": "include/GPIOPresenceSensor.hpp",
         "patchSetId": 24
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "bee35721_3a4e6e14",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-22T22:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070f91d_d547821c",
+      "range": {
+        "startLine": 53,
+        "startChar": 54,
+        "endLine": 53,
+        "endChar": 65
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4052fe05_4490483d",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 24
@@ -114,6 +210,30 @@
       "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "377a03fc_0031679d",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-22T22:35:28Z",
+      "side": 1,
+      "message": "Value is the actual return value. I think we should define it here.",
+      "parentUuid": "4052fe05_4490483d",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
