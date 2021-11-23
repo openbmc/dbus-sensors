@@ -94,6 +94,30 @@
       "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "712620d6_419e5595",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2021-11-23T13:54:19Z",
+      "side": 1,
+      "message": "\u003e Any in progress reads are automatically canceled with an error code of \n\u003e operation_aborted when the boost::asio::posix::stream_descriptor is \n\u003e destroyed.  Given that, there\u0027s no way to have a read that\u0027s still occurring \n\u003e when readBuf is destroyed, because readBuf is now destroyed after inputDev.  \n\nThis made me realize that we are handling the ec in a different way here. When inputDev gets destroyed along with CPUSensor object, As you mentioned async_read_until return with an ec. But here we are handling ec inside a CPUSensor class method.\n\nI suppose when inputDev is destructed it return ec as operation_canceled(CPUSensor.cpp L227) and not operation_aborted. Please correct me if I am wrong.\n\nIf that is the case, we are again updating the D-Bus property at L237 in CPUSensor.cpp. By the time sdbusplus updates the property, most probably the CPUSensor object will get destroyed. Also this is the exact place coredump was pointing to as an issue.\n \n\u003e (gdb) frame 9\n\u003e #9 0x00465154 in Sensor:: markFunctional (this\u003d0xcb3168, isfunctional\u003d\u003e \u003coptimized out\u003e)\n\u003e at ../../../../../../workspace/sources/dbus-sensors/include/sensor.hpp:371\n\u003e warning: Source file is more recent than executable.\n\u003e 371\t\toperationalInterface-\u003eset_property(\"Functional\", is Functional);",
+      "parentUuid": "284f1394_e82d36db",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
