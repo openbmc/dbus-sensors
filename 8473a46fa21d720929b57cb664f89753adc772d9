@@ -118,6 +118,30 @@
       "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93e8bea8_bd0d6931",
+        "filename": "include/CPUSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-11-23T17:16:37Z",
+      "side": 1,
+      "message": "Yep, that whole block of code is wrong.\n\nhttps://github.com/openbmc/dbus-sensors/blob/77518b28db824e01af18351094680a99b1ba3cae/src/CPUSensor.cpp#L212\n\noperation_canceled is what occurs when the object is being destroyed.  I suspect that whole branch can be removed, as it\u0027s not going to do anything useful, and there are no calls to inputDev.cancel() in the code explicitly, so I\u0027m not sure what the person that wrote that thought they were accomplishing.",
+      "parentUuid": "712620d6_419e5595",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "8473a46fa21d720929b57cb664f89753adc772d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
