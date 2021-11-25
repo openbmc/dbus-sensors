@@ -53,13 +53,15 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              const std::string& sensorConfiguration,
                              sdbusplus::asio::object_server& objectServer,
                              std::vector<thresholds::Threshold>&& thresholdData,
-                             uint8_t busId, uint8_t mcuAddress,
-                             uint8_t tempReg) :
+                             uint8_t busId, uint8_t mcuAddress, uint8_t tempReg,
+                             const std::string& modeStr, uint8_t dataOffset,
+                             double scale) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            false, false, mcuTempMaxReading, mcuTempMinReading, conn),
-    busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
-    objectServer(objectServer), waitTimer(io)
+    busId(busId), mcuAddress(mcuAddress), tempReg(tempReg), modeStr(modeStr),
+    dataOffset(dataOffset), scale(scale), objectServer(objectServer),
+    waitTimer(io)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -129,20 +131,64 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
         return -1;
     }
 
-    if (!(funcs & I2C_FUNC_SMBUS_READ_WORD_DATA))
+    if (modeStr == "Word")
     {
-        std::cerr << " not support I2C_FUNC_SMBUS_READ_WORD_DATA\n";
-        close(fd);
+        if (!(funcs & I2C_FUNC_SMBUS_READ_WORD_DATA))
+        {
+            std::cerr << " not support I2C_FUNC_SMBUS_READ_WORD_DATA\n";
+            close(fd);
+            return -1;
+        }
+        *pu16data = i2c_smbus_read_word_data(fd, regs);
+    }
+    else if (modeStr == "Byte")
+    {
+        if (!(funcs & I2C_FUNC_SMBUS_READ_BYTE_DATA))
+        {
+            std::cerr << " not support I2C_FUNC_SMBUS_READ_BYTE_DATA\n";
+            close(fd);
+            return -1;
+        }
+        *pu16data = i2c_smbus_read_byte_data(fd, regs);
+    }
+    else if (modeStr == "Block")
+    {
+        // In this Block Mode, it's only used to get single byte data.
+        // The function i2c_smbus_read_i2c_block_data will save the length of
+        // byte data to vector val. And this step just get the last single byte
+        // data.
+        if (!(funcs & I2C_FUNC_SMBUS_READ_I2C_BLOCK))
+        {
+            std::cerr << " not support I2C_FUNC_SMBUS_READ_I2C_BLOCK\n";
+            close(fd);
+            return -1;
+        }
+        std::vector<uint8_t> val(dataOffset);
+        int result =
+            i2c_smbus_read_i2c_block_data(fd, regs, dataOffset, val.data());
+
+        if (result < 0)
+        {
+            std::cerr << "Failed to read block data"
+                      << "\n";
+            return -1;
+        }
+
+        // Get the last byte data
+        *pu16data = static_cast<int>(val[static_cast<int>(dataOffset) - 1]);
+    }
+    else
+    {
+        std::cerr << " invalid Mode string"
+                  << "\n";
         return -1;
     }
 
-    *pu16data = i2c_smbus_read_word_data(fd, regs);
     close(fd);
 
     if (*pu16data < 0)
     {
-        std::cerr << " read word data failed at " << static_cast<int>(regs)
-                  << "\n";
+        std::cerr << " read data failed at " << static_cast<int>(regs) << "\n";
         return -1;
     }
 
@@ -169,7 +215,7 @@ void MCUTempSensor::read(void)
         int ret = getMCURegsInfoWord(tempReg, &temp);
         if (ret >= 0)
         {
-            double v = static_cast<double>(temp) / 1000;
+            double v = static_cast<double>(temp) / static_cast<double>(scale);
             if constexpr (debug)
             {
                 std::cerr << "Value update to " << v << "raw reading "
@@ -232,6 +278,34 @@ void createSensors(
 
                     uint8_t tempReg = loadVariant<uint8_t>(entry.second, "Reg");
 
+                    std::string modeStr =
+                        loadVariant<std::string>(entry.second, "I2cMode");
+                    if (modeStr != "Word" && modeStr != "Byte" &&
+                        modeStr != "Block")
+                    {
+                        // Invalid Mode string, ignore this sensor
+                        std::cerr << "Invalid Mode string, "
+                                  << "set Default Mode to Byte mode..."
+                                  << "\n";
+                        modeStr = "Byte";
+                    }
+
+                    uint8_t dataOffset = 0;
+                    if (modeStr == "Block")
+                    {
+                        dataOffset =
+                            loadVariant<uint8_t>(entry.second, "DataOffset");
+                    }
+
+                    double scale =
+                        loadVariant<double>(entry.second, "ScaleValue");
+                    if (scale == 0)
+                    {
+                        std::cerr << "Invalid scale value, set default to 1"
+                                  << "\n";
+                        scale = 1;
+                    }
+
                     std::string sensorClass =
                         loadVariant<std::string>(entry.second, "Class");
 
@@ -246,6 +320,10 @@ void createSensors(
                             << "\tAddress: " << static_cast<int>(mcuAddress)
                             << "\n"
                             << "\tReg: " << static_cast<int>(tempReg) << "\n"
+                            << "\tMode: " << modeStr << "\n"
+                            << "\tLength: " << static_cast<int>(dataOffset)
+                            << "\n"
+                            << "\tScale: " << scale << "\n"
                             << "\tClass: " << sensorClass << "\n";
                     }
 
@@ -253,8 +331,8 @@ void createSensors(
 
                     sensor = std::make_unique<MCUTempSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
-                        std::move(sensorThresholds), busId, mcuAddress,
-                        tempReg);
+                        std::move(sensorThresholds), busId, mcuAddress, tempReg,
+                        modeStr, dataOffset, scale);
 
                     sensor->init();
                 }
