@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "0909f1c9_fbb2061a",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-11-25T18:51:16Z",
+      "side": 1,
+      "message": "The capacity of \"pu16data\" is 2 bytes. So it is either a word or a byte. Why do we need the \"block\" option?",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 15
+      },
+      "revId": "324caba7bb5a93cb79ec50931a88d1dc2e5b4595",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91d3a9e4_f33bdd77",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-11-25T18:51:16Z",
+      "side": 1,
+      "message": "don\u0027t we have a overflow here?",
+      "range": {
+        "startLine": 162,
+        "startChar": 32,
+        "endLine": 162,
+        "endChar": 35
+      },
+      "revId": "324caba7bb5a93cb79ec50931a88d1dc2e5b4595",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2ea265e_a900c2c3",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 6
