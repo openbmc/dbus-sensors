@@ -54,12 +54,14 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              sdbusplus::asio::object_server& objectServer,
                              std::vector<thresholds::Threshold>&& thresholdData,
                              uint8_t busId, uint8_t mcuAddress,
-                             uint8_t tempReg) :
+                             uint8_t tempReg, std::string modeStr,
+                             uint8_t length, uint64_t scale) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            false, false, mcuTempMaxReading, mcuTempMinReading, conn),
-    busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
-    objectServer(objectServer), waitTimer(io)
+    busId(busId), mcuAddress(mcuAddress), tempReg(tempReg), modeStr(modeStr),
+    length(length), scale(scale),objectServer(objectServer),
+    waitTimer(io)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -136,12 +138,38 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
         return -1;
     }
 
-    *pu16data = i2c_smbus_read_word_data(fd, regs);
+    if (modeStr == "Word")
+    {
+        *pu16data = i2c_smbus_read_word_data(fd, regs);
+    }
+    else if (modeStr == "Byte")
+    {
+        *pu16data = i2c_smbus_read_byte_data(fd, regs);
+    }
+    else if (modeStr == "Block")
+    {
+        uint8_t *val = new uint8_t [static_cast<int>(length)];
+        int result = i2c_smbus_read_i2c_block_data(fd, regs, length, val);
+
+        if (result < 0)
+        {
+            std::cerr << "Failed to read block data" << "\n";
+            return -1;
+        }
+
+        *pu16data = static_cast<int>(val[static_cast<int>(length) - 1]);
+    }
+    else
+    {
+        std::cerr << " invalid mode string" << "\n";
+        return -1;
+    }
+
     close(fd);
 
     if (*pu16data < 0)
     {
-        std::cerr << " read word data failed at " << static_cast<int>(regs)
+        std::cerr << " read data failed at " << static_cast<int>(regs)
                   << "\n";
         return -1;
     }
@@ -169,7 +197,7 @@ void MCUTempSensor::read(void)
         int ret = getMCURegsInfoWord(tempReg, &temp);
         if (ret >= 0)
         {
-            double v = static_cast<double>(temp) / 1000;
+            double v = static_cast<double>(temp) / static_cast<double>(scale);
             if constexpr (debug)
             {
                 std::cerr << "Value update to " << v << "raw reading "
@@ -232,6 +260,18 @@ void createSensors(
 
                     uint8_t tempReg = loadVariant<uint8_t>(entry.second, "Reg");
 
+                    std::string modeStr =
+                        loadVariant<std::string>(entry.second, "Mode");
+
+                    uint8_t length = 0;
+                    if (modeStr == "Block")
+                    {
+                        length = loadVariant<uint8_t>(entry.second, "Length");
+                    }
+
+                    uint64_t scale =
+                        loadVariant<uint64_t>(entry.second, "Scale");
+
                     std::string sensorClass =
                         loadVariant<std::string>(entry.second, "Class");
 
@@ -246,6 +286,9 @@ void createSensors(
                             << "\tAddress: " << static_cast<int>(mcuAddress)
                             << "\n"
                             << "\tReg: " << static_cast<int>(tempReg) << "\n"
+                            << "\tMode: " << modeStr << "\n"
+                            << "\tLength: " << static_cast<int>(length) << "\n"
+                            << "\tScale: " << scale << "\n"
                             << "\tClass: " << sensorClass << "\n";
                     }
 
@@ -254,7 +297,7 @@ void createSensors(
                     sensor = std::make_unique<MCUTempSensor>(
                         dbusConnection, io, name, pathPair.first, objectServer,
                         std::move(sensorThresholds), busId, mcuAddress,
-                        tempReg);
+                        tempReg, modeStr, length, scale);
 
                     sensor->init();
                 }
