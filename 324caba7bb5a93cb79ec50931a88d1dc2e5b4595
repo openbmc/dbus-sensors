@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1376e4e3_2b3026e7",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-11-26T07:19:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e3d0e2fd_395584f5",
+      "range": {
+        "startLine": 57,
+        "startChar": 34,
+        "endLine": 57,
+        "endChar": 40
+      },
+      "revId": "324caba7bb5a93cb79ec50931a88d1dc2e5b4595",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0909f1c9_fbb2061a",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2021-11-25T18:51:16Z",
       "side": 1,
       "message": "The capacity of \"pu16data\" is 2 bytes. So it is either a word or a byte. Why do we need the \"block\" option?",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 15
+      },
+      "revId": "324caba7bb5a93cb79ec50931a88d1dc2e5b4595",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac5fc784_1bbbd646",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-11-26T07:19:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure about other MCU sensors. But in my system, the MCU sensor\u0027s temp only can be read via reading block data, so I add \"Block\" option to get direct byte data.\n\nThe i2c_smbus_read_i2c_block_data input parameter val have to a uint8 pointer(https://elixir.bootlin.com/linux/latest/source/drivers/i2c/i2c-core-smbus.c#L267).\nThe function will save numbers of uint8 byte data to val according length.\nAnd I get the last byte data saving to *pu16data.",
+      "parentUuid": "0909f1c9_fbb2061a",
       "range": {
         "startLine": 151,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4fa6f437_17f2d849",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-11-26T07:19:16Z",
+      "side": 1,
+      "message": "Do you mean the overflow bit? or detect overflow value?\nI\u0027m not sure about overflow bit, because every MCU sensor may have different overflow bit.\nAbout overflow value, I think it can be detected via setting threshold by user.",
+      "parentUuid": "91d3a9e4_f33bdd77",
+      "range": {
+        "startLine": 162,
+        "startChar": 32,
+        "endLine": 162,
+        "endChar": 35
+      },
+      "revId": "324caba7bb5a93cb79ec50931a88d1dc2e5b4595",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2ea265e_a900c2c3",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 6
@@ -91,6 +163,30 @@
       "revId": "324caba7bb5a93cb79ec50931a88d1dc2e5b4595",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1476c47_b4aba462",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-11-26T07:19:16Z",
+      "side": 1,
+      "message": "Thanks for suggestion. Done.",
+      "parentUuid": "f2ea265e_a900c2c3",
+      "range": {
+        "startLine": 266,
+        "startChar": 32,
+        "endLine": 266,
+        "endChar": 39
+      },
+      "revId": "324caba7bb5a93cb79ec50931a88d1dc2e5b4595",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
