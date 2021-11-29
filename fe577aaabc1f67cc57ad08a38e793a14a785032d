@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4e2f62e_6acf1d0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-29T08:01:48Z",
+      "side": 1,
+      "message": "sensor",
+      "range": {
+        "startLine": 7,
+        "startChar": 49,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38005173_5dfbd953",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-29T08:01:48Z",
+      "side": 1,
+      "message": "why not to use C++ version? (gpiod.hpp)\nYou can refer e.g. x86-power-control as an example.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 18
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87eed47d_3ec566c0",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-29T08:01:48Z",
+      "side": 1,
+      "message": "I prefer to do this once on initialization and then keep presence line used by the service.",
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "add13db5_ecaf2124",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-29T08:01:48Z",
+      "side": 1,
+      "message": "Are you sure, we should manage LEDs from the daemon? The generic way to handle this is to define rules in led-manager, why do you need to move this functionality here?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e722617_9ce19685",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-29T08:01:48Z",
+      "side": 1,
+      "message": "What is this for? Looks like it do nothing.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
