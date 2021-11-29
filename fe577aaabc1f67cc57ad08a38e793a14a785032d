@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "3d8d9765_665682db",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-11-29T18:58:31Z",
+      "side": 1,
+      "message": "+1 on this preference.\nAcquiring and releasing the line repeatedly could lead to some infuriating bugs later on.\n\nExample:\nAnother service or script needs to acquire this line and we end up with intermittent failures. Then you go to debug the problem with gpioinfo /gpiofind and most of the time you see that the line isn\u0027t reserved.\n\nBy reserving this line for the lifetime of the service these types of bugs are much easier to hunt down and characterize.",
+      "parentUuid": "87eed47d_3ec566c0",
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "add13db5_ecaf2124",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 26
@@ -100,6 +118,30 @@
       "side": 1,
       "message": "Do you have a better example of how to setup rules?\nFrom what I have read from phosphor-led-manager, I thought I need to setup the led-groups in phosphor-led-manager and set the dbus property to assert/deassert the led-group.",
       "parentUuid": "add13db5_ecaf2124",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ea9cfc_2bb30fa8",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-11-29T18:58:31Z",
+      "side": 1,
+      "message": "If we\u0027re talking about the `operational-status-monitor` then that service, as is, doesn\u0027t seem to work for us. We\u0027re still controlling LED groups via phosphor-led-manager here but we\u0027re explicitly triggering an assert condition via a dbus-method call vs having phosphor-led-manager react to a properties change.\n\nFew reasons I see as to why we can\u0027t transfer even more control to phosphor-led-manager without significant changes to that repo. Chu, please feel free to correct me if I get any of these wrong.\n\n(1) Fairly certain we don\u0027t use `xyz.openbmc_project.Inventory.Manager` and instead we use EM to manager inventories for us. Chu\u0027s approach removes the dependency on Inventory manager at the cost of extra dbus calls.\n(2) We\u0027re trying to detect the absence of a cable here and the monitor looks like it\u0027s keying off \"OperationalStatus\" instead.\n\nMaybe we can save this as a future enhancement? \nThe only rationale I can see behind adding more logic to phosphor-led-manager is to make sure LEDs continue to blink correctly even if phosphor-led-manager is restarted for whatever reason. (This service only calls the dbus-method LED assert on state change).",
+      "parentUuid": "620e877a_73d5c0cc",
       "range": {
         "startLine": 43,
         "startChar": 0,
