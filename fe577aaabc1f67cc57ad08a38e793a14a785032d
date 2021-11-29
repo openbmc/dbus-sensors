@@ -88,6 +88,30 @@
     },
     {
       "key": {
+        "uuid": "620e877a_73d5c0cc",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-29T17:56:40Z",
+      "side": 1,
+      "message": "Do you have a better example of how to setup rules?\nFrom what I have read from phosphor-led-manager, I thought I need to setup the led-groups in phosphor-led-manager and set the dbus property to assert/deassert the led-group.",
+      "parentUuid": "add13db5_ecaf2124",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e722617_9ce19685",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 26
