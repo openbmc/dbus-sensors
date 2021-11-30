@@ -19,6 +19,9 @@
 static constexpr bool debug = false;
 namespace thresholds
 {
+static const std::array severities{"Warning", "Critical", "PerformanceLoss",
+                                   "SoftShutdown", "HardShutdown"};
+
 Level findThresholdLevel(uint8_t sev, const std::string& direct)
 {
     for (Sensor::ThresholdProperty prop : Sensor::thresProp)
@@ -53,6 +56,28 @@ bool findOrder(Level lev, Direction dir)
         }
     }
     return false;
+}
+
+uint8_t parseSeverityField(const BasicVariantType& var)
+{
+    uint8_t sev;
+    /* Check for both string and unsigned int for backwards compatibility */
+    if (std::holds_alternative<std::string>(var))
+    {
+        auto str = std::visit(VariantToStringVisitor(), var);
+        auto itr = std::find(severities.begin(), severities.end(), str);
+        if (itr == severities.end())
+        {
+            throw std::invalid_argument("Invalid severity string in Threshold");
+        }
+        sev = std::distance(severities.begin(), itr);
+    }
+    else
+    {
+        sev = std::visit(VariantToUnsignedIntVisitor(), var);
+    }
+
+    return sev;
 }
 
 bool parseThresholdsFromConfig(
@@ -117,8 +142,7 @@ bool parseThresholdsFromConfig(
                       << item.first << "\n";
             return false;
         }
-        uint8_t severity =
-            std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+        auto severity = parseSeverityField(severityFind->second);
 
         std::string directions =
             std::visit(VariantToStringVisitor(), directionFind->second);
@@ -181,8 +205,7 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     std::cerr << "Malformed threshold in configuration\n";
                     return;
                 }
-                unsigned int level = std::visit(VariantToUnsignedIntVisitor(),
-                                                severityFind->second);
+                auto level = parseSeverityField(severityFind->second);
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
