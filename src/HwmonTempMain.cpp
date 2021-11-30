@@ -56,7 +56,8 @@ static auto sensorTypes{
                                 "xyz.openbmc_project.Configuration.TMP441",
                                 "xyz.openbmc_project.Configuration.LM75A",
                                 "xyz.openbmc_project.Configuration.TMP75",
-                                "xyz.openbmc_project.Configuration.W83773G"})};
+                                "xyz.openbmc_project.Configuration.W83773G",
+                                "xyz.openbmc_project.Configuration.JC42"})};
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
