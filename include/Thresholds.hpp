@@ -16,7 +16,10 @@ namespace thresholds
 enum Level
 {
     WARNING,
-    CRITICAL
+    CRITICAL,
+    PERFORMANCELOSS,
+    SOFTSHUTDOWN,
+    HARDSHUTDOWN
 };
 enum Direction
 {
@@ -45,7 +48,8 @@ struct Threshold
     }
 };
 
-static const std::array levels{"Warning", "Critical"};
+static const std::array levels{"Warning", "Critical", "PerformanceLoss",
+                               "SoftShutdown", "HardShutdown"};
 inline std::string toLevelString(unsigned int level)
 {
     if (level >= levels.size())
@@ -149,6 +153,15 @@ bool parseThresholdsFromAttr(std::vector<thresholds::Threshold>& thresholds,
                              const std::string& inputPath,
                              const double& scaleFactor,
                              const double& offset = 0);
+bool hasHardShutdownInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector);
+
+bool hasSoftShutdownInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector);
+
+bool hasPerformanceLossInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector);
+
 bool hasCriticalInterface(
     const std::vector<thresholds::Threshold>& thresholdVector);
 

@@ -52,6 +52,18 @@ unsigned int toBusValue(const Level& level)
         {
             return 1;
         }
+        case (Level::PERFORMANCELOSS):
+        {
+            return 2;
+        }
+        case (Level::SOFTSHUTDOWN):
+        {
+            return 3;
+        }
+        case (Level::HARDSHUTDOWN):
+        {
+            return 4;
+        }
         default:
         {
             return -1;
@@ -304,6 +316,18 @@ std::shared_ptr<sdbusplus::asio::dbus_interface>
         case (thresholds::Level::CRITICAL):
         {
             return sensor->thresholdInterfaceCritical;
+        }
+        case (thresholds::Level::PERFORMANCELOSS):
+        {
+            return sensor->thresholdInterfacePerformanceLoss;
+        }
+        case (thresholds::Level::SOFTSHUTDOWN):
+        {
+            return sensor->thresholdInterfaceSoftShutdown;
+        }
+        case (thresholds::Level::HARDSHUTDOWN):
+        {
+            return sensor->thresholdInterfaceHardShutdown;
         }
         default:
         {
@@ -634,6 +658,45 @@ bool parseThresholdsFromAttr(
         }
     }
     return true;
+}
+
+bool hasHardShutdownInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector)
+{
+    for (auto& threshold : thresholdVector)
+    {
+        if (threshold.level == Level::HARDSHUTDOWN)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool hasSoftShutdownInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector)
+{
+    for (auto& threshold : thresholdVector)
+    {
+        if (threshold.level == Level::SOFTSHUTDOWN)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool hasPerformanceLossInterface(
+    const std::vector<thresholds::Threshold>& thresholdVector)
+{
+    for (auto& threshold : thresholdVector)
+    {
+        if (threshold.level == Level::PERFORMANCELOSS)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool hasCriticalInterface(
