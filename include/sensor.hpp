@@ -75,6 +75,12 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
     std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        thresholdInterfacePerformanceLoss;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        thresholdInterfaceSoftShutdown;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        thresholdInterfaceHardShutdown;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
@@ -299,6 +305,26 @@ struct Sensor
             !thresholdInterfaceCritical->initialize(true))
         {
             std::cerr << "error initializing critical threshold interface\n";
+        }
+        if (thresholdInterfacePerformanceLoss &&
+            !thresholdInterfacePerformanceLoss->initialize(true))
+        {
+            std::cerr
+                << "error initializing performanceloss threshold interface\n";
+        }
+
+        if (thresholdInterfaceSoftShutdown &&
+            !thresholdInterfaceSoftShutdown->initialize(true))
+        {
+            std::cerr
+                << "error initializing softshutdown threshold interface\n";
+        }
+
+        if (thresholdInterfaceHardShutdown &&
+            !thresholdInterfaceHardShutdown->initialize(true))
+        {
+            std::cerr
+                << "error initializing hardshutdown threshold interface\n";
         }
 
         if (isValueMutable)
