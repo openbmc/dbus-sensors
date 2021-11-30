@@ -56,6 +56,27 @@ bool isValidLevel(Level lev)
     return false;
 }
 
+unsigned int parseSeverityField(const BasicVariantType& var)
+{
+    /* Check for both string and unsigned int for backwards compatibility */
+    if (std::holds_alternative<std::string>(var))
+    {
+        auto str = std::visit(VariantToStringVisitor(), var);
+        for (const Sensor::ThresholdDefinition& prop : Sensor::thresProp)
+        {
+            if (prop.levelName == str)
+            {
+                return prop.sevOrder;
+            }
+        }
+        return UINT_MAX;
+    }
+    else
+    {
+        return std::visit(VariantToUnsignedIntVisitor(), var);
+    }
+}
+
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
@@ -118,8 +139,7 @@ bool parseThresholdsFromConfig(
                       << item.first << "\n";
             return false;
         }
-        uint8_t severity =
-            std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+        auto severity = parseSeverityField(severityFind->second);
 
         std::string directions =
             std::visit(VariantToStringVisitor(), directionFind->second);
@@ -182,8 +202,7 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     std::cerr << "Malformed threshold in configuration\n";
                     return;
                 }
-                unsigned int level = std::visit(VariantToUnsignedIntVisitor(),
-                                                severityFind->second);
+                auto level = parseSeverityField(severityFind->second);
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
