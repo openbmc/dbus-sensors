@@ -20,15 +20,15 @@ static constexpr bool debug = false;
 namespace thresholds
 {
 
-Level toLevelEnum(const std::string& level)
+Level toLevelEnum(const std::string& levelStr)
 {
-    auto itr = std::find(levels.begin(), levels.end(), level);
+    auto itr = std::find(levels.begin(), levels.end(), levelStr);
     if (itr == levels.end())
     {
         throw std::invalid_argument("Invalid severity in Threshold");
     }
-    auto lev = std::distance(levels.begin(), itr);
-    return static_cast<Level>(lev);
+    auto level = std::distance(levels.begin(), itr);
+    return static_cast<Level>(level);
 }
 
 Level toLevelEnum(const unsigned int& level)
