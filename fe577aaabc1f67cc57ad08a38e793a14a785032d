@@ -244,6 +244,30 @@
     },
     {
       "key": {
+        "uuid": "ccff63c4_3cfa37ab",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-11-30T07:16:49Z",
+      "side": 1,
+      "message": "(1) Can\u0027t get, why do you refer to PIM? We currently don\u0027t use PIM either, but AFAIK LED manager do nothing with PIM.\n(2) Sorry, can you explain more? Can\u0027t see what\u0027s wrong here. The \u0027GPIOPresence\u0027 service changes OperationalStatus anyway, so dbus event would be sent anyway. Then you can trigger led manager by matching this event using either PIM itself or phosphor-dbus-monitor. The only problem I can see it in static nature of this tools - both require compile-time YAML configurations. Is it real problem for you?\n\nI really don\u0027t like to see unrelated functionality here. Same as for beeper in PSU manager (https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/45649): if I want to blowup my server on presence loss, should I also hardcode call to \"self-desctruction-manager\" here?",
+      "parentUuid": "18f5278d_b3344bd9",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e722617_9ce19685",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 26
