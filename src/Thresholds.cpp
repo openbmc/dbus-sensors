@@ -562,6 +562,9 @@ std::string getInterface(const Level thresholdLevel)
         case Level::CRITICAL:
             level = "Critical";
             break;
+        case Level::PERFORMANCELOSS:
+            level = "PerformanceLoss";
+            break;
         case Level::SOFTSHUTDOWN:
             level = "SoftShutdown";
             break;

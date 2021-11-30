@@ -17,6 +17,7 @@ enum class Level
 {
     WARNING,
     CRITICAL,
+    PERFORMANCELOSS,
     SOFTSHUTDOWN,
     HARDSHUTDOWN,
     ERROR
