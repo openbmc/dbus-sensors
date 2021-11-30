@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fde8b116_864c810f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-11-30T07:06:40Z",
+      "side": 1,
+      "message": "nit: typo",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "453e3ca0523455a62c854c66766b2f27e8f4ad6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14a6df77_87f86dde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-11-30T07:06:40Z",
+      "side": 1,
+      "message": "you mean dbus-sensors?",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "453e3ca0523455a62c854c66766b2f27e8f4ad6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f3cb42b_34fb0c1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-11-30T07:06:40Z",
+      "side": 1,
+      "message": "dbus-sensors?",
+      "range": {
+        "startLine": 13,
+        "startChar": 33,
+        "endLine": 13,
+        "endChar": 39
+      },
+      "revId": "453e3ca0523455a62c854c66766b2f27e8f4ad6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
