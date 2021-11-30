@@ -74,6 +74,24 @@ HwmonTempSensor::HwmonTempSensor(
             "/xyz/openbmc_project/sensors/temperature/" + name,
             "xyz.openbmc_project.Sensor.Threshold.Critical");
     }
+    if (thresholds::hasPerformanceLossInterface(thresholds))
+    {
+        thresholdInterfacePerformanceLoss = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + name,
+            "xyz.openbmc_project.Sensor.Threshold.PerformanceLoss");
+    }
+    if (thresholds::hasSoftShutdownInterface(thresholds))
+    {
+        thresholdInterfaceSoftShutdown = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + name,
+            "xyz.openbmc_project.Sensor.Threshold.SoftShutdown");
+    }
+    if (thresholds::hasHardShutdownInterface(thresholds))
+    {
+        thresholdInterfaceHardShutdown = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/temperature/" + name,
+            "xyz.openbmc_project.Sensor.Threshold.HardShutdown");
+    }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);
@@ -87,6 +105,9 @@ HwmonTempSensor::~HwmonTempSensor()
     waitTimer.cancel();
     objServer.remove_interface(thresholdInterfaceWarning);
     objServer.remove_interface(thresholdInterfaceCritical);
+    objServer.remove_interface(thresholdInterfacePerformanceLoss);
+    objServer.remove_interface(thresholdInterfaceSoftShutdown);
+    objServer.remove_interface(thresholdInterfaceHardShutdown);
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
 }
