@@ -19,6 +19,27 @@
 static constexpr bool debug = false;
 namespace thresholds
 {
+
+Level toLevelEnum(const std::string& level)
+{
+    auto itr = std::find(levels.begin(), levels.end(), level);
+    if (itr == levels.end())
+    {
+        throw std::invalid_argument("Invalid severity in Threshold");
+    }
+    auto lev = std::distance(levels.begin(), itr);
+    return static_cast<Level>(lev);
+}
+
+Level toLevelEnum(const unsigned int& level)
+{
+    if (level >= levels.size())
+    {
+        throw std::invalid_argument("Invalid severity in Threshold");
+    }
+    return static_cast<Level>(level);
+}
+
 unsigned int toBusValue(const Level& level)
 {
     switch (level)
@@ -88,6 +109,29 @@ std::string getThresholdAlarmProperty(const thresholds::Direction& direction,
     return property;
 }
 
+bool parseSeverityField(const BasicVariantType& var, Level& level)
+{
+    /* Check for both string and unsigned int for backwards compatibility */
+    try
+    {
+        if (std::holds_alternative<std::string>(var))
+        {
+            auto str = std::visit(VariantToStringVisitor(), var);
+            level = toLevelEnum(str);
+        }
+        else
+        {
+            auto num = std::visit(VariantToUnsignedIntVisitor(), var);
+            level = toLevelEnum(num);
+        }
+    }
+    catch (const std::invalid_argument& ex)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
@@ -152,15 +196,12 @@ bool parseThresholdsFromConfig(
         }
         Level level;
         Direction direction;
-        if (std::visit(VariantToUnsignedIntVisitor(), severityFind->second) ==
-            0)
+
+        if (!parseSeverityField(severityFind->second, level))
         {
-            level = Level::WARNING;
+            return false;
         }
-        else
-        {
-            level = Level::CRITICAL;
-        }
+
         if (std::visit(VariantToStringVisitor(), directionFind->second) ==
             "less than")
         {
@@ -221,9 +262,11 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     std::cerr << "Malformed threshold in configuration\n";
                     return;
                 }
-                unsigned int level = std::visit(VariantToUnsignedIntVisitor(),
-                                                severityFind->second);
-
+                Level level;
+                if (!parseSeverityField(severityFind->second, level))
+                {
+                    return;
+                }
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
                 if ((toBusValue(threshold.level) != level) ||
