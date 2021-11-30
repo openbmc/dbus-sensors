@@ -268,6 +268,30 @@
     },
     {
       "key": {
+        "uuid": "9008a7c0_fd2ed98c",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-11-30T18:11:26Z",
+      "side": 1,
+      "message": "Let me study a little more about operational-status-monitor",
+      "parentUuid": "ccff63c4_3cfa37ab",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e722617_9ce19685",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 26
