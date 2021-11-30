@@ -104,7 +104,7 @@ struct Sensor
         const char* dirOrder;
     };
 
-    constexpr static std::array<ThresholdProperty, 8> thresProp = {
+    constexpr static std::array<ThresholdProperty, 10> thresProp = {
         {{thresholds::Level::WARNING, thresholds::Direction::HIGH, 0,
           "WarningHigh", "WarningAlarmHigh", "greater than"},
          {thresholds::Level::WARNING, thresholds::Direction::LOW, 0,
@@ -113,16 +113,20 @@ struct Sensor
           "CriticalHigh", "CriticalAlarmHigh", "greater than"},
          {thresholds::Level::CRITICAL, thresholds::Direction::LOW, 1,
           "CriticalLow", "CriticalAlarmLow", "less than"},
-         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::HIGH, 2,
+         {thresholds::Level::PERFORMANCELOSS, thresholds::Direction::HIGH, 2,
+          "PerformanceLossHigh", "PerformanceLossAlarmHigh", "greater than"},
+         {thresholds::Level::PERFORMANCELOSS, thresholds::Direction::LOW, 2,
+          "PerformanceLossLow", "PerformanceLossAlarmLow", "less than"},
+         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::HIGH, 3,
           "SoftShutdownHigh", "SoftShutdownAlarmHigh", "greater than"},
-         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::LOW, 2,
+         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::LOW, 3,
           "SoftShutdownLow", "SoftShutdownAlarmLow", "less than"},
-         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::HIGH, 3,
+         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::HIGH, 4,
           "HardShutdownHigh", "HardShutdownAlarmHigh", "greater than"},
-         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::LOW, 3,
+         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::LOW, 4,
           "HardShutdownLow", "HardShutdownAlarmLow", "less than"}}};
 
-    std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>, 4>
+    std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>, 5>
         thresholdInterfaces;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface>
