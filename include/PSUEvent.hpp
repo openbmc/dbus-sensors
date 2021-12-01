@@ -19,7 +19,6 @@
 #include <Utils.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
-#include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -57,7 +56,6 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
 
     PowerState readState;
     boost::asio::deadline_timer waitTimer;
-    std::shared_ptr<boost::asio::streambuf> readBuf;
     void restartRead();
     void handleResponse(const boost::system::error_code& err);
     void updateValue(const int& newValue);
