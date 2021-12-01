@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe097c3e_4c5b4915",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-01T20:53:13Z",
+      "side": 1,
+      "message": "\u003e pread is a blocking call, this is an asyncronous daemon.  One reason you see the speedup is because it blocks all other operations (dbus, ect) while it does the read which while great for this level of performance measurement, isn\u0027t great for the system as a whole, and impacts the ability to return dbus responses quickly.\n\nDoesn\u0027t the `async_wait(boost::asio::posix::descriptor_base::wait_read, ...)` ensure that the FD is ready to read without blocking?  When strace-ing it prior to this patch, it was ultimately boiling down to a regular `read(2)` call anyway, which I\u0027m pretty sure is no more or less blocking than `pread(2)`.",
+      "parentUuid": "53a1feb1_3cef7aef",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1418ef2a_e2efd9ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c039ead5_e111b6e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-01T20:53:13Z",
+      "side": 1,
+      "message": "I hacked in some very ad-hoc instrumentation of how late the timer callbacks were running (which itself added some overhead due to the `gettimeofday()` calls involved)...guess I\u0027ll add some appropriate description of that to the commit message.\n\n(I\u0027m working on optimizing psusensor on the system in question because its background polling is swamping it to the point that by the time the poll-interval timer expires it\u0027s still busy doing all the work from the other 649 file descriptors it\u0027s checking.)",
+      "parentUuid": "1418ef2a_e2efd9ed",
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28672b42_94095649",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2021-12-01T20:38:46Z",
       "side": 1,
       "message": "Could this use async_read instead?",
+      "range": {
+        "startLine": 208,
+        "startChar": 13,
+        "endLine": 208,
+        "endChar": 23
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "579ab260_1b8268d4",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-01T20:53:13Z",
+      "side": 1,
+      "message": "That would be back to `read(2)` semantics, thus re-necessitating the lseek...I saw the existence of `async_read_at()` (pread-analogous), but it failed to compile due to what I think looked like a boost bug?  (Something in its definition referring to something else that wasn\u0027t defined I think.)",
+      "parentUuid": "28672b42_94095649",
       "range": {
         "startLine": 208,
         "startChar": 13,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "079b45de_ce8f6ba9",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-01T20:53:13Z",
+      "side": 1,
+      "message": "Sure, happy to make that change while I\u0027m at it.",
+      "parentUuid": "20472d86_08ce5dc5",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 29
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "692451f5_a5f18a9f",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
@@ -99,6 +189,30 @@
       "writtenOn": "2021-12-01T20:38:46Z",
       "side": 1,
       "message": "Please declare in the scope it\u0027s used (although moving to std::array will mostly render this moot, as the buffers will use size())",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 41
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed980e3e_10d70889",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-01T20:53:13Z",
+      "side": 1,
+      "message": "Okay -- I was emulating the corresponding code in PSUSensor.cpp (psuBufLen), perhaps that should also be changed...",
+      "parentUuid": "692451f5_a5f18a9f",
       "range": {
         "startLine": 235,
         "startChar": 0,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "2096e340_f4f35eb8",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-01T20:53:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3f4caae1_f5c7a574",
+      "range": {
+        "startLine": 246,
+        "startChar": 8,
+        "endLine": 246,
+        "endChar": 12
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80d5b3a3_e8088d20",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
@@ -145,6 +283,30 @@
       "writtenOn": "2021-12-01T20:38:46Z",
       "side": 1,
       "message": "nit, and again, not your fault, but something that could be cleaned up if you felt like it.  Generally we prefer std::from_chars these days because they have better failure modes, and we can handle the errors a little easier.",
+      "range": {
+        "startLine": 253,
+        "startChar": 29,
+        "endLine": 253,
+        "endChar": 48
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fa1555b_a36901da",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-01T20:53:13Z",
+      "side": 1,
+      "message": "Ack, will look into that...",
+      "parentUuid": "80d5b3a3_e8088d20",
       "range": {
         "startLine": 253,
         "startChar": 29,
