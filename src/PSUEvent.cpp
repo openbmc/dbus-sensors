@@ -17,12 +17,12 @@
 #include <PSUEvent.hpp>
 #include <SensorPaths.hpp>
 #include <boost/asio/io_service.hpp>
-#include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <charconv>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -205,20 +205,16 @@ void PSUSubEvent::setupRead(void)
         return;
     }
 
-    std::shared_ptr<boost::asio::streambuf> buffer =
-        std::make_shared<boost::asio::streambuf>();
     std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
-    boost::asio::async_read_until(
-        inputDev, *buffer, '\n',
-        [weakRef, buffer](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<PSUSubEvent> self = weakRef.lock();
-            if (self)
-            {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
-            }
-        });
+    inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
+                        [weakRef](const boost::system::error_code& ec) {
+                            std::shared_ptr<PSUSubEvent> self = weakRef.lock();
+                            if (!self)
+                            {
+                                return;
+                            }
+                            self->handleResponse(ec);
+                        });
 }
 
 void PSUSubEvent::restartRead()
@@ -245,20 +241,26 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
     {
         return;
     }
-    std::istream responseStream(readBuf.get());
+
     if (!err)
     {
-        std::string response;
-        try
+        std::array<char, 128> readBuf;
+        ssize_t rdLen = pread(fd, readBuf.data(), readBuf.size(), 0);
+        if (rdLen >= 0)
         {
-            std::getline(responseStream, response);
-            int nvalue = std::stoi(response);
-            responseStream.clear();
-
-            updateValue(nvalue);
-            errCount = 0;
+            int nvalue;
+            auto [p, ec] = std::from_chars(readBuf.data(),
+                                           readBuf.data() + rdLen, nvalue);
+            if (ec != std::errc())
+            {
+                errCount++;
+            }
+            {
+                updateValue(nvalue);
+                errCount = 0;
+            }
         }
-        catch (const std::invalid_argument&)
+        else
         {
             errCount++;
         }
@@ -276,7 +278,6 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
         updateValue(0);
         errCount++;
     }
-    lseek(fd, 0, SEEK_SET);
     restartRead();
 }
 
