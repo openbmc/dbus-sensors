@@ -171,8 +171,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
 
     std::string buffer;
     buffer.resize(psuBufLen);
-    lseek(fd, 0, SEEK_SET);
-    int rdLen = read(fd, buffer.data(), psuBufLen);
+    int rdLen = pread(fd, buffer.data(), psuBufLen, 0);
 
     if (rdLen > 0)
     {
@@ -196,7 +195,6 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
         incrementError();
     }
 
-    lseek(fd, 0, SEEK_SET);
     restartRead();
 }
 
