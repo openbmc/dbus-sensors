@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53a1feb1_3cef7aef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-01T20:32:46Z",
+      "side": 1,
+      "message": "pread is a blocking call, this is an asyncronous daemon.  One reason you see the speedup is because it blocks all other operations (dbus, ect) while it does the read which while great for this level of performance measurement, isn\u0027t great for the system as a whole, and impacts the ability to return dbus responses quickly.\n\nWith that said, I do very much want to see the performance of psusensor improve, but not at the expense of the dbus APIs.\n\nThe actions I think we need to take:\n1. Get the iouring patches landed.  https://gerrit.openbmc-project.xyz/c/openbmc/openbmc/+/46919\n\nThat should make all of these async calls actually async.  It\u0027s currently waiting on boost 1.78 to be final.\n\n2. Change async_read_until in all the dbus daemons to use async_read.  async_read_until + the streambuf is really wasteful in terms of resources, and is likely a big source of the speedup you\u0027re seeing in not reconstructing the buffers every time.  Given the kernel apis gaurantee to return in a single read, async_read_until isn\u0027t necessary, and is just wasted CPU resources.",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1418ef2a_e2efd9ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-01T20:32:46Z",
+      "side": 1,
+      "message": "Clearly you tested this (because you gave numbers above).  Please outline your steps a little.",
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
