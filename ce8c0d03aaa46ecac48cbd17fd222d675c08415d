@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c44622d_47b4a76a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-01T16:47:44Z",
+      "side": 1,
+      "message": "Is this already defined in Entity Manager\u0027s schema?",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f1d8743_0a926e69",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-01T16:47:44Z",
+      "side": 1,
+      "message": "This should depend on modeStr now",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 5
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6ae5a63_f927e24e",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-01T16:47:44Z",
+      "side": 1,
+      "message": "What do you want return? This does not look right.",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 72
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5000921_a54beade",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-01T16:47:44Z",
+      "side": 1,
+      "message": "Make sure this is not 0 or overflow?",
+      "range": {
+        "startLine": 202,
+        "startChar": 51,
+        "endLine": 202,
+        "endChar": 77
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69103c3_8ed271a3",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-01T16:47:44Z",
+      "side": 1,
+      "message": "To be backwards compatible, make \"Byte\" as default if these entries do not exist",
+      "range": {
+        "startLine": 265,
+        "startChar": 20,
+        "endLine": 283,
+        "endChar": 69
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
