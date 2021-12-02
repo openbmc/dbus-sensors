@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dbd7ba01_be2c0ad3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-12-02T06:00:33Z",
+      "side": 1,
+      "message": "Not yet. It seems \"Reg\", \"Mode\" and \"Length\" are not defined in schema currently.\nI\u0027m not familiar with schema. It means all properties in json have to pre-define in the schema?",
+      "parentUuid": "5c44622d_47b4a76a",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f1d8743_0a926e69",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3c08a789_fae0bea4",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-12-02T06:00:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "5f1d8743_0a926e69",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 5
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6ae5a63_f927e24e",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 10
@@ -59,6 +107,30 @@
       "writtenOn": "2021-12-01T16:47:44Z",
       "side": 1,
       "message": "What do you want return? This does not look right.",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 72
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440bdf8f_8c5e7e31",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-12-02T06:00:33Z",
+      "side": 1,
+      "message": "I want to get direct byte data and save to dbus.\nFor example, if length is 2, which means get 2 block byte data, the val will save the get result like (0x01 0x2f). I want to save 0x2f to dbus",
+      "parentUuid": "a6ae5a63_f927e24e",
       "range": {
         "startLine": 161,
         "startChar": 8,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "1dff74e7_392dc753",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-12-02T06:00:33Z",
+      "side": 1,
+      "message": "Done. Checking the input scale value is not 0 in the beginning.",
+      "parentUuid": "d5000921_a54beade",
+      "range": {
+        "startLine": 202,
+        "startChar": 51,
+        "endLine": 202,
+        "endChar": 77
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e69103c3_8ed271a3",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 10
@@ -114,6 +210,30 @@
       "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aee88805_8c7a81f2",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-12-02T06:00:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e69103c3_8ed271a3",
+      "range": {
+        "startLine": 265,
+        "startChar": 20,
+        "endLine": 283,
+        "endChar": 69
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
