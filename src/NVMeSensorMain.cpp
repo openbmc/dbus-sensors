@@ -49,6 +49,21 @@ static std::optional<int>
     return std::visit(VariantToIntVisitor(), findBus->second);
 }
 
+static std::optional<std::string>
+    extractSensorName(const std::string& path,
+                      const SensorBaseConfigMap& properties)
+{
+    auto findSensorName = properties.find("Name");
+    if (findSensorName == properties.end())
+    {
+        std::cerr << "could not determine configuration name for " << path
+                  << "\n";
+        return std::nullopt;
+    }
+
+    return std::get<std::string>(findSensorName->second);
+}
+
 static void handleSensorConfigurations(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -93,20 +108,18 @@ static void handleSensorConfigurations(
             continue;
         }
 
-        auto findSensorName = baseConfiguration->second.find("Name");
-        if (findSensorName == baseConfiguration->second.end())
+        std::optional<std::string> sensorName =
+            extractSensorName(sensor.first, baseConfiguration->second);
+        if (!sensorName)
         {
-            std::cerr << "could not determine configuration name for "
-                      << interfacePath << "\n";
             continue;
         }
-        std::string sensorName = std::get<std::string>(findSensorName->second);
 
         std::vector<thresholds::Threshold> sensorThresholds;
 
         if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
         {
-            std::cerr << "error populating thresholds for " << sensorName
+            std::cerr << "error populating thresholds for " << *sensorName
                       << "\n";
         }
 
@@ -145,7 +158,7 @@ static void handleSensorConfigurations(
         }
 
         std::shared_ptr<NVMeSensor> sensorPtr = std::make_shared<NVMeSensor>(
-            objectServer, io, dbusConnection, sensorName,
+            objectServer, io, dbusConnection, *sensorName,
             std::move(sensorThresholds), interfacePath, *busNumber);
 
         context->addSensor(sensorPtr);
