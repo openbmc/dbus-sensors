@@ -39,6 +39,9 @@
 #include <variant>
 #include <vector>
 
+#define PWM_FAN_PATTERN_STR "pwm-fan"
+#define PWM_FAN_PATTERN_LEN (sizeof(PWM_FAN_PATTERN_STR) - 1)
+
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
@@ -70,7 +73,8 @@ FanTypes getFanType(const fs::path& parentPath)
     fs::path linkPath = parentPath / "device";
     std::string canonical = fs::read_symlink(linkPath);
     if (boost::ends_with(canonical, "1e786000.pwm-tacho-controller") ||
-        boost::ends_with(canonical, "1e610000.pwm-tacho-controller"))
+        boost::ends_with(canonical, "1e610000.pwm-tacho-controller") ||
+        boost::ends_with(canonical, "1e610000.pwm_tach:tach"))
     {
         return FanTypes::aspeed;
     }
@@ -96,6 +100,33 @@ void enablePwm(const fs::path& filePath)
     {
         enableFile << 1;
     }
+}
+fs::path getPwmfanPath(unsigned int configPwmfanIndex)
+{
+    /* Search PWM since pwm-fan had separated
+     * PWM from tach directory and 1 channel only*/
+    std::vector<fs::path> pwmfanPaths;
+    fs::path pwmPath;
+
+    findFiles(fs::path("/sys/class/hwmon"), R"(pwm1)", pwmfanPaths);
+    for (const auto& pwmfanPath : pwmfanPaths)
+    {
+        fs::path pwmfanLinkPath = pwmfanPath.parent_path() / "device";
+        std::string link = fs::read_symlink(pwmfanLinkPath);
+        size_t findPattern = link.find(PWM_FAN_PATTERN_STR);
+        if (findPattern == std::string::npos || link.size() <= findPattern + 1)
+        {
+            continue;
+        }
+        auto pwmfanIndex =
+            std::stoul(link.substr(findPattern + PWM_FAN_PATTERN_LEN));
+        if (configPwmfanIndex != pwmfanIndex)
+        {
+            continue;
+        }
+        pwmPath = pwmfanPath;
+    }
+    return pwmPath;
 }
 void createRedundancySensor(
     const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
@@ -394,6 +425,18 @@ void createSensors(
                         size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
                                                 findPwm->second);
                         pwmPath = directory / ("pwm" + std::to_string(pwm + 1));
+
+                        if (!fs::exists(pwmPath))
+                        {
+                            pwmPath = getPwmfanPath(pwm);
+                            if (pwmPath.empty())
+                            {
+                                std::cerr << "Connector for " << sensorName
+                                          << " no pwm channel found!\n";
+                                continue;
+                            }
+                        }
+
                         /* use pwm name override if found in configuration else
                          * use default */
                         auto findOverride = connector->second.find("PwmName");
