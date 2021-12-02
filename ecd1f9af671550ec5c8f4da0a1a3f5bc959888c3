@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "401573d4_008e7a04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T08:25:52Z",
+      "side": 1,
+      "message": "I mean, I realize that (io_uring aside) the underlying syscall is eventually going to block during the i2c transaction regardless, but considering that this is the exact same pattern already employed in PSUSensor.cpp (a synchronous read call issued from an `async_wait(wait_read, ...)` callback) I figured it would be considered acceptable, given the precedent?",
+      "parentUuid": "81cacef8_c856e873",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1418ef2a_e2efd9ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -138,6 +162,24 @@
       "side": 1,
       "message": "Would you mind trying the iouring patches and running them against the same tests?  They\u0027re designed to solve this exact problem.",
       "parentUuid": "1ffc1dbc_5b731c2d",
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "290e1e72_01569ef4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T08:25:52Z",
+      "side": 1,
+      "message": "An attempt to build with that patch yields:\n\n```\nERROR: boost-1.77.0-r0 do_fetch: Fetcher failure: Unable to find revision 95e645086e920b88b4c12c5da9fc7088964480ac in branch io-uring-1 even from upstream\nERROR: boost-1.77.0-r0 do_fetch: Fetcher failure for URL: \u0027git://github.com/chriskohlhoff/asio.git;protocol\u003dhttps;rev\u003d95e645086e920b88b4c12c5da9fc7088964480ac;destsuffix\u003dasio_git;branch\u003dio-uring-1\u0027. Unable to fetch URL from any source.\n```\n\nAny suggestions on how to proceed?",
+      "parentUuid": "61a0a2ee_2e464193",
       "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
