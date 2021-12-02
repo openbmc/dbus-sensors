@@ -167,17 +167,17 @@ static void handleSensorConfigurations(
             continue;
         }
 
+        std::optional<int> rootBus = deriveRootBus(busNumber);
+        if (!rootBus)
+        {
+            continue;
+        }
+
         std::vector<thresholds::Threshold> sensorThresholds;
         if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
         {
             std::cerr << "error populating thresholds for " << *sensorName
                       << "\n";
-        }
-
-        std::optional<int> rootBus = deriveRootBus(busNumber);
-        if (!rootBus)
-        {
-            continue;
         }
 
         std::shared_ptr<NVMeSensor> sensorPtr = std::make_shared<NVMeSensor>(
