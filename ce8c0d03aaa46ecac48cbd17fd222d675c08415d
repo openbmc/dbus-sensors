@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a3b0b69_08290541",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-02T21:51:05Z",
+      "side": 1,
+      "message": "Please refer here: https://github.com/openbmc/entity-manager/blob/master/schemas/README.schema#L56",
+      "parentUuid": "dbd7ba01_be2c0ad3",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f1d8743_0a926e69",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 10
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "I want to get direct byte data and save to dbus.\nFor example, if length is 2, which means get 2 block byte data, the val will save the get result like (0x01 0x2f). I want to save 0x2f to dbus",
       "parentUuid": "a6ae5a63_f927e24e",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 72
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "572f10c5_8943b0bf",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-02T21:51:05Z",
+      "side": 1,
+      "message": "What is the use case for reading block data, only to keep one byte and throw away the rest?",
+      "parentUuid": "440bdf8f_8c5e7e31",
       "range": {
         "startLine": 161,
         "startChar": 8,
