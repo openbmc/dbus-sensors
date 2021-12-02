@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "659f06df_6e7a1598",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-02T18:51:54Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "8a17ad7c_52d9fbed",
+      "range": {
+        "startLine": 89,
+        "startChar": 46,
+        "endLine": 89,
+        "endChar": 51
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "335d8cda_e4e06c5a",
         "filename": "include/GPIOPresenceSensor.hpp",
         "patchSetId": 24
