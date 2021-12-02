@@ -95,6 +95,27 @@ static std::optional<int> deriveRootBus(std::optional<int> busNumber)
     return std::stoi(rootName.substr(0, dash));
 }
 
+static std::shared_ptr<NVMeContext>
+    provideRootBusContext(boost::asio::io_service& io, NVMEMap& map,
+                          int rootBus)
+{
+    auto findRoot = map.find(rootBus);
+    if (findRoot != map.end())
+    {
+        return findRoot->second;
+    }
+
+    std::shared_ptr<NVMeContext> context =
+#if HAVE_NVME_MI_MCTP
+        std::make_shared<NVMeMCTPContext>(io, rootBus);
+#else
+        std::make_shared<NVMeBasicContext>(io, rootBus);
+#endif
+    map[rootBus] = context;
+
+    return context;
+}
+
 static void handleSensorConfigurations(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -160,21 +181,8 @@ static void handleSensorConfigurations(
             continue;
         }
 
-        std::shared_ptr<NVMeContext> context;
-        auto findRoot = nvmeDeviceMap.find(*rootBus);
-        if (findRoot != nvmeDeviceMap.end())
-        {
-            context = findRoot->second;
-        }
-        else
-        {
-#if HAVE_NVME_MI_MCTP
-            context = std::make_shared<NVMeMCTPContext>(io, *rootBus);
-#else
-            context = std::make_shared<NVMeBasicContext>(io, *rootBus);
-#endif
-            nvmeDeviceMap[*rootBus] = context;
-        }
+        std::shared_ptr<NVMeContext> context =
+            provideRootBusContext(io, nvmeDeviceMap, *rootBus);
 
         std::shared_ptr<NVMeSensor> sensorPtr = std::make_shared<NVMeSensor>(
             objectServer, io, dbusConnection, *sensorName,
