@@ -20,6 +20,7 @@
 #include <NVMeSensor.hpp>
 #include <boost/asio/deadline_timer.hpp>
 
+#include <optional>
 #include <regex>
 
 static constexpr const char* sensorType =
@@ -32,6 +33,20 @@ static constexpr bool debug = false;
 NVMEMap& getNVMEMap()
 {
     return nvmeDeviceMap;
+}
+
+static std::optional<int>
+    extractBusNumber(const std::string& path,
+                     const SensorBaseConfigMap& properties)
+{
+    auto findBus = properties.find("Bus");
+    if (findBus == properties.end())
+    {
+        std::cerr << "could not determine bus number for " << path << "\n";
+        return std::nullopt;
+    }
+
+    return std::visit(VariantToIntVisitor(), findBus->second);
 }
 
 static void handleSensorConfigurations(
@@ -70,13 +85,13 @@ static void handleSensorConfigurations(
         {
             continue;
         }
-        auto findBus = baseConfiguration->second.find("Bus");
-        if (findBus == baseConfiguration->second.end())
+
+        std::optional<int> busNumber =
+            extractBusNumber(sensor.first, baseConfiguration->second);
+        if (!busNumber)
         {
             continue;
         }
-
-        int busNumber = std::visit(VariantToIntVisitor(), findBus->second);
 
         auto findSensorName = baseConfiguration->second.find("Name");
         if (findSensorName == baseConfiguration->second.end())
@@ -95,10 +110,10 @@ static void handleSensorConfigurations(
                       << "\n";
         }
 
-        int rootBus = busNumber;
+        int rootBus = *busNumber;
 
         std::string muxPath = "/sys/bus/i2c/devices/i2c-" +
-                              std::to_string(busNumber) + "/mux_device";
+                              std::to_string(*busNumber) + "/mux_device";
 
         if (std::filesystem::is_symlink(muxPath))
         {
@@ -131,7 +146,7 @@ static void handleSensorConfigurations(
 
         std::shared_ptr<NVMeSensor> sensorPtr = std::make_shared<NVMeSensor>(
             objectServer, io, dbusConnection, sensorName,
-            std::move(sensorThresholds), interfacePath, busNumber);
+            std::move(sensorThresholds), interfacePath, *busNumber);
 
         context->addSensor(sensorPtr);
     }
