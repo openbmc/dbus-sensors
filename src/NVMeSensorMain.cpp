@@ -155,20 +155,11 @@ static void handleSensorConfigurations(
 
         std::optional<int> busNumber =
             extractBusNumber(sensor.first, baseConfiguration->second);
-        if (!busNumber)
-        {
-            continue;
-        }
-
         std::optional<std::string> sensorName =
             extractSensorName(sensor.first, baseConfiguration->second);
-        if (!sensorName)
-        {
-            continue;
-        }
-
         std::optional<int> rootBus = deriveRootBus(busNumber);
-        if (!rootBus)
+
+        if (!(busNumber && sensorName && rootBus))
         {
             continue;
         }
