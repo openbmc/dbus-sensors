@@ -168,7 +168,6 @@ static void handleSensorConfigurations(
         }
 
         std::vector<thresholds::Threshold> sensorThresholds;
-
         if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
         {
             std::cerr << "error populating thresholds for " << *sensorName
@@ -181,13 +180,12 @@ static void handleSensorConfigurations(
             continue;
         }
 
-        std::shared_ptr<NVMeContext> context =
-            provideRootBusContext(io, nvmeDeviceMap, *rootBus);
-
         std::shared_ptr<NVMeSensor> sensorPtr = std::make_shared<NVMeSensor>(
             objectServer, io, dbusConnection, *sensorName,
             std::move(sensorThresholds), interfacePath, *busNumber);
 
+        std::shared_ptr<NVMeContext> context =
+            provideRootBusContext(io, nvmeDeviceMap, *rootBus);
         context->addSensor(sensorPtr);
     }
     for (const auto& [_, context] : nvmeDeviceMap)
