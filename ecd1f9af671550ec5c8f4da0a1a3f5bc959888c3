@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "81cacef8_c856e873",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T05:17:31Z",
+      "side": 1,
+      "message": "You would think that, but no, it doesn\u0027t for filesystem descriptors with epoll.  for iouring (the patches under #1 above) it should.\n\n\u003e When strace-ing it prior to this patch, it was ultimately boiling down to a regular `read(2)` call anyway, which I\u0027m pretty sure is no more or less blocking than `pread(2)`.\n\nin the iouring backend, that\u0027s different.",
+      "parentUuid": "fe097c3e_4c5b4915",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1418ef2a_e2efd9ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -99,6 +123,24 @@
       "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61a0a2ee_2e464193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T05:17:31Z",
+      "side": 1,
+      "message": "Would you mind trying the iouring patches and running them against the same tests?  They\u0027re designed to solve this exact problem.",
+      "parentUuid": "1ffc1dbc_5b731c2d",
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
