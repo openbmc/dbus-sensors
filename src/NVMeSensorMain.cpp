@@ -121,6 +121,19 @@ static void handleSensorConfigurations(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const ManagedObjectType& sensorConfigurations)
 {
+    auto addNVMeSensor = [&io, &objectServer,
+                          &dbusConnection](const std::string& sensorName,
+                                           const std::string& interfacePath,
+                                           int busNumber, int rootBus,
+                                           std::vector<thresholds::Threshold>
+                                               sensorThresholds) {
+        std::shared_ptr<NVMeSensor> sensorPtr = std::make_shared<NVMeSensor>(
+            objectServer, io, dbusConnection, sensorName,
+            std::move(sensorThresholds), interfacePath, busNumber);
+
+        provideRootBusContext(io, nvmeDeviceMap, rootBus)->addSensor(sensorPtr);
+    };
+
     // todo: it'd be better to only update the ones we care about
     for (const auto& [_, nvmeContextPtr] : nvmeDeviceMap)
     {
@@ -145,27 +158,21 @@ static void handleSensorConfigurations(
                 extractSensorName(interfacePath, sensorConfig);
             std::optional<int> rootBus = deriveRootBus(busNumber);
 
-            if (!(busNumber && sensorName && rootBus))
+            if (busNumber && sensorName && rootBus)
             {
-                continue;
+                std::vector<thresholds::Threshold> thresholds;
+                if (!parseThresholdsFromConfig(sensorData, thresholds))
+                {
+                    std::cerr << "error populating thresholds for "
+                              << *sensorName << "\n";
+                }
+
+                addNVMeSensor(*sensorName, interfacePath, *busNumber, *rootBus,
+                              std::move(thresholds));
             }
-
-            std::vector<thresholds::Threshold> sensorThresholds;
-            if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
-            {
-                std::cerr << "error populating thresholds for " << *sensorName
-                          << "\n";
-            }
-
-            std::shared_ptr<NVMeSensor> sensorPtr =
-                std::make_shared<NVMeSensor>(
-                    objectServer, io, dbusConnection, *sensorName,
-                    std::move(sensorThresholds), interfacePath, *busNumber);
-
-            provideRootBusContext(io, nvmeDeviceMap, *rootBus)
-                ->addSensor(sensorPtr);
         }
     }
+
     for (const auto& [_, context] : nvmeDeviceMap)
     {
         context->pollNVMeDevices();
