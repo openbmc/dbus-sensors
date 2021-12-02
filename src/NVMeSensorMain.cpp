@@ -64,6 +64,12 @@ static std::optional<std::string>
     return std::get<std::string>(findSensorName->second);
 }
 
+static std::filesystem::path deriveRootBusPath(int busNumber)
+{
+    return "/sys/bus/i2c/devices/i2c-" + std::to_string(busNumber) +
+           "/mux_device";
+}
+
 static void handleSensorConfigurations(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -125,8 +131,7 @@ static void handleSensorConfigurations(
 
         int rootBus = *busNumber;
 
-        std::string muxPath = "/sys/bus/i2c/devices/i2c-" +
-                              std::to_string(*busNumber) + "/mux_device";
+        std::filesystem::path muxPath = deriveRootBusPath(*busNumber);
 
         if (std::filesystem::is_symlink(muxPath))
         {
