@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "42fd5181_b8879b97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T21:54:31Z",
+      "side": 1,
+      "message": "In a world where we don\u0027t have io_uring, yes, it would be equivalent, but considering that we have patches in review to do io_uring, and are largely just waiting on a boost release to turn it on, and the async_wait+read model doesn\u0027t give the behavior we want with iouring, I\u0027m wanting to avoid making a change, then having to immediately change it back to something similar.  Hopefully that makes sense?",
+      "parentUuid": "401573d4_008e7a04",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1418ef2a_e2efd9ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -180,6 +204,24 @@
       "side": 1,
       "message": "An attempt to build with that patch yields:\n\n```\nERROR: boost-1.77.0-r0 do_fetch: Fetcher failure: Unable to find revision 95e645086e920b88b4c12c5da9fc7088964480ac in branch io-uring-1 even from upstream\nERROR: boost-1.77.0-r0 do_fetch: Fetcher failure for URL: \u0027git://github.com/chriskohlhoff/asio.git;protocol\u003dhttps;rev\u003d95e645086e920b88b4c12c5da9fc7088964480ac;destsuffix\u003dasio_git;branch\u003dio-uring-1\u0027. Unable to fetch URL from any source.\n```\n\nAny suggestions on how to proceed?",
       "parentUuid": "61a0a2ee_2e464193",
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f22b018_cca81840",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T21:54:31Z",
+      "side": 1,
+      "message": "Damn..... chriskohlhoff deleted the branch when he merged this on master.  One moment, let me update the review to point at master.",
+      "parentUuid": "290e1e72_01569ef4",
       "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
