@@ -132,52 +132,40 @@ static void handleSensorConfigurations(
     nvmeDeviceMap.clear();
 
     // iterate through all found configurations
-    for (const std::pair<sdbusplus::message::object_path, SensorData>& sensor :
-         sensorConfigurations)
+    for (const auto& [interfacePath, sensorData] : sensorConfigurations)
     {
-        const SensorData& sensorData = sensor.second;
-        const std::string& interfacePath = sensor.first.str;
-        const std::pair<std::string, boost::container::flat_map<
-                                         std::string, BasicVariantType>>*
-            baseConfiguration = nullptr;
-
         // find base configuration
-        auto sensorBase = sensor.second.find(sensorType);
-        if (sensorBase != sensor.second.end())
+        auto sensorBase = sensorData.find(sensorType);
+        if (sensorBase != sensorData.end())
         {
-            baseConfiguration = &(*sensorBase);
+            const SensorBaseConfigMap& sensorConfig = sensorBase->second;
+            std::optional<int> busNumber =
+                extractBusNumber(interfacePath, sensorConfig);
+            std::optional<std::string> sensorName =
+                extractSensorName(interfacePath, sensorConfig);
+            std::optional<int> rootBus = deriveRootBus(busNumber);
+
+            if (!(busNumber && sensorName && rootBus))
+            {
+                continue;
+            }
+
+            std::vector<thresholds::Threshold> sensorThresholds;
+            if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
+            {
+                std::cerr << "error populating thresholds for " << *sensorName
+                          << "\n";
+            }
+
+            std::shared_ptr<NVMeSensor> sensorPtr =
+                std::make_shared<NVMeSensor>(
+                    objectServer, io, dbusConnection, *sensorName,
+                    std::move(sensorThresholds), interfacePath, *busNumber);
+
+            std::shared_ptr<NVMeContext> context =
+                provideRootBusContext(io, nvmeDeviceMap, *rootBus);
+            context->addSensor(sensorPtr);
         }
-
-        if (baseConfiguration == nullptr)
-        {
-            continue;
-        }
-
-        std::optional<int> busNumber =
-            extractBusNumber(sensor.first, baseConfiguration->second);
-        std::optional<std::string> sensorName =
-            extractSensorName(sensor.first, baseConfiguration->second);
-        std::optional<int> rootBus = deriveRootBus(busNumber);
-
-        if (!(busNumber && sensorName && rootBus))
-        {
-            continue;
-        }
-
-        std::vector<thresholds::Threshold> sensorThresholds;
-        if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
-        {
-            std::cerr << "error populating thresholds for " << *sensorName
-                      << "\n";
-        }
-
-        std::shared_ptr<NVMeSensor> sensorPtr = std::make_shared<NVMeSensor>(
-            objectServer, io, dbusConnection, *sensorName,
-            std::move(sensorThresholds), interfacePath, *busNumber);
-
-        std::shared_ptr<NVMeContext> context =
-            provideRootBusContext(io, nvmeDeviceMap, *rootBus);
-        context->addSensor(sensorPtr);
     }
     for (const auto& [_, context] : nvmeDeviceMap)
     {
