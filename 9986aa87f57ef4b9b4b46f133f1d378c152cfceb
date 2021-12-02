@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bcaca8c_3e5f5e4b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T18:28:49Z",
+      "side": 1,
+      "message": "Would a multi-level map make more sense here?\n\n\nie, flat_map\u003cbus, flat_map\u003caddress\u003e\u003e  That seems like it would remove quite a few struct constructions and lead to more readable code",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 58
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8951d826_7ba4398f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T18:28:49Z",
+      "side": 1,
+      "message": "Unless you\u0027re using the properties of a tuple (viadic expansion or similar) please prefer to have a normal struct for these kinds of things.",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 47
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45e8972d_b6c0dffe",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T18:28:49Z",
+      "side": 1,
+      "message": "Just init these on the same line you declare them, then check for null.\n\nconst uint64_t* bus \u003d std::get_if\u003cuint64_t\u003e(\u0026busCfg-\u003esecond);\nif (bus \u003d\u003d nullptr){\n   ... bus invalid\n   return\n}\n\n\nUsing the above pattern makes the code much easier to read quickly.",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 32
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad06f3bf_5b9b864e",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T18:28:49Z",
+      "side": 1,
+      "message": "This is doing two hash lookups.  you probably want something like\n\nstd::pair\u003citerator, bool\u003e inserted \u003d configSensors.emplace(....);\nif (inserted.second){\n    .... log duplicate entry.\n}",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 55
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "737d193f_7d0abb8c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T18:28:49Z",
+      "side": 1,
+      "message": "Considering this block of code is largely self-contained, should it be its own method?  This method is already way too long, lets not make it worse, and now that this section is producing a map, it shoudl be easy enough to just have the method return configSensors",
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37b03f72_6067ce7d",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T18:28:49Z",
+      "side": 1,
+      "message": "This is making a copy of all these keys, and is difficult to read into the types.  Please use a normal struct.",
+      "range": {
+        "startLine": 385,
+        "startChar": 8,
+        "endLine": 385,
+        "endChar": 66
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d91fd11_3551f79b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T18:28:49Z",
+      "side": 1,
+      "message": "Pointers need to be null checked, although when you move the above to a struct, I suspect they should also be made references.",
+      "range": {
+        "startLine": 395,
+        "startChar": 37,
+        "endLine": 395,
+        "endChar": 39
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "279030e6_61eda706",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T18:28:49Z",
+      "side": 1,
+      "message": "possible nullptr dereference.",
+      "range": {
+        "startLine": 858,
+        "startChar": 31,
+        "endLine": 858,
+        "endChar": 33
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
