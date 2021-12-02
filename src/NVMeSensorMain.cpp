@@ -70,6 +70,31 @@ static std::filesystem::path deriveRootBusPath(int busNumber)
            "/mux_device";
 }
 
+static std::optional<int> deriveRootBus(std::optional<int> busNumber)
+{
+    if (!busNumber)
+    {
+        return std::nullopt;
+    }
+
+    std::filesystem::path muxPath = deriveRootBusPath(*busNumber);
+
+    if (!std::filesystem::is_symlink(muxPath))
+    {
+        return *busNumber;
+    }
+
+    std::string rootName = std::filesystem::read_symlink(muxPath).filename();
+    size_t dash = rootName.find('-');
+    if (dash == std::string::npos)
+    {
+        std::cerr << "Error finding root bus for " << rootName << "\n";
+        return std::nullopt;
+    }
+
+    return std::stoi(rootName.substr(0, dash));
+}
+
 static void handleSensorConfigurations(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -129,25 +154,14 @@ static void handleSensorConfigurations(
                       << "\n";
         }
 
-        int rootBus = *busNumber;
-
-        std::filesystem::path muxPath = deriveRootBusPath(*busNumber);
-
-        if (std::filesystem::is_symlink(muxPath))
+        std::optional<int> rootBus = deriveRootBus(busNumber);
+        if (!rootBus)
         {
-            std::string rootName =
-                std::filesystem::read_symlink(muxPath).filename();
-            size_t dash = rootName.find('-');
-            if (dash == std::string::npos)
-            {
-                std::cerr << "Error finding root bus for " << rootName << "\n";
-                continue;
-            }
-            rootBus = std::stoi(rootName.substr(0, dash));
+            continue;
         }
 
         std::shared_ptr<NVMeContext> context;
-        auto findRoot = nvmeDeviceMap.find(rootBus);
+        auto findRoot = nvmeDeviceMap.find(*rootBus);
         if (findRoot != nvmeDeviceMap.end())
         {
             context = findRoot->second;
@@ -155,11 +169,11 @@ static void handleSensorConfigurations(
         else
         {
 #if HAVE_NVME_MI_MCTP
-            context = std::make_shared<NVMeMCTPContext>(io, rootBus);
+            context = std::make_shared<NVMeMCTPContext>(io, *rootBus);
 #else
-            context = std::make_shared<NVMeBasicContext>(io, rootBus);
+            context = std::make_shared<NVMeBasicContext>(io, *rootBus);
 #endif
-            nvmeDeviceMap[rootBus] = context;
+            nvmeDeviceMap[*rootBus] = context;
         }
 
         std::shared_ptr<NVMeSensor> sensorPtr = std::make_shared<NVMeSensor>(
