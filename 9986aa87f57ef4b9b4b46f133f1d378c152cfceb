@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "2dc13b85_fd9b9b4f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T22:37:16Z",
+      "side": 1,
+      "message": "\u003e Needing to know that std::less\u003cstd::pair\u003cuint64_t, uint64_t\u003e\u003e does left to right lookup is a bit subtle.\n\nI (ahem)...*might* have written the code without any awareness of std::less at all...\n\nI guess overall the single-level map seems clearer and simpler to me -- given that once we\u0027ve determined them we\u0027re not really doing anything special with the bus or address individually, it seems like we might as well treat them as the single unique identifier that they effectively are (when combined) instead of splitting that identifier in half and doing separate lookups for each part.  It just seems like sort of artificial key-sharding, I guess.",
+      "parentUuid": "fae4bb0c_fd2e3b91",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 58
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8951d826_7ba4398f",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -141,6 +165,30 @@
       "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d043c1a6_7f206c63",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T22:37:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72b5eadb_0faffe2c",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 47
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -262,6 +310,30 @@
     },
     {
       "key": {
+        "uuid": "400b958d_5404c856",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T22:37:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f14231c_44f6f12b",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 55
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "737d193f_7d0abb8c",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -294,6 +366,24 @@
       "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0f62605_e1b3ab45",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T22:37:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69703453_6ef59b72",
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -415,6 +505,30 @@
     },
     {
       "key": {
+        "uuid": "97f7f6da_46249501",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T22:37:16Z",
+      "side": 1,
+      "message": "Done (via `std::reference_wrapper` as discussed on discord).",
+      "parentUuid": "f404316a_e62d08fc",
+      "range": {
+        "startLine": 395,
+        "startChar": 37,
+        "endLine": 395,
+        "endChar": 39
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "279030e6_61eda706",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -435,6 +549,30 @@
       "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e6a6ff7_9b01b38c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T22:37:16Z",
+      "side": 1,
+      "message": "(Obviated by reference conversion.)",
+      "parentUuid": "279030e6_61eda706",
+      "range": {
+        "startLine": 858,
+        "startChar": 31,
+        "endLine": 858,
+        "endChar": 33
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
