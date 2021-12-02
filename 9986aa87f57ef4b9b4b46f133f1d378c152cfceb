@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fae4bb0c_fd2e3b91",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T19:14:56Z",
+      "side": 1,
+      "message": "\u003e Hmm, I guess I could see that if we had nested loops doing\n\u003e \n\u003e ```\n\u003e for each bus:\n\u003e     x \u003d map.lookup(bus)\n\u003e     for each address on bus:\n\u003e         y \u003d x.lookup(address)\n\u003e         ...stuff with y...\n\u003e ```\n\u003e \n\u003e but given that we don\u0027t, I\u0027m a little unclear on what the perceived readability advantage is?  (With the structure we\u0027ve got it would also mean twice as many map lookups/existence checks.)\n\nTwice as many lookups, but on smaller maps.  The algorithmic complexity and lookup time I suspect would be identical.\n\n\u003e \n\u003e As for struct constructions, with the caveat of my general lack of C++ expertise, I would\u0027ve thought the work involved for those would be pretty trivial; is there something more complex that\u0027s going on implicitly?\n\nIt\u0027s mostly about removing code, and making code easier to read.  Needing to know that std::less\u003cstd::pair\u003cuint64_t, uint64_t\u003e\u003e does left to right lookup is a bit subtle.\n\nIf we did a dual stage map it would mean:\n1. Different code paths for bus missing and address missing (which might help with debug).\n2. relying on the identity function for std::less lookup, which should optimize smaller.\n3. Removes the need for a separate SensorConfigKey type declaration\n4. Removes the need to construct a SensorConfigKey on line 299.\n\n\nIt seems better to me, but maybe not?",
+      "parentUuid": "34df384c_3fe0a955",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 58
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8951d826_7ba4398f",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Yeah, this was basically just laziness (shorthand) I guess, I\u0027ll make it its own struct.",
       "parentUuid": "8951d826_7ba4398f",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 47
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b5eadb_0faffe2c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T19:14:56Z",
+      "side": 1,
+      "message": "I get it, and I\u0027ve done the same thing myself for testing, but a year from now, a real struct is going to be infinitely easier to read.",
+      "parentUuid": "dc8ce657_c5111739",
       "range": {
         "startLine": 271,
         "startChar": 0,
@@ -178,6 +226,30 @@
       "side": 1,
       "message": "Ah, thanks -- I was looking for something like that but the boost flat_map docs were a bit of a mountain...",
       "parentUuid": "ad06f3bf_5b9b864e",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 55
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f14231c_44f6f12b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T19:14:56Z",
+      "side": 1,
+      "message": "I personally just read the std::map docs which are better.  99% of the time  the behavior and apis are identical, because boost::container is trying to match STL interfaces as close as it can.",
+      "parentUuid": "f4ccea9e_20b9012b",
       "range": {
         "startLine": 300,
         "startChar": 0,
@@ -307,6 +379,30 @@
       "side": 1,
       "message": "I had initially arranged this to use references, but got stuck on compilation errors I spent a while trying to figure out and got nowhere on but which were magically resolved by using pointers instead...not sure if the errors were an artifact of some subtlety of the tuple/pair business that\u0027ll be avoided with a plain struct, but I\u0027ll revisit it.",
       "parentUuid": "8d91fd11_3551f79b",
+      "range": {
+        "startLine": 395,
+        "startChar": 37,
+        "endLine": 395,
+        "endChar": 39
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f404316a_e62d08fc",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-02T19:14:56Z",
+      "side": 1,
+      "message": "you generally can\u0027t store a reference in a tuple (you actually can, but you really need a weird reference_wrapper thing).  When you go to a struct those problems will go away.",
+      "parentUuid": "a6f650bc_8054c0ee",
       "range": {
         "startLine": 395,
         "startChar": 37,
