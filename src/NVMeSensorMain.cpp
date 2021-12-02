@@ -162,9 +162,8 @@ static void handleSensorConfigurations(
                     objectServer, io, dbusConnection, *sensorName,
                     std::move(sensorThresholds), interfacePath, *busNumber);
 
-            std::shared_ptr<NVMeContext> context =
-                provideRootBusContext(io, nvmeDeviceMap, *rootBus);
-            context->addSensor(sensorPtr);
+            provideRootBusContext(io, nvmeDeviceMap, *rootBus)
+                ->addSensor(sensorPtr);
         }
     }
     for (const auto& [_, context] : nvmeDeviceMap)
