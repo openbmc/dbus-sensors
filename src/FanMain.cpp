@@ -42,14 +42,16 @@
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
-static auto sensorTypes{std::to_array<const char*>(
-    {"xyz.openbmc_project.Configuration.AspeedFan",
-     "xyz.openbmc_project.Configuration.I2CFan",
-     "xyz.openbmc_project.Configuration.NuvotonFan"})};
+static constexpr std::array<const char*, 4> sensorTypes = {
+    "xyz.openbmc_project.Configuration.AspeedFan",
+    "xyz.openbmc_project.Configuration.AspeedPWMFan",
+    "xyz.openbmc_project.Configuration.I2CFan",
+    "xyz.openbmc_project.Configuration.NuvotonFan"};
 
 enum FanTypes
 {
     aspeed = 0,
+    aspeedPWM,
     i2c,
     nuvoton,
     max,
@@ -73,6 +75,10 @@ FanTypes getFanType(const fs::path& parentPath)
         boost::ends_with(canonical, "1e610000.pwm-tacho-controller"))
     {
         return FanTypes::aspeed;
+    }
+    if (boost::ends_with(canonical, "1e610000.pwm_tach:tach"))
+    {
+        return FanTypes::aspeedPWM;
     }
     if (boost::ends_with(canonical, "f0103000.pwm-fan-controller"))
     {
@@ -222,6 +228,7 @@ void createSensors(
                         continue;
                     }
                     if (fanType == FanTypes::aspeed ||
+                        fanType == FanTypes::aspeedPWM ||
                         fanType == FanTypes::nuvoton)
                     {
                         // there will be only 1 aspeed or nuvoton sensor object
@@ -384,16 +391,73 @@ void createSensors(
                 if (connector != sensorData->end())
                 {
                     auto findPwm = connector->second.find("Pwm");
-                    if (findPwm != connector->second.end())
+                    if (findPwm != connector->second.end() ||
+                        fanType == FanTypes::aspeedPWM)
                     {
-                        fs::path pwmEnableFile =
-                            "pwm" + std::to_string(index + 1) + "_enable";
-                        fs::path enablePath =
-                            path.parent_path() / pwmEnableFile;
-                        enablePwm(enablePath);
                         size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
                                                 findPwm->second);
-                        pwmPath = directory / ("pwm" + std::to_string(pwm + 1));
+
+                        /* Search PWM since AspeedPWMFan had seperated
+                         * PWM from Tach directory */
+                        unsigned int configPwmfanIndex;
+                        size_t pwm;
+                        if (fanType == FanTypes::aspeedPWM)
+                        {
+                            /* Search PWM since pwm-fan had seperated
+                             * PWM from tach directory and 1 channel only*/
+                            std::vector<fs::path> PwmfanPaths;
+                            if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm1)",
+                                           PwmfanPaths))
+                            {
+                                std::cerr << "Connector for " << sensorName
+                                          << " no pwm channel found!\n";
+                                continue;
+                            }
+                            auto findPwmfan = connector->second.find("Pwmfan");
+                            if (findPwmfan != connector->second.end())
+                            {
+                                configPwmfanIndex =
+                                    std::visit(VariantToUnsignedIntVisitor(),
+                                            findPwmfan->second);
+                            }
+                            else
+                            {
+                                std::cerr << "Connector for " << sensorName
+                                          << " missing pwmfan!\n";
+                                continue;
+                            }
+                            for (const auto& PwmfanPath : PwmfanPaths)
+                            {
+                                fs::path PwmfanLinkPath =
+                                    PwmfanPath.parent_path() / "device";
+                                std::string link = fs::read_symlink(PwmfanLinkPath);
+                                size_t findPattern = link.find("pwm-fan");
+                                if (findPattern == std::string::npos ||
+                                    link.size() <= findPattern + 1)
+                                {
+                                    continue;
+                                }
+                                auto PwmfanIndex = std::stoul(
+                                        link.substr(findPattern + 7), nullptr, 10);
+                                if (configPwmfanIndex != PwmfanIndex)
+                                {
+                                    continue;
+                                }
+                                pwmPath = PwmfanPath;
+                            }
+                        }
+                        else
+                        {
+                            pwm = std::visit(VariantToUnsignedIntVisitor(),
+                                             findPwm->second);
+                            fs::path pwmEnableFile =
+                                "pwm" + std::to_string(index + 1) + "_enable";
+                            fs::path enablePath =
+                                path.parent_path() / pwmEnableFile;
+                            enablePwm(enablePath);
+                            pwmPath = directory / ("pwm" + std::to_string(pwm + 1));
+                        }
+
                         /* use pwm name override if found in configuration else
                          * use default */
                         auto findOverride = connector->second.find("PwmName");
@@ -404,7 +468,17 @@ void createSensors(
                         }
                         else
                         {
-                            pwmName = "Pwm_" + std::to_string(pwm + 1);
+                            if (fanType == FanTypes::aspeedPWM)
+                            {
+                                pwmName =
+                                    "Pwmfan" +
+                                    std::to_string(configPwmfanIndex) +
+                                    "_Pwm1";
+                            }
+                            else
+                            {
+                                pwmName = "Pwm_" + std::to_string(pwm + 1);
+                            }
                         }
 
                         // Check PWM sensor mutability
