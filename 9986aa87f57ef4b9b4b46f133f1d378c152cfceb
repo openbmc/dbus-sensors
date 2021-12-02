@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "34df384c_3fe0a955",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T18:56:51Z",
+      "side": 1,
+      "message": "Hmm, I guess I could see that if we had nested loops doing\n\n```\nfor each bus:\n    x \u003d map.lookup(bus)\n    for each address on bus:\n        y \u003d x.lookup(address)\n        ...stuff with y...\n```\n\nbut given that we don\u0027t, I\u0027m a little unclear on what the perceived readability advantage is?  (With the structure we\u0027ve got it would also mean twice as many map lookups/existence checks.)\n\nAs for struct constructions, with the caveat of my general lack of C++ expertise, I would\u0027ve thought the work involved for those would be pretty trivial; is there something more complex that\u0027s going on implicitly?",
+      "parentUuid": "9bcaca8c_3e5f5e4b",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 58
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8951d826_7ba4398f",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2021-12-02T18:28:49Z",
       "side": 1,
       "message": "Unless you\u0027re using the properties of a tuple (viadic expansion or similar) please prefer to have a normal struct for these kinds of things.",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 47
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc8ce657_c5111739",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T18:56:51Z",
+      "side": 1,
+      "message": "Yeah, this was basically just laziness (shorthand) I guess, I\u0027ll make it its own struct.",
+      "parentUuid": "8951d826_7ba4398f",
       "range": {
         "startLine": 271,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "859aae90_ccf958ec",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T18:56:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "45e8972d_b6c0dffe",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 32
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad06f3bf_5b9b864e",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2021-12-02T18:28:49Z",
       "side": 1,
       "message": "This is doing two hash lookups.  you probably want something like\n\nstd::pair\u003citerator, bool\u003e inserted \u003d configSensors.emplace(....);\nif (inserted.second){\n    .... log duplicate entry.\n}",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 55
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4ccea9e_20b9012b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T18:56:51Z",
+      "side": 1,
+      "message": "Ah, thanks -- I was looking for something like that but the boost flat_map docs were a bit of a mountain...",
+      "parentUuid": "ad06f3bf_5b9b864e",
       "range": {
         "startLine": 300,
         "startChar": 0,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "69703453_6ef59b72",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T18:56:51Z",
+      "side": 1,
+      "message": "Agreed, that sounds like a good idea.",
+      "parentUuid": "737d193f_7d0abb8c",
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37b03f72_6067ce7d",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "7b1c9b4b_aff419ef",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T18:56:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "37b03f72_6067ce7d",
+      "range": {
+        "startLine": 385,
+        "startChar": 8,
+        "endLine": 385,
+        "endChar": 66
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d91fd11_3551f79b",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -145,6 +283,30 @@
       "writtenOn": "2021-12-02T18:28:49Z",
       "side": 1,
       "message": "Pointers need to be null checked, although when you move the above to a struct, I suspect they should also be made references.",
+      "range": {
+        "startLine": 395,
+        "startChar": 37,
+        "endLine": 395,
+        "endChar": 39
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6f650bc_8054c0ee",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-02T18:56:51Z",
+      "side": 1,
+      "message": "I had initially arranged this to use references, but got stuck on compilation errors I spent a while trying to figure out and got nowhere on but which were magically resolved by using pointers instead...not sure if the errors were an artifact of some subtlety of the tuple/pair business that\u0027ll be avoided with a plain struct, but I\u0027ll revisit it.",
+      "parentUuid": "8d91fd11_3551f79b",
       "range": {
         "startLine": 395,
         "startChar": 37,
