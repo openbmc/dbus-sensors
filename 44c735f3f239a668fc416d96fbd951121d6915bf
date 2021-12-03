@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb80ed68_2d525c34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-03T02:53:29Z",
+      "side": 1,
+      "message": "I will add it into commit log of the next patchset",
+      "parentUuid": "35fcf88a_e65d8cbe",
+      "revId": "44c735f3f239a668fc416d96fbd951121d6915bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef57cff_93d5efd8",
         "filename": "src/FanMain.cpp",
         "patchSetId": 7
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "df0d9256_83ea4888",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-03T02:53:29Z",
+      "side": 1,
+      "message": "like aspeedPWMFan? since ast2600 used pwm-fan driver to setup ast2600 pwm driver which was different from ast2500 which used aspeed pwm driver directly",
+      "parentUuid": "4ef57cff_93d5efd8",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 14
+      },
+      "revId": "44c735f3f239a668fc416d96fbd951121d6915bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c51e1c3e_95bf27fb",
         "filename": "src/FanMain.cpp",
         "patchSetId": 7
@@ -56,6 +98,24 @@
       "revId": "44c735f3f239a668fc416d96fbd951121d6915bf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69dd884e_d1473ee2",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-03T02:53:29Z",
+      "side": 1,
+      "message": "Make it be a function?",
+      "parentUuid": "c51e1c3e_95bf27fb",
+      "revId": "44c735f3f239a668fc416d96fbd951121d6915bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +139,30 @@
       "revId": "44c735f3f239a668fc416d96fbd951121d6915bf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "116153c1_730ab61d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-03T02:53:29Z",
+      "side": 1,
+      "message": "Let me explain it with sysfs\nroot@bletchley:/sys/class/hwmon# ls -la\n...\nhwmon6 -\u003e ../../devices/platform/ahb/ahb:apb/1e610000.pwm_tach/1e610000.pwm_tach:tach/hwmon/hwmon6\n...\nhwmon15 -\u003e ../../devices/platform/pwm-fan0/hwmon/hwmon15\n\nyou can see that tach driver is under /ahb:apb but pwm-fan is under /pwm-fan where the pwm1 belongs to\n\nWith ast2500 pwm-tach driver, the fan*_input and pwm* are at the same directory, but Aspeed separated them into ast2600-tach and ast2600-pwm driver for ast26xx SoC\n\nast2600-pwm driver followed the new pwm arch of kernel, user has to assign the base frequency manually via sysfs ABI,so Aspeed recommended to setup ast2600-pwm driver with pwm-fan driver which user can assign the base frequency with dts property.",
+      "parentUuid": "b8d1468d_0b2840a0",
+      "range": {
+        "startLine": 401,
+        "startChar": 0,
+        "endLine": 402,
+        "endChar": 75
+      },
+      "revId": "44c735f3f239a668fc416d96fbd951121d6915bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
