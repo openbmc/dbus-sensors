@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78a0af05_c246c887",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-03T01:35:44Z",
+      "side": 1,
+      "message": "Is this one really better?  I\u0027m happy to ok it if it\u0027s a pattern you want to see, but to my eye, the old code is more readable.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "784d3e2cb5eeca8d51948c5a6d6e7b240fc44835",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
