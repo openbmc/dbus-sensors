@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "36dc5f4d_5902aace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-03T02:45:34Z",
+      "side": 1,
+      "message": "Yeah, I can understand the reasoning there, I guess it just comes down to deciding on the balance between:\n\n (A) how long we expect it to take for the io_uring stuff to land,\n (B) the (presumably smaller) improvement this can provide in the meantime while waiting for A, and\n (C) the amount of additional work incurred by B when A arrives.\n\nJudging by https://www.boost.org/users/history/, it looks like boost 1.79 probably won\u0027t be available until April, which I assume provides a lower bound for A.  C seems (by my estimation) unlikely to be terribly bad (this is a fairly small patch that I\u0027d expect should be easy to revert unless there\u0027s a lot more churn in this area between now and whenever that happens).  B is...not huge by any means, but maybe worthwhile considering A?  I dunno.",
+      "parentUuid": "42fd5181_b8879b97",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1418ef2a_e2efd9ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -240,6 +264,24 @@
       "side": 1,
       "message": "I updated the patch with the current sha1s from the repo.  It should build now.",
       "parentUuid": "7f22b018_cca81840",
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "065b5b6e_cb421f69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-03T02:45:34Z",
+      "side": 1,
+      "message": "Alright, thanks -- I\u0027ve now got that built and running.  The results are...well, a bit unclear at the moment.  psusensor is now consuming every CPU cycle it can get (top shows 0% idle), which may be \"legitimate\" for all I know at the moment given the workload I\u0027m giving it, but in terms of observable behavior my `busctl tree` command is back to where it was before I started my current optimization efforts -- it times out after 25 seconds (and I suspect that\u0027s not just due to psusensor starving busctl/dbus-daemon of CPU cycles, because it still timed out after renicing psusensor to +20).  I think I\u0027ll try running it with a pared-down E-M config with fewer sensors to see how behaves with a lighter load (if you\u0027ve got any suggestions for other things to check, I\u0027m all ears).\n\nAlso, while I unfortunately didn\u0027t have the presence of mind to look into *why* before I control-C-ed it, on one occasion the io_uring-enabled psusensor seemed to just hang when I started (it never printed the messages it normally does during sensor creation)...if it happens again I\u0027ll try to get more info on it.",
+      "parentUuid": "686c4c7b_26dbea1c",
       "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
