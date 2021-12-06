@@ -304,6 +304,30 @@
       "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43f787ef_38cd37fd",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-12-06T21:30:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef080d46_13b476f3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
