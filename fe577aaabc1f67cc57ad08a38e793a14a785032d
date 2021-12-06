@@ -364,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "f306f57b_218a19a2",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-12-06T21:37:58Z",
+      "side": 1,
+      "message": "The best approach should be operation-status-monitor from \nhttps://github.com/openbmc/phosphor-led-manager/blob/master/fault-monitor/operational-status-monitor.hpp#L47\n\nHowever, it only monitors operational-status. It doesn\u0027t not monitor inventory Presents attribute. I propose we stay with current implementation and take action to improve operation-status-monitor in the future.",
+      "parentUuid": "8aa76a35_f40a1360",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e722617_9ce19685",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 26
