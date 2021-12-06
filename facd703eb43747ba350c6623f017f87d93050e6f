@@ -281,6 +281,29 @@
       "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef080d46_13b476f3",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2021-12-06T09:15:51Z",
+      "side": 1,
+      "message": "what to know significance of  using static with unique pointer.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "facd703eb43747ba350c6623f017f87d93050e6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
