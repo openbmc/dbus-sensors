@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8855159d_a32e1f65",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-12-06T03:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33c4e9e2_e19570ce",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 42
+      },
+      "revId": "b2763b7b3bfcfe17d873aae77ed82e645e013293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09d7aa6e_e826f365",
         "filename": "src/Utils.cpp",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "b2763b7b3bfcfe17d873aae77ed82e645e013293",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45088062_5fc2f469",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-12-06T03:04:01Z",
+      "side": 1,
+      "message": "Right, fixed by checking if the dir is empty.\nWhen the path ends with \u0027/\u0027, it will get the last `dir` as an empty fs::path.\n\nThe unit test cases were moved into the previous commit so that it makes sure the function works the same before and after this change.",
+      "parentUuid": "90c0a3a1_5a1c886c",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 256,
+        "endChar": 9
+      },
+      "revId": "b2763b7b3bfcfe17d873aae77ed82e645e013293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
