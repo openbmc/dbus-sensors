@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "859986fe_6c3aff19",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-06T19:12:27Z",
+      "side": 1,
+      "message": "\u003c So I want to use read block data to get direct byte data.\n\nTo me, it is not intuitively obvious that Block mode is used to get the last single byte data, not the whole block of data. If currently, there is no need to return the data differently with Block mode, please add comments to clarify in the code.",
+      "parentUuid": "ec1e6d76_54212abd",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 72
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5000921_a54beade",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 10
