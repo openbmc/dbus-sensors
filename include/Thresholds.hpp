@@ -136,4 +136,6 @@ bool checkThresholds(Sensor* sensor);
 void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
                                ThresholdTimer& thresholdTimer);
 
+std::shared_ptr<sdbusplus::asio::dbus_interface>
+    getInterface(const Level& level, Sensor* sensor);
 } // namespace thresholds
