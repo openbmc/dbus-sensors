@@ -19,41 +19,36 @@
 static constexpr bool debug = false;
 namespace thresholds
 {
-unsigned int toBusValue(const Level& level)
+struct severityOrder
 {
-    switch (level)
-    {
-        case (Level::WARNING):
-        {
-            return 0;
-        }
-        case (Level::CRITICAL):
-        {
-            return 1;
-        }
-        default:
-        {
-            return -1;
-        }
-    }
-}
+    uint8_t sevOrder;
+    Level lev;
+};
 
-std::string toBusValue(const Direction& direction)
+struct directionOrder
 {
-    switch (direction)
+    std::string dirOrder;
+    Direction dir;
+};
+
+std::array<severityOrder, 2> severityVal = {
+    {{0, Level::WARNING}, {1, Level::CRITICAL}}};
+std::array<directionOrder, 2> directionVal = {
+    {{"greater than", Direction::HIGH}, {"less than", Direction::LOW}}};
+
+int convertToValue(std::string order)
+{
+    if (order == "greater than")
     {
-        case (Direction::LOW):
-        {
-            return "less than";
-        }
-        case (Direction::HIGH):
-        {
-            return "greater than";
-        }
-        default:
-        {
-            return "err";
-        }
+        return 0;
+    }
+    else if (order == "less than")
+    {
+        return 1;
+    }
+    else
+    {
+        return -1;
     }
 }
 
@@ -121,24 +116,15 @@ bool parseThresholdsFromConfig(
         }
         Level level;
         Direction direction;
-        if (std::visit(VariantToUnsignedIntVisitor(), severityFind->second) ==
-            0)
-        {
-            level = Level::WARNING;
-        }
-        else
-        {
-            level = Level::CRITICAL;
-        }
-        if (std::visit(VariantToStringVisitor(), directionFind->second) ==
-            "less than")
-        {
-            direction = Direction::LOW;
-        }
-        else
-        {
-            direction = Direction::HIGH;
-        }
+        uint8_t severity =
+            std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+        level = severityVal[severity].lev;
+
+        std::string directions =
+            std::visit(VariantToStringVisitor(), directionFind->second);
+        int value = convertToValue(directions);
+        direction = directionVal[value].dir;
+
         double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
 
         thresholdVector.emplace_back(level, direction, val, hysteresis);
@@ -195,8 +181,8 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
-                if ((toBusValue(threshold.level) != level) ||
-                    (toBusValue(threshold.direction) != dir))
+                if (((severityVal[threshold.level].sevOrder) != level) ||
+                    ((directionVal[threshold.direction].dirOrder) != dir))
                 {
                     return; // not the droid we're looking for
                 }
@@ -232,31 +218,18 @@ void updateThresholds(Sensor* sensor)
         if (threshold.level == thresholds::Level::CRITICAL)
         {
             interface = sensor->thresholdInterfaceCritical;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                property = "CriticalHigh";
-            }
-            else
-            {
-                property = "CriticalLow";
-            }
         }
         else if (threshold.level == thresholds::Level::WARNING)
         {
             interface = sensor->thresholdInterfaceWarning;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                property = "WarningHigh";
-            }
-            else
-            {
-                property = "WarningLow";
-            }
         }
         else
         {
             continue;
         }
+
+        property = sensor->propertyLevel(threshold.level, threshold.direction);
+
         if (!interface)
         {
             continue;
@@ -485,28 +458,12 @@ void assertThresholds(Sensor* sensor, double assertValue,
 {
     std::string property;
     std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-    if (level == thresholds::Level::WARNING &&
-        direction == thresholds::Direction::HIGH)
+    if (level == thresholds::Level::WARNING)
     {
-        property = "WarningAlarmHigh";
         interface = sensor->thresholdInterfaceWarning;
     }
-    else if (level == thresholds::Level::WARNING &&
-             direction == thresholds::Direction::LOW)
+    else if (level == thresholds::Level::CRITICAL)
     {
-        property = "WarningAlarmLow";
-        interface = sensor->thresholdInterfaceWarning;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::HIGH)
-    {
-        property = "CriticalAlarmHigh";
-        interface = sensor->thresholdInterfaceCritical;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::LOW)
-    {
-        property = "CriticalAlarmLow";
         interface = sensor->thresholdInterfaceCritical;
     }
     else
@@ -515,6 +472,9 @@ void assertThresholds(Sensor* sensor, double assertValue,
                   << direction << "\n";
         return;
     }
+
+    property = sensor->propertyAlarm(level, direction);
+
     if (!interface)
     {
         std::cout << "trying to set uninitialized interface\n";

@@ -96,6 +96,25 @@ struct Sensor
     // construction of your Sensor subclass. See ExternalSensor for example.
     std::function<void()> externalSetHook;
 
+    struct ThresholdLevel
+    {
+        thresholds::Level level;
+        std::string levelProperty;
+    };
+
+    struct ThresholdDirection
+    {
+        thresholds::Direction direction;
+        std::string alarmProperty;
+    };
+
+    std::array<Sensor::ThresholdLevel, 2> thresLevelProp = {
+        {{thresholds::Level::WARNING, "Warning"},
+         {thresholds::Level::CRITICAL, "Critical"}}};
+    std::array<Sensor::ThresholdDirection, 2> thresAlarmProp = {
+        {{thresholds::Direction::HIGH, "High"},
+         {thresholds::Direction::LOW, "Low"}}};
+
     void updateInstrumentation(double readValue)
     {
         // Do nothing if this feature is not enabled
@@ -250,30 +269,10 @@ struct Sensor
             if (threshold.level == thresholds::Level::CRITICAL)
             {
                 iface = thresholdInterfaceCritical;
-                if (threshold.direction == thresholds::Direction::HIGH)
-                {
-                    level = "CriticalHigh";
-                    alarm = "CriticalAlarmHigh";
-                }
-                else
-                {
-                    level = "CriticalLow";
-                    alarm = "CriticalAlarmLow";
-                }
             }
             else if (threshold.level == thresholds::Level::WARNING)
             {
                 iface = thresholdInterfaceWarning;
-                if (threshold.direction == thresholds::Direction::HIGH)
-                {
-                    level = "WarningHigh";
-                    alarm = "WarningAlarmHigh";
-                }
-                else
-                {
-                    level = "WarningLow";
-                    alarm = "WarningAlarmLow";
-                }
             }
             else
             {
@@ -281,6 +280,10 @@ struct Sensor
                           << "\n";
                 continue;
             }
+
+            level = propertyLevel(threshold.level, threshold.direction);
+            alarm = propertyAlarm(threshold.level, threshold.direction);
+
             if (!iface)
             {
                 std::cout << "trying to set uninitialized interface\n";
@@ -371,6 +374,22 @@ struct Sensor
             operationalInterface->register_property("Functional", true);
             operationalInterface->initialize();
         }
+    }
+
+    std::string propertyLevel(const thresholds::Level lev,
+                              const thresholds::Direction dir)
+    {
+        std::string level = thresLevelProp[lev].levelProperty +
+                            thresAlarmProp[dir].alarmProperty;
+        return level;
+    }
+
+    std::string propertyAlarm(const thresholds::Level lev,
+                              const thresholds::Direction dir)
+    {
+        std::string alarm = thresLevelProp[lev].levelProperty + "Alarm" +
+                            thresAlarmProp[dir].alarmProperty;
+        return alarm;
     }
 
     bool readingStateGood()
