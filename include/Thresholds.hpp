@@ -13,15 +13,17 @@
 struct Sensor;
 namespace thresholds
 {
-enum Level
+enum class Level
 {
     WARNING,
-    CRITICAL
+    CRITICAL,
+    ERROR
 };
-enum Direction
+enum class Direction
 {
     HIGH,
-    LOW
+    LOW,
+    ERROR
 };
 struct Threshold
 {
