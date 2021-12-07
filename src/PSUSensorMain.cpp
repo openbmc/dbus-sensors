@@ -61,6 +61,7 @@ static constexpr auto sensorTypes{std::to_array<const char*>(
      "xyz.openbmc_project.Configuration.MAX20734",
      "xyz.openbmc_project.Configuration.MAX20796",
      "xyz.openbmc_project.Configuration.MAX34451",
+     "xyz.openbmc_project.Configuration.MP5023",
      "xyz.openbmc_project.Configuration.pmbus",
      "xyz.openbmc_project.Configuration.PXE1610",
      "xyz.openbmc_project.Configuration.RAA228000",
@@ -70,11 +71,11 @@ static constexpr auto sensorTypes{std::to_array<const char*>(
      "xyz.openbmc_project.Configuration.XDPE12284"})};
 
 static std::vector<std::string> pmbusNames = {
-    "adm1266",   "adm1272",   "adm1275",  "adm1278",  "dps800",    "ina219",
-    "ina230",    "ipsps1",    "isl68137", "isl68220", "isl68223",  "isl69243",
-    "isl69260",  "lm25066",   "max16601", "max20710", "max20730",  "max20734",
-    "max20796",  "max34451",  "pmbus",    "pxe1610",  "raa228000", "raa228228",
-    "raa229004", "tps546d24", "xdpe12284"};
+    "adm1266",   "adm1272",   "adm1275",   "adm1278",  "dps800",   "ina219",
+    "ina230",    "ipsps1",    "isl68137",  "isl68220", "isl68223", "isl69243",
+    "isl69260",  "lm25066",   "max16601",  "max20710", "max20730", "max20734",
+    "max20796",  "max34451",  "mp5023",    "pmbus",    "pxe1610",  "raa228000",
+    "raa228228", "raa229004", "tps546d24", "xdpe12284"};
 
 namespace fs = std::filesystem;
 
