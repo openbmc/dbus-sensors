@@ -96,6 +96,18 @@ struct Sensor
     // construction of your Sensor subclass. See ExternalSensor for example.
     std::function<void()> externalSetHook;
 
+    boost::container::flat_map<thresholds::Level,
+                               std::shared_ptr<sdbusplus::asio::dbus_interface>>
+        thresholdInterfaces;
+
+    boost::container::flat_map<thresholds::Level, std::string> thresholdName;
+
+    boost::container::flat_map<thresholds::Direction, std::string>
+        directionName;
+
+    boost::container::flat_map<thresholds::Direction, std::string>
+        directionAlarmName;
+
     void updateInstrumentation(double readValue)
     {
         // Do nothing if this feature is not enabled
@@ -238,6 +250,9 @@ struct Sensor
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
             });
+
+        setThresholds();
+
         for (auto& threshold : thresholds)
         {
             if (std::isnan(threshold.hysteresis))
@@ -247,40 +262,13 @@ struct Sensor
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
             std::string level;
             std::string alarm;
-            if (threshold.level == thresholds::Level::CRITICAL)
-            {
-                iface = thresholdInterfaceCritical;
-                if (threshold.direction == thresholds::Direction::HIGH)
-                {
-                    level = "CriticalHigh";
-                    alarm = "CriticalAlarmHigh";
-                }
-                else
-                {
-                    level = "CriticalLow";
-                    alarm = "CriticalAlarmLow";
-                }
-            }
-            else if (threshold.level == thresholds::Level::WARNING)
-            {
-                iface = thresholdInterfaceWarning;
-                if (threshold.direction == thresholds::Direction::HIGH)
-                {
-                    level = "WarningHigh";
-                    alarm = "WarningAlarmHigh";
-                }
-                else
-                {
-                    level = "WarningLow";
-                    alarm = "WarningAlarmLow";
-                }
-            }
-            else
-            {
-                std::cerr << "Unknown threshold level" << threshold.level
-                          << "\n";
-                continue;
-            }
+
+            iface = thresholdInterfaces[threshold.level];
+            level = thresholdName[threshold.level] +
+                    directionName[threshold.direction];
+            alarm = thresholdName[threshold.level] +
+                    directionAlarmName[threshold.direction];
+
             if (!iface)
             {
                 std::cout << "trying to set uninitialized interface\n";
@@ -314,16 +302,13 @@ struct Sensor
         {
             std::cerr << "error initializing value interface\n";
         }
-        if (thresholdInterfaceWarning &&
-            !thresholdInterfaceWarning->initialize(true))
-        {
-            std::cerr << "error initializing warning threshold interface\n";
-        }
 
-        if (thresholdInterfaceCritical &&
-            !thresholdInterfaceCritical->initialize(true))
+        for (auto& thresIface : thresholdInterfaces)
         {
-            std::cerr << "error initializing critical threshold interface\n";
+            if ((thresIface.second) && (!thresIface.second->initialize(true)))
+            {
+                std::cerr << "Error initializing threshold interface \n";
+            }
         }
 
         if (isValueMutable)
@@ -371,6 +356,23 @@ struct Sensor
             operationalInterface->register_property("Functional", true);
             operationalInterface->initialize();
         }
+    }
+
+    void setThresholds()
+    {
+        thresholdInterfaces[thresholds::Level::WARNING] =
+            thresholdInterfaceWarning;
+        thresholdInterfaces[thresholds::Level::CRITICAL] =
+            thresholdInterfaceCritical;
+
+        thresholdName[thresholds::Level::WARNING] = "Warning";
+        thresholdName[thresholds::Level::CRITICAL] = "Critical";
+
+        directionName[thresholds::Direction::HIGH] = "High";
+        directionName[thresholds::Direction::LOW] = "Low";
+
+        directionAlarmName[thresholds::Direction::HIGH] = "AlarmHigh";
+        directionAlarmName[thresholds::Direction::LOW] = "AlarmLow";
     }
 
     bool readingStateGood()
