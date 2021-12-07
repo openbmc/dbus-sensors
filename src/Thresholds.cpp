@@ -249,6 +249,26 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
     }
 }
 
+std::shared_ptr<sdbusplus::asio::dbus_interface>
+    getInterface(const Level& level, Sensor* sensor)
+{
+    switch (level)
+    {
+        case (thresholds::Level::WARNING):
+        {
+            return sensor->thresholdInterfaceWarning;
+        }
+        case (thresholds::Level::CRITICAL):
+        {
+            return sensor->thresholdInterfaceCritical;
+        }
+        default:
+        {
+            return nullptr;
+        }
+    }
+}
+
 void updateThresholds(Sensor* sensor)
 {
     if (sensor->thresholds.empty())
@@ -258,17 +278,9 @@ void updateThresholds(Sensor* sensor)
 
     for (const auto& threshold : sensor->thresholds)
     {
-        std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-        if (threshold.level == thresholds::Level::CRITICAL)
-        {
-            interface = sensor->thresholdInterfaceCritical;
-        }
-        else if (threshold.level == thresholds::Level::WARNING)
-        {
-            interface = sensor->thresholdInterfaceWarning;
-        }
         auto property =
             getThresholdProperty(threshold.direction, threshold.level);
+        auto interface = getInterface(threshold.level, sensor);
         if (property.empty() || !interface)
         {
             continue;
@@ -495,15 +507,7 @@ void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert)
 {
-    std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-    if (level == thresholds::Level::WARNING)
-    {
-        interface = sensor->thresholdInterfaceWarning;
-    }
-    else if (level == thresholds::Level::CRITICAL)
-    {
-        interface = sensor->thresholdInterfaceCritical;
-    }
+    auto interface = getInterface(level, sensor);
     if (!interface)
     {
         std::cerr << "trying to set uninitialized interface\n";
