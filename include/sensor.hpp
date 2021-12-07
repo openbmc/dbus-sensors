@@ -245,14 +245,6 @@ struct Sensor
                 threshold.hysteresis = hysteresisTrigger;
             }
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
-            if (threshold.level == thresholds::Level::CRITICAL)
-            {
-                iface = thresholdInterfaceCritical;
-            }
-            else if (threshold.level == thresholds::Level::WARNING)
-            {
-                iface = thresholdInterfaceWarning;
-            }
             auto level = thresholds::getThresholdProperty(threshold.direction,
                                                           threshold.level);
             auto alarm = thresholds::getThresholdAlarmProperty(
@@ -263,6 +255,7 @@ struct Sensor
                           << "\n";
                 continue;
             }
+            iface = thresholds::getInterface(threshold.level, this);
             if (!iface)
             {
                 std::cout << "trying to set uninitialized interface\n";
