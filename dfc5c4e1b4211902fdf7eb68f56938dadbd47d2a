@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25003793_3770bca0",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-07T18:44:40Z",
+      "side": 1,
+      "message": "Please keep this list sorted.",
+      "revId": "dfc5c4e1b4211902fdf7eb68f56938dadbd47d2a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bebdbe4_4b05f4ec",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-07T18:44:40Z",
+      "side": 1,
+      "message": "Please keep this list sorted.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 53
+      },
+      "revId": "dfc5c4e1b4211902fdf7eb68f56938dadbd47d2a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
