@@ -96,6 +96,24 @@ struct Sensor
     // construction of your Sensor subclass. See ExternalSensor for example.
     std::function<void()> externalSetHook;
 
+    struct ThresholdProperty
+    {
+        thresholds::Level level;
+        thresholds::Direction direction;
+        const char* levelProperty;
+        const char* alarmProperty;
+    };
+
+    constexpr static std::array<ThresholdProperty, 4> thresProp = {
+        {{thresholds::Level::WARNING, thresholds::Direction::HIGH,
+          "WarningHigh", "WarningAlarmHigh"},
+         {thresholds::Level::WARNING, thresholds::Direction::LOW, "WarningLow",
+          "WarningAlarmLow"},
+         {thresholds::Level::CRITICAL, thresholds::Direction::HIGH,
+          "CriticalHigh", "CriticalAlarmHigh"},
+         {thresholds::Level::CRITICAL, thresholds::Direction::LOW,
+          "CriticalLow", "CriticalAlarmLow"}}};
+
     void updateInstrumentation(double readValue)
     {
         // Do nothing if this feature is not enabled
@@ -245,35 +263,13 @@ struct Sensor
                 threshold.hysteresis = hysteresisTrigger;
             }
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
-            std::string level;
-            std::string alarm;
             if (threshold.level == thresholds::Level::CRITICAL)
             {
                 iface = thresholdInterfaceCritical;
-                if (threshold.direction == thresholds::Direction::HIGH)
-                {
-                    level = "CriticalHigh";
-                    alarm = "CriticalAlarmHigh";
-                }
-                else
-                {
-                    level = "CriticalLow";
-                    alarm = "CriticalAlarmLow";
-                }
             }
             else if (threshold.level == thresholds::Level::WARNING)
             {
                 iface = thresholdInterfaceWarning;
-                if (threshold.direction == thresholds::Direction::HIGH)
-                {
-                    level = "WarningHigh";
-                    alarm = "WarningAlarmHigh";
-                }
-                else
-                {
-                    level = "WarningLow";
-                    alarm = "WarningAlarmLow";
-                }
             }
             else
             {
@@ -287,6 +283,15 @@ struct Sensor
                 continue;
             }
 
+            std::string level =
+                propertyLevel(threshold.level, threshold.direction);
+            std::string alarm =
+                propertyAlarm(threshold.level, threshold.direction);
+
+            if ((level.empty()) || (alarm.empty()))
+            {
+                continue;
+            }
             size_t thresSize =
                 label.empty() ? thresholds.size() : thresholdSize;
             iface->register_property(
@@ -371,6 +376,32 @@ struct Sensor
             operationalInterface->register_property("Functional", true);
             operationalInterface->initialize();
         }
+    }
+
+    std::string propertyLevel(const thresholds::Level lev,
+                              const thresholds::Direction dir)
+    {
+        for (auto prop : thresProp)
+        {
+            if ((prop.level == lev) && (prop.direction == dir))
+            {
+                return prop.levelProperty;
+            }
+        }
+        return "";
+    }
+
+    std::string propertyAlarm(const thresholds::Level lev,
+                              const thresholds::Direction dir)
+    {
+        for (auto prop : thresProp)
+        {
+            if ((prop.level == lev) && (prop.direction == dir))
+            {
+                return prop.alarmProperty;
+            }
+        }
+        return "";
     }
 
     bool readingStateGood()

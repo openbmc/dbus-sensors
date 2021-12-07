@@ -19,42 +19,42 @@
 static constexpr bool debug = false;
 namespace thresholds
 {
-unsigned int toBusValue(const Level& level)
+struct ThresholdOrder
 {
-    switch (level)
+    Level lev;
+    Direction dir;
+    uint8_t sevOrder;
+    const char* dirOrder;
+};
+
+constexpr static std::array<ThresholdOrder, 4> thresVal = {
+    {{Level::WARNING, Direction::HIGH, 0, "greater than"},
+     {Level::WARNING, Direction::LOW, 0, "less than"},
+     {Level::CRITICAL, Direction::HIGH, 1, "greater than"},
+     {Level::CRITICAL, Direction::LOW, 1, "less than"}}};
+
+Level findThresholdLevel(uint8_t sev, const std::string& direct)
+{
+    for (auto prop : thresVal)
     {
-        case (Level::WARNING):
+        if ((prop.sevOrder == sev) && (prop.dirOrder == direct))
         {
-            return 0;
-        }
-        case (Level::CRITICAL):
-        {
-            return 1;
-        }
-        default:
-        {
-            return -1;
+            return prop.lev;
         }
     }
+    return Level::LERROR;
 }
 
-std::string toBusValue(const Direction& direction)
+Direction findThresholdDirection(uint8_t sev, const std::string& direct)
 {
-    switch (direction)
+    for (auto prop : thresVal)
     {
-        case (Direction::LOW):
+        if ((prop.sevOrder == sev) && (prop.dirOrder == direct))
         {
-            return "less than";
-        }
-        case (Direction::HIGH):
-        {
-            return "greater than";
-        }
-        default:
-        {
-            return "err";
+            return prop.dir;
         }
     }
+    return Direction::DERROR;
 }
 
 bool parseThresholdsFromConfig(
@@ -119,25 +119,18 @@ bool parseThresholdsFromConfig(
                       << item.first << "\n";
             return false;
         }
-        Level level;
-        Direction direction;
-        if (std::visit(VariantToUnsignedIntVisitor(), severityFind->second) ==
-            0)
+        uint8_t severity =
+            std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+
+        std::string directions =
+            std::visit(VariantToStringVisitor(), directionFind->second);
+
+        Level level = findThresholdLevel(severity, directions);
+        Direction direction = findThresholdDirection(severity, directions);
+
+        if ((level == -1) || (direction == -1))
         {
-            level = Level::WARNING;
-        }
-        else
-        {
-            level = Level::CRITICAL;
-        }
-        if (std::visit(VariantToStringVisitor(), directionFind->second) ==
-            "less than")
-        {
-            direction = Direction::LOW;
-        }
-        else
-        {
-            direction = Direction::HIGH;
+            continue;
         }
         double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
 
@@ -195,8 +188,9 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
-                if ((toBusValue(threshold.level) != level) ||
-                    (toBusValue(threshold.direction) != dir))
+                if (((findThresholdLevel(level, dir)) != threshold.level) ||
+                    ((findThresholdDirection(level, dir)) !=
+                     threshold.direction))
                 {
                     return; // not the droid we're looking for
                 }
@@ -228,36 +222,26 @@ void updateThresholds(Sensor* sensor)
     for (const auto& threshold : sensor->thresholds)
     {
         std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-        std::string property;
         if (threshold.level == thresholds::Level::CRITICAL)
         {
             interface = sensor->thresholdInterfaceCritical;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                property = "CriticalHigh";
-            }
-            else
-            {
-                property = "CriticalLow";
-            }
         }
         else if (threshold.level == thresholds::Level::WARNING)
         {
             interface = sensor->thresholdInterfaceWarning;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                property = "WarningHigh";
-            }
-            else
-            {
-                property = "WarningLow";
-            }
         }
         else
         {
             continue;
         }
         if (!interface)
+        {
+            continue;
+        }
+
+        std::string property =
+            sensor->propertyLevel(threshold.level, threshold.direction);
+        if (property.empty())
         {
             continue;
         }
@@ -483,30 +467,13 @@ void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert)
 {
-    std::string property;
     std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-    if (level == thresholds::Level::WARNING &&
-        direction == thresholds::Direction::HIGH)
+    if (level == thresholds::Level::WARNING)
     {
-        property = "WarningAlarmHigh";
         interface = sensor->thresholdInterfaceWarning;
     }
-    else if (level == thresholds::Level::WARNING &&
-             direction == thresholds::Direction::LOW)
+    else if (level == thresholds::Level::CRITICAL)
     {
-        property = "WarningAlarmLow";
-        interface = sensor->thresholdInterfaceWarning;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::HIGH)
-    {
-        property = "CriticalAlarmHigh";
-        interface = sensor->thresholdInterfaceCritical;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::LOW)
-    {
-        property = "CriticalAlarmLow";
         interface = sensor->thresholdInterfaceCritical;
     }
     else
@@ -521,6 +488,12 @@ void assertThresholds(Sensor* sensor, double assertValue,
         return;
     }
 
+    std::string property = sensor->propertyAlarm(level, direction);
+    if (property.empty())
+    {
+        std::cout << "Alarm property is empty \n";
+        return;
+    }
     if (interface->set_property<bool, true>(property, assert))
     {
         try

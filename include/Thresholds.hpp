@@ -16,12 +16,14 @@ namespace thresholds
 enum Level
 {
     WARNING,
-    CRITICAL
+    CRITICAL,
+    LERROR = -1
 };
 enum Direction
 {
     HIGH,
-    LOW
+    LOW,
+    DERROR = -1
 };
 struct Threshold
 {
