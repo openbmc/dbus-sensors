@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ec647d7_6765eb8e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-07T11:41:14Z",
+      "side": 1,
+      "message": "This also can be converted to switch case or map lookup to enhance ?  If we add shutdown interfaces, then \u0027if, else if\u0027 part will be increased.",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 9
+      },
+      "revId": "a13e598c10b523ba34b12c4226c727921b9b8cce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
