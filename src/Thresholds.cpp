@@ -121,8 +121,11 @@ bool parseThresholdsFromConfig(
         }
         Level level;
         Direction direction;
-        if (std::visit(VariantToUnsignedIntVisitor(), severityFind->second) ==
-            0)
+
+        auto severity =
+            std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+
+        if (severity == 0)
         {
             level = Level::WARNING;
         }
@@ -130,8 +133,11 @@ bool parseThresholdsFromConfig(
         {
             level = Level::CRITICAL;
         }
-        if (std::visit(VariantToStringVisitor(), directionFind->second) ==
-            "less than")
+
+        auto directions =
+            std::visit(VariantToStringVisitor(), directionFind->second);
+
+        if (directions == "less than")
         {
             direction = Direction::LOW;
         }
@@ -225,38 +231,17 @@ void updateThresholds(Sensor* sensor)
         return;
     }
 
+    sensor->setThresholds();
+
     for (const auto& threshold : sensor->thresholds)
     {
         std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
         std::string property;
-        if (threshold.level == thresholds::Level::CRITICAL)
-        {
-            interface = sensor->thresholdInterfaceCritical;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                property = "CriticalHigh";
-            }
-            else
-            {
-                property = "CriticalLow";
-            }
-        }
-        else if (threshold.level == thresholds::Level::WARNING)
-        {
-            interface = sensor->thresholdInterfaceWarning;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                property = "WarningHigh";
-            }
-            else
-            {
-                property = "WarningLow";
-            }
-        }
-        else
-        {
-            continue;
-        }
+
+        interface = sensor->thresholdInterfaces[threshold.level];
+        property = sensor->thresholdName[threshold.level] +
+                   sensor->directionName[threshold.direction];
+
         if (!interface)
         {
             continue;
@@ -485,36 +470,13 @@ void assertThresholds(Sensor* sensor, double assertValue,
 {
     std::string property;
     std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-    if (level == thresholds::Level::WARNING &&
-        direction == thresholds::Direction::HIGH)
-    {
-        property = "WarningAlarmHigh";
-        interface = sensor->thresholdInterfaceWarning;
-    }
-    else if (level == thresholds::Level::WARNING &&
-             direction == thresholds::Direction::LOW)
-    {
-        property = "WarningAlarmLow";
-        interface = sensor->thresholdInterfaceWarning;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::HIGH)
-    {
-        property = "CriticalAlarmHigh";
-        interface = sensor->thresholdInterfaceCritical;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::LOW)
-    {
-        property = "CriticalAlarmLow";
-        interface = sensor->thresholdInterfaceCritical;
-    }
-    else
-    {
-        std::cerr << "Unknown threshold, level " << level << "direction "
-                  << direction << "\n";
-        return;
-    }
+
+    sensor->setThresholds();
+
+    interface = sensor->thresholdInterfaces[level];
+    property =
+        sensor->thresholdName[level] + sensor->directionAlarmName[direction];
+
     if (!interface)
     {
         std::cout << "trying to set uninitialized interface\n";
