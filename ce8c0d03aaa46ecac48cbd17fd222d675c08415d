@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "3e834a8a_c90f59d9",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-12-08T08:01:53Z",
+      "side": 1,
+      "message": "Hi Zhikui, thanks for the discussion. After serious consideration, I think I can use \"Word\" mode and another method to achieve my purpose.\nAbout \"Block\" mode, do you have any suggestions? I will try to modify to save the whole data to dbus first.",
+      "parentUuid": "859986fe_6c3aff19",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 72
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5000921_a54beade",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 10
