@@ -184,6 +184,38 @@ void createSensors(boost::asio::io_service& io,
     getter->getConfiguration(std::vector<std::string>{NVMeSensor::CONFIG_TYPE});
 }
 
+static void interfaceRemoved(sdbusplus::message::message& message,
+                             NVMEMap& contexts)
+{
+    if (message.is_method_error())
+    {
+        std::cerr << "interfacesRemoved callback method error\n";
+        return;
+    }
+
+    sdbusplus::message::object_path path;
+    std::vector<std::string> interfaces;
+
+    message.read(path, interfaces);
+
+    for (auto& [_, context] : contexts)
+    {
+        std::optional<std::shared_ptr<NVMeSensor>> sensor =
+            context->getSensorAtPath(path);
+        if (!sensor)
+        {
+            continue;
+        }
+
+        auto interface = std::find(interfaces.begin(), interfaces.end(),
+                                   (*sensor)->objectType);
+        if (interface != interfaces.end())
+        {
+            context->removeSensor(sensor.value());
+        }
+    }
+}
+
 int main()
 {
     boost::asio::io_service io;
@@ -225,6 +257,16 @@ int main()
             std::string(inventoryPath) + "',arg0namespace='" +
             std::string(NVMeSensor::CONFIG_TYPE) + "'",
         eventHandler);
+
+    // Watch for entity-manager to remove configuration interfaces
+    // so the corresponding sensors can be removed.
+    auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        "type='signal',member='InterfacesRemoved',arg0path='" +
+            std::string(inventoryPath) + "/'",
+        [](sdbusplus::message::message& msg) {
+            interfaceRemoved(msg, nvmeDeviceMap);
+        });
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
