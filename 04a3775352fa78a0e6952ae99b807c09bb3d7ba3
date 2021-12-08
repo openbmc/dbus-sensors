@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "7ce3f834_b3342a9e",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-12-08T21:15:39Z",
+      "side": 1,
+      "message": "So EM publishes the config for this daemon to consume (gpio line, name, etc) then this daemon in turns publishes mfg/PN..\nand then EM in turn probes off this and publishes another inventory item decorated with the item interface (specified via json config)..\n\nand then this daemon mutates present via d-bus?\n\nIf I understand correctly : that seems really complex in comparison to this daemon just owning the item interface. All in the name of having a single daemon manage inventories?\n\nIf I am mis-interpreting your comment: can you elaborate please?",
+      "parentUuid": "cec11087_975e7ca0",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e643becb_505607bf",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 31
