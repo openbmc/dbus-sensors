@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "93a5c389_2e3c75ed",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 29
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "There\u0027s no need to separate Type and class in this way.  Type: CablePresence, PCIePresence, ect is generally how we\u0027d solve this problem.  One daemon can support multiple types.",
+      "range": {
+        "startLine": 74,
+        "startChar": 15,
+        "endLine": 74,
+        "endChar": 27
+      },
+      "revId": "f3c6fadebdc7bd2ca9bcdee74392bc2f09091b15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1398554_8f581e4e",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 29
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "I realize this was pasted, but please avoid tabs.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 1
+      },
+      "revId": "f3c6fadebdc7bd2ca9bcdee74392bc2f09091b15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38e54f8b_48ab2185",
         "filename": "include/GPIOPresenceSensor.hpp",
         "patchSetId": 29

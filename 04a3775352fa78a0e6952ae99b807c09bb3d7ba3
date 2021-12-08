@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a36c853_e2dec7ff",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "This daemon should not be part of asserting LEDs.  There\u0027s already an LED daemon.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 55
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7b72256_24481a33",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "Generaly we don\u0027t separate \"Class\" and \"Type\".  There\u0027s a couple cases where we do it for devices that support the same protocol, but need different read modes, but that\u0027s not this case.\n\nIn this case, \"Type\" should be \"GpioCablePresence\" and Class should be deleted.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 23
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ba2ac24_91931490",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "Please check and verify that this is the same way (name and casing) we represent polarity in other places.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec11087_975e7ca0",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "Generally this daemon wouldn\u0027t be responsible for publishing the item interface itself, it would only publish the manufacturer and part nubmer interfaces that entity-manager would then expose.  Your EM config file would likely not have any exposes in it at this point.",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e643becb_505607bf",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "This should not be a direct translation.  entity-manager configs should own the class of the device and be limited to use cases we know are real Item.* interfaces.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 69
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63169d51_2c00518a",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "I see no mention of associations that would show what this is connected to.  That will be required.",
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40035225_b6310532",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "Lets leave this off until we have use cases.  Riser cards and drives already have support in other applications, and while this might be a good use of it, lets evaluate it when the time comes.  Riser cards and drives have the complexity that they might have both a FRU and a Gpio, so another design is somewhat needed to figure out how to do the \"merge\"",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 50
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22f67c5b_34ebd766",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T20:45:49Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
