@@ -16,6 +16,24 @@
       "revId": "887c485492567fe6e692bcd75d1e444c13e4eeeb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b25ff645_45af5254",
+        "filename": "include/NVMeSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T17:25:24Z",
+      "side": 1,
+      "message": "No reason that I recall, but I wasn\u0027t part of the project when this was checked in.  I think we only have one or two drive types, so it would be pretty doable to change to nvme, and probably a good idea.",
+      "parentUuid": "1b46d41d_ec38c468",
+      "revId": "887c485492567fe6e692bcd75d1e444c13e4eeeb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
