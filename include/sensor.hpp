@@ -253,17 +253,16 @@ struct Sensor
             {
                 iface = thresholdInterfaceWarning;
             }
-            auto levelStr = thresholds::toLevelString(threshold.level);
-            if (levelStr.empty())
+            auto level = thresholds::getThresholdProperty(threshold.direction,
+                                                          threshold.level);
+            auto alarm = thresholds::getThresholdAlarmProperty(
+                threshold.direction, threshold.level);
+            if (level.empty() || alarm.empty())
             {
                 std::cerr << "Unknown threshold level" << threshold.level
                           << "\n";
                 continue;
             }
-            std::string level = levelStr;
-            std::string alarm = levelStr + "Alarm";
-            thresholds::appendThresholdDirection(threshold.direction, level);
-            thresholds::appendThresholdDirection(threshold.direction, alarm);
             if (!iface)
             {
                 std::cout << "trying to set uninitialized interface\n";

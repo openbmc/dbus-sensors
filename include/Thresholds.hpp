@@ -136,6 +136,10 @@ struct ThresholdTimer
     std::list<TimerPair> timers;
 };
 
+std::string getThresholdProperty(const thresholds::Direction& direction,
+                                 const thresholds::Level& level);
+std::string getThresholdAlarmProperty(const thresholds::Direction& direction,
+                                      const thresholds::Level& level);
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
