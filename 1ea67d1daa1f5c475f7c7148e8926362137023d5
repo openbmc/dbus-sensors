@@ -22,6 +22,53 @@
       "revId": "1ea67d1daa1f5c475f7c7148e8926362137023d5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1edd93a5_d61e8330",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T21:35:09Z",
+      "side": 1,
+      "message": "In practice, these are commonly in the 99% case very small (generally 1 interface), so a vector tends to be slightly faster for small sizes.  Technically something like boost::small_vector would be the perfect ideal, and wouldn\u0027t even allocate for single entry items, but that\u0027s getting a bit overboard on optimization.\n\nIn short, this is what we do elsewhere, so I think this is fine.",
+      "parentUuid": "8030f4ee_cd8dbec3",
+      "range": {
+        "startLine": 197,
+        "startChar": 9,
+        "endLine": 197,
+        "endChar": 15
+      },
+      "revId": "1ea67d1daa1f5c475f7c7148e8926362137023d5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19cf9b0a_cd59b41a",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-08T21:35:09Z",
+      "side": 1,
+      "message": "Super nitpick, but sticking with the pattern of calling continue on error might make this more clear\n\nsomething like:\n        if (interface \u003d\u003d interfaces.end())\n        {\n              continue;\n        }\n        context-\u003eremoveSensor(*sensor);",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 9
+      },
+      "revId": "1ea67d1daa1f5c475f7c7148e8926362137023d5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
