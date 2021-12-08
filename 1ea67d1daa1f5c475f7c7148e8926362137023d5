@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "477b9c76_36dcee24",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-08T21:48:22Z",
+      "side": 1,
+      "message": "Right, I used std::vector\u003c\u003e because I just copy/pasted/hacked what was in hwmontempsensor.",
+      "parentUuid": "1edd93a5_d61e8330",
+      "range": {
+        "startLine": 197,
+        "startChar": 9,
+        "endLine": 197,
+        "endChar": 15
+      },
+      "revId": "1ea67d1daa1f5c475f7c7148e8926362137023d5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19cf9b0a_cd59b41a",
         "filename": "src/NVMeSensorMain.cpp",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "1ea67d1daa1f5c475f7c7148e8926362137023d5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d26e5e5_f72ee91e",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-08T21:48:22Z",
+      "side": 1,
+      "message": "Ack, although IMO the fewer continues the better.",
+      "parentUuid": "19cf9b0a_cd59b41a",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 9
+      },
+      "revId": "1ea67d1daa1f5c475f7c7148e8926362137023d5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
