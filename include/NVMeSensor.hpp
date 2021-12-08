@@ -6,6 +6,9 @@
 class NVMeSensor : public Sensor
 {
   public:
+    static constexpr const char* CONFIG_TYPE =
+        "xyz.openbmc_project.Configuration.NVME1000";
+
     NVMeSensor(sdbusplus::asio::object_server& objectServer,
                boost::asio::io_service& io,
                std::shared_ptr<sdbusplus::asio::connection>& conn,
