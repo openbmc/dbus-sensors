@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8030f4ee_cd8dbec3",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2021-12-08T08:23:08Z",
+      "side": 1,
+      "message": "Better to use std::set so that the find below could be more efficient.",
+      "range": {
+        "startLine": 197,
+        "startChar": 9,
+        "endLine": 197,
+        "endChar": 15
+      },
+      "revId": "1ea67d1daa1f5c475f7c7148e8926362137023d5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
