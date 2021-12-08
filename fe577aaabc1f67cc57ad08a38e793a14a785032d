@@ -388,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "f7c0a014_00991ff4",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-12-08T21:22:43Z",
+      "side": 1,
+      "message": "I think Andrei has a good point and the sentiment is echoed by Ed. The idea being that gpio presence only cares about the presence of something and that blinking LEDs is something that is done by the LED daemon.\n\nI think the right thing to do here is to remove the assertion code from this review. If we want to have a band-aid solution in the short term we can carry a patch locally until we have the time to add presence monitoring to the LED daemon.\n\nRationale: If we submit code that uses the LED assert interface then a precedence is created for future contributors to do the same.\n\nAndrei, Chu - thoughts?",
+      "parentUuid": "f306f57b_218a19a2",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e722617_9ce19685",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 26
