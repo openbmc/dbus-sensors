@@ -23,9 +23,6 @@
 #include <optional>
 #include <regex>
 
-static constexpr const char* sensorType =
-    "xyz.openbmc_project.Configuration.NVME1000";
-
 static NVMEMap nvmeDeviceMap;
 
 static constexpr bool debug = false;
@@ -135,7 +132,7 @@ static void handleSensorConfigurations(
     for (const auto& [interfacePath, sensorData] : sensorConfigurations)
     {
         // find base configuration
-        auto sensorBase = sensorData.find(sensorType);
+        auto sensorBase = sensorData.find(NVMeSensor::CONFIG_TYPE);
         if (sensorBase != sensorData.end())
         {
             const SensorBaseConfigMap& sensorConfig = sensorBase->second;
@@ -184,7 +181,7 @@ void createSensors(boost::asio::io_service& io,
             handleSensorConfigurations(io, objectServer, dbusConnection,
                                        sensorConfigurations);
         }));
-    getter->getConfiguration(std::vector<std::string>{sensorType});
+    getter->getConfiguration(std::vector<std::string>{NVMeSensor::CONFIG_TYPE});
 }
 
 int main()
@@ -226,7 +223,7 @@ int main()
         static_cast<sdbusplus::bus::bus&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" +
-            std::string(sensorType) + "'",
+            std::string(NVMeSensor::CONFIG_TYPE) + "'",
         eventHandler);
 
     setupManufacturingModeMatch(*systemBus);
