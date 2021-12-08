@@ -232,32 +232,17 @@ void updateThresholds(Sensor* sensor)
         if (threshold.level == thresholds::Level::CRITICAL)
         {
             interface = sensor->thresholdInterfaceCritical;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                property = "CriticalHigh";
-            }
-            else
-            {
-                property = "CriticalLow";
-            }
         }
         else if (threshold.level == thresholds::Level::WARNING)
         {
             interface = sensor->thresholdInterfaceWarning;
-            if (threshold.direction == thresholds::Direction::HIGH)
-            {
-                property = "WarningHigh";
-            }
-            else
-            {
-                property = "WarningLow";
-            }
         }
-        else
+        property = toLevelString(threshold.level);
+        if (property.empty() || !interface)
         {
             continue;
         }
-        if (!interface)
+        if (!appendThresholdDirection(threshold.direction, property))
         {
             continue;
         }
@@ -485,39 +470,31 @@ void assertThresholds(Sensor* sensor, double assertValue,
 {
     std::string property;
     std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-    if (level == thresholds::Level::WARNING &&
-        direction == thresholds::Direction::HIGH)
+    if (level == thresholds::Level::WARNING)
     {
-        property = "WarningAlarmHigh";
         interface = sensor->thresholdInterfaceWarning;
     }
-    else if (level == thresholds::Level::WARNING &&
-             direction == thresholds::Direction::LOW)
+    else if (level == thresholds::Level::CRITICAL)
     {
-        property = "WarningAlarmLow";
-        interface = sensor->thresholdInterfaceWarning;
-    }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::HIGH)
-    {
-        property = "CriticalAlarmHigh";
         interface = sensor->thresholdInterfaceCritical;
     }
-    else if (level == thresholds::Level::CRITICAL &&
-             direction == thresholds::Direction::LOW)
+    if (!interface)
     {
-        property = "CriticalAlarmLow";
-        interface = sensor->thresholdInterfaceCritical;
+        std::cerr << "trying to set uninitialized interface\n";
+        return;
     }
-    else
+    property = toLevelString(level);
+    if (property.empty())
     {
         std::cerr << "Unknown threshold, level " << level << "direction "
                   << direction << "\n";
         return;
     }
-    if (!interface)
+    property += "Alarm";
+    if (!appendThresholdDirection(direction, property))
     {
-        std::cout << "trying to set uninitialized interface\n";
+        std::cerr << "Unknown threshold, level " << level << "direction "
+                  << direction << "\n";
         return;
     }
 

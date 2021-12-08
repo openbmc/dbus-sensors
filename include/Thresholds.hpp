@@ -45,6 +45,16 @@ struct Threshold
     }
 };
 
+static const std::array levels{"Warning", "Critical"};
+inline std::string toLevelString(unsigned int level)
+{
+    if (level >= levels.size())
+    {
+        return "";
+    }
+    return levels[level];
+}
+
 void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert);
@@ -58,6 +68,24 @@ struct TimerUsed
 };
 
 using TimerPair = std::pair<struct TimerUsed, boost::asio::deadline_timer>;
+
+inline bool appendThresholdDirection(const thresholds::Direction& direction,
+                                     std::string& property)
+{
+    if (direction == thresholds::Direction::HIGH)
+    {
+        property += "High";
+    }
+    else if (direction == thresholds::Direction::LOW)
+    {
+        property += "Low";
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}
 
 struct ThresholdTimer
 {
