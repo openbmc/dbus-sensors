@@ -287,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "eb142543_4962b42c",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2021-12-08T09:09:35Z",
+      "side": 1,
+      "message": "Or maybe remove \"Block\" mode, only use \"Byte\" and \"Word\" mode?",
+      "parentUuid": "3e834a8a_c90f59d9",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 72
+      },
+      "revId": "ce8c0d03aaa46ecac48cbd17fd222d675c08415d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5000921_a54beade",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 10
