@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c9595f5_83f22ab5",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 112
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-09T18:28:18Z",
+      "side": 1,
+      "message": "string() returns a value, not a reference, so this reference is pointing at an rvalue, which will be destroyed shortly.\n\n(yes, I realize this is subtle, but unit tests would\u0027ve caught this).",
+      "range": {
+        "startLine": 109,
+        "startChar": 33,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "6a91c2b85283c886e68da0c940a0aeb18985161c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95b4bffe_493ef126",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 112
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-09T18:28:18Z",
+      "side": 1,
+      "message": "As written, this is adding 60 lines to a method that\u0027s already too long.  Can this be abstracted into something like:\n\nstruct SensorParams{\n    double minValue;\n    double maxValue;\n    double scaleValue;\n    std::string units;\n    std::string typeName; \n\n}\n\nSensorParams getSensorParameters(const std::string\u0026 type, const std::filesystem::path\u0026 path)\n\n\nI think that would help to make this function a lot shorter.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 17
+      },
+      "revId": "6a91c2b85283c886e68da0c940a0aeb18985161c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
