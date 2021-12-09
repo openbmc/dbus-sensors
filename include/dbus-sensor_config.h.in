@@ -1,9 +1,12 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 // clang-format off
 constexpr const bool validateUnsecureFeature = @VALIDATION_UNSECURE_FEATURE@;
 
 constexpr const bool insecureSensorOverride = @INSECURE_UNRESTRICTED_SENSOR_OVERRIDE@;
+
+const std::string obmcHostInstances = @OBMC_HOST_INSTANCES@;
 // clang-format on

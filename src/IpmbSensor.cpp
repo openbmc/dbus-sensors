@@ -45,6 +45,7 @@ static constexpr double ipmbMinReading = 0;
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
+static constexpr uint8_t ipmbBusIndexDefault = 0;
 static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
@@ -467,6 +468,23 @@ void createSensors(
                         if (pollRate <= 0.0f)
                         {
                             pollRate = pollRateDefault;
+                        }
+                    }
+
+                    uint8_t ipmbBusIndex = ipmbBusIndexDefault;
+                    auto findBusType = entry.second.find("Bus");
+                    if (findBusType != entry.second.end())
+                    {
+                        ipmbBusIndex = std::visit(VariantToUnsignedIntVisitor(),
+                                                  findBusType->second);
+
+                        auto hostInstances = findHostInstances(ipmbBusIndex);
+                        if (ipmbBusIndex != hostInstances)
+                        {
+                            ipmbBusIndex = ipmbBusIndexDefault;
+                            std::cerr
+                                << "IPMB bus index exceeds OBMC HOST INSTANCES"
+                                << "\n";
                         }
                     }
 
