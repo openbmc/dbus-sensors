@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe9f47f0_57420e3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-12-09T05:52:19Z",
+      "side": 1,
+      "message": "Yes, your understanding is correct.",
+      "parentUuid": "37be54f7_bb74de0b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 46
+      },
+      "revId": "6cef2592e1430dfaaa9b868e8f2e779e9ba1bce8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be515e96_dfa6e3ac",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2021-12-06T19:57:23Z",
       "side": 1,
       "message": "I am bit confused here: why Gpio is mentioned used in naming things. Is this because the OEM command is reading Gpio status?\nTo me this is reading host PGood through IPMB commands.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "6cef2592e1430dfaaa9b868e8f2e779e9ba1bce8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23e4c908_050ec761",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-12-09T05:52:19Z",
+      "side": 1,
+      "message": "In this case the pgood state is Gpio which is accessed via IPMB commands.",
+      "parentUuid": "be515e96_dfa6e3ac",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "17be80a4_e00f705c",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-12-09T05:52:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fd16fc69_4fe41195",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 17
+      },
+      "revId": "6cef2592e1430dfaaa9b868e8f2e779e9ba1bce8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27cd68be_8468686a",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "7e2d160b_7ce3e08d",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-12-09T05:52:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "27cd68be_8468686a",
+      "range": {
+        "startLine": 128,
+        "startChar": 20,
+        "endLine": 128,
+        "endChar": 58
+      },
+      "revId": "6cef2592e1430dfaaa9b868e8f2e779e9ba1bce8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9107b46e_e5295a4b",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 5
@@ -114,6 +210,30 @@
       "revId": "6cef2592e1430dfaaa9b868e8f2e779e9ba1bce8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7edc1fa_c9f2ff3b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-12-09T05:52:19Z",
+      "side": 1,
+      "message": "shall we keep its as else clause since it helps in readabilty.",
+      "parentUuid": "9107b46e_e5295a4b",
+      "range": {
+        "startLine": 526,
+        "startChar": 28,
+        "endLine": 526,
+        "endChar": 70
+      },
+      "revId": "6cef2592e1430dfaaa9b868e8f2e779e9ba1bce8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
