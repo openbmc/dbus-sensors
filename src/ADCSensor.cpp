@@ -62,18 +62,17 @@ ADCSensor::ADCSensor(const std::string& path,
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
         "xyz.openbmc_project.Sensor.Value");
-    if (thresholds::hasWarningInterface(thresholds))
+
+    setThresholds();
+    for (auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/voltage/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
+        std::string interface = "xyz.openbmc_project.Sensor.Threshold." +
+                                thresholds::hasInterfaceMethod(threshold.level);
+
+        thresholdInterfaces[threshold.level] = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/voltage/" + name, interface);
     }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/voltage/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
-    }
+
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name, association::interface);
     setInitialProperties(conn, sensor_paths::unitVolts);

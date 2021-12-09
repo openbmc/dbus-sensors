@@ -251,8 +251,6 @@ struct Sensor
                 return setSensorValue(newValue, oldValue);
             });
 
-        setThresholds();
-
         for (auto& threshold : thresholds)
         {
             if (std::isnan(threshold.hysteresis))

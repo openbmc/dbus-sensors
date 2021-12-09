@@ -550,29 +550,15 @@ bool parseThresholdsFromAttr(
     return true;
 }
 
-bool hasCriticalInterface(
-    const std::vector<thresholds::Threshold>& thresholdVector)
+std::string hasInterfaceMethod(const Level& thresholdLevel)
 {
-    for (auto& threshold : thresholdVector)
+    switch (thresholdLevel)
     {
-        if (threshold.level == Level::CRITICAL)
-        {
-            return true;
-        }
+        case Level::WARNING:
+            return "Warning";
+        case Level::CRITICAL:
+            return "Critical";
     }
-    return false;
-}
-
-bool hasWarningInterface(
-    const std::vector<thresholds::Threshold>& thresholdVector)
-{
-    for (auto& threshold : thresholdVector)
-    {
-        if (threshold.level == Level::WARNING)
-        {
-            return true;
-        }
-    }
-    return false;
+    return "None";
 }
 } // namespace thresholds
