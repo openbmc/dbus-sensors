@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2cf19dd_0114b73e",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-09T00:32:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "25003793_3770bca0",
+      "revId": "dfc5c4e1b4211902fdf7eb68f56938dadbd47d2a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bebdbe4_4b05f4ec",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "dfc5c4e1b4211902fdf7eb68f56938dadbd47d2a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2470db11_324d8884",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-09T00:32:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1bebdbe4_4b05f4ec",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 53
+      },
+      "revId": "dfc5c4e1b4211902fdf7eb68f56938dadbd47d2a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
