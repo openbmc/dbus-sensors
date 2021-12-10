@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ba599a92_94d3405a",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-10T01:06:49Z",
+      "side": 1,
+      "message": "I don\u0027t know what is the \"redundancy sensor\" here.\nThere are only fan*_input in ast2600-tach directory and one pwm1 in each pwm-fan* directory.\n\nroot@bletchley:/sys/devices/platform/pwm-fan0/hwmon/hwmon15# ls\ndevice     name       of_node    power      pwm1       subsystem  uevent\n\nroot@bletchley:/sys/devices/platform/ahb/ahb:apb/1e610000.pwm_tach/1e610000.pwm_tach:tach/hwmon/hwmon6# ls -l\nlrwxrwxrwx    1 root     root             0 Dec  9 02:11 device -\u003e ../../../1e610000.pwm_tach:tach\n-r--r--r--    1 root     root          4096 Dec  9 02:11 fan1_input\n-r--r--r--    1 root     root          4096 Dec  9 02:11 fan2_input\n-r--r--r--    1 root     root          4096 Dec  9 02:11 fan3_input\n-r--r--r--    1 root     root          4096 Dec  9 02:11 fan4_input\n-r--r--r--    1 root     root          4096 Dec  9 02:11 fan5_input\n-r--r--r--    1 root     root          4096 Dec  9 02:11 fan6_input\n-r--r--r--    1 root     root          4096 Dec  9 02:11 fan7_input\n-r--r--r--    1 root     root          4096 Dec  9 02:11 fan8_input\n-r--r--r--    1 root     root          4096 Dec  9 02:11 name\nlrwxrwxrwx    1 root     root             0 Dec  9 02:11 of_node -\u003e ../../../../../../../../firmware/devicetree/base/ahb/apb/pwm_tach@1e610000/tach\ndrwxr-xr-x    2 root     root             0 Dec  9 02:11 power\nlrwxrwxrwx    1 root     root             0 Dec  9 02:11 subsystem -\u003e ../../../../../../../../class/hwmon\n-rw-r--r--    1 root     root          4096 Dec  9 02:11 uevent",
+      "parentUuid": "cbc2a9ae_4811e7e9",
+      "range": {
+        "startLine": 387,
+        "startChar": 16,
+        "endLine": 387,
+        "endChar": 49
+      },
+      "revId": "1b4f0b7450297c5cde1da86e28740983378195e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b32b818_938e6eed",
         "filename": "src/FanMain.cpp",
         "patchSetId": 8
