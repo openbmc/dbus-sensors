@@ -76,7 +76,7 @@ static struct SensorParams
                                                .maxValue = maxValueTemperature,
                                                .offsetValue = 0.0,
                                                .scaleValue = 1.0,
-                                               .units = "DegreesC",
+                                               .units = sensor_paths::unitDegreesC,
                                                .typeName = "temperature"};
 
     // For IIO RAW sensors we get a raw_value, an offset, and scale
@@ -126,7 +126,7 @@ static struct SensorParams
         // Pressures are read in kilopascal, we need Pascals.
         tmpSensorParameters.scaleValue *= 1000.0;
         tmpSensorParameters.typeName = "pressure";
-        tmpSensorParameters.units = "Pascals";
+        tmpSensorParameters.units = sensor_paths::unitPascals;
     }
     else
     {
