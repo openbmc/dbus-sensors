@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "633f7c95_73988936",
+        "filename": "include/dbus-sensor_config.h.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-10T04:44:42Z",
+      "side": 1,
+      "message": "This should not be a compile time thing.  Put this in the config json for your system baseboard, and pull that in from the configuration params.\n\nAlso, considering that this is a list, this should not be a string.  Use typesafe structures please.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "a870e6d8bf324b18b8dea202e37b7be08ccc73a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "910d0d7a_f6082ef4",
         "filename": "src/Utils.cpp",
         "patchSetId": 1
