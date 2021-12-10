@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ddad25f2_d4d35a53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-10T00:58:04Z",
+      "side": 1,
+      "message": "pwm-fan driver is created by Samsung.\nHowever, ast2600-pwm driver followed the new arch of kernel, user has to set frequency divisor via sysfs ABI.\nSo Aspeed Billy suggested used pwm-fan driver to setup ast2600-pwm , which is very similar with current usage.",
+      "parentUuid": "68347528_30c9cdd2",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "1b4f0b7450297c5cde1da86e28740983378195e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "530052e3_e9e70ee4",
         "filename": "src/FanMain.cpp",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "1b4f0b7450297c5cde1da86e28740983378195e1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58b085af_98a12fac",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-10T00:58:04Z",
+      "side": 1,
+      "message": "7 is the length of string \"pwm-fan\".\nI use pwm-fan driver to setup ast2600-pwm driver and the node in DTS is named with \"pwm-fanX\", where the X is what we are looking for here.",
+      "parentUuid": "530052e3_e9e70ee4",
+      "range": {
+        "startLine": 124,
+        "startChar": 12,
+        "endLine": 124,
+        "endChar": 66
+      },
+      "revId": "1b4f0b7450297c5cde1da86e28740983378195e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -91,6 +139,30 @@
       "revId": "1b4f0b7450297c5cde1da86e28740983378195e1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c4f42e5_488eb540",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1001183
+      },
+      "writtenOn": "2021-12-10T00:58:04Z",
+      "side": 1,
+      "message": "My fault, I should remove this line because I added the new property in the previous patch.\nI eventually removed it and use the present \"Pwm\" instead.",
+      "parentUuid": "9b32b818_938e6eed",
+      "range": {
+        "startLine": 421,
+        "startChar": 24,
+        "endLine": 422,
+        "endChar": 53
+      },
+      "revId": "1b4f0b7450297c5cde1da86e28740983378195e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
