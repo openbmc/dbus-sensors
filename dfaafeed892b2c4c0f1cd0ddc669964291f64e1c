@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d456226_262a4254",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 116
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-10T01:18:00Z",
+      "side": 1,
+      "message": "Looking like a good start.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "dfaafeed892b2c4c0f1cd0ddc669964291f64e1c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
