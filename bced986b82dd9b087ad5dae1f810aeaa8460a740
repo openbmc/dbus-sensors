@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a02300_d0a33aba",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-10T23:28:43Z",
+      "side": 1,
+      "message": "I think the following is (slightly) clearer \nif (bus \u003c other.bus || (bus \u003d\u003d other.bus \u0026\u0026 addr \u003c other.addr))\n{\nreturn true;\n}\n\nBut I am ok with the way it is too.",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 9
+      },
+      "revId": "bced986b82dd9b087ad5dae1f810aeaa8460a740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f91ad8d8_37d0dacd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-10T23:28:43Z",
+      "side": 1,
+      "message": "nit: name configSensors is a bit confusing where there is also \"sensorConfigs\"\nWould \"configMap\" be a better name here?",
+      "range": {
+        "startLine": 284,
+        "startChar": 20,
+        "endLine": 284,
+        "endChar": 33
+      },
+      "revId": "bced986b82dd9b087ad5dae1f810aeaa8460a740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
