@@ -46,6 +46,30 @@
       "revId": "77518b28db824e01af18351094680a99b1ba3cae",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34ff19f3_a8c2917b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-11T04:46:18Z",
+      "side": 0,
+      "message": "Thanks for writing this up! - I was mystified also, hence the question. I will read through your write up carefully when my mind is fresh.",
+      "parentUuid": "5b081a8e_71b5193d",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 357,
+        "endChar": 13
+      },
+      "revId": "77518b28db824e01af18351094680a99b1ba3cae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
