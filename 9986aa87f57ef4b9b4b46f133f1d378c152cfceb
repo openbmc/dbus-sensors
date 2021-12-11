@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "8378b532_8d12cdcd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-11T18:08:02Z",
+      "side": 1,
+      "message": "This is kinda my point.  It\u0027s subtle behavior when you\u0027re somewhat abusing std::less\u003cpair\u003e .  To be less subtle, you could write an actual key type class and define an  ordering, but that\u0027s more code, although would be much less subtle.\n\n\u003e we\u0027re not really doing anything special with the bus or address individually\n\nFor debug, we should ideally treat them differently in terms of logging.  Agreed that in the golden path we don\u0027t treat them differently.\n\n\nWith all of this said, I\u0027m not prepared to stand and die on this bridge;  Your change is still better even with this, I\u0027m just not a huge fan of how much it required me to thing about it to verify it was correct.  Up to you if you want to change.",
+      "parentUuid": "2dc13b85_fd9b9b4f",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 58
+      },
+      "revId": "9986aa87f57ef4b9b4b46f133f1d378c152cfceb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8951d826_7ba4398f",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
