@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab5817ed_f83f59d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-11T18:30:40Z",
+      "side": 1,
+      "message": "A single sentence description is rarely enough for a commit message description.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddf05bd2_4de4fc34",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-11T18:30:40Z",
+      "side": 1,
+      "message": "This is not a valid type.  Maybe you forgot to add it to PDI?\n\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/36ed8ad2b40e63eaa0aa8b37a5e6d6d2faa614db/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml#L6",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59bbf33f_b4214c51",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-11T18:30:40Z",
+      "side": 1,
+      "message": "This is going to be interesting.  Right now we have a 1:1 between sensor paths and units.  Making this in percent units would break that, which makes me wonder if we want to create a specific unit for \"PercentHumidity\" or not.  Lets follow up when you push the PDI review",
+      "range": {
+        "startLine": 142,
+        "startChar": 37,
+        "endLine": 142,
+        "endChar": 44
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
