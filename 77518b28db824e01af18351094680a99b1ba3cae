@@ -22,6 +22,30 @@
       "revId": "77518b28db824e01af18351094680a99b1ba3cae",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b081a8e_71b5193d",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2021-12-11T02:32:12Z",
+      "side": 0,
+      "message": "It\u0027s funny, I recall looking at this loop while writing the patch, initially being mystified as to its purpose, and then figuring it out...but now I\u0027m back to being mystified again.\n\nLemme see if I can re-derive its purpose (pardon my \"thinking out loud\" here)...\n\nWe\u0027ve got `pmbusPath` as a hwmon sysfs file path from line 270.\nWe\u0027ve got `sensorData` as a SensorData object (an object-specific map keyed by sensor-type strings and storing SensorBaseConfigMaps, which are I believe the actual json-level string-\u003evariant maps) from line 347.\nWe\u0027re looping over the global `sensorTypes` array, with `type` as one of its entries.\nWe look up `type` in `sensorData` to try to find a config map for that type, and if we don\u0027t find one we give up on line 362.\nThe check at lines 365-373 tests if the config we\u0027ve found is in fact actually for this sensor, giving up if not (the source of all the log spam).\n\nSo, I\u0027m pretty sure all that logic is obviated by the new code (i.e. there\u0027s no need to add any code corresponding to this bit), but I\u0027m still a bit confused as to why/how the `SensorData` map is keyed by sensor *type*.\n\n[...reads some more code...]\n\nAh, perhaps not strictly *type* but *interface*, as per the insertion on line 242 of Utils.hpp:\n\n```\nself-\u003erespData[path][interface] \u003d std::move(data);\n```\n\nSo `sensorConfigs` is a {path: {interface: config}} map (to use python-style pseudocode), but it\u0027s not obvious to me why it isn\u0027t just {path: (inteface, config)}...perhaps some sensors can have multiple interfaces?  This loop certainly only appears to handle a single interface (type) though, so the replacement code certainly shouldn\u0027t be any worse as far as I can tell.  I *think* this loop could perhaps have been written slightly more efficiently by just iterating over `sensorData` directly, since I think its keys should be constrained to only be elements from `sensorTypes` anyway by the fact that that\u0027s what we pass to the `getConfiguration()` call on line 916.\n\nAnyway, that\u0027s all basically just a long-winded way of saying that I\u0027m pretty sure there\u0027s no functionality in this loop that isn\u0027t preserved by the new code (but I figure I\u0027ll leave my brain-dump above here just in case it\u0027s useful to anyone else poring over the code who\u0027s similarly confused).",
+      "parentUuid": "b4ea8dd1_562c0e23",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 357,
+        "endChar": 13
+      },
+      "revId": "77518b28db824e01af18351094680a99b1ba3cae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
