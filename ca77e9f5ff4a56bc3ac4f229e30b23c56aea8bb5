@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e69146f3_32fb6cdd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-11T18:16:25Z",
+      "side": 1,
+      "message": "nit, can we default initialize these.  (just add \u003d0 to each)",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 18
+      },
+      "revId": "ca77e9f5ff4a56bc3ac4f229e30b23c56aea8bb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d673788_522abdbf",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-11T18:16:25Z",
+      "side": 1,
+      "message": "nit, can we write this out a little differently?\n\nif (bus !\u003d other.bus){\n   return bus \u003c other.bus;\n}\nreturn addr \u003c other.addr;\n\n\nSame logic functionally, but IMO is more readable.",
+      "range": {
+        "startLine": 258,
+        "startChar": 35,
+        "endLine": 258,
+        "endChar": 54
+      },
+      "revId": "ca77e9f5ff4a56bc3ac4f229e30b23c56aea8bb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
