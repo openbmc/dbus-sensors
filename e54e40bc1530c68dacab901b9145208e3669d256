@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9c9109d0_21a0d3f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-12-12T00:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b56b302_f92e506d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddf05bd2_4de4fc34",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 1
