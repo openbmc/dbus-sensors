@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5b56b302_f92e506d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-12-12T00:29:19Z",
+      "side": 1,
+      "message": "Ack - you are correct.  I hadn\u0027t, apparently, selected the whole text when I pasted into the commit message.",
+      "parentUuid": "ab5817ed_f83f59d4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ddf05bd2_4de4fc34",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "61d9b3c8_783573a2",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-12-12T00:29:19Z",
+      "side": 1,
+      "message": "Ack - I agree.",
+      "parentUuid": "ddf05bd2_4de4fc34",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "59bbf33f_b4214c51",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2021-12-11T18:30:40Z",
       "side": 1,
       "message": "This is going to be interesting.  Right now we have a 1:1 between sensor paths and units.  Making this in percent units would break that, which makes me wonder if we want to create a specific unit for \"PercentHumidity\" or not.  Lets follow up when you push the PDI review",
+      "range": {
+        "startLine": 142,
+        "startChar": 37,
+        "endLine": 142,
+        "endChar": 44
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e30ba85_1ed69485",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-12-12T00:29:19Z",
+      "side": 1,
+      "message": "Yep!",
+      "parentUuid": "59bbf33f_b4214c51",
       "range": {
         "startLine": 142,
         "startChar": 37,
