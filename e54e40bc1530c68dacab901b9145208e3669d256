@@ -164,6 +164,30 @@
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d24ea97_e1fb9643",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-12-12T01:01:03Z",
+      "side": 1,
+      "message": "\"Percent\" is NOT a real unit, it is a prefix/postfix to something else.\nSuch a percent change is Voltage, percent interest, etc.\nUtilization is from 0.0 through 1.0 which we LIKE to call 0% or 100% utilized.\n\nI am open and accepting of what ever the decision of the OpenBMC community is.",
+      "parentUuid": "9e30ba85_1ed69485",
+      "range": {
+        "startLine": 142,
+        "startChar": 37,
+        "endLine": 142,
+        "endChar": 44
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
