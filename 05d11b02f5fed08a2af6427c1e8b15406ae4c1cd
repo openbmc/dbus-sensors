@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad109ea_4327a467",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-13T14:50:00Z",
+      "side": 1,
+      "message": "Wasn\u0027t there another patch set where we were attempting to add Absolute Humidity?  What are we going to do with Humidity in general?  Is Relative Humidity useful all the time?  Is Absolute Humidity useful sometimes?  Is there a natural conversion between the two?  I\u0027d prefer we don\u0027t end up having two different units for the same measurement.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09c1e0ba_94f2f2f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-13T14:50:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure this discussion should take place in a commit message.\n\nWhat in the world is the difference between \"a percent\" and \"a fraction from 0 to 1\"?  To me that is like suggesting that \"3 1/4 cups\" and \"3.25 cups\" are somehow different.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
