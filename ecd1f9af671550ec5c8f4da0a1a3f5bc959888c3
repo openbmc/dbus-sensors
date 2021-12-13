@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "6780e1dc_3f1f99c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-13T17:31:01Z",
+      "side": 1,
+      "message": "\u003e Yeah, I can understand the reasoning there, I guess it just comes down to deciding on the balance between:\n\u003e \n\u003e  (A) how long we expect it to take for the io_uring stuff to land,\n\u003e  (B) the (presumably smaller) improvement this can provide in the meantime while waiting for A, and\n\u003e  (C) the amount of additional work incurred by B when A arrives.\n\u003e \n\u003e Judging by https://www.boost.org/users/history/, it looks like boost 1.79 probably won\u0027t be available until April, which I assume provides a lower bound for A.\n\nThe release notes for boost shows that it landed a couple days ago in the 1.78 release, which is what I was expecting, so A should be pretty short:\n\"Added an io_uring backend that may optionally be used for all I/O objects, including sockets, timers, and posix descriptors.\"\n\nhttps://www.boost.org/users/history/version_1_78_0.html\n\nSo A seems like a matter of a week or two, not months.  From my perspective, this means that A is basically here (just waiting on yocto subtree updates) so I\u0027m not a huge fan of merging a patch to hold it for a week or two, then revert it, given that it\u0027s unlikely we\u0027ll do significant testing in that time.\n\nIf io_uring doesn\u0027t solve this performance problem, that\u0027s a very different discussion, although I\u0027m not sure we\u0027re there yet.\n\n\n\u003e  C seems (by my estimation) unlikely to be terribly bad (this is a fairly small patch that I\u0027d expect should be easy to revert unless there\u0027s a lot more churn in this area between now and whenever that happens).  B is...not huge by any means, but maybe worthwhile considering A?  I dunno.\n\nIn my perfect world, I\u0027d like to see us start by moving this to async_read_some, with a fixed size std::array buffer.\nhttps://www.boost.org/doc/libs/1_78_0/doc/html/boost_asio/reference/posix__basic_stream_descriptor/async_read_some.html\n\nand measure how much of the performance boost that gives us.  I suspect that will be a majority of the speedup here, given we won\u0027t be allocating and destroying a buffer on every read, nor parsing the input twice.\n\nThat also has the added advantage of not conflicting with the io_uring updates when they land.",
+      "parentUuid": "36dc5f4d_5902aace",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1418ef2a_e2efd9ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -300,6 +324,24 @@
       "side": 1,
       "message": "(Further io_uring-specific discussion moved back to https://gerrit.openbmc-project.xyz/c/openbmc/openbmc/+/46919)",
       "parentUuid": "065b5b6e_cb421f69",
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79e568a2_6ddd5c87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-13T17:31:01Z",
+      "side": 1,
+      "message": "\u003e if you\u0027ve got any suggestions for other things to check\n\nWe might want to try io-uring in combination with moving to async_read_some.  I did just realize that the version in the aforementioned commit, and the version that got merged in boost 1.78 are different, so I wonder if we\u0027re pointing at a more experimental asio-next repo now, and rolling back to 1.78 might fix some of the lockups.  \n\nDo the other non psu-sensor sensor types work correctly on your platform?\n\nThanks for helping to test this.",
+      "parentUuid": "b3b21356_db7fd791",
       "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
