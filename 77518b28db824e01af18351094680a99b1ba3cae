@@ -70,6 +70,30 @@
       "revId": "77518b28db824e01af18351094680a99b1ba3cae",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97c05638_33217522",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-13T19:41:04Z",
+      "side": 0,
+      "message": "I read through the code, tested the change. I agree with the assessment - this logic is not needed with new code.\n\nThe interfaces it was filtering out are the ones created here https://github.com/openbmc/entity-manager/blob/master/src/EntityManager.cpp#L707.\n\nFor example in the case for pmbus devices, \n\nconfig file:\n{\n                \"Address\": \"$ADDRESS % 4 + 88\",\n                \"Bus\": \"$bus\",\n                \"Name\": PSU1,\n                \"Type\": \"pmbus\",\n                \"Thresholds\": [\n                    {\n                        \"Direction\": \"greater than\",\n                        \"Label\": \"pin\",\n                        \"Name\": \"upper critical\",\n                        \"Severity\": 1,\n                        \"Value\": 2149.5\n                    }]\n}\n\nThe above check will:\nprocess: xyz.openbmc_project.Configuration.pmbus (1)\nskip: xyz.openbmc_project.Configuration.pmbus.Thresholds0 (2)\n\nWith new function: (1) is added to the lookup map, (2) is skipped because it does not have a bus/address pair",
+      "parentUuid": "34ff19f3_a8c2917b",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 357,
+        "endChar": 13
+      },
+      "revId": "77518b28db824e01af18351094680a99b1ba3cae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
