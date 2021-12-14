@@ -43,6 +43,7 @@ static constexpr double ipmbMinReading = 0;
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
+static constexpr uint8_t ipmbBusIndexDefault = 0;
 static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
@@ -524,6 +525,16 @@ void createSensors(
                 }
 
                 float pollRate = getPollRate(cfg, pollRateDefault);
+
+                uint8_t ipmbBusIndex = ipmbBusIndexDefault;
+                auto findBusType = cfg.find("Bus");
+                if (findBusType != cfg.end())
+                {
+                    ipmbBusIndex = std::visit(VariantToUnsignedIntVisitor(),
+                                              findBusType->second);
+                    std::cerr << "Ipmb Bus Index for " << name << " is "
+                              << static_cast<int>(ipmbBusIndex) << "\n";
+                }
 
                 /* Default sensor type is "temperature" */
                 std::string sensorTypeName = "temperature";
