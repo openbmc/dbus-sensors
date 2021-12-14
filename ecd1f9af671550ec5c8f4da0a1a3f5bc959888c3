@@ -390,6 +390,24 @@
     },
     {
       "key": {
+        "uuid": "0f8c2cc3_9ef41196",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-14T07:00:25Z",
+      "side": 1,
+      "message": "If you haven\u0027t already done so, try the latest patchset I pushed a few mintues ago.  It turns out that without the right flags and objects, the reads fall back to epoll, so in terms of your testing, the one you tested should\u0027ve been the exact same speed (can\u0027t explain why it was slightly slower).\n\nin theory the latest patch (untested) uses the right random_access_file objects, and sets the correct compiler flags to actually invoke an io_uring for those files, so it should be really interesting test.",
+      "parentUuid": "638eb722_3142f57a",
+      "revId": "ecd1f9af671550ec5c8f4da0a1a3f5bc959888c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28672b42_94095649",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
