@@ -44,11 +44,15 @@ static constexpr double minValuePressure = 30000;  // Pascals
 static constexpr double maxValueTemperature = 127;  // DegreesC
 static constexpr double minValueTemperature = -128; // DegreesC
 
+static constexpr double maxValueHumidityrelative = 100; // Percent
+static constexpr double minValueHumidityrelative = 0;   // Percent
+
 namespace fs = std::filesystem;
 static auto sensorTypes{
     std::to_array<const char*>({"xyz.openbmc_project.Configuration.EMC1412",
                                 "xyz.openbmc_project.Configuration.EMC1413",
                                 "xyz.openbmc_project.Configuration.EMC1414",
+                                "xyz.openbmc_project.Configuration.HDC1080",
                                 "xyz.openbmc_project.Configuration.MAX31725",
                                 "xyz.openbmc_project.Configuration.MAX31730",
                                 "xyz.openbmc_project.Configuration.MAX6581",
@@ -129,6 +133,15 @@ static struct SensorParams
         tmpSensorParameters.typeName = "pressure";
         tmpSensorParameters.units = sensor_paths::unitPascals;
     }
+    else if (path.filename() == "in_humidityrelative_input" ||
+             path.filename() == "in_humidityrelative_raw")
+    {
+        tmpSensorParameters.minValue = minValueHumidityrelative;
+        tmpSensorParameters.maxValue = maxValueHumidityrelative;
+        tmpSensorParameters.typeName = "humidityrelative";
+        tmpSensorParameters.units = sensor_paths::unitPercent;
+        tmpSensorParameters.scaleValue *= 0.001;
+    }
     else
     {
         // Temperatures are read in milli degrees Celsius,
@@ -165,6 +178,7 @@ void createSensors(
             fs::path root("/sys/bus/iio/devices");
             findFiles(root, R"(in_temp\d*_(input|raw))", paths);
             findFiles(root, R"(in_pressure\d*_(input|raw))", paths);
+            findFiles(root, R"(in_humidityrelative\d*_(input|raw))", paths);
             findFiles(fs::path("/sys/class/hwmon"), R"(temp\d+_input)", paths);
 
             if (paths.empty())
@@ -271,7 +285,8 @@ void createSensors(
 
                 // Temperature has "Name", pressure has "Name1"
                 auto findSensorName = baseConfigMap->find("Name");
-                if (thisSensorParameters.typeName == "pressure")
+                if (thisSensorParameters.typeName == "pressure" ||
+                    thisSensorParameters.typeName == "humidityrelative")
                 {
                     findSensorName = baseConfigMap->find("Name1");
                 }
