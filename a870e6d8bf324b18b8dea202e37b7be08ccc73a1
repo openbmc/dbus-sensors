@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6e8d51ff_532c5d1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-14T10:00:42Z",
+      "side": 1,
+      "message": "Ack, I have removed OBMC_HOST_INSTANCES and added only IPMB bus index entity to read from EM config file in IpmbSensor.\n\nIn IpmbSensor, bus index will be read and specified bus will be used to read each sensor value.\n\nPlease refer this patch \nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49681",
+      "parentUuid": "c640b0c1_104da0b8",
+      "revId": "a870e6d8bf324b18b8dea202e37b7be08ccc73a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "633f7c95_73988936",
         "filename": "include/dbus-sensor_config.h.in",
         "patchSetId": 1
@@ -60,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "48abddc0_36729fcb",
+        "filename": "include/dbus-sensor_config.h.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-14T10:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633f7c95_73988936",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "a870e6d8bf324b18b8dea202e37b7be08ccc73a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "910d0d7a_f6082ef4",
         "filename": "src/Utils.cpp",
         "patchSetId": 1
@@ -77,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "c38ea7d9_1e50327d",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-14T10:00:42Z",
+      "side": 1,
+      "message": "Ack, Based on Ed and velumani review comment, OBMC_HOST_INSTANCES has been removed.",
+      "parentUuid": "910d0d7a_f6082ef4",
+      "revId": "a870e6d8bf324b18b8dea202e37b7be08ccc73a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e719b72_c034ca04",
         "filename": "src/Utils.cpp",
         "patchSetId": 1
@@ -91,6 +151,24 @@
       "revId": "a870e6d8bf324b18b8dea202e37b7be08ccc73a1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76255bdf_0fbe40ad",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-14T10:00:42Z",
+      "side": 1,
+      "message": "Ack, Based on Ed and velumani review comment, OBMC_HOST_INSTANCES has been removed.",
+      "parentUuid": "1e719b72_c034ca04",
+      "revId": "a870e6d8bf324b18b8dea202e37b7be08ccc73a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
