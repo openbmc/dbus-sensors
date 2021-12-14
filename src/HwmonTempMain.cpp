@@ -46,26 +46,27 @@ static constexpr double minValueTemperature = -128; // DegreesC
 
 namespace fs = std::filesystem;
 static auto sensorTypes{
-    std::to_array<const char*>({"xyz.openbmc_project.Configuration.EMC1412",
+    std::to_array<const char*>({"xyz.openbmc_project.Configuration.DPS310",
+                                "xyz.openbmc_project.Configuration.EMC1412",
                                 "xyz.openbmc_project.Configuration.EMC1413",
                                 "xyz.openbmc_project.Configuration.EMC1414",
+                                "xyz.openbmc_project.Configuration.HDC1080",
+                                "xyz.openbmc_project.Configuration.JC42",
+                                "xyz.openbmc_project.Configuration.LM75A",
+                                "xyz.openbmc_project.Configuration.LM95234",
                                 "xyz.openbmc_project.Configuration.MAX31725",
                                 "xyz.openbmc_project.Configuration.MAX31730",
                                 "xyz.openbmc_project.Configuration.MAX6581",
                                 "xyz.openbmc_project.Configuration.MAX6654",
                                 "xyz.openbmc_project.Configuration.NCT7802",
                                 "xyz.openbmc_project.Configuration.SBTSI",
-                                "xyz.openbmc_project.Configuration.LM95234",
+                                "xyz.openbmc_project.Configuration.SI7020",
                                 "xyz.openbmc_project.Configuration.TMP112",
                                 "xyz.openbmc_project.Configuration.TMP175",
                                 "xyz.openbmc_project.Configuration.TMP421",
                                 "xyz.openbmc_project.Configuration.TMP441",
-                                "xyz.openbmc_project.Configuration.LM75A",
                                 "xyz.openbmc_project.Configuration.TMP75",
-                                "xyz.openbmc_project.Configuration.W83773G",
-                                "xyz.openbmc_project.Configuration.DPS310",
-                                "xyz.openbmc_project.Configuration.SI7020",
-                                "xyz.openbmc_project.Configuration.JC42"})};
+                                "xyz.openbmc_project.Configuration.W83773G"})};
 
 static struct SensorParams
     getSensorParameters(const std::filesystem::path& path)
