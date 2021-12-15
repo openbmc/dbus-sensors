@@ -159,6 +159,161 @@ void IpmbSensor::runInitCmd()
         "sendRequest", commandAddress, netfn, lun, *initCommand, initData);
 }
 
+/**
+ * Reference:
+ * Intelligent Power Node Manager External Interface Specification
+ */
+std::vector<uint8_t> IpmbSensor::getRawPmbusCommand(
+    uint8_t messageType, const std::vector<uint8_t>& pmbusCommand,
+    ipmi::sensor::PmbusResponseLength readLength,
+    ipmi::sensor::AddressMode deviceAddressMode, bool doEnablePec)
+{
+    constexpr std::array<uint8_t, 3> manufacturerId{0x57, 0x01, 0x00};
+    std::vector<uint8_t> commandBytes;
+
+    if (std::numeric_limits<uint8_t>::max() < pmbusCommand.size())
+    {
+        throw std::runtime_error("Invalid pmbus command length");
+    }
+
+    /*
+     * Byte 1:3 - Intel Manufacturer ID - 000157h, LS byte first.
+     */
+    commandBytes.insert(commandBytes.end(), manufacturerId.begin(),
+                        manufacturerId.end());
+
+    /*
+     * Byte 4 - Flags
+     * [0] - Reserved. Write as 0b.
+     * [3:1] - SMBUS message transaction type
+     * =0h - SEND_BYTE.
+     * =1h - READ_BYTE.
+     * =2h - WRITE_BYTE.
+     * =3h - READ_WORD.
+     * =4h - WRITE_WORD.
+     * =5h - BLOCK_READ.
+     * =6h - BLOCK_WRITE.
+     * =7h - BLOCK_WRITE_READ_PROC_CALL.
+     * [5:4] - Device address format.
+     * =0h - Standard device address
+     * =1h - Extended device address
+     * Other - reserved.
+     * [6] = 1b - Do not report PEC errors in Completion Code. If
+     * the bit is set, Intel® NM firmware does not return “bad PEC”
+     * Completion Codes. In this case BMC can learn that the
+     * transaction failed by checking PEC in the PMBUS response
+     * message. The flag does not disable PMBUS command
+     * retries.
+     * [7] = 1b - Enable PEC.
+     * For Standard device address (Byte 4 bits [5:4] equal 0)
+     */
+    uint8_t byte4 = 0x00;
+    if (ipmi::sensor::AddressMode::elevenBit == deviceAddressMode)
+    {
+        byte4 |= (1 << 4);
+    }
+
+    if (doEnablePec)
+    {
+        byte4 |= (1 << 7);
+    }
+
+    byte4 |= static_cast<uint8_t>(messageType) << 1;
+
+    commandBytes.emplace_back(byte4);
+
+    if (ipmi::sensor::AddressMode::elevenBit == deviceAddressMode)
+    {
+        /*
+         * Byte 5 - Sensor Bus
+         * =00h SMBUS
+         * =01h SMLINK0/SMLINK0B
+         * =02h SMLINK1
+         * =03h SMLINK2
+         * =04h SMLINK3
+         * =05h SMLINK4
+         * Other - reserved
+         */
+        commandBytes.emplace_back(hostSMbusIndex);
+
+        /*
+         * Byte 6 - Target PSU Address
+         * [0] - Reserved. Write as 0b.
+         * [7:1] - 7-bit SMBUS address.
+         */
+        commandBytes.emplace_back(deviceAddress);
+
+        /*
+         * Byte 7 - MUX Address
+         * [0] - Reserved. Write as 0b.
+         * [7:1] - 7-bit SMBUS address for SMBUS MUX or 0 for
+         * MGPIO controlled.
+         */
+        commandBytes.emplace_back(0x00);
+
+        /*
+         * Byte 8 - MUX channel selection
+         * This field indicates which line of MUX should be enabled
+         */
+        commandBytes.emplace_back(0x00);
+
+        /*
+         * Byte 9 - MUX configuration state
+         * [0] - MUX support
+         * =0 - ignore MUX configuration (MUX not present)
+         * =1 - use MUX configuration
+         * [7:1] - Reserved. Write as 0000000b.
+         */
+        commandBytes.emplace_back(0x00);
+    }
+    else
+    {
+        /*
+         * Byte 5 - Target PSU Address
+         * [0] - reserved should be set to 0
+         * [7:1] - 7-bit PSU SMBUS address
+         */
+        commandBytes.emplace_back(deviceAddress);
+
+        /*
+         * Byte 6 - MGPIO MUX configuration
+         * [5:0] = Mux MGPIO index or 0 if mux is not used.
+         * [7:6] = Reserved. Write as 00b.
+         */
+        commandBytes.emplace_back(0x00);
+    }
+
+    /*
+     * Byte 7 or 10 - Transmission Protocol parameter
+     * [4:0] = Reserved. Write as 00000b.
+     * [5] = Transmission Protocol
+     * =0b PMBus
+     * =1b I2C (Raw I2C transaction without the command Field)
+     * [7:6] = Reserved. Write as 00b.
+     */
+    commandBytes.emplace_back(0x00);
+
+    /*
+     * Byte 8 or 11 - Write Length
+     */
+    commandBytes.emplace_back(static_cast<uint8_t>(pmbusCommand.size()));
+
+    /*
+     * Byte 9 or 12 - Read Length. This field is used to validate if the
+     * slave returns proper number of bytes
+     */
+    commandBytes.emplace_back(static_cast<uint8_t>(readLength));
+
+    /*
+     * Byte Byte 10 or 13 to M - PMBUS command
+     * For Extended device address (Byte 4 bits [5:4] equal 1)
+     */
+    commandBytes.insert(commandBytes.end(), pmbusCommand.begin(),
+                        pmbusCommand.end());
+
+    return commandBytes;
+}
+
 void IpmbSensor::loadDefaults()
 {
     if (type == IpmbType::meSensor)
@@ -176,13 +331,16 @@ void IpmbSensor::loadDefaults()
         command = ipmi::me_bridge::sendRawPmbus;
         initCommand = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8d};
+        commandData = getRawPmbusCommand(
+            ipmi::sensor::smbusMessageTypeReadWord,
+            {static_cast<uint8_t>(ipmi::sensor::PmbusRequest::readTemperature)},
+            ipmi::sensor::PmbusResponseLength::readTemperature,
+            ipmi::sensor::AddressMode::elevenBit, false);
         // goto page 0
-        initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
-                    deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                    0x02,          0x00, 0x00, 0x00};
+        initData = getRawPmbusCommand(
+            ipmi::sensor::smbusMessageTypeWriteByte, {0x00, 0x00},
+            ipmi::sensor::PmbusResponseLength::writeByte,
+            ipmi::sensor::AddressMode::elevenBit, false);
         readingFormat = ReadingFormat::linearElevenBit;
     }
     else if (type == IpmbType::IR38363VR)
@@ -191,31 +349,40 @@ void IpmbSensor::loadDefaults()
         netfn = ipmi::me_bridge::netFn;
         command = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 00,   0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8D};
+        commandData = getRawPmbusCommand(
+            ipmi::sensor::smbusMessageTypeReadWord,
+            {static_cast<uint8_t>(ipmi::sensor::PmbusRequest::readTemperature)},
+            ipmi::sensor::PmbusResponseLength::readTemperature,
+            ipmi::sensor::AddressMode::elevenBit, false);
         readingFormat = ReadingFormat::elevenBitShift;
     }
     else if (type == IpmbType::ADM1278HSC)
     {
         commandAddress = meAddress;
-        uint8_t snsNum = 0;
         switch (subType)
         {
             case IpmbSubType::temp:
             case IpmbSubType::curr:
                 if (subType == IpmbSubType::temp)
                 {
-                    snsNum = 0x8d;
+                    commandData = getRawPmbusCommand(
+                        ipmi::sensor::smbusMessageTypeReadWord,
+                        {static_cast<uint8_t>(
+                            ipmi::sensor::PmbusRequest::readTemperature)},
+                        ipmi::sensor::PmbusResponseLength::readTemperature,
+                        ipmi::sensor::AddressMode::eightBit, true);
                 }
                 else
                 {
-                    snsNum = 0x8c;
+                    commandData = getRawPmbusCommand(
+                        ipmi::sensor::smbusMessageTypeReadWord,
+                        {static_cast<uint8_t>(
+                            ipmi::sensor::PmbusRequest::readCurrentOutput)},
+                        ipmi::sensor::PmbusResponseLength::readCurrentOutput,
+                        ipmi::sensor::AddressMode::eightBit, true);
                 }
                 netfn = ipmi::me_bridge::netFn;
                 command = ipmi::me_bridge::sendRawPmbus;
-                commandData = {0x57, 0x01, 0x00, 0x86, deviceAddress,
-                               0x00, 0x00, 0x01, 0x02, snsNum};
                 readingFormat = ReadingFormat::elevenBit;
                 break;
             case IpmbSubType::power:
@@ -236,13 +403,16 @@ void IpmbSensor::loadDefaults()
         command = ipmi::me_bridge::sendRawPmbus;
         initCommand = ipmi::me_bridge::sendRawPmbus;
         // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8d};
+        commandData = getRawPmbusCommand(
+            ipmi::sensor::smbusMessageTypeReadWord,
+            {static_cast<uint8_t>(ipmi::sensor::PmbusRequest::readTemperature)},
+            ipmi::sensor::PmbusResponseLength::readTemperature,
+            ipmi::sensor::AddressMode::elevenBit, false);
         // goto page 0
-        initData = {0x57,          0x01, 0x00, 0x14, hostSMbusIndex,
-                    deviceAddress, 0x00, 0x00, 0x00, 0x00,
-                    0x02,          0x00, 0x00, 0x00};
+        initData = getRawPmbusCommand(
+            ipmi::sensor::smbusMessageTypeWriteByte, {0x00, 0x00},
+            ipmi::sensor::PmbusResponseLength::writeByte,
+            ipmi::sensor::AddressMode::elevenBit, false);
         readingFormat = ReadingFormat::byte3;
     }
     else

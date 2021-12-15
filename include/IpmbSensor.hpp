@@ -46,6 +46,43 @@ namespace sensor
 constexpr uint8_t netFn = 0x04;
 constexpr uint8_t getSensorReading = 0x2d;
 
+/*
+ * From PMBus Power System Management Protocol Specification Part II
+ */
+enum class AddressMode : uint8_t
+{
+    eightBit,
+    elevenBit,
+};
+
+/*
+ * From PMBus Power System Management Protocol Specification Part II
+ * Table: Command Summary
+ */
+enum class PmbusRequest : uint8_t
+{
+    readTemperature = 0x8D,
+    readCurrentOutput = 0x8C
+};
+
+/*
+ * From PMBus Power System Management Protocol Specification Part II
+ * Table: Command Summary
+ */
+enum class PmbusResponseLength : uint8_t
+{
+    writeByte = 0,
+    readTemperature = 2,
+    readCurrentOutput = 2
+};
+
+/*
+ * From Intelligent Power Node Manager : External Interface Specification Using
+ * IPMI SMBUS message transaction type
+ */
+constexpr uint8_t smbusMessageTypeReadWord = 0x03;
+constexpr uint8_t smbusMessageTypeWriteByte = 0x02;
+
 static bool isValid(const std::vector<uint8_t>& data)
 {
     constexpr auto readingUnavailableBit = 5;
@@ -95,6 +132,10 @@ struct IpmbSensor :
     void read(void);
     void init(void);
     std::string getSubTypeUnits(void) const;
+    std::vector<uint8_t> getRawPmbusCommand(
+        uint8_t messageType, const std::vector<uint8_t>& pmbusCommand,
+        ipmi::sensor::PmbusResponseLength readLength,
+        ipmi::sensor::AddressMode deviceAddressMode, bool doEnablePec);
     void loadDefaults(void);
     void runInitCmd(void);
     bool processReading(const std::vector<uint8_t>& data, double& resp);
