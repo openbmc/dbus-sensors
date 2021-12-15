@@ -733,6 +733,30 @@
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035e7ef0_9cdd06d6",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-15T22:11:51Z",
+      "side": 1,
+      "message": "\u003e If we\u0027re going to support interrupts please make it an option to force polling in the EM config and update the design doc appropriately.\n\u003e \n\u003e Sometimes interrupt support isn\u0027t feasible (gpio expander without the interrupt pin connected)\n\n\nInterrupt vs polling should not be system specific.  I\u0027m fine if this wants to poll, I was just asking because the requirements explicitly stated interrupts, so maybe that doc is out of date now?",
+      "parentUuid": "b02961e6_623b5c04",
+      "range": {
+        "startLine": 226,
+        "startChar": 50,
+        "endLine": 226,
+        "endChar": 58
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
