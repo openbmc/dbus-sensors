@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "93cac67e_72e5b023",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-15T12:46:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a8a0cece_bb416563",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da2a01c6_33429a1d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c04d0b15_e269dc0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-15T12:46:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "da2a01c6_33429a1d",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15489e97_638f513d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
@@ -59,6 +107,30 @@
       "writtenOn": "2021-11-17T01:24:45Z",
       "side": 1,
       "message": "This is in-correct. The code checks for \"IPMI\"",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fc27d89_31ead131",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-15T12:46:57Z",
+      "side": 1,
+      "message": "We changed it to ReadME. As per review comments from Ed.",
+      "parentUuid": "15489e97_638f513d",
       "range": {
         "startLine": 29,
         "startChar": 3,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "fd430614_fe5ad431",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-15T12:46:57Z",
+      "side": 1,
+      "message": "This is configuration in IFWI. And can change as per configuration.",
+      "parentUuid": "1caef956_6592d7ce",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 27
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "431b612e_d65eff45",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
@@ -114,6 +210,30 @@
       "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7d04bac_af3f79b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-15T12:46:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "431b612e_d65eff45",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "8a9dd6dc_81b6b2ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-15T12:46:57Z",
+      "side": 1,
+      "message": "2) We need to use the correct method depending on the configuration of IFWI. \n3) Right now we do not have a method to ask ME if \"Get PMBUS Readings\" is enabled.",
+      "parentUuid": "30228de5_252bf514",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 57
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9a71100_24a62ac1",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 17
@@ -174,6 +318,30 @@
       "writtenOn": "2021-11-17T01:24:45Z",
       "side": 1,
       "message": "If multiple readings are returned - it is more efficient to read once and unpack all the available data.",
+      "range": {
+        "startLine": 159,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 43
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eedd0855_51f7d49b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-15T12:46:57Z",
+      "side": 1,
+      "message": "We can unpack all data, but current sensor structure architecture does not allow a object to update multiple values, as check threshold function are so tightly bound to one sensor value.",
+      "parentUuid": "e9a71100_24a62ac1",
       "range": {
         "startLine": 159,
         "startChar": 3,
