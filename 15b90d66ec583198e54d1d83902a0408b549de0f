@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3fb7581_6567f9f1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-15T17:25:13Z",
+      "side": 1,
+      "message": "Aren\u0027t these items redundant?  Do we have any PMBUS devices that don\u0027t support PEC?",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 60
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c63ffc_9c29a046",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-15T17:25:13Z",
+      "side": 1,
+      "message": "I\u0027m not quite following why this needs to have a \"set\" method.  Also, the inline lambdas have no captures, so ideally they should be normal methods, not lambdas.\n\nIn terms of cleanups, I personally think the old version was easier to read.  If any cleanups needed done, ideally we\u0027d do something like \n\n\nbool processByte0Reading(const std::vector\u003cuint8_t\u003e\u0026 data, double\u0026 resp){\n            if (command \u003d\u003d ipmi::sensor::getSensorReading \u0026\u0026\n                !ipmi::sensor::isValid(data))\n            {\n                return false;\n            }\n            resp \u003d data[0];\n            return true;\n}\n\nbool IpmbSensor::processReading(const std::vector\u003cuint8_t\u003e\u0026 data, double\u0026 resp)\n{\n\n    switch (readingFormat)\n    {\n        case (ReadingFormat::byte0):\n        {\n            return processByte0Reading(data, resp);\n        }\n.......\n\n\nThis has the advantage of not having to store or set a std::function, which doesn\u0027t need checked against null, and should optimize better.",
+      "range": {
+        "startLine": 425,
+        "startChar": 17,
+        "endLine": 425,
+        "endChar": 32
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba6a7380_4282a23a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-15T17:25:13Z",
+      "side": 1,
+      "message": "Why was this moved?  The old location is closer to where it was used, so it seems like the old one was better?",
+      "range": {
+        "startLine": 522,
+        "startChar": 23,
+        "endLine": 522,
+        "endChar": 28
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de220580_0131fcec",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-15T17:25:13Z",
+      "side": 1,
+      "message": "Possible nullptr defreference.",
+      "range": {
+        "startLine": 551,
+        "startChar": 21,
+        "endLine": 551,
+        "endChar": 33
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09f8383c_655129af",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-15T17:25:13Z",
+      "side": 1,
+      "message": "This section has some great cleanups.",
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
