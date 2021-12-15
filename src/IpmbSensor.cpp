@@ -15,8 +15,12 @@
 */
 
 #include <IpmbSensor.hpp>
-#include <Utils.hpp>
 #include <VariantVisitors.hpp>
+<<<<<<< PATCH SET (15b90d Code clean up.)
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string/replace.hpp>
+=======
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -61,8 +65,14 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        uint8_t deviceAddress, uint8_t hostSMbusIndex,
                        const float pollRate, std::string& sensorTypeName) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
+<<<<<<< PATCH SET (15b90d Code clean up.)
+           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
+           false, false, ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
+    subType(IpmbSubType::temp), commandAddress(meAddress),
+=======
            sensorConfiguration, "IpmbSensor", false, false, ipmbMaxReading,
            ipmbMinReading, conn, PowerState::on),
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
     sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
     waitTimer(io)
@@ -114,7 +124,12 @@ std::string IpmbSensor::getSubTypeUnits(void) const
 void IpmbSensor::init(void)
 {
     loadDefaults();
+<<<<<<< PATCH SET (15b90d Code clean up.)
+    setReadFunction();
+    setInitialProperties(dbusConnection, getSubTypeUnits());
+=======
     setInitialProperties(getSubTypeUnits());
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
     if (initCommand)
     {
         runInitCmd();
@@ -155,11 +170,137 @@ void IpmbSensor::runInitCmd()
         "sendRequest", commandAddress, netfn, lun, *initCommand, initData);
 }
 
+/**
+ * Refernce:
+ * Intelligent Power Node Manager External Interface Specification
+ */
+std::vector<uint8_t> IpmbSensor::getRawPmbusCommand(
+    uint8_t messageType, const std::vector<uint8_t>& pmbusCommand,
+    uint8_t readLength, bool isExtendedDeviceAddress = true,
+    bool doEnablePec = false, bool doReportPecErrors = false)
+{
+    std::vector<uint8_t> commandBytes;
+
+    /*
+     * Byte 1, 2, 3 = Manufacturer ID.
+     */
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[0]);
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[1]);
+    commandBytes.emplace_back(ipmi::sensor::manufacturerId[2]);
+
+    /*
+     * Byte 4
+     *   bit 0 = Reserved.
+     *   bit 1, 2, 3 = SMBUS message transaction type.
+     *   bit 4, 5 = Device address format.
+     *       0 for Standard device address
+     *       1 for Extended device address
+     *   bit 6 = 1 means "Do not report PEC errors in Completion Code".
+     *   bit 7 = 1 means "Enable PEC".
+     */
+    uint8_t byte4 = 0x00;
+    if (isExtendedDeviceAddress)
+    {
+        byte4 |= (1 << 4);
+    }
+
+    if (doReportPecErrors)
+    {
+        byte4 |= (1 << 6);
+    }
+
+    if (doEnablePec)
+    {
+        byte4 |= (1 << 7);
+    }
+
+    byte4 |= messageType << 1;
+
+    commandBytes.emplace_back(byte4);
+
+    if (isExtendedDeviceAddress)
+    {
+        /*
+         * Byte 5 = Sensor Bus.
+         *    00 - SMBUS
+         *    01 - SMLINK0/SMLINK0B
+         *    02 - SMLINK1
+         *    03 - SMLINK2
+         *    04 - SMLINK3
+         *    05 - SMLINK4
+         */
+        commandBytes.emplace_back(hostSMbusIndex);
+
+        /*
+         * Byte 6 = Target PSU Address.
+         *    bit 0 is Reserved.
+         *    bit 1 to 7 is 7-bit SMBUS address
+         */
+        commandBytes.emplace_back(deviceAddress);
+
+        /*
+         * Byte 7 = MUX Address.
+         */
+        commandBytes.emplace_back(0x00);
+
+        /*
+         * Byte 8 = MUX channel selection.
+         */
+        commandBytes.emplace_back(0x00);
+
+        /*
+         * Byte 8 = MUX configuration state.
+         */
+        commandBytes.emplace_back(0x00);
+    }
+    else
+    {
+        /*
+         * Byte 6 = Target PSU Address.
+         *    bit 0 is Reserved.
+         *    bit 1 to 7 is 7-bit SMBUS address
+         */
+        commandBytes.emplace_back(deviceAddress);
+
+        /*
+         * Byte 8 = MGPIO MUX configuration.
+         */
+        commandBytes.emplace_back(0x00);
+    }
+
+    /*
+     * Byte 7 or 10 = Transmission Protocol parameter
+     *   bit 0, 4 = Reserved.
+     *   bit 5 = Transmission Protocol (0 for PMBus 1 for I2C).
+     *   bit 6, 7 = Reserved.
+     */
+    commandBytes.emplace_back(0x00);
+
+    /*
+     * Byte 8 or 11 = Write Length.
+     */
+    commandBytes.emplace_back(static_cast<uint8_t>(pmbusCommand.size()));
+
+    /*
+     * Byte 9 or 12 = Read Length.
+     */
+    commandBytes.emplace_back(readLength);
+
+    /*
+     * Byte Byte 10 or 13 to M = PMBUS command.
+     */
+    for (uint8_t byte : pmbusCommand)
+    {
+        commandBytes.emplace_back(byte);
+    }
+
+    return commandBytes;
+}
+
 void IpmbSensor::loadDefaults()
 {
     if (type == IpmbType::meSensor)
     {
-        commandAddress = meAddress;
         netfn = ipmi::sensor::netFn;
         command = ipmi::sensor::getSensorReading;
         commandData = {deviceAddress};
@@ -167,7 +308,6 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::PXE1410CVR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
         command = ipmi::me_bridge::sendRawPmbus;
         initCommand = ipmi::me_bridge::sendRawPmbus;
@@ -180,38 +320,61 @@ void IpmbSensor::loadDefaults()
                     deviceAddress, 0x00, 0x00, 0x00, 0x00,
                     0x02,          0x00, 0x00, 0x00};
         readingFormat = ReadingFormat::linearElevenBit;
+<<<<<<< PATCH SET (15b90d Code clean up.)
+        if (isProxyRead)
+        {
+            command = ipmi::me_bridge::sendRawPmbus;
+            initCommand = ipmi::me_bridge::sendRawPmbus;
+            commandData = getRawPmbusCommand(
+                ipmi::sensor::readWord, {ipmi::sensor::readTemperature}, 0x02);
+            initData =
+                getRawPmbusCommand(ipmi::sensor::writeByte, {0x00, 0x00}, 0x00);
+        }
+        else
+        {
+            command = ipmi::sensor::read_me::getPmbusReadings;
+            commandData = getMeCommand();
+        }
+=======
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
     }
     else if (type == IpmbType::IR38363VR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
         command = ipmi::me_bridge::sendRawPmbus;
-        // pmbus read temp
-        commandData = {0x57,          0x01, 0x00, 0x16, hostSMbusIndex,
-                       deviceAddress, 00,   0x00, 0x00, 0x00,
-                       0x01,          0x02, 0x8D};
+        commandData = getRawPmbusCommand(ipmi::sensor::readWord,
+                                         {ipmi::sensor::readTemperature}, 0x02);
         readingFormat = ReadingFormat::elevenBitShift;
     }
     else if (type == IpmbType::ADM1278HSC)
     {
+<<<<<<< PATCH SET (15b90d Code clean up.)
+=======
         commandAddress = meAddress;
         uint8_t snsNum = 0;
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
         switch (subType)
         {
             case IpmbSubType::temp:
             case IpmbSubType::curr:
+<<<<<<< PATCH SET (15b90d Code clean up.)
+                netfn = ipmi::me_bridge::netFn;
+                command = ipmi::me_bridge::sendRawPmbus;
+                if (IpmbSubType::temp == subType)
+=======
                 if (subType == IpmbSubType::temp)
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
                 {
-                    snsNum = 0x8d;
+                    commandData = getRawPmbusCommand(
+                        ipmi::sensor::readWord, {ipmi::sensor::readTemperature},
+                        0x02, false, true);
                 }
                 else
                 {
-                    snsNum = 0x8c;
+                    commandData = getRawPmbusCommand(
+                        ipmi::sensor::readWord,
+                        {ipmi::sensor::readCurrentOutput}, 0x02, false, true);
                 }
-                netfn = ipmi::me_bridge::netFn;
-                command = ipmi::me_bridge::sendRawPmbus;
-                commandData = {0x57, 0x01, 0x00, 0x86, deviceAddress,
-                               0x00, 0x00, 0x01, 0x02, snsNum};
                 readingFormat = ReadingFormat::elevenBit;
                 break;
             case IpmbSubType::power:
@@ -227,7 +390,6 @@ void IpmbSensor::loadDefaults()
     }
     else if (type == IpmbType::mpsVR)
     {
-        commandAddress = meAddress;
         netfn = ipmi::me_bridge::netFn;
         command = ipmi::me_bridge::sendRawPmbus;
         initCommand = ipmi::me_bridge::sendRawPmbus;
@@ -240,6 +402,23 @@ void IpmbSensor::loadDefaults()
                     deviceAddress, 0x00, 0x00, 0x00, 0x00,
                     0x02,          0x00, 0x00, 0x00};
         readingFormat = ReadingFormat::byte3;
+<<<<<<< PATCH SET (15b90d Code clean up.)
+        if (isProxyRead)
+        {
+            command = ipmi::me_bridge::sendRawPmbus;
+            initCommand = ipmi::me_bridge::sendRawPmbus;
+            commandData = getRawPmbusCommand(
+                ipmi::sensor::readWord, {ipmi::sensor::readTemperature}, 0x02);
+            initData =
+                getRawPmbusCommand(ipmi::sensor::writeByte, {0x00, 0x00}, 0x00);
+        }
+        else
+        {
+            command = ipmi::sensor::read_me::getPmbusReadings;
+            commandData = getMeCommand();
+        }
+=======
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
     }
     else
     {
@@ -259,85 +438,101 @@ void IpmbSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
-bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
+void IpmbSensor::setReadFunction()
 {
-
     switch (readingFormat)
     {
         case (ReadingFormat::byte0):
-        {
-            if (command == ipmi::sensor::getSensorReading &&
-                !ipmi::sensor::isValid(data))
-            {
-                return false;
-            }
-            resp = data[0];
-            return true;
-        }
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (!ipmi::sensor::isValid(data))
+                {
+                    return false;
+                }
+                resp = data[0];
+                return true;
+            };
+            break;
         case (ReadingFormat::byte3):
+<<<<<<< PATCH SET (15b90d Code clean up.)
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (data.size() < 4)
+=======
         {
             if (data.size() < 4)
             {
                 if (errCount == 0U)
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    return false;
                 }
-                return false;
-            }
-            resp = data[3];
-            return true;
-        }
+                resp = data[3];
+                return true;
+            };
+            break;
         case (ReadingFormat::elevenBit):
+<<<<<<< PATCH SET (15b90d Code clean up.)
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (data.size() < 5)
+=======
         {
             if (data.size() < 5)
             {
                 if (errCount == 0U)
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    return false;
                 }
-                return false;
-            }
 
-            int16_t value = ((data[4] << 8) | data[3]);
-            resp = value;
-            return true;
-        }
+                int16_t value = ((data[4] << 8) | data[3]);
+                resp = value;
+                return true;
+            };
+            break;
         case (ReadingFormat::elevenBitShift):
+<<<<<<< PATCH SET (15b90d Code clean up.)
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (data.size() < 5)
+=======
         {
             if (data.size() < 5)
             {
                 if (errCount == 0U)
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    return false;
                 }
-                return false;
-            }
 
-            resp = ((data[4] << 8) | data[3]) >> 3;
-            return true;
-        }
+                resp = ((data[4] << 8) | data[3]) >> 3;
+                return true;
+            };
+            break;
         case (ReadingFormat::linearElevenBit):
+<<<<<<< PATCH SET (15b90d Code clean up.)
+            readFunction = [](const std::vector<uint8_t>& data,
+                              double& resp) -> bool {
+                if (data.size() < 5)
+=======
         {
             if (data.size() < 5)
             {
                 if (errCount == 0U)
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    return false;
                 }
-                return false;
-            }
 
-            int16_t value = ((data[4] << 8) | data[3]);
-            constexpr const size_t shift = 16 - 11; // 11bit into 16bit
-            value <<= shift;
-            value >>= shift;
-            resp = value;
-            return true;
-        }
+                int16_t value = ((data[4] << 8) | data[3]);
+                constexpr const size_t shift = 16 - 11; // 11bit into 16bit
+                value <<= shift;
+                value >>= shift;
+                resp = value;
+                return true;
+            };
+            break;
         default:
             throw std::runtime_error("Invalid reading type");
     }
@@ -410,11 +605,162 @@ void IpmbSensor::read(void)
         {
             return;
         }
+<<<<<<< PATCH SET (15b90d Code clean up.)
+        dbusConnection->async_method_call(
+            [this](boost::system::error_code ec,
+                   const IpmbMethodType& response) {
+                const int& status = std::get<0>(response);
+                if (ec || status)
+                {
+                    incrementError();
+                    read();
+                    return;
+                }
+
+                double value = 0;
+                std::vector<uint8_t> data;
+
+                if (isProxyRead)
+                {
+                    data = std::get<5>(response);
+                }
+                else
+                {
+                    ipmi::sensor::read_me::getRawData(
+                        registerToRead, std::get<5>(response), data);
+                }
+
+                if constexpr (debug)
+                {
+                    std::cout << name << ": ";
+                    for (size_t d : data)
+                    {
+                        std::cout << d << " ";
+                    }
+                    std::cout << "\n";
+                }
+                if (data.empty())
+                {
+                    incrementError();
+                    read();
+                    return;
+                }
+
+                if (!readFunction(data, value))
+                {
+                    if (!errCount)
+                    {
+                        std::cerr << "readFunction failed for " << name << "\n";
+                    }
+
+                    incrementError();
+                    read();
+                    return;
+                }
+
+                // rawValue only used in debug logging
+                // up to 5th byte in data are used to derive value
+                size_t end = std::min(sizeof(uint64_t), data.size());
+                uint64_t rawData = 0;
+                for (size_t i = 0; i < end; i++)
+                {
+                    reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
+                }
+                rawValue = static_cast<double>(rawData);
+
+                /* Adjust value as per scale and offset */
+                value = (value * scaleVal) + offsetVal;
+                updateValue(value);
+                read();
+            },
+            "xyz.openbmc_project.Ipmi.Channel.Ipmb",
+            "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
+            "sendRequest", commandAddress, netfn, lun, command, commandData);
+=======
         self->sendIpmbRequest();
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
     });
 }
 
+<<<<<<< PATCH SET (15b90d Code clean up.)
+bool IpmbSensor::setSensorType(const std::string& sensorClass)
+{
+    if (sensorClass == "PxeBridgeTemp")
+    {
+        type = IpmbType::PXE1410CVR;
+    }
+    else if (sensorClass == "IRBridgeTemp")
+    {
+        type = IpmbType::IR38363VR;
+    }
+    else if (sensorClass == "HSCBridge")
+    {
+        type = IpmbType::ADM1278HSC;
+    }
+    else if (sensorClass == "MpsBridgeTemp")
+    {
+        type = IpmbType::mpsVR;
+    }
+    else if (sensorClass == "METemp" || sensorClass == "MESensor")
+    {
+        type = IpmbType::meSensor;
+    }
+    else
+    {
+        return false;
+    }
+
+    return true;
+}
+
+void IpmbSensor::setSensorSubType(const std::string& sensorTypeName)
+{
+    if (sensorTypeName == "voltage")
+    {
+        subType = IpmbSubType::volt;
+    }
+    else if (sensorTypeName == "power")
+    {
+        subType = IpmbSubType::power;
+    }
+    else if (sensorTypeName == "current")
+    {
+        subType = IpmbSubType::curr;
+    }
+    else if (sensorTypeName == "utilization")
+    {
+        subType = IpmbSubType::util;
+    }
+}
+
+void IpmbSensor::setScaleAndOffset(const SensorBaseConfigMap& sensorBaseConfig)
+{
+    auto findScaleVal = sensorBaseConfig.find("ScaleValue");
+    if (findScaleVal != sensorBaseConfig.end())
+    {
+        scaleVal = std::visit(VariantToDoubleVisitor(), findScaleVal->second);
+    }
+
+    auto findOffsetVal = sensorBaseConfig.find("OffsetValue");
+    if (findOffsetVal != sensorBaseConfig.end())
+    {
+        offsetVal = std::visit(VariantToDoubleVisitor(), findOffsetVal->second);
+    }
+
+    auto findPowerState = sensorBaseConfig.find("PowerState");
+    if (findPowerState != sensorBaseConfig.end())
+    {
+        std::string powerState =
+            std::visit(VariantToStringVisitor(), findPowerState->second);
+
+        setReadState(powerState, readState);
+    }
+}
+
+void IpmbSensor::setReadMethod(const SensorBaseConfigMap& sensorBaseConfig)
+=======
 void IpmbSensor::sendIpmbRequest()
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
 {
     if (!readingStateGood())
     {
@@ -437,6 +783,8 @@ void IpmbSensor::sendIpmbRequest()
         "sendRequest", commandAddress, netfn, lun, command, commandData);
 }
 
+<<<<<<< PATCH SET (15b90d Code clean up.)
+=======
 bool IpmbSensor::sensorClassType(const std::string& sensorClass)
 {
     if (sensorClass == "PxeBridgeTemp")
@@ -508,6 +856,7 @@ void IpmbSensor::parseConfigValues(const SensorBaseConfigMap& entry)
     readState = getPowerState(entry);
 }
 
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
@@ -532,7 +881,71 @@ void createSensors(
             {
                 if (intf != configInterfaceName(sensorType))
                 {
+<<<<<<< PATCH SET (15b90d Code clean up.)
+                    if (entry.first != configInterface)
+                    {
+                        continue;
+                    }
+                    std::string name =
+                        loadVariant<std::string>(entry.second, "Name");
+
+                    std::vector<thresholds::Threshold> sensorThresholds;
+                    if (!parseThresholdsFromConfig(pathPair.second,
+                                                   sensorThresholds))
+                    {
+                        std::cerr << "error populating thresholds for " << name
+                                  << "\n";
+                    }
+                    uint8_t deviceAddress =
+                        loadVariant<uint8_t>(entry.second, "Address");
+
+                    std::string sensorClass =
+                        loadVariant<std::string>(entry.second, "Class");
+
+                    uint8_t hostSMbusIndex = hostSMbusIndexDefault;
+                    auto findSmType = entry.second.find("HostSMbusIndex");
+                    if (findSmType != entry.second.end())
+                    {
+                        hostSMbusIndex = std::visit(
+                            VariantToUnsignedIntVisitor(), findSmType->second);
+                    }
+
+                    float pollRate = pollRateDefault;
+                    auto findPollRate = entry.second.find("PollRate");
+                    if (findPollRate != entry.second.end())
+                    {
+                        pollRate = std::visit(VariantToFloatVisitor(),
+                                              findPollRate->second);
+                        if (pollRate <= 0.0f)
+                        {
+                            pollRate = pollRateDefault;
+                        }
+                    }
+
+                    /* Default sensor type is "temperature" */
+                    std::string sensorTypeName = "temperature";
+                    auto findType = entry.second.find("SensorType");
+                    if (findType != entry.second.end())
+                    {
+                        sensorTypeName = std::visit(VariantToStringVisitor(),
+                                                    findType->second);
+                    }
+
+                    auto& sensor = sensors[name];
+                    sensor = std::make_unique<IpmbSensor>(
+                        dbusConnection, io, name, pathPair.first, objectServer,
+                        std::move(sensorThresholds), deviceAddress,
+                        hostSMbusIndex, pollRate, sensorTypeName);
+
+                    sensor->setReadMethod(entry.second);
+                    sensor->setScaleAndOffset(entry.second);
+                    sensor->setSensorType(sensorClass);
+                    sensor->setSensorSubType(sensorTypeName);
+
+                    sensor->init();
+=======
                     continue;
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
                 }
                 std::string name = loadVariant<std::string>(cfg, "Name");
 
