@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "b01757b2_37aadc12",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-12-15T16:38:24Z",
+      "side": 1,
+      "message": "Okay, let\u0027s assume EM is responsible for the creation of the item interface.\n\nWouldn\u0027t it be better for EM to unconditionally publish a cable object with an item interface based on a FRU associated with the board?\n\nThen gpio sensing daemon can mutate present based on the config provided by EM.\n\nThe point being, we need it explicitly stated that a cable is absent ..e.g via the Present property in the Item interface.\n\nOne motivating use case for this is that this is how the discrete events in a cable presence entry in IPMI figures out which bits to set.\n\nAnother motivating use case is that the LED daemon needs to look at a specific property to determine whether it should blink or not (could be done by searching for the presence or absence of a dbus-object but I find that approach very clunky)",
+      "parentUuid": "1fada31f_9d0a1283",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e643becb_505607bf",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 31
@@ -676,6 +700,30 @@
       "writtenOn": "2021-12-10T17:38:16Z",
       "side": 1,
       "message": "I thought the design doc called for this to be interrupts?",
+      "range": {
+        "startLine": 226,
+        "startChar": 50,
+        "endLine": 226,
+        "endChar": 58
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b02961e6_623b5c04",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-12-15T16:38:24Z",
+      "side": 1,
+      "message": "If we\u0027re going to support interrupts please make it an option to force polling in the EM config and update the design doc appropriately.\n\nSometimes interrupt support isn\u0027t feasible (gpio expander without the interrupt pin connected)",
+      "parentUuid": "fb0bf158_99b87b0f",
       "range": {
         "startLine": 226,
         "startChar": 50,
