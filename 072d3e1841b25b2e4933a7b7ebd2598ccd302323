@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "a67d9d18_aedad69d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-16T05:16:57Z",
+      "side": 1,
+      "message": "Hmm - I meant this line https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47241/17/src/IpmbSensor.cpp#487\nIt is checking for IPMI\nAm I missing something?",
+      "parentUuid": "2fc27d89_31ead131",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "072d3e1841b25b2e4933a7b7ebd2598ccd302323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1caef956_6592d7ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
