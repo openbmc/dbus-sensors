@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76f44118_537ae7bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-16T17:19:56Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "0a4f3451_446e7df4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3fb7581_6567f9f1",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
