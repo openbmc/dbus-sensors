@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4dd50d2b_73040508",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-16T05:53:35Z",
+      "side": 1,
+      "message": "Seems like an odd place to link. I feel like it would be more reliable to point to the actual git repo?\n\nhttps://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 79
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a36c853_e2dec7ff",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 31
@@ -166,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "754bbd05_1212709a",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-16T05:53:35Z",
+      "side": 1,
+      "message": "\u003e Today, present isn\u0027t really implemented in entity-manager (all things are implicitly present by existing)\n\nThe refactor that I did where I pulled out PerformProbe and PerformScan was the start of me trying to understand how to make EM pay attention to the Present property, so I have some desire to see it implemented.\n\n\u003e A \"Not present\" thing would be an unfilled slot, which we don\u0027t really have an abstraction for today, but vijay is looking at it for PCIe.\n\nThis is also something I\u0027ve concerned myself with: I modeled this kind of thing with Connectors and PolledDevicePresence classes in platform-fru-detect:\n\n* https://github.com/ibm-openbmc/platform-fru-detect/blob/5e83e98f9a8476e61ad464b51dac3d4120de47b7/src/platform.hpp#L27-L62\n* https://github.com/ibm-openbmc/platform-fru-detect/blob/5e83e98f9a8476e61ad464b51dac3d4120de47b7/src/platform.hpp#L91-L223\n\nIt\u0027d be great to see support in EM for the concept.\n\nI\u0027d like to delete all the code in platform-fru-detect by having equivalent functionality in EM. platform-fru-detect is my executable mental model of how our hardware works and I hope to use that to help translate some of the concepts into something EM can represent.",
+      "parentUuid": "b01757b2_37aadc12",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e643becb_505607bf",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 31
@@ -217,6 +264,30 @@
       "writtenOn": "2021-12-08T20:45:49Z",
       "side": 1,
       "message": "Lets leave this off until we have use cases.  Riser cards and drives already have support in other applications, and while this might be a good use of it, lets evaluate it when the time comes.  Riser cards and drives have the complexity that they might have both a FRU and a Gpio, so another design is somewhat needed to figure out how to do the \"merge\"",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 50
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3559fe5c_09ddc4a0",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-16T05:53:35Z",
+      "side": 1,
+      "message": "I want to get rid of my pile of hacks here:\n\nhttps://github.com/ibm-openbmc/platform-fru-detect\n\nThe drive presence is exposed by GPIOs that are connected to PCA9552s that are are on pluggable cards. There\u0027s no way for this arrangement to have a statically declared configuration. This sounds like a step in the direction of enabling my use case in EM?",
+      "parentUuid": "40035225_b6310532",
       "range": {
         "startLine": 117,
         "startChar": 0,
