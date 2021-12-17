@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "936c1397_1b4e5ba4",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-17T18:09:16Z",
+      "side": 1,
+      "message": "In terms of design, I\u0027d like to use this as an opportunity to discuss some further cleanups.  It\u0027s much easier if each device is being accessed by a single application.  Having NodeManagerProxy and IPMBSensor both accessing ME is causing some messy things to happen like duplication of this code between them.  Is there an eventual plan there between those two?",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 19
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "887cd815_52313569",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-17T18:09:16Z",
+      "side": 1,
+      "message": "Does this need to log an error or return an error, given that the operation failed?",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5001979a_426aa949",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 18
@@ -84,6 +130,30 @@
       "writtenOn": "2021-12-17T18:09:01Z",
       "side": 1,
       "message": "Understood. I will add \u003c\u003d at line 70.",
+      "parentUuid": "a5edc388_d7336720",
+      "range": {
+        "startLine": 84,
+        "startChar": 30,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa9b1d3f_210957c1",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-17T18:09:16Z",
+      "side": 1,
+      "message": "+1.  Also input[2] is possible to be invalid if fixed_offset is 0, and registerToRead is 0, and input.size() is 2.",
       "parentUuid": "a5edc388_d7336720",
       "range": {
         "startLine": 84,
