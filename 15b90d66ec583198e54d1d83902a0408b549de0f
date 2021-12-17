@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e95c14fb_148ddbbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T07:52:27Z",
+      "side": 1,
+      "message": "Will split into 3 separate commits.",
+      "parentUuid": "76f44118_537ae7bb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3fb7581_6567f9f1",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2021-12-15T17:25:13Z",
       "side": 1,
       "message": "Aren\u0027t these items redundant?  Do we have any PMBUS devices that don\u0027t support PEC?",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 60
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "892ecc2f_56e4343c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T07:52:27Z",
+      "side": 1,
+      "message": "I am not sure about devices which does not support PEC. \nBut from code perspective I have observed that all calls to getRawPmbusCommand uses same value for doEnablePec. \n\nSo we can remove this argument. \nWill address this.",
+      "parentUuid": "c3fb7581_6567f9f1",
       "range": {
         "startLine": 199,
         "startChar": 4,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "8b8fd2e5_9f98df70",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T07:52:27Z",
+      "side": 1,
+      "message": "processReading (old code) was called from read function for every read cycle, which means the switch case is performed for all read operation. \n\nsetReadFunction is only called once per sensor during init.\nAnd from read function we use the pre initialized function pointer to access the correct decoding method. \n\nFor readability of the code, I can define functions like \"processByte0Reading\" (as per your comment) and assign that to function pointer instead of using lambda function.",
+      "parentUuid": "c1c63ffc_9c29a046",
+      "range": {
+        "startLine": 425,
+        "startChar": 17,
+        "endLine": 425,
+        "endChar": 32
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ba6a7380_4282a23a",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "9abd4efc_7868e3c3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T07:52:27Z",
+      "side": 1,
+      "message": "Will bring it back to old location.",
+      "parentUuid": "ba6a7380_4282a23a",
+      "range": {
+        "startLine": 522,
+        "startChar": 23,
+        "endLine": 522,
+        "endChar": 28
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de220580_0131fcec",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
@@ -129,6 +225,30 @@
       "writtenOn": "2021-12-15T17:25:13Z",
       "side": 1,
       "message": "Possible nullptr defreference.",
+      "range": {
+        "startLine": 551,
+        "startChar": 21,
+        "endLine": 551,
+        "endChar": 33
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f02a41b_31093c3a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T07:52:27Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "de220580_0131fcec",
       "range": {
         "startLine": 551,
         "startChar": 21,
