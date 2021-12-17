@@ -68,6 +68,30 @@
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "354fa3a5_2a9a2425",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-17T18:20:49Z",
+      "side": 1,
+      "message": "That was change to avoid extra function call based of my prev comments that only these types can be read through the new method (Currently)\nThinking again, I do see potentially it can apply to more devices in the future.\nSo I am ok with keeping this way for now or change it back to call for all types.",
+      "parentUuid": "7939a576_abdc258d",
+      "range": {
+        "startLine": 648,
+        "startChar": 0,
+        "endLine": 648,
+        "endChar": 60
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
