@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17b8c633_9d0adc30",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-17T01:03:36Z",
+      "side": 1,
+      "message": "Feels a bit bananas that we store another shared pointer to our own member.",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 28
+      },
+      "revId": "6c6f812ce3204b36ff4065af1d63f172e9a2ac4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc16895e_c18d17fb",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-17T01:03:36Z",
+      "side": 1,
+      "message": "Is there a better way to do this? These maps have 2 or so entries in them.",
+      "range": {
+        "startLine": 103,
+        "startChar": 1,
+        "endLine": 109,
+        "endChar": 27
+      },
+      "revId": "6c6f812ce3204b36ff4065af1d63f172e9a2ac4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb506ce5_59d4d1e9",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-17T01:03:36Z",
+      "side": 1,
+      "message": "Why not this?\n\n alarm \u003d thresholdName[threshold.level] + \"Alarm\" + directionName[threshold.direction];",
+      "range": {
+        "startLine": 269,
+        "startChar": 1,
+        "endLine": 270,
+        "endChar": 60
+      },
+      "revId": "6c6f812ce3204b36ff4065af1d63f172e9a2ac4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101a24e7_04ccef70",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-17T01:03:36Z",
+      "side": 1,
+      "message": "Do all of this in the constructor?",
+      "range": {
+        "startLine": 361,
+        "startChar": 1,
+        "endLine": 376,
+        "endChar": 5
+      },
+      "revId": "6c6f812ce3204b36ff4065af1d63f172e9a2ac4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aeb6828_86353455",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-17T01:03:36Z",
+      "side": 1,
+      "message": "Provide a helper function?",
+      "range": {
+        "startLine": 239,
+        "startChar": 19,
+        "endLine": 240,
+        "endChar": 62
+      },
+      "revId": "6c6f812ce3204b36ff4065af1d63f172e9a2ac4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1970ee74_d481630b",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2021-12-17T01:03:36Z",
+      "side": 1,
+      "message": "Another helper function for this one too.",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 473,
+        "endChar": 77
+      },
+      "revId": "6c6f812ce3204b36ff4065af1d63f172e9a2ac4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
