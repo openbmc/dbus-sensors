@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "ead5b862_0d358c26",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-17T17:58:03Z",
+      "side": 1,
+      "message": "If we don\u0027t need support for it yet, there\u0027s no need to have a parmaeter.  Once we have a device that needs either of these, we can add them back.  Doing it in this order makes it more clear why that support exists, and eliminates dead code from upstream.",
+      "parentUuid": "892ecc2f_56e4343c",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 60
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1c63ffc_9c29a046",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 2
