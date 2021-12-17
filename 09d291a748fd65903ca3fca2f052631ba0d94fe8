@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a5edc388_d7336720",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2021-12-17T17:42:31Z",
+      "side": 1,
+      "message": "My point is - if input.size() \u003d\u003d (offset+1)\n1. Line 70 will be false\n2. line 84 will get executed, but input[offset+1] is invalid",
+      "parentUuid": "53387b5f_b193b389",
+      "range": {
+        "startLine": 84,
+        "startChar": 30,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "322416d2_8d3bdfd2",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 18
