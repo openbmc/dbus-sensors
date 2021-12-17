@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7ad5f68c_d9857527",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T19:14:23Z",
+      "side": 1,
+      "message": "fixedOffset is defined at line 62 and cannot be zero unless someone changes the code.",
+      "parentUuid": "0f8cf038_490d5488",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac675d3a_aa665297",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 19
@@ -36,6 +60,30 @@
       "writtenOn": "2021-12-17T18:09:16Z",
       "side": 1,
       "message": "Does this branch need applied to ALL pmbus types?  Given that a number of these are pmbus (example PXE1410CVR), I would\u0027ve expected this logic to be higher.",
+      "range": {
+        "startLine": 201,
+        "startChar": 8,
+        "endLine": 201,
+        "endChar": 21
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "252ff161_8bb3863c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T19:14:23Z",
+      "side": 1,
+      "message": "Currently PxeBridgeTemp and MpsBridgeTemp is tested using new method. That is why we are converting the same. \nAnd yes in theory we can support more sensors in new method.",
+      "parentUuid": "ac675d3a_aa665297",
       "range": {
         "startLine": 201,
         "startChar": 8,
@@ -83,6 +131,30 @@
       "side": 1,
       "message": "That was change to avoid extra function call based of my prev comments that only these types can be read through the new method (Currently)\nThinking again, I do see potentially it can apply to more devices in the future.\nSo I am ok with keeping this way for now or change it back to call for all types.",
       "parentUuid": "7939a576_abdc258d",
+      "range": {
+        "startLine": 648,
+        "startChar": 0,
+        "endLine": 648,
+        "endChar": 60
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6873de55_9b87d5c5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T19:14:23Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "354fa3a5_2a9a2425",
       "range": {
         "startLine": 648,
         "startChar": 0,

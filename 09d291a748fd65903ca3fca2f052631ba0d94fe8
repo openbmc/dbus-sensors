@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "98587492_1c17d013",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T19:14:23Z",
+      "side": 1,
+      "message": "It\u0027s a either or situation. We read the sensor either using proxy or using ME.  \n\nA situation of having NodeManagerProxy and IPMBSensor reading the same sensor data is redundant as will not but supported by exiting code.  \n\nAnd I am happy to take up clean up suggestions, but can we get this merged? and take up clean on top of this?",
+      "parentUuid": "936c1397_1b4e5ba4",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 19
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "887cd815_52313569",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 18
@@ -36,6 +60,30 @@
       "writtenOn": "2021-12-17T18:09:16Z",
       "side": 1,
       "message": "Does this need to log an error or return an error, given that the operation failed?",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55a4d44c_24654a54",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T19:14:23Z",
+      "side": 1,
+      "message": "We return result with no data in case if failure. \nAnd if (data.empty()) is used in read function to incrementError (one time logging is done in when number of error cross errorThreshold, and sensor object is marked as not functional).",
+      "parentUuid": "887cd815_52313569",
       "range": {
         "startLine": 72,
         "startChar": 8,
@@ -155,6 +203,30 @@
       "side": 1,
       "message": "+1.  Also input[2] is possible to be invalid if fixed_offset is 0, and registerToRead is 0, and input.size() is 2.",
       "parentUuid": "a5edc388_d7336720",
+      "range": {
+        "startLine": 84,
+        "startChar": 30,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d81db3be_ee08fe0f",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T19:14:23Z",
+      "side": 1,
+      "message": "Fixed offset is defined in line 62 and will not be zero until someone mess with the code.",
+      "parentUuid": "fa9b1d3f_210957c1",
       "range": {
         "startLine": 84,
         "startChar": 30,
