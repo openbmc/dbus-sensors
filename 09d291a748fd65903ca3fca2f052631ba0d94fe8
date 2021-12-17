@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53387b5f_b193b389",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T04:37:55Z",
+      "side": 1,
+      "message": "We have a check for that in line 70.",
+      "parentUuid": "5001979a_426aa949",
+      "range": {
+        "startLine": 84,
+        "startChar": 30,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "322416d2_8d3bdfd2",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 18
@@ -36,6 +60,30 @@
       "writtenOn": "2021-12-17T00:47:26Z",
       "side": 1,
       "message": "nit: since you refer new method as read_me, I would flip the logic here, make a flag isReadMe",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 28
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcab7435_deae9750",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T04:37:55Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "322416d2_8d3bdfd2",
       "range": {
         "startLine": 148,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c9054f37_dd5db651",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T04:37:55Z",
+      "side": 1,
+      "message": "Will address it.",
+      "parentUuid": "57a263a4_4a134e1e",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 47
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e814853e_50cc907c",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 18
@@ -82,6 +154,30 @@
       "writtenOn": "2021-12-17T00:47:26Z",
       "side": 1,
       "message": "repeating the same code for IpmbType::PXE1410CVR.\nOnly difference is readingFormat\n\nconsider combine them",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 5
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "469ac293_e8ed28bd",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T04:37:55Z",
+      "side": 1,
+      "message": "I have split this patch, and there is one rebased on top of this for code clean up. \nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49718\nCan you please go through that, and I will address the clean up comments there.",
+      "parentUuid": "e814853e_50cc907c",
       "range": {
         "startLine": 268,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "55705ae1_326420c5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T04:37:55Z",
+      "side": 1,
+      "message": "Will address it.",
+      "parentUuid": "ac09055d_3fbe711e",
+      "range": {
+        "startLine": 477,
+        "startChar": 0,
+        "endLine": 477,
+        "endChar": 75
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d7d3e97_5520978c",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 18
@@ -128,6 +248,30 @@
       "writtenOn": "2021-12-17T00:47:26Z",
       "side": 1,
       "message": "need update to match the code",
+      "range": {
+        "startLine": 485,
+        "startChar": 45,
+        "endLine": 486,
+        "endChar": 16
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66cdbf62_3dd44ee7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-17T04:37:55Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "8d7d3e97_5520978c",
       "range": {
         "startLine": 485,
         "startChar": 45,
