@@ -737,6 +737,30 @@
     },
     {
       "key": {
+        "uuid": "52646ba7_36084334",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-12-20T17:50:28Z",
+      "side": 1,
+      "message": "want to clarify: your objection here is the publishing of the item interface and not the \"PrettyName\" property.. right?",
+      "parentUuid": "7d9bcd27_dae2a49f",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 72
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ae7e2c0_99f0e75c",
         "filename": "src/GPIOPresenceSensorMain.cpp",
         "patchSetId": 31
@@ -748,6 +772,30 @@
       "writtenOn": "2021-12-10T17:38:16Z",
       "side": 1,
       "message": "?  Shouldn\u0027t this be true?",
+      "range": {
+        "startLine": 222,
+        "startChar": 70,
+        "endLine": 222,
+        "endChar": 75
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3456b4d6_f2b75866",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-12-20T17:50:28Z",
+      "side": 1,
+      "message": "Chu, correct me if I\u0027m wrong..\n\nbut default state of present is false until the daemon reads a GPIO pin and confirms that the cable (or whatever) is actually present. Then this gets updated to true.",
+      "parentUuid": "7ae7e2c0_99f0e75c",
       "range": {
         "startLine": 222,
         "startChar": 70,
@@ -819,6 +867,30 @@
       "side": 1,
       "message": "\u003e If we\u0027re going to support interrupts please make it an option to force polling in the EM config and update the design doc appropriately.\n\u003e \n\u003e Sometimes interrupt support isn\u0027t feasible (gpio expander without the interrupt pin connected)\n\n\nInterrupt vs polling should not be system specific.  I\u0027m fine if this wants to poll, I was just asking because the requirements explicitly stated interrupts, so maybe that doc is out of date now?",
       "parentUuid": "b02961e6_623b5c04",
+      "range": {
+        "startLine": 226,
+        "startChar": 50,
+        "endLine": 226,
+        "endChar": 58
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bb8fbed_1e6dc48d",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-12-20T17:50:28Z",
+      "side": 1,
+      "message": "Okay, Chu - can we see if the gpio subsystem (libgpio) can determine whether a pin supports interrupts or not? \n\nPerhaps - best effort to configure interrupts and if that fails then fall-back to polling?",
+      "parentUuid": "035e7ef0_9cdd06d6",
       "range": {
         "startLine": 226,
         "startChar": 50,
