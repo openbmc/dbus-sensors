@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "057a98c2_e97bf769",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-21T19:39:19Z",
+      "side": 1,
+      "message": "These seem like they could be a constexpr array, right?\n\n\nMaking them constexpr would significantly reduce the runtime memory usage of these.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 30
+      },
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eecaa7f_f8acd325",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-21T19:39:19Z",
+      "side": 1,
+      "message": "Why is there a separate map for direction?",
+      "range": {
+        "startLine": 100,
+        "startChar": 31,
+        "endLine": 100,
+        "endChar": 52
+      },
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80f274c6_66797c64",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-21T19:39:19Z",
+      "side": 1,
+      "message": "I suspect what needs to happen here is something like:\n\nstruct Threshold {\n   Direction dir;\n   Level level;\n   const char* name;\n}\n\nconstexpr std::array\u003cThreshold, 4\u003e thresholds \u003d {\n{Direction:HIGH, Level::CRITICAL, \"CriticalHigh\"},\n{Direction:LOW, Level::CRITICAL, \"CriticalLow\"},\n{Direction:HIGH, Level::WARNING, \"WarningHigh\"},\n{Direction:LOW, Level::WARNING, \"WarningLow\"},\n}\n\n\nThe above means that we\u0027re not constructing any per-sensor data structures at runtime.",
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de9acee9_65d70fcd",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-21T19:39:19Z",
+      "side": 1,
+      "message": "These can be easily set as a constexpr, given that they\u0027re fixed.",
+      "range": {
+        "startLine": 366,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 0
+      },
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8805617_ba80695f",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-21T19:39:19Z",
+      "side": 1,
+      "message": "operator[] creates an entry if it\u0027s not found, which is definitely not what you want here.",
+      "range": {
+        "startLine": 380,
+        "startChar": 25,
+        "endLine": 380,
+        "endChar": 38
+      },
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
