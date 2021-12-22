@@ -22,6 +22,30 @@
       "revId": "831a2b59b8179937aadf1709e563c8ada90edccf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b07db0b_8ba41093",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-22T14:20:17Z",
+      "side": 1,
+      "message": "Bus Index is used in other 2 features, so this is a base patch. In other 2 patches, bus key is used and tested.",
+      "parentUuid": "9e1672b7_d203774e",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 9
+      },
+      "revId": "831a2b59b8179937aadf1709e563c8ada90edccf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
