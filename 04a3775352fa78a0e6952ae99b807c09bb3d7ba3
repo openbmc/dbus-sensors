@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "91d96fce_5c7f2cb7",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2021-12-23T00:46:46Z",
+      "side": 1,
+      "message": "So there were some offline discussions with Ed on how to get EM to publish a dbus object corresponding and then mutate present based on what gpio-presence does.\n\nChu, can you summarize what was discussed in this thread and then update the documentation based on this?\nI think it\u0027s pretty important for users of gpio-presence to understand exactly what is going on: The approach is not obvious.\nAlso it\u0027d be nice to touch on the motivating use case - otherwise others will likely ask the same question I asked, \"Why such a complicated approach?\"",
+      "parentUuid": "754bbd05_1212709a",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e643becb_505607bf",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 31
