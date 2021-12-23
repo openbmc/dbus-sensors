@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "230de887_6c708cfe",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2021-12-23T17:42:58Z",
+      "side": 1,
+      "message": "Per our offline discussion, we need to alter the design to publish a dbus object corresponding and then mutate present based on what gpio-presence does.\n\nThe idea is the following:\n1). There should a config file for the presence daemon to consume. An example looks the following.\n```\n    {\n      \"Name\": \"cable0_config\",\n      \"GpioLine\": \"cable0_prsnt_l\",\n      \"Polarity\": \"active_low\",\n      \"Type\": \"CablePresence\", # differentiate using the type\n    },\n    \"Probe\": \"xyz.openbmc_project.FruDevice({\u0027BOARD_PRODUCT_NAME\u0027: \u0027myboard\u0027})\",\n```\n\n2). The presence daemon will pick the above config and populate a private interface. For example, xyz.openbmc_project.cablepresence.\n\n3). Then, EM can probe interface and create the actual dbus object with public interface.\n```\n  Exposes: [],\n    “Name”: “cable0”,\n    \"xyz.openbmc_project.Inventory.Item\": {\n        \"Present”: “$present”\n    },\n    \"xyz.openbmc_project.Inventory.Cable\": {\n    },\n     \"Probe\": \"Found(“myboard”) AND \"xyz.openbmc_project.cablepresence({Index: 4})”\n```\n\nI will update the design doc with the above new design.",
+      "parentUuid": "91d96fce_5c7f2cb7",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e643becb_505607bf",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 31
