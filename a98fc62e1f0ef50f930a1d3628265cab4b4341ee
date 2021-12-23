@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "952b3b75_5dd9d4f5",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-23T12:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "057a98c2_e97bf769",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 30
+      },
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eecaa7f_f8acd325",
         "filename": "include/sensor.hpp",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9fd2cc2f_0a747504",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-23T12:12:27Z",
+      "side": 1,
+      "message": "This is converted to std::array and it will represent HIGH or LOW based on the threshold direction.",
+      "parentUuid": "1eecaa7f_f8acd325",
+      "range": {
+        "startLine": 100,
+        "startChar": 31,
+        "endLine": 100,
+        "endChar": 52
+      },
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80f274c6_66797c64",
         "filename": "include/sensor.hpp",
         "patchSetId": 5
@@ -62,6 +110,24 @@
       "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "033af2e5_ba462c55",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-23T12:12:27Z",
+      "side": 1,
+      "message": "Ack, I have split the array into 2, since threshold level is present in 2 rows and it is not able to identify which level needs to be read. \n\n    struct ThresholdLevel\n    {\n        thresholds::Level level;\n        std::string levelProperty;\n    };\n\n    struct ThresholdDirection\n    {\n        thresholds::Direction direction;\n        std::string alarmProperty;\n    };\n\n    std::array\u003cSensor::ThresholdLevel, 2\u003e thresLevelProp \u003d {\n        {{thresholds::Level::WARNING, \"Warning\"},\n         {thresholds::Level::CRITICAL, \"Critical\"}}};\n    std::array\u003cSensor::ThresholdDirection, 2\u003e thresAlarmProp \u003d {\n        {{thresholds::Direction::HIGH, \"High\"},\n         {thresholds::Direction::LOW, \"Low\"}}};",
+      "parentUuid": "80f274c6_66797c64",
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "9c3fc741_ebdeecb3",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-23T12:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de9acee9_65d70fcd",
+      "range": {
+        "startLine": 366,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 0
+      },
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8805617_ba80695f",
         "filename": "include/sensor.hpp",
         "patchSetId": 5
@@ -108,6 +198,30 @@
       "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ca223f6_0920c760",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-23T12:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8805617_ba80695f",
+      "range": {
+        "startLine": 380,
+        "startChar": 25,
+        "endLine": 380,
+        "endChar": 38
+      },
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
