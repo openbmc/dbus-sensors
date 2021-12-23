@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c552551_0072f26c",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-23T19:28:17Z",
+      "side": 1,
+      "message": "change to const char* or std::string_view to make these constexpr constructable.",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 19
+      },
+      "revId": "4fdb27187bba4661ae82c09759afaaf0a386d028",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0896314c_dda30ff7",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-23T19:28:17Z",
+      "side": 1,
+      "message": "Please make these constexpr static so they\u0027re not allocated for every single sensor.  As written, this will allocate memory  for every single sensor that\u0027s instantiated, when this table is in fact constexpr.  This was pointed out in the previous comment.",
+      "revId": "4fdb27187bba4661ae82c09759afaaf0a386d028",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4d383eb_2a864ea5",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-23T19:28:17Z",
+      "side": 1,
+      "message": "You seem to have forgotten to range check these.  You can\u0027t just index into an array, and as written, you need to compare threshLevel[index].first against the level being given, considering it\u0027s part of the array.  If I reverse the order of the list above, which is legal to do, this code breaks.\n\nI believe the above issue is why you thought these needed to be multiple tables.  Just iterate\n\nfor (prop: thresLevelProp){\n    if (prop.level \u003d\u003d lev \u0026\u0026 prop.direction \u003d\u003d dir){\n        return prop.levelProperty;\n    }\n}\n\nreturn \"\"\n\n\nThat will both handle the range checks as part of the for loop, and handle errors properly, while keeping a single table, which is simpler.",
+      "range": {
+        "startLine": 382,
+        "startChar": 27,
+        "endLine": 382,
+        "endChar": 47
+      },
+      "revId": "4fdb27187bba4661ae82c09759afaaf0a386d028",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "820cc902_dda563b3",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-23T19:28:17Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 390,
+        "startChar": 42,
+        "endLine": 390,
+        "endChar": 47
+      },
+      "revId": "4fdb27187bba4661ae82c09759afaaf0a386d028",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696feca8_ad29e42e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-23T19:28:17Z",
+      "side": 1,
+      "message": "This structure has exactly the same comments as the previous.  I suspect it would be much simpler as a single table, needs to be constexpr, and needs to index into it properly.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 72
+      },
+      "revId": "4fdb27187bba4661ae82c09759afaaf0a386d028",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac0dd234_04819f7c",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-23T19:28:17Z",
+      "side": 1,
+      "message": "Always init your variables.  With that said, in this case, I suspect you don\u0027t need the variable at all:\n\n    if (order \u003d\u003d \"greater than\")\n    {\n        return 0;\n    }\n    else if (order \u003d\u003d \"less than\")\n    {\n        return 1;\n    }\n    return -1;\n\nWhich simplifies your code and removes the variable entirely.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 12
+      },
+      "revId": "4fdb27187bba4661ae82c09759afaaf0a386d028",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40babb82_277a9f24",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-23T19:28:17Z",
+      "side": 1,
+      "message": "Same comments as before, except that this is much worse, given that we\u0027re using user input here.",
+      "range": {
+        "startLine": 123,
+        "startChar": 27,
+        "endLine": 123,
+        "endChar": 37
+      },
+      "revId": "4fdb27187bba4661ae82c09759afaaf0a386d028",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
