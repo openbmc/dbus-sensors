@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ef036e96_fbaeddc2",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-24T01:18:49Z",
+      "side": 1,
+      "message": "\u003e It\u0027s a either or situation. We read the sensor either using proxy or using ME.  \n\u003e \n\u003e A situation of having NodeManagerProxy and IPMBSensor reading the same sensor data is redundant as will not but supported by exiting code.  \n\nThis is my point.  Why are two different services managing the resources behind the ME.  This is an ME specific command here, it should probably be going in node manager proxy eventually.\n\n\u003e \n\u003e And I am happy to take up clean up suggestions, but can we get this merged? and take up clean on top of this?\n\nOnce it has made the other required changes that were asked for, that\u0027s fine, but given you have an interest, and this is going the wrong direction in terms of design abstractions, I\u0027d like to understand the path to getting to the appropriate design before merging this, even if it\u0027s not done right away.",
+      "parentUuid": "98587492_1c17d013",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 19
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "887cd815_52313569",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 18
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "We return result with no data in case if failure. \nAnd if (data.empty()) is used in read function to incrementError (one time logging is done in when number of error cross errorThreshold, and sensor object is marked as not functional).",
       "parentUuid": "887cd815_52313569",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5665114b_e0a5ef92",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-24T01:18:49Z",
+      "side": 1,
+      "message": "I meant log an error to stderr, but sure, that\u0027s fine.",
+      "parentUuid": "55a4d44c_24654a54",
       "range": {
         "startLine": 72,
         "startChar": 8,
@@ -227,6 +275,30 @@
       "side": 1,
       "message": "Fixed offset is defined in line 62 and will not be zero until someone mess with the code.",
       "parentUuid": "fa9b1d3f_210957c1",
+      "range": {
+        "startLine": 84,
+        "startChar": 30,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb3194c_8a9a2f97",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-24T01:18:49Z",
+      "side": 1,
+      "message": "Please just range check this against the largest fixed or variable indexes you use to make it VERY clear the code can\u0027t walk over the end of the range.  As written, it might be correct, but it isn\u0027t clear.",
+      "parentUuid": "d81db3be_ee08fe0f",
       "range": {
         "startLine": 84,
         "startChar": 30,
