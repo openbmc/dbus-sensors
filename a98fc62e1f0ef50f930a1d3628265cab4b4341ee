@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "236f4306_257ed58b",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-24T14:28:48Z",
+      "side": 1,
+      "message": "In latest patchset, I have used 1 table and also defined array using constexpr static.",
+      "parentUuid": "b3598567_88d4657a",
+      "revId": "a98fc62e1f0ef50f930a1d3628265cab4b4341ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de9acee9_65d70fcd",
         "filename": "include/sensor.hpp",
         "patchSetId": 5
