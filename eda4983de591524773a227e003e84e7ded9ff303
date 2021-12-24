@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b97da877_de9893ea",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-24T08:57:26Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "5715f909_e211771e",
+      "range": {
+        "startLine": 201,
+        "startChar": 8,
+        "endLine": 201,
+        "endChar": 21
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7939a576_abdc258d",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 19

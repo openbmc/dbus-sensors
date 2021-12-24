@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f4fc3240_9ad3905a",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-24T08:57:26Z",
+      "side": 1,
+      "message": "Why are two different services managing the resources behind the ME.\n- In porxy method ME is acting as a bridge and the command send from BMC is directly going to sensor. This has some security related concerns, as ME is blindly forwarding the command. \nIn some cases because of security concerns proxy is disabled. That is when we use getPmbusReadings method.\n- In getPmbusReadings sensor data is read from ME, not from actual sensor. And ME is able to give this data as it has read from sensor and stored it (periodic polling). \n\nI\u0027d like to understand the path to getting to the appropriate design before merging this.\n- The current design to incorporate getPmbusReadings into IpmbSensor class was under the idea that even though these are two methods we are reading the same sensor data. \n\nRegarding abstractions, I have two suggestions\n1) We could inherit a class from IpmbSensor, and only override read method in it.\n2) Make a separate sensor class which inherit from Sensor structure and move all getPmbusReadings related code there. Treating it as a separate sensor.",
+      "parentUuid": "ef036e96_fbaeddc2",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 19
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "887cd815_52313569",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 18
@@ -299,6 +323,30 @@
       "side": 1,
       "message": "Please just range check this against the largest fixed or variable indexes you use to make it VERY clear the code can\u0027t walk over the end of the range.  As written, it might be correct, but it isn\u0027t clear.",
       "parentUuid": "d81db3be_ee08fe0f",
+      "range": {
+        "startLine": 84,
+        "startChar": 30,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df905005_3c9df8ef",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-24T08:57:26Z",
+      "side": 1,
+      "message": "Will address it.",
+      "parentUuid": "9cb3194c_8a9a2f97",
       "range": {
         "startLine": 84,
         "startChar": 30,
