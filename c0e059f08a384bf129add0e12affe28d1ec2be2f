@@ -142,6 +142,30 @@
       "revId": "c0e059f08a384bf129add0e12affe28d1ec2be2f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c1b490_ae8311fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T12:17:29Z",
+      "side": 1,
+      "message": "Question: Does this mean there is a possibility that we can have different value for AST2500 as well as AST2600?",
+      "parentUuid": "2ef07bdf_9fde57d4",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "c0e059f08a384bf129add0e12affe28d1ec2be2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
