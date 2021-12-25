@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3efb2d4_aca8ca1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T20:28:55Z",
+      "side": 1,
+      "message": "Give more details about the objective of the sensor in commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff1b862_63a6af70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T20:28:55Z",
+      "side": 1,
+      "message": "Mention what are the dbus objects in commit message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ad6b6d3_f9cf7cd9",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T20:28:55Z",
+      "side": 1,
+      "message": "This does not look like a good design. To wait for a fixed time to get configuration. \nCan\u0027t we detect it as an event? as we do in other sensor classes in repo?",
+      "range": {
+        "startLine": 229,
+        "startChar": 26,
+        "endLine": 229,
+        "endChar": 59
+      },
+      "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
