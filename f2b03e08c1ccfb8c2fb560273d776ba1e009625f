@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db48cf4c_9cae3c69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T12:37:21Z",
+      "side": 1,
+      "message": "Push this as separate patch, as it has nothing to do with title of commit \"Support read Byte data\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 41
+      },
+      "revId": "f2b03e08c1ccfb8c2fb560273d776ba1e009625f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb9db2c9_2490ea27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T12:37:21Z",
+      "side": 1,
+      "message": "This is just configuration change, update how it was tested. In byte as well as word case.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 41
+      },
+      "revId": "f2b03e08c1ccfb8c2fb560273d776ba1e009625f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77b09ceb_c56692dd",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T12:37:21Z",
+      "side": 1,
+      "message": "Code does not look backwards compatible with old Baseboard.json file. \nAssume a case when \"I2cMode\" is not defined, in that case default to Word, so that this code is backwards compatible and making sure merge won\u0027t break any existing functionality.",
+      "range": {
+        "startLine": 253,
+        "startChar": 20,
+        "endLine": 254,
+        "endChar": 74
+      },
+      "revId": "f2b03e08c1ccfb8c2fb560273d776ba1e009625f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
