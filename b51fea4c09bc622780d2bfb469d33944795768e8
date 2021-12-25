@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "18d469a1_5724cf94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T11:16:48Z",
+      "side": 1,
+      "message": "Can you tell when this issue happens? is it a race condition?\nAnd if so how did you test it?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "b51fea4c09bc622780d2bfb469d33944795768e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aba2980a_19efb1ad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
