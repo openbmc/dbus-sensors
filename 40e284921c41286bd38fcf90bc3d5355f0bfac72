@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5289e8e7_b9c056df",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T20:10:11Z",
+      "side": 1,
+      "message": "Question:\nWhy is it Name1 for both? \nAlso correct the comment on line 286 accordingly, with your explanation.",
+      "range": {
+        "startLine": 288,
+        "startChar": 16,
+        "endLine": 289,
+        "endChar": 64
+      },
+      "revId": "40e284921c41286bd38fcf90bc3d5355f0bfac72",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
