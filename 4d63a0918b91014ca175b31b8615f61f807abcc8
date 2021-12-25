@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "988b6217_18233703",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:14:07Z",
+      "side": 0,
+      "message": "In one patch you added toLevelString and in another you are removing it. \nClean up so that it is easy for reviewers to understand.",
+      "range": {
+        "startLine": 486,
+        "startChar": 15,
+        "endLine": 486,
+        "endChar": 28
+      },
+      "revId": "4d63a0918b91014ca175b31b8615f61f807abcc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
