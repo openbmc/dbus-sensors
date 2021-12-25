@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26254e0d_924747a4",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T12:43:21Z",
+      "side": 1,
+      "message": "Are we always sure that there is a string in this variant? \nShould we add a condition to check same? \nLike std::holds_alternative.",
+      "range": {
+        "startLine": 125,
+        "startChar": 28,
+        "endLine": 125,
+        "endChar": 71
+      },
+      "revId": "1ab9c8d4e5ff51f6af3303da9de78f37ffab0b0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
