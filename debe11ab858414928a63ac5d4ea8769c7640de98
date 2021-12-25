@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdfaef06_3397e9f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T18:19:38Z",
+      "side": 1,
+      "message": "Elaborate on this, instead of saying it is complicated, mention how it is complicated. \nAlso when you say we need a new daemon, justify it too. \nThe sensor look very similar to CPUSensor, so I want to know the differences.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca84b221_c72685e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T18:19:38Z",
+      "side": 1,
+      "message": "AmpereCPUSensor?",
+      "range": {
+        "startLine": 26,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
