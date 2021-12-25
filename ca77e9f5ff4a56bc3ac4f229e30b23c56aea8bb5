@@ -69,6 +69,29 @@
       "revId": "ca77e9f5ff4a56bc3ac4f229e30b23c56aea8bb5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbfa5760_7accdb46",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T19:10:30Z",
+      "side": 1,
+      "message": "nit: Since we are optimizing.\nIf you make a move constructor for SensorConfig you can avoid copy and destroy of this temp variable.",
+      "range": {
+        "startLine": 302,
+        "startChar": 25,
+        "endLine": 302,
+        "endChar": 28
+      },
+      "revId": "ca77e9f5ff4a56bc3ac4f229e30b23c56aea8bb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
