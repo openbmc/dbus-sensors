@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "455c2c02_deaba290",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:41:22Z",
+      "side": 0,
+      "message": "keep aspeed as it is and add new ast26xx at end of enum, \nIf you want to change aspeed name take it as a new patch on top of existing one.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 11
+      },
+      "revId": "daf6f56870c6386ecb1c43b0b9aaa4cc78e4d424",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}

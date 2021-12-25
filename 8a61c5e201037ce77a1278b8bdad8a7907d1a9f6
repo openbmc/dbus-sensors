@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9dcc7bf_0175e03b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:41:22Z",
+      "side": 1,
+      "message": "Remove tabs.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dd9cf4e_c3e51a77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:41:22Z",
+      "side": 1,
+      "message": "Was this tested in ast2500 system? to check for backward compatibility?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5693b99d_800d950b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:41:22Z",
+      "side": 1,
+      "message": "Format commit message, wrap line on 80 character or less.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 115
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "993189a8_d3c2ba97",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:41:22Z",
+      "side": 1,
+      "message": "else if?",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 6
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6ef77c_d28e7f46",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:41:22Z",
+      "side": 1,
+      "message": "Clean up magic numbers 7 and 10.",
+      "range": {
+        "startLine": 124,
+        "startChar": 12,
+        "endLine": 124,
+        "endChar": 66
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42fc2c94_ccdd76b1",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:41:22Z",
+      "side": 1,
+      "message": "Question: what is the logic behind assigning std::vector\u003cfs::path\u003e to fs::path?",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 129,
+        "endChar": 29
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "446231f0_877d61bc",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:41:22Z",
+      "side": 1,
+      "message": "Reorder so that if(fanType \u003d\u003d FanTypes::ast25xx) comes first,\nThis way it will be easier to compare the diff.",
+      "range": {
+        "startLine": 435,
+        "startChar": 24,
+        "endLine": 444,
+        "endChar": 25
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
