@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bad81d1_570a1ea5",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T19:52:32Z",
+      "side": 1,
+      "message": "Question:\nWill we keep attempting recovery? Is there a point we have to stop in case the file is no longer available?",
+      "range": {
+        "startLine": 180,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 29
+      },
+      "revId": "d6839625c161295e44f6dab365b34e89f11dd6bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
