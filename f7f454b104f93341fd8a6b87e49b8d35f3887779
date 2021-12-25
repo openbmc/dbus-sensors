@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9114582c_57c51b2c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T20:05:16Z",
+      "side": 1,
+      "message": "Rearrange the code so that diff is readable for the reviewer.",
+      "range": {
+        "startLine": 497,
+        "startChar": 19,
+        "endLine": 497,
+        "endChar": 58
+      },
+      "revId": "f7f454b104f93341fd8a6b87e49b8d35f3887779",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
