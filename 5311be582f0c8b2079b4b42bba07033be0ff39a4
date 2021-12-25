@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eca9b443_9e08bca2",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:17:31Z",
+      "side": 1,
+      "message": "The previous code does not have a return. \nIf this is clean up, why are changing code flow?",
+      "range": {
+        "startLine": 202,
+        "startChar": 12,
+        "endLine": 202,
+        "endChar": 25
+      },
+      "revId": "5311be582f0c8b2079b4b42bba07033be0ff39a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef210f43_c5940ef3",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-25T16:17:31Z",
+      "side": 1,
+      "message": "Same as above comment. \nRecommend not to change code flow.",
+      "range": {
+        "startLine": 268,
+        "startChar": 20,
+        "endLine": 268,
+        "endChar": 27
+      },
+      "revId": "5311be582f0c8b2079b4b42bba07033be0ff39a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
