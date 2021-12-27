@@ -388,7 +388,10 @@ static void
                           << "\n";
                 return;
             }
-            biosHasPost = std::get<std::string>(state) != "Inactive";
+            auto& value = std::get<std::string>(state);
+            biosHasPost = (value != "Inactive") &&
+                          (value != "xyz.openbmc_project.State.OperatingSystem."
+                                    "Status.OSStatus.Inactive");
         },
         post::busname, post::path, properties::interface, properties::get,
         post::interface, post::property);
@@ -455,8 +458,11 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             auto findState = values.find(post::property);
             if (findState != values.end())
             {
+                auto& value = std::get<std::string>(findState->second);
                 biosHasPost =
-                    std::get<std::string>(findState->second) != "Inactive";
+                    (value != "Inactive") &&
+                    (value != "xyz.openbmc_project.State.OperatingSystem."
+                              "Status.OSStatus.Inactive");
             }
         });
 
