@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f31d44a8_5b4c971c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-12-27T09:52:47Z",
+      "side": 1,
+      "message": "The CPUSensor is for Intel CPU, it is using PECI interface to communicate with the host which is also used by Intel. Ampere CPU is difference it is using SCP register map interface. We also support more type of sensors. Creating new daemon is the result of the discussion in the mail list.",
+      "parentUuid": "cdfaef06_3397e9f9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca84b221_c72685e4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acb4480b_88f31bf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2021-12-27T09:52:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ca84b221_c72685e4",
+      "range": {
+        "startLine": 26,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
