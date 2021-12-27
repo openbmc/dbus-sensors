@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce9988d_bd6fb5ba",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-27T03:34:10Z",
+      "side": 1,
+      "message": "Please make these enum class, such that we don\u0027t have to unintentionally namespace DERROR and LERROR.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 5
+      },
+      "revId": "9e7ea993f3f313c77c4ab36806c8d6e043f30758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb0708d8_834f4a61",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-27T03:34:10Z",
+      "side": 1,
+      "message": "Why -1?  Nothing about -1 is important to this enum, right?",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "9e7ea993f3f313c77c4ab36806c8d6e043f30758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5cc3ecc_a1b65956",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-27T03:34:10Z",
+      "side": 1,
+      "message": "please make explicit type here.  This as written is making a copy of the structure, which I\u0027m assuming is not what you intended.",
+      "range": {
+        "startLine": 384,
+        "startChar": 13,
+        "endLine": 384,
+        "endChar": 18
+      },
+      "revId": "9e7ea993f3f313c77c4ab36806c8d6e043f30758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7b2d723_128ecefe",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-27T03:34:10Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 397,
+        "startChar": 13,
+        "endLine": 397,
+        "endChar": 23
+      },
+      "revId": "9e7ea993f3f313c77c4ab36806c8d6e043f30758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47903f61_bcbda272",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-27T03:34:10Z",
+      "side": 1,
+      "message": "Can these two items be combined with the threshProp structure?  They both seem to have 4 members, and contain the exact same lookups, so it would seem to make sense that we should put them all together, and reduce the table duplication.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "9e7ea993f3f313c77c4ab36806c8d6e043f30758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
