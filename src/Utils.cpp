@@ -388,7 +388,8 @@ static void
                           << "\n";
                 return;
             }
-            biosHasPost = std::get<std::string>(state) != "Inactive";
+            auto& value = std::get<std::string>(state);
+            biosHasPost = value.find("Inactive") == std::string::npos;
         },
         post::busname, post::path, properties::interface, properties::get,
         post::interface, post::property);
@@ -455,8 +456,8 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             auto findState = values.find(post::property);
             if (findState != values.end())
             {
-                biosHasPost =
-                    std::get<std::string>(findState->second) != "Inactive";
+                auto& value = std::get<std::string>(findState->second);
+                biosHasPost = value.find("Inactive") == std::string::npos;
             }
         });
 
