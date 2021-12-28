@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "0bad81d1_570a1ea5",
         "filename": "src/PSUSensor.cpp",
@@ -20,8 +21,31 @@
         "endChar": 29
       },
       "revId": "d6839625c161295e44f6dab365b34e89f11dd6bf",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28ce979_611232f8",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2021-12-28T21:55:07Z",
+      "side": 1,
+      "message": "The code right now will keep attempting forever. If the file was present when the daemon started, it should eventually come back given the use-case that motivated this change. Perhaps we could add a timeout to the recovery in a future CL (preferably one that can be tweaked with a parameter for different use cases).",
+      "parentUuid": "0bad81d1_570a1ea5",
+      "range": {
+        "startLine": 180,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 29
+      },
+      "revId": "d6839625c161295e44f6dab365b34e89f11dd6bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
