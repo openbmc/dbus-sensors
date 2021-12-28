@@ -46,6 +46,30 @@
       },
       "revId": "6a29f16a429da6c75a763b664db4ab072ea743ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6b8bc95_b9d7e476",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-28T22:09:59Z",
+      "side": 1,
+      "message": "two answers there:\n1. Ideally we should update x86-power-control to provide the correct enum (which should be a trivial change to the string)\n2. in the meantime, we should support both, but we shouldn\u0027t do it by using find.  We can just as easily do an exact match against the two different strings.",
+      "parentUuid": "d047bd9c_1b1efed3",
+      "range": {
+        "startLine": 392,
+        "startChar": 38,
+        "endLine": 392,
+        "endChar": 46
+      },
+      "revId": "6a29f16a429da6c75a763b664db4ab072ea743ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
