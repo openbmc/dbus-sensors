@@ -22,6 +22,30 @@
       },
       "revId": "6a29f16a429da6c75a763b664db4ab072ea743ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d047bd9c_1b1efed3",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-12-28T22:02:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we keep compatibility with current x86-power-manager implementation?",
+      "parentUuid": "942ad0bb_f803723c",
+      "range": {
+        "startLine": 392,
+        "startChar": 38,
+        "endLine": 392,
+        "endChar": 46
+      },
+      "revId": "6a29f16a429da6c75a763b664db4ab072ea743ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
