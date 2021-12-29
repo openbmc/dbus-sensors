@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb0e2e23_f17672e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2021-12-29T11:45:17Z",
+      "side": 1,
+      "message": "Line 79, I think it is check sysfs path and return fantype at run time\n    if (boost::ends_with(canonical, \"1e610000.pwm_tach:tach\"))\n    {\n        return FanTypes::ast26xx;\n    }\n\nor do you mean \"xyz.openbmc_project.Configuration.AspeedPWMFan\" at line 47?",
+      "parentUuid": "99037f34_23503b7d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9dcc7bf_0175e03b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -168,6 +192,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c91a0472_ec3ac4ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2021-12-29T11:45:17Z",
+      "side": 1,
+      "message": "Will mention tested on AST2600 in commit message.",
+      "parentUuid": "dcb8f756_4788f573",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5693b99d_800d950b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -250,6 +298,24 @@
       "writtenOn": "2021-12-29T03:14:36Z",
       "side": 1,
       "message": "Potin, you are taking over this patch for Howard, correct?",
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02a85995_0853a068",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2021-12-29T11:45:17Z",
+      "side": 1,
+      "message": "Yes, I am taking over it.\nSorry for late reply, I am still try to catch up entire discussion history...",
+      "parentUuid": "74b48ee8_4613f517",
       "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -338,6 +404,30 @@
       "writtenOn": "2021-12-25T16:41:22Z",
       "side": 1,
       "message": "Clean up magic numbers 7 and 10.",
+      "range": {
+        "startLine": 124,
+        "startChar": 12,
+        "endLine": 124,
+        "endChar": 66
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8417b51_ea3e3e88",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2021-12-29T11:45:17Z",
+      "side": 1,
+      "message": "will change it",
+      "parentUuid": "6d6ef77c_d28e7f46",
       "range": {
         "startLine": 124,
         "startChar": 12,
