@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "455c2c02_deaba290",
         "filename": "src/FanMain.cpp",
@@ -20,8 +21,31 @@
         "endChar": 11
       },
       "revId": "daf6f56870c6386ecb1c43b0b9aaa4cc78e4d424",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e014ae1_04af7e00",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-29T03:14:36Z",
+      "side": 0,
+      "message": "Why do you suggest this?  There is a concrete difference in how the PWM driver exposes itself between these two pieces of hardware, right?\n\nI suppose it is \"2400+2500\".  Do we need to codify that somehow in the enum name?",
+      "parentUuid": "455c2c02_deaba290",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 11
+      },
+      "revId": "daf6f56870c6386ecb1c43b0b9aaa4cc78e4d424",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

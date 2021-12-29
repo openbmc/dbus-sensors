@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "b9dcc7bf_0175e03b",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,34 @@
         "endChar": 1
       },
       "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "202e6fc2_419a41fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-29T03:14:36Z",
+      "side": 1,
+      "message": "tabs are literal required by the kernel though, in this context, right?",
+      "parentUuid": "b9dcc7bf_0175e03b",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7dd9cf4e_c3e51a77",
         "filename": "/COMMIT_MSG",
@@ -43,10 +68,34 @@
         "endChar": 7
       },
       "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5016446b_6bab3b66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-29T03:14:36Z",
+      "side": 1,
+      "message": "Is it listed?  Probably wasn\u0027t tested.\n\nI\u0027m not sure how we can expect everyone to have every piece of hardware.",
+      "parentUuid": "7dd9cf4e_c3e51a77",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5693b99d_800d950b",
         "filename": "/COMMIT_MSG",
@@ -66,10 +115,51 @@
         "endChar": 115
       },
       "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e98c7e1_b99d8941",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-29T03:14:36Z",
+      "side": 1,
+      "message": "I don\u0027t think we conform to this for literals copied into the \u0027tested\u0027 section.  If you don\u0027t want the details in the tested, we can remove them, but the output of busctl is going to be pretty ugly to try to reformat to 80 characters.",
+      "parentUuid": "5693b99d_800d950b",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 115
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74b48ee8_4613f517",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-29T03:14:36Z",
+      "side": 1,
+      "message": "Potin, you are taking over this patch for Howard, correct?",
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "993189a8_d3c2ba97",
         "filename": "src/FanMain.cpp",
@@ -89,10 +179,34 @@
         "endChar": 6
       },
       "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed73397_941a1864",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-29T03:14:36Z",
+      "side": 1,
+      "message": "Why would you expect a meaningless else?  83 doesn\u0027t have one.  Most linters would complain about it.",
+      "parentUuid": "993189a8_d3c2ba97",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 6
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6d6ef77c_d28e7f46",
         "filename": "src/FanMain.cpp",
@@ -112,10 +226,10 @@
         "endChar": 66
       },
       "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "42fc2c94_ccdd76b1",
         "filename": "src/FanMain.cpp",
@@ -135,10 +249,34 @@
         "endChar": 29
       },
       "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "83b3fc3f_1a8b79ee",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-29T03:14:36Z",
+      "side": 1,
+      "message": "This is an instance out of the vector, isn\u0027t it?  See 114.\n\nMaybe we should short-circuit return here instead of an assign?",
+      "parentUuid": "42fc2c94_ccdd76b1",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 129,
+        "endChar": 29
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "446231f0_877d61bc",
         "filename": "src/FanMain.cpp",
@@ -158,8 +296,7 @@
         "endChar": 25
       },
       "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
