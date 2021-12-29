@@ -71,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36cebbc2_a0a021b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-29T07:05:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "202e6fc2_419a41fa",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7dd9cf4e_c3e51a77",
@@ -120,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dcb8f756_4788f573",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-29T07:05:27Z",
+      "side": 1,
+      "message": "Ack. \nCan we mention where it was tested? AST2600 is the obvious answer.\nBut please mention that in commit message. Since this code is directly targeted at that.",
+      "parentUuid": "5016446b_6bab3b66",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5693b99d_800d950b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -155,6 +203,30 @@
       "side": 1,
       "message": "I don\u0027t think we conform to this for literals copied into the \u0027tested\u0027 section.  If you don\u0027t want the details in the tested, we can remove them, but the output of busctl is going to be pretty ugly to try to reformat to 80 characters.",
       "parentUuid": "5693b99d_800d950b",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 115
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42324f0e_c4f27ee5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-29T07:05:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3e98c7e1_b99d8941",
       "range": {
         "startLine": 29,
         "startChar": 0,
