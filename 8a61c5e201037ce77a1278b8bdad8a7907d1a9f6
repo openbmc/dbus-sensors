@@ -231,6 +231,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a7238162_3d70d0ef",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-29T06:59:49Z",
+      "side": 1,
+      "message": "Since we are calling return from the if conditions, I think we can keep it as it is.",
+      "parentUuid": "4ed73397_941a1864",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 6
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d6ef77c_d28e7f46",
         "filename": "src/FanMain.cpp",
         "patchSetId": 9
@@ -289,6 +313,30 @@
       "side": 1,
       "message": "This is an instance out of the vector, isn\u0027t it?  See 114.\n\nMaybe we should short-circuit return here instead of an assign?",
       "parentUuid": "42fc2c94_ccdd76b1",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 129,
+        "endChar": 29
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f1a3b10_a0104751",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-29T06:59:49Z",
+      "side": 1,
+      "message": "Got it, I got confused by pwmfanPath and pwmfanPaths.",
+      "parentUuid": "83b3fc3f_1a8b79ee",
       "range": {
         "startLine": 129,
         "startChar": 8,

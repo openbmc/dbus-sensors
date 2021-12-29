@@ -46,6 +46,30 @@
       },
       "revId": "daf6f56870c6386ecb1c43b0b9aaa4cc78e4d424",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bcd1640_689b7050",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-29T06:59:49Z",
+      "side": 0,
+      "message": "Don\u0027t take me wrong here, I am not against the idea of changing aspeed to ast25xx. But if we are doing that let it be two commits or clearly explained in commit message.",
+      "parentUuid": "7e014ae1_04af7e00",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 11
+      },
+      "revId": "daf6f56870c6386ecb1c43b0b9aaa4cc78e4d424",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
