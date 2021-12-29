@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "9e1672b7_d203774e",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 9
       },
       "revId": "831a2b59b8179937aadf1709e563c8ada90edccf",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3b07db0b_8ba41093",
         "filename": "/COMMIT_MSG",
@@ -44,8 +45,24 @@
         "endChar": 9
       },
       "revId": "831a2b59b8179937aadf1709e563c8ada90edccf",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bad03d8_88cff1e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2021-12-29T07:57:53Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1:\n\u003e \n\u003e \u003e Patch Set 1:\n\u003e \u003e \n\u003e \u003e I\u0027m confused by this patch.  It\u0027s reading in the bus key, but then not doing anything with it?\n\u003e \n\u003e +1\n\nIPMB Bus Index is used in other 2 patches, so this is a base patch for below patches. In other 2 patches, bus key will be used based on their requirement.\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47952\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/38905",
+      "revId": "831a2b59b8179937aadf1709e563c8ada90edccf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
