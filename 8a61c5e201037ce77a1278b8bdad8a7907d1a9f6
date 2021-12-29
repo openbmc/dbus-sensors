@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99037f34_23503b7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-29T05:47:20Z",
+      "side": 1,
+      "message": "Given that the chip we\u0027re targeting is known at compile time, why does this need to be in the EM configuration at all?  Can\u0027t we just check sysfs for one or the other and configure the appropriate one?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9dcc7bf_0175e03b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
