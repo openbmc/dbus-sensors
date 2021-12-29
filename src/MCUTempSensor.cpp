@@ -51,12 +51,12 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              const std::string& sensorConfiguration,
                              sdbusplus::asio::object_server& objectServer,
                              std::vector<thresholds::Threshold>&& thresholdData,
-                             uint8_t busId, uint8_t mcuAddress,
-                             uint8_t tempReg) :
+                             uint8_t busId, uint8_t mcuAddress, uint8_t tempReg,
+                             double scale) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "MCUTempSensor", false, false,
            mcuTempMaxReading, mcuTempMinReading, conn),
-    busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
+    busId(busId), mcuAddress(mcuAddress), tempReg(tempReg), scale(scale),
     objectServer(objectServer), waitTimer(io)
 {
     sensorInterface = objectServer.add_interface(
@@ -167,7 +167,7 @@ void MCUTempSensor::read(void)
         int ret = getMCURegsInfoWord(tempReg, &temp);
         if (ret >= 0)
         {
-            double v = static_cast<double>(temp) / 1000;
+            double v = static_cast<double>(temp) / scale;
             if constexpr (debug)
             {
                 std::cerr << "Value update to " << v << "raw reading "
@@ -225,6 +225,22 @@ void createSensors(
                 uint8_t mcuAddress = loadVariant<uint8_t>(cfg, "Address");
                 uint8_t tempReg = loadVariant<uint8_t>(cfg, "Reg");
 
+                double scale = 1.0;
+                try
+                {
+                    scale = loadVariant<double>(entry.second, "ScaleValue");
+                    if (scale <= 0)
+                    {
+                        throw std::out_of_range(
+                            "Invalid scale value, set default to 1000");
+                    }
+                }
+                catch (const std::exception& e)
+                {
+                    std::cerr << e.what() << "\n";
+                    scale = 1000.0;
+                }
+
                 std::string sensorClass =
                     loadVariant<std::string>(cfg, "Class");
 
@@ -237,6 +253,7 @@ void createSensors(
                               << "\tAddress: " << static_cast<int>(mcuAddress)
                               << "\n"
                               << "\tReg: " << static_cast<int>(tempReg) << "\n"
+                              << "\tScaleValue: " << scale << "\n"
                               << "\tClass: " << sensorClass << "\n";
                 }
 
@@ -244,7 +261,8 @@ void createSensors(
 
                 sensor = std::make_unique<MCUTempSensor>(
                     dbusConnection, io, name, path, objectServer,
-                    std::move(sensorThresholds), busId, mcuAddress, tempReg);
+                    std::move(sensorThresholds), busId, mcuAddress, tempReg,
+                    scale);
 
                 sensor->init();
             }
