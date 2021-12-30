@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "9114582c_57c51b2c",
         "filename": "src/IpmbSensor.cpp",
@@ -20,8 +21,31 @@
         "endChar": 58
       },
       "revId": "f7f454b104f93341fd8a6b87e49b8d35f3887779",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "141dc901_39920042",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2021-12-30T06:28:01Z",
+      "side": 1,
+      "message": "The reason it is clubbed together with ipmb sensor  is that this gpio sensor is kind of ipmb  sensor where we read the gpio state via ipmb. Also  it needs to be instantiated from the createsensors function.\nApart from the object creation, all other logics are move under seperate class.\nHai @Ed Tanuos,\nDo we need to create a seperate main function and createsensor function for this gpio state via ipmb?\nplease suggest your opinion on this.",
+      "parentUuid": "9114582c_57c51b2c",
+      "range": {
+        "startLine": 497,
+        "startChar": 19,
+        "endLine": 497,
+        "endChar": 58
+      },
+      "revId": "f7f454b104f93341fd8a6b87e49b8d35f3887779",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
