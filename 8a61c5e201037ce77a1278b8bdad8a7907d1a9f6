@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41919aa7_c87dd9d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2021-12-30T16:29:36Z",
+      "side": 1,
+      "message": "\u003e I go through previous discussion, Howard explained the sysfs structure difference between ast25xx \u0026 ast26xx before (https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49253/7..9/src/FanMain.cpp#b402)\n\u003e \n\u003e Adding new fantype will be easier to find correct pwmPath, I guess this is Howard\u0027s idea.\n\u003e \n\u003e Probably can do without adding new fantype.\n\u003e We get pwm filepath with origin method, if file not exist, try use getPwmfanPath to find it.\n\nSure, that\u0027s closer to what I would expect, and would be a lot less code.\n\n\u003e \n\u003e or please let me if I misunderstand your comment.",
+      "parentUuid": "ae243038_6a1623b0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9dcc7bf_0175e03b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
