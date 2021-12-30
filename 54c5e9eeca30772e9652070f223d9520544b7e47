@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "407ff191_9335df3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-30T07:49:05Z",
+      "side": 1,
+      "message": "Add a tested section, mentioning existing behavior was not broken + proper scale factor was read in case EM had scale factor configured.",
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "02c547bd_ca92d98c",
