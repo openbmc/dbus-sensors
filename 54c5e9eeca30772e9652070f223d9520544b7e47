@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02c547bd_ca92d98c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-30T07:47:34Z",
+      "side": 1,
+      "message": "Other than the comments, the code looks good to me. ",
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb74849_979a9d60",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-30T07:47:34Z",
+      "side": 1,
+      "message": "Was this configuration newly added to entity manager? \nI just want to know about backward compatibility, as in if EM configuration does not have \"ScaleValue\", how will this code work? will loadVariant throw any error?\n\nWe need to make sure in that case also we use default value.",
+      "range": {
+        "startLine": 236,
+        "startChar": 58,
+        "endLine": 236,
+        "endChar": 70
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27b8d6d4_7a4b5e75",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2021-12-30T07:47:34Z",
+      "side": 1,
+      "message": "This means that user in EM configuration made it zero rt? and since zero is a invalid value we default to 1000. \n\nLet\u0027s make it a bit more fool proof by adding \u003c\u003d 0, to handle negative scale factors.",
+      "range": {
+        "startLine": 237,
+        "startChar": 20,
+        "endLine": 237,
+        "endChar": 35
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
