@@ -46,9 +46,11 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
     size_t pollTime;
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter;
+    int fd;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
+    void restartRead(void);
 };
 
 extern boost::container::flat_map<std::string, std::shared_ptr<CPUSensor>>
