@@ -50,6 +50,10 @@
 // clang-format on
 
 static constexpr bool debug = false;
+static std::unique_ptr<boost::asio::deadline_timer> waitTimer = nullptr;
+static bool sensorMapUpdated = false;
+static constexpr unsigned int sensorPollWaitMs = 50;
+static constexpr unsigned int sensorEmptyWaitMs = 500;
 
 boost::container::flat_map<std::string, std::shared_ptr<CPUSensor>> gCpuSensors;
 boost::container::flat_map<std::string,
@@ -384,7 +388,7 @@ bool createSensors(boost::asio::io_service& io,
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
                 show, dtsOffset);
-            sensorPtr->setupRead();
+            sensorMapUpdated = true;
             createdSensors.insert(sensorName);
             if (debug)
             {
@@ -401,6 +405,52 @@ bool createSensors(boost::asio::io_service& io,
     }
 
     return true;
+}
+
+bool doWait(boost::asio::yield_context yield, int delay)
+{
+    boost::system::error_code ec;
+    waitTimer->expires_from_now(boost::posix_time::milliseconds(delay));
+    waitTimer->async_wait(yield[ec]);
+    if (ec == boost::asio::error::operation_aborted)
+    {
+        std::cerr << "Timer aborted\n";
+        return false;
+    }
+    if (ec)
+    {
+        std::cerr << "Timer failed\n";
+        return false;
+    }
+    return true;
+}
+
+void pollCPUSensors(boost::asio::yield_context yield)
+{
+    while (true)
+    {
+        sensorMapUpdated = false;
+        for (auto& [name, sensor] : gCpuSensors)
+        {
+            sensor->setupRead(yield);
+            if (!doWait(yield, sensorPollWaitMs))
+            {
+                throw std::runtime_error("Wait timer failed");
+            }
+            if (sensorMapUpdated)
+            {
+                break;
+            }
+        }
+
+        if (gCpuSensors.size() == 0)
+        {
+            if (!doWait(yield, sensorEmptyWaitMs))
+            {
+                throw std::runtime_error("Wait timer failed");
+            }
+        }
+    }
 }
 
 void exportDevice(const CPUConfig& config)
@@ -711,6 +761,7 @@ int main()
     boost::asio::deadline_timer pingTimer(io);
     boost::asio::deadline_timer creationTimer(io);
     boost::asio::deadline_timer filterTimer(io);
+    waitTimer = std::make_unique<boost::asio::deadline_timer>(io);
     ManagedObjectType sensorConfigs;
 
     filterTimer.expires_from_now(boost::posix_time::seconds(1));
@@ -771,6 +822,10 @@ int main()
     systemBus->request_name("xyz.openbmc_project.CPUSensor");
 
     setupManufacturingModeMatch(*systemBus);
+
+    boost::asio::spawn(
+        io, [](boost::asio::yield_context yield) { pollCPUSensors(yield); });
+
     io.run();
     return 0;
 }

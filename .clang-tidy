@@ -260,4 +260,5 @@ CheckOptions:
   - { key: readability-identifier-naming.ParameterCase, value: camelBack }
   - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
   - { key: readability-identifier-naming.StructCase,    value: CamelCase  }
+  - { key: performance-unnecessary-value-param.AllowedTypes,  value: 'boost::asio::yield_context' }
 
