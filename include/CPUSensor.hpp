@@ -28,29 +28,25 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
               double dtsOffset);
     ~CPUSensor() override;
     static constexpr unsigned int sensorScaleFactor = 1000;
-    static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
     static constexpr const char* labelTcontrol = "Tcontrol";
-    void setupRead(void);
+    void setupRead(boost::asio::yield_context yield);
 
   private:
     sdbusplus::asio::object_server& objServer;
     boost::asio::streambuf readBuf;
     boost::asio::posix::stream_descriptor inputDev;
-    boost::asio::deadline_timer waitTimer;
     std::string nameTcontrol;
     std::string path;
     double privTcontrol;
     double dtsOffset;
     bool show;
-    size_t pollTime;
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter;
     int fd;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
-    void restartRead(void);
 };
 
 extern boost::container::flat_map<std::string, std::shared_ptr<CPUSensor>>
