@@ -258,3 +258,5 @@ CheckOptions:
   - { key: readability-identifier-naming.StructCase,    value: CamelCase  }
   - { key: readability-identifier-naming.StructIgnoredRegexp,    value: ((peci_xfer_msg)|(peci_ping_msg)|(peci_get_dib_msg)|(peci_get_temp_msg)|(peci_rd_pkg_cfg_msg)|(peci_wr_pkg_cfg_msg)|(peci_rd_ia_msr_msg)|(peci_wr_ia_msr_msg)|(peci_rd_ia_msrex_msg)|(peci_rd_pci_cfg_msg)|(peci_wr_pci_cfg_msg)|(peci_rd_pci_cfg_local_msg)|(peci_wr_pci_cfg_local_msg)|(peci_rd_end_pt_cfg_msg)|(peci_wr_end_pt_cfg_msg)|(peci_crashdump_disc_msg)|(peci_crashdump_get_frame_msg))  }
   - { key: bugprone-reserved-identifier.AllowedIdentifiers,    value: __PECI_IOCTL_H }
+  - { key: performance-unnecessary-value-param.AllowedTypes,  value: 'boost::asio::yield_context' }
+

@@ -44,6 +44,11 @@ sdbusplus = dependency(
     ],
 )
 
+boost = dependency(
+    'boost',
+    modules: ['coroutine'],
+)
+
 phosphor_logging_dep = dependency(
     'phosphor-logging',
     fallback: ['phosphor-logging', 'phosphor_logging_dep'],
@@ -71,6 +76,7 @@ default_deps = [
     nlohmann_json,
     phosphor_logging_dep,
     sdbusplus,
+    boost,
 ]
 
 thresholds_a = static_library(
