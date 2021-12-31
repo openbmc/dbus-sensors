@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "5289e8e7_b9c056df",
         "filename": "src/HwmonTempMain.cpp",
@@ -20,8 +21,31 @@
         "endChar": 64
       },
       "revId": "40e284921c41286bd38fcf90bc3d5355f0bfac72",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0e96795_08e90e9b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2021-12-31T17:27:31Z",
+      "side": 1,
+      "message": "Both the DPS310 and Si7020 type use Name1 for the non-Temperature sensor of their respective devices, Pressure for the DPS310 and Humidity for the Si7020 type.",
+      "parentUuid": "5289e8e7_b9c056df",
+      "range": {
+        "startLine": 288,
+        "startChar": 16,
+        "endLine": 289,
+        "endChar": 64
+      },
+      "revId": "40e284921c41286bd38fcf90bc3d5355f0bfac72",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
