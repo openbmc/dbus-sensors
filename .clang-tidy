@@ -191,7 +191,6 @@ cppcoreguidelines-avoid-c-arrays,
 cppcoreguidelines-init-variables,
 cppcoreguidelines-special-member-functions,
 misc-misplaced-const,
-misc-no-recursion,
 misc-redundant-expression,
 misc-static-assert,
 misc-throw-by-value-catch-by-reference,
@@ -260,4 +259,5 @@ CheckOptions:
   - { key: readability-identifier-naming.ParameterCase, value: camelBack }
   - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
   - { key: readability-identifier-naming.StructCase,    value: CamelCase  }
+  - { key: performance-unnecessary-value-param.AllowedTypes,  value: 'boost::asio::yield_context' }
 
