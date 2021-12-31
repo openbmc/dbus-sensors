@@ -37,6 +37,11 @@ i2c = meson.get_compiler('cpp').find_library('i2c')
 sdbusplus = dependency('sdbusplus')
 phosphor_logging_dep = dependency('phosphor-logging')
 
+boost = dependency(
+    'boost',
+    modules: ['coroutine'],
+)
+
 if cpp.has_header('nlohmann/json.hpp')
     nlohmann_json = declare_dependency()
 else
@@ -53,6 +58,7 @@ default_deps = [
     nlohmann_json,
     phosphor_logging_dep,
     sdbusplus,
+    boost,
 ]
 
 thresholds_a = static_library(
