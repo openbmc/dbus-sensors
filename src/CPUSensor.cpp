@@ -43,11 +43,9 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, 0, 0, conn, PowerState::on),
     std::enable_shared_from_this<CPUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io),
-    nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
-    privTcontrol(std::numeric_limits<double>::quiet_NaN()),
-    dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
-    minMaxReadCounter(0)
+    inputDev(io), nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)),
+    path(path), privTcontrol(std::numeric_limits<double>::quiet_NaN()),
+    dtsOffset(dtsOffset), show(show), minMaxReadCounter(0)
 {
     if (show)
     {
@@ -97,7 +95,6 @@ CPUSensor::~CPUSensor()
 {
     // close the input dev to cancel async operations
     inputDev.close();
-    waitTimer.cancel();
     if (show)
     {
         for (const auto& iface : thresholdInterfaces)
@@ -125,45 +122,24 @@ bool CPUSensor::initInputDev()
     return true;
 }
 
-void CPUSensor::restartRead(void)
-{
-    std::weak_ptr<CPUSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
-    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            std::cerr << "Failed to reschedule\n";
-            return;
-        }
-        std::shared_ptr<CPUSensor> self = weakRef.lock();
-
-        if (self)
-        {
-            self->setupRead();
-        }
-    });
-}
-
-void CPUSensor::setupRead(void)
+void CPUSensor::setupRead(boost::asio::yield_context yield)
 {
     if (!readingStateGood())
     {
         markAvailable(false);
         updateValue(std::numeric_limits<double>::quiet_NaN());
-        restartRead();
         return;
     }
 
     std::weak_ptr<CPUSensor> weakRef = weak_from_this();
+    boost::system::error_code ec;
     inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
-                        [weakRef](const boost::system::error_code& ec) {
-                            std::shared_ptr<CPUSensor> self = weakRef.lock();
-
-                            if (self)
-                            {
-                                self->handleResponse(ec);
-                            }
-                        });
+                        yield[ec]);
+    std::shared_ptr<CPUSensor> self = weakRef.lock();
+    if (self)
+    {
+        self->handleResponse(ec);
+    }
 }
 
 void CPUSensor::updateMinMaxValues(void)
@@ -232,7 +208,6 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                 std::cerr << name << " interface down!\n";
                 loggedInterfaceDown = true;
             }
-            pollTime = CPUSensor::sensorPollMs * 10u;
             markFunctional(false);
         }
         return;
@@ -241,7 +216,6 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
 
     if (err)
     {
-        pollTime = sensorFailedPollTimeMs;
         incrementError();
         return;
     }
@@ -317,10 +291,8 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     }
     else
     {
-        pollTime = sensorFailedPollTimeMs;
         incrementError();
     }
-    restartRead();
 }
 
 void CPUSensor::checkThresholds(void)
