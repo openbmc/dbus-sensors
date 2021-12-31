@@ -90,6 +90,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
 
     // call setup always as not all sensors call setInitialProperties
     setupPowerMatch(conn);
+    initInputDev();
 }
 
 CPUSensor::~CPUSensor()
@@ -110,54 +111,58 @@ CPUSensor::~CPUSensor()
     }
 }
 
-void CPUSensor::setupRead(void)
+bool CPUSensor::initInputDev()
+{
+    fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
+    if (fd < 0)
+    {
+        std::cerr << "CPU sensor failed to open file\n";
+        return false;
+    }
+
+    inputDev.assign(fd);
+    return true;
+}
+
+void CPUSensor::restartRead(void)
 {
     std::weak_ptr<CPUSensor> weakRef = weak_from_this();
-
-    if (readingStateGood())
-    {
-        inputDev.close();
-        int fd = open(path.c_str(), O_RDONLY);
-        if (fd >= 0)
-        {
-            inputDev.assign(fd);
-
-            boost::asio::async_read_until(
-                inputDev, readBuf, '\n',
-                [weakRef](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
-                    std::shared_ptr<CPUSensor> self = weakRef.lock();
-                    if (!self)
-                    {
-                        return;
-                    }
-                    self->handleResponse(ec);
-                });
-        }
-        else
-        {
-            std::cerr << name << " unable to open fd!\n";
-            pollTime = sensorFailedPollTimeMs;
-        }
-    }
-    else
-    {
-        pollTime = sensorFailedPollTimeMs;
-        markAvailable(false);
-    }
     waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            return; // we're being canceled
-        }
-        std::shared_ptr<CPUSensor> self = weakRef.lock();
-        if (!self)
-        {
+            std::cerr << "Failed to reschedule\n";
             return;
         }
-        self->setupRead();
+        std::shared_ptr<CPUSensor> self = weakRef.lock();
+
+        if (self)
+        {
+            self->setupRead();
+        }
     });
+}
+
+void CPUSensor::setupRead(void)
+{
+    if (!readingStateGood())
+    {
+        markAvailable(false);
+        updateValue(std::numeric_limits<double>::quiet_NaN());
+        restartRead();
+        return;
+    }
+
+    std::weak_ptr<CPUSensor> weakRef = weak_from_this();
+    inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
+                        [weakRef](const boost::system::error_code& ec) {
+                            std::shared_ptr<CPUSensor> self = weakRef.lock();
+
+                            if (self)
+                            {
+                                self->handleResponse(ec);
+                            }
+                        });
 }
 
 void CPUSensor::updateMinMaxValues(void)
@@ -212,8 +217,8 @@ void CPUSensor::updateMinMaxValues(void)
 
 void CPUSensor::handleResponse(const boost::system::error_code& err)
 {
-
-    if (err == boost::system::errc::bad_file_descriptor)
+    if ((err == boost::system::errc::bad_file_descriptor) ||
+        (err == boost::asio::error::misc_errors::not_found))
     {
         return; // we're being destroyed
     }
@@ -232,16 +237,35 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
         return;
     }
     loggedInterfaceDown = false;
-    pollTime = CPUSensor::sensorPollMs;
-    std::istream responseStream(&readBuf);
-    if (!err)
+
+    if (err)
     {
-        std::string response;
+        pollTime = sensorFailedPollTimeMs;
+        incrementError();
+        if (fd >= 0)
+        {
+            lseek(fd, 0, SEEK_SET);
+        }
+        return;
+    }
+
+    static constexpr uint32_t bufLen = 128;
+    std::string response;
+    response.resize(bufLen);
+    int rdLen = 0;
+
+    if (fd >= 0)
+    {
+        lseek(fd, 0, SEEK_SET);
+        rdLen = read(fd, response.data(), bufLen);
+    }
+
+    if (rdLen > 0)
+    {
+
         try
         {
-            std::getline(responseStream, response);
             rawValue = std::stod(response);
-            responseStream.clear();
             double nvalue = rawValue / CPUSensor::sensorScaleFactor;
 
             if (show)
@@ -301,7 +325,12 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
         incrementError();
     }
 
-    responseStream.clear();
+    if (fd >= 0)
+    {
+        lseek(fd, 0, SEEK_SET);
+    }
+
+    restartRead();
 }
 
 void CPUSensor::checkThresholds(void)
