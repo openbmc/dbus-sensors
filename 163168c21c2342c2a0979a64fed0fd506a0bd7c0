@@ -16,6 +16,207 @@
       "message": "Much simpler!",
       "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4930a2ac_97127014",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "This is looking much better already.  Just a bunch of minor cleanup stuff to do, then this should be fine.",
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "632d3fb2_ca48caff",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "please prefer const char* or std::string_view to #defines for strings like these, to maintain type safety.\n\nAlso, this #define is only used in a single place in code.  Please just inline the string in the one method that uses it rather than declaring it at global scope.",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 7
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c141c505_5f4cda6e",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "why does this need to be a raw string?  Seems like it could\u0027ve been a normal string?",
+      "range": {
+        "startLine": 111,
+        "startChar": 43,
+        "endLine": 111,
+        "endChar": 45
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d224468_161f9be6",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "Should this be an exact match on a specific part of the string, rather than a search within the string?",
+      "range": {
+        "startLine": 116,
+        "startChar": 34,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06f49168_8a48f381",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "nit, there are a number of variables in this that treat \"pwm fan\" as a single word.  these should be camcelcased as pwmFanIndex.  Please fix all occurrences of this.",
+      "range": {
+        "startLine": 121,
+        "startChar": 13,
+        "endLine": 121,
+        "endChar": 19
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "405ba0a2_3d36fe13",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "please prefer to use std::from_chars in new code.",
+      "range": {
+        "startLine": 122,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 22
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d657e648_a4c56dfb",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "once you break up the string into pieces for the comment on line 116, this can use one of the string pieces instead of indexing into the string.",
+      "range": {
+        "startLine": 122,
+        "startChar": 23,
+        "endLine": 122,
+        "endChar": 69
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b28d96_e09a96ca",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "Should this just return instead of continuing to loop?  it would remove the need for the pwmPath variable alltogether if this were\n\nreturn pwmfanPath;\n\nand line 129 were simply:\n\nreturn {};",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 29
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f6583c_a75b4c44",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:53:37Z",
+      "side": 1,
+      "message": "This seems like a strange way to have the branch.  should the code from lines 420 to here be included as part of the getPwmfanPath method, considering that they are also getting the pwm fan path?  Also, fs::exists here is very similar in behavior to the findFiles call on line 111.  Could they be deduplicated so both types of fan take the same path?",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 429,
+        "endChar": 49
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
