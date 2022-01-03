@@ -96,6 +96,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b99facf4_1491ee51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-03T02:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41919aa7_c87dd9d4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9dcc7bf_0175e03b",
@@ -252,6 +276,30 @@
       "side": 1,
       "message": "Will mention tested on AST2600 in commit message.",
       "parentUuid": "dcb8f756_4788f573",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23b86a54_c7904d40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-03T02:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c91a0472_ec3ac4ad",
       "range": {
         "startLine": 27,
         "startChar": 0,
@@ -439,6 +487,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18ffda92_dbc45fab",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-03T02:43:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a7238162_3d70d0ef",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 6
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d6ef77c_d28e7f46",
@@ -476,6 +548,30 @@
       "side": 1,
       "message": "will change it",
       "parentUuid": "6d6ef77c_d28e7f46",
+      "range": {
+        "startLine": 124,
+        "startChar": 12,
+        "endLine": 124,
+        "endChar": 66
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4301a68_f9d6d5fd",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-03T02:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8417b51_ea3e3e88",
       "range": {
         "startLine": 124,
         "startChar": 12,
@@ -557,6 +653,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cb4bdb7_447e4971",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-03T02:43:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8f1a3b10_a0104751",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 129,
+        "endChar": 29
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "446231f0_877d61bc",
@@ -570,6 +690,30 @@
       "writtenOn": "2021-12-25T16:41:22Z",
       "side": 1,
       "message": "Reorder so that if(fanType \u003d\u003d FanTypes::ast25xx) comes first,\nThis way it will be easier to compare the diff.",
+      "range": {
+        "startLine": 435,
+        "startChar": 24,
+        "endLine": 444,
+        "endChar": 25
+      },
+      "revId": "8a61c5e201037ce77a1278b8bdad8a7907d1a9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0b56e1c_62e29ffa",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-03T02:43:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "446231f0_877d61bc",
       "range": {
         "startLine": 435,
         "startChar": 24,
