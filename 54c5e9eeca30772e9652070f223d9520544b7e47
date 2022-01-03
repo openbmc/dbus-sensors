@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82a3c361_07191a37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:23:14Z",
+      "side": 1,
+      "message": "Generally its if the scale is omitted entirely.  a scale of 0 would be invalid.",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "407ff191_9335df3e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -49,6 +72,29 @@
       "writtenOn": "2021-12-30T07:47:34Z",
       "side": 1,
       "message": "Other than the comments, the code looks good to me. ",
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3943483b_5f06f55b",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:23:14Z",
+      "side": 1,
+      "message": "scale is already a double, why are you static casting it?",
+      "range": {
+        "startLine": 172,
+        "startChar": 51,
+        "endLine": 172,
+        "endChar": 70
+      },
       "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -102,6 +148,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "492a68b7_065249ec",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:23:14Z",
+      "side": 1,
+      "message": "\u003e Was this configuration newly added to entity manager? \n\u003e I just want to know about backward compatibility, as in if EM configuration does not have \"ScaleValue\", how will this code work? will loadVariant throw any error?\n\n+1.  You need to check for existence of this parameter.\n\n\u003e \n\u003e We need to make sure in that case also we use default value.",
+      "parentUuid": "3cb74849_979a9d60",
+      "range": {
+        "startLine": 236,
+        "startChar": 58,
+        "endLine": 236,
+        "endChar": 70
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27b8d6d4_7a4b5e75",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 3
@@ -142,6 +212,29 @@
         "startChar": 20,
         "endLine": 237,
         "endChar": 35
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "942389d7_df28d66b",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-03T17:23:14Z",
+      "side": 1,
+      "message": "This should throw an exception.  a scale value of 0 is invalid.",
+      "range": {
+        "startLine": 239,
+        "startChar": 24,
+        "endLine": 240,
+        "endChar": 42
       },
       "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
