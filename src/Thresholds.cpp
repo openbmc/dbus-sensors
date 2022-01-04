@@ -209,19 +209,8 @@ void updateThresholds(Sensor* sensor)
 
     for (const auto& threshold : sensor->thresholds)
     {
-        std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-        if (threshold.level == thresholds::Level::CRITICAL)
-        {
-            interface = sensor->thresholdInterfaceCritical;
-        }
-        else if (threshold.level == thresholds::Level::WARNING)
-        {
-            interface = sensor->thresholdInterfaceWarning;
-        }
-        else
-        {
-            continue;
-        }
+        std::shared_ptr<sdbusplus::asio::dbus_interface> interface =
+            sensor->thresholdInterfaces[threshold.level];
         if (!interface)
         {
             continue;
@@ -455,21 +444,8 @@ void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert)
 {
-    std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-    if (level == thresholds::Level::WARNING)
-    {
-        interface = sensor->thresholdInterfaceWarning;
-    }
-    else if (level == thresholds::Level::CRITICAL)
-    {
-        interface = sensor->thresholdInterfaceCritical;
-    }
-    else
-    {
-        std::cerr << "Unknown threshold, level " << static_cast<int>(level)
-                  << "direction " << static_cast<int>(direction) << "\n";
-        return;
-    }
+    std::shared_ptr<sdbusplus::asio::dbus_interface> interface =
+        sensor->thresholdInterfaces[level];
     if (!interface)
     {
         std::cout << "trying to set uninitialized interface\n";
@@ -554,29 +530,17 @@ bool parseThresholdsFromAttr(
     return true;
 }
 
-bool hasCriticalInterface(
-    const std::vector<thresholds::Threshold>& thresholdVector)
+std::string hasInterfaceMethod(const Level& thresholdLevel)
 {
-    for (auto& threshold : thresholdVector)
+    switch (thresholdLevel)
     {
-        if (threshold.level == Level::CRITICAL)
-        {
-            return true;
-        }
+        case Level::WARNING:
+            return "Warning";
+        case Level::CRITICAL:
+            return "Critical";
+        case Level::ERROR:
+            return "Error";
     }
-    return false;
-}
-
-bool hasWarningInterface(
-    const std::vector<thresholds::Threshold>& thresholdVector)
-{
-    for (auto& threshold : thresholdVector)
-    {
-        if (threshold.level == Level::WARNING)
-        {
-            return true;
-        }
-    }
-    return false;
+    return "None";
 }
 } // namespace thresholds

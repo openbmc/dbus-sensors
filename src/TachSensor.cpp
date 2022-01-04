@@ -61,17 +61,12 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/fan_tach/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/fan_tach/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = "xyz.openbmc_project.Sensor.Threshold." +
+                                thresholds::hasInterfaceMethod(threshold.level);
+        thresholdInterfaces[threshold.level] = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/fan_tach/" + name, interface);
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
@@ -104,8 +99,9 @@ TachSensor::~TachSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
+    objServer.remove_interface(thresholdInterfaces[thresholds::Level::Warning]);
+    objServer.remove_interface(
+        thresholdInterfaces[thresholds::Level::Critical]);
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
     objServer.remove_interface(itemIface);

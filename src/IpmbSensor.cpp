@@ -76,15 +76,12 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = "xyz.openbmc_project.Sensor.Threshold." +
+                                thresholds::hasInterfaceMethod(threshold.level);
+        thresholdInterfaces[threshold.level] =
+            objectServer.add_interface(dbusPath, interface);
     }
     association = objectServer.add_interface(dbusPath, association::interface);
 }
@@ -92,8 +89,10 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
 IpmbSensor::~IpmbSensor()
 {
     waitTimer.cancel();
-    objectServer.remove_interface(thresholdInterfaceWarning);
-    objectServer.remove_interface(thresholdInterfaceCritical);
+    objectServer.remove_interface(
+        thresholdInterfaces[thresholds::Level::Warning]);
+    objectServer.remove_interface(
+        thresholdInterfaces[thresholds::Level::Critical]);
     objectServer.remove_interface(sensorInterface);
     objectServer.remove_interface(association);
 }
