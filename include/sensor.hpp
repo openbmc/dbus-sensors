@@ -73,8 +73,6 @@ struct Sensor
     double minValue;
     std::vector<thresholds::Threshold> thresholds;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
@@ -115,6 +113,20 @@ struct Sensor
           "CriticalHigh", "CriticalAlarmHigh", "greater than"},
          {thresholds::Level::CRITICAL, thresholds::Direction::LOW, 1,
           "CriticalLow", "CriticalAlarmLow", "less than"}}};
+
+    std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>, 2>
+        thresholdInterfaces;
+
+    bool findThresIfaceSize(thresholds::Level lev)
+    {
+        size_t index = static_cast<size_t>(lev);
+        if (index >= thresholdInterfaces.size())
+        {
+            std::cout << "Unknown threshold level \n";
+            return true;
+        }
+        return false;
+    }
 
     void updateInstrumentation(double readValue)
     {
@@ -264,21 +276,17 @@ struct Sensor
             {
                 threshold.hysteresis = hysteresisTrigger;
             }
-            std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
-            if (threshold.level == thresholds::Level::CRITICAL)
+            if (!(thresholds::findOrder(threshold.level, threshold.direction)))
             {
-                iface = thresholdInterfaceCritical;
-            }
-            else if (threshold.level == thresholds::Level::WARNING)
-            {
-                iface = thresholdInterfaceWarning;
-            }
-            else
-            {
-                std::cerr << "Unknown threshold level"
-                          << static_cast<int>(threshold.level) << "\n";
                 continue;
             }
+	    if (findThresIfaceSize(threshold.level))
+            {
+                continue;
+            }
+
+            std::shared_ptr<sdbusplus::asio::dbus_interface>& iface =
+                thresholdInterfaces[static_cast<size_t>(threshold.level)];
             if (!iface)
             {
                 std::cout << "trying to set uninitialized interface\n";
@@ -321,16 +329,16 @@ struct Sensor
         {
             std::cerr << "error initializing value interface\n";
         }
-        if (thresholdInterfaceWarning &&
-            !thresholdInterfaceWarning->initialize(true))
-        {
-            std::cerr << "error initializing warning threshold interface\n";
-        }
 
-        if (thresholdInterfaceCritical &&
-            !thresholdInterfaceCritical->initialize(true))
+        for (auto& thresIface : thresholdInterfaces)
         {
-            std::cerr << "error initializing critical threshold interface\n";
+            if (thresIface)
+            {
+                if (!thresIface->initialize(true))
+                {
+                    std::cerr << "Error initializing threshold interface \n";
+                }
+            }
         }
 
         if (isValueMutable)
