@@ -172,17 +172,12 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
         "/xyz/openbmc_project/sensors/airflow/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (const auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/airflow/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/airflow/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = thresholds::getInterface(threshold.level);
+        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
+            objectServer.add_interface(
+                "/xyz/openbmc_project/sensors/airflow/" + name, interface);
     }
 
     association = objectServer.add_interface(
@@ -290,8 +285,10 @@ void CFMSensor::setupMatches()
 
 CFMSensor::~CFMSensor()
 {
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
+    for (const auto& iface : thresholdInterfaces)
+    {
+        objServer.remove_interface(iface);
+    }
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
     objServer.remove_interface(cfmLimitIface);
@@ -519,17 +516,12 @@ ExitAirTempSensor::ExitAirTempSensor(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (const auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = thresholds::getInterface(threshold.level);
+        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
+            objectServer.add_interface(
+                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -539,8 +531,10 @@ ExitAirTempSensor::ExitAirTempSensor(
 
 ExitAirTempSensor::~ExitAirTempSensor()
 {
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
+    for (const auto& iface : thresholdInterfaces)
+    {
+        objServer.remove_interface(iface);
+    }
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
 }

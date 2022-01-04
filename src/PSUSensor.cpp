@@ -78,15 +78,11 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (const auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = thresholds::getInterface(threshold.level);
+        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
+            objectServer.add_interface(dbusPath, interface);
     }
 
     // This should be called before initializing association.
@@ -111,8 +107,10 @@ PSUSensor::~PSUSensor()
     waitTimer.cancel();
     inputDev.close();
     objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
+    for (const auto& iface : thresholdInterfaces)
+    {
+        objServer.remove_interface(iface);
+    }
     objServer.remove_interface(association);
 }
 
