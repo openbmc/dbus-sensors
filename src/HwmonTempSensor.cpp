@@ -62,19 +62,14 @@ HwmonTempSensor::HwmonTempSensor(
             name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (const auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName +
-                "/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName +
-                "/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = thresholds::getInterface(threshold.level);
+        thresholdInterfaces[static_cast<int>(threshold.level)] =
+            objectServer.add_interface("/xyz/openbmc_project/sensors/" +
+                                           thisSensorParameters.typeName + "/" +
+                                           name,
+                                       interface);
     }
     association = objectServer.add_interface("/xyz/openbmc_project/sensors/" +
                                                  thisSensorParameters.typeName +
@@ -88,8 +83,10 @@ HwmonTempSensor::~HwmonTempSensor()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
+    for (const auto& iface : thresholdInterfaces)
+    {
+        objServer.remove_interface(iface);
+    }
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
 }
