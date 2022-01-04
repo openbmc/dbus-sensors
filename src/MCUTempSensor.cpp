@@ -65,17 +65,12 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (const auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = thresholds::getInterface(threshold.level);
+        thresholdInterfaces[static_cast<int>(threshold.level)] =
+            objectServer.add_interface(
+                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -85,8 +80,10 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
 MCUTempSensor::~MCUTempSensor()
 {
     waitTimer.cancel();
-    objectServer.remove_interface(thresholdInterfaceWarning);
-    objectServer.remove_interface(thresholdInterfaceCritical);
+    for (auto iface : thresholdInterfaces)
+    {
+        objectServer.remove_interface(iface);
+    }
     objectServer.remove_interface(sensorInterface);
     objectServer.remove_interface(association);
 }
