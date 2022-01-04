@@ -244,6 +244,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4f23061_b544a75d",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-01-04T07:30:05Z",
+      "side": 1,
+      "message": "@Ed, in latest patch he has added try catch for the same. \nThat is, if \"ScaleValue\" is not found we will default to 1000.",
+      "parentUuid": "be7165d9_83720987",
+      "range": {
+        "startLine": 236,
+        "startChar": 58,
+        "endLine": 236,
+        "endChar": 70
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27b8d6d4_7a4b5e75",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 3
