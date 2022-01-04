@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9cc7871_57bdf556",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:40:48Z",
+      "side": 1,
+      "message": "Can you elaborate on what these reasons would be?  EAGAIN generally means that the descriptor needs read again because it was interrupted, which is exactly what asio does.",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bdff72c_71933495",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:40:48Z",
+      "side": 1,
+      "message": "Why would the driver use this error code if it didn\u0027t intend to be immediately re-read?  This seems like the wrong error code.",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30ccea47_6215359b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:40:48Z",
+      "side": 1,
+      "message": "50/72 wrapping please.",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
