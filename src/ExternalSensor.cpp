@@ -51,15 +51,12 @@ ExternalSensor::ExternalSensor(
     sensorInterface = objectServer.add_interface(
         objectPath, "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            objectPath, "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            objectPath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = "xyz.openbmc_project.Sensor.Threshold." +
+                                thresholds::hasInterfaceMethod(threshold.level);
+        thresholdInterfaces[threshold.level] =
+            objectServer.add_interface(objectPath, interface);
     }
 
     association =
@@ -109,9 +106,9 @@ ExternalSensor::~ExternalSensor()
     externalSetHook = nullptr;
 
     objServer.remove_interface(association);
-    objServer.remove_interface(thresholdInterfaceCritical);
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(sensorInterface);
+    objServer.remove_interface(thresholdInterfaces[thresholds::Level::WARNING]);
+    objServer.remove_interface(
+        thresholdInterfaces[thresholds::Level::CRITICAL]);
 
     if constexpr (debug)
     {
