@@ -58,6 +58,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a1cb575_157cc91a",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-04T05:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "632d3fb2_ca48caff",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 7
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c141c505_5f4cda6e",
@@ -71,6 +95,30 @@
       "writtenOn": "2022-01-03T17:53:37Z",
       "side": 1,
       "message": "why does this need to be a raw string?  Seems like it could\u0027ve been a normal string?",
+      "range": {
+        "startLine": 111,
+        "startChar": 43,
+        "endLine": 111,
+        "endChar": 45
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29a6df26_2d3f68b0",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-04T05:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c141c505_5f4cda6e",
       "range": {
         "startLine": 111,
         "startChar": 43,
@@ -106,6 +154,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "278d270d_d0e556da",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-04T05:27:10Z",
+      "side": 1,
+      "message": "agree with you, I changed it to ends_with()",
+      "parentUuid": "5d224468_161f9be6",
+      "range": {
+        "startLine": 116,
+        "startChar": 34,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06f49168_8a48f381",
         "filename": "src/FanMain.cpp",
         "patchSetId": 12
@@ -117,6 +189,30 @@
       "writtenOn": "2022-01-03T17:53:37Z",
       "side": 1,
       "message": "nit, there are a number of variables in this that treat \"pwm fan\" as a single word.  these should be camcelcased as pwmFanIndex.  Please fix all occurrences of this.",
+      "range": {
+        "startLine": 121,
+        "startChar": 13,
+        "endLine": 121,
+        "endChar": 19
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a580d9e5_ede0358d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-04T05:27:10Z",
+      "side": 1,
+      "message": "no longer exist in new patch set",
+      "parentUuid": "06f49168_8a48f381",
       "range": {
         "startLine": 121,
         "startChar": 13,
@@ -173,6 +269,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "088bdbbc_91aba6ee",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-04T05:27:10Z",
+      "side": 1,
+      "message": "no longer exist in new patch set",
+      "parentUuid": "405ba0a2_3d36fe13",
+      "range": {
+        "startLine": 122,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 22
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7949e65_6d21449f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-04T05:27:10Z",
+      "side": 1,
+      "message": "agree with you, please have a check with new patch set",
+      "parentUuid": "d657e648_a4c56dfb",
+      "range": {
+        "startLine": 122,
+        "startChar": 23,
+        "endLine": 122,
+        "endChar": 69
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96b28d96_e09a96ca",
@@ -196,6 +340,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bf99b55_ba62ac0e",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-04T05:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96b28d96_e09a96ca",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 29
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0f6583c_a75b4c44",
@@ -209,6 +377,30 @@
       "writtenOn": "2022-01-03T17:53:37Z",
       "side": 1,
       "message": "This seems like a strange way to have the branch.  should the code from lines 420 to here be included as part of the getPwmfanPath method, considering that they are also getting the pwm fan path?  Also, fs::exists here is very similar in behavior to the findFiles call on line 111.  Could they be deduplicated so both types of fan take the same path?",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 429,
+        "endChar": 49
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43ab1036_4054659c",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-04T05:27:10Z",
+      "side": 1,
+      "message": "In original driver (ast25xx \u0026 ast24xx), each pwm file has it own index, and all in same hwmon folder\n\nEx:\n/sys/class/hwmon/hwmon0/pwm1\n/sys/class/hwmon/hwmon0/pwm2\n/sys/class/hwmon/hwmon0/pwm3\n/sys/class/hwmon/hwmon0/pwm4\n\n\nBut in pwn-fan driver, the pwn file are separate into different hwmon folder, and pwm fail always called \"pwm1\", \n\nEx:\n/sys/class/hwmon/hwmon10/pwm1\n/sys/class/hwmon/hwmon7/pwm1\n/sys/class/hwmon/hwmon8/pwm1\n/sys/class/hwmon/hwmon9/pwm1\n\nSo I couldn\u0027t find a better rule to apply both types, unless I can know it using pwm-fan at earlier stage (before finding pwmFile).\n\nfor enable portion (pwmX_enable), it looks like pwm-fan does not have this file, I moved enable portion after get pwmPath, and skip it if using pwm-fan",
+      "parentUuid": "c0f6583c_a75b4c44",
       "range": {
         "startLine": 429,
         "startChar": 0,
