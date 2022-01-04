@@ -37,17 +37,12 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    if (thresholds::hasWarningInterface(thresholds))
+    for (const auto& threshold : thresholds)
     {
-        thresholdInterfaceWarning = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Warning");
-    }
-    if (thresholds::hasCriticalInterface(thresholds))
-    {
-        thresholdInterfaceCritical = objectServer.add_interface(
-            "/xyz/openbmc_project/sensors/temperature/" + name,
-            "xyz.openbmc_project.Sensor.Threshold.Critical");
+        std::string interface = thresholds::hasInterfaceMethod(threshold.level);
+        thresholdInterfaces[static_cast<int>(threshold.level)] =
+            objectServer.add_interface(
+                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -59,8 +54,10 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
 NVMeSensor::~NVMeSensor()
 {
     // close the input dev to cancel async operations
-    objServer.remove_interface(thresholdInterfaceWarning);
-    objServer.remove_interface(thresholdInterfaceCritical);
+    for (auto iface : thresholdInterfaces)
+    {
+        objServer.remove_interface(iface);
+    }
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
 }
