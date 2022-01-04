@@ -110,6 +110,8 @@ struct ThresholdTimer
     std::list<TimerPair> timers;
 };
 
+bool findOrder(Level lev, Direction dir);
+
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
@@ -119,11 +121,8 @@ bool parseThresholdsFromAttr(std::vector<thresholds::Threshold>& thresholds,
                              const std::string& inputPath,
                              const double& scaleFactor,
                              const double& offset = 0);
-bool hasCriticalInterface(
-    const std::vector<thresholds::Threshold>& thresholdVector);
 
-bool hasWarningInterface(
-    const std::vector<thresholds::Threshold>& thresholdVector);
+std::string getInterface(const Level level);
 
 void persistThreshold(const std::string& baseInterface, const std::string& path,
                       const thresholds::Threshold& threshold,
