@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9aab66f_94bf2c2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2022-01-04T03:29:00Z",
+      "side": 1,
+      "message": "Updated the commit message.",
+      "parentUuid": "82a3c361_07191a37",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "407ff191_9335df3e",
@@ -89,6 +113,30 @@
       "writtenOn": "2022-01-03T17:23:14Z",
       "side": 1,
       "message": "scale is already a double, why are you static casting it?",
+      "range": {
+        "startLine": 172,
+        "startChar": 51,
+        "endLine": 172,
+        "endChar": 70
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0a04fd6_4b6367cd",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2022-01-04T03:29:00Z",
+      "side": 1,
+      "message": "Done to remove it.",
+      "parentUuid": "3943483b_5f06f55b",
       "range": {
         "startLine": 172,
         "startChar": 51,
@@ -172,6 +220,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be7165d9_83720987",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2022-01-04T03:29:00Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t really understand the existence meaning.\nThe \"ScaleValue\" is already in schemas/legacy.json.\nhttps://github.com/openbmc/entity-manager/blob/master/schemas/legacy.json#L207\n\nAnd this parameter is used in dbus-sensors/IpmbSensor\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/IpmbSensor.cpp#L492\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/IpmbSensor.cpp#L402\n\nDo there something I missed?",
+      "parentUuid": "492a68b7_065249ec",
+      "range": {
+        "startLine": 236,
+        "startChar": 58,
+        "endLine": 236,
+        "endChar": 70
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27b8d6d4_7a4b5e75",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 3
@@ -230,6 +302,30 @@
       "writtenOn": "2022-01-03T17:23:14Z",
       "side": 1,
       "message": "This should throw an exception.  a scale value of 0 is invalid.",
+      "range": {
+        "startLine": 239,
+        "startChar": 24,
+        "endLine": 240,
+        "endChar": 42
+      },
+      "revId": "54c5e9eeca30772e9652070f223d9520544b7e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff31fa98_22a0806a",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2022-01-04T03:29:00Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "942389d7_df28d66b",
       "range": {
         "startLine": 239,
         "startChar": 24,

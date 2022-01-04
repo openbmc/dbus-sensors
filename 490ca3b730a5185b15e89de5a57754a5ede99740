@@ -22,6 +22,30 @@
       },
       "revId": "490ca3b730a5185b15e89de5a57754a5ede99740",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7f7a33_ded11c07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2022-01-04T03:29:00Z",
+      "side": 1,
+      "message": "Hi Ed,\nIn my system, we need to get the PCH temp, but it is saved as degree without any scale. So I want to add support \"ScaleValue\" to get the direct temp data. I added more detail to commit message.",
+      "parentUuid": "2150b921_a4874ab9",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "490ca3b730a5185b15e89de5a57754a5ede99740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
