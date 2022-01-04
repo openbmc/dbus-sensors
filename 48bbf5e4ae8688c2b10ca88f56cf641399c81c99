@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4166384a_da8b0815",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "lots of little stuff.",
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "155fa41f_114c4ae7",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "enum classes should be taken by value, not reference.",
+      "range": {
+        "startLine": 123,
+        "startChar": 42,
+        "endLine": 123,
+        "endChar": 43
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ac861e1_5d5ec829",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "Considering there are only 4 levels in the newest one, can this just be a std::array\u003c std::shared_ptr\u003csdbusplus::asio::dbus_interface\u003e, 4\u003e",
+      "range": {
+        "startLine": 97,
+        "startChar": 31,
+        "endLine": 97,
+        "endChar": 48
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9573a843_c964f225",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "operator[] creates an entry if one doesn\u0027t exist, which is almost certainly not what you intended here.  If this moves into an array, this just becomes an index, even if it doesn\u0027t, this should be a using find.",
+      "range": {
+        "startLine": 270,
+        "startChar": 35,
+        "endLine": 270,
+        "endChar": 52
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185e6c36_239e57f0",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "nit, extra parens.  Same thing on the second statement.\n\nCan we break this up a little so the logic is more clear?\n\nif (threshIface.second){\n   if (!thresIface.second-\u003einitialize(true)){\n       std::cerr \u003c\u003c \"Error initializing threshold interface \\n\";\n   }\n}",
+      "range": {
+        "startLine": 316,
+        "startChar": 16,
+        "endLine": 316,
+        "endChar": 35
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46199ab5_23e86d93",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "please add const to this.",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 13
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ee2437_29977330",
+        "filename": "src/ExternalSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "Every use of hasInterface method is used this way, so should this just be done within the hasInterfaceMethod method?",
+      "range": {
+        "startLine": 56,
+        "startChar": 31,
+        "endLine": 57,
+        "endChar": 79
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e43f27d1_7dac9ee3",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "Should this be iterating thresholdInterfaces?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 58
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc89dddf_9ab5af37",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "again, operator[] creates an entry if it doesn\u0027t exist.  Please don\u0027t do that.",
+      "range": {
+        "startLine": 448,
+        "startChar": 36,
+        "endLine": 448,
+        "endChar": 42
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "816be529_fea2aed7",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "Remove \"method\" from the end.",
+      "range": {
+        "startLine": 533,
+        "startChar": 24,
+        "endLine": 533,
+        "endChar": 30
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4c0e903_dabad297",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "Should this be \"get\".  Has implies that it exists.",
+      "range": {
+        "startLine": 533,
+        "startChar": 12,
+        "endLine": 533,
+        "endChar": 15
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3be6095_1838b395",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-04T18:10:55Z",
+      "side": 1,
+      "message": "Considering that this method can fail, you don\u0027t check for this error case anywhere in your code.  Please handle your errors properly.",
+      "range": {
+        "startLine": 544,
+        "startChar": 12,
+        "endLine": 544,
+        "endChar": 16
+      },
+      "revId": "48bbf5e4ae8688c2b10ca88f56cf641399c81c99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
