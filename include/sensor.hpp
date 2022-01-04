@@ -73,8 +73,6 @@ struct Sensor
     double minValue;
     std::vector<thresholds::Threshold> thresholds;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceWarning;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> thresholdInterfaceCritical;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
@@ -95,6 +93,10 @@ struct Sensor
     // If interested, assign your own lambda to this variable, during
     // construction of your Sensor subclass. See ExternalSensor for example.
     std::function<void()> externalSetHook;
+
+    boost::container::flat_map<thresholds::Level,
+                               std::shared_ptr<sdbusplus::asio::dbus_interface>>
+        thresholdInterfaces;
 
     struct ThresholdProperty
     {
@@ -264,21 +266,8 @@ struct Sensor
             {
                 threshold.hysteresis = hysteresisTrigger;
             }
-            std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
-            if (threshold.level == thresholds::Level::CRITICAL)
-            {
-                iface = thresholdInterfaceCritical;
-            }
-            else if (threshold.level == thresholds::Level::WARNING)
-            {
-                iface = thresholdInterfaceWarning;
-            }
-            else
-            {
-                std::cerr << "Unknown threshold level"
-                          << static_cast<int>(threshold.level) << "\n";
-                continue;
-            }
+            std::shared_ptr<sdbusplus::asio::dbus_interface> iface =
+                thresholdInterfaces[threshold.level];
             if (!iface)
             {
                 std::cout << "trying to set uninitialized interface\n";
@@ -321,16 +310,13 @@ struct Sensor
         {
             std::cerr << "error initializing value interface\n";
         }
-        if (thresholdInterfaceWarning &&
-            !thresholdInterfaceWarning->initialize(true))
-        {
-            std::cerr << "error initializing warning threshold interface\n";
-        }
 
-        if (thresholdInterfaceCritical &&
-            !thresholdInterfaceCritical->initialize(true))
+        for (auto& thresIface : thresholdInterfaces)
         {
-            std::cerr << "error initializing critical threshold interface\n";
+            if ((thresIface.second) && (!thresIface.second->initialize(true)))
+            {
+                std::cerr << "Error initializing threshold interface \n";
+            }
         }
 
         if (isValueMutable)

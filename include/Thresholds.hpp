@@ -119,11 +119,8 @@ bool parseThresholdsFromAttr(std::vector<thresholds::Threshold>& thresholds,
                              const std::string& inputPath,
                              const double& scaleFactor,
                              const double& offset = 0);
-bool hasCriticalInterface(
-    const std::vector<thresholds::Threshold>& thresholdVector);
 
-bool hasWarningInterface(
-    const std::vector<thresholds::Threshold>& thresholdVector);
+std::string hasInterfaceMethod(const Level& level);
 
 void persistThreshold(const std::string& baseInterface, const std::string& path,
                       const thresholds::Threshold& threshold,
