@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b03420ef_6e2f7ec2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-05T18:24:06Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2: Code-Review+1\n\u003e \n\u003e Chu, please ask for CI privileges on Discord so that unit tests will run.\n\nNot on discord.  Nancy is the one that can add you to the CLA.",
+      "revId": "9badec318423791016ee8ddbc2a57832265acf49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
