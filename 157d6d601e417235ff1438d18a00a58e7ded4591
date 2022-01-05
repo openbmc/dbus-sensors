@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83174bf2_dd3ecb75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-05T19:53:52Z",
+      "side": 1,
+      "message": "So why aren\u0027t these just encoded as part of the MCU device data?  Why would a user choose a scale that\u0027s different for that index?  This seems like something that shouldn\u0027t be configurable, unless there are multiple variants of MCU that can be configured differently, which doesn\u0027t appear to be the case here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "157d6d601e417235ff1438d18a00a58e7ded4591",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9a43274_f8b60ef1",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 9
