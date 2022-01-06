@@ -16,6 +16,46 @@
       "message": "Hi Matt,\n\nCould you please test this patch in your platform and let me know the results.\n\nThanks",
       "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c85e9ed6_14ea2b81",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-06T14:22:19Z",
+      "side": 1,
+      "message": "I think you can leave this off, or is there a reason it to have a single empty entry?",
+      "range": {
+        "startLine": 174,
+        "startChar": 45,
+        "endLine": 174,
+        "endChar": 52
+      },
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec7e2304_24223850",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-06T14:22:19Z",
+      "side": 1,
+      "message": "could collapse this down into:\n\nif (std::find(prevName.begin(), prevName.end(), sensorName()) !\u003d prevName.end())\n{\n    continue;\n}",
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
