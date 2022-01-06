@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81f90d10_df0d293e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-06T09:56:00Z",
+      "side": 1,
+      "message": "Hi Matt,\n\nCould you please test this patch in your platform and let me know the results.\n\nThanks",
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
