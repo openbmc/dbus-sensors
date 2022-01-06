@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3a76eb2_df06f2db",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-06T17:43:42Z",
+      "side": 1,
+      "message": "I suspect this should be a reference to avoid making a shared_ptr copy (which admittedly is inexpensive, but we should avoid nonstheless)",
+      "range": {
+        "startLine": 272,
+        "startChar": 12,
+        "endLine": 272,
+        "endChar": 60
+      },
+      "revId": "1a61522255b79d23459eb79c4f1cfc6362132218",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "65a8b0d8_78a6abdf",
         "filename": "include/sensor.hpp",
         "patchSetId": 8
@@ -55,6 +78,30 @@
       "side": 1,
       "message": "In the above if condition, I have checked the threshold level and direction for each sensor in findOrder() function. This function will verify whether the level is present in the thresProp array. If the level is not present, it will continue and read next threshold. So the range check will be verified in that function.",
       "parentUuid": "65a8b0d8_78a6abdf",
+      "range": {
+        "startLine": 273,
+        "startChar": 35,
+        "endLine": 273,
+        "endChar": 70
+      },
+      "revId": "1a61522255b79d23459eb79c4f1cfc6362132218",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f3f060_c4079588",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-06T17:43:42Z",
+      "side": 1,
+      "message": "\u003e In the above if condition, I have checked the threshold level and direction for each sensor in findOrder() function. This function will verify whether the level is present in the thresProp array. If the level is not present, it will continue and read next threshold. So the range check will be verified in that function.\n\n\nI don\u0027t see any code that compares thresholdInterfaces.size() against any index, which is what\u0027s being asked here.  Even if there was in a different scope, that\u0027s non obvious that this code can\u0027t seg fault, and we should duplicate the range check here as well.\n\nAll I\u0027m asking is for\n\nsize_t index \u003d static_cast\u003csize_t\u003e(threshold.level);\nif (index \u003e\u003d thresholdInterfaces.size()){\n   std::cout \u003c\u003c \"Got bad level\";\n   return;\n}\n\n\nPS, also, this should be cast to size_t, not int.",
+      "parentUuid": "c7c08d56_be18f8ce",
       "range": {
         "startLine": 273,
         "startChar": 35,
