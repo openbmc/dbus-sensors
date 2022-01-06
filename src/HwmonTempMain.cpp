@@ -164,7 +164,7 @@ void createSensors(
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
         [&io, &objectServer, &sensors, &dbusConnection,
-         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
+         sensorsChanged](ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
 
             // IIO _raw devices look like this on sysfs:
@@ -191,6 +191,7 @@ void createSensors(
             // and try to match them with configuration
             for (auto& path : paths)
             {
+                bool sensorCreated = false;
                 std::smatch match;
                 const std::string pathStr = path.string();
                 auto directory = path.parent_path();
@@ -234,10 +235,12 @@ void createSensors(
                 const SensorBaseConfigMap* baseConfigMap = nullptr;
 
                 auto thisSensorParameters = getSensorParameters(path);
+                sdbusplus::message::object_path objPath;
 
                 for (const std::pair<sdbusplus::message::object_path,
                                      SensorData>& sensor : sensorConfigurations)
                 {
+                    objPath = sensor.first;
                     sensorData = &(sensor.second);
                     for (const char* type : sensorTypes)
                     {
@@ -370,6 +373,10 @@ void createSensors(
                         readState);
                     sensor->setupRead();
                 }
+                if (sensor != nullptr)
+                {
+                    sensorCreated = true;
+                }
                 // Looking for keys like "Name1" for temp2_input,
                 // "Name2" for temp3_input, etc.
                 int i = 0;
@@ -416,7 +423,15 @@ void createSensors(
                             std::move(thresholds), thisSensorParameters,
                             pollRate, *interfacePath, readState);
                         sensor->setupRead();
+                        if (sensor != nullptr)
+                        {
+                            sensorCreated = true;
+                        }
                     }
+                }
+                if (sensorCreated)
+                {
+                    sensorConfigurations.erase(objPath);
                 }
             }
         });
