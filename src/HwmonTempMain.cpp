@@ -219,10 +219,12 @@ void createSensors(
                 const SensorBaseConfigMap* baseConfigMap = nullptr;
 
                 auto thisSensorParameters = getSensorParameters(path);
+                sdbusplus::message::object_path objPath;
 
                 for (const std::pair<sdbusplus::message::object_path,
                                      SensorData>& sensor : sensorConfigurations)
                 {
+                    objPath = sensor.first;
                     sensorData = &(sensor.second);
                     for (const char* type : sensorTypes)
                     {
@@ -402,6 +404,7 @@ void createSensors(
                         sensor->setupRead();
                     }
                 }
+                sensorConfigurations.erase(objPath);
             }
         });
     getter->getConfiguration(
