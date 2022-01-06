@@ -153,6 +153,95 @@ static struct SensorParams
     return tmpSensorParameters;
 }
 
+struct SensorConfigKey
+{
+    uint64_t bus;
+    uint64_t addr;
+    bool operator<(const SensorConfigKey& other) const
+    {
+        if (bus != other.bus)
+        {
+            return bus < other.bus;
+        }
+        return addr < other.addr;
+    }
+};
+
+struct SensorConfig
+{
+    std::string sensorPath;
+    SensorData sensorData;
+    std::string interface;
+    SensorBaseConfigMap config;
+    std::set<std::string> name;
+};
+
+using SensorConfigMap =
+    boost::container::flat_map<SensorConfigKey, SensorConfig>;
+
+static SensorConfigMap
+    buildSensorConfigMap(const ManagedObjectType& sensorConfigs)
+{
+    SensorConfigMap configMap;
+    for (const std::pair<sdbusplus::message::object_path, SensorData>& sensor :
+         sensorConfigs)
+    {
+        for (const std::pair<std::string, SensorBaseConfigMap>& cfgmap :
+             sensor.second)
+        {
+            const SensorBaseConfigMap& cfg = cfgmap.second;
+            auto busCfg = cfg.find("Bus");
+            auto addrCfg = cfg.find("Address");
+            if ((busCfg == cfg.end()) || (addrCfg == cfg.end()))
+            {
+                continue;
+            }
+
+            if ((!std::holds_alternative<uint64_t>(busCfg->second)) ||
+                (!std::holds_alternative<uint64_t>(addrCfg->second)))
+            {
+                std::cerr << sensor.first.str << " Bus or Address invalid\n";
+                continue;
+            }
+
+            std::set<std::string> hwmonNames;
+            auto nameCfg = cfg.find("Name");
+            if (nameCfg != cfg.end())
+            {
+                hwmonNames.insert(std::get<std::string>(nameCfg->second));
+                size_t i = 0;
+                while (true)
+                {
+                    ++i;
+                    auto sensorNameCfg = cfg.find("Name" + std::to_string(i));
+                    if (sensorNameCfg == cfg.end())
+                    {
+                        break;
+                    }
+                    hwmonNames.insert(
+                        std::get<std::string>(sensorNameCfg->second));
+                }
+            }
+
+            SensorConfigKey key = {std::get<uint64_t>(busCfg->second),
+                                   std::get<uint64_t>(addrCfg->second)};
+            SensorConfig val = {sensor.first.str, sensor.second, cfgmap.first,
+                                cfg, hwmonNames};
+
+            auto [it, inserted] =
+                configMap.emplace(std::move(key), std::move(val));
+            if (!inserted)
+            {
+                std::cerr << sensor.first.str
+                          << ": ignoring duplicate entry for {" << key.bus
+                          << ", 0x" << std::hex << key.addr << std::dec
+                          << "}\n";
+            }
+        }
+    }
+    return configMap;
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
@@ -166,6 +255,9 @@ void createSensors(
         [&io, &objectServer, &sensors, &dbusConnection,
          sensorsChanged](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
+
+            SensorConfigMap configMap =
+                buildSensorConfigMap(sensorConfigurations);
 
             // IIO _raw devices look like this on sysfs:
             //     /sys/bus/iio/devices/iio:device0/in_temp_raw
@@ -227,70 +319,31 @@ void createSensors(
                 {
                     continue;
                 }
-                const SensorData* sensorData = nullptr;
-                const std::string* interfacePath = nullptr;
-                const char* sensorType = nullptr;
-                const SensorBaseConfiguration* baseConfiguration = nullptr;
-                const SensorBaseConfigMap* baseConfigMap = nullptr;
 
                 auto thisSensorParameters = getSensorParameters(path);
-
-                for (const std::pair<sdbusplus::message::object_path,
-                                     SensorData>& sensor : sensorConfigurations)
-                {
-                    sensorData = &(sensor.second);
-                    for (const char* type : sensorTypes)
-                    {
-                        auto sensorBase = sensorData->find(type);
-                        if (sensorBase != sensorData->end())
-                        {
-                            baseConfiguration = &(*sensorBase);
-                            sensorType = type;
-                            break;
-                        }
-                    }
-                    if (baseConfiguration == nullptr)
-                    {
-                        std::cerr << "error finding base configuration for "
-                                  << deviceName << "\n";
-                        continue;
-                    }
-                    baseConfigMap = &baseConfiguration->second;
-                    auto configurationBus = baseConfigMap->find("Bus");
-                    auto configurationAddress = baseConfigMap->find("Address");
-
-                    if (configurationBus == baseConfigMap->end() ||
-                        configurationAddress == baseConfigMap->end())
-                    {
-                        std::cerr << "error finding bus or address in "
-                                     "configuration\n";
-                        continue;
-                    }
-
-                    if (std::get<uint64_t>(configurationBus->second) != bus ||
-                        std::get<uint64_t>(configurationAddress->second) !=
-                            addr)
-                    {
-                        continue;
-                    }
-
-                    interfacePath = &(sensor.first.str);
-                    break;
-                }
-                if (interfacePath == nullptr)
+                auto findSensorCfg = configMap.find({bus, addr});
+                if (findSensorCfg == configMap.end())
                 {
                     continue;
                 }
 
+                const std::string& interfacePath =
+                    findSensorCfg->second.sensorPath;
+                const SensorData& sensorData = findSensorCfg->second.sensorData;
+                const std::string& sensorType = findSensorCfg->second.interface;
+                const SensorBaseConfigMap& baseConfigMap =
+                    findSensorCfg->second.config;
+                std::set<std::string> hwmonName = findSensorCfg->second.name;
+
                 // Temperature has "Name", pressure has "Name1"
-                auto findSensorName = baseConfigMap->find("Name");
+                auto findSensorName = baseConfigMap.find("Name");
                 if (thisSensorParameters.typeName == "pressure" ||
                     thisSensorParameters.typeName == "humidity")
                 {
-                    findSensorName = baseConfigMap->find("Name1");
+                    findSensorName = baseConfigMap.find("Name1");
                 }
 
-                if (findSensorName == baseConfigMap->end())
+                if (findSensorName == baseConfigMap.end())
                 {
                     std::cerr << "could not determine configuration name for "
                               << deviceName << "\n";
@@ -324,16 +377,16 @@ void createSensors(
                 std::vector<thresholds::Threshold> sensorThresholds;
                 int index = 1;
 
-                if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
+                if (!parseThresholdsFromConfig(sensorData, sensorThresholds,
                                                nullptr, &index))
                 {
                     std::cerr << "error populating thresholds for "
                               << sensorName << " index 1\n";
                 }
 
-                auto findPollRate = baseConfiguration->second.find("PollRate");
+                auto findPollRate = baseConfigMap.find("PollRate");
                 float pollRate = pollRateDefault;
-                if (findPollRate != baseConfiguration->second.end())
+                if (findPollRate != baseConfigMap.end())
                 {
                     pollRate = std::visit(VariantToFloatVisitor(),
                                           findPollRate->second);
@@ -343,16 +396,16 @@ void createSensors(
                     }
                 }
 
-                auto findPowerOn = baseConfiguration->second.find("PowerState");
+                auto findPowerOn = baseConfigMap.find("PowerState");
                 PowerState readState = PowerState::always;
-                if (findPowerOn != baseConfiguration->second.end())
+                if (findPowerOn != baseConfigMap.end())
                 {
                     std::string powerState = std::visit(
                         VariantToStringVisitor(), findPowerOn->second);
                     setReadState(powerState, readState);
                 }
 
-                auto permitSet = getPermitSet(*baseConfigMap);
+                auto permitSet = getPermitSet(baseConfigMap);
                 auto& sensor = sensors[sensorName];
                 sensor = nullptr;
                 auto hwmonFile = getFullHwmonFilePath(directory.string(),
@@ -366,9 +419,10 @@ void createSensors(
                     sensor = std::make_shared<HwmonTempSensor>(
                         *hwmonFile, sensorType, objectServer, dbusConnection,
                         io, sensorName, std::move(sensorThresholds),
-                        thisSensorParameters, pollRate, *interfacePath,
+                        thisSensorParameters, pollRate, interfacePath,
                         readState);
                     sensor->setupRead();
+                    hwmonName.erase(sensorName);
                 }
                 // Looking for keys like "Name1" for temp2_input,
                 // "Name2" for temp3_input, etc.
@@ -377,8 +431,8 @@ void createSensors(
                 {
                     ++i;
                     auto findKey =
-                        baseConfigMap->find("Name" + std::to_string(i));
-                    if (findKey == baseConfigMap->end())
+                        baseConfigMap.find("Name" + std::to_string(i));
+                    if (findKey == baseConfigMap.end())
                     {
                         break;
                     }
@@ -400,7 +454,7 @@ void createSensors(
                         int index = i + 1;
                         std::vector<thresholds::Threshold> thresholds;
 
-                        if (!parseThresholdsFromConfig(*sensorData, thresholds,
+                        if (!parseThresholdsFromConfig(sensorData, thresholds,
                                                        nullptr, &index))
                         {
                             std::cerr << "error populating thresholds for "
@@ -414,9 +468,14 @@ void createSensors(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
                             std::move(thresholds), thisSensorParameters,
-                            pollRate, *interfacePath, readState);
+                            pollRate, interfacePath, readState);
                         sensor->setupRead();
+                        hwmonName.erase(sensorName);
                     }
+                }
+                if (hwmonName.empty())
+                {
+                    configMap.erase(findSensorCfg);
                 }
             }
         });
