@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "447b5c55_79e48ee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2022-01-06T03:34:50Z",
+      "side": 1,
+      "message": "I\u0027m not really understanding your meaning.\nIn MCUTempSensor, the reading value return from i2c_smbus_read_word_data(https://github.com/openbmc/dbus-sensors/blob/master/src/MCUTempSensor.cpp#L139). So I think it is possible that have different scale.\n\nFor PCH example,\nin 9-series-chipset-pch(https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/9-series-chipset-pch-datasheet.pdf 22.2.1), the resolution of temp is 1/2, so the result value cannot divide by 1000, should be 2.\nin 495 Series Chipset(https://www.intel.com.tw/content/www/tw/zh/products/docs/chipsets/495-series-chipset-on-package-pch-datasheet-vol-2.html 4.3.58), the resolution is 1, so the result value should divide by 1.\n\nSo I want to let the value 1000(https://github.com/openbmc/dbus-sensors/blob/master/src/MCUTempSensor.cpp#L172) could be set.",
+      "parentUuid": "83174bf2_dd3ecb75",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "157d6d601e417235ff1438d18a00a58e7ded4591",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9a43274_f8b60ef1",
         "filename": "src/MCUTempSensor.cpp",
         "patchSetId": 9
