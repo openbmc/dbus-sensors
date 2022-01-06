@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ba15601_3142883f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-06T06:47:54Z",
+      "side": 1,
+      "message": "one minor thing, then this looks good to me",
+      "revId": "1a61522255b79d23459eb79c4f1cfc6362132218",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65a8b0d8_78a6abdf",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-06T06:47:54Z",
+      "side": 1,
+      "message": "This needs range checked",
+      "range": {
+        "startLine": 273,
+        "startChar": 35,
+        "endLine": 273,
+        "endChar": 70
+      },
+      "revId": "1a61522255b79d23459eb79c4f1cfc6362132218",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
