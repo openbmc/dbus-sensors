@@ -150,7 +150,7 @@ void createSensors(
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
         [&io, &objectServer, &sensors, &dbusConnection,
-         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
+         sensorsChanged](ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
 
             // IIO _raw devices look like this on sysfs:
@@ -219,10 +219,12 @@ void createSensors(
                 const SensorBaseConfigMap* baseConfigMap = nullptr;
 
                 auto thisSensorParameters = getSensorParameters(path);
+                sdbusplus::message::object_path objPath;
 
                 for (const std::pair<sdbusplus::message::object_path,
                                      SensorData>& sensor : sensorConfigurations)
                 {
+                    objPath = sensor.first;
                     sensorData = &(sensor.second);
                     for (const char* type : sensorTypes)
                     {
@@ -402,6 +404,7 @@ void createSensors(
                         sensor->setupRead();
                     }
                 }
+                sensorConfigurations.erase(objPath);
             }
         });
     getter->getConfiguration(
