@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "936c1397_1b4e5ba4",
         "filename": "include/IpmbSensor.hpp",
@@ -20,10 +21,10 @@
         "endChar": 19
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "98587492_1c17d013",
         "filename": "include/IpmbSensor.hpp",
@@ -44,10 +45,10 @@
         "endChar": 19
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ef036e96_fbaeddc2",
         "filename": "include/IpmbSensor.hpp",
@@ -68,10 +69,10 @@
         "endChar": 19
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f4fc3240_9ad3905a",
         "filename": "include/IpmbSensor.hpp",
@@ -92,10 +93,34 @@
         "endChar": 19
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "38ccc42f_6d5aee40",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-06T01:44:29Z",
+      "side": 1,
+      "message": "I think the question is ,long term, whether it make sense to encapsulate the ME specific commands and processing of data inside NodeManagerProxy service. Or in other words, let NodeManagerProxy to decide which command to send to ME when reading these sensors.",
+      "parentUuid": "f4fc3240_9ad3905a",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 19
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "887cd815_52313569",
         "filename": "include/IpmbSensor.hpp",
@@ -115,10 +140,10 @@
         "endChar": 14
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "55a4d44c_24654a54",
         "filename": "include/IpmbSensor.hpp",
@@ -139,10 +164,10 @@
         "endChar": 14
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5665114b_e0a5ef92",
         "filename": "include/IpmbSensor.hpp",
@@ -163,10 +188,10 @@
         "endChar": 14
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5001979a_426aa949",
         "filename": "include/IpmbSensor.hpp",
@@ -186,10 +211,10 @@
         "endChar": 40
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "53387b5f_b193b389",
         "filename": "include/IpmbSensor.hpp",
@@ -210,10 +235,10 @@
         "endChar": 40
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a5edc388_d7336720",
         "filename": "include/IpmbSensor.hpp",
@@ -234,10 +259,10 @@
         "endChar": 40
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7808041b_cff3119e",
         "filename": "include/IpmbSensor.hpp",
@@ -258,10 +283,10 @@
         "endChar": 40
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fa9b1d3f_210957c1",
         "filename": "include/IpmbSensor.hpp",
@@ -282,10 +307,10 @@
         "endChar": 40
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d81db3be_ee08fe0f",
         "filename": "include/IpmbSensor.hpp",
@@ -306,10 +331,10 @@
         "endChar": 40
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9cb3194c_8a9a2f97",
         "filename": "include/IpmbSensor.hpp",
@@ -330,10 +355,10 @@
         "endChar": 40
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "df905005_3c9df8ef",
         "filename": "include/IpmbSensor.hpp",
@@ -354,10 +379,10 @@
         "endChar": 40
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "322416d2_8d3bdfd2",
         "filename": "include/IpmbSensor.hpp",
@@ -377,10 +402,10 @@
         "endChar": 28
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bcab7435_deae9750",
         "filename": "include/IpmbSensor.hpp",
@@ -401,10 +426,10 @@
         "endChar": 28
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "57a263a4_4a134e1e",
         "filename": "src/IpmbSensor.cpp",
@@ -424,10 +449,10 @@
         "endChar": 47
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c9054f37_dd5db651",
         "filename": "src/IpmbSensor.cpp",
@@ -448,10 +473,10 @@
         "endChar": 47
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e814853e_50cc907c",
         "filename": "src/IpmbSensor.cpp",
@@ -471,10 +496,10 @@
         "endChar": 5
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "469ac293_e8ed28bd",
         "filename": "src/IpmbSensor.cpp",
@@ -495,10 +520,10 @@
         "endChar": 5
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ac09055d_3fbe711e",
         "filename": "src/IpmbSensor.cpp",
@@ -518,10 +543,10 @@
         "endChar": 75
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "55705ae1_326420c5",
         "filename": "src/IpmbSensor.cpp",
@@ -542,10 +567,10 @@
         "endChar": 75
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8d7d3e97_5520978c",
         "filename": "src/IpmbSensor.cpp",
@@ -565,10 +590,10 @@
         "endChar": 16
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "66cdbf62_3dd44ee7",
         "filename": "src/IpmbSensor.cpp",
@@ -589,8 +614,7 @@
         "endChar": 16
       },
       "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
