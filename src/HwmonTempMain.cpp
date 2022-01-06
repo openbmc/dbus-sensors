@@ -171,7 +171,7 @@ void createSensors(
             {
                 return;
             }
-
+            std::vector<std::string> prevName = {""};
             // iterate through all found temp and pressure sensors,
             // and try to match them with configuration
             for (auto& path : paths)
@@ -284,6 +284,21 @@ void createSensors(
                 }
                 std::string sensorName =
                     std::get<std::string>(findSensorName->second);
+
+                bool flag = false;
+                for (const std::string& name : prevName)
+                {
+                    if (sensorName == name)
+                    {
+                        flag = true;
+                    }
+                }
+                if (flag)
+                {
+                    continue;
+                }
+                prevName.push_back(sensorName);
+
                 // on rescans, only update sensors we were signaled by
                 auto findSensor = sensors.find(sensorName);
                 if (!firstScan && findSensor != sensors.end())
