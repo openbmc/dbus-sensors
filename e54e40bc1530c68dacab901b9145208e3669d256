@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "ab5817ed_f83f59d4",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 44
       },
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5b56b302_f92e506d",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 44
       },
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "9c9109d0_21a0d3f0",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,10 @@
         "endChar": 44
       },
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ddf05bd2_4de4fc34",
         "filename": "src/HwmonTempMain.cpp",
@@ -91,10 +92,10 @@
         "endChar": 48
       },
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "61d9b3c8_783573a2",
         "filename": "src/HwmonTempMain.cpp",
@@ -115,10 +116,34 @@
         "endChar": 48
       },
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80a49fcf_6ac5d946",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-06T18:24:31Z",
+      "side": 1,
+      "message": "Merged now.",
+      "parentUuid": "61d9b3c8_783573a2",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "59bbf33f_b4214c51",
         "filename": "src/HwmonTempMain.cpp",
@@ -138,10 +163,10 @@
         "endChar": 44
       },
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9e30ba85_1ed69485",
         "filename": "src/HwmonTempMain.cpp",
@@ -162,10 +187,10 @@
         "endChar": 44
       },
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7d24ea97_e1fb9643",
         "filename": "src/HwmonTempMain.cpp",
@@ -186,8 +211,31 @@
         "endChar": 44
       },
       "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a98c132a_ae51ac6d",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-06T18:24:31Z",
+      "side": 1,
+      "message": "We added PercentRH.",
+      "parentUuid": "7d24ea97_e1fb9643",
+      "range": {
+        "startLine": 142,
+        "startChar": 37,
+        "endLine": 142,
+        "endChar": 44
+      },
+      "revId": "e54e40bc1530c68dacab901b9145208e3669d256",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

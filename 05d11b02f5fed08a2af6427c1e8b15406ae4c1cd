@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "dad109ea_4327a467",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 67
       },
       "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5efe366d_5ad85a54",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 67
       },
       "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "abe1f4b7_52f05cd0",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,10 @@
         "endChar": 67
       },
       "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4410ddc2_1b81278d",
         "filename": "/COMMIT_MSG",
@@ -92,10 +93,34 @@
         "endChar": 67
       },
       "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb34e6c_cd4db4e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-06T18:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4410ddc2_1b81278d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "09c1e0ba_94f2f2f1",
         "filename": "/COMMIT_MSG",
@@ -115,10 +140,10 @@
         "endChar": 0
       },
       "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "92e65a18_1a31fb95",
         "filename": "/COMMIT_MSG",
@@ -139,10 +164,10 @@
         "endChar": 0
       },
       "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "56db6d13_d65286c8",
         "filename": "src/HwmonTempMain.cpp",
@@ -156,10 +181,10 @@
       "side": 1,
       "message": "If we end up retaining RH, I think I\u0027d prefer that we define a new unit.  Such as \"PercentRH\" (or even simply \"Humidity\").  I don\u0027t think the ambiguity between the current \"utilization\" use of percentages and this new \"humidity\" use of percentages is a good direction.  I\u0027d like to leave \"Percent\" for non-real unit-less values and add well-defined units for those percents that are derived from the real world.  ie. Relative Humidity is only unit-less because the units cancel out in the division, but it is still pinned to those original unit definitions, so we shouldn\u0027t drop the unit in our unit-name.\n\nI think this direction I\u0027m proposing follows the direction Redfish has chosen as well, as they have defined a separate unit for Humidity vs Percent:\n\n\u003e \"Humidity\": \"This value shall indicate a relative humidity measurement, in percent units, and the ReadingUnits value shall be \u0027%\u0027.\",\n\u003e \"Percent\": \"This value shall indicate a percentage measurement, in percent units, and the ReadingUnits value shall be `%`.\",",
       "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8e40984a_e1a47771",
         "filename": "src/HwmonTempMain.cpp",
@@ -174,8 +199,25 @@
       "message": "Ack",
       "parentUuid": "56db6d13_d65286c8",
       "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac06182e_afef104e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-06T18:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e40984a_e1a47771",
+      "revId": "05d11b02f5fed08a2af6427c1e8b15406ae4c1cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
