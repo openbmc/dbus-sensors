@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f4bb442_eab70066",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-07T18:47:17Z",
+      "side": 1,
+      "message": "This is two lines of code.  Please just inline it where it\u0027s needed to make clear that that this has been range checked.\n\nAlternatively, if you want this to be its own function, you could make it interact with thresholdInterfaces directly, and return std::shared_ptr\u003csdbusplus::asio::dbus_interface\u003e or nullptr if it can\u0027t be found.  Either way is fine with me, with a minor preference for the second, but as written, it\u0027s still non-obvious that your operator[] calls have been range checked.",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 9
+      },
+      "revId": "707166c67b23544a9f0260f75f8fb1b37fed9fc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
