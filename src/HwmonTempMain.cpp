@@ -264,8 +264,6 @@ void createSensors(
                 }
                 if (interfacePath == nullptr)
                 {
-                    std::cerr << "failed to find match for " << deviceName
-                              << "\n";
                     continue;
                 }
 
