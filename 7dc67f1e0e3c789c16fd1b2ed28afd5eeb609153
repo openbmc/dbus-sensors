@@ -106,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "012f96c9_5c9039d9",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-07T14:03:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d3880e23_cffe9c9b",
+      "range": {
+        "startLine": 174,
+        "startChar": 45,
+        "endLine": 174,
+        "endChar": 52
+      },
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec7e2304_24223850",
@@ -137,6 +161,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "ec7e2304_24223850",
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "584687be_ab9fe823",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-07T14:03:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d082f662_7a073fce",
       "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -178,6 +220,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "6b3793d7_0fa9aace",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 47
+      },
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9364aaf5_6f1d96a3",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-07T14:03:16Z",
+      "side": 1,
+      "message": "The below mentioned entity configuration is used in my platform. Here, same \"Bus\" and \"Address\" is used for 2 sensors named \"SP_OUTLET_TEMP\" and \"SP_OUTLET_REMOTE_TEMP\" for the paths \"/sys/class/hwmon/hwmon2/temp1_input\" and \"/sys/class/hwmon/hwmon2/temp2_input\". When the first path is identified, it will compare the bus and addr of the path with the baseconfigMap and invoke the constructor for \"SP_OUTLET_TEMP\". Then it looks for \"Name1\" for same sensor and check the path \"/sys/class/hwmon/hwmon2/temp2_input\", then it will invoke the constructor for \"SP_OUTLET_REMOTE_TEMP\". When the loop iterates for next path, it will check and skip the path if it is already searched.\n{\n    \"Address\": \"0x4f\",\n    \"Bus\": 9,\n    \"Name\": \"SP_OUTLET_TEMP\",\n    \"Name1\": \"SP_OUTLET_REMOTE_TEMP\",\n    \"Thresholds\": [\n            {\n                \"Direction\": \"greater than\",\n                \"Name\": \"upper critical\",\n                \"Severity\": 1,\n                \"Value\": 70\n             }\n     ],\n     \"Type\": \"TMP421\"\n}\n\nIn the below patch, it has more than one sensor type with different address for devices DPS310 and SI7020. In the previous code, when the loop iterates for next path, it will check and skip the path if it is already searched. Therefore, \"continue\" is removed in the below patch, so the loop will not skip the path after finding the first sensor of the device, eventhough it is already searched.\n\nhttps://github.com/openbmc/dbus-sensors/commit/544e7dc58cecef898fe7d684c3ba0fbce178cf2d#diff-bfc8d7ed4ade4b3519ad3b7fe091f9c79a60faf8a26f410c1568e5341b22b7abL96\n\nIn my conf, when the loop iterates for next path, it will have bus and addr value same as the previous path. Therefore, it will again invoke the constructor for \"SP_OUTLET_TEMP\" and \"SP_OUTLET_REMOTE_TEMP\".\n\nHence, by checking the sensor name with previous names, we can avoid invoking the constructor for same sensor.",
+      "parentUuid": "2613b2e8_8fbfbe9e",
       "range": {
         "startLine": 300,
         "startChar": 0,
