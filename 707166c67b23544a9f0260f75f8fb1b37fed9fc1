@@ -22,6 +22,30 @@
       },
       "revId": "707166c67b23544a9f0260f75f8fb1b37fed9fc1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ae7209_188cde72",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-10T12:53:45Z",
+      "side": 1,
+      "message": "The below line is also present in Thresholds.cpp file in 2 places, therefore, I have used function to make it common and returned interfaces directly from that function.\n\n        std::shared_ptr\u003csdbusplus::asio::dbus_interface\u003e\u0026 interface \u003d\n            sensor-\u003ethresholdInterfaces[static_cast\u003csize_t\u003e(threshold.level)];",
+      "parentUuid": "4f4bb442_eab70066",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 9
+      },
+      "revId": "707166c67b23544a9f0260f75f8fb1b37fed9fc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
