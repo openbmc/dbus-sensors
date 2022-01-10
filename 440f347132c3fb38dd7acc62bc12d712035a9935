@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c33222_99d92e32",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-01-10T00:51:06Z",
+      "side": 1,
+      "message": "This feels like it\u0027s abusing findFiles() for a 0-or-1 result. Why not iterate though all of the \u0027pwm[0-9]+\u0027 matches?",
+      "range": {
+        "startLine": 109,
+        "startChar": 46,
+        "endLine": 109,
+        "endChar": 50
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
