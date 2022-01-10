@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "805c9166_12951000",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-10T21:11:28Z",
+      "side": 1,
+      "message": "Need skip line 141-143\nAlso, should it be counted as error?",
+      "range": {
+        "startLine": 138,
+        "startChar": 23,
+        "endLine": 139,
+        "endChar": 17
+      },
+      "revId": "f7f454b104f93341fd8a6b87e49b8d35f3887779",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9114582c_57c51b2c",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 9
