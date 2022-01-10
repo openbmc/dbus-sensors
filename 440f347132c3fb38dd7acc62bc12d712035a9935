@@ -22,6 +22,30 @@
       },
       "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13ec4df7_99244f7d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-10T11:23:54Z",
+      "side": 1,
+      "message": "this is the function specific for searching pwm file generate by pwm-fan driver, and only create one pwm file (pwm1) for each pwn-fan node.",
+      "parentUuid": "e2c33222_99d92e32",
+      "range": {
+        "startLine": 109,
+        "startChar": 46,
+        "endLine": 109,
+        "endChar": 50
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
