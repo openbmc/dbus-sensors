@@ -46,6 +46,30 @@
       },
       "revId": "707166c67b23544a9f0260f75f8fb1b37fed9fc1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "537d9f6a_918fe762",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-10T17:18:11Z",
+      "side": 1,
+      "message": "That\u0027s exactly what I was looking for.  Thank you.",
+      "parentUuid": "90ae7209_188cde72",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 9
+      },
+      "revId": "707166c67b23544a9f0260f75f8fb1b37fed9fc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
