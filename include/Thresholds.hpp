@@ -17,6 +17,8 @@ enum class Level
 {
     WARNING,
     CRITICAL,
+    SOFTSHUTDOWN,
+    HARDSHUTDOWN,
     ERROR
 };
 enum class Direction

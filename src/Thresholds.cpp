@@ -17,7 +17,6 @@
 #include <vector>
 
 static constexpr bool debug = false;
-static constexpr int thresLevel = 2;
 namespace thresholds
 {
 Level findThresholdLevel(uint8_t sev, const std::string& direct)
@@ -127,8 +126,7 @@ bool parseThresholdsFromConfig(
         Level level = findThresholdLevel(severity, directions);
         Direction direction = findThresholdDirection(severity, directions);
 
-        if ((static_cast<int>(level) == thresLevel) ||
-            (static_cast<int>(direction) == thresLevel))
+        if ((level == Level::ERROR) || (direction == Direction::ERROR))
         {
             continue;
         }
@@ -563,6 +561,12 @@ std::string getInterface(const Level thresholdLevel)
             break;
         case Level::CRITICAL:
             level = "Critical";
+            break;
+        case Level::SOFTSHUTDOWN:
+            level = "SoftShutDown";
+            break;
+        case Level::HARDSHUTDOWN:
+            level = "HardShutdown";
             break;
         case Level::ERROR:
             level = "Error";
