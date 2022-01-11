@@ -104,7 +104,7 @@ struct Sensor
         const char* dirOrder;
     };
 
-    constexpr static std::array<ThresholdProperty, 4> thresProp = {
+    constexpr static std::array<ThresholdProperty, 8> thresProp = {
         {{thresholds::Level::WARNING, thresholds::Direction::HIGH, 0,
           "WarningHigh", "WarningAlarmHigh", "greater than"},
          {thresholds::Level::WARNING, thresholds::Direction::LOW, 0,
@@ -112,9 +112,17 @@ struct Sensor
          {thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 1,
           "CriticalHigh", "CriticalAlarmHigh", "greater than"},
          {thresholds::Level::CRITICAL, thresholds::Direction::LOW, 1,
-          "CriticalLow", "CriticalAlarmLow", "less than"}}};
+          "CriticalLow", "CriticalAlarmLow", "less than"},
+         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::HIGH, 2,
+          "SoftShutdownHigh", "SoftShutdownAlarmHigh", "greater than"},
+         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::LOW, 2,
+          "SoftShutdownLow", "SoftShutdownAlarmLow", "less than"},
+         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::HIGH, 3,
+          "HardShutdownHigh", "HardShutdownAlarmHigh", "greater than"},
+         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::LOW, 3,
+          "HardShutdownLow", "HardShutdownAlarmLow", "less than"}}};
 
-    std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>, 2>
+    std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>, 4>
         thresholdInterfaces;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface>
