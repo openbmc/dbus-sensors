@@ -127,6 +127,30 @@
       },
       "revId": "831a2b59b8179937aadf1709e563c8ada90edccf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9da0a606_afe21239",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-11T14:00:01Z",
+      "side": 1,
+      "message": "Here, \"ipmbBusIndex\" variable is set and will be used in other patches based on their requirement. Since, it is not used anywhere in this patch, CI failure occurs. So, I used this log to print that variable to avoid CI failure.",
+      "parentUuid": "c9572b16_18f2ee35",
+      "range": {
+        "startLine": 480,
+        "startChar": 24,
+        "endLine": 481,
+        "endChar": 58
+      },
+      "revId": "831a2b59b8179937aadf1709e563c8ada90edccf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
