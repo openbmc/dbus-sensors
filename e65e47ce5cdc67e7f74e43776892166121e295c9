@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "678652a7_09b18a61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-11T19:00:18Z",
+      "side": 1,
+      "message": "Great, can you please take a look at how the threshold interfaces were refactored, and work them into your patch?  At the moment there is now a common structure for all threshold interfaces, so there\u0027s no need to explicitly hardcode every single possible pair of properties, and in the current one, should be done as part of the newly created thresholdInterfaces struct.  Otherwise, this patch will immediately break when https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47996 is merged.",
+      "parentUuid": "be4dade5_7451a21b",
+      "revId": "e65e47ce5cdc67e7f74e43776892166121e295c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e9b5b38_57f67248",
         "filename": "include/sensor.hpp",
         "patchSetId": 1
