@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9f930689_b6fec061",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-11T15:23:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baceb8f0_1be5eb33",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 18
+      },
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "81f90d10_df0d293e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "What do I look for to know if it\u0027s fixed or not?",
       "parentUuid": "81f90d10_df0d293e",
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "185d5cb8_f8b2766f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-11T15:23:20Z",
+      "side": 1,
+      "message": "Please apply this patch in your platform, and check whether sensors related to your platform are created in dbus and all the threshold properties and values are configured correctly.",
+      "parentUuid": "e9493950_bee82f2d",
       "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -316,6 +358,30 @@
       "side": 1,
       "message": "Looks like the callback function is called by the destructor, so the object would be destroyed after the callback. Removing the constness seems to be ok for me.\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/include/Utils.hpp#L314\n\n\u003c https://github.com/openbmc/dbus-sensors/blob/master/src/HwmonTempMain.cpp#L153\n\nWhat is this for?",
       "parentUuid": "51e5d879_0359e51a",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 47
+      },
+      "revId": "7dc67f1e0e3c789c16fd1b2ed28afd5eeb609153",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "477a1d78_48e0f913",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-11T15:23:20Z",
+      "side": 1,
+      "message": "\u003e Looks like the callback function is called by the destructor, so the object would be destroyed after the callback. Removing the constness seems to be ok for me.\n\u003e \n\u003e https://github.com/openbmc/dbus-sensors/blob/master/include/Utils.hpp#L314 \n\nThanks.\n\n\u003e \u003c https://github.com/openbmc/dbus-sensors/blob/master/src/HwmonTempMain.cpp#L153\n\u003e \n\u003e What is this for?\n\nsorry, I pointed out some other line instead of const.",
+      "parentUuid": "4f6904a2_4216b132",
       "range": {
         "startLine": 300,
         "startChar": 0,
