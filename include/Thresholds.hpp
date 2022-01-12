@@ -112,7 +112,7 @@ struct ThresholdTimer
     std::list<TimerPair> timers;
 };
 
-bool findOrder(Level lev, Direction dir);
+bool isValidLevel(Level lev);
 
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
@@ -123,6 +123,19 @@ bool parseThresholdsFromAttr(std::vector<thresholds::Threshold>& thresholds,
                              const std::string& inputPath,
                              const double& scaleFactor,
                              const double& offset = 0);
+
+struct ThresholdDefinition
+{
+    Level level;
+    uint8_t sevOrder;
+    const char* levelName;
+};
+
+constexpr static std::array<thresholds::ThresholdDefinition, 4> thresProp = {
+    {{Level::WARNING, 0, "Warning"},
+     {Level::CRITICAL, 1, "Critical"},
+     {Level::SOFTSHUTDOWN, 2, "SoftShutdown"},
+     {Level::HARDSHUTDOWN, 3, "HardShutdown"}}};
 
 std::string getInterface(const Level level);
 
