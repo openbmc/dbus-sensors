@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2e96aef0_f626b193",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2022-01-12T21:48:01Z",
+      "side": 1,
+      "message": "Maybe I\u0027ve misunderstood it?\nI\u0027ve updated my patchset exactly to use this new threshold interface (`thresholdInterfaces`) and adapt to possibilities of another threshold levels besides Critical and Warning.\nI just thought that is what I needed to do. If it is wrong, can you elaborate more what I need to do?",
+      "parentUuid": "3ec120a2_613587a0",
+      "revId": "e65e47ce5cdc67e7f74e43776892166121e295c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e9b5b38_57f67248",
         "filename": "include/sensor.hpp",
         "patchSetId": 1
