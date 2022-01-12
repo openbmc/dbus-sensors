@@ -87,6 +87,24 @@
       "parentUuid": "3e9b5b38_57f67248",
       "revId": "e65e47ce5cdc67e7f74e43776892166121e295c9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7322d621_2d38b6c0",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-12T20:35:00Z",
+      "side": 1,
+      "message": "\u003e Feels like the issue is that the dbus objects is manually registered to match the yaml definition. Auto generated sdbusplus::server::object_t \u003cSensor::Threshold::Critical\u003e etc. can be used to ensure all properties are initialized.\n\nFor the moment, dbus-sensors intentionally doesn\u0027t take a hard dependency on the yaml definitions.  We could discuss changing that (I\u0027d probably be opposed for reasons I\u0027ve sent on the mailing list in the past), but I\u0027m happy to talk about it outside the context of this patch, which is using the existing mechanisms to fix a bug.\n\n\u003e Downside is that it requires a bigger change of existing code and different thresholds will be different object Critical/Warning/...\n\nYep, exactly.  Lets split the discussions.",
+      "parentUuid": "73ef4c05_9cee6699",
+      "revId": "e65e47ce5cdc67e7f74e43776892166121e295c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
