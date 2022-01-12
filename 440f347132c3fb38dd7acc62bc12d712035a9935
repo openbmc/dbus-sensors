@@ -46,6 +46,52 @@
       },
       "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1c1d40c_95354b9d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T02:18:19Z",
+      "side": 1,
+      "message": "does it need to be pwm+1 similar to line414?",
+      "range": {
+        "startLine": 418,
+        "startChar": 52,
+        "endLine": 418,
+        "endChar": 55
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d924497a_2ca2f7af",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T02:18:19Z",
+      "side": 1,
+      "message": "No need for this variable, if this is changed to else {}",
+      "range": {
+        "startLine": 428,
+        "startChar": 24,
+        "endLine": 428,
+        "endChar": 38
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
