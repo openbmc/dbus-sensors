@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2531fbca_8fd1fd80",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T15:52:56Z",
+      "side": 1,
+      "message": "I think if you want use a flag,  sensorCreated is a better name and it can be set to true after the make_shared call.\n\nBut as you can see, sensor will not be nullptr only when make_shared is called at least once",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 435,
+        "endChar": 17
+      },
+      "revId": "c5a9dc0cc677697cbc37f3925f670d37f9231c23",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
