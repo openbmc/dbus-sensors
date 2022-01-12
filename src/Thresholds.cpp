@@ -19,11 +19,11 @@
 static constexpr bool debug = false;
 namespace thresholds
 {
-Level findThresholdLevel(uint8_t sev, const std::string& direct)
+Level findThresholdLevel(uint8_t sev)
 {
-    for (Sensor::ThresholdProperty prop : Sensor::thresProp)
+    for (const Sensor::ThresholdDefinition& prop : Sensor::thresProp)
     {
-        if ((prop.sevOrder == sev) && (prop.dirOrder == direct))
+        if (prop.sevOrder == sev)
         {
             return prop.level;
         }
@@ -31,23 +31,24 @@ Level findThresholdLevel(uint8_t sev, const std::string& direct)
     return Level::ERROR;
 }
 
-Direction findThresholdDirection(uint8_t sev, const std::string& direct)
+Direction findThresholdDirection(const std::string& direct)
 {
-    for (Sensor::ThresholdProperty prop : Sensor::thresProp)
+    if (direct == "greater than")
     {
-        if ((prop.sevOrder == sev) && (prop.dirOrder == direct))
-        {
-            return prop.direction;
-        }
+        return Direction::HIGH;
+    }
+    if (direct == "less than")
+    {
+        return Direction::LOW;
     }
     return Direction::ERROR;
 }
 
-bool findOrder(Level lev, Direction dir)
+bool findOrder(Level lev)
 {
-    for (Sensor::ThresholdProperty prop : Sensor::thresProp)
+    for (const Sensor::ThresholdDefinition& prop : Sensor::thresProp)
     {
-        if ((prop.level == lev) && (prop.direction == dir))
+        if (prop.level == lev)
         {
             return true;
         }
@@ -123,8 +124,8 @@ bool parseThresholdsFromConfig(
         std::string directions =
             std::visit(VariantToStringVisitor(), directionFind->second);
 
-        Level level = findThresholdLevel(severity, directions);
-        Direction direction = findThresholdDirection(severity, directions);
+        Level level = findThresholdLevel(severity);
+        Direction direction = findThresholdDirection(directions);
 
         if ((level == Level::ERROR) || (direction == Direction::ERROR))
         {
@@ -186,9 +187,8 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
-                if (((findThresholdLevel(level, dir)) != threshold.level) ||
-                    ((findThresholdDirection(level, dir)) !=
-                     threshold.direction))
+                if (findThresholdLevel(level) != threshold.level ||
+                    findThresholdDirection(dir) != threshold.direction)
                 {
                     return; // not the droid we're looking for
                 }
@@ -219,7 +219,7 @@ void updateThresholds(Sensor* sensor)
 
     for (const auto& threshold : sensor->thresholds)
     {
-        if (!findOrder(threshold.level, threshold.direction))
+        if (!findOrder(threshold.level))
         {
             continue;
         }
@@ -459,7 +459,7 @@ void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert)
 {
-    if (!findOrder(level, direction))
+    if (!findOrder(level))
     {
         return;
     }
