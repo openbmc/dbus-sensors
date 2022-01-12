@@ -94,39 +94,27 @@ struct Sensor
     // construction of your Sensor subclass. See ExternalSensor for example.
     std::function<void()> externalSetHook;
 
-    struct ThresholdProperty
+    using Level = thresholds::Level;
+    using Direction = thresholds::Direction;
+
+    struct ThresholdDefinition
     {
-        thresholds::Level level;
-        thresholds::Direction direction;
+        Level level;
         uint8_t sevOrder;
-        const char* levelProperty;
-        const char* alarmProperty;
-        const char* dirOrder;
+        const char* levelName;
     };
 
-    constexpr static std::array<ThresholdProperty, 8> thresProp = {
-        {{thresholds::Level::WARNING, thresholds::Direction::HIGH, 0,
-          "WarningHigh", "WarningAlarmHigh", "greater than"},
-         {thresholds::Level::WARNING, thresholds::Direction::LOW, 0,
-          "WarningLow", "WarningAlarmLow", "less than"},
-         {thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 1,
-          "CriticalHigh", "CriticalAlarmHigh", "greater than"},
-         {thresholds::Level::CRITICAL, thresholds::Direction::LOW, 1,
-          "CriticalLow", "CriticalAlarmLow", "less than"},
-         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::HIGH, 2,
-          "SoftShutdownHigh", "SoftShutdownAlarmHigh", "greater than"},
-         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::LOW, 2,
-          "SoftShutdownLow", "SoftShutdownAlarmLow", "less than"},
-         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::HIGH, 3,
-          "HardShutdownHigh", "HardShutdownAlarmHigh", "greater than"},
-         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::LOW, 3,
-          "HardShutdownLow", "HardShutdownAlarmLow", "less than"}}};
+    constexpr static std::array<ThresholdDefinition, 4> thresProp = {
+        {{Level::WARNING, 0, "Warning"},
+         {Level::CRITICAL, 1, "Critical"},
+         {Level::SOFTSHUTDOWN, 2, "SoftShutdown"},
+         {Level::HARDSHUTDOWN, 3, "HardShutdown"}}};
 
     std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>, 4>
         thresholdInterfaces;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface>
-        getThresholdInterface(thresholds::Level lev)
+        getThresholdInterface(Level lev)
     {
         size_t index = static_cast<size_t>(lev);
         if (index >= thresholdInterfaces.size())
@@ -287,7 +275,7 @@ struct Sensor
             {
                 threshold.hysteresis = hysteresisTrigger;
             }
-            if (!(thresholds::findOrder(threshold.level, threshold.direction)))
+            if (!thresholds::isValidLevel(threshold.level))
             {
                 continue;
             }
@@ -395,27 +383,39 @@ struct Sensor
         }
     }
 
-    std::string propertyLevel(const thresholds::Level lev,
-                              const thresholds::Direction dir)
+    std::string propertyLevel(const Level lev, const Direction dir)
     {
-        for (ThresholdProperty prop : thresProp)
+        for (const ThresholdDefinition& prop : thresProp)
         {
-            if ((prop.level == lev) && (prop.direction == dir))
+            if (prop.level == lev)
             {
-                return prop.levelProperty;
+                if (dir == Direction::HIGH)
+                {
+                    return std::string(prop.levelName) + "High";
+                }
+                if (dir == Direction::LOW)
+                {
+                    return std::string(prop.levelName) + "Low";
+                }
             }
         }
         return "";
     }
 
-    std::string propertyAlarm(const thresholds::Level lev,
-                              const thresholds::Direction dir)
+    std::string propertyAlarm(const Level lev, const Direction dir)
     {
-        for (ThresholdProperty prop : thresProp)
+        for (const ThresholdDefinition& prop : thresProp)
         {
-            if ((prop.level == lev) && (prop.direction == dir))
+            if (prop.level == lev)
             {
-                return prop.alarmProperty;
+                if (dir == Direction::HIGH)
+                {
+                    return std::string(prop.levelName) + "AlarmHigh";
+                }
+                if (dir == Direction::LOW)
+                {
+                    return std::string(prop.levelName) + "AlarmLow";
+                }
             }
         }
         return "";
