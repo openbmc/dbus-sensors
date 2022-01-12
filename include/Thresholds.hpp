@@ -112,7 +112,7 @@ struct ThresholdTimer
     std::list<TimerPair> timers;
 };
 
-bool findOrder(Level lev, Direction dir);
+bool isValidLevel(Level lev);
 
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
