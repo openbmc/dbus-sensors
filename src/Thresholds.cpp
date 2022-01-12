@@ -19,11 +19,11 @@
 static constexpr bool debug = false;
 namespace thresholds
 {
-Level findThresholdLevel(uint8_t sev, const std::string& direct)
+Level findThresholdLevel(uint8_t sev)
 {
-    for (Sensor::ThresholdProperty prop : Sensor::thresProp)
+    for (const ThresholdDefinition& prop : thresholds::thresProp)
     {
-        if ((prop.sevOrder == sev) && (prop.dirOrder == direct))
+        if (prop.sevOrder == sev)
         {
             return prop.level;
         }
@@ -31,23 +31,24 @@ Level findThresholdLevel(uint8_t sev, const std::string& direct)
     return Level::ERROR;
 }
 
-Direction findThresholdDirection(uint8_t sev, const std::string& direct)
+Direction findThresholdDirection(const std::string& direct)
 {
-    for (Sensor::ThresholdProperty prop : Sensor::thresProp)
+    if (direct == "greater than")
     {
-        if ((prop.sevOrder == sev) && (prop.dirOrder == direct))
-        {
-            return prop.direction;
-        }
+        return Direction::HIGH;
+    }
+    if (direct == "less than")
+    {
+        return Direction::LOW;
     }
     return Direction::ERROR;
 }
 
-bool findOrder(Level lev, Direction dir)
+bool isValidLevel(Level lev)
 {
-    for (Sensor::ThresholdProperty prop : Sensor::thresProp)
+    for (const ThresholdDefinition& prop : thresProp)
     {
-        if ((prop.level == lev) && (prop.direction == dir))
+        if (prop.level == lev)
         {
             return true;
         }
@@ -123,8 +124,8 @@ bool parseThresholdsFromConfig(
         std::string directions =
             std::visit(VariantToStringVisitor(), directionFind->second);
 
-        Level level = findThresholdLevel(severity, directions);
-        Direction direction = findThresholdDirection(severity, directions);
+        Level level = findThresholdLevel(severity);
+        Direction direction = findThresholdDirection(directions);
 
         if ((level == Level::ERROR) || (direction == Direction::ERROR))
         {
@@ -186,9 +187,8 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
-                if (((findThresholdLevel(severity, dir)) != threshold.level) ||
-                    ((findThresholdDirection(severity, dir)) !=
-                     threshold.direction))
+                if ((findThresholdLevel(severity) != threshold.level) ||
+                    (findThresholdDirection(dir) != threshold.direction))
                 {
                     return; // not the droid we're looking for
                 }
@@ -219,7 +219,7 @@ void updateThresholds(Sensor* sensor)
 
     for (const auto& threshold : sensor->thresholds)
     {
-        if (!findOrder(threshold.level, threshold.direction))
+        if (!isValidLevel(threshold.level))
         {
             continue;
         }
@@ -459,7 +459,7 @@ void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert)
 {
-    if (!findOrder(level, direction))
+    if (!isValidLevel(level))
     {
         return;
     }
@@ -553,26 +553,14 @@ bool parseThresholdsFromAttr(
 
 std::string getInterface(const Level thresholdLevel)
 {
-    std::string level;
-    switch (thresholdLevel)
+    for (const ThresholdDefinition& thresh : thresProp)
     {
-        case Level::WARNING:
-            level = "Warning";
-            break;
-        case Level::CRITICAL:
-            level = "Critical";
-            break;
-        case Level::SOFTSHUTDOWN:
-            level = "SoftShutdown";
-            break;
-        case Level::HARDSHUTDOWN:
-            level = "HardShutdown";
-            break;
-        case Level::ERROR:
-            level = "Error";
-            break;
+        if (thresh.level == thresholdLevel)
+        {
+            return std::string("xyz.openbmc_project.Sensor.Threshold.") +
+                   thresh.levelName;
+        }
     }
-    std::string interface = "xyz.openbmc_project.Sensor.Threshold." + level;
-    return interface;
+    return "";
 }
 } // namespace thresholds
