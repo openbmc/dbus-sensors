@@ -22,6 +22,30 @@
       },
       "revId": "6974c1c86bdd76d69a448888eac03680ff7203b6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daf94067_7f9c878e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-12T13:00:24Z",
+      "side": 1,
+      "message": "\u003e This looks like it\u0027s only really used for a check here, and is being compared against both level and direction?\n\u003e \n\nYes\n\n\u003e https://github.com/openbmc/dbus-sensors/blob/5667808ac51d3dbb61829b7e420c56f401d57edf/src/Thresholds.cpp#L130\n\u003e \n\u003e \n\u003e This looks incorrect, and I don\u0027t think should exist at all.  That check should be checking against Level::ERROR, and this variable should be removed entirely.  As-written, this only works because prior to this patch both Direction::ERROR and Level::ERROR so happen to equal 2.  Please clean that up, ideally in a separate patch, but if you want to roll it into this one, that\u0027s fine too, but regardless, as written this patchset is incorrect.\n\nI have removed the variable and compared directly with the LEVEL::ERROR and Direction::ERROR.",
+      "parentUuid": "2ac1cbd1_23b13d8b",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 31
+      },
+      "revId": "6974c1c86bdd76d69a448888eac03680ff7203b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
