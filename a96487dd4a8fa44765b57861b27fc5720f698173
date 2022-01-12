@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8d3577f_92aabb0b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T17:41:49Z",
+      "side": 1,
+      "message": "Sorry, did not mentioned this earlier. This needs to get reset for each sensorConfig, so move to later, refer to other inline comments",
+      "range": {
+        "startLine": 194,
+        "startChar": 16,
+        "endLine": 194,
+        "endChar": 43
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "887bcde8_7d28d010",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T17:41:49Z",
+      "side": 1,
+      "message": "Here:\nbool sensorCreated \u003d false;",
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6005cb13_b7ace86b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T17:41:49Z",
+      "side": 1,
+      "message": "add sensorCreated \u003d true here",
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52772c2b_d720e344",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T17:41:49Z",
+      "side": 1,
+      "message": "remove if above is added",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 17
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d20ff6f8_6a788c4c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T17:41:49Z",
+      "side": 1,
+      "message": "sensorCreated \u003d true;",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 429,
+        "endChar": 25
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73d6fec0_ab256465",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-12T17:41:49Z",
+      "side": 1,
+      "message": "Hmm, I think theoretically only baseConfiguration should be removed, not the entire path. Not sure in reality, if there is only 1 : 1 relation from Path to baseConfig.\n\nThis review seems would work in this service too, but it does involves a bigger refactor effort. But has the added benefit of being more efficient. \nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49254",
+      "range": {
+        "startLine": 434,
+        "startChar": 20,
+        "endLine": 434,
+        "endChar": 56
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
