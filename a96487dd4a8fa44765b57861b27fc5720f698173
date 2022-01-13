@@ -125,6 +125,30 @@
       },
       "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6645c01a_a1870573",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-13T13:21:22Z",
+      "side": 1,
+      "message": "\u003e Hmm, I think theoretically only baseConfiguration should be removed, not the entire path. Not sure in reality, if there is only 1 : 1 relation from Path to baseConfig.\n\u003e \n\n.\nAck, if baseConfiguration is removed, then it would display error messages like\nin line 254 and 265.\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/HwmonTempMain.cpp#L254\n\n\n\u003e This review seems would work in this service too, but it does involves a bigger refactor effort. But has the added benefit of being more efficient. \n\u003e https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49254\n\n.\nAre you suggesting that this change should be done for HwmonTemp Sensor and refactor the code like PSUSensor or removing the baseConfiguration is enough ?\n \nCould you please confirm this ?",
+      "parentUuid": "73d6fec0_ab256465",
+      "range": {
+        "startLine": 434,
+        "startChar": 20,
+        "endLine": 434,
+        "endChar": 56
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
