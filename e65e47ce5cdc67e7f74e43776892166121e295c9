@@ -141,6 +141,24 @@
       "parentUuid": "73ef4c05_9cee6699",
       "revId": "e65e47ce5cdc67e7f74e43776892166121e295c9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "257c1a12_33fef8f7",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-13T01:33:12Z",
+      "side": 1,
+      "message": "I dug into this a little today, what if we did this (untested):\n\n    void fillMissingThresholds()\n    {\n        for (thresholds::Threshold\u0026 thisThreshold : thresholds)\n        {\n            bool foundOpposite \u003d false;\n\n            thresholds::Direction opposite \u003d thresholds::Direction::HIGH;\n            if (thisThreshold.direction \u003d\u003d thresholds::Direction::HIGH)\n            {\n                opposite \u003d thresholds::Direction::LOW;\n            }\n\n            for (thresholds::Threshold\u0026 otherThreshold : thresholds)\n            {\n                if (thisThreshold.level !\u003d otherThreshold.level)\n                {\n                    continue;\n                }\n\n                if (otherThreshold.direction !\u003d opposite)\n                {\n                    continue;\n                }\n                foundOpposite \u003d true;\n            }\n\n            if (foundOpposite)\n            {\n                continue;\n            }\n            thresholds.emplace_back(thisThreshold.level, opposite,\n                                    std::numeric_limits\u003cdouble\u003e::quiet_NaN());\n        }\n    }",
+      "parentUuid": "7322d621_2d38b6c0",
+      "revId": "e65e47ce5cdc67e7f74e43776892166121e295c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
