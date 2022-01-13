@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc29921a_cf647a41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-13T17:51:44Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "9b7ed0821ecf9c7f44194af64723f1ffb0630128",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32186f46_e94cc175",
@@ -32,6 +49,24 @@
       "side": 1,
       "message": "Yes, this is N^2, but the old one was N * M on the fixed size data structures.  Considering the common case of N is 2-4, and the largest possible case of N is 8, N^2 is unlikely to matter much here.\n\nFWIW, I originally tried changing the Threshold class to include both a positive and negative component, but that got more involved than I wanted",
       "parentUuid": "32186f46_e94cc175",
+      "revId": "9b7ed0821ecf9c7f44194af64723f1ffb0630128",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb37ca7e_9f8dd6a8",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-13T17:51:44Z",
+      "side": 1,
+      "message": "Actually, now that you\u0027ve added the break to leave the second loop early, it\u0027s log(N) * N I think?",
+      "parentUuid": "6c639ca1_8a8253a9",
       "revId": "9b7ed0821ecf9c7f44194af64723f1ffb0630128",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
