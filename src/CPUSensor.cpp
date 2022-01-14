@@ -117,6 +117,8 @@ void CPUSensor::setupRead(void)
     if (readingStateGood())
     {
         inputDev.close();
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
         int fd = open(path.c_str(), O_RDONLY);
         if (fd >= 0)
         {
