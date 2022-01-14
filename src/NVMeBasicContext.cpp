@@ -4,6 +4,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+#include <FileHandle.hpp>
 #include <boost/asio/read.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/asio/write.hpp>
@@ -61,65 +62,44 @@ static void decodeBasicQuery(const std::array<uint8_t, 6>& req, int& bus,
 static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
                               std::vector<uint8_t>& resp)
 {
-    int rc = 0;
     int32_t size = 0;
-    std::string devpath = "/dev/i2c-" + std::to_string(bus);
-
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    int dev = ::open(devpath.c_str(), O_RDWR);
-    if (dev == -1)
-    {
-        std::cerr << "Failed to open bus device " << devpath << ": "
-                  << strerror(errno) << "\n";
-        return -errno;
-    }
+    std::filesystem::path devpath = "/dev/i2c-" + std::to_string(bus);
+    FileHandle fileHandle(devpath);
 
     /* Select the target device */
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    if (::ioctl(dev, I2C_SLAVE, addr) == -1)
+    if (::ioctl(fileHandle.handle(), I2C_SLAVE, addr) == -1)
     {
-        rc = -errno;
         std::cerr << "Failed to configure device address 0x" << std::hex
                   << (int)addr << " for bus " << std::dec << bus << ": "
                   << strerror(errno) << "\n";
-        goto cleanup_fds;
+
+        return -errno;
     }
 
     resp.reserve(UINT8_MAX + 1);
 
     /* Issue the NVMe MI basic command */
-    size = i2c_smbus_read_block_data(dev, cmd, resp.data());
+    size = i2c_smbus_read_block_data(fileHandle.handle(), cmd, resp.data());
     if (size < 0)
     {
-        rc = size;
         std::cerr << "Failed to read block data from device 0x" << std::hex
                   << (int)addr << " on bus " << std::dec << bus << ": "
                   << strerror(errno) << "\n";
-        goto cleanup_fds;
+        return size;
     }
-    else if (size > UINT8_MAX + 1)
+    if (size > UINT8_MAX + 1)
     {
-        rc = -EBADMSG;
         std::cerr << "Unexpected message length from device 0x" << std::hex
                   << (int)addr << " on bus " << std::dec << bus << ": " << size
                   << " (" << UINT8_MAX << ")\n";
-        goto cleanup_fds;
+        return -EBADMSG;
     }
 
-    rc = size;
-
-cleanup_fds:
-    if (::close(dev) == -1)
-    {
-        std::cerr << "Failed to close device descriptor " << std::dec << dev
-                  << " for bus " << std::dec << bus << ": " << strerror(errno)
-                  << "\n";
-    }
-
-    return rc;
+    return size;
 }
 
-static ssize_t processBasicQueryStream(int in, int out)
+static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
 {
     std::vector<uint8_t> resp{};
     ssize_t rc = 0;
@@ -135,17 +115,16 @@ static ssize_t processBasicQueryStream(int in, int out)
         std::array<uint8_t, sizeof(uint32_t) + 1 + 1> req{};
 
         /* Read the command parameters */
-        if ((rc = ::read(in, req.data(), req.size())) !=
-            static_cast<ssize_t>(req.size()))
+        ssize_t rc = ::read(in.handle(), req.data(), req.size());
+        if (rc != static_cast<ssize_t>(req.size()))
         {
-            assert(rc < 1);
-            rc = rc ? -errno : -EIO;
-            if (errno)
+            std::cerr << "Failed to read request from in descriptor "
+                      << strerror(errno) << "\n";
+            if (rc)
             {
-                std::cerr << "Failed to read request from in descriptor ("
-                          << std::dec << in << "): " << strerror(errno) << "\n";
+                return -errno;
             }
-            goto done;
+            return -EIO;
         }
 
         decodeBasicQuery(req, bus, device, offset);
@@ -171,45 +150,39 @@ static ssize_t processBasicQueryStream(int in, int out)
         }
 
         /* Write out the response length */
-        if ((rc = ::write(out, &len, sizeof(len))) != sizeof(len))
+        rc = ::write(out.handle(), &len, sizeof(len));
+        if (rc != sizeof(len))
         {
-            assert(rc < 1);
-            rc = rc ? -errno : -EIO;
             std::cerr << "Failed to write block (" << std::dec << len
-                      << ") length to out descriptor (" << std::dec << out
-                      << "): " << strerror(-rc) << "\n";
-            goto done;
+                      << ") length to out descriptor: "
+                      << strerror(static_cast<int>(-rc)) << "\n";
+            if (rc)
+            {
+                return -errno;
+            }
+            return -EIO;
         }
 
         /* Write out the response data */
-        uint8_t* cursor = resp.data();
-        while (len > 0)
+        std::vector<uint8_t>::iterator cursor = resp.begin();
+        while (cursor != resp.end())
         {
-            ssize_t egress = ::write(out, cursor, len);
+            size_t lenRemaining = std::distance(cursor, resp.end());
+            ssize_t egress = ::write(out.handle(), &(*cursor), lenRemaining);
             if (egress == -1)
             {
-                rc = -errno;
                 std::cerr << "Failed to write block data of length " << std::dec
-                          << len << " to out pipe: " << strerror(errno) << "\n";
-                goto done;
+                          << lenRemaining << " to out pipe: " << strerror(errno)
+                          << "\n";
+                if (rc)
+                {
+                    return -errno;
+                }
+                return -EIO;
             }
 
             cursor += egress;
-            len -= egress;
         }
-    }
-
-done:
-    if (::close(in) == -1)
-    {
-        std::cerr << "Failed to close in descriptor " << std::dec << in << ": "
-                  << strerror(errno) << "\n";
-    }
-
-    if (::close(out) == -1)
-    {
-        std::cerr << "Failed to close out descriptor " << std::dec << in << ": "
-                  << strerror(errno) << "\n";
     }
 
     return rc;
@@ -252,29 +225,18 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
     }
 
     reqStream.assign(requestPipe[1]);
-    int streamIn = requestPipe[0];
-    int streamOut = responsePipe[1];
+    FileHandle streamIn(requestPipe[0]);
+    FileHandle streamOut(responsePipe[1]);
     respStream.assign(responsePipe[0]);
 
-    std::thread thread([streamIn, streamOut]() {
+    std::thread thread([streamIn{std::move(streamIn)},
+                        streamOut{std::move(streamOut)}]() mutable {
         ssize_t rc = 0;
 
         if ((rc = processBasicQueryStream(streamIn, streamOut)) < 0)
         {
             std::cerr << "Failure while processing query stream: "
                       << strerror(static_cast<int>(-rc)) << "\n";
-        }
-
-        if (::close(streamIn) == -1)
-        {
-            std::cerr << "Failed to close streamIn descriptor: "
-                      << strerror(errno) << "\n";
-        }
-
-        if (::close(streamOut) == -1)
-        {
-            std::cerr << "Failed to close streamOut descriptor: "
-                      << strerror(errno) << "\n";
         }
 
         std::cerr << "Terminating basic query thread\n";
