@@ -293,7 +293,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
 
-            int16_t value = ((data[4] << 8) | data[3]);
+            int16_t value = static_cast<int16_t>((data[4] << 8) | data[3]);
             resp = value;
             return true;
         }
@@ -324,7 +324,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
 
-            int16_t value = ((data[4] << 8) | data[3]);
+            int16_t value = static_cast<int16_t>((data[4] << 8) | data[3]);
             constexpr const size_t shift = 16 - 11; // 11bit into 16bit
             value <<= shift;
             value >>= shift;
@@ -385,16 +385,6 @@ void IpmbSensor::read(void)
                     read();
                     return;
                 }
-
-                // rawValue only used in debug logging
-                // up to 5th byte in data are used to derive value
-                size_t end = std::min(sizeof(uint64_t), data.size());
-                uint64_t rawData = 0;
-                for (size_t i = 0; i < end; i++)
-                {
-                    reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
-                }
-                rawValue = static_cast<double>(rawData);
 
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;

@@ -65,13 +65,13 @@ enum State
 
 struct CPUConfig
 {
-    CPUConfig(const uint64_t& bus, const uint64_t& addr,
-              const std::string& name, const State& state) :
+    CPUConfig(const uint64_t bus, const uint64_t addr, const std::string& name,
+              const State& state) :
         bus(bus),
         addr(addr), name(name), state(state)
     {}
-    int bus;
-    int addr;
+    uint64_t bus;
+    uint64_t addr;
     std::string name;
     State state;
 
@@ -289,8 +289,7 @@ bool createSensors(boost::asio::io_service& io,
             std::cerr << "could not determine CPU ID for " << hwmonName << "\n";
             continue;
         }
-        int cpuId =
-            std::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
+        int cpuId = std::visit(VariantToIntVisitor(), findCpuId->second);
 
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
