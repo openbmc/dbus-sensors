@@ -88,7 +88,11 @@ thresholds_dep = declare_dependency(
 
 utils_a = static_library(
     'utils_a',
-    ['src/Utils.cpp', 'src/SensorPaths.cpp'],
+    [
+        'src/FileHandle.cpp',
+        'src/SensorPaths.cpp',
+        'src/Utils.cpp',
+    ],
     dependencies: default_deps,
     implicit_include_directories: false,
     include_directories: 'include',
