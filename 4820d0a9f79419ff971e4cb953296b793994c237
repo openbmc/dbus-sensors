@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a206659c_c28f6517",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-01-14T10:45:20Z",
+      "side": 1,
+      "message": "Surely you could automate this into adding one new check per patch with the associated fixes?",
+      "revId": "4820d0a9f79419ff971e4cb953296b793994c237",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
