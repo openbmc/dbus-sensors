@@ -3,12 +3,65 @@
 #include <PwmSensor.hpp>
 #include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
+#include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
+
+class BridgeGpio
+{
+  public:
+    BridgeGpio(const std::string& name, const int polarity,
+               const float setupTime) :
+        setupTimeMs(static_cast<unsigned int>(setupTime * 1000))
+    {
+        line = gpiod::find_line(name);
+        if (!line)
+        {
+            std::cerr << "Error finding gpio: " << name << "\n";
+        }
+        else
+        {
+            try
+            {
+                line.request({"psusensor",
+                              gpiod::line_request::DIRECTION_OUTPUT,
+                              polarity == gpiod::line::ACTIVE_HIGH
+                                  ? 0
+                                  : gpiod::line_request::FLAG_ACTIVE_LOW});
+            }
+            catch (std::system_error&)
+            {
+                std::cerr << "Error requesting gpio: " << name << "\n";
+            }
+        }
+    }
+
+    void set(int value)
+    {
+        if (line)
+        {
+            try
+            {
+                line.set_value(value);
+            }
+            catch (std::system_error& exc)
+            {
+                std::cerr << "Error set_value: " << exc.what() << value << "\n";
+            }
+        }
+    }
+
+    unsigned int setupTimeMs;
+
+  private:
+    gpiod::line line;
+};
+
 
 class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 {
@@ -21,7 +74,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const std::string& sensorConfiguration,
               const PowerState& powerState, const std::string& sensorUnits,
               unsigned int factor, double max, double min, double offset,
-              const std::string& label, size_t tSize, double pollRate);
+              const std::string& label, size_t tSize, double pollRate,
+              std::optional<BridgeGpio>&& bridgeGpio);
     ~PSUSensor() override;
     void setupRead(void);
 
@@ -37,6 +91,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     unsigned int sensorPollMs = defaultSensorPollMs;
+    std::optional<BridgeGpio> bridgeGpio;
 
     int fd;
     static constexpr size_t warnAfterErrorCount = 10;
