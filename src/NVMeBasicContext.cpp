@@ -13,6 +13,7 @@
 #include <cinttypes>
 #include <cstdio>
 #include <cstring>
+#include <span>
 #include <system_error>
 #include <thread>
 
@@ -50,7 +51,7 @@ static std::shared_ptr<std::array<uint8_t, 6>>
 static void decodeBasicQuery(const std::array<uint8_t, 6>& req, int& bus,
                              uint8_t& device, uint8_t& offset)
 {
-    uint32_t busle;
+    uint32_t busle = 0;
 
     memcpy(&busle, req.data(), sizeof(busle));
     bus = le32toh(busle);
@@ -61,20 +62,21 @@ static void decodeBasicQuery(const std::array<uint8_t, 6>& req, int& bus,
 static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
                               std::vector<uint8_t>& resp)
 {
-    char devpath[PATH_MAX]{};
-    int32_t size;
+    std::array<char, PATH_MAX> devpath{};
+    int32_t size = 0;
 
-    ssize_t rc = snprintf(devpath, sizeof(devpath), "/dev/i2c-%" PRIu32, bus);
+    ssize_t rc =
+        snprintf(devpath.data(), devpath.size(), "/dev/i2c-%" PRIu32, bus);
     if ((size_t)rc > sizeof(devpath))
     {
         std::cerr << "Failed to format device path for bus " << bus << "\n";
         return -EINVAL;
     }
 
-    int dev = ::open(devpath, O_RDWR);
+    int dev = ::open(devpath.data(), O_RDWR);
     if (dev == -1)
     {
-        std::cerr << "Failed to open bus device " << devpath << ": "
+        std::cerr << "Failed to open bus device " << devpath.data() << ": "
                   << strerror(errno) << "\n";
         return -errno;
     }
@@ -86,6 +88,8 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         std::cerr << "Failed to configure device address 0x" << std::hex
                   << (int)addr << " for bus " << std::dec << bus << ": "
                   << strerror(errno) << "\n";
+
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
         goto cleanup_fds;
     }
 
@@ -99,6 +103,7 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         std::cerr << "Failed to read block data from device 0x" << std::hex
                   << (int)addr << " on bus " << std::dec << bus << ": "
                   << strerror(errno) << "\n";
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
         goto cleanup_fds;
     }
     else if (size > UINT8_MAX + 1)
@@ -107,6 +112,7 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         std::cerr << "Unexpected message length from device 0x" << std::hex
                   << (int)addr << " on bus " << std::dec << bus << ": " << size
                   << " (" << UINT8_MAX << ")\n";
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
         goto cleanup_fds;
     }
 
@@ -126,14 +132,14 @@ cleanup_fds:
 static ssize_t processBasicQueryStream(int in, int out)
 {
     std::vector<uint8_t> resp{};
-    ssize_t rc;
+    ssize_t rc = 0;
 
     while (true)
     {
-        uint8_t device;
-        uint8_t offset;
-        uint8_t len;
-        int bus;
+        uint8_t device = 0;
+        uint8_t offset = 0;
+        uint8_t len = 0;
+        int bus = 0;
 
         /* bus + address + command */
         std::array<uint8_t, sizeof(uint32_t) + 1 + 1> req{};
@@ -142,6 +148,7 @@ static ssize_t processBasicQueryStream(int in, int out)
         if ((rc = ::read(in, req.data(), req.size())) !=
             static_cast<ssize_t>(req.size()))
         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
             assert(rc < 1);
             rc = rc ? -errno : -EIO;
             if (errno)
@@ -149,6 +156,7 @@ static ssize_t processBasicQueryStream(int in, int out)
                 std::cerr << "Failed to read request from in descriptor ("
                           << std::dec << in << "): " << strerror(errno) << "\n";
             }
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
             goto done;
         }
 
@@ -164,6 +172,7 @@ static ssize_t processBasicQueryStream(int in, int out)
         }
         else if (rc > UINT8_MAX)
         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
             assert(rc == UINT8_MAX + 1);
 
             /* YOLO: Lop off the PEC */
@@ -177,25 +186,28 @@ static ssize_t processBasicQueryStream(int in, int out)
         /* Write out the response length */
         if ((rc = ::write(out, &len, sizeof(len))) != sizeof(len))
         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
             assert(rc < 1);
             rc = rc ? -errno : -EIO;
             std::cerr << "Failed to write block (" << std::dec << len
                       << ") length to out descriptor (" << std::dec << out
-                      << "): " << strerror(-rc) << "\n";
+                      << "): " << strerror(static_cast<int>(-rc)) << "\n";
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
             goto done;
         }
 
         /* Write out the response data */
-        uint8_t* cursor = resp.data();
+        std::vector<uint8_t>::iterator cursor = resp.begin();
         while (len > 0)
         {
-            ssize_t egress;
+            ssize_t egress = 0;
 
-            if ((egress = ::write(out, cursor, len)) == -1)
+            if ((egress = ::write(out, &*cursor, len)) == -1)
             {
                 rc = -errno;
                 std::cerr << "Failed to write block data of length " << std::dec
                           << len << " to out pipe: " << strerror(errno) << "\n";
+                // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
                 goto done;
             }
 
@@ -225,8 +237,8 @@ done:
 NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
     NVMeContext::NVMeContext(io, rootBus), io(io), reqStream(io), respStream(io)
 {
-    std::array<int, 2> responsePipe;
-    std::array<int, 2> requestPipe;
+    std::array<int, 2> responsePipe{};
+    std::array<int, 2> requestPipe{};
 
     /* Set up inter-thread communication */
     if (::pipe(requestPipe.data()) == -1)
@@ -262,12 +274,12 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
     respStream.assign(responsePipe[0]);
 
     std::thread thread([streamIn, streamOut]() {
-        ssize_t rc;
+        ssize_t rc = 0;
 
         if ((rc = processBasicQueryStream(streamIn, streamOut)) < 0)
         {
             std::cerr << "Failure while processing query stream: "
-                      << strerror(-rc) << "\n";
+                      << strerror(static_cast<int>(-rc)) << "\n";
         }
 
         if (::close(streamIn) == -1)
@@ -392,10 +404,13 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
             /* Deserialise the response */
             response->consume(1); /* Drop the length byte */
             std::istream is(response.get());
-            std::vector<char> data(response->size());
-            is.read(data.data(), response->size());
+            std::vector<uint8_t> data(response->size());
+            std::streamsize size =
+                static_cast<std::streamsize>(response->size());
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+            is.read(reinterpret_cast<char*>(data.data()), size);
 
-            self->processResponse(data.data(), data.size());
+            self->processResponse(data);
         });
 }
 
@@ -433,24 +448,16 @@ static double getTemperatureReading(int8_t reading)
     return reading;
 }
 
-void NVMeBasicContext::processResponse(void* msg, size_t len)
+void NVMeBasicContext::processResponse(std::span<uint8_t> msg)
 {
-    if (msg == nullptr)
+    if (msg.size() < 6)
     {
-        std::cerr << "Bad message received\n";
+        std::cerr << "Invalid message length: " << msg.size() << "\n";
         return;
     }
-
-    if (len < 6)
-    {
-        std::cerr << "Invalid message length: " << len << "\n";
-        return;
-    }
-
-    uint8_t* messageData = static_cast<uint8_t*>(msg);
 
     std::shared_ptr<NVMeSensor> sensor = sensors.front();
-    double value = getTemperatureReading(messageData[2]);
+    double value = getTemperatureReading(static_cast<int8_t>(msg[2]));
 
     if (std::isfinite(value))
     {

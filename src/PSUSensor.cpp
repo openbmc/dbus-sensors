@@ -104,8 +104,6 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
 
 PSUSensor::~PSUSensor()
 {
-    waitTimer.cancel();
-    inputDev.close();
     objServer.remove_interface(sensorInterface);
     for (const auto& iface : thresholdInterfaces)
     {
@@ -168,7 +166,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
     std::string buffer;
     buffer.resize(psuBufLen);
     lseek(fd, 0, SEEK_SET);
-    int rdLen = read(fd, buffer.data(), psuBufLen);
+    ssize_t rdLen = read(fd, buffer.data(), psuBufLen);
 
     if (rdLen > 0)
     {

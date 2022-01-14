@@ -80,12 +80,15 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
 {
     std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
 
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(i2cBus.c_str(), O_RDWR | O_CLOEXEC);
     if (fd < 0)
     {
         std::cerr << "unable to open i2c device \n";
         return -1;
     }
+
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_SLAVE_FORCE, slaveAddr) < 0)
     {
         std::cerr << "unable to set device address\n";
@@ -94,6 +97,7 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
     }
 
     unsigned long funcs = 0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_FUNCS, &funcs) < 0)
     {
         std::cerr << "not support I2C_FUNCS \n";
@@ -361,22 +365,6 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface) :
     mIface(std::move(iface)),
     mType(IntrusionSensorType::gpio), mValue("unknown"), mOldValue("unknown"),
-    mBusId(-1), mSlaveAddr(-1), mPollTimer(io), mGpioInverted(false),
+    mBusId(-1), mSlaveAddr(-1), mGpioInverted(false), mPollTimer(io),
     mGpioFd(io)
 {}
-
-ChassisIntrusionSensor::~ChassisIntrusionSensor()
-{
-    if (mType == IntrusionSensorType::pch)
-    {
-        mPollTimer.cancel();
-    }
-    else if (mType == IntrusionSensorType::gpio)
-    {
-        mGpioFd.close();
-        if (mGpioLine)
-        {
-            mGpioLine.release();
-        }
-    }
-}

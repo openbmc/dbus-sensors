@@ -1,5 +1,6 @@
 #include <Utils.hpp>
 
+#include <array>
 #include <filesystem>
 #include <fstream>
 
@@ -15,8 +16,9 @@ class TestUtils : public testing::Test
     TestUtils()
     {
         // Create test environment
-        char dir[] = "./testDirXXXXXX";
-        testDir = mkdtemp(dir);
+        std::array<char, 16> dir = {'.', '/', 't', 'e', 's', 't', 'D', 'i',
+                                    'r', 'X', 'X', 'X', 'X', 'X', 'X', '\0'};
+        testDir = mkdtemp(dir.data());
 
         if (testDir.empty())
         {
@@ -37,6 +39,11 @@ class TestUtils : public testing::Test
     {
         fs::remove_all(testDir);
     }
+
+    TestUtils(const TestUtils&) = delete;
+    TestUtils(TestUtils&&) = delete;
+    TestUtils& operator=(const TestUtils&) = delete;
+    TestUtils& operator=(TestUtils&&) = delete;
 
     void createPECIDir()
     {
@@ -59,7 +66,7 @@ class TestUtils : public testing::Test
              p != fs::recursive_directory_iterator(); ++p)
         {
             std::string path = p->path().string();
-            fprintf(stderr, "%s\n", path.c_str());
+            std::cerr << path << "\n";
             if (p.depth() >= 6)
             {
                 p.disable_recursion_pending();
