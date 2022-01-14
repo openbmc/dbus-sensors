@@ -54,11 +54,19 @@ ADCSensor::ADCSensor(const std::string& path,
            maxVoltageReading / scaleFactor, minVoltageReading / scaleFactor,
            conn, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    inputDev(io), waitTimer(io), path(path),
     scaleFactor(scaleFactor),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
     bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io)
 {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+    int fd = open(path.c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        std::cerr << "unable to open acd device \n";
+        return;
+    }
+
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/voltage/" + name,
         "xyz.openbmc_project.Sensor.Value");
@@ -183,6 +191,8 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
     {
         (*bridgeGpio).set(0);
     }
+
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {

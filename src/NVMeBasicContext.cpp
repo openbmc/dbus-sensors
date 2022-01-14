@@ -61,26 +61,21 @@ static void decodeBasicQuery(const std::array<uint8_t, 6>& req, int& bus,
 static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
                               std::vector<uint8_t>& resp)
 {
-    std::array<char, PATH_MAX> devpath{};
+    int rc = 0;
     int32_t size = 0;
-
-    ssize_t rc =
-        snprintf(devpath.data(), devpath.size(), "/dev/i2c-%" PRIu32, bus);
-    if ((size_t)rc > sizeof(devpath))
-    {
-        std::cerr << "Failed to format device path for bus " << bus << "\n";
-        return -EINVAL;
-    }
-
-    int dev = ::open(devpath.data(), O_RDWR);
+    std::string devpath = "/dev/i2c-" + std::to_string(bus);
+    
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+    int dev = ::open(devpath.c_str(), O_RDWR);
     if (dev == -1)
     {
-        std::cerr << "Failed to open bus device " << devpath.data() << ": "
+        std::cerr << "Failed to open bus device " << devpath << ": "
                   << strerror(errno) << "\n";
         return -errno;
     }
 
     /* Select the target device */
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (::ioctl(dev, I2C_SLAVE, addr) == -1)
     {
         rc = -errno;

@@ -102,8 +102,9 @@ void MCUTempSensor::checkThresholds(void)
 int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
 {
     std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
-    int fd = open(i2cBus.c_str(), O_RDWR);
 
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+    int fd = open(i2cBus.c_str(), O_RDWR);
     if (fd < 0)
     {
         std::cerr << " unable to open i2c device" << i2cBus << "  err=" << fd
@@ -111,6 +112,7 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
         return -1;
     }
 
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_SLAVE_FORCE, mcuAddress) < 0)
     {
         std::cerr << " unable to set device address\n";
@@ -119,6 +121,7 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
     }
 
     unsigned long funcs = 0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_FUNCS, &funcs) < 0)
     {
         std::cerr << " not support I2C_FUNCS\n";

@@ -80,12 +80,15 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
 {
     std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
 
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(i2cBus.c_str(), O_RDWR | O_CLOEXEC);
     if (fd < 0)
     {
         std::cerr << "unable to open i2c device \n";
         return -1;
     }
+
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_SLAVE_FORCE, slaveAddr) < 0)
     {
         std::cerr << "unable to set device address\n";
@@ -94,6 +97,8 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
     }
 
     unsigned long funcs = 0;
+
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_FUNCS, &funcs) < 0)
     {
         std::cerr << "not support I2C_FUNCS \n";
