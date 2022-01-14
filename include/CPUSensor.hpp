@@ -28,7 +28,7 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
               double dtsOffset);
     ~CPUSensor() override;
     static constexpr unsigned int sensorScaleFactor = 1000;
-    static constexpr unsigned int sensorPollMs = 1000;
+    static constexpr size_t sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
     static constexpr const char* labelTcontrol = "Tcontrol";
     void setupRead(void);

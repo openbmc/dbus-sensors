@@ -143,6 +143,7 @@ static ssize_t processBasicQueryStream(int in, int out)
         if ((rc = ::read(in, req.data(), req.size())) !=
             static_cast<ssize_t>(req.size()))
         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
             assert(rc < 1);
             rc = rc ? -errno : -EIO;
             if (errno)
@@ -166,6 +167,7 @@ static ssize_t processBasicQueryStream(int in, int out)
         }
         else if (rc > UINT8_MAX)
         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
             assert(rc == UINT8_MAX + 1);
 
             /* YOLO: Lop off the PEC */
@@ -185,7 +187,6 @@ static ssize_t processBasicQueryStream(int in, int out)
             std::cerr << "Failed to write block (" << std::dec << len
                       << ") length to out descriptor (" << std::dec << out
                       << "): " << strerror(static_cast<int>(-rc)) << "\n";
-
             // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
             goto done;
         }
