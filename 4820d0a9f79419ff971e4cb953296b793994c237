@@ -16,6 +16,24 @@
       "message": "Surely you could automate this into adding one new check per patch with the associated fixes?",
       "revId": "4820d0a9f79419ff971e4cb953296b793994c237",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14fafb06_d31f41c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-14T17:27:12Z",
+      "side": 1,
+      "message": "Considering that most the changes are manually done, it\u0027s not automatable easily, but I\u0027m happy to split it up.  I did the same thing for bmcweb.  \"git add -p\" works pretty well for splitting up stuff like this.\n\nACK",
+      "parentUuid": "a206659c_c28f6517",
+      "revId": "4820d0a9f79419ff971e4cb953296b793994c237",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
