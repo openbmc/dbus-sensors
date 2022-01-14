@@ -43,12 +43,11 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, 0, 0, conn, PowerState::on),
     std::enable_shared_from_this<CPUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path),
+    inputDev(io), waitTimer(io), nameTcontrol(labelTcontrol), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
     minMaxReadCounter(0)
 {
-    nameTcontrol = labelTcontrol;
     nameTcontrol += " CPU" + std::to_string(cpuId);
     if (show)
     {
@@ -56,7 +55,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
         {
             auto& [type, nr, item] = *fileParts;
             std::string interfacePath;
-            const char* units;
+            const char* units = nullptr;
             if (type.compare("power") == 0)
             {
                 interfacePath = "/xyz/openbmc_project/sensors/power/" + name;

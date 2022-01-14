@@ -3,6 +3,7 @@
 #include "NVMeContext.hpp"
 
 #include <boost/asio/ip/tcp.hpp>
+#include <span>
 
 class NVMeMCTPContext : public NVMeContext
 {
@@ -14,7 +15,7 @@ class NVMeMCTPContext : public NVMeContext
     virtual void pollNVMeDevices() override;
     virtual void close() override;
     virtual void readAndProcessNVMeSensor() override;
-    virtual void processResponse(void* msg, size_t len) override;
+    virtual void processResponse(std::span<uint8_t> msg) override;
 
   private:
     boost::asio::ip::tcp::socket nvmeSlaveSocket;
