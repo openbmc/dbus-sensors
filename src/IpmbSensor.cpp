@@ -188,11 +188,11 @@ void IpmbSensor::loadDefaults()
     else if (type == IpmbType::ADM1278HSC)
     {
         commandAddress = meAddress;
+        uint8_t snsNum = 0;
         switch (subType)
         {
             case IpmbSubType::temp:
             case IpmbSubType::curr:
-                uint8_t snsNum;
                 if (subType == IpmbSubType::temp)
                 {
                     snsNum = 0x8d;

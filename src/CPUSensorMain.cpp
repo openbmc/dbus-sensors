@@ -468,15 +468,17 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
             std::exit(EXIT_FAILURE);
         }
 
-        State newState;
-        struct peci_ping_msg msg;
+        State newState = State::OFF;
+        struct peci_ping_msg msg
+        {};
         msg.addr = config.addr;
         if (!ioctl(file, PECI_IOC_PING, &msg))
         {
             bool dimmReady = false;
             for (unsigned int rank = 0; rank < rankNumMax; rank++)
             {
-                struct peci_rd_pkg_cfg_msg msg;
+                struct peci_rd_pkg_cfg_msg msg
+                {};
                 msg.addr = config.addr;
                 msg.index = PECI_MBX_INDEX_DDR_DIMM_TEMP;
                 msg.param = rank;
@@ -504,10 +506,6 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
             {
                 newState = State::ON;
             }
-        }
-        else
-        {
-            newState = State::OFF;
         }
 
         close(file);
