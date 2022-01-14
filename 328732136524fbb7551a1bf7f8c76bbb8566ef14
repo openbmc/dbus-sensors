@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e385054_6f7ce13e",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2022-01-14T22:27:17Z",
+      "side": 1,
+      "message": "I was trying to figure out if these two are equivalent. I guess the original just silently fails, while this one has a cerr message.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 24
+      },
+      "revId": "328732136524fbb7551a1bf7f8c76bbb8566ef14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
