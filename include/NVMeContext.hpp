@@ -6,6 +6,7 @@
 #include <boost/asio/io_service.hpp>
 
 #include <memory>
+#include <span>
 
 class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 {
@@ -54,11 +55,8 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
     virtual void readAndProcessNVMeSensor()
     {}
 
-    virtual void processResponse(void* msg, size_t len)
-    {
-        (void)msg;
-        (void)len;
-    }
+    virtual void processResponse(std::span<uint8_t>)
+    {}
 
   protected:
     boost::asio::deadline_timer scanTimer;
