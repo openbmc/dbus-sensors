@@ -1,5 +1,6 @@
 #include <Utils.hpp>
 
+#include <array>
 #include <filesystem>
 #include <fstream>
 
@@ -15,8 +16,8 @@ class TestUtils : public testing::Test
     TestUtils()
     {
         // Create test environment
-        char dir[] = "./testDirXXXXXX";
-        testDir = mkdtemp(dir);
+        auto dir = std::to_array("./testDirXXXXXX");
+        testDir = mkdtemp(dir.data());
 
         if (testDir.empty())
         {
