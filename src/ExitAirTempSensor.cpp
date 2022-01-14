@@ -227,11 +227,11 @@ void CFMSensor::setupMatches()
                 return;
             }
 
-            uint64_t maxRpm = 100;
+            double maxRpm = 100;
             if (!ec)
             {
 
-                auto cfm = std::get_if<double>(&cfmVariant);
+                const double* cfm = std::get_if<double>(&cfmVariant);
                 if (cfm != nullptr && *cfm >= minSystemCfm)
                 {
                     maxRpm = self->getMaxRpm(*cfm);
@@ -266,7 +266,7 @@ void CFMSensor::setupMatches()
             {
                 return;
             }
-            const auto reading = std::get_if<double>(&(findValue->second));
+            const double* reading = std::get_if<double>(&(findValue->second));
             if (reading == nullptr)
             {
                 std::cerr << "Got CFM Limit of wrong type\n";
@@ -277,7 +277,7 @@ void CFMSensor::setupMatches()
                 std::cerr << "Illegal CFM setting detected\n";
                 return;
             }
-            uint64_t maxRpm = self->getMaxRpm(*reading);
+            double maxRpm = self->getMaxRpm(*reading);
             self->pwmLimitIface->set_property("Limit", maxRpm);
             setMaxPWM(self->dbusConnection, maxRpm);
         });
@@ -297,7 +297,8 @@ CFMSensor::~CFMSensor()
 
 void CFMSensor::createMaxCFMIface(void)
 {
-    cfmLimitIface->register_property("Limit", c2 * maxCFM * tachs.size());
+    double fanCount = static_cast<double>(tachs.size());
+    cfmLimitIface->register_property("Limit", c2 * maxCFM * fanCount);
     cfmLimitIface->initialize();
 }
 
@@ -351,15 +352,15 @@ void CFMSensor::updateReading(void)
     }
 }
 
-uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
+double CFMSensor::getMaxRpm(double cfmMaxSetting)
 {
-    uint64_t pwmPercent = 100;
     double totalCFM = std::numeric_limits<double>::max();
-    if (cfmMaxSetting == 0)
+    if (cfmMaxSetting <= 0.0)
     {
-        return pwmPercent;
+        return 100.0;
     }
 
+    double pwmPercent = 100;
     bool firstLoop = true;
     while (totalCFM > cfmMaxSetting)
     {
@@ -369,11 +370,11 @@ uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
         }
         else
         {
-            pwmPercent--;
+            pwmPercent -= 1.0;
         }
 
         double ci = 0;
-        if (pwmPercent == 0)
+        if (pwmPercent <= 0.0)
         {
             ci = 0;
         }
@@ -394,7 +395,8 @@ uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
         // Now calculate the CFM for this tach
         // CFMi = Ci * Qmaxi * TACHi
         totalCFM = ci * maxCFM * pwmPercent;
-        totalCFM *= tachs.size();
+        totalCFM *= static_cast<double>(tachs.size());
+        ;
         // divide by 100 since pwm is in percent
         totalCFM /= 100;
 
@@ -404,7 +406,7 @@ uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
         }
     }
 
-    return pwmPercent;
+    return static_cast<double>(pwmPercent);
 }
 
 bool CFMSensor::calculate(double& value)
@@ -811,10 +813,10 @@ bool ExitAirTempSensor::calculate(double& val)
         lastTime = time;
         lastReading = reading;
     }
-    double alphaDT =
-        std::chrono::duration_cast<std::chrono::seconds>(time - lastTime)
-            .count() *
-        alpha;
+    double alphaDT = std::chrono::duration_cast<std::chrono::duration<double>>(
+                         time - lastTime)
+                         .count() *
+                     alpha;
 
     // cap at 1.0 or the below fails
     if (alphaDT > 1.0)
