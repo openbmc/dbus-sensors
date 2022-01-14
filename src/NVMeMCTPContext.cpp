@@ -124,11 +124,11 @@ static void rxMessage(uint8_t eid, void*, void* msg, size_t len)
     {
         std::cout << "Eid from the received messaged: " << eid << "\n";
     }
-
-    findMap->second->processResponse(msg, len);
+    std::span<uint8_t> msgData{reinterpret_cast<uint8_t*>(msg), len};
+    findMap->second->processResponse(msgData);
 }
 
-static int verifyIntegrity(uint8_t* msg, size_t len)
+static int verifyIntegrity(std::span<uint8_t> msg)
 {
     uint32_t msgIntegrity = {0};
     if (len < NVME_MI_MSG_RESPONSE_HEADER_SIZE + sizeof(msgIntegrity))
@@ -164,29 +164,21 @@ static double getTemperatureReading(int8_t reading)
     return reading;
 }
 
-void NVMeMCTPContext::processResponse(void* msg, size_t len)
+void NVMeMCTPContext::processResponse(std::span<uint8_t> msg)
 {
     struct nvme_mi_msg_response_header header
     {};
 
-    if (msg == nullptr)
-    {
-        std::cerr << "Bad message received\n";
-        return;
-    }
-
-    if (len <= 0)
+    if (msg.size() <= 0)
     {
         std::cerr << "Received message not long enough\n";
         return;
     }
 
-    uint8_t* messageData = static_cast<uint8_t*>(msg);
-
-    if ((*messageData & NVME_MI_MESSAGE_TYPE_MASK) != NVME_MI_MESSAGE_TYPE)
+    if ((msg[0] & NVME_MI_MESSAGE_TYPE_MASK) != NVME_MI_MESSAGE_TYPE)
     {
         std::cerr << "Got unknown type message_type="
-                  << (*messageData & NVME_MI_MESSAGE_TYPE_MASK) << "\n";
+                  << (msg[0] & NVME_MI_MESSAGE_TYPE_MASK) << "\n";
         return;
     }
 
@@ -196,15 +188,15 @@ void NVMeMCTPContext::processResponse(void* msg, size_t len)
         return;
     }
 
-    if (verifyIntegrity(messageData, len) != 0)
+    if (verifyIntegrity(msg) != 0)
     {
         std::cerr << "Verification of message integrity failed\n";
         return;
     }
 
-    header.message_type = messageData[0];
-    header.flags = messageData[1];
-    header.status = messageData[4];
+    header.message_type = msg[0];
+    header.flags = msg[1];
+    header.status = msg[4];
 
     if (header.status == NVME_MI_HDR_STATUS_MORE_PROCESSING_REQUIRED)
     {
@@ -219,7 +211,7 @@ void NVMeMCTPContext::processResponse(void* msg, size_t len)
 
     messageData += NVME_MI_MSG_RESPONSE_HEADER_SIZE;
     size_t messageLength =
-        len - NVME_MI_MSG_RESPONSE_HEADER_SIZE - sizeof(uint32_t);
+        msg.size() - NVME_MI_MSG_RESPONSE_HEADER_SIZE - sizeof(uint32_t);
     if (((header.flags >> NVME_MI_HDR_FLAG_MSG_TYPE_SHIFT) &
          NVME_MI_HDR_FLAG_MSG_TYPE_MASK) != NVME_MI_HDR_MESSAGE_TYPE_MI_COMMAND)
     {
@@ -234,14 +226,14 @@ void NVMeMCTPContext::processResponse(void* msg, size_t len)
     }
 
     std::shared_ptr<NVMeSensor> sensorInfo = sensors.front();
+
+    double value =
+        getTemperatureReading(msg[NVME_MI_MSG_RESPONSE_HEADER_SIZE + 5]);
     if (debug)
     {
-        std::cout << "Temperature Reading: "
-                  << getTemperatureReading(messageData[5])
-                  << " Celsius for device " << sensorInfo->name << "\n";
+        std::cout << "Temperature Reading: " << value << " Celsius for device "
+                  << sensorInfo->name << "\n";
     }
-
-    double value = getTemperatureReading(messageData[5]);
     if (!std::isfinite(value))
     {
         sensorInfo->markAvailable(false);
