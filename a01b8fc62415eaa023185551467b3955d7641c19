@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f8a5281_a06e6bf9",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2022-01-14T22:51:11Z",
+      "side": 1,
+      "message": "not sure why this line is needed here",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 82
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83866d1e_9a3d4554",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2022-01-14T22:51:11Z",
+      "side": 1,
+      "message": "auto? the type is present in the static_cast\u003c\u003e arg",
+      "range": {
+        "startLine": 402,
+        "startChar": 12,
+        "endLine": 402,
+        "endChar": 27
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c842863a_37b65a7c",
+        "filename": "src/NVMeMCTPContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2022-01-14T22:51:11Z",
+      "side": 1,
+      "message": "I assume this is not a reference because a span is supposed to be trivially copyable?",
+      "range": {
+        "startLine": 131,
+        "startChar": 27,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a35863b6_c78b4b78",
+        "filename": "src/NVMeMCTPContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2022-01-14T22:51:11Z",
+      "side": 1,
+      "message": "messageData is no longer present",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 52
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
