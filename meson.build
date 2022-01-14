@@ -13,6 +13,7 @@ project(
 
 add_project_arguments(
     '-Wno-psabi',
+    '-Wuninitialized',
     '-DBOOST_SYSTEM_NO_DEPRECATED',
     '-DBOOST_ERROR_CODE_HEADER_ONLY',
     '-DBOOST_NO_RTTI',

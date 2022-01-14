@@ -188,7 +188,7 @@ void createSensors(
                 // convert to 0 based
                 size_t index = std::stoul(indexStr) - 1;
 
-                const char* baseType;
+                const char* baseType = nullptr;
                 const SensorData* sensorData = nullptr;
                 const std::string* interfacePath = nullptr;
                 const SensorBaseConfiguration* baseConfiguration = nullptr;

@@ -162,7 +162,7 @@ void MCUTempSensor::read(void)
             std::cerr << "timer error\n";
             return;
         }
-        int16_t temp;
+        int16_t temp = 0;
         int ret = getMCURegsInfoWord(tempReg, &temp);
         if (ret >= 0)
         {

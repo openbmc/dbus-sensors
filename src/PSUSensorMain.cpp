@@ -324,7 +324,6 @@ static void createSensorsCallback(
             continue;
         }
 
-        const std::string* psuName;
         auto directory = pmbusPath.parent_path();
 
         auto ret = directories.insert(directory.string());
@@ -399,10 +398,9 @@ static void createSensorsCallback(
                 continue;
             }
 
-            const uint64_t* confBus;
-            const uint64_t* confAddr;
-            if (!(confBus = std::get_if<uint64_t>(&(configBus->second))) ||
-                !(confAddr = std::get_if<uint64_t>(&(configAddress->second))))
+            const uint64_t* confBus = std::get_if<uint64_t>(&(configBus->second));
+            const uint64_t* confAddr = std::get_if<uint64_t>(&(configAddress->second));
+            if (confBus == nullptr || confAddr == nullptr)
             {
                 std::cerr
                     << "Cannot get bus or address, invalid configuration\n";
@@ -442,8 +440,8 @@ static void createSensorsCallback(
                       << deviceName << "\n";
             continue;
         }
-
-        if (!(psuName = std::get_if<std::string>(&(findPSUName->second))))
+        const std::string* psuName = std::get_if<std::string>(&(findPSUName->second));
+        if (psuName == nullptr)
         {
             std::cerr << "Cannot find psu name, invalid configuration\n";
             continue;

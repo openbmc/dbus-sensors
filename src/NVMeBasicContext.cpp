@@ -50,7 +50,7 @@ static std::shared_ptr<std::array<uint8_t, 6>>
 static void decodeBasicQuery(const std::array<uint8_t, 6>& req, int& bus,
                              uint8_t& device, uint8_t& offset)
 {
-    uint32_t busle;
+    uint32_t busle = 0;
 
     memcpy(&busle, req.data(), sizeof(busle));
     bus = le32toh(busle);
@@ -61,20 +61,21 @@ static void decodeBasicQuery(const std::array<uint8_t, 6>& req, int& bus,
 static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
                               std::vector<uint8_t>& resp)
 {
-    char devpath[PATH_MAX]{};
-    int32_t size;
+    std::array<char, PATH_MAX> devpath{};
+    int32_t size = 0;
 
-    ssize_t rc = snprintf(devpath, sizeof(devpath), "/dev/i2c-%" PRIu32, bus);
+    ssize_t rc =
+        snprintf(devpath.data(), devpath.size(), "/dev/i2c-%" PRIu32, bus);
     if ((size_t)rc > sizeof(devpath))
     {
         std::cerr << "Failed to format device path for bus " << bus << "\n";
         return -EINVAL;
     }
 
-    int dev = ::open(devpath, O_RDWR);
+    int dev = ::open(devpath.data(), O_RDWR);
     if (dev == -1)
     {
-        std::cerr << "Failed to open bus device " << devpath << ": "
+        std::cerr << "Failed to open bus device " << devpath.data() << ": "
                   << strerror(errno) << "\n";
         return -errno;
     }
@@ -126,14 +127,14 @@ cleanup_fds:
 static ssize_t processBasicQueryStream(int in, int out)
 {
     std::vector<uint8_t> resp{};
-    ssize_t rc;
+    ssize_t rc = 0;
 
     while (true)
     {
-        uint8_t device;
-        uint8_t offset;
-        uint8_t len;
-        int bus;
+        uint8_t device = 0;
+        uint8_t offset = 0;
+        uint8_t len = 0;
+        int bus = 0;
 
         /* bus + address + command */
         std::array<uint8_t, sizeof(uint32_t) + 1 + 1> req{};
@@ -189,9 +190,8 @@ static ssize_t processBasicQueryStream(int in, int out)
         uint8_t* cursor = resp.data();
         while (len > 0)
         {
-            ssize_t egress;
-
-            if ((egress = ::write(out, cursor, len)) == -1)
+            ssize_t egress = ::write(out, cursor, len);
+            if (egress == -1)
             {
                 rc = -errno;
                 std::cerr << "Failed to write block data of length " << std::dec
@@ -225,8 +225,8 @@ done:
 NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
     NVMeContext::NVMeContext(io, rootBus), io(io), reqStream(io), respStream(io)
 {
-    std::array<int, 2> responsePipe;
-    std::array<int, 2> requestPipe;
+    std::array<int, 2> responsePipe{};
+    std::array<int, 2> requestPipe{};
 
     /* Set up inter-thread communication */
     if (::pipe(requestPipe.data()) == -1)
@@ -262,12 +262,12 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
     respStream.assign(responsePipe[0]);
 
     std::thread thread([streamIn, streamOut]() {
-        ssize_t rc;
+        ssize_t rc = 0;
 
         if ((rc = processBasicQueryStream(streamIn, streamOut)) < 0)
         {
             std::cerr << "Failure while processing query stream: "
-                      << strerror(-rc) << "\n";
+                      << strerror(static_cast<int>(-rc)) << "\n";
         }
 
         if (::close(streamIn) == -1)

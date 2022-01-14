@@ -13,11 +13,11 @@ struct ExitAirTempSensor;
 struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
 {
     std::vector<std::string> tachs;
-    double c1;
-    double c2;
-    double maxCFM;
-    double tachMinPercent;
-    double tachMaxPercent;
+    double c1 = 0.0;
+    double c2 = 0.0;
+    double maxCFM = 0.0;
+    double tachMinPercent = 0.0;
+    double tachMaxPercent = 0.0;
 
     std::shared_ptr<ExitAirTempSensor> parent;
 
@@ -51,13 +51,13 @@ struct ExitAirTempSensor :
     std::enable_shared_from_this<ExitAirTempSensor>
 {
 
-    double powerFactorMin;
-    double powerFactorMax;
-    double qMin;
-    double qMax;
-    double alphaS;
-    double alphaF;
-    double pOffset = 0;
+    double powerFactorMin = 0.0;
+    double powerFactorMax = 0.0;
+    double qMin = 0.0;
+    double qMax = 0.0;
+    double alphaS = 0.0;
+    double alphaF = 0.0;
+    double pOffset = 0.0;
 
     ExitAirTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                       const std::string& name,
@@ -71,7 +71,7 @@ struct ExitAirTempSensor :
     void setupMatches(void);
 
   private:
-    double lastReading;
+    double lastReading = 0.0;
 
     std::vector<sdbusplus::bus::match::match> matches;
     double inletTemp = std::numeric_limits<double>::quiet_NaN();
