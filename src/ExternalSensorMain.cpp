@@ -185,9 +185,6 @@ void createSensors(
                 const SensorBaseConfigMap& baseConfigMap =
                     baseConfiguration.second;
 
-                double minValue;
-                double maxValue;
-
                 // MinValue and MinValue are mandatory numeric parameters
                 auto minFound = baseConfigMap.find("MinValue");
                 if (minFound == baseConfigMap.end())
@@ -196,7 +193,7 @@ void createSensors(
                               << interfacePath << "\n";
                     continue;
                 }
-                minValue =
+                double minValue =
                     std::visit(VariantToDoubleVisitor(), minFound->second);
                 if (!std::isfinite(minValue))
                 {
@@ -212,7 +209,7 @@ void createSensors(
                               << interfacePath << "\n";
                     continue;
                 }
-                maxValue =
+                double maxValue =
                     std::visit(VariantToDoubleVisitor(), maxFound->second);
                 if (!std::isfinite(maxValue))
                 {

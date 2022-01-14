@@ -132,8 +132,8 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
         close(fd);
         return -1;
     }
-
-    *pu16data = i2c_smbus_read_word_data(fd, regs);
+    int data = i2c_smbus_read_word_data(fd, regs);
+    *pu16data = static_cast<int16_t>(data);
     close(fd);
 
     if (*pu16data < 0)
@@ -162,7 +162,7 @@ void MCUTempSensor::read(void)
             std::cerr << "timer error\n";
             return;
         }
-        int16_t temp;
+        int16_t temp = 0;
         int ret = getMCURegsInfoWord(tempReg, &temp);
         if (ret >= 0)
         {

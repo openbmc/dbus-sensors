@@ -4,6 +4,7 @@
 
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>
+#include <span>
 
 class NVMeBasicContext : public NVMeContext
 {
@@ -12,7 +13,7 @@ class NVMeBasicContext : public NVMeContext
     virtual ~NVMeBasicContext() = default;
     virtual void pollNVMeDevices() override;
     virtual void readAndProcessNVMeSensor() override;
-    virtual void processResponse(void* msg, size_t len) override;
+    virtual void processResponse(std::span<uint8_t> msg) override;
 
   private:
     NVMeBasicContext(boost::asio::io_service& io, int rootBus, int cmdOut,

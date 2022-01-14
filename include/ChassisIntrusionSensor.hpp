@@ -21,8 +21,6 @@ class ChassisIntrusionSensor
         boost::asio::io_service& io,
         std::shared_ptr<sdbusplus::asio::dbus_interface> iface);
 
-    ~ChassisIntrusionSensor();
-
     void start(IntrusionSensorType type, int busId, int slaveAddr,
                bool gpioInverted);
 
@@ -39,13 +37,11 @@ class ChassisIntrusionSensor
     // valid if it is PCH register via i2c
     int mBusId;
     int mSlaveAddr;
-    boost::asio::deadline_timer mPollTimer;
 
     // valid if it is via GPIO
     bool mGpioInverted;
     std::string mPinName = "CHASSIS_INTRUSION";
     gpiod::line mGpioLine;
-    boost::asio::posix::stream_descriptor mGpioFd;
 
     // common members
     bool mOverridenState = false;
@@ -60,4 +56,7 @@ class ChassisIntrusionSensor
     void pollSensorStatusByGpio();
     void initGpioDeviceFile();
     int setSensorValue(const std::string& req, std::string& propertyValue);
+
+    boost::asio::deadline_timer mPollTimer;
+    boost::asio::posix::stream_descriptor mGpioFd;
 };
