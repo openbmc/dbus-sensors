@@ -34,7 +34,7 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
     void createMaxCFMIface(void);
     void addTachRanges(const std::string& serviceName, const std::string& path);
     void checkThresholds(void) override;
-    uint64_t getMaxRpm(uint64_t cfmMax);
+    double getMaxRpm(double cfmMax);
 
   private:
     std::vector<sdbusplus::bus::match::match> matches;

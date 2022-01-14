@@ -141,6 +141,7 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
         }
         else if (rc > UINT8_MAX)
         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
             assert(rc == UINT8_MAX + 1);
 
             /* YOLO: Lop off the PEC */

@@ -292,7 +292,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
 
-            int16_t value = ((data[4] << 8) | data[3]);
+            int16_t value = static_cast<int16_t>((data[4] << 8) | data[3]);
             resp = value;
             return true;
         }
@@ -323,7 +323,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
 
-            int16_t value = ((data[4] << 8) | data[3]);
+            int16_t value = static_cast<int16_t>((data[4] << 8) | data[3]);
             constexpr const size_t shift = 16 - 11; // 11bit into 16bit
             value <<= shift;
             value >>= shift;
