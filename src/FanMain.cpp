@@ -369,7 +369,7 @@ void createSensors(
 
                 constexpr double defaultMaxReading = 25000;
                 constexpr double defaultMinReading = 0;
-                auto limits =
+                std::pair<double, double> limits =
                     std::make_pair(defaultMinReading, defaultMaxReading);
 
                 auto connector =
