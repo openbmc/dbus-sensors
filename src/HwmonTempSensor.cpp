@@ -52,11 +52,19 @@ HwmonTempSensor::HwmonTempSensor(
            false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
            conn, powerState),
     std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
+    inputDev(io), waitTimer(io), path(path),
     offsetValue(thisSensorParameters.offsetValue),
     scaleValue(thisSensorParameters.scaleValue),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
 {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+    int fd = open(path.c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        std::cerr << "HwmonTempSensor " << sensorName << " failed to open "
+                  << path << "\n";
+    }
+
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName + "/" +
             name,
@@ -164,6 +172,8 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err)
 
     responseStream.clear();
     inputDev.close();
+
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
