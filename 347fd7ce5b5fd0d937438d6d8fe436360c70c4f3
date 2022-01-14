@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "d440efb6_3f09eebf",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 37
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "614ee073_8b7b24a9",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 37
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ed786f5c_d39ae740",
         "filename": "/COMMIT_MSG",
@@ -67,10 +68,10 @@
         "endChar": 62
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0e8386f3_0364f233",
         "filename": "/COMMIT_MSG",
@@ -91,10 +92,10 @@
         "endChar": 62
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2d1a12ed_ad47386e",
         "filename": "/COMMIT_MSG",
@@ -114,10 +115,10 @@
         "endChar": 53
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d23cf8cc_e26c97cb",
         "filename": "/COMMIT_MSG",
@@ -138,10 +139,10 @@
         "endChar": 53
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "dd8454a7_70e56f7e",
         "filename": "src/AmpereCPUMain.cpp",
@@ -161,10 +162,10 @@
         "endChar": 38
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "33b28eff_62eb5740",
         "filename": "src/AmpereCPUMain.cpp",
@@ -185,10 +186,10 @@
         "endChar": 38
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2fdbc7e6_d0c8fdc2",
         "filename": "src/AmpereCPUMain.cpp",
@@ -209,10 +210,34 @@
         "endChar": 38
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c81a3b0c_6f479a85",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1001166
+      },
+      "writtenOn": "2022-01-14T22:58:58Z",
+      "side": 1,
+      "message": "After an AC cycle, the host sensors objects were not created, but a BMC reboot will have the host sensors populated. However, when amperecpusensor is delayed by the filter timer, we see the cpu sensors getting populated.",
+      "parentUuid": "2fdbc7e6_d0c8fdc2",
+      "range": {
+        "startLine": 782,
+        "startChar": 22,
+        "endLine": 782,
+        "endChar": 38
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "457995a0_77275135",
         "filename": "src/AmpereCPUMain.cpp",
@@ -232,10 +257,10 @@
         "endChar": 15
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "32b53a5a_15405149",
         "filename": "src/AmpereCPUMain.cpp",
@@ -256,10 +281,10 @@
         "endChar": 15
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3283bad8_3b85d1fb",
         "filename": "src/AmpereCPUMain.cpp",
@@ -280,8 +305,7 @@
         "endChar": 15
       },
       "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
