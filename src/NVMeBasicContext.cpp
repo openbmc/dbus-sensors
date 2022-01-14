@@ -87,6 +87,8 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         std::cerr << "Failed to configure device address 0x" << std::hex
                   << (int)addr << " for bus " << std::dec << bus << ": "
                   << strerror(errno) << "\n";
+
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
         goto cleanup_fds;
     }
 
@@ -100,6 +102,7 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         std::cerr << "Failed to read block data from device 0x" << std::hex
                   << (int)addr << " on bus " << std::dec << bus << ": "
                   << strerror(errno) << "\n";
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
         goto cleanup_fds;
     }
     else if (size > UINT8_MAX + 1)
@@ -108,6 +111,7 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         std::cerr << "Unexpected message length from device 0x" << std::hex
                   << (int)addr << " on bus " << std::dec << bus << ": " << size
                   << " (" << UINT8_MAX << ")\n";
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
         goto cleanup_fds;
     }
 
@@ -150,6 +154,7 @@ static ssize_t processBasicQueryStream(int in, int out)
                 std::cerr << "Failed to read request from in descriptor ("
                           << std::dec << in << "): " << strerror(errno) << "\n";
             }
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
             goto done;
         }
 
@@ -183,6 +188,7 @@ static ssize_t processBasicQueryStream(int in, int out)
             std::cerr << "Failed to write block (" << std::dec << len
                       << ") length to out descriptor (" << std::dec << out
                       << "): " << strerror(-rc) << "\n";
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
             goto done;
         }
 
@@ -196,6 +202,7 @@ static ssize_t processBasicQueryStream(int in, int out)
                 rc = -errno;
                 std::cerr << "Failed to write block data of length " << std::dec
                           << len << " to out pipe: " << strerror(errno) << "\n";
+                // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
                 goto done;
             }
 
