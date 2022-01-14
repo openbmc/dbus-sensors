@@ -27,6 +27,7 @@
 #include <istream>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <string>
 #include <system_error>
 #include <vector>
@@ -44,12 +45,13 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      const PowerState& powerState,
                      const std::string& sensorUnits, unsigned int factor,
                      double max, double min, double offset,
-                     const std::string& label, size_t tSize, double pollRate) :
+                     const std::string& label, size_t tSize, double pollRate,
+                     std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState),
     std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), sensorFactor(factor),
-    sensorOffset(offset), thresholdTimer(io)
+    sensorOffset(offset), thresholdTimer(io), bridgeGpio(std::move(bridgeGpio))
 {
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
@@ -125,14 +127,51 @@ void PSUSensor::setupRead(void)
     }
 
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
-                        [weakRef](const boost::system::error_code& ec) {
+    if (bridgeGpio.has_value())
+    {
+        std::weak_ptr<PSUSensor> weakRef = weak_from_this();
+        (*bridgeGpio).set(1);
+        // In case a channel has a bridge circuit,we have to turn the bridge on
+        // prior to reading a value at least for one scan cycle to get a valid
+        // value. Guarantee that the HW signal can be stable, the HW signal
+        // could be instability.
+        waitTimer.expires_from_now(
+            boost::posix_time::milliseconds(bridgeGpio->setupTimeMs));
+        waitTimer.async_wait(
+            [weakRef, this](const boost::system::error_code& ec) {
+                std::shared_ptr<PSUSensor> self = weakRef.lock();
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return; // we're being canceled
+                }
+
+                if (self)
+                {
+                    inputDev.async_wait(
+                        boost::asio::posix::descriptor_base::wait_read,
+                        [weakRef, this](const boost::system::error_code& ec) {
                             std::shared_ptr<PSUSensor> self = weakRef.lock();
                             if (self)
                             {
                                 self->handleResponse(ec);
                             }
                         });
+                }
+            });
+    }
+    else
+    {
+        std::weak_ptr<PSUSensor> weakRef = weak_from_this();
+        inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
+                            [weakRef](const boost::system::error_code& ec) {
+                                std::shared_ptr<PSUSensor> self =
+                                    weakRef.lock();
+                                if (self)
+                                {
+                                    self->handleResponse(ec);
+                                }
+                            });
+    }
 }
 
 void PSUSensor::restartRead(void)
@@ -190,6 +229,11 @@ void PSUSensor::handleResponse(const boost::system::error_code& err)
             << std::generic_category().default_error_condition(errno).message()
             << ") reading from " << path << ", line: " << __LINE__ << "\n";
         incrementError();
+    }
+
+    if (bridgeGpio.has_value())
+    {
+        (*bridgeGpio).set(0);
     }
 
     lseek(fd, 0, SEEK_SET);
