@@ -149,6 +149,30 @@
       },
       "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62b4b8da_02e7ecf1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-14T20:12:40Z",
+      "side": 1,
+      "message": "Yes, if it enables only the specific baseConfig that is used to create the sensor to be deleted for the configMap created @ \nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49254/7/src/PSUSensorMain.cpp#334",
+      "parentUuid": "6645c01a_a1870573",
+      "range": {
+        "startLine": 434,
+        "startChar": 20,
+        "endLine": 434,
+        "endChar": 56
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
