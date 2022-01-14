@@ -86,6 +86,24 @@
       "parentUuid": "6c639ca1_8a8253a9",
       "revId": "9b7ed0821ecf9c7f44194af64723f1ffb0630128",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fde33dad_24cd1893",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-14T19:00:06Z",
+      "side": 1,
+      "message": "N * N/2 \u003d O(N^2) still. ;)\n\nThe early break on the second loop is likely to \"in the middle\" \"on average\".  There isn\u0027t anything here that does a binary-search which would lead to a log(N) factor.",
+      "parentUuid": "bb37ca7e_9f8dd6a8",
+      "revId": "9b7ed0821ecf9c7f44194af64723f1ffb0630128",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
