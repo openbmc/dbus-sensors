@@ -46,7 +46,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        boost::asio::io_service& io, const std::string& fanName,
                        std::vector<thresholds::Threshold>&& thresholdsIn,
                        const std::string& sensorConfiguration,
-                       const std::pair<size_t, size_t>& limits,
+                       const std::pair<double, double>& limits,
                        const PowerState& powerState,
                        const std::optional<std::string>& ledIn) :
     Sensor(escapeName(fanName), std::move(thresholdsIn), sensorConfiguration,
