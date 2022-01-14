@@ -108,7 +108,7 @@ void createSensors(
                 const std::pair<
                     std::string,
                     boost::container::flat_map<std::string, BasicVariantType>>*
-                    baseConfiguration;
+                    baseConfiguration = nullptr;
                 for (const std::pair<sdbusplus::message::object_path,
                                      SensorData>& sensor : sensorConfigurations)
                 {

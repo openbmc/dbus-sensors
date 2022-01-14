@@ -12,6 +12,7 @@
 
 enum class IpmbType
 {
+    none,
     meSensor,
     PXE1410CVR,
     IR38363VR,
@@ -21,6 +22,7 @@ enum class IpmbType
 
 enum class IpmbSubType
 {
+    none,
     temp,
     curr,
     power,
@@ -92,22 +94,22 @@ struct IpmbSensor : public Sensor
     void runInitCmd(void);
     bool processReading(const std::vector<uint8_t>& data, double& resp);
 
-    IpmbType type;
-    IpmbSubType subType;
-    double scaleVal;
-    double offsetVal;
-    uint8_t commandAddress;
-    uint8_t netfn;
-    uint8_t command;
-    uint8_t deviceAddress;
-    uint8_t errorCount;
-    uint8_t hostSMbusIndex;
+    IpmbType type = IpmbType::none;
+    IpmbSubType subType = IpmbSubType::none;
+    double scaleVal = 1.0;
+    double offsetVal = 0.0;
+    uint8_t commandAddress = 0;
+    uint8_t netfn = 0;
+    uint8_t command = 0;
+    uint8_t deviceAddress = 0;
+    uint8_t errorCount = 0;
+    uint8_t hostSMbusIndex = 0;
     std::vector<uint8_t> commandData;
     std::optional<uint8_t> initCommand;
     std::vector<uint8_t> initData;
     int sensorPollMs;
 
-    ReadingFormat readingFormat;
+    ReadingFormat readingFormat = ReadingFormat::byte0;
 
   private:
     sdbusplus::asio::object_server& objectServer;
