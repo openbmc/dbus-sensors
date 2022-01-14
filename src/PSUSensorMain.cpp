@@ -31,6 +31,7 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <optional>
 #include <regex>
 #include <string>
 #include <string_view>
@@ -39,6 +40,7 @@
 #include <vector>
 
 static constexpr bool debug = false;
+static constexpr float gpioBridgeSetupTimeDefault = 1;
 
 static constexpr auto sensorTypes{std::to_array<const char*>(
     {"xyz.openbmc_project.Configuration.ADM1266",
@@ -625,6 +627,57 @@ static void createSensorsCallback(
                           << "\" label=\"" << labelHead << "\"\n";
             }
 
+            std::optional<BridgeGpio> bridgeGpio;
+            for (const SensorBaseConfiguration& suppConfig : *sensorData)
+            {
+
+                if (suppConfig.first.find("BridgeGpio") !=
+                    std::string::npos)
+                {
+                    auto findName = suppConfig.second.find("Name");
+                    if (findName != suppConfig.second.end())
+                    {
+                        std::string gpioName = std::visit(
+                            VariantToStringVisitor(), findName->second);
+                        int polarity = gpiod::line::ACTIVE_HIGH;
+
+                        auto findPolarity =
+                            suppConfig.second.find("Polarity");
+                        if (findPolarity != suppConfig.second.end())
+                        {
+                            if (std::string("Low") ==
+                                std::visit(VariantToStringVisitor(),
+                                           findPolarity->second))
+                            {
+                                polarity = gpiod::line::ACTIVE_LOW;
+                            }
+                        }
+                        float setupTime = gpioBridgeSetupTimeDefault;
+                        auto findSetupTime =
+                            suppConfig.second.find("SetupTime");
+                        if (findSetupTime != suppConfig.second.end())
+                        {
+                            setupTime = std::visit(VariantToFloatVisitor(),
+                                                   findSetupTime->second);
+                        }
+
+                        std::string label = "";
+                        auto findLabel =
+                            suppConfig.second.find("Label");
+                        if (findLabel != suppConfig.second.end())
+                        {
+                            label = std::visit(VariantToStringVisitor(),
+                                                   findLabel->second);
+                        }
+                        if (labelHead == label) {
+                            bridgeGpio =
+                                BridgeGpio(gpioName, polarity, setupTime);
+                        }
+                    }
+                    break;
+                }
+            }
+
             checkPWMSensor(sensorPath, labelHead, *interfacePath,
                            dbusConnection, objectServer, psuNames[0]);
 
@@ -911,7 +964,7 @@ static void createSensorsCallback(
                 readState, findSensorUnit->second, factor,
                 psuProperty->maxReading, psuProperty->minReading,
                 psuProperty->sensorOffset, labelHead, thresholdConfSize,
-                pollRate);
+                pollRate, std::move(bridgeGpio));
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (debug)
