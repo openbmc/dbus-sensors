@@ -97,7 +97,6 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
     }
 
     unsigned long funcs = 0;
-
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_FUNCS, &funcs) < 0)
     {
@@ -366,22 +365,6 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface) :
     mIface(std::move(iface)),
     mType(IntrusionSensorType::gpio), mValue("unknown"), mOldValue("unknown"),
-    mBusId(-1), mSlaveAddr(-1), mPollTimer(io), mGpioInverted(false),
+    mBusId(-1), mSlaveAddr(-1), mGpioInverted(false), mPollTimer(io),
     mGpioFd(io)
 {}
-
-ChassisIntrusionSensor::~ChassisIntrusionSensor()
-{
-    if (mType == IntrusionSensorType::pch)
-    {
-        mPollTimer.cancel();
-    }
-    else if (mType == IntrusionSensorType::gpio)
-    {
-        mGpioFd.close();
-        if (mGpioLine)
-        {
-            mGpioLine.release();
-        }
-    }
-}

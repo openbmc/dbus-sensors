@@ -818,7 +818,7 @@ static void createSensorsCallback(
             if (!customizedScale)
             {
                 // Preserve existing usage of hardcoded labelMatch table below
-                factor = std::pow(10.0, factor);
+                factor = static_cast<unsigned int>(std::pow(10.0, factor));
 
                 /* Change first char of substring to uppercase */
                 char firstChar =
