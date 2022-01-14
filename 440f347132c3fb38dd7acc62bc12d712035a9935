@@ -96,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26c76e80_7aa4e82b",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-14T22:44:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure that answers andrews question.  Why not iterate pwm[0-9]?",
+      "parentUuid": "13ec4df7_99244f7d",
+      "range": {
+        "startLine": 109,
+        "startChar": 46,
+        "endLine": 109,
+        "endChar": 50
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1c1d40c_95354b9d",
         "filename": "src/FanMain.cpp",
         "patchSetId": 13
