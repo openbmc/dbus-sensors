@@ -171,6 +171,7 @@ if get_option('psu').enabled()
             pwmsensor_dep,
             thresholds_dep,
             utils_dep,
+            gpiodcxx,
         ],
         implicit_include_directories: false,
         include_directories: '../include',
