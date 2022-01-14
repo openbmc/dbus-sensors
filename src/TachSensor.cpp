@@ -53,10 +53,17 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
            objectType, false, false, limits.second, limits.first, conn,
            powerState),
     objServer(objectServer), redundancy(redundancy),
-    presence(std::move(presenceSensor)),
-    inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
-    led(ledIn)
+    presence(std::move(presenceSensor)), inputDev(io), waitTimer(io),
+    path(path), led(ledIn)
 {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+    int fd = open(path.c_str(), O_RDONLY);
+    if (fd < 0)
+    {
+        std::cerr << "Tach sensor failed to open file\n";
+    }
+    inputDev.assign(fd);
+
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         "xyz.openbmc_project.Sensor.Value");
@@ -162,6 +169,8 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
     }
     responseStream.clear();
     inputDev.close();
+
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
