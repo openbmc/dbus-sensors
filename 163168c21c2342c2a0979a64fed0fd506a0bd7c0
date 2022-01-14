@@ -178,6 +178,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf131c21_34769b80",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-14T21:50:47Z",
+      "side": 1,
+      "message": "ends_with has the same problem if two nodes get declared with the same postfix (ie, pwm-fan and my-pwm-fan).  This has burned us several times in the past.  Split the string on the patterns you\u0027re expecting and do exact matches.  I think in this case you want to use std::filesystem::path::filename()",
+      "parentUuid": "278d270d_d0e556da",
+      "range": {
+        "startLine": 116,
+        "startChar": 34,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06f49168_8a48f381",
         "filename": "src/FanMain.cpp",
         "patchSetId": 12
