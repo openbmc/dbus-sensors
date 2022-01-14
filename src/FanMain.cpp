@@ -41,22 +41,23 @@
 
 namespace fs = std::filesystem;
 
-// The following two structures need to be consistent
-static auto sensorTypes{std::to_array<const char*>(
-    {"xyz.openbmc_project.Configuration.AspeedFan",
-     "xyz.openbmc_project.Configuration.I2CFan",
-     "xyz.openbmc_project.Configuration.NuvotonFan"})};
-
 enum FanTypes
 {
-    aspeed = 0,
+    BmcBuiltIn = 0,
     i2c,
-    nuvoton,
     max,
 };
 
-static_assert(std::tuple_size<decltype(sensorTypes)>::value == FanTypes::max,
-              "sensorTypes element number is not equal to FanTypes number");
+struct FanConfigPair
+{
+    const char* configName;
+    FanTypes type;
+}
+
+static auto sensorTypes{std::to_array<FanConfigPair>(
+    {{"xyz.openbmc_project.Configuration.AspeedFan", FanTypes::BmcBuiltIn},
+     {"xyz.openbmc_project.Configuration.I2CFan", FanTypes::i2c},
+     {"xyz.openbmc_project.Configuration.NuvotonFan", FanTypes::BmcBuiltIn}})};
 
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
@@ -70,14 +71,12 @@ FanTypes getFanType(const fs::path& parentPath)
     fs::path linkPath = parentPath / "device";
     std::string canonical = fs::read_symlink(linkPath);
     if (boost::ends_with(canonical, "1e786000.pwm-tacho-controller") ||
-        boost::ends_with(canonical, "1e610000.pwm-tacho-controller"))
+        boost::ends_with(canonical, "1e610000.pwm-tacho-controller") ||
+        boost::ends_with(canonical, "f0103000.pwm-fan-controller"))
     {
-        return FanTypes::aspeed;
+        return FanTypes::BmcBuiltIn;
     }
-    if (boost::ends_with(canonical, "f0103000.pwm-fan-controller"))
-    {
-        return FanTypes::nuvoton;
-    }
+
     // todo: will we need to support other types?
     return FanTypes::i2c;
 }
@@ -197,32 +196,44 @@ void createSensors(
                 {
                     // find the base of the configuration to see if indexes
                     // match
-                    auto sensorBaseFind =
-                        sensor.second.find(sensorTypes[fanType]);
-                    if (sensorBaseFind == sensor.second.end())
+                    for (const FanConfigPair& fanElement : sensorTypes)
+                    {
+                        if (fanElement.type != fanType)
+                        {
+                            continue;
+                        }
+                        auto sensorBaseFind =
+                            sensor.second.find(fanElement.configName);
+                        if (sensorBaseFind == sensor.second.end())
+                        {
+                            baseType = fanElement.configName;
+                            baseConfiguration = &(*sensorBaseFind);
+                            continue;
+                        }
+                        auto findIndex =
+                            baseConfiguration->second.find("Index");
+                        if (findIndex == baseConfiguration->second.end())
+                        {
+                            std::cerr << baseConfiguration->first
+                                      << " missing index\n";
+                            continue;
+                        }
+                        unsigned int configIndex = std::visit(
+                            VariantToUnsignedIntVisitor(), findIndex->second);
+                        if (configIndex != index)
+                        {
+                            continue;
+                        }
+                        break;
+                    }
+                    if (baseType == nullptr || baseConfiguration == nullptr)
                     {
                         continue;
                     }
 
-                    baseConfiguration = &(*sensorBaseFind);
                     interfacePath = &(sensor.first.str);
-                    baseType = sensorTypes[fanType];
 
-                    auto findIndex = baseConfiguration->second.find("Index");
-                    if (findIndex == baseConfiguration->second.end())
-                    {
-                        std::cerr << baseConfiguration->first
-                                  << " missing index\n";
-                        continue;
-                    }
-                    unsigned int configIndex = std::visit(
-                        VariantToUnsignedIntVisitor(), findIndex->second);
-                    if (configIndex != index)
-                    {
-                        continue;
-                    }
-                    if (fanType == FanTypes::aspeed ||
-                        fanType == FanTypes::nuvoton)
+                    if (fanType == FanTypes::BmcBuiltIn)
                     {
                         // there will be only 1 aspeed or nuvoton sensor object
                         // in sysfs, we found the fan
@@ -350,7 +361,7 @@ void createSensors(
                     }
                 }
                 std::optional<RedundancySensor>* redundancy = nullptr;
-                if (fanType == FanTypes::aspeed)
+                if (fanType == FanTypes::BmcBuiltIn)
                 {
                     redundancy = &systemRedundancy;
                 }
@@ -460,9 +471,14 @@ void createSensors(
 
             createRedundancySensor(tachSensors, dbusConnection, objectServer);
         });
-    getter->getConfiguration(
-        std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()},
-        retries);
+    std::vector<std::string> types;
+    types.reserve(sensorTypes.size());
+    for (const FanConfigPair& typePair : sensorTypes)
+    {
+        types.emplace_back(typePair.type);
+    }
+
+    getter->getConfiguration(types, retries);
 }
 
 int main()
@@ -512,12 +528,13 @@ int main()
             });
         };
 
-    for (const char* type : sensorTypes)
+    for (const FanConfigPair& type : sensorTypes)
     {
         auto match = std::make_unique<sdbusplus::bus::match::match>(
             static_cast<sdbusplus::bus::bus&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
+                std::string(inventoryPath) + "',arg0namespace='" + type.type +
+                "'",
             eventHandler);
         matches.emplace_back(std::move(match));
     }
