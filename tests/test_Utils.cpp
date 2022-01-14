@@ -39,6 +39,11 @@ class TestUtils : public testing::Test
         fs::remove_all(testDir);
     }
 
+    TestUtils(const TestUtils&) = delete;
+    TestUtils(TestUtils&&) = delete;
+    TestUtils& operator=(const TestUtils&) = delete;
+    TestUtils& operator=(TestUtils&&) = delete;
+
     void createPECIDir()
     {
         peciDir = fs::path(testDir) / "peci";
