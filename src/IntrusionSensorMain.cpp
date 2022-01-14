@@ -146,16 +146,8 @@ static bool getIntrusionSensorConfig(
                 continue;
             }
 
-            try
-            {
-                *pBusId = std::get<uint64_t>(findBus->second);
-                *pSlaveAddr = std::get<uint64_t>(findAddress->second);
-            }
-            catch (const std::bad_variant_access& e)
-            {
-                std::cerr << "invalid value for bus or address in config. \n";
-                continue;
-            }
+            *pBusId = std::visit(VariantToIntVisitor(), findBus->second);
+            *pSlaveAddr = std::visit(VariantToIntVisitor(), findBus->second);
 
             if (debug)
             {
@@ -174,9 +166,9 @@ static bool getIntrusionSensorConfig(
 }
 
 static constexpr bool debugLanLeash = false;
-boost::container::flat_map<int, bool> lanStatusMap;
-boost::container::flat_map<int, std::string> lanInfoMap;
-boost::container::flat_map<std::string, int> pathSuffixMap;
+boost::container::flat_map<size_t, bool> lanStatusMap;
+boost::container::flat_map<size_t, std::string> lanInfoMap;
+boost::container::flat_map<std::string, size_t> pathSuffixMap;
 
 static void getNicNameInfo(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
@@ -270,7 +262,7 @@ static void processLanStatusChange(sdbusplus::message::message& message)
         std::cerr << "unexpected eth for suffixStr " << suffixStr << "\n";
         return;
     }
-    int ethNum = findEthNum->second;
+    size_t ethNum = findEthNum->second;
 
     // get lan status from map
     auto findLanStatus = lanStatusMap.find(ethNum);
@@ -359,11 +351,12 @@ static bool initializeLanStatus(
 
         // extract ethNum
         const std::string& fileStr = fileName.string();
-        const int pos = fileStr.find("eth");
-        const std::string& ethNumStr = fileStr.substr(pos + 3);
+        const size_t pos = fileStr.find("eth");
+        const std::string ethNumStr = fileStr.substr(pos + 3);
         int ethNum = 0;
-        std::from_chars_result r = std::from_chars(
-            ethNumStr.data(), ethNumStr.data() + ethNumStr.size(), ethNum);
+
+        std::from_chars_result r =
+            std::from_chars(&ethNumStr.front(), &ethNumStr.back(), ethNum);
         if (r.ec != std::errc())
         {
             std::cerr << "invalid ethNum string: " << ethNumStr << "\n";
@@ -417,8 +410,8 @@ static bool initializeLanStatus(
 
 int main()
 {
-    int busId = -1;
-    int slaveAddr = -1;
+    int busId = 0;
+    int slaveAddr = 0;
     bool gpioInverted = false;
     IntrusionSensorType type = IntrusionSensorType::gpio;
 
