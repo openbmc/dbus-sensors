@@ -461,6 +461,8 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
     for (CPUConfig& config : cpuConfigs)
     {
         std::string peciDevPath = peciDev + std::to_string(config.bus);
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
         auto file = open(peciDevPath.c_str(), O_RDWR | O_CLOEXEC);
         if (file < 0)
         {
@@ -472,6 +474,8 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
         struct peci_ping_msg msg
         {};
         msg.addr = config.addr;
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
         if (!ioctl(file, PECI_IOC_PING, &msg))
         {
             bool dimmReady = false;
@@ -483,6 +487,8 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
                 msg.index = PECI_MBX_INDEX_DDR_DIMM_TEMP;
                 msg.param = rank;
                 msg.rx_len = 4;
+
+                // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
                 if (!ioctl(file, PECI_IOC_RD_PKG_CFG, &msg))
                 {
                     if (msg.pkg_config[0] || msg.pkg_config[1] ||

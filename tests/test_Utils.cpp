@@ -66,7 +66,7 @@ class TestUtils : public testing::Test
              p != fs::recursive_directory_iterator(); ++p)
         {
             std::string path = p->path().string();
-            fprintf(stderr, "%s\n", path.c_str());
+            std::cerr << path << "\n";
             if (p.depth() >= 6)
             {
                 p.disable_recursion_pending();
