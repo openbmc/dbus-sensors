@@ -13,6 +13,7 @@
 #include <cinttypes>
 #include <cstdio>
 #include <cstring>
+#include <span>
 #include <system_error>
 #include <thread>
 
@@ -183,21 +184,23 @@ static ssize_t processBasicQueryStream(int in, int out)
         /* Write out the response length */
         if ((rc = ::write(out, &len, sizeof(len))) != sizeof(len))
         {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
             assert(rc < 1);
             rc = rc ? -errno : -EIO;
             std::cerr << "Failed to write block (" << std::dec << len
                       << ") length to out descriptor (" << std::dec << out
-                      << "): " << strerror(-rc) << "\n";
+                      << "): " << strerror(static_cast<int>(-rc)) << "\n";
+
             // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto)
             goto done;
         }
 
         /* Write out the response data */
-        uint8_t* cursor = resp.data();
+        std::vector<uint8_t>::iterator cursor = resp.begin();
         while (len > 0)
         {
             ssize_t egress = ::write(out, cursor, len);
-            if (egress  == -1)
+            if (egress == -1)
             {
                 rc = -errno;
                 std::cerr << "Failed to write block data of length " << std::dec
@@ -399,10 +402,13 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
             /* Deserialise the response */
             response->consume(1); /* Drop the length byte */
             std::istream is(response.get());
-            std::vector<char> data(response->size());
-            is.read(data.data(), response->size());
+            std::vector<uint8_t> data(response->size());
+            std::streamsize size =
+                static_cast<std::streamsize>(response->size());
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+            is.read(reinterpret_cast<char*>(data.data()), size);
 
-            self->processResponse(data.data(), data.size());
+            self->processResponse(data);
         });
 }
 
@@ -440,24 +446,16 @@ static double getTemperatureReading(int8_t reading)
     return reading;
 }
 
-void NVMeBasicContext::processResponse(void* msg, size_t len)
+void NVMeBasicContext::processResponse(std::span<uint8_t> msg)
 {
-    if (msg == nullptr)
+    if (msg.size() < 6)
     {
-        std::cerr << "Bad message received\n";
+        std::cerr << "Invalid message length: " << msg.size() << "\n";
         return;
     }
-
-    if (len < 6)
-    {
-        std::cerr << "Invalid message length: " << len << "\n";
-        return;
-    }
-
-    uint8_t* messageData = static_cast<uint8_t*>(msg);
 
     std::shared_ptr<NVMeSensor> sensor = sensors.front();
-    double value = getTemperatureReading(messageData[2]);
+    double value = getTemperatureReading(static_cast<int8_t>(msg[2]));
 
     if (std::isfinite(value))
     {
