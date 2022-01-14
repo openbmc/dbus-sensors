@@ -65,6 +65,7 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
         sensorPollMs = static_cast<unsigned int>(pollRate * 1000);
     }
 
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
     if (fd < 0)
     {

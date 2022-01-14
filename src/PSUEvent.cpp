@@ -157,6 +157,8 @@ PSUSubEvent::PSUSubEvent(
     {
         eventPollMs = static_cast<unsigned int>(pollRate * 1000);
     }
+
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
