@@ -22,6 +22,30 @@
       },
       "revId": "a7d58b7282f71617a67c11067ff415da92b4942c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb2b095e_ca39f636",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:33:01Z",
+      "side": 1,
+      "message": "We had a very similar one in bmcweb.  I think clang-format gets confused by the struct prefix, so it applies the struct rules to the beginning.  FWIW, I don\u0027t remember what declaring a struct in this way actually does, so maybe this could just be peci_ping_msg msg{};  to unconfuse clang?",
+      "parentUuid": "b2d558f5_170b510c",
+      "range": {
+        "startLine": 472,
+        "startChar": 32,
+        "endLine": 473,
+        "endChar": 11
+      },
+      "revId": "a7d58b7282f71617a67c11067ff415da92b4942c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
