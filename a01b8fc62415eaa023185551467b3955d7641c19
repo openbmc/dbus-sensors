@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8194aae8_3761340a",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:46:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eb7280c_57e8382e",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 82
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83866d1e_9a3d4554",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "ACK",
       "parentUuid": "83866d1e_9a3d4554",
+      "range": {
+        "startLine": 402,
+        "startChar": 12,
+        "endLine": 402,
+        "endChar": 27
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adec6522_a3f0e114",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:46:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0629983d_5b4ffbe1",
       "range": {
         "startLine": 402,
         "startChar": 12,
@@ -179,6 +227,30 @@
       "side": 1,
       "message": "ACK.  I wonder how this compiles then.\n\nWill fix.",
       "parentUuid": "a35863b6_c78b4b78",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 52
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7997861_fcc2f614",
+        "filename": "src/NVMeMCTPContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:46:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e98501f2_e2ba39d5",
       "range": {
         "startLine": 212,
         "startChar": 0,
