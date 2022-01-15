@@ -239,6 +239,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f89173b0_c1a1b1a9",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2022-01-15T08:05:44Z",
+      "side": 1,
+      "message": "Hi Avenash,\nCan you give more information about filter timer?\nBelow is some information:\nWhen BMC is rebooted while the Host is ON, as the Altra Host is currently ON, the driver can be probed. But in the case of A/C, as the Altra Host is not ON, smpro-hwmon driver will probe fail and you need to manually bind the HWMON device. Refer to https://github.com/ampere-openbmc/openbmc/blob/ampere/meta-ampere/meta-jade/recipes-ampere/platform/mtjade-utils/ampere_driver_binder.sh.\nYou can find in our implementation, after S0_FW_BOOT_OK is asserted, we delay 5s before binding the driver to ensure all sensor devices are available. But it is from the Altra sensor, not dbus-sensor\u0027s AmpereCPU",
+      "parentUuid": "c81a3b0c_6f479a85",
+      "range": {
+        "startLine": 782,
+        "startChar": 22,
+        "endLine": 782,
+        "endChar": 38
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "457995a0_77275135",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 3
