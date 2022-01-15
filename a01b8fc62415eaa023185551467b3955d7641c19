@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8eb7280c_57e8382e",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:30:25Z",
+      "side": 1,
+      "message": "Patches got mixed up.  This belongs to a different patch in the series.  ACK.",
+      "parentUuid": "5f8a5281_a06e6bf9",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 82
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83866d1e_9a3d4554",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-14T22:51:11Z",
       "side": 1,
       "message": "auto? the type is present in the static_cast\u003c\u003e arg",
+      "range": {
+        "startLine": 402,
+        "startChar": 12,
+        "endLine": 402,
+        "endChar": 27
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0629983d_5b4ffbe1",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:30:25Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "83866d1e_9a3d4554",
       "range": {
         "startLine": 402,
         "startChar": 12,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "504f12ca_42465ed1",
+        "filename": "src/NVMeMCTPContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:30:25Z",
+      "side": 1,
+      "message": "Correct.  Span is essentially \n\ntemplate \u003ctypename T\u003e\nstruct{\n   T* data;\n   size_t size;\n}\n\nWith some nice member methods around it.  It\u0027s intended to be passed by value, because it generally has a sizeof(pointer size + size_t) which is generally faster to pass by value.",
+      "parentUuid": "c842863a_37b65a7c",
+      "range": {
+        "startLine": 131,
+        "startChar": 27,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a35863b6_c78b4b78",
         "filename": "src/NVMeMCTPContext.cpp",
         "patchSetId": 5
@@ -83,6 +155,30 @@
       "writtenOn": "2022-01-14T22:51:11Z",
       "side": 1,
       "message": "messageData is no longer present",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 52
+      },
+      "revId": "a01b8fc62415eaa023185551467b3955d7641c19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98501f2_e2ba39d5",
+        "filename": "src/NVMeMCTPContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:30:25Z",
+      "side": 1,
+      "message": "ACK.  I wonder how this compiles then.\n\nWill fix.",
+      "parentUuid": "a35863b6_c78b4b78",
       "range": {
         "startLine": 212,
         "startChar": 0,
