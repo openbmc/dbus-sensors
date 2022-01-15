@@ -117,7 +117,7 @@ bool parseThresholdsFromConfig(
                       << item.first << "\n";
             return false;
         }
-        uint8_t severity =
+        unsigned int severity =
             std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
 
         std::string directions =
@@ -181,13 +181,13 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     std::cerr << "Malformed threshold in configuration\n";
                     return;
                 }
-                unsigned int level = std::visit(VariantToUnsignedIntVisitor(),
+                unsigned int severity = std::visit(VariantToUnsignedIntVisitor(),
                                                 severityFind->second);
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
-                if (((findThresholdLevel(level, dir)) != threshold.level) ||
-                    ((findThresholdDirection(level, dir)) !=
+                if (((findThresholdLevel(severity, dir)) != threshold.level) ||
+                    ((findThresholdDirection(severity, dir)) !=
                      threshold.direction))
                 {
                     return; // not the droid we're looking for
