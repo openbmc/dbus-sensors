@@ -22,6 +22,30 @@
       },
       "revId": "c6a768ad55a76273d5605f7d3e1863d7ffbcf936",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ee2bd2e_9f320ee2",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-15T23:43:01Z",
+      "side": 1,
+      "message": "Given I don\u0027t really have one of these drives to test with, I took approach of the most minimally invasive change that I could do by best to guarantee didn\u0027t break anything.  Everywhere else we have this problem, we use ifstream or similar raii object to manage this, or, when boost 0.78 gets landed on yocto here, we can use https://www.boost.org/doc/libs/develop/doc/html/boost_asio/reference/random_access_file.html\n\nWith all of this said, if someone is willing to test the changes I make, I\u0027m happy to do the invasive thing and rewrite this.\n\nFWIW, this code is also fairly new from Arj, so I\u0027d also be looking at him for pointers on what he wants to do here.  I\u0027m happy either way.",
+      "parentUuid": "8f274d0d_a22c419f",
+      "range": {
+        "startLine": 86,
+        "startChar": 17,
+        "endLine": 86,
+        "endChar": 46
+      },
+      "revId": "c6a768ad55a76273d5605f7d3e1863d7ffbcf936",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
