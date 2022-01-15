@@ -34,6 +34,29 @@
       "parentUuid": "1f842c4c_9d19532a",
       "revId": "091c92c0e1b320228abf3385e5284cc14ef20f68",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "135bbf45_08a59b73",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1000224
+      },
+      "writtenOn": "2022-01-15T00:31:15Z",
+      "side": 1,
+      "message": "Do we want consistency in the capitalisation?",
+      "range": {
+        "startLine": 566,
+        "startChar": 4,
+        "endLine": 569,
+        "endChar": 35
+      },
+      "revId": "091c92c0e1b320228abf3385e5284cc14ef20f68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
