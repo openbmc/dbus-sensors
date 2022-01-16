@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1ee1ab4_9d7af13e",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-01-16T23:21:47Z",
+      "side": 1,
+      "message": "Agree with Vikash here, the calling code (and possibly the constructor implementation?) needs to be restructured if it can\u0027t properly handle an exception thrown out of the constructor.",
+      "parentUuid": "54b36cce_e120a206",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 15
+      },
+      "revId": "328732136524fbb7551a1bf7f8c76bbb8566ef14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e385054_6f7ce13e",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 4
