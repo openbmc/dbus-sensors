@@ -22,6 +22,30 @@
       },
       "revId": "591f8712429b6f034f525aa9e77b78abb59d2ff3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c331de0_f286453d",
+        "filename": "tests/test_Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-01-16T23:16:58Z",
+      "side": 1,
+      "message": "https://en.cppreference.com/w/cpp/container/array/to_array",
+      "parentUuid": "b121923f_4da7e937",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 77
+      },
+      "revId": "591f8712429b6f034f525aa9e77b78abb59d2ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
