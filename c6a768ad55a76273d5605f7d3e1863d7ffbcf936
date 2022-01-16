@@ -46,6 +46,30 @@
       },
       "revId": "c6a768ad55a76273d5605f7d3e1863d7ffbcf936",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2fcded9_09fd7aad",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-01-16T23:26:56Z",
+      "side": 1,
+      "message": "I\u0027m perpetually puzzled as to why the STL doesn\u0027t have an RAII wrapper for FDs? People end up spraying implementations of it all over the place.\n\nAnyway, I\u0027m happy to test a change if you want to do the rewrite Ed.",
+      "parentUuid": "2ee2bd2e_9f320ee2",
+      "range": {
+        "startLine": 86,
+        "startChar": 17,
+        "endLine": 86,
+        "endChar": 46
+      },
+      "revId": "c6a768ad55a76273d5605f7d3e1863d7ffbcf936",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
