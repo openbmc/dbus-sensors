@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b51f1e6_24263095",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-17T07:23:11Z",
+      "side": 1,
+      "message": "SOC specific info removed",
+      "parentUuid": "d738bf0d_b5915e8d",
+      "range": {
+        "startLine": 72,
+        "startChar": 37,
+        "endLine": 72,
+        "endChar": 45
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2c33222_99d92e32",
         "filename": "src/FanMain.cpp",
         "patchSetId": 13
@@ -113,6 +137,54 @@
         "startChar": 46,
         "endLine": 109,
         "endChar": 50
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d86482_4ff05339",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-17T07:23:11Z",
+      "side": 1,
+      "message": "change to R\"(pwm\\d+)\"",
+      "parentUuid": "26c76e80_7aa4e82b",
+      "range": {
+        "startLine": 109,
+        "startChar": 46,
+        "endLine": 109,
+        "endChar": 50
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b31ce6a_6952df75",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-17T07:23:11Z",
+      "side": 1,
+      "message": "change to R\"(pwm\\d+)\"",
+      "parentUuid": "b343011a_a7adc560",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 13
       },
       "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
