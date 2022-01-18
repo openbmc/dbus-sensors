@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "328f8d09_9505f5cd",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-18T07:00:44Z",
+      "side": 1,
+      "message": "If this is for naming consistency, then it can be directly rebased to master. Is there any dependency for this patch ?",
+      "range": {
+        "startLine": 208,
+        "startChar": 16,
+        "endLine": 208,
+        "endChar": 73
+      },
+      "revId": "26e08afbc14f853cfe5d27aa8610f4cecc152ca1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
