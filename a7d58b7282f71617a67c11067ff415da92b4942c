@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e00995e6_11aa94dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T04:05:30Z",
+      "side": 1,
+      "message": "We should probably do both the warning and the tidy check.  ACK.  Past experience of mine is that clang finds different things than gcc.",
+      "parentUuid": "73c3cef8_683916cb",
+      "revId": "a7d58b7282f71617a67c11067ff415da92b4942c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2d558f5_170b510c",
         "filename": "src/CPUSensorMain.cpp",
         "patchSetId": 2
