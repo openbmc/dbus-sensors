@@ -68,6 +68,29 @@
       },
       "revId": "494b47ac1847fe70eeba063c71dcce57d8e4db24",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b34ebf7_b45abd83",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000224
+      },
+      "writtenOn": "2022-01-18T08:00:09Z",
+      "side": 1,
+      "message": "Nit: Can we rename this to better indicate what the purpose of the function is?  checkOrder, checkLevel, isValidLevel? I think it would make reading the code easier for someone who hasn\u0027t read it before.",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 14
+      },
+      "revId": "494b47ac1847fe70eeba063c71dcce57d8e4db24",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
