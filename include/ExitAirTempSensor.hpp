@@ -39,7 +39,7 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
   private:
     std::vector<sdbusplus::bus::match::match> matches;
     boost::container::flat_map<std::string, double> tachReadings;
-    boost::container::flat_map<std::string, std::pair<double, double>>
+    boost::container::flat_map<std::string, SensorLimits>
         tachRanges;
     std::shared_ptr<sdbusplus::asio::dbus_interface> pwmLimitIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> cfmLimitIface;

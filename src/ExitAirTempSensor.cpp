@@ -322,7 +322,7 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
             }
             double max = loadVariant<double>(data, "MaxValue");
             double min = loadVariant<double>(data, "MinValue");
-            self->tachRanges[path] = std::make_pair(min, max);
+            self->tachRanges[path] = SensorLimits{min, max};
             self->updateReading();
         },
         serviceName, path, "org.freedesktop.DBus.Properties", "GetAll",
@@ -437,7 +437,7 @@ bool CFMSensor::calculate(double& value)
         }
 
         // avoid divide by 0
-        if (findRange->second.second == 0)
+        if (findRange->second.max == 0.0)
         {
             std::cerr << "Tach Max Set to 0 " << tachName << "\n";
             return false;
@@ -447,7 +447,7 @@ bool CFMSensor::calculate(double& value)
 
         // for now assume the min for a fan is always 0, divide by max to get
         // percent and mult by 100
-        rpm /= findRange->second.second;
+        rpm /= findRange->second.max;
         rpm *= 100;
 
         if constexpr (debug)

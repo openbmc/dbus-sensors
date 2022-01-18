@@ -369,8 +369,7 @@ void createSensors(
 
                 constexpr double defaultMaxReading = 25000;
                 constexpr double defaultMinReading = 0;
-                std::pair<double, double> limits =
-                    std::make_pair(defaultMinReading, defaultMaxReading);
+                SensorLimits limits{defaultMinReading, defaultMaxReading};
 
                 auto connector =
                     sensorData->find(baseType + std::string(".Connector"));

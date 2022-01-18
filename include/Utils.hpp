@@ -75,8 +75,14 @@ void createAssociation(
     std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
     const std::string& path);
 
+
+struct SensorLimits{
+    double min;
+    double max;
+};
+
 // replaces limits if MinReading and MaxReading are found.
-void findLimits(std::pair<double, double>& limits,
+void findLimits(SensorLimits& limits,
                 const SensorBaseConfiguration* data);
 
 enum class PowerState

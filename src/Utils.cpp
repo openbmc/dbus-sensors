@@ -471,7 +471,7 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 }
 
 // replaces limits if MinReading and MaxReading are found.
-void findLimits(std::pair<double, double>& limits,
+void findLimits(SensorLimits& limits,
                 const SensorBaseConfiguration* data)
 {
     if (!data)
@@ -483,11 +483,11 @@ void findLimits(std::pair<double, double>& limits,
 
     if (minFind != data->second.end())
     {
-        limits.first = std::visit(VariantToDoubleVisitor(), minFind->second);
+        limits.max = std::visit(VariantToDoubleVisitor(), minFind->second);
     }
     if (maxFind != data->second.end())
     {
-        limits.second = std::visit(VariantToDoubleVisitor(), maxFind->second);
+        limits.min = std::visit(VariantToDoubleVisitor(), maxFind->second);
     }
 }
 

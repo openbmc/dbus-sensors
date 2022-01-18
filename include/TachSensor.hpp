@@ -69,7 +69,7 @@ class TachSensor : public Sensor
                boost::asio::io_service& io, const std::string& fanName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration,
-               const std::pair<double, double>& limits,
+               const SensorLimits& limits,
                const PowerState& powerState,
                const std::optional<std::string>& led);
     ~TachSensor() override;
