@@ -70,6 +70,24 @@
       "parentUuid": "cc54bbcc_b7a92499",
       "revId": "4820d0a9f79419ff971e4cb953296b793994c237",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed042f48_465f82c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T04:14:08Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s not fun, but what\u0027s less fun than doing manual fixes to an old codebase is repeating the same \"initialize your variables\" comment in every code review 😊\n\nEvery clang-tidy test that I\u0027ve turned on in any of the applications has been well worth the cost in review-time.",
+      "parentUuid": "4c9a0a01_07629c16",
+      "revId": "4820d0a9f79419ff971e4cb953296b793994c237",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
