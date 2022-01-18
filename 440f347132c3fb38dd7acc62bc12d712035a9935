@@ -216,6 +216,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "445fbb5a_4accb04c",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-18T07:45:24Z",
+      "side": 1,
+      "message": "Sorry for missing this.\nPut a if condition to check return value of findFiles.\nPlease have a check with PS17",
+      "parentUuid": "b4934d44_f658acb4",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 13
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1c1d40c_95354b9d",
         "filename": "src/FanMain.cpp",
         "patchSetId": 13
