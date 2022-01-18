@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c75b7ae_e952028f",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T18:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f4d2836_4263ea0b",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "328732136524fbb7551a1bf7f8c76bbb8566ef14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54b36cce_e120a206",
@@ -119,6 +143,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90d582a1_8c28fad9",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T18:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5e8b5de_1e00ba4a",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 15
+      },
+      "revId": "328732136524fbb7551a1bf7f8c76bbb8566ef14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e385054_6f7ce13e",
@@ -156,6 +204,30 @@
       "side": 1,
       "message": "Correct, this one is arguably better, so we at least log failures, instead of throwing an exception in a constructor, which is less-than-defined behavior.",
       "parentUuid": "4e385054_6f7ce13e",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 24
+      },
+      "revId": "328732136524fbb7551a1bf7f8c76bbb8566ef14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f78067f0_e4a3a06c",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T18:00:42Z",
+      "side": 1,
+      "message": "Fixed properly in latest so that it throws in construction again.  Done",
+      "parentUuid": "5f457e48_c505b652",
       "range": {
         "startLine": 58,
         "startChar": 0,
