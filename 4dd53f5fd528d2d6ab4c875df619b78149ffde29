@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b61cbc3f_a9abef50",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000224
+      },
+      "writtenOn": "2022-01-18T07:16:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "98db2f49_20330cc3",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 67
+      },
+      "revId": "4dd53f5fd528d2d6ab4c875df619b78149ffde29",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0fa026d_2d49834c",
@@ -71,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a785654d_55e8e4bb",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000224
+      },
+      "writtenOn": "2022-01-18T07:16:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f0fa026d_2d49834c",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 16
+      },
+      "revId": "4dd53f5fd528d2d6ab4c875df619b78149ffde29",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb54df62_a001ed2d",
@@ -84,6 +132,30 @@
       "writtenOn": "2022-01-18T06:41:40Z",
       "side": 1,
       "message": "This api produces an unsigned int, and you\u0027re limiting it to a uint8_t, maybe we just need int here?",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 24
+      },
+      "revId": "4dd53f5fd528d2d6ab4c875df619b78149ffde29",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82461e53_b1cd8069",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000224
+      },
+      "writtenOn": "2022-01-18T07:16:46Z",
+      "side": 1,
+      "message": "Yeah, I was trying to not change the existing behaviour and just allow for strings to be accepted. Can change it in this patch or create another patch if you want.",
+      "parentUuid": "bb54df62_a001ed2d",
       "range": {
         "startLine": 77,
         "startChar": 9,
