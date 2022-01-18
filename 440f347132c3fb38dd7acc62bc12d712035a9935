@@ -192,6 +192,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4934d44_f658acb4",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T06:29:06Z",
+      "side": 1,
+      "message": "Changing to that lookup doesn\u0027t change the fact that you\u0027ve ignored an error.",
+      "parentUuid": "1b31ce6a_6952df75",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 13
+      },
+      "revId": "440f347132c3fb38dd7acc62bc12d712035a9935",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1c1d40c_95354b9d",
         "filename": "src/FanMain.cpp",
         "patchSetId": 13
