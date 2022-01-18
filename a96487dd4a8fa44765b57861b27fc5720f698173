@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d3eda5c_61310c18",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-18T12:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8d3577f_92aabb0b",
+      "range": {
+        "startLine": 194,
+        "startChar": 16,
+        "endLine": 194,
+        "endChar": 43
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "887bcde8_7d28d010",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "513e1e52_dbab48c2",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-18T12:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "887bcde8_7d28d010",
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6005cb13_b7ace86b",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-01-12T17:41:49Z",
       "side": 1,
       "message": "add sensorCreated \u003d true here",
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcf225bf_ef5cf4f5",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-18T12:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6005cb13_b7ace86b",
       "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -81,6 +141,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "403228ba_9c1894a2",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-18T12:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52772c2b_d720e344",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 17
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d20ff6f8_6a788c4c",
@@ -94,6 +178,30 @@
       "writtenOn": "2022-01-12T17:41:49Z",
       "side": 1,
       "message": "sensorCreated \u003d true;",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 429,
+        "endChar": 25
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a190e25_7a036fa1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-18T12:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d20ff6f8_6a788c4c",
       "range": {
         "startLine": 426,
         "startChar": 0,
@@ -165,6 +273,30 @@
       "side": 1,
       "message": "Yes, if it enables only the specific baseConfig that is used to create the sensor to be deleted for the configMap created @ \nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49254/7/src/PSUSensorMain.cpp#334",
       "parentUuid": "6645c01a_a1870573",
+      "range": {
+        "startLine": 434,
+        "startChar": 20,
+        "endLine": 434,
+        "endChar": 56
+      },
+      "revId": "a96487dd4a8fa44765b57861b27fc5720f698173",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dbe0cd1_74de5611",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-18T12:05:00Z",
+      "side": 1,
+      "message": "I have refactored hwmon code like PSUSensor patch and also added sensorCreated flag to remove the sensor config after sensor is constructed.",
+      "parentUuid": "62b4b8da_02e7ecf1",
       "range": {
         "startLine": 434,
         "startChar": 20,
