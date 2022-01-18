@@ -16,6 +16,24 @@
       "message": "I have a really dumb question, how is open() involved with varargs?",
       "revId": "39edac3c5c233b448a1ab31b359fd1dbb3a29184",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ecf63c9_8f617121",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2022-01-18T23:51:37Z",
+      "side": 1,
+      "message": "open is a c function defined as:\n       int open(const char *pathname, int flags);\n       int open(const char *pathname, int flags, mode_t mode);\nBut since c functions can\u0027t have overrides, it is actually implemented as a varargs situation.",
+      "parentUuid": "fb2779cb_a27c01bb",
+      "revId": "39edac3c5c233b448a1ab31b359fd1dbb3a29184",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
