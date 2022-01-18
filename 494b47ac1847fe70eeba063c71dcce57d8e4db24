@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15431b3f_7a137694",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T21:42:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55f7201f_abd77c04",
+      "range": {
+        "startLine": 385,
+        "startChar": 36,
+        "endLine": 385,
+        "endChar": 53
+      },
+      "revId": "494b47ac1847fe70eeba063c71dcce57d8e4db24",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53a63474_b913c199",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dc1394f_82378b11",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T21:42:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53a63474_b913c199",
+      "range": {
+        "startLine": 405,
+        "startChar": 36,
+        "endLine": 405,
+        "endChar": 53
+      },
+      "revId": "494b47ac1847fe70eeba063c71dcce57d8e4db24",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3d28c96_fabbd451",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-01-18T07:54:27Z",
       "side": 1,
       "message": "Similar to Level, can this also be change to Direction::HIGH ?",
+      "range": {
+        "startLine": 412,
+        "startChar": 27,
+        "endLine": 412,
+        "endChar": 54
+      },
+      "revId": "494b47ac1847fe70eeba063c71dcce57d8e4db24",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88de01a2_9fdfa9ce",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-18T21:42:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3d28c96_fabbd451",
       "range": {
         "startLine": 412,
         "startChar": 27,
