@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb2779cb_a27c01bb",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-18T18:48:39Z",
+      "side": 1,
+      "message": "I have a really dumb question, how is open() involved with varargs?",
+      "revId": "39edac3c5c233b448a1ab31b359fd1dbb3a29184",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
