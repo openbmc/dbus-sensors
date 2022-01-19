@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a04c3012_9cf7266e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-19T20:41:30Z",
+      "side": 1,
+      "message": "With https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/50204 I removed the trace for when there is a tempX_input file in sysfs but no config for it, so I think you can just remove this trace too.",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
