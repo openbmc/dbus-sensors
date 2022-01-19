@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "e3efb2d4_aca8ca1a",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 62
       },
       "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bff1b862_63a6af70",
         "filename": "/COMMIT_MSG",
@@ -43,10 +44,10 @@
         "endChar": 64
       },
       "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7ad6b6d3_f9cf7cd9",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -66,8 +67,31 @@
         "endChar": 59
       },
       "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f260efca_dfe457d7",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2022-01-19T15:45:02Z",
+      "side": 1,
+      "message": "IIRC this is detecting new configs for an event. onInterfaceAdded looks like it grabs all the configs via GetManagedObjects then registers a match expression afterwards.\n\nThe delay is effectively waiting for the deluge of configs to stop before proceeding with business logic. \nstartMain(delay....) cancels and restarts a timer with a delay for 10 seconds. On expiration that timer calls the main logic.\nIf a new config is received before 10 seconds the timer is reset.\n\nI personally don\u0027t see anything particularly heinous about this approach as it has the effect of spreading out dbus events.",
+      "parentUuid": "7ad6b6d3_f9cf7cd9",
+      "range": {
+        "startLine": 229,
+        "startChar": 26,
+        "endLine": 229,
+        "endChar": 59
+      },
+      "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
