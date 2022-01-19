@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "4dd50d2b_73040508",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -20,10 +21,34 @@
         "endChar": 79
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4c2b716_6654086b",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dd50d2b_73040508",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 79
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5a36c853_e2dec7ff",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -43,10 +68,34 @@
         "endChar": 55
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bcdcc07_8e3cfd90",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a36c853_e2dec7ff",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 55
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a7b72256_24481a33",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -66,10 +115,34 @@
         "endChar": 23
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7158a9d_1bd2d3f9",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b72256_24481a33",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 23
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1ba2ac24_91931490",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -89,10 +162,34 @@
         "endChar": 31
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "170df099_1df0a4d4",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ba2ac24_91931490",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "cec11087_975e7ca0",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -112,10 +209,10 @@
         "endChar": 36
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7ce3f834_b3342a9e",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -136,10 +233,10 @@
         "endChar": 36
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1fada31f_9d0a1283",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -160,10 +257,10 @@
         "endChar": 36
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b01757b2_37aadc12",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -184,10 +281,10 @@
         "endChar": 36
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "754bbd05_1212709a",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -208,10 +305,10 @@
         "endChar": 36
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "91d96fce_5c7f2cb7",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -232,10 +329,10 @@
         "endChar": 36
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "230de887_6c708cfe",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -256,10 +353,10 @@
         "endChar": 36
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e643becb_505607bf",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -279,10 +376,34 @@
         "endChar": 69
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "215cb6d3_aded0a2e",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e643becb_505607bf",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 69
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "63169d51_2c00518a",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -296,10 +417,28 @@
       "side": 1,
       "message": "I see no mention of associations that would show what this is connected to.  That will be required.",
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6ea336c_81596eef",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63169d51_2c00518a",
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "40035225_b6310532",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -319,10 +458,10 @@
         "endChar": 50
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3559fe5c_09ddc4a0",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -343,10 +482,34 @@
         "endChar": 50
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50f5f2ad_da3a2a0c",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3559fe5c_09ddc4a0",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 50
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "22f67c5b_34ebd766",
         "filename": "docs/gpio-based-presence-detection.md",
@@ -366,10 +529,34 @@
         "endChar": 21
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15e75efa_00392b76",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22f67c5b_34ebd766",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "48851375_a04732c6",
         "filename": "include/GPIOPresenceSensor.hpp",
@@ -389,10 +576,34 @@
         "endChar": 0
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b14e7fc6_f383f9fe",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48851375_a04732c6",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "dea63e10_587490df",
         "filename": "include/GPIOPresenceSensor.hpp",
@@ -412,10 +623,34 @@
         "endChar": 73
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d39ed8dc_780d7030",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dea63e10_587490df",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 73
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "229f22f1_f33a4361",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -435,10 +670,34 @@
         "endChar": 1
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f74fa991_9074dd9c",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Just for completeness. It would be a no-op.",
+      "parentUuid": "229f22f1_f33a4361",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 1
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "927cfbe9_9f3017e7",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -458,10 +717,34 @@
         "endChar": 0
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23aeb30a_366ad079",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "927cfbe9_9f3017e7",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 0
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a3ba58f0_f98d9558",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -481,10 +764,34 @@
         "endChar": 17
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e96360d_d00d83eb",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3ba58f0_f98d9558",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "e3c92a5f_3c05d0c1",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -504,10 +811,34 @@
         "endChar": 41
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f1b1e1f_ce7543a4",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3c92a5f_3c05d0c1",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "693781fb_40c279a1",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -527,10 +858,34 @@
         "endChar": 31
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9cfd3dd_22b70646",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "693781fb_40c279a1",
+      "range": {
+        "startLine": 51,
+        "startChar": 28,
+        "endLine": 51,
+        "endChar": 31
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "870b077f_4b8627db",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -550,10 +905,34 @@
         "endChar": 63
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa0498c3_f5fdcb03",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "870b077f_4b8627db",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "4cb92d43_b63c6cc7",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -573,10 +952,34 @@
         "endChar": 37
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "366c8baa_dd69dc7a",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cb92d43_b63c6cc7",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 37
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "37f1ce4d_e93278f7",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -596,10 +999,34 @@
         "endChar": 23
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f6cbe93_adccabc8",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37f1ce4d_e93278f7",
+      "range": {
+        "startLine": 138,
+        "startChar": 5,
+        "endLine": 138,
+        "endChar": 23
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "633c49c4_339d382c",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -619,10 +1046,34 @@
         "endChar": 50
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b53c8f95_f80a279e",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "There are actually two use of this callback. The first is the async_method_call(\"xyz.openbmc_project.EntityManager\", \"/\", \"org.freedesktop.DBus.ObjectManager\", \"GetManagedObjects\"); and the second time is the matcher. Therefore, I think it is better to factor out the callback function definition to avoid duplicated code.",
+      "parentUuid": "633c49c4_339d382c",
+      "range": {
+        "startLine": 139,
+        "startChar": 24,
+        "endLine": 139,
+        "endChar": 50
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "23160e79_6fb52a5d",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -642,10 +1093,34 @@
         "endChar": 10
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c162d855_4a50a59d",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23160e79_6fb52a5d",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 10
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "660a299a_58bcecf0",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -665,10 +1140,34 @@
         "endChar": 71
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "462f2dff_53c7071c",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "660a299a_58bcecf0",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 71
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d295a544_45a33e10",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -688,10 +1187,34 @@
         "endChar": 34
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c643220_b5223a48",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d295a544_45a33e10",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 34
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b06d5c61_0d7b89c0",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -711,10 +1234,34 @@
         "endChar": 66
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c806e838_538a94d1",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b06d5c61_0d7b89c0",
+      "range": {
+        "startLine": 172,
+        "startChar": 64,
+        "endLine": 172,
+        "endChar": 66
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ee09f839_ecf03310",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -734,10 +1281,34 @@
         "endChar": 28
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e6a41d0_2d667773",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee09f839_ecf03310",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 28
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "bfa915fb_0221e796",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -757,10 +1328,34 @@
         "endChar": 45
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd1e438_01bf1805",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfa915fb_0221e796",
+      "range": {
+        "startLine": 204,
+        "startChar": 12,
+        "endLine": 204,
+        "endChar": 45
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7d9bcd27_dae2a49f",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -780,10 +1375,10 @@
         "endChar": 72
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "52646ba7_36084334",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -804,10 +1399,34 @@
         "endChar": 72
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "553a1dc6_d540f75b",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Changed to a private interface.",
+      "parentUuid": "52646ba7_36084334",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 72
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7ae7e2c0_99f0e75c",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -827,10 +1446,10 @@
         "endChar": 75
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3456b4d6_f2b75866",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -851,10 +1470,34 @@
         "endChar": 75
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0826399f_05f4892e",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "That is correct.",
+      "parentUuid": "3456b4d6_f2b75866",
+      "range": {
+        "startLine": 222,
+        "startChar": 70,
+        "endLine": 222,
+        "endChar": 75
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "fb0bf158_99b87b0f",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -874,10 +1517,10 @@
         "endChar": 58
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b02961e6_623b5c04",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -898,10 +1541,10 @@
         "endChar": 58
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "035e7ef0_9cdd06d6",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -922,10 +1565,10 @@
         "endChar": 58
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5bb8fbed_1e6dc48d",
         "filename": "src/GPIOPresenceSensorMain.cpp",
@@ -946,8 +1589,31 @@
         "endChar": 58
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c6a9aee_2cdcf93e",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "libgpiod provides api for event wait. However, it doesn\u0027t support event wait from multiple lines from different chip. Therefore, using a simple pooling loop here to avoid complexity. I added a comment in the code to explain the pooling loop.",
+      "parentUuid": "5bb8fbed_1e6dc48d",
+      "range": {
+        "startLine": 226,
+        "startChar": 50,
+        "endLine": 226,
+        "endChar": 58
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

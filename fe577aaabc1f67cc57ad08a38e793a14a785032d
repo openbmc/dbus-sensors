@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "d4e2f62e_6acf1d0e",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 54
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "7f766fcb_849793c3",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 54
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "38005173_5dfbd953",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -67,10 +68,10 @@
         "endChar": 18
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e888bba3_5491dec1",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -91,10 +92,10 @@
         "endChar": 18
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "87eed47d_3ec566c0",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -108,10 +109,10 @@
       "side": 1,
       "message": "I prefer to do this once on initialization and then keep presence line used by the service.",
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3d8d9765_665682db",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -126,10 +127,10 @@
       "message": "+1 on this preference.\nAcquiring and releasing the line repeatedly could lead to some infuriating bugs later on.\n\nExample:\nAnother service or script needs to acquire this line and we end up with intermittent failures. Then you go to debug the problem with gpioinfo /gpiofind and most of the time you see that the line isn\u0027t reserved.\n\nBy reserving this line for the lifetime of the service these types of bugs are much easier to hunt down and characterize.",
       "parentUuid": "87eed47d_3ec566c0",
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "d79b79b7_61251f3e",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -144,10 +145,10 @@
       "message": "Done",
       "parentUuid": "3d8d9765_665682db",
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "add13db5_ecaf2124",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -167,10 +168,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "620e877a_73d5c0cc",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -191,10 +192,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "53ea9cfc_2bb30fa8",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -215,10 +216,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "18f5278d_b3344bd9",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -239,10 +240,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ccff63c4_3cfa37ab",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -263,10 +264,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9008a7c0_fd2ed98c",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -287,10 +288,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "821f8cf6_dcdd6a7a",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -311,10 +312,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0c05f46b_ba5f4433",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -335,10 +336,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8aa76a35_f40a1360",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -359,10 +360,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "f306f57b_218a19a2",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -383,10 +384,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f7c0a014_00991ff4",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -407,10 +408,34 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "574859ac_104e9ba9",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Removed the management of led.",
+      "parentUuid": "f7c0a014_00991ff4",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7e722617_9ce19685",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -430,10 +455,10 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "4f857466_6c23115c",
         "filename": "src/GPIOPresenceSensor.cpp",
@@ -454,8 +479,7 @@
         "endChar": 1
       },
       "revId": "fe577aaabc1f67cc57ad08a38e793a14a785032d",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

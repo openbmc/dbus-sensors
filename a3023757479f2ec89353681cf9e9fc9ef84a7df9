@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "5ffcbcb2_cc626900",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "So, is it more \"Cable Sensor\" or \"GPIO sensor\"? Is it something generic, like phosphor-gpio-monitor?\nThis commit catastrophically lack of any documentation. I know, dbus-sensors lack of docs at all, but we should start fixing this.\nI propose you to add \"docs\" subdirectory and put there description of the daemon: purpose, expected configuration options, exported dbus objects, emitted events, etc.",
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ff1b2504_4082ccb0",
         "filename": "/COMMIT_MSG",
@@ -32,10 +33,10 @@
       "message": "For reference,\n\nhttps://github.com/openbmc/docs/blob/master/designs/gpio-based-cable-presence.md\n\nWhat do you think about adding a reference to the design doc in the root README.md?",
       "parentUuid": "5ffcbcb2_cc626900",
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a029c7e2_7b50c8da",
         "filename": "/COMMIT_MSG",
@@ -50,10 +51,10 @@
       "message": "I added the link to the doc in the commit message.",
       "parentUuid": "ff1b2504_4082ccb0",
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a1541ac2_ba9cb51a",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,10 @@
       "message": "Design doc is for top-level overview (design), but I talking about implementation documentation. The doc, you referenced to contains configuration example, but I prefer to have more detailed description here.\n\nBTW, no one will found link to documentation in commit message when he will try to understand what is this daemon for, lets say, in one year ;).",
       "parentUuid": "a029c7e2_7b50c8da",
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "16c4f0b9_4dd7b1ef",
         "filename": "/COMMIT_MSG",
@@ -86,10 +87,10 @@
       "message": "Will add one.",
       "parentUuid": "a1541ac2_ba9cb51a",
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "d2bd3076_43551259",
         "filename": "/COMMIT_MSG",
@@ -104,10 +105,10 @@
       "message": "Done",
       "parentUuid": "16c4f0b9_4dd7b1ef",
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bb7ebb2e_f663f1e9",
         "filename": "include/GPIOSensor.hpp",
@@ -127,10 +128,10 @@
         "endChar": 22
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "8bb480ef_b4242588",
         "filename": "include/GPIOSensor.hpp",
@@ -151,10 +152,10 @@
         "endChar": 22
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "759c71f0_7d3616ab",
         "filename": "include/GPIOSensor.hpp",
@@ -174,10 +175,10 @@
         "endChar": 38
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "fde795e8_263cb8fa",
         "filename": "include/GPIOSensor.hpp",
@@ -198,10 +199,10 @@
         "endChar": 38
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "772fbdad_8e9a456a",
         "filename": "include/GPIOSensor.hpp",
@@ -221,10 +222,10 @@
         "endChar": 44
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "333861b9_3c3a0eb8",
         "filename": "include/GPIOSensor.hpp",
@@ -245,10 +246,10 @@
         "endChar": 44
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3b495f32_e0796c97",
         "filename": "include/GPIOSensor.hpp",
@@ -268,10 +269,10 @@
         "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "5aa019cb_edf2a5e5",
         "filename": "include/GPIOSensor.hpp",
@@ -292,10 +293,10 @@
         "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "af78bbfa_2568f919",
         "filename": "include/GPIOSensor.hpp",
@@ -315,10 +316,10 @@
         "endChar": 35
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a3c6b9aa_690f4be8",
         "filename": "include/GPIOSensor.hpp",
@@ -338,10 +339,10 @@
         "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a54dd77c_f97ff2d7",
         "filename": "include/GPIOSensor.hpp",
@@ -362,10 +363,10 @@
         "endChar": 35
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "ea75d671_f1102d58",
         "filename": "include/GPIOSensor.hpp",
@@ -386,10 +387,10 @@
         "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "041d94f8_de040000",
         "filename": "src/GPIOSensor.cpp",
@@ -409,10 +410,34 @@
         "endChar": 48
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bfbd7e3_b3179deb",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "It should be ok. That means the config is for other daemon, not for this daemon.",
+      "parentUuid": "041d94f8_de040000",
+      "range": {
+        "startLine": 16,
+        "startChar": 12,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "deead0f2_577b0136",
         "filename": "src/GPIOSensor.cpp",
@@ -432,10 +457,34 @@
         "endChar": 75
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f4c9357_8e06813c",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deead0f2_577b0136",
+      "range": {
+        "startLine": 18,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 75
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "985cec47_d6aefab6",
         "filename": "src/GPIOSensor.cpp",
@@ -455,10 +504,34 @@
         "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4b3616_52b5c043",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "I don\u0027t think conn can be none. See below\n\n149     boost::asio::io_context io;\n150     auto systemBus \u003d std::make_shared\u003csdbusplus::asio::connection\u003e(io);\n151     systemBus-\u003erequest_name(gpiopresencesensing::service);\n\nconn is systemBus.get().",
+      "parentUuid": "985cec47_d6aefab6",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "0ba0d27d_571cbe86",
         "filename": "src/GPIOSensor.cpp",
@@ -478,10 +551,34 @@
         "endChar": 30
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d228f89a_db1c5f29",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ba0d27d_571cbe86",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 30
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "e0fa665c_44f96ddf",
         "filename": "src/GPIOSensor.cpp",
@@ -501,10 +598,34 @@
         "endChar": 9
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd8b78a9_54cf6e2c",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0fa665c_44f96ddf",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c0fa84cd_b5b69b8b",
         "filename": "src/GPIOSensor.cpp",
@@ -524,10 +645,34 @@
         "endChar": 49
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53d66eb3_7810336b",
+        "filename": "src/GPIOSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0fa84cd_b5b69b8b",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b8632a74_476cdedb",
         "filename": "src/GPIOSensorMain.cpp",
@@ -547,10 +692,10 @@
         "endChar": 65
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "923ff50d_649af150",
         "filename": "src/GPIOSensorMain.cpp",
@@ -571,10 +716,10 @@
         "endChar": 65
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ef2ef127_3a91d80c",
         "filename": "src/GPIOSensorMain.cpp",
@@ -594,10 +739,10 @@
         "endChar": 18
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "99fc3ef7_82f9113a",
         "filename": "src/GPIOSensorMain.cpp",
@@ -618,10 +763,10 @@
         "endChar": 18
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "682f2a5a_09180e1c",
         "filename": "src/GPIOSensorMain.cpp",
@@ -641,10 +786,10 @@
         "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "98b75d8d_b219679f",
         "filename": "src/GPIOSensorMain.cpp",
@@ -665,10 +810,10 @@
         "endChar": 19
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "51681f98_c31ab34f",
         "filename": "src/GPIOSensorMain.cpp",
@@ -688,10 +833,10 @@
         "endChar": 67
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f1036216_396d9bf9",
         "filename": "src/GPIOSensorMain.cpp",
@@ -711,10 +856,10 @@
         "endChar": 48
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e2ff3e61_8b9f9ab0",
         "filename": "src/GPIOSensorMain.cpp",
@@ -735,10 +880,10 @@
         "endChar": 67
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "3e95a6ee_45aab85c",
         "filename": "src/GPIOSensorMain.cpp",
@@ -759,10 +904,10 @@
         "endChar": 48
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "27cb7ade_7c1eb2b8",
         "filename": "src/GPIOSensorMain.cpp",
@@ -782,10 +927,10 @@
         "endChar": 65
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "f8b7c7f4_862eab5f",
         "filename": "src/GPIOSensorMain.cpp",
@@ -806,10 +951,10 @@
         "endChar": 65
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "38b2dc66_4bc581fa",
         "filename": "src/GPIOSensorMain.cpp",
@@ -829,10 +974,10 @@
         "endChar": 58
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "da654851_2501aafd",
         "filename": "src/GPIOSensorMain.cpp",
@@ -853,10 +998,10 @@
         "endChar": 58
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a558cec6_e5a4840a",
         "filename": "src/GPIOSensorMain.cpp",
@@ -876,10 +1021,10 @@
         "endChar": 68
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "211b8bd9_c7e42c98",
         "filename": "src/GPIOSensorMain.cpp",
@@ -900,10 +1045,10 @@
         "endChar": 68
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b64bdab3_6b239a6e",
         "filename": "src/GPIOSensorMain.cpp",
@@ -923,10 +1068,10 @@
         "endChar": 30
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "0da68eb6_a932459a",
         "filename": "src/GPIOSensorMain.cpp",
@@ -947,10 +1092,10 @@
         "endChar": 30
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "407b8b88_6617c373",
         "filename": "src/GPIOSensorMain.cpp",
@@ -970,10 +1115,10 @@
         "endChar": 44
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "d2ee565b_2d0dd837",
         "filename": "src/GPIOSensorMain.cpp",
@@ -994,10 +1139,10 @@
         "endChar": 44
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "531e88b1_fedc3860",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1017,10 +1162,10 @@
         "endChar": 26
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "68a5f192_1a69ba8b",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1041,10 +1186,10 @@
         "endChar": 26
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b3f17321_b27cbfac",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1064,10 +1209,10 @@
         "endChar": 69
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "ec833525_4c46b13f",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1088,10 +1233,10 @@
         "endChar": 69
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9b2f61cb_58906cdc",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1111,10 +1256,10 @@
         "endChar": 29
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "89f23678_a1c6929d",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1135,10 +1280,10 @@
         "endChar": 29
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7bb8f61f_e5887c07",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1158,10 +1303,10 @@
         "endChar": 33
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "de1251b0_2ee08ac6",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1181,10 +1326,10 @@
         "endChar": 33
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "297340c3_a0ea0776",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1205,10 +1350,10 @@
         "endChar": 33
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "1ba13baa_c09dc27c",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1229,10 +1374,10 @@
         "endChar": 33
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d99c3845_862e498c",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1252,10 +1397,10 @@
         "endChar": 27
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7141e171_07e0f9e7",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1275,10 +1420,10 @@
         "endChar": 28
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "1952554f_99cee197",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1299,10 +1444,10 @@
         "endChar": 27
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "9fe7250c_46aa12d9",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1323,10 +1468,10 @@
         "endChar": 28
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "2f729d75_4416a4f4",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1347,10 +1492,10 @@
         "endChar": 28
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0cf7f194_1d13ccde",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1370,10 +1515,10 @@
         "endChar": 63
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "17bf3999_02a84ddb",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1394,10 +1539,10 @@
         "endChar": 63
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5ce09b81_9baa5d6b",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1417,10 +1562,10 @@
         "endChar": 22
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "6cc81d26_929306ee",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1441,10 +1586,10 @@
         "endChar": 22
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ec4b86f2_c94b2204",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1464,10 +1609,10 @@
         "endChar": 20
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "9d749d65_798c567f",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1488,10 +1633,10 @@
         "endChar": 20
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "dcfe4bf8_3abeb3ed",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1511,10 +1656,10 @@
         "endChar": 24
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "1989ff20_bc4a4816",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1535,10 +1680,10 @@
         "endChar": 24
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ecb5fd4c_0dd4328f",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1558,10 +1703,10 @@
         "endChar": 21
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "14a391fe_17758f04",
         "filename": "src/GPIOSensorMain.cpp",
@@ -1582,8 +1727,7 @@
         "endChar": 21
       },
       "revId": "a3023757479f2ec89353681cf9e9fc9ef84a7df9",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

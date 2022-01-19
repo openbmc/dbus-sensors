@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd03f479_0862081c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3efb2d4_aca8ca1a",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bff1b862_63a6af70",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-12-25T20:28:55Z",
       "side": 1,
       "message": "Mention what are the dbus objects in commit message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac828628_7b9f2bad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bff1b862_63a6af70",
       "range": {
         "startLine": 9,
         "startChar": 51,
@@ -83,6 +131,30 @@
       "writtenOn": "2022-01-19T15:45:02Z",
       "side": 1,
       "message": "IIRC this is detecting new configs for an event. onInterfaceAdded looks like it grabs all the configs via GetManagedObjects then registers a match expression afterwards.\n\nThe delay is effectively waiting for the deluge of configs to stop before proceeding with business logic. \nstartMain(delay....) cancels and restarts a timer with a delay for 10 seconds. On expiration that timer calls the main logic.\nIf a new config is received before 10 seconds the timer is reset.\n\nI personally don\u0027t see anything particularly heinous about this approach as it has the effect of spreading out dbus events.",
+      "parentUuid": "7ad6b6d3_f9cf7cd9",
+      "range": {
+        "startLine": 229,
+        "startChar": 26,
+        "endLine": 229,
+        "endChar": 59
+      },
+      "revId": "a0ac2b71bd72179e40220bbca4349ae28a0ee110",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fef9a8e8_b04ba656",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-19T22:28:03Z",
+      "side": 1,
+      "message": "We saw a case where there is lag when EM try to push new configs to gpio daemon. I updated the comment with a TODO. I will fix this once I figured out why this is happening.",
       "parentUuid": "7ad6b6d3_f9cf7cd9",
       "range": {
         "startLine": 229,
