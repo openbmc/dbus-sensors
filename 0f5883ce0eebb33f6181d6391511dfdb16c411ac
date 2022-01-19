@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1748bf22_589e961d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-01-19T02:55:52Z",
+      "side": 1,
+      "message": "Looks good, though I\u0027d like to test it. Holding off on scoring until I\u0027ve done so.",
+      "revId": "0f5883ce0eebb33f6181d6391511dfdb16c411ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c04b3d46_0f418e8c",
+        "filename": "src/FileHandle.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-01-19T02:55:52Z",
+      "side": 1,
+      "message": "close() can fail 😊 Might be helpful to log a message or something. An exception might be a bit heavyweight.",
+      "revId": "0f5883ce0eebb33f6181d6391511dfdb16c411ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
