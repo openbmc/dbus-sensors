@@ -239,6 +239,24 @@
       "message": "We might need to increase the sensor pollTime in this error case as well.",
       "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ef84cc8_ccb1814f",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-01-20T14:20:27Z",
+      "side": 1,
+      "message": "100 sensor objects means 70 sec (100 * 0.7 sec, go through commit message for more derails) between consecutive read of same sensor object. So poll time will have to be 70 sec. Assuming all sensors are facing peci error. \n\nNow if sensor objects are 50, it will be 35 sec. So we cannot fix a sensorFailedPollTimeMs. \n\nWith pendingIoReqCnt, we can handle this in a better way. Line 165 we check if io is free to read, else we async wait again, so in my above example we will call restartRead 14 times (sensorFailedPollTimeMs \u003d 5 sec, 70/5 \u003d 14) before making inputDev.async_wait at line 178. Effectively giving us the appropriate wait time in every situation.",
+      "parentUuid": "911c1a8a_faefb3c2",
+      "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
