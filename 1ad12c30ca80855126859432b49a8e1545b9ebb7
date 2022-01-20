@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a853d18_e49cc859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-20T15:07:33Z",
+      "side": 1,
+      "message": "Could you please comment line 456 and check in your platform. So that, we can confirm whether pressure sensor is removed due to erasing config or refactored code.",
+      "parentUuid": "7d30bb53_b9720d05",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcdf003a_38458fe0",
