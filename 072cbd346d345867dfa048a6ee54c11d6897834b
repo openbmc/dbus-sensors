@@ -20,6 +20,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d98a16a_ec6f8907",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-01-20T09:51:44Z",
+      "side": 1,
+      "message": "There is a separate document for design in common (https://github.com/openbmc/docs/blob/master/designs/gpio-based-cable-presence.md) in docs repo. I asked authors to add here documentations for the daemon itself here to show purpose and configuration options.\nProbably that top level design now should be reviewed and some information from this file could be moved there, but I prefer to keep some basics about the daemon here.",
+      "parentUuid": "794d4e16_8ef25ce5",
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c09554_bdf553ed",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-01-20T09:51:44Z",
+      "side": 1,
+      "message": "This two are not relevant here anymore, but please put the link to docs/designs/gpio-based-cable-presence.md instead.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 93
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d39046f6_98a5ae8d",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 36
@@ -36,6 +77,87 @@
         "startChar": 0,
         "endLine": 44,
         "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb054b25_148a71d6",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-01-20T09:51:44Z",
+      "side": 1,
+      "message": "I don\u0027t like this approach, proposed by Ed too: it seems to be over-complicated and adds lot of unnecessary dbus traffic.",
+      "parentUuid": "d39046f6_98a5ae8d",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ed26e7_70dd0d66",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-01-20T09:51:44Z",
+      "side": 1,
+      "message": "This part is already out of scope of your gpiosensor and should be somewhere in docs/designs.",
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53ccc379_9d846b28",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-01-20T09:51:44Z",
+      "side": 1,
+      "message": "\"PrettyName\" should also present for \"xyz.openbmc_project.Inventory.Item\" interface, unlike of PIM, EM will not add it by itself.",
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e49227_290a3246",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-01-20T09:51:44Z",
+      "side": 1,
+      "message": "What is \"ipmi obj\"? AFAIK EM do nothing with IPMI.",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 25
       },
       "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
