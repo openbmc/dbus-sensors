@@ -1,0 +1,8 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Vernon Mauery <vernon.mauery@linux.intel.com>
+Code-Review+1: Andrew Jeffery <andrew@aj.id.au>
+Submitted-by: Ed Tanous <ed@tanous.net>
+Submitted-at: Thu, 20 Jan 2022 18:59:24 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/50413
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
