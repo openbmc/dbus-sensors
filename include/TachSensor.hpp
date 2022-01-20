@@ -54,8 +54,8 @@ class RedundancySensor
     std::string state = redundancy::full;
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
-    sdbusplus::asio::object_server& objectServer;
     boost::container::flat_map<std::string, bool> statuses;
+    sdbusplus::asio::object_server& objectServer;
 };
 
 class TachSensor : public Sensor
@@ -75,7 +75,6 @@ class TachSensor : public Sensor
     ~TachSensor() override;
 
   private:
-    sdbusplus::asio::object_server& objServer;
     std::optional<RedundancySensor>* redundancy;
     std::unique_ptr<PresenceSensor> presence;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;

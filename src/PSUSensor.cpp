@@ -46,10 +46,9 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      double max, double min, double offset,
                      const std::string& label, size_t tSize, double pollRate) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           objectType, false, false, max, min, conn, powerState),
-    std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), sensorFactor(factor),
-    sensorOffset(offset), thresholdTimer(io)
+           objectType, false, false, max, min, conn, objectServer, powerState),
+    std::enable_shared_from_this<PSUSensor>(), inputDev(io), waitTimer(io),
+    path(path), sensorFactor(factor), sensorOffset(offset), thresholdTimer(io)
 {
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
@@ -78,13 +77,6 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(dbusPath, interface);
-    }
-
     // This should be called before initializing association.
     // createInventoryAssoc() does add more associations before doing
     // register and initialize "Associations" property.
@@ -106,12 +98,12 @@ PSUSensor::~PSUSensor()
 {
     waitTimer.cancel();
     inputDev.close();
-    objServer.remove_interface(sensorInterface);
+    objectServer.remove_interface(sensorInterface);
     for (const auto& iface : thresholdInterfaces)
     {
-        objServer.remove_interface(iface);
+        objectServer.remove_interface(iface);
     }
-    objServer.remove_interface(association);
+    objectServer.remove_interface(association);
 }
 
 void PSUSensor::setupRead(void)

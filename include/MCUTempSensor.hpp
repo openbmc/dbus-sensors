@@ -29,6 +29,5 @@ struct MCUTempSensor : public Sensor
 
   private:
     int getMCURegsInfoWord(uint8_t regs, int16_t* pu16data);
-    sdbusplus::asio::object_server& objectServer;
     boost::asio::deadline_timer waitTimer;
 };

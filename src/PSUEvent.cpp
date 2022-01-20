@@ -43,10 +43,10 @@ PSUCombineEvent::PSUCombineEvent(
         boost::container::flat_map<std::string, std::vector<std::string>>>&
         groupEventPathList,
     const std::string& combineEventName, double pollRate) :
-    objServer(objectServer)
+    objectServer(objectServer)
 {
     std::string psuNameEscaped = sensor_paths::escapePathForDbus(psuName);
-    eventInterface = objServer.add_interface(
+    eventInterface = objectServer.add_interface(
         "/xyz/openbmc_project/State/Decorator/" + psuNameEscaped + "_" +
             combineEventName,
         "xyz.openbmc_project.State.Decorator.OperationalStatus");
@@ -117,7 +117,7 @@ PSUCombineEvent::~PSUCombineEvent()
         }
     }
     events.clear();
-    objServer.remove_interface(eventInterface);
+    objectServer.remove_interface(eventInterface);
 }
 
 static boost::container::flat_map<std::string,

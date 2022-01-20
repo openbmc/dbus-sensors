@@ -57,21 +57,14 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              uint8_t tempReg) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
-           false, false, mcuTempMaxReading, mcuTempMinReading, conn),
-    busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
-    objectServer(objectServer), waitTimer(io)
+           false, false, mcuTempMaxReading, mcuTempMinReading, conn,
+           objectServer),
+    busId(busId), mcuAddress(mcuAddress), tempReg(tempReg), waitTimer(io)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
-    }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);

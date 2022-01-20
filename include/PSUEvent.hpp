@@ -90,7 +90,7 @@ class PSUCombineEvent
         const std::string& combineEventName, double pollRate);
     ~PSUCombineEvent();
 
-    sdbusplus::asio::object_server& objServer;
+    sdbusplus::asio::object_server& objectServer;
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface;
     boost::container::flat_map<std::string,
                                std::vector<std::shared_ptr<PSUSubEvent>>>

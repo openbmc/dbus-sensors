@@ -30,20 +30,13 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
                        const int busNumber) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::CONFIG_TYPE, false, false, maxReading, minReading, conn,
-           PowerState::on),
-    bus(busNumber), objServer(objectServer)
+           objectServer, PowerState::on),
+    bus(busNumber)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
-    }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);
@@ -56,10 +49,10 @@ NVMeSensor::~NVMeSensor()
     // close the input dev to cancel async operations
     for (const auto& iface : thresholdInterfaces)
     {
-        objServer.remove_interface(iface);
+        objectServer.remove_interface(iface);
     }
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objectServer.remove_interface(sensorInterface);
+    objectServer.remove_interface(association);
 }
 
 void NVMeSensor::checkThresholds(void)

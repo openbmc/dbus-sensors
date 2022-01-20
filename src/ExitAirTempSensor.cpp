@@ -164,21 +164,13 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      std::shared_ptr<ExitAirTempSensor>& parent) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
-           false, false, cfmMaxReading, cfmMinReading, conn, PowerState::on),
-    std::enable_shared_from_this<CFMSensor>(), parent(parent),
-    objServer(objectServer)
+           false, false, cfmMaxReading, cfmMinReading, conn, objectServer,
+           PowerState::on),
+    std::enable_shared_from_this<CFMSensor>(), parent(parent)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/airflow/" + name,
         "xyz.openbmc_project.Sensor.Value");
-
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/airflow/" + name, interface);
-    }
 
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/airflow/" + name, association::interface);
@@ -287,12 +279,12 @@ CFMSensor::~CFMSensor()
 {
     for (const auto& iface : thresholdInterfaces)
     {
-        objServer.remove_interface(iface);
+        objectServer.remove_interface(iface);
     }
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
-    objServer.remove_interface(cfmLimitIface);
-    objServer.remove_interface(pwmLimitIface);
+    objectServer.remove_interface(sensorInterface);
+    objectServer.remove_interface(association);
+    objectServer.remove_interface(cfmLimitIface);
+    objectServer.remove_interface(pwmLimitIface);
 }
 
 void CFMSensor::createMaxCFMIface(void)
@@ -509,20 +501,13 @@ ExitAirTempSensor::ExitAirTempSensor(
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            false, false, exitAirMaxReading, exitAirMinReading, conn,
-           PowerState::on),
-    std::enable_shared_from_this<ExitAirTempSensor>(), objServer(objectServer)
+           objectServer, PowerState::on),
+    std::enable_shared_from_this<ExitAirTempSensor>()
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
-    }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);
@@ -533,10 +518,10 @@ ExitAirTempSensor::~ExitAirTempSensor()
 {
     for (const auto& iface : thresholdInterfaces)
     {
-        objServer.remove_interface(iface);
+        objectServer.remove_interface(iface);
     }
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objectServer.remove_interface(sensorInterface);
+    objectServer.remove_interface(association);
 }
 
 void ExitAirTempSensor::setupMatches(void)

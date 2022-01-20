@@ -43,7 +43,6 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
         tachRanges;
     std::shared_ptr<sdbusplus::asio::dbus_interface> pwmLimitIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> cfmLimitIface;
-    sdbusplus::asio::object_server& objServer;
 };
 
 struct ExitAirTempSensor :
@@ -77,7 +76,6 @@ struct ExitAirTempSensor :
     double inletTemp = std::numeric_limits<double>::quiet_NaN();
     boost::container::flat_map<std::string, double> powerReadings;
 
-    sdbusplus::asio::object_server& objServer;
     std::chrono::time_point<std::chrono::steady_clock> lastTime;
     double getTotalCFM(void);
     bool calculate(double& val);
