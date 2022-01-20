@@ -222,6 +222,23 @@
       },
       "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "911c1a8a_faefb3c2",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-01-20T14:05:03Z",
+      "side": 1,
+      "message": "We might need to increase the sensor pollTime in this error case as well.",
+      "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
