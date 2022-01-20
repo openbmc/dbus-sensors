@@ -66,9 +66,9 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        const float pollRate, std::string& sensorTypeName) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
-           false, false, ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
+           false, false, ipmbMaxReading, ipmbMinReading, conn, objectServer, PowerState::on),
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
-    sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
+    sensorPollMs(static_cast<int>(pollRate * 1000)),
     waitTimer(io)
 {
     std::string dbusPath = sensorPathPrefix + sensorTypeName + "/" + name;
@@ -76,12 +76,6 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(dbusPath, interface);
-    }
     association = objectServer.add_interface(dbusPath, association::interface);
 }
 

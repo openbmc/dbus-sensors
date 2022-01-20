@@ -52,7 +52,6 @@ class ExternalSensor :
         ageRemaining(const std::chrono::steady_clock::time_point& now) const;
 
   private:
-    sdbusplus::asio::object_server& objServer;
 
     std::chrono::steady_clock::time_point writeLast;
     std::chrono::steady_clock::duration writeTimeout;

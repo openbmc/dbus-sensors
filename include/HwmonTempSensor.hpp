@@ -36,7 +36,6 @@ class HwmonTempSensor :
     void setupRead(void);
 
   private:
-    sdbusplus::asio::object_server& objServer;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     boost::asio::streambuf readBuf;

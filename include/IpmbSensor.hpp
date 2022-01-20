@@ -112,6 +112,5 @@ struct IpmbSensor : public Sensor
     ReadingFormat readingFormat = ReadingFormat::byte0;
 
   private:
-    sdbusplus::asio::object_server& objectServer;
     boost::asio::deadline_timer waitTimer;
 };

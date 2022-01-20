@@ -34,7 +34,6 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
     void setupRead(void);
 
   private:
-    sdbusplus::asio::object_server& objServer;
     boost::asio::streambuf readBuf;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;

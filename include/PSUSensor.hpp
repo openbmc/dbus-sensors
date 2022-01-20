@@ -26,7 +26,6 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     void setupRead(void);
 
   private:
-    sdbusplus::asio::object_server& objServer;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     std::string path;

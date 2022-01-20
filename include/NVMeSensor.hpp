@@ -22,7 +22,5 @@ class NVMeSensor : public Sensor
     int bus;
 
   private:
-    sdbusplus::asio::object_server& objServer;
-
     void checkThresholds(void) override;
 };

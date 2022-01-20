@@ -41,8 +41,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      const std::string& sensorConfiguration, int cpuId,
                      bool show, double dtsOffset) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           objectType, false, false, 0, 0, conn, PowerState::on),
-    std::enable_shared_from_this<CPUSensor>(), objServer(objectServer),
+           objectType, false, false, 0, 0, conn, objectServer, PowerState::on),
+    std::enable_shared_from_this<CPUSensor>(),
     inputDev(io), waitTimer(io),
     nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
@@ -74,13 +74,6 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
 
             sensorInterface = objectServer.add_interface(
                 interfacePath, "xyz.openbmc_project.Sensor.Value");
-            for (const auto& threshold : thresholds)
-            {
-                std::string interface =
-                    thresholds::getInterface(threshold.level);
-                thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-                    objectServer.add_interface(interfacePath, interface);
-            }
             association = objectServer.add_interface(interfacePath,
                                                      association::interface);
 
@@ -101,12 +94,12 @@ CPUSensor::~CPUSensor()
     {
         for (const auto& iface : thresholdInterfaces)
         {
-            objServer.remove_interface(iface);
+            objectServer.remove_interface(iface);
         }
-        objServer.remove_interface(sensorInterface);
-        objServer.remove_interface(association);
-        objServer.remove_interface(availableInterface);
-        objServer.remove_interface(operationalInterface);
+        objectServer.remove_interface(sensorInterface);
+        objectServer.remove_interface(association);
+        objectServer.remove_interface(availableInterface);
+        objectServer.remove_interface(operationalInterface);
     }
 }
 

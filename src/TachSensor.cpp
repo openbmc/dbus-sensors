@@ -51,9 +51,8 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        const std::optional<std::string>& ledIn) :
     Sensor(escapeName(fanName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, limits.second, limits.first, conn,
-           powerState),
-    objServer(objectServer), redundancy(redundancy),
-    presence(std::move(presenceSensor)),
+           objectServer, powerState),
+    redundancy(redundancy), presence(std::move(presenceSensor)),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     led(ledIn)
 {
@@ -61,13 +60,6 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/fan_tach/" + name, interface);
-    }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         association::interface);
@@ -101,12 +93,12 @@ TachSensor::~TachSensor()
     waitTimer.cancel();
     for (const auto& iface : thresholdInterfaces)
     {
-        objServer.remove_interface(iface);
+        objectServer.remove_interface(iface);
     }
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
-    objServer.remove_interface(itemIface);
-    objServer.remove_interface(itemAssoc);
+    objectServer.remove_interface(sensorInterface);
+    objectServer.remove_interface(association);
+    objectServer.remove_interface(itemIface);
+    objectServer.remove_interface(itemAssoc);
 }
 
 void TachSensor::setupRead(void)

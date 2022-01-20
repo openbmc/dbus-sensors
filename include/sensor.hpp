@@ -44,12 +44,13 @@ struct Sensor
            const std::string& configurationPath, const std::string& objectType,
            bool isSettable, bool isMutable, const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
+           sdbusplus::asio::object_server& objectServer,
            PowerState readState = PowerState::always) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath), objectType(objectType),
         isSensorSettable(isSettable), isValueMutable(isMutable), maxValue(max),
         minValue(min), thresholds(std::move(thresholdData)),
-        hysteresisTrigger((max - min) * 0.01),
+        objectServer(objectServer), hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState), errCount(0),
         instrumentation(enableInstrumentation
@@ -77,6 +78,7 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> valueMutabilityInterface;
+    sdbusplus::asio::object_server& objectServer;
     double value = std::numeric_limits<double>::quiet_NaN();
     double rawValue = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
@@ -259,6 +261,13 @@ struct Sensor
             });
         for (auto& threshold : thresholds)
         {
+            std::string interface = thresholds::getInterface(threshold.level);
+            std::string path = sensor_paths::getPathForUnits(unit);
+            thresholdInterfaces[static_cast<size_t>(threshold.level)] =
+                objectServer.add_interface("/xyz/openbmc_project/sensors/" +
+                                               path + "/" + name,
+                                           interface);
+
             if (std::isnan(threshold.hysteresis))
             {
                 threshold.hysteresis = hysteresisTrigger;

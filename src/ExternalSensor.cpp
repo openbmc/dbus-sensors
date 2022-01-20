@@ -27,8 +27,8 @@ ExternalSensor::ExternalSensor(
     const std::string& sensorConfiguration, double maxReading,
     double minReading, double timeoutSecs, const PowerState& powerState) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           objectType, true, true, maxReading, minReading, conn, powerState),
-    std::enable_shared_from_this<ExternalSensor>(), objServer(objectServer),
+           objectType, true, true, maxReading, minReading, conn, objectServer, powerState),
+    std::enable_shared_from_this<ExternalSensor>(),
     writeLast(std::chrono::steady_clock::now()),
     writeTimeout(
         std::chrono::duration_cast<std::chrono::steady_clock::duration>(
@@ -104,12 +104,12 @@ ExternalSensor::~ExternalSensor()
     // Make sure the write hook does not reference this object anymore
     externalSetHook = nullptr;
 
-    objServer.remove_interface(association);
+    objectServer.remove_interface(association);
     for (const auto& iface : thresholdInterfaces)
     {
-        objServer.remove_interface(iface);
+        objectServer.remove_interface(iface);
     }
-    objServer.remove_interface(sensorInterface);
+    objectServer.remove_interface(sensorInterface);
 
     if constexpr (debug)
     {

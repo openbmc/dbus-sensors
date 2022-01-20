@@ -425,13 +425,13 @@ int main()
     // setup connection to dbus
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    auto objServer = sdbusplus::asio::object_server(systemBus);
+    auto objectServer = sdbusplus::asio::object_server(systemBus);
 
     // setup object server, define interface
     systemBus->request_name("xyz.openbmc_project.IntrusionSensor");
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> ifaceChassis =
-        objServer.add_interface(
+        objectServer.add_interface(
             "/xyz/openbmc_project/Intrusion/Chassis_Intrusion",
             "xyz.openbmc_project.Chassis.Intrusion");
 

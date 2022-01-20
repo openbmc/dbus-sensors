@@ -77,7 +77,6 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
     void setupRead(void);
 
   private:
-    sdbusplus::asio::object_server& objServer;
     boost::asio::posix::stream_descriptor inputDev;
     boost::asio::deadline_timer waitTimer;
     std::shared_ptr<boost::asio::streambuf> readBuf;

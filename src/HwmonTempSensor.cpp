@@ -50,8 +50,8 @@ HwmonTempSensor::HwmonTempSensor(
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
-           conn, powerState),
-    std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
+           conn, objectServer, powerState),
+    std::enable_shared_from_this<HwmonTempSensor>(),
     inputDev(io, open(path.c_str(), O_RDONLY)), waitTimer(io), path(path),
     offsetValue(thisSensorParameters.offsetValue),
     scaleValue(thisSensorParameters.scaleValue),
@@ -62,15 +62,6 @@ HwmonTempSensor::HwmonTempSensor(
             name,
         "xyz.openbmc_project.Sensor.Value");
 
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface("/xyz/openbmc_project/sensors/" +
-                                           thisSensorParameters.typeName + "/" +
-                                           name,
-                                       interface);
-    }
     association = objectServer.add_interface("/xyz/openbmc_project/sensors/" +
                                                  thisSensorParameters.typeName +
                                                  "/" + name,
@@ -85,10 +76,10 @@ HwmonTempSensor::~HwmonTempSensor()
     waitTimer.cancel();
     for (const auto& iface : thresholdInterfaces)
     {
-        objServer.remove_interface(iface);
+        objectServer.remove_interface(iface);
     }
-    objServer.remove_interface(sensorInterface);
-    objServer.remove_interface(association);
+    objectServer.remove_interface(sensorInterface);
+    objectServer.remove_interface(association);
 }
 
 void HwmonTempSensor::setupRead(void)
