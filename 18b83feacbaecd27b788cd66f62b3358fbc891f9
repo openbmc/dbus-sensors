@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3327da6a_ccfd8cf0",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-21T23:58:22Z",
+      "side": 1,
+      "message": "We certainly don\u0027t want any of the sensors not able to send io request because some other sensor just send one or has not had a chance to clear the count yet because callback function has not been called yet. This will cause weird timing issues and really hard to track down.\n\nOn start up, we do PECI ping and get ID commands, those should block the flood of sensor reading requests if PECI does not work. If PECI only timesout in temp reading commands, we can make this \"PECI bus state\" be initialized to be \"NOT Ready\" so requests are serialized, but when successful read happen received, it transition to \"WORKING\" state.",
+      "parentUuid": "9e47ede0_e793d322",
+      "revId": "18b83feacbaecd27b788cd66f62b3358fbc891f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c6bb385_ca68aaa0",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 4
