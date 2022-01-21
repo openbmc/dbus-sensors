@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85274960_3198727d",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-21T07:27:01Z",
+      "side": 1,
+      "message": "This can be used as ThresholdDefinition instead of thresholds::ThresholdDefinition.",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 47
+      },
+      "revId": "e881a93e7ad0b4ece589840f4db2fc5703f72dba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee60fbeb_93825d7c",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-21T07:27:01Z",
+      "side": 1,
+      "message": "This can also be changed.",
+      "range": {
+        "startLine": 49,
+        "startChar": 55,
+        "endLine": 49,
+        "endChar": 65
+      },
+      "revId": "e881a93e7ad0b4ece589840f4db2fc5703f72dba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aa7e301_c784e04a",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-21T07:27:01Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 556,
+        "startChar": 15,
+        "endLine": 556,
+        "endChar": 46
+      },
+      "revId": "e881a93e7ad0b4ece589840f4db2fc5703f72dba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
