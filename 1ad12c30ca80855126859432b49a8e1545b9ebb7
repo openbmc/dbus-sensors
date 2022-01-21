@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b56f34aa_e644cef6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-21T16:57:22Z",
+      "side": 1,
+      "message": "Hmm, I would expect the 2nd sensor (name1) would be created at line 419 loop before the erase config. Are they not under the same hwmon path?",
+      "parentUuid": "6545731e_ff750957",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcdf003a_38458fe0",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 9
