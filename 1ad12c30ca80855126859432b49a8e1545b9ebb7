@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5d95ec0_c9d76572",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-21T14:51:40Z",
+      "side": 1,
+      "message": "In the new patchset, I have added a condition to check the typeName of sensor in line 397 and 449. If the typeName is neither pressure nor humidity, then sensorCreated flag will be true and it will erase the config.\n\nWhether this approach is fine ?\n\nIf not, in the first patchset, I have created a vector to store the sensor names and will check if the sensor name is already created or not. If it is already created, it will skip and iterate to next path.\n\nPlease provide your suggestions.",
+      "parentUuid": "3603949f_a82f940d",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcdf003a_38458fe0",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 9
@@ -136,6 +154,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0c60107_fca356c5",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-21T14:51:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0987d8_636a23ed",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 61
+      },
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1556babc_0b041df2",
@@ -149,6 +191,30 @@
       "writtenOn": "2022-01-19T21:06:50Z",
       "side": 1,
       "message": "Can you use std::holds_alternative / std::get in order to avoid having to deal with pointers?\n\nif (!std::holds_alternative\u003cuint64_t\u003e(busCfg-\u003esecond) || std::holds_alternative\u003cuint64_t\u003e(addrCfg-\u003esecond))\n{\n    ... continue;\n}\n\nSensorConfigKey key \u003d { std::get\u003cuint64_t\u003e(busCfg-\u003esecond), std::get\u003cuint64_t\u003e(addrCfg-\u003esecond) };",
+      "range": {
+        "startLine": 201,
+        "startChar": 12,
+        "endLine": 201,
+        "endChar": 50
+      },
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0137848e_2d134046",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-21T14:51:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1556babc_0b041df2",
       "range": {
         "startLine": 201,
         "startChar": 12,
@@ -195,6 +261,24 @@
       "writtenOn": "2022-01-19T20:41:30Z",
       "side": 1,
       "message": "With https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/50204 I removed the trace for when there is a tempX_input file in sysfs but no config for it, so I think you can just remove this trace too.",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39fe50d9_ff75dcd5",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-21T14:51:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a04c3012_9cf7266e",
       "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
