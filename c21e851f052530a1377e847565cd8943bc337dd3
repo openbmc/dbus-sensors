@@ -46,6 +46,30 @@
       },
       "revId": "c21e851f052530a1377e847565cd8943bc337dd3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0641e45_5ce034f9",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-21T23:42:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17b8087b_04471708",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 24
+      },
+      "revId": "c21e851f052530a1377e847565cd8943bc337dd3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
