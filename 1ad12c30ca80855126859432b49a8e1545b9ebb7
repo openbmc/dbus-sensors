@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99eab12e_6273e99c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-21T16:37:29Z",
+      "side": 1,
+      "message": "I still think identify and removed the already consumed config from the iteration loop is more efficient. \nCan you share or point me to the configuration file for these sensors?\nSeems like addinng typeName to the ConfigKey may work?",
+      "parentUuid": "c5d95ec0_c9d76572",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcdf003a_38458fe0",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 9
