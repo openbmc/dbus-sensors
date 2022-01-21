@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e47ede0_e793d322",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-01-21T21:44:52Z",
+      "side": 1,
+      "message": "On \"When peci command fails  n consecutive times\" \nThe cpusensor code makes all io request almost instantaneously, this is because make_shared from createsensors is called in a for loop. All 100 objects are created well under a sec. Now for error to be detected we need 0.7 sec (peci timeout). \n\nWhich means by the time cpusensor application has detected that there is an error, there will be 100 read request in io queue. Which also means io will hang for 70sec. \n\nI believe the better approach is to control requests to io, like in current patch, so that when cpusensor moves from state of no error to state of error there is no period of hang.",
+      "parentUuid": "cce4538d_0ac0fafd",
+      "revId": "18b83feacbaecd27b788cd66f62b3358fbc891f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c6bb385_ca68aaa0",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 4
