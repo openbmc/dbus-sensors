@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf9ab225_1cf7b723",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-21T23:17:07Z",
+      "side": 1,
+      "message": "hmmm, is it ok to assign a negative number here?\nI guess it matches existing code.",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 24
+      },
+      "revId": "c21e851f052530a1377e847565cd8943bc337dd3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
