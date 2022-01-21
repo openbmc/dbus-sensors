@@ -265,6 +265,12 @@ static void
                    sdbusplus::asio::object_server& objectServer,
                    const std::string& psuName)
 {
+    auto findPWMSensor = pwmSensors.find(psuName + labelHead);
+    if (findPWMSensor != pwmSensors.end())
+    {
+        return;
+    }
+
     for (const auto& [pwmLabel, pwmName] : pwmTable)
     {
         if (pwmLabel != labelHead)
@@ -272,20 +278,10 @@ static void
             continue;
         }
 
-        const std::string& sensorPathStr = sensorPath.string();
-        const std::string& pwmPathStr =
-            boost::replace_all_copy(sensorPathStr, "input", "target");
+        const std::string pwmPathStr =
+            fs::canonical(sensorPath).parent_path().string()
+            + "/" + boost::replace_all_copy(pwmLabel, "fan", "pwm");
         std::ifstream pwmFile(pwmPathStr);
-        if (!pwmFile.good())
-        {
-            continue;
-        }
-
-        auto findPWMSensor = pwmSensors.find(psuName + labelHead);
-        if (findPWMSensor != pwmSensors.end())
-        {
-            continue;
-        }
 
         std::string name = "Pwm_";
         name += psuName;
@@ -296,8 +292,23 @@ static void
         objPath += "_";
         objPath += pwmName;
 
-        pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
+        if (pwmFile.good())
+        {
+            pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
+                name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
+            continue;
+        }
+
+        const std::string& sensorPathStr = sensorPath.string();
+        const std::string& rpmPathStr =
+            boost::replace_all_copy(sensorPathStr, "input", "target");
+        std::ifstream rpmFile(rpmPathStr);
+        if (rpmFile.good())
+        {
+            pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
+                name, rpmPathStr, dbusConnection, objectServer, objPath, "PSU");
+            continue;
+        }
     }
 }
 
