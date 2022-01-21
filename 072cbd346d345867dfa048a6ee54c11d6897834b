@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37a88634_1df6a145",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-21T20:47:33Z",
+      "side": 1,
+      "message": "This doc is more updated compare to the one in the doc repo. I am planing merge this one and update the one in doc.",
+      "parentUuid": "0d98a16a_ec6f8907",
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1c09554_bdf553ed",
@@ -96,6 +114,30 @@
       "side": 1,
       "message": "I don\u0027t like this approach, proposed by Ed too: it seems to be over-complicated and adds lot of unnecessary dbus traffic.",
       "parentUuid": "d39046f6_98a5ae8d",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bedea6a0_c1e84ff7",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-21T20:47:33Z",
+      "side": 1,
+      "message": "This approach gives us the ability to expand and support more interfaces in the future. We now uses EM to create the objects with the correct public interfaces. The private interface is hidden under the EM. Ed, would you comment on this as well?",
+      "parentUuid": "cb054b25_148a71d6",
       "range": {
         "startLine": 44,
         "startChar": 0,
