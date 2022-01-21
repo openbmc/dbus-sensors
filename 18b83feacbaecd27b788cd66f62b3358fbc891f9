@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cce4538d_0ac0fafd",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-01-21T21:33:57Z",
+      "side": 1,
+      "message": "\u003e The issue here is that some \"unlucky\" sensor may be starved. It does not ensure every sensor gets a chance to send the io request.\n\nIf, \"unlucky\" sensor may be starved, is a concern in normal working condition (that is, when there is no peci error), then I believe it won\u0027t be. \n\nBecause we run on one thread and even tho we makes calls to io asynchronously, the execution in the io is happening sequentially. The same was observed during positive test case testing. \n\n\u003e 4) also with a slower poll rate\nIssue here is that 100 sensor scenario explained in commit message means, 70 sec poll interval, and even if issue is resolved within 10 sec, BMC will wait 60 more sec to detect that issue is cleared. \n\n\u003e 3) only allow one active io request\nWe are currently doing same rt? in the code under review. \n\nPoints 1) 2) and 5) is also handled in current code rt? \n\nOr is the suggestion that, once in error state we poll only one sensor object per CPU and keep a bigger poll rate. So if we have a system with two CPU, only two objects of CPUSensor object will be performing read. And once issue is resolved we enable read for all other sensor objects under that CPU?",
+      "parentUuid": "fd0fea92_d162f69e",
+      "revId": "18b83feacbaecd27b788cd66f62b3358fbc891f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c6bb385_ca68aaa0",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 4
