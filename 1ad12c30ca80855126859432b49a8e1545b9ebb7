@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55545ded_8b0587a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-21T17:03:38Z",
+      "side": 1,
+      "message": "the filesystem looks like:\n\n/sys/bus/iio/devices/iio:device1# ls\nin_humidityrelative_offset  in_humidityrelative_scale   in_temp_raw                 name                        power                       uevent\nin_humidityrelative_raw     in_temp_offset              in_temp_scale               of_node                     subsystem\n\n\n/sys/bus/iio/devices/iio:device2# ls\nin_pressure_input               in_temp_input                   name                            subsystem\nin_pressure_oversampling_ratio  in_temp_oversampling_ratio      of_node                         uevent\nin_pressure_sampling_frequency  in_temp_sampling_frequency      power",
+      "parentUuid": "b56f34aa_e644cef6",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcdf003a_38458fe0",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 9
