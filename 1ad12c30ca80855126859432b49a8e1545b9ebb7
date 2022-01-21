@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97e67bd8_6e97dc3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-21T01:31:49Z",
+      "side": 1,
+      "message": "@Matt, Do you have multiple sensors with the same bus and address?\nIf that is true, I am wondering, whether the config key needs to be bus/ address + sensor type or interface",
+      "parentUuid": "954e5af0_1fdbbb31",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcdf003a_38458fe0",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 9
