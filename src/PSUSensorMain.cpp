@@ -248,6 +248,12 @@ static void
                    sdbusplus::asio::object_server& objectServer,
                    const std::string& psuName)
 {
+    auto findPWMSensor = pwmSensors.find(psuName + labelHead);
+    if (findPWMSensor != pwmSensors.end())
+    {
+        return;
+    }
+
     for (const auto& pwmName : pwmTable)
     {
         if (pwmName.first != labelHead)
@@ -255,24 +261,27 @@ static void
             continue;
         }
 
-        const std::string& sensorPathStr = sensorPath.string();
-        const std::string& pwmPathStr =
-            boost::replace_all_copy(sensorPathStr, "input", "target");
+        const std::string pwmPathStr = fs::canonical(sensorPath).parent_path().string() + "/" + pwmName.second;
         std::ifstream pwmFile(pwmPathStr);
-        if (!pwmFile.good())
+        if (pwmFile.good())
         {
+            pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
+                psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
+                objectServer, interfacePath + "_" + pwmName.second, "PSU");
             continue;
         }
 
-        auto findPWMSensor = pwmSensors.find(psuName + labelHead);
-        if (findPWMSensor != pwmSensors.end())
+        const std::string& sensorPathStr = sensorPath.string();
+        const std::string& rpmPathStr =
+        boost::replace_all_copy(sensorPathStr, "input", "target");
+        std::ifstream rpmFile(rpmPathStr);
+        if (rpmFile.good())
         {
+            pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
+                "rpm_" + psuName + "_" + pwmName.first, rpmPathStr, dbusConnection,
+                objectServer, interfacePath + "_" + pwmName.second, "PSU");
             continue;
         }
-
-        pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
-            objectServer, interfacePath + "_" + pwmName.second, "PSU");
     }
 }
 
@@ -1022,7 +1031,7 @@ void propertyInitialize(void)
         {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
         {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)}};
 
-    pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"}};
+    pwmTable = {{"fan1", "pwm1"}, {"fan2", "pwm2"}};
 
     limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
                        {"Failure", {"crit_alarm", "lcrit_alarm"}}};
