@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df71862a_e922ec8f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-21T22:50:45Z",
+      "side": 1,
+      "message": "This skips creation of tach sensor, it that the correct behavior?",
+      "range": {
+        "startLine": 423,
+        "startChar": 32,
+        "endLine": 423,
+        "endChar": 41
+      },
+      "revId": "c2ed91d275fd0041a64f29a6c8a34aec3512ee71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
