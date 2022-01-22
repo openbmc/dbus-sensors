@@ -529,6 +529,30 @@
       },
       "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b49c5cb0_5ef7e238",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-01-22T02:28:12Z",
+      "side": 1,
+      "message": "The getPwmfanPath() is finding all pwm file (pwm1), then reading actual path of \"device\" in same folder.\nIf the pwm file is created by pwn-fan driver, then device is a link which link to /sys/devices/platform/pwm-fanX\n\nroot@bletchley:~# ls -l /sys/class/hwmon/hwmon10/\nlrwxrwxrwx    1 root     root             0 Jan 19 06:50 device -\u003e ../../../pwm-fan0\n-r--r--r--    1 root     root          4096 Jan 19 06:50 name\nlrwxrwxrwx    1 root     root             0 Jan 19 06:50 of_node -\u003e ../../../../../firmware/devicetree/base/pwm-fan0\ndrwxr-xr-x    2 root     root             0 Jan 19 06:50 power\n-rw-r--r--    1 root     root          4096 Jan 22 00:59 pwm1\nlrwxrwxrwx    1 root     root             0 Jan 19 06:50 subsystem -\u003e ../../../../../class/hwmon\n-rw-r--r--    1 root     root          4096 Jan 19 06:50 uevent\n\nroot@bletchley:~# ls -l /sys/class/hwmon/hwmon10/device\nlrwxrwxrwx    1 root     root             0 Jan 19 06:50 /sys/class/hwmon/hwmon10/device -\u003e ../../../pwm-fan0",
+      "parentUuid": "993bd5fd_77579f97",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 429,
+        "endChar": 49
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
