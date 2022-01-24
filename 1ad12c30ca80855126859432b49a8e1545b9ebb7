@@ -218,6 +218,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76b98f52_cbfe8d97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-24T18:56:13Z",
+      "side": 1,
+      "message": "This approach looks good to me. Just one minor comment from my perspective.",
+      "parentUuid": "cc53b5e4_c29578c9",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcdf003a_38458fe0",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 9
