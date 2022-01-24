@@ -200,6 +200,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc53b5e4_c29578c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-24T17:12:29Z",
+      "side": 1,
+      "message": "In the latest patchset, I have added sensor name as vector in SensorConfig struct(line 169) and erased the name once the sensor is created in both the places(line 411 and 460). If the vector is empty, then it will erase the configMap.",
+      "parentUuid": "61a4b360_849b3960",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcdf003a_38458fe0",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 9
