@@ -553,6 +553,30 @@
       },
       "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e21a98ac_439ce6f9",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-01-24T19:30:05Z",
+      "side": 1,
+      "message": "I understand now. Thanks",
+      "parentUuid": "b49c5cb0_5ef7e238",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 429,
+        "endChar": 49
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
