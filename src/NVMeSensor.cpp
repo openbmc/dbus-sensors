@@ -29,7 +29,7 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
                        const std::string& sensorConfiguration,
                        const int busNumber) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           NVMeSensor::CONFIG_TYPE, false, false, maxReading, minReading, conn,
+           NVMeSensor::configType, false, false, maxReading, minReading, conn,
            PowerState::on),
     bus(busNumber), objServer(objectServer)
 {

@@ -229,7 +229,7 @@ struct Sensor
     {
         if (!internalSet)
         {
-            if (insecureSensorOverride == false)
+            if (insecureSensorOverride == 0)
             { // insecure sesnor override.
                 if (isSensorSettable == false)
                 { // sensor is not settable.

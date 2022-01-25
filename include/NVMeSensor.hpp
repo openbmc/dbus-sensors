@@ -6,7 +6,7 @@
 class NVMeSensor : public Sensor
 {
   public:
-    static constexpr const char* CONFIG_TYPE =
+    static constexpr const char* configType =
         "xyz.openbmc_project.Configuration.NVME1000";
 
     NVMeSensor(sdbusplus::asio::object_server& objectServer,
@@ -15,7 +15,7 @@ class NVMeSensor : public Sensor
                const std::string& sensorName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration, const int busNumber);
-    virtual ~NVMeSensor();
+    ~NVMeSensor() override;
 
     NVMeSensor& operator=(const NVMeSensor& other) = delete;
 
