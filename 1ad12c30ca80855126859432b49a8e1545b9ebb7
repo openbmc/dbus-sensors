@@ -234,6 +234,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb8bb4a_000b505e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-25T12:42:51Z",
+      "side": 1,
+      "message": "Addressed all the review comments and submitted a new patchset.\n\n@Matt, Please check the latest patchset in your platform.",
+      "parentUuid": "76b98f52_cbfe8d97",
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcdf003a_38458fe0",
@@ -247,6 +265,30 @@
       "writtenOn": "2022-01-19T21:06:50Z",
       "side": 1,
       "message": "How about:\n\n  auto operator\u003c\u003d\u003e(const SensorConfigKey\u0026) const \u003d default;",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 5
+      },
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b4793f3_b691e3b2",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-25T12:42:51Z",
+      "side": 1,
+      "message": "The below error shown in CI while using \"auto operator\u003c\u003d\u003e(const SensorConfigKey\u0026) const \u003d default;\"\n\n\"use nullptr [modernize-use-nullptr,-warnings-as-errors]\"",
+      "parentUuid": "dcdf003a_38458fe0",
       "range": {
         "startLine": 160,
         "startChar": 0,
@@ -364,6 +406,30 @@
       "writtenOn": "2022-01-19T21:06:50Z",
       "side": 1,
       "message": "std::move on both of these?",
+      "range": {
+        "startLine": 210,
+        "startChar": 52,
+        "endLine": 210,
+        "endChar": 60
+      },
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "338fbff4_8293112f",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-01-25T12:42:51Z",
+      "side": 1,
+      "message": "Since key is const, not able to use std::move().",
+      "parentUuid": "cee73628_86d74cab",
       "range": {
         "startLine": 210,
         "startChar": 52,
