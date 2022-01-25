@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61d0a8bc_e3e3ddf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-01-25T17:10:53Z",
+      "side": 1,
+      "message": "The intension here is to simulate the behaviour of monitoring pgood gpio state which is required to proceed further in the host power on process only here gpio pgood state value is read via dbus-property.\nevery things else is similar based on the x86-power-control state events.",
+      "parentUuid": "d9354e03_7218cc47",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 46
+      },
+      "revId": "6cef2592e1430dfaaa9b868e8f2e779e9ba1bce8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be515e96_dfa6e3ac",
