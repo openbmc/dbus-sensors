@@ -19,7 +19,7 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
         close();
     }
 
-    void addSensor(std::shared_ptr<NVMeSensor> sensor)
+    void addSensor(const std::shared_ptr<NVMeSensor>& sensor)
     {
         sensors.emplace_back(sensor);
     }
@@ -38,7 +38,7 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
         return std::nullopt;
     }
 
-    void removeSensor(std::shared_ptr<NVMeSensor> sensor)
+    void removeSensor(const std::shared_ptr<NVMeSensor>& sensor)
     {
         sensors.remove(sensor);
     }

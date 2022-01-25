@@ -56,9 +56,7 @@ cert-con54-cpp,
 cert-dcl03-c,
 cert-dcl16-c,
 cert-dcl21-cpp,
-cert-dcl37-c,
 cert-dcl50-cpp,
-cert-dcl51-cpp,
 cert-dcl54-cpp,
 cert-dcl58-cpp,
 cert-dcl59-cpp,
@@ -189,9 +187,7 @@ clang-analyzer-webkit.NoUncountedMemberChecker,
 clang-analyzer-webkit.RefCntblBaseVirtualDtor,
 cppcoreguidelines-avoid-c-arrays,
 cppcoreguidelines-init-variables,
-cppcoreguidelines-special-member-functions,
 misc-misplaced-const,
-misc-no-recursion,
 misc-redundant-expression,
 misc-static-assert,
 misc-throw-by-value-catch-by-reference,
@@ -252,7 +248,7 @@ readability-else-after-return,
 readability-identifier-naming'
 
 WarningsAsErrors: '*'
-HeaderFilterRegex: '^((?!linux).)*$'
+HeaderFilterRegex: '.*'
 CheckOptions:
   - { key: readability-identifier-naming.ClassCase,     value: CamelCase  }
   - { key: readability-identifier-naming.VariableCase,  value: camelBack }
@@ -260,4 +256,5 @@ CheckOptions:
   - { key: readability-identifier-naming.ParameterCase, value: camelBack }
   - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
   - { key: readability-identifier-naming.StructCase,    value: CamelCase  }
-
+  - { key: readability-identifier-naming.StructIgnoredRegexp,    value: ((peci_xfer_msg)|(peci_ping_msg)|(peci_get_dib_msg)|(peci_get_temp_msg)|(peci_rd_pkg_cfg_msg)|(peci_wr_pkg_cfg_msg)|(peci_rd_ia_msr_msg)|(peci_wr_ia_msr_msg)|(peci_rd_ia_msrex_msg)|(peci_rd_pci_cfg_msg)|(peci_wr_pci_cfg_msg)|(peci_rd_pci_cfg_local_msg)|(peci_wr_pci_cfg_local_msg)|(peci_rd_end_pt_cfg_msg)|(peci_wr_end_pt_cfg_msg)|(peci_crashdump_disc_msg)|(peci_crashdump_get_frame_msg))  }
+  - { key: bugprone-reserved-identifier.AllowedIdentifiers,    value: __PECI_IOCTL_H }

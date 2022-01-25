@@ -9,12 +9,12 @@ class NVMeMCTPContext : public NVMeContext
   public:
     NVMeMCTPContext(boost::asio::io_service& io, int rootBus);
 
-    virtual ~NVMeMCTPContext();
+    ~NVMeMCTPContext() override;
 
-    virtual void pollNVMeDevices() override;
-    virtual void close() override;
-    virtual void readAndProcessNVMeSensor() override;
-    virtual void processResponse(void* msg, size_t len) override;
+    void pollNVMeDevices() override;
+    void close() override;
+    void readAndProcessNVMeSensor() override;
+    void processResponse(void* msg, size_t len) override;
 
   private:
     boost::asio::ip::tcp::socket nvmeSlaveSocket;
@@ -23,7 +23,7 @@ class NVMeMCTPContext : public NVMeContext
     void readResponse();
 };
 
-namespace nvmeMCTP
+namespace nvme_mctp
 {
 void init(void);
 }

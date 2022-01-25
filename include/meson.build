@@ -4,3 +4,4 @@ conf_data.set10('INSECURE_UNRESTRICTED_SENSOR_OVERRIDE', get_option('insecure-se
 configure_file(input: 'dbus-sensor_config.h.in',
                output: 'dbus-sensor_config.h',
                configuration: conf_data)
+
