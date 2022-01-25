@@ -23,7 +23,7 @@ class ExternalSensor :
                    const std::string& sensorConfiguration, double maxReading,
                    double minReading, double timeoutSecs,
                    const PowerState& powerState);
-    virtual ~ExternalSensor();
+    ~ExternalSensor() override;
 
     // Call this immediately after calling the constructor
     void initWriteHook(
