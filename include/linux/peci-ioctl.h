@@ -4,7 +4,7 @@
 // clang-format off
 
 #ifndef __PECI_IOCTL_H
-#define __PECI_IOCTL_H
+#define PECI_IOCTL_H
 
 #include <linux/ioctl.h>
 #include <linux/types.h>

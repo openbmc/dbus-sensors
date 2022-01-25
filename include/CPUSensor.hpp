@@ -93,7 +93,7 @@ inline bool cpuIsPresent(
         return false;
     }
 
-    bool resp;
+    bool resp = false;
     try
     {
         line.request({"cpusensor", gpiod::line_request::DIRECTION_INPUT,
