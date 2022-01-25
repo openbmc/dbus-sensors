@@ -132,7 +132,7 @@ static void handleSensorConfigurations(
     for (const auto& [interfacePath, sensorData] : sensorConfigurations)
     {
         // find base configuration
-        auto sensorBase = sensorData.find(NVMeSensor::CONFIG_TYPE);
+        auto sensorBase = sensorData.find(NVMeSensor::configType);
         if (sensorBase != sensorData.end())
         {
             const SensorBaseConfigMap& sensorConfig = sensorBase->second;
@@ -181,7 +181,7 @@ void createSensors(boost::asio::io_service& io,
             handleSensorConfigurations(io, objectServer, dbusConnection,
                                        sensorConfigurations);
         }));
-    getter->getConfiguration(std::vector<std::string>{NVMeSensor::CONFIG_TYPE});
+    getter->getConfiguration(std::vector<std::string>{NVMeSensor::configType});
 }
 
 static void interfaceRemoved(sdbusplus::message::message& message,
@@ -257,7 +257,7 @@ int main()
         static_cast<sdbusplus::bus::bus&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" +
-            std::string(NVMeSensor::CONFIG_TYPE) + "'",
+            std::string(NVMeSensor::configType) + "'",
         eventHandler);
 
     // Watch for entity-manager to remove configuration interfaces
