@@ -44,18 +44,6 @@ Direction findThresholdDirection(const std::string& direct)
     return Direction::ERROR;
 }
 
-bool isValidLevel(Level lev)
-{
-    for (const ThresholdDefinition& prop : thresProp)
-    {
-        if (prop.level == lev)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
@@ -219,10 +207,6 @@ void updateThresholds(Sensor* sensor)
 
     for (const auto& threshold : sensor->thresholds)
     {
-        if (!isValidLevel(threshold.level))
-        {
-            continue;
-        }
         std::shared_ptr<sdbusplus::asio::dbus_interface> interface =
             sensor->getThresholdInterface(threshold.level);
 
@@ -459,11 +443,6 @@ void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert)
 {
-    if (!isValidLevel(level))
-    {
-        return;
-    }
-
     std::shared_ptr<sdbusplus::asio::dbus_interface> interface =
         sensor->getThresholdInterface(level);
 

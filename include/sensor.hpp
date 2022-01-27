@@ -263,10 +263,7 @@ struct Sensor
             {
                 threshold.hysteresis = hysteresisTrigger;
             }
-            if (!thresholds::isValidLevel(threshold.level))
-            {
-                continue;
-            }
+
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface =
                 getThresholdInterface(threshold.level);
 
