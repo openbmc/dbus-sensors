@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f4de7ec2_a3750cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2022-01-27T02:44:54Z",
+      "side": 1,
+      "message": "It looks like what Harvey want to do is to monitor the sensor reading(temperature) from some kind of intel PCH and this sensor reading can be get through i2c only and, unfortunately, the reading in that register do not want to be forcely divided by 1000.\n\nAfter checking the code of MCUTempSensor, it seems this sensor is just polling the sensor reading which is get through I2C. I have not seen any special setting for \"MCU\" device in the code. I think the way MCUTempSensor polling sensor reading is the reason why he want to use this sensor to monitor that register in that PCH.\n\nHe has remained the default of \"scale\" as 1000, I think this will not influence anyone else.",
+      "parentUuid": "bcddca92_8ee3af62",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "157d6d601e417235ff1438d18a00a58e7ded4591",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4619235c_7aee89e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
