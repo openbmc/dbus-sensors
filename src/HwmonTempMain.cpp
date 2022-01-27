@@ -372,7 +372,16 @@ void createSensors(
             else
             {
                 device = directory / "device";
-                deviceName = fs::canonical(device).stem();
+
+                try
+                {
+                    deviceName = fs::canonical(device).stem();
+                }
+                catch (fs::filesystem_error& e)
+                {
+                    std::cerr << device << " not available\n";
+                    continue;
+                }
             }
             auto findHyphen = deviceName.find('-');
             if (findHyphen == std::string::npos)
