@@ -112,8 +112,6 @@ struct ThresholdTimer
     std::list<TimerPair> timers;
 };
 
-bool isValidLevel(Level lev);
-
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
