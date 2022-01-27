@@ -200,11 +200,6 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
 
 void updateThresholds(Sensor* sensor)
 {
-    if (sensor->thresholds.empty())
-    {
-        return;
-    }
-
     for (const auto& threshold : sensor->thresholds)
     {
         std::shared_ptr<sdbusplus::asio::dbus_interface> interface =
