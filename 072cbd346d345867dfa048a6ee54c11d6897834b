@@ -77,6 +77,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aed36a1_c1155439",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-28T21:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1c09554_bdf553ed",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 93
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d39046f6_98a5ae8d",
@@ -148,6 +172,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "063ee061_c699a174",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-28T21:44:32Z",
+      "side": 1,
+      "message": "I spoke with Ed offline. We agreed that individual is ok to create private interfaces. However, the interfaces that are used for ipmi needs to be the public interfaces. I like this approach because it gives more flexibility. Please reopen if you think otherwise.",
+      "parentUuid": "bedea6a0_c1e84ff7",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1ed26e7_70dd0d66",
@@ -161,6 +209,24 @@
       "writtenOn": "2022-01-20T09:51:44Z",
       "side": 1,
       "message": "This part is already out of scope of your gpiosensor and should be somewhere in docs/designs.",
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9489c38e_ee8a6903",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-28T21:44:32Z",
+      "side": 1,
+      "message": "I think it is ok to have it documented in both places for completeness.",
+      "parentUuid": "f1ed26e7_70dd0d66",
       "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -182,6 +248,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f3e246c_287d73a9",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-28T21:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ccc379_9d846b28",
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63e49227_290a3246",
@@ -195,6 +279,30 @@
       "writtenOn": "2022-01-20T09:51:44Z",
       "side": 1,
       "message": "What is \"ipmi obj\"? AFAIK EM do nothing with IPMI.",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 25
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39c2af3d_0d5aef53",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-01-28T21:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63e49227_290a3246",
       "range": {
         "startLine": 93,
         "startChar": 2,
