@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "371c758a_dc89413b",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-01-28T08:05:40Z",
+      "side": 1,
+      "message": "Should this also be moved to Sensor?",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 5
+      },
+      "revId": "a74be727bd8cd91f4bedb33fd3f6945e20398b2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91f3e5f8_e18ad6d6",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-01-28T08:05:40Z",
+      "side": 1,
+      "message": "May be we should place all interfaces to some map?",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 5
+      },
+      "revId": "a74be727bd8cd91f4bedb33fd3f6945e20398b2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
