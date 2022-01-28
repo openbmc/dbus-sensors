@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbca66cc_601d4496",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-01-28T19:14:50Z",
+      "side": 1,
+      "message": "ideally, yes, but the reason it\u0027s here is that some of the classes have some shutdown races that this handled.  In theory, that\u0027s what the https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/37313 patch is trying to tease out, but it\u0027s slow going.",
+      "parentUuid": "371c758a_dc89413b",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 5
+      },
+      "revId": "a74be727bd8cd91f4bedb33fd3f6945e20398b2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91f3e5f8_e18ad6d6",
         "filename": "src/ADCSensor.cpp",
         "patchSetId": 2
