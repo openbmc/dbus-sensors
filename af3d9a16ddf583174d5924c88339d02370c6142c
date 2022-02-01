@@ -57,6 +57,30 @@
       },
       "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082e67e6_d571c0bd",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-01T14:29:21Z",
+      "side": 1,
+      "message": "IpmbBusIndex is used in /dev/ipmb-x channel to send and receive IPMB commands via ipmbbridge. Whereas HostSMBusIndex is used in /dev/i2c-x and it is used for the machines which are not using ipmb driver.",
+      "parentUuid": "8a8c1738_0904f788",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 74
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
