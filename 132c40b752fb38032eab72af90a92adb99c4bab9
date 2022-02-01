@@ -33,6 +33,92 @@
       "message": "Hi Ed / Patrick,\n\nCould you please provide your suggestion/approval for this patch.\n\nThanks.",
       "revId": "132c40b752fb38032eab72af90a92adb99c4bab9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea073deb_a712407b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-01T17:31:24Z",
+      "side": 1,
+      "message": "A few minor comments.  Code could be merged as is if desired.",
+      "revId": "132c40b752fb38032eab72af90a92adb99c4bab9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ee2e4c2_b6cccd08",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-01T17:31:24Z",
+      "side": 1,
+      "message": "size_t",
+      "range": {
+        "startLine": 212,
+        "startChar": 16,
+        "endLine": 212,
+        "endChar": 19
+      },
+      "revId": "132c40b752fb38032eab72af90a92adb99c4bab9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19231779_e1f21ec4",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-01T17:31:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the key be moved too?",
+      "range": {
+        "startLine": 231,
+        "startChar": 52,
+        "endLine": 231,
+        "endChar": 55
+      },
+      "revId": "132c40b752fb38032eab72af90a92adb99c4bab9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "414aa974_904477cf",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-01T17:31:24Z",
+      "side": 1,
+      "message": "minor preference for std::ranges::find operations now with C++20 (since it cuts down the verbosity of having to specify the endpoints).",
+      "range": {
+        "startLine": 424,
+        "startChar": 41,
+        "endLine": 425,
+        "endChar": 61
+      },
+      "revId": "132c40b752fb38032eab72af90a92adb99c4bab9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

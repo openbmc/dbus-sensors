@@ -337,6 +337,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf4f3e33_ef8cd905",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-01T17:31:24Z",
+      "side": 1,
+      "message": "That makes it seem like clang (used in clang-tidy) doesn\u0027t fully support the spaceship operator from C++20 yet.  Looking at their status it seems like maybe it\u0027ll show up in Clang 14. 😭",
+      "parentUuid": "5b4793f3_b691e3b2",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 5
+      },
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee0987d8_636a23ed",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 9
