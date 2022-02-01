@@ -81,6 +81,30 @@
       },
       "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f105480_e37618a3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-01T18:42:09Z",
+      "side": 1,
+      "message": "In general, the i2c index should be enough, and EM should be calling new_device to create an index.  We should not be requiring an abstract bus number that\u0027s an internal detail.",
+      "parentUuid": "082e67e6_d571c0bd",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 74
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
