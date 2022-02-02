@@ -359,6 +359,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0f273c7_d470fffd",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-02T12:56:37Z",
+      "side": 1,
+      "message": "ok, for now, I\u0027ll keep this as bool operator. After clang-14 updated, I\u0027ll change and submit this part alone as new patch.",
+      "parentUuid": "cf4f3e33_ef8cd905",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 5
+      },
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee0987d8_636a23ed",
@@ -490,6 +514,30 @@
       "side": 1,
       "message": "Since key is const, not able to use std::move().",
       "parentUuid": "cee73628_86d74cab",
+      "range": {
+        "startLine": 210,
+        "startChar": 52,
+        "endLine": 210,
+        "endChar": 60
+      },
+      "revId": "1ad12c30ca80855126859432b49a8e1545b9ebb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c85c111_535735fa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-02T12:56:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "338fbff4_8293112f",
       "range": {
         "startLine": 210,
         "startChar": 52,

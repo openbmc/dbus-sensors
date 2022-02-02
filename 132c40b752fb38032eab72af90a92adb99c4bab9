@@ -75,6 +75,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc05ccdd_37029004",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-02T12:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ee2e4c2_b6cccd08",
+      "range": {
+        "startLine": 212,
+        "startChar": 16,
+        "endLine": 212,
+        "endChar": 19
+      },
+      "revId": "132c40b752fb38032eab72af90a92adb99c4bab9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19231779_e1f21ec4",
@@ -100,6 +124,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9aaa92a1_b3f3a262",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-02T12:56:37Z",
+      "side": 1,
+      "message": "I am getting below error in CI for std::move(key).\n\nerror: std::move of the variable \u0027key\u0027 of the trivially-copyable type \u0027SensorConfigKey\u0027 has no effect; remove std::move() [performance-move-const-arg,-warnings-as-errors]",
+      "parentUuid": "19231779_e1f21ec4",
+      "range": {
+        "startLine": 231,
+        "startChar": 52,
+        "endLine": 231,
+        "endChar": 55
+      },
+      "revId": "132c40b752fb38032eab72af90a92adb99c4bab9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "414aa974_904477cf",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 12
@@ -111,6 +159,30 @@
       "writtenOn": "2022-02-01T17:31:24Z",
       "side": 1,
       "message": "minor preference for std::ranges::find operations now with C++20 (since it cuts down the verbosity of having to specify the endpoints).",
+      "range": {
+        "startLine": 424,
+        "startChar": 41,
+        "endLine": 425,
+        "endChar": 61
+      },
+      "revId": "132c40b752fb38032eab72af90a92adb99c4bab9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f14f35c_836a0609",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-02T12:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "414aa974_904477cf",
       "range": {
         "startLine": 424,
         "startChar": 41,
