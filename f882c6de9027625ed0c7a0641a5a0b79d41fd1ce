@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b2cd41c_e7b1e4bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-03T00:34:45Z",
+      "side": 1,
+      "message": "Seems like there are two main changes in this review - the yield context and then the weak_ptr. It would be easier to review to separate it into two review.",
+      "revId": "f882c6de9027625ed0c7a0641a5a0b79d41fd1ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a59a288c_13f225eb",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-03T00:34:45Z",
+      "side": 1,
+      "message": "This makes a copy of all the shared_ptr\u003cCPUSensor\u003e, it prevents line 386 to invoke the destructor. Then there can be two objects with the same name on dbus, which can cause undefined behaviors.",
+      "range": {
+        "startLine": 430,
+        "startChar": 3,
+        "endLine": 431,
+        "endChar": 37
+      },
+      "revId": "f882c6de9027625ed0c7a0641a5a0b79d41fd1ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bf562cc_fc431fed",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-03T00:34:45Z",
+      "side": 1,
+      "message": "What does exit do here? CPUSensor service exits?",
+      "range": {
+        "startLine": 440,
+        "startChar": 0,
+        "endLine": 441,
+        "endChar": 24
+      },
+      "revId": "f882c6de9027625ed0c7a0641a5a0b79d41fd1ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
