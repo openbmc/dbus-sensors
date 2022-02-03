@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccbf56f2_cbff4f7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-02-03T10:12:34Z",
+      "side": 1,
+      "message": "I supose you mean the async_wait change. weak_ptr change was already there.\nI splitted the review. PLease find the new one https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/50885",
+      "parentUuid": "3b2cd41c_e7b1e4bc",
+      "revId": "f882c6de9027625ed0c7a0641a5a0b79d41fd1ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a59a288c_13f225eb",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9985b874_cf26e87f",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-02-03T10:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a59a288c_13f225eb",
+      "range": {
+        "startLine": 430,
+        "startChar": 3,
+        "endLine": 431,
+        "endChar": 37
+      },
+      "revId": "f882c6de9027625ed0c7a0641a5a0b79d41fd1ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bf562cc_fc431fed",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-02-03T00:34:45Z",
       "side": 1,
       "message": "What does exit do here? CPUSensor service exits?",
+      "range": {
+        "startLine": 440,
+        "startChar": 0,
+        "endLine": 441,
+        "endChar": 24
+      },
+      "revId": "f882c6de9027625ed0c7a0641a5a0b79d41fd1ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45722fb4_7cc043d1",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-02-03T10:12:34Z",
+      "side": 1,
+      "message": "Yes that is the intention. It is not suposed to happen.\nI updated it to exception. PLease find it on new review\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/50885/1/src/CPUSensorMain.cpp#438",
+      "parentUuid": "2bf562cc_fc431fed",
       "range": {
         "startLine": 440,
         "startChar": 0,

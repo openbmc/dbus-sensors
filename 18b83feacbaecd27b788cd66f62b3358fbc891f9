@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1ee2a65_7f57107d",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-02-03T10:12:34Z",
+      "side": 1,
+      "message": "Implemented a different solution and pushed as a seperate item https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/50885",
+      "parentUuid": "3327da6a_ccfd8cf0",
+      "revId": "18b83feacbaecd27b788cd66f62b3358fbc891f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c6bb385_ca68aaa0",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 4
