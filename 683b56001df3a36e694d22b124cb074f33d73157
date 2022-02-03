@@ -39,6 +39,30 @@
       },
       "revId": "683b56001df3a36e694d22b124cb074f33d73157",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7918494_2c6d0ff4",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-02-03T17:48:20Z",
+      "side": 1,
+      "message": "I tried with 10ms delay. It seems working fine.\nUpdated to 10ms.",
+      "parentUuid": "7c7604fd_afded69b",
+      "range": {
+        "startLine": 55,
+        "startChar": 49,
+        "endLine": 55,
+        "endChar": 51
+      },
+      "revId": "683b56001df3a36e694d22b124cb074f33d73157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
