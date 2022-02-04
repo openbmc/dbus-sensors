@@ -237,6 +237,42 @@ struct Sensor
         return 1;
     }
 
+    int updateThreshold(const Level lev, const Direction dir,
+                        const size_t& thresSize, const std::string& label,
+                        const double& request, double& oldValue)
+    {
+        bool found = false;
+        for (auto& threshold : thresholds)
+        {
+            if ((threshold.level == lev) && (threshold.direction == dir))
+            {
+                threshold.value = request;
+                thresholds::persistThreshold(configurationPath, objectType,
+                                             threshold, dbusConnection,
+                                             thresSize, label);
+                break;
+            }
+        }
+        // TODO: redesign thresholds structure to make it possible to add
+        // new ones
+        if (!found)
+        {
+            return -1;
+        }
+
+        oldValue = request;
+        // Invalidate previously remembered value,
+        // so new thresholds will be checked during next update,
+        // even if sensor reading remains unchanged.
+        value = std::numeric_limits<double>::quiet_NaN();
+
+        // Although tempting, don't call checkThresholds() from here
+        // directly. Let the regular sensor monitor call the same
+        // using updateValue(), which can check conditions like
+        // poweron, etc., before raising any event.
+        return 1;
+    }
+
     void setInitialProperties(const std::string& unit,
                               const std::string& label = std::string(),
                               size_t thresholdSize = 0)
@@ -255,70 +291,85 @@ struct Sensor
             "Value", value, [&](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
             });
+        if (!sensorInterface->initialize())
+        {
+            std::cerr << "error initializing value interface\n";
+        }
+
         for (auto& threshold : thresholds)
         {
             if (std::isnan(threshold.hysteresis))
             {
                 threshold.hysteresis = hysteresisTrigger;
             }
-            if (!thresholds::isValidLevel(threshold.level))
+        }
+        for (size_t index = 0; index < thresholdInterfaces.size(); index++)
+        {
+            auto& thresIface = thresholdInterfaces[index];
+            if (!thresIface)
             {
                 continue;
             }
-            std::shared_ptr<sdbusplus::asio::dbus_interface> iface =
-                getThresholdInterface(threshold.level);
-
-            if (!iface)
+            Level level = static_cast<Level>(index);
+            std::string levelName;
+            for (const thresholds::ThresholdDefinition& prop :
+                 thresholds::thresProp)
             {
-                std::cout << "trying to set uninitialized interface\n";
+                if (prop.level == level)
+                {
+                    levelName = prop.levelName;
+                    break;
+                }
+            }
+            if (levelName.empty())
+            {
+                std::cerr << "Error finding threshold description \n";
                 continue;
             }
 
-            std::string level =
-                propertyLevel(threshold.level, threshold.direction);
-            std::string alarm =
-                propertyAlarm(threshold.level, threshold.direction);
-
-            if ((level.empty()) || (alarm.empty()))
+            double thLowValue = std::numeric_limits<double>::quiet_NaN();
+            double thHighValue = std::numeric_limits<double>::quiet_NaN();
+            for (auto& threshold : thresholds)
             {
-                continue;
+                if (threshold.level == level)
+                {
+                    if (threshold.direction == Direction::LOW)
+                    {
+                        thLowValue = threshold.value;
+                    }
+                    if (threshold.direction == Direction::HIGH)
+                    {
+                        thHighValue = threshold.value;
+                    }
+                    if (!std::isnan(thLowValue) && !std::isnan(thHighValue))
+                    {
+                        break;
+                    }
+                }
             }
+
             size_t thresSize =
                 label.empty() ? thresholds.size() : thresholdSize;
-            iface->register_property(
-                level, threshold.value,
-                [&, label, thresSize](const double& request, double& oldValue) {
-                    oldValue = request; // todo, just let the config do this?
-                    threshold.value = request;
-                    thresholds::persistThreshold(configurationPath, objectType,
-                                                 threshold, dbusConnection,
-                                                 thresSize, label);
-                    // Invalidate previously remembered value,
-                    // so new thresholds will be checked during next update,
-                    // even if sensor reading remains unchanged.
-                    value = std::numeric_limits<double>::quiet_NaN();
-
-                    // Although tempting, don't call checkThresholds() from here
-                    // directly. Let the regular sensor monitor call the same
-                    // using updateValue(), which can check conditions like
-                    // poweron, etc., before raising any event.
-                    return 1;
+            thresIface->register_property(
+                levelName + "Low", thLowValue,
+                [this, level, thresSize, label](const double& request,
+                                                double& oldValue) {
+                    return updateThreshold(level, Direction::LOW, thresSize,
+                                           label, request, oldValue);
                 });
-            iface->register_property(alarm, false);
-        }
-        if (!sensorInterface->initialize())
-        {
-            std::cerr << "error initializing value interface\n";
-        }
+            thresIface->register_property(
+                levelName + "High", thHighValue,
+                [this, level, thresSize, label](const double& request,
+                                                double& oldValue) {
+                    return updateThreshold(level, Direction::HIGH, thresSize,
+                                           label, request, oldValue);
+                });
+            thresIface->register_property(levelName + "AlarmLow", false);
+            thresIface->register_property(levelName + "AlarmHigh", false);
 
-        for (auto& thresIface : thresholdInterfaces)
-        {
-            if (thresIface)
+            if (!thresIface->initialize(true))
             {
-                if (!thresIface->initialize(true))
-                {
-                    std::cerr << "Error initializing threshold interface \n";
-                }
+                std::cerr << "Error initializing threshold interface \n";
             }
         }
 
