@@ -90,11 +90,11 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
     // register and initialize "Associations" property.
     if (label.empty() || tSize == thresholds.size())
     {
-        setInitialProperties(conn, sensorUnits);
+        setInitialProperties(sensorUnits);
     }
     else
     {
-        setInitialProperties(conn, sensorUnits, label, tSize);
+        setInitialProperties(sensorUnits, label, tSize);
     }
 
     association = objectServer.add_interface(dbusPath, association::interface);

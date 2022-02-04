@@ -237,15 +237,13 @@ struct Sensor
         return 1;
     }
 
-    void
-        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                             const std::string& unit,
-                             const std::string& label = std::string(),
-                             size_t thresholdSize = 0)
+    void setInitialProperties(const std::string& unit,
+                              const std::string& label = std::string(),
+                              size_t thresholdSize = 0)
     {
         if (readState == PowerState::on || readState == PowerState::biosPost)
         {
-            setupPowerMatch(conn);
+            setupPowerMatch(dbusConnection);
         }
 
         createAssociation(association, configurationPath);
@@ -293,8 +291,8 @@ struct Sensor
                     oldValue = request; // todo, just let the config do this?
                     threshold.value = request;
                     thresholds::persistThreshold(configurationPath, objectType,
-                                                 threshold, conn, thresSize,
-                                                 label);
+                                                 threshold, dbusConnection,
+                                                 thresSize, label);
                     // Invalidate previously remembered value,
                     // so new thresholds will be checked during next update,
                     // even if sensor reading remains unchanged.
@@ -328,7 +326,7 @@ struct Sensor
         {
             valueMutabilityInterface =
                 std::make_shared<sdbusplus::asio::dbus_interface>(
-                    conn, sensorInterface->get_object_path(),
+                    dbusConnection, sensorInterface->get_object_path(),
                     valueMutabilityInterfaceName);
             valueMutabilityInterface->register_property("Mutable", true);
             if (!valueMutabilityInterface->initialize())
@@ -343,7 +341,7 @@ struct Sensor
         {
             availableInterface =
                 std::make_shared<sdbusplus::asio::dbus_interface>(
-                    conn, sensorInterface->get_object_path(),
+                    dbusConnection, sensorInterface->get_object_path(),
                     availableInterfaceName);
             availableInterface->register_property(
                 "Available", true, [this](const bool propIn, bool& old) {
@@ -364,7 +362,7 @@ struct Sensor
         {
             operationalInterface =
                 std::make_shared<sdbusplus::asio::dbus_interface>(
-                    conn, sensorInterface->get_object_path(),
+                    dbusConnection, sensorInterface->get_object_path(),
                     operationalInterfaceName);
             operationalInterface->register_property("Functional", true);
             operationalInterface->initialize();
