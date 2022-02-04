@@ -183,7 +183,7 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/airflow/" + name, association::interface);
 
-    setInitialProperties(conn, sensor_paths::unitCFM);
+    setInitialProperties(sensor_paths::unitCFM);
 
     pwmLimitIface =
         objectServer.add_interface("/xyz/openbmc_project/control/pwm_limit",
@@ -526,7 +526,7 @@ ExitAirTempSensor::ExitAirTempSensor(
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         association::interface);
-    setInitialProperties(conn, sensor_paths::unitDegreesC);
+    setInitialProperties(sensor_paths::unitDegreesC);
 }
 
 ExitAirTempSensor::~ExitAirTempSensor()

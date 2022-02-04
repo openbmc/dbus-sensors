@@ -75,7 +75,7 @@ HwmonTempSensor::HwmonTempSensor(
                                                  thisSensorParameters.typeName +
                                                  "/" + name,
                                              association::interface);
-    setInitialProperties(conn, thisSensorParameters.units);
+    setInitialProperties(thisSensorParameters.units);
 }
 
 HwmonTempSensor::~HwmonTempSensor()

@@ -118,7 +118,7 @@ std::string IpmbSensor::getSubTypeUnits(void)
 void IpmbSensor::init(void)
 {
     loadDefaults();
-    setInitialProperties(dbusConnection, getSubTypeUnits());
+    setInitialProperties(getSubTypeUnits());
     if (initCommand)
     {
         runInitCmd();
