@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9839606_a7d09dc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-04T16:21:53Z",
+      "side": 1,
+      "message": "This is alternative implementation for https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/43172\nCompared to 43172, my solution looks bit more natural, but it doesn\u0027t allow to set value for non-existing threshold. It is possible to create threshold object on the fly, same as there, but with current design we can\u0027t save changes anywhere: it is not possibly to add new threshold interface to EM from dbus.\nPossible solution could be to redesign EM threshold configuration to use e.g. single json to describe all thresholds instead of creating individual interface to each one, but this is out of scope of this change.",
+      "revId": "283ac9df107defd3d999a9fe1f6be6799ac3649b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
