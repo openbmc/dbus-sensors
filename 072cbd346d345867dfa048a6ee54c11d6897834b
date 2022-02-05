@@ -198,6 +198,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9871f389_a5137b13",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-05T15:59:32Z",
+      "side": 1,
+      "message": "I totally agree with Patrick: there is no such thing as \"private interface\". Especially if you use it in such common repo as dbus-sensors. Any interface should be documented n PDI.\nAnyway, I prefer you to use previous design, where gpio-sensor expose xyz.openbmc_project.Inventory.Item by itself.",
+      "parentUuid": "063ee061_c699a174",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1ed26e7_70dd0d66",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 36
