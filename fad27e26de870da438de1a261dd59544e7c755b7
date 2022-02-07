@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b8d3b8b_8f7e0156",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-07T16:25:23Z",
+      "side": 1,
+      "message": "Should this be a vector so we don\u0027t lose the index information?  Ie, Name \u003d index 0, Name 1 \u003d index 1, ect.",
+      "range": {
+        "startLine": 176,
+        "startChar": 9,
+        "endLine": 176,
+        "endChar": 12
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d57a4d64_2e883e32",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-07T16:25:23Z",
+      "side": 1,
+      "message": "need to log something here?",
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "574dbdc9_ec179303",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-07T16:25:23Z",
+      "side": 1,
+      "message": "Please just rely on get like the old code did, or alternatively, do a get_if\u003cuint64_t\u003e if you\u0027re not planning on throwing the exception.  I suspect the compiler is going to have a tough time optimizing this one, so we should give it help.",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 0
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4818e8d_80400696",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-07T16:25:23Z",
+      "side": 1,
+      "message": "nit, instead of starting at 0, and immediately incrementing, can we do this the more common way with\n\nsize_t i \u003d 1;\nwhile(true){\n   ...\n   i++;\n}",
+      "range": {
+        "startLine": 215,
+        "startChar": 20,
+        "endLine": 215,
+        "endChar": 24
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a12dc7de_bc48c9c7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-07T16:25:23Z",
+      "side": 1,
+      "message": "unintentional copy?",
+      "range": {
+        "startLine": 335,
+        "startChar": 16,
+        "endLine": 335,
+        "endChar": 49
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed86cef3_90252a94",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-07T16:25:23Z",
+      "side": 1,
+      "message": "isn\u0027t this logic now duplicated with line 208?  Can we just index into SensorConfig.name to get these values instead of going all the way back to the json config?",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 437,
+        "endChar": 21
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c035cae4_89dd3c14",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-07T16:25:23Z",
+      "side": 1,
+      "message": "Why is this case needed?  When would hwmonName be empty?",
+      "range": {
+        "startLine": 475,
+        "startChar": 15,
+        "endLine": 475,
+        "endChar": 38
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
