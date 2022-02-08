@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed385c9d_cfd01a11",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-08T14:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b8d3b8b_8f7e0156",
+      "range": {
+        "startLine": 176,
+        "startChar": 9,
+        "endLine": 176,
+        "endChar": 12
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d57a4d64_2e883e32",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3de79295_b57e8d6d",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-08T14:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d57a4d64_2e883e32",
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "574dbdc9_ec179303",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-02-07T16:25:23Z",
       "side": 1,
       "message": "Please just rely on get like the old code did, or alternatively, do a get_if\u003cuint64_t\u003e if you\u0027re not planning on throwing the exception.  I suspect the compiler is going to have a tough time optimizing this one, so we should give it help.",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 0
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df7a4151_3c526481",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-08T14:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "574dbdc9_ec179303",
       "range": {
         "startLine": 200,
         "startChar": 0,
@@ -87,6 +153,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "733da4cb_fd3c38c2",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-08T14:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4818e8d_80400696",
+      "range": {
+        "startLine": 215,
+        "startChar": 20,
+        "endLine": 215,
+        "endChar": 24
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a12dc7de_bc48c9c7",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-02-07T16:25:23Z",
       "side": 1,
       "message": "unintentional copy?",
+      "range": {
+        "startLine": 335,
+        "startChar": 16,
+        "endLine": 335,
+        "endChar": 49
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c05be482_b6902c01",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-08T14:29:47Z",
+      "side": 1,
+      "message": "Done. Changed to reference.",
+      "parentUuid": "a12dc7de_bc48c9c7",
       "range": {
         "startLine": 335,
         "startChar": 16,
@@ -135,6 +249,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c47d97c7_0bd04dfa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-08T14:29:47Z",
+      "side": 1,
+      "message": "In line 424, sensor name is erased when it calls the constructor. Therefore, the index will be changed in the vector, so we can\u0027t get the sensor names based on index.",
+      "parentUuid": "ed86cef3_90252a94",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 437,
+        "endChar": 21
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c035cae4_89dd3c14",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 14
@@ -146,6 +284,30 @@
       "writtenOn": "2022-02-07T16:25:23Z",
       "side": 1,
       "message": "Why is this case needed?  When would hwmonName be empty?",
+      "range": {
+        "startLine": 475,
+        "startChar": 15,
+        "endLine": 475,
+        "endChar": 38
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73d901fe_2fddce90",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-08T14:29:47Z",
+      "side": 1,
+      "message": "When hwmon path is identified, it will invoke the constructor for the sensor and if it has \"Name1\" in a config, it will construct for that sensor. When the hwmon path iterates, the path for \"Name1\" will be again doing the same process since the bus and address for 2 sensors is same.\n\nFor each config, if all the sensor name like Name, Name1, Name2 ... is called in one iteration of hwmon path, then the hwmonName will be empty and config will be removed.",
+      "parentUuid": "c035cae4_89dd3c14",
       "range": {
         "startLine": 475,
         "startChar": 15,
