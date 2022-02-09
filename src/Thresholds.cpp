@@ -248,11 +248,11 @@ static constexpr int assertLogCount = 10;
 
 struct ChangeParam
 {
-    ChangeParam(Threshold whichThreshold, bool status, double value) :
+    ChangeParam(const Threshold& whichThreshold, bool status, double value) :
         threshold(whichThreshold), asserted(status), assertValue(value)
     {}
 
-    Threshold threshold;
+    const Threshold& threshold;
     bool asserted;
     double assertValue;
 };
