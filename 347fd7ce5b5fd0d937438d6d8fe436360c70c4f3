@@ -287,6 +287,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "547ad700_376d5da3",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1001166
+      },
+      "writtenOn": "2022-02-09T17:00:38Z",
+      "side": 1,
+      "message": "The solution to this will have to be resolved externally and so the code is good to be merged from our side.",
+      "parentUuid": "26079d95_9ea5a94a",
+      "range": {
+        "startLine": 782,
+        "startChar": 22,
+        "endLine": 782,
+        "endChar": 38
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "457995a0_77275135",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 3
