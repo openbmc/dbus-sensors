@@ -52,7 +52,7 @@ static constexpr auto sensorTypes{std::to_array<const char*>(
      "xyz.openbmc_project.Configuration.ISL68137",
      "xyz.openbmc_project.Configuration.ISL68220",
      "xyz.openbmc_project.Configuration.ISL68223",
-     "xyz.openbmc_project.Configuration.ISL68225",
+     "xyz.openbmc_project.Configuration.ISL69225",
      "xyz.openbmc_project.Configuration.ISL69243",
      "xyz.openbmc_project.Configuration.ISL69260",
      "xyz.openbmc_project.Configuration.LM25066",
