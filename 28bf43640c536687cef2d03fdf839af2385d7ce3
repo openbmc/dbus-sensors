@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e85b178_c9f0a614",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-10T01:02:54Z",
+      "side": 1,
+      "message": "IMO, the old code was better.  sizeof(Threshold) looks like it\u0027s 2 enums (32 bit) 2 doubles (64 bit) and a bool (8 bit).\n\nthis copy, while not the best, is relatively cheap to make, and to my eye, as this patch written, this has a possibility that it has possibility of a use after free issue if a client changes the thresholds while a ChangeParam operation is occuring.  Making the copy means that we never have to think about a use after free issue.\n\nIf we wanted to optimize this, we could make the Level and Direction enums inherit from uint8_t to make our Threshold struct 48 bits smaller (maybe more with packing) and cheaper to copy.",
+      "range": {
+        "startLine": 255,
+        "startChar": 4,
+        "endLine": 255,
+        "endChar": 31
+      },
+      "revId": "28bf43640c536687cef2d03fdf839af2385d7ce3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
