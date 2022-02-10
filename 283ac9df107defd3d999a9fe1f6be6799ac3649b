@@ -16,6 +16,24 @@
       "message": "This is alternative implementation for https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/43172\nCompared to 43172, my solution looks bit more natural, but it doesn\u0027t allow to set value for non-existing threshold. It is possible to create threshold object on the fly, same as there, but with current design we can\u0027t save changes anywhere: it is not possibly to add new threshold interface to EM from dbus.\nPossible solution could be to redesign EM threshold configuration to use e.g. single json to describe all thresholds instead of creating individual interface to each one, but this is out of scope of this change.",
       "revId": "283ac9df107defd3d999a9fe1f6be6799ac3649b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d12c653_1b22add0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-10T01:07:46Z",
+      "side": 1,
+      "message": "\u003e This is alternative implementation for https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/43172\n\nThis is great that you\u0027re pushing code in response to this, but it would help significantly if you could also participate on the discussion happening in that review using the points you give below.  Otherwise, it ends up being up to the maintainers to decide which patchset is \"better\", which we\u0027d rather be a community thing.\n\n\u003e Compared to 43172, my solution looks bit more natural,\n\nit would help a lot if you could quantify this more before you post on the other changeset.  \"natural\" isn\u0027t very descriptive in terms of describing engineering details.\n\n\u003e but it doesn\u0027t allow to set value for non-existing threshold. It is possible to create threshold object on the fly, same as there, but with current design we can\u0027t save changes anywhere: it is not possibly to add new threshold interface to EM from dbus.\n\u003e Possible solution could be to redesign EM threshold configuration to use e.g. single json to describe all thresholds instead of creating individual interface to each one, but this is out of scope of this change.\n\nIn the context of this review, and 43172, lets focus on the change being made, not hypothetical features we could add later (unless this patchset directly enables those features or puts us closer to the path of enabling).\n\nI\u0027m happy to discuss making thresholds that didn\u0027t previously exist create-able, but not in the context of this patch.",
+      "parentUuid": "f9839606_a7d09dc2",
+      "revId": "283ac9df107defd3d999a9fe1f6be6799ac3649b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
