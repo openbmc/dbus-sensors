@@ -34,6 +34,24 @@
       "parentUuid": "f9839606_a7d09dc2",
       "revId": "283ac9df107defd3d999a9fe1f6be6799ac3649b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81e4c2df_e89fe540",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-10T08:40:23Z",
+      "side": 1,
+      "message": "\u003e This is great that you\u0027re pushing code in response to this, but it would help significantly if you could also participate on the discussion happening in that review using the points you give below.  Otherwise, it ends up being up to the maintainers to decide which patchset is \"better\", which we\u0027d rather be a community thing.\n\nI don\u0027t see what kind of participation do you expect? I can also give the link from that issue to this, but I don\u0027t think this will change anything significantly. Anyway, maintainers need to make decision on which implementation they like more.\n\n\u003e it would help a lot if you could quantify this more before you post on the other changeset.  \"natural\" isn\u0027t very descriptive in terms of describing engineering details.\n\nWell, saying \"more natural\" I mean this solution is like refactoring, while that more like a workaround (in Russian we call such solutions \"костыль\" (crutch) \u003d)).\nI now working on switchable threshold sets feature (allow to change thresholds when e.g. host going to standby) and this was part of the work.\n\n\u003e In the context of this review, and 43172, lets focus on the change being made, not hypothetical features we could add later (unless this patchset directly enables those features or puts us closer to the path of enabling).\n \nI highlight this because 43172 allow to set such thresholds, but it is impossible to save them, only keep until reboot, while this change will reject attempt to change N/A threshold.\n\n\u003e I\u0027m happy to discuss making thresholds that didn\u0027t previously exist create-able, but not in the context of this patch.\n\nThe implementation for sure is out of scope here.",
+      "parentUuid": "1d12c653_1b22add0",
+      "revId": "283ac9df107defd3d999a9fe1f6be6799ac3649b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
