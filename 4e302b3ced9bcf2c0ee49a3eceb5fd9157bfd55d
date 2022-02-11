@@ -26,6 +26,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22ba717a_fcdcba01",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-11T04:49:30Z",
+      "side": 1,
+      "message": "I don\u0027t see found ever getting set to true?",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 27
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a891394_179bcc95",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-11T04:49:30Z",
+      "side": 1,
+      "message": "The old mechanism that just captured threshold was better than having to search for it.  We should aim to do that still if we can.  Having to search for a threshold is kinda messy, especially when we know exactly what threshold it was when we created it.",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 9
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc399b3b_1fcbba89",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-11T04:49:30Z",
+      "side": 1,
+      "message": "Lets leave this off for now;  I\u0027m happy to entertain this as a request,",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 19
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f67e8cb4_6b799fa1",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
