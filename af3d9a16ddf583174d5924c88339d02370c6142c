@@ -36,6 +36,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6161f44_fa8e1c86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-11T15:29:13Z",
+      "side": 1,
+      "message": "Hi Ed,\n\nCould you please provide your suggestion on this patch.\n\nThanks.",
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a8c1738_0904f788",
