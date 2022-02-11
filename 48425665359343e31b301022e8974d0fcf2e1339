@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be1756bc_bdc8d77c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-11T05:02:47Z",
+      "side": 1,
+      "message": "Please test that setting the various thresholds and persisting across reboots works properly.  Looking at the logic below, it looks like it wont work.",
+      "revId": "48425665359343e31b301022e8974d0fcf2e1339",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a90ddc_66a0a721",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-11T05:02:47Z",
+      "side": 1,
+      "message": "explicit type is preferred here.\n\nAlso, this can error, which needs handled (although I realize the old one didn\u0027t handle that).",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 12
+      },
+      "revId": "48425665359343e31b301022e8974d0fcf2e1339",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c6eb77_4548711d",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-11T05:02:47Z",
+      "side": 1,
+      "message": "Parsing this to an int, then immediately calling findThresholdLevel to turn it into the appropriate enum is a bit odd.  Should this just be combined with findThresholdLevel into a single function that just returns the appropriate Level enum?  There are only two calls to findThresholdLevel, and you\u0027re adding this parseSeverityField method above both of them.",
+      "range": {
+        "startLine": 205,
+        "startChar": 32,
+        "endLine": 205,
+        "endChar": 50
+      },
+      "revId": "48425665359343e31b301022e8974d0fcf2e1339",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

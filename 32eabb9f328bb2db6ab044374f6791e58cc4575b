@@ -69,6 +69,24 @@
       "parentUuid": "a647d90e_6e24ce35",
       "revId": "32eabb9f328bb2db6ab044374f6791e58cc4575b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf25a485_8849df39",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-11T05:02:47Z",
+      "side": 1,
+      "message": "I think I commented something similar above for string -\u003e enum, which in practice just amounts to combining a couple functions.  enum -\u003e string conversion it looks like you\u0027ve missed.  Please take a look at the persistThreshold method, which is writing configured threshold back into entity manager.  Specifically look at the SeverityFind variable, which is trying to write this back to entity-manager as an int.",
+      "parentUuid": "c5ef33df_859116a7",
+      "revId": "32eabb9f328bb2db6ab044374f6791e58cc4575b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

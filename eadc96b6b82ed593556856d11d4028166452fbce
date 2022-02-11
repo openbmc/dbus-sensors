@@ -22,6 +22,30 @@
       },
       "revId": "eadc96b6b82ed593556856d11d4028166452fbce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "291e3dc9_8e5f7c52",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-11T05:02:47Z",
+      "side": 1,
+      "message": "generally rule of thumb, if it\u0027s possible for the thing to exist in the whole range, would be to return something like std::optional\u003cunsigned int\u003e",
+      "parentUuid": "03294910_db1df10f",
+      "range": {
+        "startLine": 72,
+        "startChar": 15,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "eadc96b6b82ed593556856d11d4028166452fbce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
