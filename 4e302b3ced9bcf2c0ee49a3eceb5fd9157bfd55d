@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "addd723b_1cc2564e",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "88b13700_b0de9636",
+      "range": {
+        "startLine": 241,
+        "startChar": 30,
+        "endLine": 241,
+        "endChar": 37
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22ba717a_fcdcba01",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-11T04:49:30Z",
       "side": 1,
       "message": "I don\u0027t see found ever getting set to true?",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 27
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8a51825_225d3ca6",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "seems that I loose it somewhere",
+      "parentUuid": "22ba717a_fcdcba01",
       "range": {
         "startLine": 244,
         "startChar": 0,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf9cee7e_7dff6a4d",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "Probably, I can deal without search here for this patch, but in my following proposal (switchable thresholds) this would be required anyway.",
+      "parentUuid": "9a891394_179bcc95",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 9
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cc399b3b_1fcbba89",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-11T04:49:30Z",
       "side": 1,
       "message": "Lets leave this off for now;  I\u0027m happy to entertain this as a request,",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 19
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee7d2904_376c889c",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "do you mean, I should not leave TODO item?",
+      "parentUuid": "cc399b3b_1fcbba89",
       "range": {
         "startLine": 256,
         "startChar": 0,
@@ -118,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df80be48_d0b6587c",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "not a functional change, just to group sensorInterface operations",
+      "parentUuid": "f67e8cb4_6b799fa1",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 9
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fbf514a_389ecfda",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
@@ -129,6 +249,30 @@
       "writtenOn": "2022-02-11T04:44:34Z",
       "side": 1,
       "message": "Please abstract this to something approximating findThresholdDirection here https://github.com/openbmc/dbus-sensors/blob/c8fed20b29ec8a33190a02860bfa3b44cfb828ed/src/Thresholds.cpp#L34\n\nAnd put it in the same file to keep all our conversions in one spot.",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 13
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea9a6a6_020a1081",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8fbf514a_389ecfda",
       "range": {
         "startLine": 315,
         "startChar": 0,
@@ -152,6 +296,24 @@
       "writtenOn": "2022-02-11T04:44:34Z",
       "side": 1,
       "message": "What if both are Nan?  It\u0027s still going to create a threshold.  I realize from some of the other conversations that might be what you want, but for the moment, lets stick a \n\nif (!std::isfinite(thLowValue) \u0026\u0026 !std::Isfinite(thHighValue)){\n   continue;\n}\n\nin there.  creating 5 threshold interfaces for every sensor needs discussed, and it\u0027s a big enough API change, and unrelated enough to this patch (which is just making the dbus interfaces correct) that I\u0027d like to see it in a different patch.  As you\u0027ve written it, it likely going to have some consequences, as it means system designers no longer have the ability to spec which thresholds are supported on which sensors, which might be important, so we\u0027ll need to discuss if we should blanket do this for all systems (which will have some impact) or if this should go in the per-entity configuration information, so component designers have some compile-time control over it.\n\nI\u0027d rather not hold up this patch while that discussion happens.",
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8700c1d_348286e9",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "Only in case interface already initialized (not NULL). Probably, good idea would be move entire initialization here. This will reduce code duplication in every constructor, wee just need to pass objServer here.\n\nAnd no, I don\u0027t want to create all 5 interfaces for every sensor yet.",
+      "parentUuid": "5fdbc48d_309f4804",
       "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -192,6 +354,30 @@
       "writtenOn": "2022-02-11T04:44:34Z",
       "side": 1,
       "message": "These two are essentially the same code, can we loop over something like\n\n\nstd::array\u003cDirection, 2\u003e{Direction::High, Direction::Low} to avoid this duplication?  The only things that I see that are different are about to be using helpers\nSomething like:\n\nfor (Direction dir: std::array\u003cDirection, 2\u003e(Direction::High, Direction::Low)){\n    thresIface-\u003eregister_property(\n        propertyLevel(dir), thHighValue,\n        [\u0026, level, thresSize, label, dir](const double\u0026 request,\n                                          double\u0026 oldValue) {\n            return updateThreshold(level, dir, thresSize,\n                                    label, request, oldValue);\n        });\n    thresIface-\u003eregister_property(propertyAlarm(dir), false);",
+      "range": {
+        "startLine": 353,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 73
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08cfdd94_99d23606",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "I don\u0027t like to use propertyLevel/propertyAlarm here: we will have to run same loop 4 times, while we can do this once. Will it be optimized out at compile time?\nAnd I think, it is not that much of duplication...",
+      "parentUuid": "2c0a7aa1_d31653ec",
       "range": {
         "startLine": 353,
         "startChar": 0,

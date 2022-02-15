@@ -70,6 +70,24 @@
       "parentUuid": "81e4c2df_e89fe540",
       "revId": "283ac9df107defd3d999a9fe1f6be6799ac3649b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5295fba_c67b2347",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2022-02-15T21:15:35Z",
+      "side": 1,
+      "message": "\u003e Ideally, go into the patchset in question, and point out specific lines, with specific suggestions where code could be simpler, better, or more future proof, or go to the tested statement, and point out test cases that the current patchset doesn\u0027t patch. \n\u003e FWIW, I\u0027m the maintainer on this, and assuming both patchsets are equal, I will generally try to pick the one that has more community input, as it implies that the community has tested it better and is more interested in supporting it.  If there are significant engineering advantages to one or another that are called out, that is definitely a deciding factor in many cases.\n\nOk, got it\n\n\u003e But why (using technical details, variable names, and data structures from the patchset) is it better?  Ideally, this should be answered in your commit message, not in a gerrit comment.\n\nWith this `fillMissingThresholds` we first loop over thresholds to initialize interfaces, then loop over them to \"fill\" (using  O(N^2)) and then loop over them again to register all properties. This quite overcomplicated, because we know from the beginning all the interfaces and can loop over then instead.\nActually, this can be even more simplified if we group threshold objects by pairs. This could be subject of separate patch.\n\n\u003e This is great detail, probably a distinct advantage of this patchset, and should be mentioned in your commit message.\n\u003e \n\u003e That\u0027s also great detail, and should be in your commit message (ideally with a test case that the other patchset would fail).\n\nI believe, all this should not go to commit message, because the only one of CRs will be merged and then commit message will get into the git log. For one, who will study git log, this discussion have no value, since it relates to something, which never was in git.",
+      "parentUuid": "5e62e4de_882c27a7",
+      "revId": "283ac9df107defd3d999a9fe1f6be6799ac3649b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
