@@ -16,6 +16,23 @@
       "message": "Hi Ed,\n\nI have addressed all the comments. Could you please provide your suggestions/approval for this patch.\n\nThanks",
       "revId": "6abbce44ed37bb75845d948b3b5d669d6b9dbd9f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b3fb02_ea71fc2a",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-02-15T23:01:51Z",
+      "side": 1,
+      "message": "Much of this patch looks remarkably similar to what I wrote in https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49254.\n\nCould we perhaps share some logic between the two instead of duplicating it?",
+      "revId": "6abbce44ed37bb75845d948b3b5d669d6b9dbd9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
