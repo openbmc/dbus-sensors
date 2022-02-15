@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49487ef8_9cee99ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-15T15:31:33Z",
+      "side": 1,
+      "message": "Hi Ed,\n\nI have addressed all the comments. Could you please provide your suggestions/approval for this patch.\n\nThanks",
+      "revId": "6abbce44ed37bb75845d948b3b5d669d6b9dbd9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
