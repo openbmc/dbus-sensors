@@ -242,6 +242,30 @@
       },
       "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1662da3c_53444baf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-16T19:05:32Z",
+      "side": 1,
+      "message": "Currently HostSMBusIndex is used to tell ME which ME\u0027s SMBus the target device is on when sending a SendRawPMBusCommand request over IPMB to ME.\nIt is different than the IPMB bridge bus index.",
+      "parentUuid": "77b385e2_491bded2",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 74
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
