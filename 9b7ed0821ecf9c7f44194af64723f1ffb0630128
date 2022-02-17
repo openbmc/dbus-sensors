@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd5ad3f7_8b6c420b",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-17T22:00:04Z",
+      "side": 1,
+      "message": "\u003c Also adding a separate function with additional loops over threshold array looks like some workaround, bringing unnecessary work.\n\n+1\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/50929 would accomplish the same. \nI will review there unless we come up with a reason this approach is better.",
+      "parentUuid": "7866b6d5_f0a50c01",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 3
+      },
+      "revId": "9b7ed0821ecf9c7f44194af64723f1ffb0630128",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "32186f46_e94cc175",
         "filename": "include/sensor.hpp",
         "patchSetId": 5
@@ -143,6 +167,29 @@
       "side": 1,
       "message": "Yep.... good point.  Not sure what I was thinking",
       "parentUuid": "fde33dad_24cd1893",
+      "revId": "9b7ed0821ecf9c7f44194af64723f1ffb0630128",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeaa20df_b7645a6c",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-17T22:00:04Z",
+      "side": 1,
+      "message": "Is this safe to do within the for loop on thresholds?",
+      "range": {
+        "startLine": 572,
+        "startChar": 12,
+        "endLine": 573,
+        "endChar": 78
+      },
       "revId": "9b7ed0821ecf9c7f44194af64723f1ffb0630128",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
