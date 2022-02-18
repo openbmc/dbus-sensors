@@ -175,12 +175,11 @@ void createSensors(boost::asio::io_service& io,
 {
 
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        std::move([&io, &objectServer, &dbusConnection](
-                      const ManagedObjectType& sensorConfigurations) {
+        dbusConnection, [&io, &objectServer, &dbusConnection](
+                            const ManagedObjectType& sensorConfigurations) {
             handleSensorConfigurations(io, objectServer, dbusConnection,
                                        sensorConfigurations);
-        }));
+        });
     getter->getConfiguration(std::vector<std::string>{NVMeSensor::configType});
 }
 
