@@ -284,10 +284,12 @@ void createSensors(
 
                 // Temperature has "Name", pressure has "Name1"
                 auto findSensorName = baseConfigMap->find("Name");
+                int index = 1;
                 if (thisSensorParameters.typeName == "pressure" ||
                     thisSensorParameters.typeName == "humidity")
                 {
                     findSensorName = baseConfigMap->find("Name1");
+                    index = 2;
                 }
 
                 if (findSensorName == baseConfigMap->end())
@@ -322,7 +324,6 @@ void createSensors(
                 }
 
                 std::vector<thresholds::Threshold> sensorThresholds;
-                int index = 1;
 
                 if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
                                                nullptr, &index))
