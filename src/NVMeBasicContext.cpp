@@ -278,7 +278,7 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
     /* Issue the request */
     boost::asio::async_write(
         reqStream, boost::asio::buffer(command->data(), command->size()),
-        [&command](boost::system::error_code ec, std::size_t) {
+        [command](boost::system::error_code ec, std::size_t) {
             if (ec)
             {
                 std::cerr << "Got error writing basic query: " << ec << "\n";
