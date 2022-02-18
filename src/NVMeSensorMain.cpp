@@ -25,8 +25,6 @@
 
 static NVMEMap nvmeDeviceMap;
 
-static constexpr bool debug = false;
-
 NVMEMap& getNVMEMap()
 {
     return nvmeDeviceMap;
