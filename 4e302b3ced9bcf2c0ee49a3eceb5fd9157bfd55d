@@ -97,6 +97,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d5d475d_66af422a",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-18T01:04:19Z",
+      "side": 1,
+      "message": "Check request is different than current value?",
+      "range": {
+        "startLine": 249,
+        "startChar": 16,
+        "endLine": 249,
+        "endChar": 42
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a891394_179bcc95",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
@@ -285,6 +308,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ff9f04d_4019eacc",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-18T01:04:19Z",
+      "side": 1,
+      "message": "Can this be a compile timer check? size of thresholdInterfaces, threshold level enum and constexpr struct thresProp (https://github.com/openbmc/dbus-sensors/blob/master/include/Thresholds.hpp#L133)\nare expected to be consistent.\n1. index of thresholdInterfaces are maps 1:1 threshold level \n2. threshold level enum is 0 - highest consecutive\n3. struct thresProp include one entry for each supported level.\n\nSince Level converts to index for \u003cthresholdIntefaces\u003e, I don\u0027t see added advantage of keeping \"struct thresProp\" to be flexible, where index does not have to match Level. These lookups are not needed if we ensure \"struct thresProp\"\n1. Level match index\n2. Has an entry for each supported Level\n\nThe code would be a lot simpler without all the matching and look up at the cost of ensuring couple const structures are defined correctly.",
+      "parentUuid": "6ea9a6a6_020a1081",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 13
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fdbc48d_309f4804",
         "filename": "include/sensor.hpp",
         "patchSetId": 2
@@ -314,6 +361,24 @@
       "side": 1,
       "message": "Only in case interface already initialized (not NULL). Probably, good idea would be move entire initialization here. This will reduce code duplication in every constructor, wee just need to pass objServer here.\n\nAnd no, I don\u0027t want to create all 5 interfaces for every sensor yet.",
       "parentUuid": "5fdbc48d_309f4804",
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75ee0fd5_09bf256e",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-18T01:04:19Z",
+      "side": 1,
+      "message": "+1 only create interface if at least one of them not nan",
+      "parentUuid": "f8700c1d_348286e9",
       "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -383,6 +448,30 @@
         "startChar": 0,
         "endLine": 367,
         "endChar": 73
+      },
+      "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93179d4f_bf9c2509",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-18T01:04:19Z",
+      "side": 1,
+      "message": "How about extend the ThresholdDefinition to add property string array to reflect threshold dbus interface and iterate through the array to call register_property().\nThe added advantage is that we have one central place to define the consts that reflect what is in phosphor-dbus-interfaces for thresholds.\n\nSomething like:\nhttps://github.com/openbmc/dbus-sensors/blob/master/include/Thresholds.hpp#L126\nstruct ThresholdDefinition\n{\n    Level level;\n    uint8_t sevOrder;\n    const char* levelName;\n    std::array\u003cconst char *, 4\u003e propStr;\n\n};\n\nconstexpr static std::array\u003cthresholds::ThresholdDefinition, 5\u003e thresProp \u003d {\n    {{Level::WARNING, 0, \"Warning\", {\"High\", \"Low\", \"AlarmHigh\", AlarmLow\"}},\n ...\n}",
+      "parentUuid": "caff0633_14567f67",
+      "range": {
+        "startLine": 367,
+        "startChar": 42,
+        "endLine": 367,
+        "endChar": 64
       },
       "revId": "4e302b3ced9bcf2c0ee49a3eceb5fd9157bfd55d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
