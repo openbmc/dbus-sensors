@@ -26,10 +26,12 @@ int GPIOPresence::readLine(std::string_view lineLabel)
 
 void GPIOPresence::addObj(
     std::unique_ptr<sdbusplus::asio::dbus_interface> statusIfc,
+    std::unique_ptr<sdbusplus::asio::dbus_interface> associationIfc,
     std::string_view objPath, const Config& config)
 {
     std::cerr << "New objPath added " << objPath << std::endl;
-    objIfaces[std::string(objPath)] = {std::move(statusIfc), config};
+    objIfaces[std::string(objPath)] = {std::move(statusIfc),
+                                       std::move(associationIfc), config};
 }
 
 void GPIOPresence::removeObj(std::string_view objPath)
