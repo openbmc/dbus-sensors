@@ -1,7 +1,9 @@
 #include <GPIOPresenceSensor.hpp>
 #include <Utils.hpp>
+#include <sdbusplus/bus/match.hpp>
 
 #include <iostream>
+#include <utility>
 
 namespace gpiopresencesensing
 {
@@ -14,7 +16,7 @@ using OnInterfaceRemovedCallback = std::function<void(std::string_view)>;
 
 // Helper function to convert dbus property to struct
 // @param[in] properties: dbus properties
-Config getConfig(const SensorBaseConfigMap& properties)
+Config getConfig(const SensorBaseConfigMap& properties, std::string parentPath)
 {
     auto name = loadVariant<std::string>(properties, Properties::propertyName);
     auto gpioLine =
@@ -30,8 +32,48 @@ Config getConfig(const SensorBaseConfigMap& properties)
         pollRate =
             loadVariant<uint32_t>(properties, Properties::propertyPollRate);
     }
-    return {name, gpioLine, polarity == "active_low",
-            /*present*/ false, pollRate};
+
+    // Optional Association
+    bool generateAssociation = false;
+    std::string associationForward = "";
+    std::string associationReverse = "";
+    std::string associationPath = "";
+
+    auto propertyAssociationPath =
+        properties.find(Properties::propertyAssociationPath);
+    if (propertyAssociationPath != properties.end())
+    {
+        associationPath = loadVariant<std::string>(
+            properties, Properties::propertyAssociationPath);
+
+        auto propertyAssociationForward =
+            properties.find(Properties::propertyAssociationForward);
+        if (propertyAssociationForward != properties.end())
+        {
+            associationForward = loadVariant<std::string>(
+                properties, Properties::propertyAssociationForward);
+
+            auto propertyAssociationReverse =
+                properties.find(Properties::propertyAssociationReverse);
+            if (propertyAssociationReverse != properties.end())
+            {
+                associationReverse = loadVariant<std::string>(
+                    properties, Properties::propertyAssociationReverse);
+                generateAssociation = true;
+            }
+        }
+    }
+
+    return {name,
+            gpioLine,
+            polarity == "active_low",
+            /*present*/ false,
+            pollRate,
+            generateAssociation,
+            associationPath,
+            associationForward,
+            associationReverse,
+            std::move(parentPath)};
 }
 
 void setupInterfaceAdded(sdbusplus::asio::connection* conn,
@@ -49,7 +91,7 @@ void setupInterfaceAdded(sdbusplus::asio::connection* conn,
                 Config config;
                 try
                 {
-                    config = getConfig(found->second);
+                    config = getConfig(found->second, objPath.parent_path());
                     callback(objPath.str, found->first, config);
                 }
                 catch (std::exception& e)
@@ -62,23 +104,25 @@ void setupInterfaceAdded(sdbusplus::asio::connection* conn,
 
     // call the user callback for all the device that is already available
     conn->async_method_call(
-        [cb](const boost::system::error_code ec,
-             ManagedObjectType managedObjs) {
+        [callback = cb](const boost::system::error_code ec,
+                        ManagedObjectType managedObjs) {
             if (ec)
             {
                 return;
             }
             for (auto& obj : managedObjs)
             {
-                auto& item = obj.second;
+                SensorData& item = obj.second;
+
                 auto found = item.find(interfaces::emGPIOCableSensingIfc);
                 if (found != item.end())
                 {
                     Config config;
                     try
                     {
-                        config = getConfig(found->second);
-                        cb(obj.first.str, found->first, config);
+                        config =
+                            getConfig(found->second, obj.first.parent_path());
+                        callback(obj.first.str, found->first, config);
                     }
                     catch (std::exception& e)
                     {
@@ -103,7 +147,7 @@ void setupInterfaceRemoved(sdbusplus::asio::connection* conn,
                            OnInterfaceRemovedCallback&& cb)
 {
     // Listen to the interface removed event.
-    std::function<void(sdbusplus::message::message & msg)> handler =
+    std::function<void(sdbusplus::message::message&)> handler =
         [callback = std::move(cb)](sdbusplus::message::message msg) {
             sdbusplus::message::object_path objPath;
             msg.read(objPath);
@@ -157,19 +201,48 @@ int main()
                 gpiopresencesensing::inventoryObjPath);
             sdbusplus::message::object_path objPath =
                 inventoryPath / config.name;
+
             std::cout << "New config received " << objPath.str << std::endl;
+
             if (!controller->hasObj(objPath.str))
             {
                 controller->removeObj(objPath.str);
             }
-            // Status
+            // Add Status
             auto statusIfc = objectServer.add_unique_interface(
                 objPath, gpiopresencesensing::interfaces::statusIfc);
+            std::cout << "Adding status interface: " << config.name
+                      << " at path: " << objPath.str << std::endl;
             statusIfc->register_property(
                 gpiopresencesensing::Properties::propertyPresent, false);
             statusIfc->register_property("Name", config.name);
             statusIfc->initialize();
-            controller->addObj(std::move(statusIfc), objPath.str, config);
+            // Add Inventory Association
+            if (config.generateAssociation)
+            {
+                sdbusplus::message::object_path associationPath(
+                    config.associationPath);
+
+                std::cout << "Adding association interface: "
+                          << config.associationPath
+                          << " at path: " << associationPath.str << std::endl;
+
+                auto assocIfc = objectServer.add_unique_interface(
+                    associationPath, association::interface);
+                assocIfc->register_property(
+                    "Associations",
+                    std::vector<Association>{{config.associationForward,
+                                              config.associationReverse,
+                                              config.parentPath}});
+                assocIfc->initialize();
+                controller->addObj(std::move(statusIfc), std::move(assocIfc),
+                                   objPath.str, config);
+            }
+            else
+            {
+                controller->addObj(std::move(statusIfc), nullptr, objPath.str,
+                                   config);
+            }
             controller->setMinPollRate(config.pollRate);
             // It is possible there are more EM config in the pipeline.
             // Therefore, delay the main loop by 10 seconds to wait for more
