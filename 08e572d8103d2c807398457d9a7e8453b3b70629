@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "239d2ed7_0607109e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-18T19:38:48Z",
+      "side": 1,
+      "message": "I see this is consistent with logic at line 401.",
+      "range": {
+        "startLine": 292,
+        "startChar": 20,
+        "endLine": 292,
+        "endChar": 30
+      },
+      "revId": "08e572d8103d2c807398457d9a7e8453b3b70629",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
