@@ -307,6 +307,7 @@ static void processLanStatusChange(sdbusplus::message::message& message)
 
     if (oldLanConnected != newLanConnected)
     {
+#ifndef __clang__
         std::string strEthNum = "eth" + std::to_string(ethNum) + lanInfo;
         auto strState = newLanConnected ? "connected" : "lost";
         auto strMsgId =
@@ -315,7 +316,7 @@ static void processLanStatusChange(sdbusplus::message::message& message)
         lg2::info("{ETHDEV} LAN leash {STATE}", "ETHDEV", strEthNum, "STATE",
                   strState, "REDFISH_MESSAGE_ID", strMsgId,
                   "REDFISH_MESSAGE_ARGS", strEthNum);
-
+#endif
         lanStatusMap[ethNum] = newLanConnected;
     }
 }

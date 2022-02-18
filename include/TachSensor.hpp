@@ -91,28 +91,37 @@ class TachSensor : public Sensor
     void checkThresholds(void) override;
 };
 
-inline void logFanInserted(const std::string& device)
+inline void logFanInserted(const std::string& device [[maybe_unused]])
 {
+#ifndef __clang__
     auto msg = "OpenBMC.0.1.FanInserted";
     lg2::error("Fan Inserted", "REDFISH_MESSAGE_ID", msg,
                "REDFISH_MESSAGE_ARGS", device);
+#endif
 }
 
-inline void logFanRemoved(const std::string& device)
+inline void logFanRemoved(const std::string& device [[maybe_unused]])
 {
+#ifndef __clang__
+
     auto msg = "OpenBMC.0.1.FanRemoved";
     lg2::error("Fan Removed", "REDFISH_MESSAGE_ID", msg, "REDFISH_MESSAGE_ARGS",
                device);
+#endif
 }
 
 inline void logFanRedundancyLost(void)
 {
+#ifndef __clang__
     auto msg = "OpenBMC.0.1.FanRedundancyLost";
     lg2::error("Fan Inserted", "REDFISH_MESSAGE_ID", msg);
+#endif
 }
 
 inline void logFanRedundancyRestored(void)
 {
+#ifndef __clang__
     auto msg = "OpenBMC.0.1.FanRedundancyRegained";
     lg2::error("Fan Removed", "REDFISH_MESSAGE_ID", msg);
+#endif
 }

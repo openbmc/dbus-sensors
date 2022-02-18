@@ -319,6 +319,8 @@ void PSUSubEvent::updateValue(const int& newValue)
             (*combineEvent).erase(groupEventName);
             if (!deassertMessage.empty())
             {
+
+#ifndef __clang__
                 // Fan Failed has two args
                 if (deassertMessage == "OpenBMC.0.1.PowerSupplyFanRecovered")
                 {
@@ -333,6 +335,7 @@ void PSUSubEvent::updateValue(const int& newValue)
                               "REDFISH_MESSAGE_ID", deassertMessage,
                               "REDFISH_MESSAGE_ARGS", psuName);
                 }
+#endif
             }
 
             if ((*combineEvent).empty())
@@ -350,6 +353,7 @@ void PSUSubEvent::updateValue(const int& newValue)
             *assertState = true;
             if (!assertMessage.empty())
             {
+#ifndef __clang__
                 // Fan Failed has two args
                 if (assertMessage == "OpenBMC.0.1.PowerSupplyFanFailed")
                 {
@@ -364,6 +368,7 @@ void PSUSubEvent::updateValue(const int& newValue)
                                  "REDFISH_MESSAGE_ID", assertMessage,
                                  "REDFISH_MESSAGE_ARGS", psuName);
                 }
+#endif
             }
             if ((*combineEvent).empty())
             {
