@@ -31,6 +31,12 @@ static constexpr inline const char* propertyGpioLine = "GpioLine";
 static constexpr inline const char* propertyPolarity = "Polarity";
 static constexpr inline const char* propertyPresent = "Present";
 static constexpr inline const char* propertyPollRate = "PollRate";
+static constexpr inline const char* propertyAssociationPath =
+    "AssociationPath";
+static constexpr inline const char* propertyAssociationForward =
+    "AssociationForward";
+static constexpr inline const char* propertyAssociationReverse =
+    "AssociationReverse";
 } // namespace Properties
 
 namespace interfaces
@@ -50,8 +56,15 @@ struct Config
     bool activeLow;
     // Presence signal.
     bool present;
-    // Update loop polling rate.
+    // (Optional) Update loop polling rate.
     int pollRate;
+    // (Optional) Association
+    bool generateAssociation;
+    std::string associationPath;
+    std::string associationForward;
+    std::string associationReverse;
+    // (Internal) Parent path
+    std::string parentPath;
 };
 
 // Actively listen to the config information from EntityManager and calls the
@@ -65,9 +78,11 @@ class GPIOPresence
 
     // Add a dbus object to the reference list.
     // @params statusIfc: pointer to object status interface.
+    // @params associationIfc: Optional pointer to object association interface
     // @params objPath: the dbus object path.
     // @params config: EM config
     void addObj(std::unique_ptr<sdbusplus::asio::dbus_interface> statusIfc,
+                std::unique_ptr<sdbusplus::asio::dbus_interface> associationIfc,
                 std::string_view objPath, const Config& config);
 
     // Remove a object from the object reference list.
@@ -89,6 +104,7 @@ class GPIOPresence
     struct ObjIfaces
     {
         std::unique_ptr<sdbusplus::asio::dbus_interface> statusIfc;
+        std::unique_ptr<sdbusplus::asio::dbus_interface> associationIfc;
         Config config;
     };
 
