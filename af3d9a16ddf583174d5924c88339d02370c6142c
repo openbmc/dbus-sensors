@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "081ccfc3_70a9aaa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-21T14:33:56Z",
+      "side": 1,
+      "message": "It is a physical bus which is exposed using IPMB driver.\n\nI will update the commit message.",
+      "parentUuid": "9d531cd5_5a61fbc0",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "069872c4_2a9f0a28",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dec8e7c_5ce953b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-21T14:33:56Z",
+      "side": 1,
+      "message": "Ack. I will update the commit message.",
+      "parentUuid": "069872c4_2a9f0a28",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca57c51a_0efa4d78",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-02-18T16:55:07Z",
       "side": 1,
       "message": "Based on this patchset, I see no changes to the \"Bus\" property, so this statement is confusing to me.",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "212504b7_a9467213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-21T14:33:56Z",
+      "side": 1,
+      "message": "Ack\n\nIPMB Bus Index is used in other 2 patches, so this is a base patch for below patches. In other 2 patches, ipmbBusIndex will be used based on their requirement.\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47952\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/38905",
+      "parentUuid": "ca57c51a_0efa4d78",
       "range": {
         "startLine": 11,
         "startChar": 28,
@@ -423,6 +495,30 @@
       "side": 1,
       "message": "I guess I\"m still not understanding this.  Does the bus exist physically on the board, or is it purley based on the IPMB config file?  This question should be answered in the commit messages of the reviews in question (especially the entity-manager review adding the parameter to a platform), but I don\u0027t see it answered, and if I\u0027m confused, that means that it\u0027s likely the rest of the community is more confused.\n\nIf this is an identification of the remote bus number, lets get it documented that way, add some commit message documentation to that effect, and add something like \"remote\" to the name, to make it clear that it\u0027s not the direct bmc bus number we\u0027re talking about.",
       "parentUuid": "797f7ae0_8105c1ae",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 74
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b090d84a_781b3a76",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-02-21T14:33:56Z",
+      "side": 1,
+      "message": "It is a physical bus which is exposed using IPMB driver. I will submit a patch in entity-manager like HostSMBusIndex and add name as \"IPMBBusIndex\".\n\nhttps://github.com/openbmc/entity-manager/blob/master/schemas/legacy.json#L228",
+      "parentUuid": "26486161_de409670",
       "range": {
         "startLine": 453,
         "startChar": 0,
