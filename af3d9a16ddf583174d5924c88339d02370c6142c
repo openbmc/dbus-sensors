@@ -527,6 +527,30 @@
       },
       "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e766c4bb_d821c415",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-21T18:05:32Z",
+      "side": 1,
+      "message": "\u003c Does the bus exist physically on the board, \n\nClarify on the existing HostSMBusIndex. It is a physical bus that is connected to ME. BMC does not have access directly.",
+      "parentUuid": "b090d84a_781b3a76",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 74
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
