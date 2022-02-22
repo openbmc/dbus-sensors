@@ -141,6 +141,24 @@
       "message": "Better to do -ve check here. \nif (pendingIoReqCnt \u003d 0)\n{\n  restartRead()\n  return;\n}\nThis helps to left shift below set of code.",
       "revId": "18b83feacbaecd27b788cd66f62b3358fbc891f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a659af7_7962688d",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-02-22T10:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c6bb385_ca68aaa0",
+      "revId": "18b83feacbaecd27b788cd66f62b3358fbc891f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

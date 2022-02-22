@@ -16,6 +16,24 @@
       "message": "Seems like it might be a bit simpler to just use `pread(fd, ..., 0)` here instead of sprinkling (sometimes conditional) `lseek` calls around elsewhere.",
       "revId": "4b4e8b3602cd390cfb570ddd6d59f9c50da6bbda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bd29c3f_82de4d31",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-02-22T10:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9acf8403_3b6a8877",
+      "revId": "4b4e8b3602cd390cfb570ddd6d59f9c50da6bbda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
