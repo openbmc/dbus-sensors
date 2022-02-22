@@ -69,6 +69,7 @@ static auto sensorTypes{
                                 "xyz.openbmc_project.Configuration.TMP421",
                                 "xyz.openbmc_project.Configuration.TMP441",
                                 "xyz.openbmc_project.Configuration.TMP75",
+                                "xyz.openbmc_project.Configuration.THERMALZONE",
                                 "xyz.openbmc_project.Configuration.W83773G"})};
 
 static struct SensorParams
@@ -207,25 +208,48 @@ void createSensors(
                     device = directory / "device";
                     deviceName = fs::canonical(device).stem();
                 }
+                static const std::string thermalZone = "thermal_zone";
+                auto findThermalZone = deviceName.find(thermalZone);
                 auto findHyphen = deviceName.find('-');
-                if (findHyphen == std::string::npos)
+                if (findHyphen == std::string::npos &&
+                    findThermalZone == std::string::npos)
                 {
                     std::cerr << "found bad device " << deviceName << "\n";
                     continue;
                 }
-                std::string busStr = deviceName.substr(0, findHyphen);
-                std::string addrStr = deviceName.substr(findHyphen + 1);
 
                 size_t bus = 0;
                 size_t addr = 0;
-                try
+                if (findThermalZone == std::string::npos)
                 {
-                    bus = std::stoi(busStr);
-                    addr = std::stoi(addrStr, nullptr, 16);
+                    std::string busStr = deviceName.substr(0, findHyphen);
+                    std::string addrStr = deviceName.substr(findHyphen + 1);
+
+                    try
+                    {
+                        bus = std::stoi(busStr);
+                        addr = std::stoi(addrStr, nullptr, 16);
+                    }
+                    catch (std::invalid_argument&)
+                    {
+                        continue;
+                    }
                 }
-                catch (const std::invalid_argument&)
+                else
                 {
-                    continue;
+                    // ex: thermal_zone0
+                    std::string addrStr = deviceName.substr(
+                        findThermalZone + thermalZone.length());
+                    try
+                    {
+                        addr = std::stoi(addrStr);
+                    }
+                    catch (const std::invalid_argument&)
+                    {
+                        std::cerr << "Cannot get zone number: " << deviceName
+                                  << "\n";
+                        continue;
+                    }
                 }
                 const SensorData* sensorData = nullptr;
                 const std::string* interfacePath = nullptr;
