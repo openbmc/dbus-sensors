@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a347cdb_eeb1f361",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "and these new properties are?  What do they do?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 56
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cfd93e1c_8af247fa",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -19,6 +42,52 @@
         "startChar": 4,
         "endLine": 26,
         "endChar": 14
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca7e440f_16ddf87a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "Calling IPMB directly, while good for your own testing, doesn\u0027t prove anything about this review itself.",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c6a3e1f_14293fd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "These aren\u0027t well known namespaces, and not where I would expect the pgood signals to be showing up.  As a general rule, \"gpio\" should not appear in dbus at all.",
+      "range": {
+        "startLine": 48,
+        "startChar": 22,
+        "endLine": 48,
+        "endChar": 40
       },
       "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
@@ -89,6 +158,414 @@
       "side": 1,
       "message": "Sorry for missing the update. Change looks good to me.",
       "parentUuid": "6da215a5_33ffc250",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b69acd9_188cf687",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "This doesn\u0027t get used in any of the below interfaces, which I\u0027m pretty sure means it doesn\u0027t belong in this file.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8d32d9f_d68526a0",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "Please just inline these kind of definitions.  Until we get a lot of these that all use the same mechanisms (unlikely) it helps to have the code in one spot.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d50f3a45_acdcb1c4",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "You\u0027ve copied and pasted this definition.  Please don\u0027t.  Abstract to a common method where appropriate.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 78
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "803e3f5d_524d014e",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "Please don\u0027t use globals for per-instance retries.  This will fail the minute you get more than one.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "303de9b1_b9dbbf90",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "Just inline these things please.  They\u0027re only used in one place, so there\u0027s no need to declare them at this level",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d97ca5c_80922c27",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "If init fails, shouldn\u0027t we be throwing an exception?   As is, this will just fail silently.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebdd3ad9_2590eb45",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "Please don\u0027t load these into per-instance variables, especially given that we only have one type here.  Write a routine that just switches on type (as you\u0027ve done) and branches in the read routines (abstracting where appropriate).  I could maybe see caching this data if you were going to cache the whole IPMB command, so it didn\u0027t have to be regenerated each time, but considering it\u0027s trivial to construct (code wise) that doesn\u0027t seem advised.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3820c62_39f05e46",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "Please don\u0027t capture by wildcard reference (yes, I know there are counter examples) explicitly capture your variables by either reference or value.",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7746e6b_a300dd2b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "same as above.",
+      "range": {
+        "startLine": 96,
+        "startChar": 13,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb1b043e_530f9b57",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "We need to be more specific here.  There are lots of dbus failures (all of them I think) where we should not be retrying.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7950eaac_a463ccc5",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "As written, this is going to flood the logs.  I suspect this message can just be removed?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 77
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c1065ae_f5c33e84",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "This logic is duplicated with lines 131-134.  Deduplicate please.",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 27
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8df2ce9_c220c2ab",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "This is a functional failure.  We should not be retrying at all if the IPMB device gave us an OK response code, but the wrong length payload.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 21
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7dc9e59_d0fd01c1",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "You\u0027re 5 levels deep into this code tree, and on your 3rd level of lambda, please abstract this code.",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d42d471a_a6686fe3",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "Please rename this to \"mask\" considering that\u0027s what it is.  Also, when converting an in to a bool, please be explicit and add \u003e 0",
+      "range": {
+        "startLine": 137,
+        "startChar": 50,
+        "endLine": 137,
+        "endChar": 62
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54458c38_d4d4f37c",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "this set_property call is done in 3 places in this routine.  Could they instead be done in one place, with a variable used to determine the value (as you\u0027ve basically already done).",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 79
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0862afb_19354fb6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "Please name this IpmbPowerMonitor.  The interface itself has nothing to do with GPIOs.",
+      "range": {
+        "startLine": 59,
+        "startChar": 56,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698b2f98_cfd22bb7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T03:04:50Z",
+      "side": 1,
+      "message": "You\u0027re reading an entityId, then loading it into a variable called pgoodGpioByte.  I suspect this doesn\u0027t need configured at all, but from this, I\u0027m not quite able to figure out what\u0027s going on.",
+      "range": {
+        "startLine": 498,
+        "startChar": 59,
+        "endLine": 498,
+        "endChar": 67
+      },
       "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
