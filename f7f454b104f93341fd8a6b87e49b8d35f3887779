@@ -110,6 +110,30 @@
       },
       "revId": "f7f454b104f93341fd8a6b87e49b8d35f3887779",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bbe26d2_2a097ef9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T02:45:55Z",
+      "side": 1,
+      "message": "\u003e The reason it is clubbed together with ipmb sensor  is that this gpio sensor is kind of ipmb  sensor where we read the gpio state via ipmb.\n\nThen it should use the same internals.  It shouldn\u0027t need to host the same object.\n\n\u003e Also  it needs to be instantiated from the createsensors function.\n\nThis doesn\u0027t mean that you\u0027re not required to abstract out your functionality appropriately.  Use methods and classes where appropriate, while breaking things into common implementations.\n\n\u003e Apart from the object creation, all other logics are move under seperate class.\n\u003e Hai @Ed Tanuos,\n\u003e Do we need to create a seperate main function and createsensor function for this gpio state via ipmb?\n\u003e please suggest your opinion on this.\n\nThere needs to be a signfican refactoring here.  There is way too much logic going into the config files (admittedly that was true with ipmbsensor before you made this change).  We need to abstract things cleanly;  The ideal declaration a user would make is a Type\u003d\"my piece of hardware\" in the config file, with the rest being dealt with by software.\n\nThis doesn\u0027t necessarily mean you need your own main, but it does mean that you need some reasonable abstractions, and reuse the methods that exist.\n\n\nFWIW, the original comment was just telling you those two variables needed to go on their own lines (and be initialized).",
+      "parentUuid": "141dc901_39920042",
+      "range": {
+        "startLine": 497,
+        "startChar": 19,
+        "endLine": 497,
+        "endChar": 58
+      },
+      "revId": "f7f454b104f93341fd8a6b87e49b8d35f3887779",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

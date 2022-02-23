@@ -169,6 +169,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f8ef4af1_0a35d50f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T02:45:55Z",
+      "side": 1,
+      "message": "I think there\u0027s some serious confusion on how entity-manager config files work.  a \"GPIO ipmb sensor\" is not something that exists on the board, and therefore shouldn\u0027t have a direct config file.  The thing that exists in this case is the facebook twinlake controller, for which the configuration should look something like\n\n{\n\"Type\": \"TwinlakeHostController\"\n\"Bus\": 1\n}\n\nconsidering that\u0027s everything that needs to be configurable for a specific instance, as all else is known from that device name.  ANy specific oem netfn, or command sets should be handled within code.",
+      "parentUuid": "23e4c908_050ec761",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "6cef2592e1430dfaaa9b868e8f2e779e9ba1bce8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd16fc69_4fe41195",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 5
