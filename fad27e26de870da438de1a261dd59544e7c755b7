@@ -154,6 +154,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db0b8912_856838c8",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-23T05:20:02Z",
+      "side": 1,
+      "message": "I used optimization as a scapegoat here, when what I really meant was \"use the API that gives you the guarantees you want\";  Apologies.  \n\nget_if says, \"get me this type or nullptr\" which is not the operation you\u0027re doing on the right.  When we get the clang-tidy stuff here, we\u0027ll get automatic CI about implicit conversion to bool, but for the moment, it\u0027s by hand.\n\nas a practice:\n\nif (std::holds_alternative\u003ctype\u003e(foo)){\n   return;\n}\nfoo myFoo\u003d std::get\u003ctype\u003e(foo);\n\nis accessing the foo object twice, and attempting to pull our the type twice, which is harder to reason about.  It requires the maintainer to think about \"ok, std::get throws, where are they catching the throw?\" then realize that it can\u0027t throw, and hopefully, the throw and the type check are close enough together that the compiler can optimize out the throw.   If instead, you did\n\nfoo* myFoo \u003d std::get_if\u003ctype\u003e(foo);\nif (myFoo \u003d\u003d nullptr){\n   return;\n}\nYou\u0027ve asked for exactly what you want, checked, and handle the error without relying on any thinking.\n\n\nWith all of this said, the holds_alternative pattern was there before, which I can live with, and unless I\u0027m missing something, doesn\u0027t have anything to do wtih the change in this patchset., but if we\u0027re going to change it, we should change it to something better",
+      "parentUuid": "245c7892_993c337f",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 0
+      },
+      "revId": "fad27e26de870da438de1a261dd59544e7c755b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4818e8d_80400696",
