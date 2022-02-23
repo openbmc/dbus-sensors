@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24d77156_42aeeeb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-23T00:15:16Z",
+      "side": 1,
+      "message": "Please reword the issue description so it is clear and concise. No need to have 3 separate paragraphs either.",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "c372dddd1a567f93ba41d0cc22003e7dd8d70104",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0757daf_827d446f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-23T00:15:16Z",
+      "side": 1,
+      "message": "Did you verify phosphor-pid-control service runs successfully without crashing",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 34
+      },
+      "revId": "c372dddd1a567f93ba41d0cc22003e7dd8d70104",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d568a6a_2cbb01ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-23T00:15:16Z",
+      "side": 1,
+      "message": "show",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "c372dddd1a567f93ba41d0cc22003e7dd8d70104",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b89f1174_b1ed8547",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-23T00:15:16Z",
+      "side": 1,
+      "message": "This does not get re-calculated for every sensor. Move it outside the for loop.",
+      "range": {
+        "startLine": 438,
+        "startChar": 12,
+        "endLine": 442,
+        "endChar": 13
+      },
+      "revId": "c372dddd1a567f93ba41d0cc22003e7dd8d70104",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "572a8d39_4db4eed9",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-23T00:15:16Z",
+      "side": 1,
+      "message": "What will cause this fail? Can it be recovered without crashing?",
+      "range": {
+        "startLine": 446,
+        "startChar": 16,
+        "endLine": 446,
+        "endChar": 62
+      },
+      "revId": "c372dddd1a567f93ba41d0cc22003e7dd8d70104",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
