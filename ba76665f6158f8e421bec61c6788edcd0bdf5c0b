@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f5341c_db2b2a62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-02-23T20:59:13Z",
+      "side": 1,
+      "message": "ed@tanous.net Do you think should we not use private interfaces?",
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
