@@ -22,6 +22,30 @@
       },
       "revId": "0891e2bdddc0b4568599b4e592577ccd9214d1a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b79d4f3d_7f28ee83",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-02-23T00:37:06Z",
+      "side": 1,
+      "message": "\u003e Can fd \u003c 0 be recovered by retry open?\n\nSeems possible for PECI -- e.g. if the host CPU was offline and later came online, an `open()` call on the same path could go from failing to succeeding, I\u0027d think.",
+      "parentUuid": "3d0c9e27_c7bd3942",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 5
+      },
+      "revId": "0891e2bdddc0b4568599b4e592577ccd9214d1a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
