@@ -93,6 +93,30 @@
       },
       "revId": "223ce5e87df778ad3605369df312119b1a257e5f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7202ec0e_856d77d1",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-23T00:17:36Z",
+      "side": 1,
+      "message": "Please reflect this in commit messages also - polling period stays about once per second except when there is more than 100 sensors, it would be 10ms * number of sensors.",
+      "parentUuid": "faff5b68_aeb1183c",
+      "range": {
+        "startLine": 438,
+        "startChar": 31,
+        "endLine": 438,
+        "endChar": 47
+      },
+      "revId": "223ce5e87df778ad3605369df312119b1a257e5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
