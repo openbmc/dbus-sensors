@@ -22,6 +22,30 @@
       },
       "revId": "7c0921fed6a069d9f7ac64d9ebfadaf454f04d80",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4378c5b_a14491d4",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-02-24T00:41:59Z",
+      "side": 1,
+      "message": "Thanks, fixed at PS3",
+      "parentUuid": "d451e90a_e590a7cf",
+      "range": {
+        "startLine": 386,
+        "startChar": 55,
+        "endLine": 386,
+        "endChar": 56
+      },
+      "revId": "7c0921fed6a069d9f7ac64d9ebfadaf454f04d80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
