@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aae5d533_2a7cc3fe",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-25T22:15:12Z",
+      "side": 1,
+      "message": "Instead of duplicating what is in ADC Sensors, please move this to a common place so it can be shared by multiple sensors.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 2
+      },
+      "revId": "a11b2ff5cf7b26a3dce5112b830c73897140079f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
