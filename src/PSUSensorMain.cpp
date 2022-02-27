@@ -70,6 +70,7 @@ static constexpr auto sensorTypes{std::to_array<const char*>(
      "xyz.openbmc_project.Configuration.RAA228000",
      "xyz.openbmc_project.Configuration.RAA228228",
      "xyz.openbmc_project.Configuration.RAA229004",
+     "xyz.openbmc_project.Configuration.RAA229126",
      "xyz.openbmc_project.Configuration.TPS546D24",
      "xyz.openbmc_project.Configuration.XDPE12284"})};
 
@@ -104,6 +105,7 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "raa228000",
     "raa228228",
     "raa229004",
+    "raa229126",
     "tps546d24",
     "xdpe12284"
 })};
@@ -424,7 +426,7 @@ static void createSensorsCallback(
             std::vector<thresholds::Threshold> confThresholds;
             if (!parseThresholdsFromConfig(*sensorData, confThresholds))
             {
-                std::cerr << "error populating totoal thresholds\n";
+                std::cerr << "error populating total thresholds\n";
             }
             thresholdConfSize = confThresholds.size();
 
@@ -958,10 +960,15 @@ void propertyInitialize(void)
 
     labelMatch = {
         {"pin", PSUProperty("Input Power", 3000, 0, 6, 0)},
+        {"pin1", PSUProperty("Input Power", 3000, 0, 6, 0)},
+        {"pin2", PSUProperty("Input Power", 3000, 0, 6, 0)},
         {"pout1", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"pout2", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"pout3", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"power1", PSUProperty("Output Power", 3000, 0, 6, 0)},
+        {"power2", PSUProperty("Output Power", 3000, 0, 6, 0)},
+        {"power3", PSUProperty("Output Power", 3000, 0, 6, 0)},
+        {"power4", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
         {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
@@ -1007,6 +1014,8 @@ void propertyInitialize(void)
         {"in6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"in7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
+        {"iin1", PSUProperty("Input Current", 20, 0, 3, 0)},
+        {"iin2", PSUProperty("Input Current", 20, 0, 3, 0)},
         {"iout1", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"iout2", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"iout3", PSUProperty("Output Current", 255, 0, 3, 0)},
@@ -1022,6 +1031,9 @@ void propertyInitialize(void)
         {"iout13", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"iout14", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"curr1", PSUProperty("Output Current", 255, 0, 3, 0)},
+        {"curr2", PSUProperty("Output Current", 255, 0, 3, 0)},
+        {"curr3", PSUProperty("Output Current", 255, 0, 3, 0)},
+        {"curr4", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3, 0)},
         {"temp1", PSUProperty("Temperature", 127, -128, 3, 0)},
         {"temp2", PSUProperty("Temperature", 127, -128, 3, 0)},
