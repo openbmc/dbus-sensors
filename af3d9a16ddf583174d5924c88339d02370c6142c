@@ -623,6 +623,30 @@
       },
       "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8cbeb19_6981ba74",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-02-28T23:08:14Z",
+      "side": 1,
+      "message": "I think we want: \n1. Change HostSMBusIndex to RemoteBusIndex because it is not a bus BMC can access.(My concern is for backwards compatibility with existing config files)\n\n2. Add IpmbBridgeBus for the new index because it is a local bus number BMC is going to use to send the Ipmb command to. \nBut, looking at https://github.com/openbmc/ipmbbridge/blob/master/ipmb-channels.json#L5, (\"slave-path\": \"/dev/ipmb-5\"), \nI think the \"5\" is the SMBus number local to BMC, so \"Bus\" can be used here, without adding a new variable. \n\n#1 is what @Ed asked earlier",
+      "parentUuid": "65509dae_d3916cea",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 74
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
