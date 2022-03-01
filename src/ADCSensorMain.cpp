@@ -70,12 +70,13 @@ void createSensors(
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged,
+    bool cpusOnly = false)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        [&io, &objectServer, &sensors, &dbusConnection,
-         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
+         cpusOnly](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
             std::vector<fs::path> paths;
             if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)",
@@ -252,6 +253,10 @@ void createSensors(
                         continue; // cpu not installed
                     }
                 }
+                else if (cpusOnly)
+                {
+                    continue;
+                }
 
                 auto& sensor = sensors[sensorName];
                 sensor = nullptr;
@@ -396,7 +401,8 @@ int main()
                     std::cerr << "timer error\n";
                     return;
                 }
-                createSensors(io, objectServer, sensors, systemBus, nullptr);
+                createSensors(io, objectServer, sensors, systemBus, nullptr,
+                              true);
             });
         };
 
