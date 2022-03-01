@@ -46,6 +46,12 @@ static std::regex inputRegex(R"(in(\d+)_input)");
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
 
+enum class UpdateType
+{
+    init,
+    cpuPresenceChange
+};
+
 // filter out adc from any other voltage sensor
 bool isAdc(const fs::path& parentPath)
 {
@@ -70,12 +76,13 @@ void createSensors(
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged,
+    UpdateType updateType)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        [&io, &objectServer, &sensors, &dbusConnection,
-         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
+         updateType](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
             std::vector<fs::path> paths;
             if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)",
@@ -252,6 +259,10 @@ void createSensors(
                         continue; // cpu not installed
                     }
                 }
+                else if (updateType == UpdateType::cpuPresenceChange)
+                {
+                    continue;
+                }
 
                 auto& sensor = sensors[sensorName];
                 sensor = nullptr;
@@ -322,7 +333,8 @@ int main()
         std::make_shared<boost::container::flat_set<std::string>>();
 
     io.post([&]() {
-        createSensors(io, objectServer, sensors, systemBus, nullptr);
+        createSensors(io, objectServer, sensors, systemBus, nullptr,
+                      UpdateType::init);
     });
 
     boost::asio::deadline_timer filterTimer(io);
@@ -349,7 +361,7 @@ int main()
                     return;
                 }
                 createSensors(io, objectServer, sensors, systemBus,
-                              sensorsChanged);
+                              sensorsChanged, UpdateType::init);
             });
         };
 
@@ -396,7 +408,8 @@ int main()
                     std::cerr << "timer error\n";
                     return;
                 }
-                createSensors(io, objectServer, sensors, systemBus, nullptr);
+                createSensors(io, objectServer, sensors, systemBus, nullptr,
+                              UpdateType::cpuPresenceChange);
             });
         };
 
