@@ -33,6 +33,24 @@
       "message": "change the commit title.\n\ngpiopresencesensor: a daemon to detect presence based on GPIO\n\nWant to make it clear that we\u0027re not reporting GPIO status but rather we\u0027re reporting the presence of something based on GPIO pins.",
       "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64151a55_81cf62db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-03-02T18:43:25Z",
+      "side": 1,
+      "message": "In fact, we are reporting the GPIO status. In the new design, its EM\u0027s responsibility to take the GPIO status from the private interface and translate that into presence defined signal. This flow gives a better compatibility because it is up to the EM to decide what to do with the signal.",
+      "parentUuid": "2718853a_9de37943",
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
