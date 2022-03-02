@@ -70,6 +70,30 @@
       },
       "revId": "0891e2bdddc0b4568599b4e592577ccd9214d1a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aad68afa_55e9ccc9",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-03-02T09:46:43Z",
+      "side": 1,
+      "message": "In that case moving back file opening part inside setup read should work. Let me try that change.",
+      "parentUuid": "db69b21e_e505ec9f",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 5
+      },
+      "revId": "0891e2bdddc0b4568599b4e592577ccd9214d1a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
