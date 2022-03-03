@@ -246,6 +246,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d81de6e6_d91e3b2c",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-03-03T16:27:12Z",
+      "side": 1,
+      "message": "I\u0027d prefer we create a well-documented phosphor-dbus-interfaces schema then, rather than a private one only known to EM.\n\nWe need to be fairly careful about this because in the past there was a proposal to expose all GPIOs onto dbus and there are significant performance concerns about that.  Generally exposing GPIOs is not a proper abstraction.\n\nIf you\u0027re intention is to use this to show presence, why aren\u0027t you exposing an Inventory interface already designed to show presence?  Specifically xyz.openbmc_project.Inventory.Item.\n\nIt is fine to me to have an Inventory.Item representing some abstract entity which is not explicitly the full cable and then have EM present the full Inventory.Item (with all the appropriate decorators) for the real cable.  It just means we have different paths and PrettyNames for the two entities.",
+      "parentUuid": "b8738f89_7067dd4a",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1ed26e7_70dd0d66",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 36
