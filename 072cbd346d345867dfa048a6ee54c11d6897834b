@@ -270,6 +270,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24ed148b_0144843d",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-03-03T18:39:18Z",
+      "side": 1,
+      "message": "If I am getting this correctly, I should be using a public interface to show the gpio state and have EM present the full inventory.item (with all the appropriate decorators). I think that is better. Which public interface do you think is appropriate for the gpio states? By the way, we are only querying the desired gpio stated not all of them. So the performance impact should be minimum.",
+      "parentUuid": "d81de6e6_d91e3b2c",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1ed26e7_70dd0d66",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 36
