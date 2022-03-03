@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00127d78_33d034ac",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-03T07:02:35Z",
+      "side": 1,
+      "message": "Pretty sure you didn\u0027t intend this.",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 34
+      },
+      "revId": "139e8fb090d6b05d89754c1374fe9b9555f88d1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
