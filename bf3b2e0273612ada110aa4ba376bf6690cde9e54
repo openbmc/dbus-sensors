@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "774eb5da_5eb80133",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-03T07:18:10Z",
+      "side": 1,
+      "message": "wrap your commit 50/72 please.",
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65543b86_3051c3c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-03T07:18:10Z",
+      "side": 1,
+      "message": "Considering we know at compile time which bmc we\u0027re on, and I would expect this to apply to ALL nuvoton BMCs, does this need to have some kind of different file with a probe statement?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b67a067a_d146e495",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-03T07:18:10Z",
+      "side": 1,
+      "message": "your commit above says this DOESN\u0027T have a bus and address, so your commit should support these parameters not being present.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7339fc89_a70bb3aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-03T07:18:10Z",
+      "side": 1,
+      "message": "Please come up with a more appropriate typename for this.  Off the top of my head, maybe BMCOnDieThermalSensor",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 32
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
