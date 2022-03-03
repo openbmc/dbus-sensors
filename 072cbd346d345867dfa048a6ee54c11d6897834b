@@ -294,6 +294,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8d0c228_efe7a4f2",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-03-03T18:50:57Z",
+      "side": 1,
+      "message": "\u003e I should be using a public interface to show the gpio state and have EM present the full inventory.item (with all the appropriate decorators).\n\nYes, mostly.\n\n\u003e Which public interface do you think is appropriate for the gpio states?\n\nI gave one option already.  I\u0027d be open to other proposals.\n\nMy preference is that we do NOT have an interface to express GPIO state.  I think we should be able to encode abstractly what you are representing from this GPIO (ie. presence).\n\n\u003e By the way, we are only querying the desired gpio stated not all of them. So the performance impact should be minimum.\n\nMy concern isn\u0027t in your implementation.  I don\u0027t expect your cable-presence GPIO to change state very often.  My concern is that we define a xyz.openbmc_project.GPIOPin interface and someone gets the bright idea to represent all their GPIOs over it, since it exists.  I\u0027m not worried about your problem domain being a performance issue; I\u0027m worried about the precedent of exposing GPIOs on DBus getting us into trouble in the future.",
+      "parentUuid": "24ed148b_0144843d",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1ed26e7_70dd0d66",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 36
