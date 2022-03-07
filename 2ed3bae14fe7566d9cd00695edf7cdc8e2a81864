@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ffd8d21_40df6634",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2022-03-07T15:30:09Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-logging/+/51708 merged, so are we good here? We can abandon this?",
+      "revId": "2ed3bae14fe7566d9cd00695edf7cdc8e2a81864",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a3ffde7_3edde839",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
