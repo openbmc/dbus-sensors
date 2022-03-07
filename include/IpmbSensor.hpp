@@ -93,6 +93,9 @@ struct IpmbSensor : public Sensor
     void loadDefaults(void);
     void runInitCmd(void);
     bool processReading(const std::vector<uint8_t>& data, double& resp);
+    void sensorState(const SensorBaseConfigMap& entry);
+    bool sensorClassType(const std::string& sensorClass);
+    void sensorSubType(const std::string& sensorTypeName);
 
     IpmbType type = IpmbType::none;
     IpmbSubType subType = IpmbSubType::none;
