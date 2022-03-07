@@ -406,6 +406,86 @@ void IpmbSensor::read(void)
             "sendRequest", commandAddress, netfn, lun, command, commandData);
     });
 }
+
+bool IpmbSensor::sensorClassType(const std::string& sensorClass)
+{
+    if (sensorClass == "PxeBridgeTemp")
+    {
+        type = IpmbType::PXE1410CVR;
+    }
+    else if (sensorClass == "IRBridgeTemp")
+    {
+        type = IpmbType::IR38363VR;
+    }
+    else if (sensorClass == "HSCBridge")
+    {
+        type = IpmbType::ADM1278HSC;
+    }
+    else if (sensorClass == "MpsBridgeTemp")
+    {
+        type = IpmbType::mpsVR;
+    }
+    else if (sensorClass == "METemp" || sensorClass == "MESensor")
+    {
+        type = IpmbType::meSensor;
+    }
+    else
+    {
+        std::cerr << "Invalid class " << sensorClass << "\n";
+        return false;
+    }
+    return true;
+}
+
+void IpmbSensor::sensorSubType(const std::string& sensorTypeName)
+{
+    if (sensorTypeName == "voltage")
+    {
+        subType = IpmbSubType::volt;
+    }
+    else if (sensorTypeName == "power")
+    {
+        subType = IpmbSubType::power;
+    }
+    else if (sensorTypeName == "current")
+    {
+        subType = IpmbSubType::curr;
+    }
+    else if (sensorTypeName == "utilization")
+    {
+        subType = IpmbSubType::util;
+    }
+    else
+    {
+        subType = IpmbSubType::temp;
+    }
+}
+
+void IpmbSensor::parseConfigValues(const SensorBaseConfigMap& entry)
+{
+    auto findScaleVal = entry.find("ScaleValue");
+    if (findScaleVal != entry.end())
+    {
+        scaleVal = std::visit(VariantToDoubleVisitor(), findScaleVal->second);
+    }
+
+    auto findOffsetVal = entry.find("OffsetValue");
+    if (findOffsetVal != entry.end())
+    {
+        offsetVal = std::visit(VariantToDoubleVisitor(), findOffsetVal->second);
+    }
+
+    auto findPowerState = entry.find("PowerState");
+
+    if (findPowerState != entry.end())
+    {
+        std::string powerState =
+            std::visit(VariantToStringVisitor(), findPowerState->second);
+
+        setReadState(powerState, readState);
+    }
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>>&
@@ -483,81 +563,12 @@ void createSensors(
                         std::move(sensorThresholds), deviceAddress,
                         hostSMbusIndex, pollRate, sensorTypeName);
 
-                    /* Initialize scale and offset value */
-                    sensor->scaleVal = 1;
-                    sensor->offsetVal = 0;
-
-                    auto findScaleVal = entry.second.find("ScaleValue");
-                    if (findScaleVal != entry.second.end())
+                    sensor->parseConfigValues(entry.second);
+                    if (!(sensor->sensorClassType(sensorClass)))
                     {
-                        sensor->scaleVal = std::visit(VariantToDoubleVisitor(),
-                                                      findScaleVal->second);
-                    }
-
-                    auto findOffsetVal = entry.second.find("OffsetValue");
-                    if (findOffsetVal != entry.second.end())
-                    {
-                        sensor->offsetVal = std::visit(VariantToDoubleVisitor(),
-                                                       findOffsetVal->second);
-                    }
-
-                    auto findPowerState = entry.second.find("PowerState");
-
-                    if (findPowerState != entry.second.end())
-                    {
-                        std::string powerState = std::visit(
-                            VariantToStringVisitor(), findPowerState->second);
-
-                        setReadState(powerState, sensor->readState);
-                    }
-
-                    if (sensorClass == "PxeBridgeTemp")
-                    {
-                        sensor->type = IpmbType::PXE1410CVR;
-                    }
-                    else if (sensorClass == "IRBridgeTemp")
-                    {
-                        sensor->type = IpmbType::IR38363VR;
-                    }
-                    else if (sensorClass == "HSCBridge")
-                    {
-                        sensor->type = IpmbType::ADM1278HSC;
-                    }
-                    else if (sensorClass == "MpsBridgeTemp")
-                    {
-                        sensor->type = IpmbType::mpsVR;
-                    }
-                    else if (sensorClass == "METemp" ||
-                             sensorClass == "MESensor")
-                    {
-                        sensor->type = IpmbType::meSensor;
-                    }
-                    else
-                    {
-                        std::cerr << "Invalid class " << sensorClass << "\n";
                         continue;
                     }
-
-                    if (sensorTypeName == "voltage")
-                    {
-                        sensor->subType = IpmbSubType::volt;
-                    }
-                    else if (sensorTypeName == "power")
-                    {
-                        sensor->subType = IpmbSubType::power;
-                    }
-                    else if (sensorTypeName == "current")
-                    {
-                        sensor->subType = IpmbSubType::curr;
-                    }
-                    else if (sensorTypeName == "utilization")
-                    {
-                        sensor->subType = IpmbSubType::util;
-                    }
-                    else
-                    {
-                        sensor->subType = IpmbSubType::temp;
-                    }
+                    sensor->sensorSubType(sensorTypeName);
                     sensor->init();
                 }
             }
