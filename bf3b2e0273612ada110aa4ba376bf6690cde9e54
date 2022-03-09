@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e92075dc_bde80c8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-09T02:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "774eb5da_5eb80133",
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65543b86_3051c3c6",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-03-03T07:18:10Z",
       "side": 1,
       "message": "Considering we know at compile time which bmc we\u0027re on, and I would expect this to apply to ALL nuvoton BMCs, does this need to have some kind of different file with a probe statement?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2fb0c8c_229e7030",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-09T02:31:52Z",
+      "side": 1,
+      "message": "Not all Nuvoton BMCs support this kind on die thermal sensor, now we only support it on npcm8xx serials. And user can adjust their threshold, pid configuration easier when we export this sensor as hwmon thermal sensor in dbus sensors.",
+      "parentUuid": "65543b86_3051c3c6",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf0a57a5_8669dd7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-09T02:31:52Z",
+      "side": 1,
+      "message": "The idea use the bus and address is for lesser code change. User can use bus 0 and address x to present each thermal zones.",
+      "parentUuid": "b67a067a_d146e495",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7339fc89_a70bb3aa",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -77,6 +143,30 @@
       "writtenOn": "2022-03-03T07:18:10Z",
       "side": 1,
       "message": "Please come up with a more appropriate typename for this.  Off the top of my head, maybe BMCOnDieThermalSensor",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 32
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f33ef7e5_a1f6d21b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-09T02:31:52Z",
+      "side": 1,
+      "message": "Yes, the name thermal zone is not quite intuitive to know what it is.\nBut just like other thermal sensors, the name comes from kernel. It makes sense user can map configuration type name and kernel sysfs device name.",
+      "parentUuid": "7339fc89_a70bb3aa",
       "range": {
         "startLine": 24,
         "startChar": 21,
