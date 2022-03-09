@@ -94,6 +94,30 @@
       },
       "revId": "0891e2bdddc0b4568599b4e592577ccd9214d1a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "871f7efd_94c7c675",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-09T16:22:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aad68afa_55e9ccc9",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 5
+      },
+      "revId": "0891e2bdddc0b4568599b4e592577ccd9214d1a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
