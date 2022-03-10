@@ -671,6 +671,30 @@
       },
       "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d61867_fa7ce23c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-03-10T14:19:19Z",
+      "side": 1,
+      "message": "Could you please confirm the above comment.\n@Ed  @Zhikui",
+      "parentUuid": "6e0109c5_f0d435c0",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 74
+      },
+      "revId": "af3d9a16ddf583174d5924c88339d02370c6142c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
