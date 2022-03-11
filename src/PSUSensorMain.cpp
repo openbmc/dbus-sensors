@@ -131,7 +131,7 @@ static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
 static boost::container::flat_map<std::string, std::string> sensorTable;
 static boost::container::flat_map<std::string, PSUProperty> labelMatch;
-static boost::container::flat_map<std::string, std::string> pwmTable;
+static boost::container::flat_map<std::string, std::string> fanTable;
 static boost::container::flat_map<std::string, std::vector<std::string>>
     eventMatch;
 static boost::container::flat_map<
@@ -264,11 +264,11 @@ static void
                    const std::string& interfacePath,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
                    sdbusplus::asio::object_server& objectServer,
-                   const std::string& psuName)
+                   const std::string& pwmName)
 {
-    for (const auto& pwmName : pwmTable)
+    for (const auto& [fanLabel, fanName] : fanTable)
     {
-        if (pwmName.first != labelHead)
+        if (fanLabel != labelHead)
         {
             continue;
         }
@@ -282,15 +282,20 @@ static void
             continue;
         }
 
-        auto findPWMSensor = pwmSensors.find(psuName + labelHead);
+        size_t index = fanLabel.find_last_not_of("0123456789");
+        const std::string pwmSensor = pwmName + "_" + fanLabel.substr(index + 1);
+        auto findPWMSensor = pwmSensors.find(pwmSensor);
         if (findPWMSensor != pwmSensors.end())
         {
             continue;
         }
 
-        pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
-            objectServer, interfacePath + "_" + pwmName.second, "PSU");
+        std::string fanConfigPath(interfacePath);
+        fanConfigPath.append("_");
+        fanConfigPath.append(fanName);
+        pwmSensors[pwmSensor] = std::make_unique<PwmSensor>(
+            pwmSensor, pwmPathStr, dbusConnection,
+            objectServer, fanConfigPath, "PSU");
     }
 }
 
@@ -497,6 +502,13 @@ static void createSensorsCallback(
             findPSUName = baseConfig->second.find("Name" + std::to_string(i++));
         } while (findPSUName != baseConfig->second.end());
 
+        auto findPWMName = baseConfig->second.find("PwmName");
+        std::string pwmName = "Pwm_" + psuNames[0] + "_Fan";
+        if (findPWMName != baseConfig->second.end())
+        {
+            pwmName = escapeName(std::get<std::string>(findPWMName->second));
+        }
+
         std::vector<fs::path> sensorPaths;
         if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
         {
@@ -626,7 +638,7 @@ static void createSensorsCallback(
             }
 
             checkPWMSensor(sensorPath, labelHead, *interfacePath,
-                           dbusConnection, objectServer, psuNames[0]);
+                           dbusConnection, objectServer, pwmName);
 
             if (!findLabels.empty())
             {
@@ -1046,7 +1058,7 @@ void propertyInitialize(void)
         {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
         {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)}};
 
-    pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"}};
+    fanTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"}};
 
     limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
                        {"Failure", {"crit_alarm", "lcrit_alarm"}}};
