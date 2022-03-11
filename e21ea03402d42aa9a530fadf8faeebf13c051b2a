@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3c07c2_0e0e6a14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-11T17:32:30Z",
+      "side": 1,
+      "message": "50/72 line breaks please.\n\n\nAlso, please make sure that your commit message documents the \"why\"",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "e21ea03402d42aa9a530fadf8faeebf13c051b2a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b7d836d_0417fe42",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-11T17:32:30Z",
+      "side": 1,
+      "message": "This locks users into a naming convention, which we should avoid.  Can we simply remove the hardcoded \"_pwm_\" from this entirely, and inline it into the entity-manager config files where appropriate?",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 71
+      },
+      "revId": "e21ea03402d42aa9a530fadf8faeebf13c051b2a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
