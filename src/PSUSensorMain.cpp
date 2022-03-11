@@ -281,7 +281,7 @@ static void
         }
 
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
+            psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
             objectServer, interfacePath + "_" + pwmName.second, "PSU");
     }
 }
@@ -497,6 +497,13 @@ static void createSensorsCallback(
             findPSUName = baseConfig->second.find("Name" + std::to_string(i++));
         } while (findPSUName != baseConfig->second.end());
 
+        auto findPWMName = baseConfig->second.find("PwmName");
+        std::string pwmName = "Pwm_" + psuNames[0];
+        if (findPWMName != baseConfig->second.end())
+        {
+            pwmName = escapeName(std::get<std::string>(findPWMName->second));
+        }
+
         std::vector<fs::path> sensorPaths;
         if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
         {
@@ -626,7 +633,7 @@ static void createSensorsCallback(
             }
 
             checkPWMSensor(sensorPath, labelHead, *interfacePath,
-                           dbusConnection, objectServer, psuNames[0]);
+                           dbusConnection, objectServer, pwmName);
 
             if (!findLabels.empty())
             {
