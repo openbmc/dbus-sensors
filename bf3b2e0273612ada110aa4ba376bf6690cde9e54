@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e0b8dab_faf1232c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-11T17:00:52Z",
+      "side": 1,
+      "message": "My point is still the same, we know we\u0027re on an npcm8xx at compile time.  I never said to remove their thresholds or PID loops, I just said to move them to another file, with a probe that was based on the chip we\u0027re compiling for, given that they will be common across all BMC systems.",
+      "parentUuid": "f2fb0c8c_229e7030",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b67a067a_d146e495",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -132,6 +156,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca385d4a_093f4599",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-11T17:00:52Z",
+      "side": 1,
+      "message": "\u003e The idea use the bus and address is for lesser code change.\n\nSmaller code changes is not a design goal with entity-manager, as is documented in the repo.  These files have design principals that are documented in the EM repo and are in opposition to this.  Please read, understand, and follow them.\n\n\u003e User can use bus 0 and address x to present each thermal zones.\n\nConsidering that the user in this case has no control over what thermal sensors each piece of silicon has, I would not expect that to be controllable through the config file, only the thresholds and scan rates would be configurable.",
+      "parentUuid": "cf0a57a5_8669dd7e",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7339fc89_a70bb3aa",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -167,6 +215,30 @@
       "side": 1,
       "message": "Yes, the name thermal zone is not quite intuitive to know what it is.\nBut just like other thermal sensors, the name comes from kernel. It makes sense user can map configuration type name and kernel sysfs device name.",
       "parentUuid": "7339fc89_a70bb3aa",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 32
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a3fe82f_eff86fa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-11T17:00:52Z",
+      "side": 1,
+      "message": "\u003e Yes, the name thermal zone is not quite intuitive to know what it is.\n\u003e But just like other thermal sensors, the name comes from kernel.\n\nThere are thermal sensors that don\u0027t do this, and this is definitely not a \"rule\", in fact, it\u0027s documented as the opposite.  The ones that are common to the kernel use the same name because that is the part number, which the kernel also uses.\n\n\u003e It makes sense user can map configuration type name and kernel sysfs device name.\n\nPlease don\u0027t.  There should be nothing linux specific in these config files.  If you wanted to put this under the specific BMC part number, that might be fine, but considering that we know the BMC type at compile time, it seems like we could have a common config for it, unless there\u0027s going to be BMC-model-specific parameters we might need to set.",
+      "parentUuid": "f33ef7e5_a1f6d21b",
       "range": {
         "startLine": 24,
         "startChar": 21,
