@@ -264,10 +264,7 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
     if (sensor->bus < 0)
     {
         std::cerr << "Bus index cannot be negative: " << sensor->bus << "\n";
-
         sensors.pop_front();
-        sensors.emplace_back(sensor);
-
         return;
     }
 
