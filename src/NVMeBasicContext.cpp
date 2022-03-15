@@ -260,17 +260,6 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         return;
     }
 
-    /* Ensure sensor query parameters are sensible */
-    if (sensor->bus < 0)
-    {
-        std::cerr << "Bus index cannot be negative: " << sensor->bus << "\n";
-
-        sensors.pop_front();
-        sensors.emplace_back(sensor);
-
-        return;
-    }
-
     auto command = encodeBasicQuery(sensor->bus, 0x6a, 0x00);
 
     /* Issue the request */
