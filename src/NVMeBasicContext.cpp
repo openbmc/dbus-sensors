@@ -251,12 +251,20 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         return;
     }
 
-    std::shared_ptr<NVMeSensor>& sensor = sensors.front();
+    std::shared_ptr<NVMeSensor> sensor = sensors.front();
 
     if (!sensor->readingStateGood())
     {
         sensor->markAvailable(false);
         sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
+        return;
+    }
+
+    /* Skip the sensor if it has exceeded the error threshold */
+    if (sensor->inError())
+    {
+        sensors.pop_front();
+        sensors.emplace_back(sensor);
         return;
     }
 
@@ -336,12 +344,6 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
                 return;
             }
 
-            if (length == 1)
-            {
-                std::cerr << "Basic query failed\n";
-                return;
-            }
-
             /* Deserialise the response */
             response->consume(1); /* Drop the length byte */
             std::istream is(response.get());
@@ -388,21 +390,29 @@ static double getTemperatureReading(int8_t reading)
 
 void NVMeBasicContext::processResponse(void* msg, size_t len)
 {
-    if (msg == nullptr)
-    {
-        std::cerr << "Bad message received\n";
-        return;
-    }
+    std::shared_ptr<NVMeSensor> sensor = sensors.front();
 
-    if (len < 6)
+    if (msg == nullptr || len < 6)
     {
-        std::cerr << "Invalid message length: " << len << "\n";
+        // Basic query failed
+
+        if (msg == nullptr)
+        {
+            std::cerr << "Bad message received\n";
+        }
+
+        if (len > 0)
+        {
+            std::cerr << "Invalid message length: " << len << "\n";
+        }
+
+        sensor->incrementError();
+        sensors.pop_front();
+        sensors.emplace_back(sensor);
         return;
     }
 
     uint8_t* messageData = static_cast<uint8_t*>(msg);
-
-    std::shared_ptr<NVMeSensor> sensor = sensors.front();
     double value = getTemperatureReading(messageData[2]);
 
     if (std::isfinite(value))
@@ -411,7 +421,6 @@ void NVMeBasicContext::processResponse(void* msg, size_t len)
     }
     else
     {
-        sensor->markAvailable(false);
         sensor->incrementError();
     }
 
