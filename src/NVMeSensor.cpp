@@ -33,6 +33,11 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
            PowerState::on),
     bus(busNumber), objServer(objectServer)
 {
+    if (bus < 0)
+    {
+        throw std::invalid_argument("Invalid bus: Bus ID must not be negative");
+    }
+
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
         "xyz.openbmc_project.Sensor.Value");

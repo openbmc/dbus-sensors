@@ -152,13 +152,27 @@ static void handleSensorConfigurations(
                           << "\n";
             }
 
-            std::shared_ptr<NVMeSensor> sensorPtr =
-                std::make_shared<NVMeSensor>(
-                    objectServer, io, dbusConnection, *sensorName,
-                    std::move(sensorThresholds), interfacePath, *busNumber);
+            try
+            {
+                // May throw for an invalid rootBus
+                std::shared_ptr<NVMeContext> context =
+                    provideRootBusContext(io, nvmeDeviceMap, *rootBus);
 
-            provideRootBusContext(io, nvmeDeviceMap, *rootBus)
-                ->addSensor(sensorPtr);
+                // Construct the sensor after grabbing the context so we don't
+                // glitch D-Bus May throw for an invalid busNumber
+                std::shared_ptr<NVMeSensor> sensorPtr =
+                    std::make_shared<NVMeSensor>(
+                        objectServer, io, dbusConnection, *sensorName,
+                        std::move(sensorThresholds), interfacePath, *busNumber);
+
+                context->addSensor(sensorPtr);
+            }
+            catch (const std::invalid_argument& ex)
+            {
+                std::cerr << "Failed to add sensor for "
+                          << std::string(interfacePath) << ": " << ex.what()
+                          << "\n";
+            }
         }
     }
     for (const auto& [_, context] : nvmeDeviceMap)

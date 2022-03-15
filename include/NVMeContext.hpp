@@ -6,13 +6,20 @@
 #include <boost/asio/io_service.hpp>
 
 #include <memory>
+#include <stdexcept>
 
 class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 {
   public:
     NVMeContext(boost::asio::io_service& io, int rootBus) :
         scanTimer(io), rootBus(rootBus)
-    {}
+    {
+        if (rootBus < 0)
+        {
+            throw std::invalid_argument(
+                "Invalid root bus: Bus ID must not be negative");
+        }
+    }
 
     virtual ~NVMeContext()
     {
