@@ -407,21 +407,29 @@ void NVMeBasicContext::processResponse(void* msg, size_t len)
         }
 
         sensor->incrementError();
-        sensors.pop_front();
-        sensors.emplace_back(sensor);
-        return;
-    }
-
-    uint8_t* messageData = static_cast<uint8_t*>(msg);
-    double value = getTemperatureReading(messageData[2]);
-
-    if (std::isfinite(value))
-    {
-        sensor->updateValue(value);
     }
     else
     {
-        sensor->incrementError();
+        uint8_t* messageData = static_cast<uint8_t*>(msg);
+
+        uint8_t status = messageData[0];
+        if ((status & NVME_MI_BASIC_SFLGS_POWERED_UP) ||
+            !(status & NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL))
+        {
+            sensor->markFunctional(false);
+        }
+        else
+        {
+            double value = getTemperatureReading(messageData[2]);
+            if (std::isfinite(value))
+            {
+                sensor->updateValue(value);
+            }
+            else
+            {
+                sensor->incrementError();
+            }
+        }
     }
 
     sensors.pop_front();
