@@ -20,4 +20,10 @@ class NVMeBasicContext : public NVMeContext
     boost::asio::io_service& io;
     boost::asio::posix::stream_descriptor reqStream;
     boost::asio::posix::stream_descriptor respStream;
+
+    enum
+    {
+        NVME_MI_BASIC_SFLGS_POWERED_UP = 0x40,
+        NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL = 0x20,
+    };
 };
