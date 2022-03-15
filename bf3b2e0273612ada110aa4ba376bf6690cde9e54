@@ -107,6 +107,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1acbb24e_994a179f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-15T02:27:11Z",
+      "side": 1,
+      "message": "I prepare a stand alone file for all npcm8xx serial BMC probe like:\n{\n    \"Exposes\": [\n        {\n            \"Name\": \"BMC_CPU_Temp0\",\n            \"Index\": 0,\n            \"Thresholds\": [\n                {\n                    \"Direction\": \"greater than\",\n                    \"Name\": \"upper critical\",\n                    \"Severity\": 1,\n                    \"Value\": 75.000\n                },\n...\n            ],\n            \"Type\": \"BMCOnDieThermalSensor\"\n        },\n        {\n            \"Name\": \"BMC_CPU_Temp1\",\n            \"Index\": 1,\n...\n            \"Type\": \"BMCOnDieThermalSensor\"\n        }\n    ],\n    \"Name\": \"NMPCM8XX\",\n    \"Probe\": [\n        \"xyz.openbmc_project.Inventory.Decorator.Asset({\u0027Model\u0027: \u0027.*ARBEL\u0027})\"\n    ],\n    \"Type\": \"BMC\"\n}\nfor the update patch.",
+      "parentUuid": "4e0b8dab_faf1232c",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b67a067a_d146e495",
@@ -178,6 +202,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e88dcabc_048b2c0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-15T02:27:11Z",
+      "side": 1,
+      "message": "Thanks for your suggestion. The bus and address is removed, and I add index to identify each sensor.",
+      "parentUuid": "ca385d4a_093f4599",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7339fc89_a70bb3aa",
@@ -239,6 +287,30 @@
       "side": 1,
       "message": "\u003e Yes, the name thermal zone is not quite intuitive to know what it is.\n\u003e But just like other thermal sensors, the name comes from kernel.\n\nThere are thermal sensors that don\u0027t do this, and this is definitely not a \"rule\", in fact, it\u0027s documented as the opposite.  The ones that are common to the kernel use the same name because that is the part number, which the kernel also uses.\n\n\u003e It makes sense user can map configuration type name and kernel sysfs device name.\n\nPlease don\u0027t.  There should be nothing linux specific in these config files.  If you wanted to put this under the specific BMC part number, that might be fine, but considering that we know the BMC type at compile time, it seems like we could have a common config for it, unless there\u0027s going to be BMC-model-specific parameters we might need to set.",
       "parentUuid": "f33ef7e5_a1f6d21b",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 32
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6438df5_99e1852e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-15T02:27:11Z",
+      "side": 1,
+      "message": "The name BMCOnDieThermalSensor seems more common for all BMC.",
+      "parentUuid": "5a3fe82f_eff86fa2",
       "range": {
         "startLine": 24,
         "startChar": 21,
