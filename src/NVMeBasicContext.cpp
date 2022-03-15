@@ -397,6 +397,15 @@ void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
     }
 
     uint8_t* messageData = static_cast<uint8_t*>(msg);
+
+    uint8_t status = messageData[0];
+    if ((status & NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY) ||
+        !(status & NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL))
+    {
+        sensor->markFunctional(false);
+        return;
+    }
+
     double value = getTemperatureReading(messageData[2]);
     if (!std::isfinite(value))
     {
