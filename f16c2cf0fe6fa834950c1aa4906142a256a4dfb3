@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71c59fea_8a3aac28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-16T23:49:41Z",
+      "side": 1,
+      "message": "Thanks for the patch. It does add noise in the log",
+      "revId": "f16c2cf0fe6fa834950c1aa4906142a256a4dfb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
