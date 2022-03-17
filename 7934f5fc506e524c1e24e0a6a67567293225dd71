@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb4217b9_51f71cbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-17T15:39:53Z",
+      "side": 1,
+      "message": "I\u0027m open to your ideas here, but I suspect we don\u0027t want to do this.  There are cases where nvme drives lose their mind, and disappear for a while (firmware update being one case, but there are others).  In those cases, we would never resume scanning when the drive \"shows up\" again.  I think it would help a lot if your commit message could mention why you want to do this;  Saving CPU cycles?  Long timeouts on failed operations blocking other reads?\n\nIf it\u0027s one of those, we could drop the scan rate significantly if the sensor goes into failure, but I don\u0027t think we should abandon it altogether.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 71
+      },
+      "revId": "7934f5fc506e524c1e24e0a6a67567293225dd71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
