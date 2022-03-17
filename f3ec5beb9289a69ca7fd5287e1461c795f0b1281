@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d240a6db_33435494",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-17T15:35:33Z",
+      "side": 1,
+      "message": "Patchset seems fine.  FWIW, boost::asio::streambuf is inglorious overkill for what we need to do here, given that we don\u0027t need to \"stream\" anything (ie, every read succeeds or fails) we can just declare an array and do a read into it.\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/46918/8/include/PSUEvent.hpp#61\n\nIs a design pattern that we should be doing in other places unrelated to io_uring.",
+      "revId": "f3ec5beb9289a69ca7fd5287e1461c795f0b1281",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
