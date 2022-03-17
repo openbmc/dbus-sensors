@@ -22,6 +22,30 @@
       },
       "revId": "7934f5fc506e524c1e24e0a6a67567293225dd71",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "142e6129_38289cd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-03-17T21:18:35Z",
+      "side": 1,
+      "message": "Okay, I\u0027ll think about dropping the scan rate.",
+      "parentUuid": "fb4217b9_51f71cbd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 71
+      },
+      "revId": "7934f5fc506e524c1e24e0a6a67567293225dd71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
