@@ -131,6 +131,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c64f671a_b3e48202",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-17T16:30:37Z",
+      "side": 1,
+      "message": "Seems reasonable.  Can you push that commit somewhere so that I can see the full content?",
+      "parentUuid": "1acbb24e_994a179f",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "bf3b2e0273612ada110aa4ba376bf6690cde9e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b67a067a_d146e495",
