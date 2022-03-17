@@ -1,7 +1,8 @@
 [Unit]
 Description=NVMe Sensor
 StopWhenUnneeded=false
-After=xyz.openbmc_project.FruDevice.service
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
 
 [Service]
 Restart=always
