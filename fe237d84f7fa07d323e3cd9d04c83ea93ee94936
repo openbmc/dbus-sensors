@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "556ba2d1_eb7d4008",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-03-20T21:32:13Z",
+      "side": 1,
+      "message": "Heh, I was going to link you to the 1.0 release of the NVMe MI Basic Management Command documentation which uses this (inverted) terminology, but it turns out there\u0027s a 1.0a release that renames the bit to \"Drive Not Ready\". I\u0027ll update the patch to reflect this.\n\nhttps://nvmexpress.org/wp-content/uploads/NVMe_Management_-_Technical_Note_on_Basic_Management_Command_1.0a.pdf",
+      "parentUuid": "cf8926fc_a0a30a92",
+      "range": {
+        "startLine": 416,
+        "startChar": 12,
+        "endLine": 416,
+        "endChar": 53
+      },
+      "revId": "fe237d84f7fa07d323e3cd9d04c83ea93ee94936",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30f3807b_312a52a5",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 2
