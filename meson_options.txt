@@ -7,7 +7,6 @@ option('intrusion', type: 'feature', value: 'enabled', description: 'Enable intr
 option('ipmb', type: 'feature', value: 'enabled', description: 'Enable IPMB sensor.',)
 option('mcu', type: 'feature', value: 'enabled', description: 'Enable MCU sensor.',)
 option('nvme', type: 'feature', value: 'enabled', description: 'Enable NVMe sensor.',)
-option('nvme-mi-mctp', type: 'feature', value: 'disabled', description: 'Manage NVMe devices via MCTP')
 option('psu', type: 'feature', value: 'enabled', description: 'Enable PSU sensor.',)
 option('external', type: 'feature', value: 'enabled', description: 'Enable External sensor.',)
 option('tests', type: 'feature', value: 'enabled', description: 'Build tests.',)

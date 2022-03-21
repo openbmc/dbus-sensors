@@ -142,14 +142,6 @@ if get_option('nvme').enabled()
 
     nvme_deps = [ default_deps, i2c, thresholds_dep, utils_dep, threads ]
 
-    mi_mctp = get_option('nvme-mi-mctp')
-    if mi_mctp.enabled()
-        nvme_srcs += files('NVMeMCTPContext.cpp')
-        nvme_deps += meson.get_compiler('cpp').find_library('libmctp')
-        conf_data = configuration_data()
-        conf_data.set('HAVE_NVME_MI_MCTP', true)
-    endif
-
     executable(
         'nvmesensor',
         sources: nvme_srcs,
