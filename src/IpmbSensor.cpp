@@ -263,6 +263,41 @@ void IpmbSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
+/* This function will convert the SDR sensor value if value exceeds reading
+ * margin */
+double dataConversion(double value, const uint8_t& commandAddress,
+                      std::vector<uint8_t> data)
+{
+    uint8_t busIndex = (commandAddress >> ipmbLeftShift) + 1;
+    double dataVal = value;
+
+    if (data.empty())
+    {
+        std::cerr << " Sensor value is empty in data Conversion \n";
+        dataVal = std::numeric_limits<double>::quiet_NaN();
+        return dataVal;
+    }
+
+    uint8_t sensorNum = data[0];
+
+    SensorValConversion temp =
+        IpmbSDRDevice::sensorValRecord[busIndex][sensorNum];
+
+    dataVal = IpmbSDRDevice::sensorValidation(temp.mValue, temp.bValue,
+                                              temp.expoVal, value);
+
+    if (dataVal > static_cast<uint8_t>(SDR01Fields::maxPosReadingMargin))
+    {
+        // Negative reading handle
+        if (static_cast<uint8_t>(SDRCmd::twosCompVal) == temp.negRead)
+        {
+            dataVal -= static_cast<uint8_t>(SDR01Fields::thermalConst);
+        }
+    }
+
+    return dataVal;
+}
+
 bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
 {
 
@@ -406,6 +441,11 @@ void IpmbSensor::read(void)
                     reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
                 }
                 rawValue = static_cast<double>(rawData);
+
+                if (type == IpmbType::IpmbDevice)
+                {
+                    value = dataConversion(value, commandAddress, commandData);
+                }
 
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;
