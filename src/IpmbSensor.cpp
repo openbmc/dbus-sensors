@@ -39,6 +39,9 @@ constexpr const bool debug = false;
 
 constexpr const char* configInterface =
     "xyz.openbmc_project.Configuration.IpmbSensor";
+constexpr const char* sdrInterface =
+    "xyz.openbmc_project.Configuration.SDRSensor";
+
 static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
 
@@ -566,6 +569,29 @@ void createSensors(
         "GetManagedObjects");
 }
 
+void sdrHandler(sdbusplus::message::message& message,
+                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    std::string objectName;
+    boost::container::flat_map<std::string, std::variant<uint64_t, std::string>>
+        values;
+    message.read(objectName, values);
+
+    auto findBus = values.find("Bus");
+    if (findBus != values.end())
+    {
+        uint64_t value = std::get<uint64_t>(findBus->second);
+        printf("Bus : %lld \n", value);
+
+        /* IPMB bus index - first 6 bits is device Index and last 2
+           bits is IPMB/ME channel. Hence shifting the bus to left
+           by 2 bits */
+        uint8_t cmdAddr = value << ipmbLeftShift;
+        IpmbSDR sdr;
+        sdr.ipmbGetSdrInfo(dbusConnection, cmdAddr);
+    }
+}
+
 void reinitSensors(sdbusplus::message::message& message)
 {
     constexpr const size_t reinitWaitSeconds = 2;
@@ -652,6 +678,16 @@ int main()
             "',path='" + std::string(power::path) + "',arg0='" +
             std::string(power::interface) + "'",
         reinitSensors);
+
+    std::unique_ptr<sdbusplus::bus::match_t> matchSignal =
+        std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus::bus&>(*systemBus),
+            "type='signal',member='PropertiesChanged',path_namespace='" +
+                std::string(inventoryPath) + "',arg0namespace='" +
+                sdrInterface + "'",
+            [&](sdbusplus::message::message& msg) {
+                sdrHandler(msg, systemBus);
+            });
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
