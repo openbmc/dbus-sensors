@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e096dc10_1ece5f87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-21T17:46:53Z",
+      "side": 1,
+      "message": "one thing that confused me originally, is that this keeps calling it the \"IPMB channel\" when in fact it\u0027s the bus of the remote controller.  That needs a lot more detail in your commit message to make that clear.  Also, \"Bus\" thusfar refers to the local BMC bus that the controller is present on.  LIke we talked about this, needs to be called something like RemoteBus.",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "bba1e49779e947624ca77b39a65adaea9f5d28e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42c0a7b4_642042b9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-21T17:46:53Z",
+      "side": 1,
+      "message": "You read this out, but it doesn\u0027t get used anywhere?  As written, how does this work?",
+      "range": {
+        "startLine": 472,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 21
+      },
+      "revId": "bba1e49779e947624ca77b39a65adaea9f5d28e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
