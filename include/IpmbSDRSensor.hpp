@@ -150,4 +150,7 @@ class IpmbSDRDevice : public std::enable_shared_from_this<IpmbSDRDevice>
 
     static double sensorValCalculation(uint16_t mValue, double bValue,
                                        double expValue, double value);
+
+    static double dataConversion(double value, const uint8_t& commandAddress,
+                                 std::vector<uint8_t> data);
 };
