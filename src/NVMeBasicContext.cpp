@@ -263,6 +263,13 @@ void NVMeBasicContext::readAndProcessNVMeSensor(
         return;
     }
 
+    /* Potentially defer sampling the sensor sensor if it is in error */
+    if (!sensor->sample())
+    {
+        readAndProcessNVMeSensor(iter);
+        return;
+    }
+
     auto command = encodeBasicQuery(sensor->bus, 0x6a, 0x00);
 
     /* Issue the request */
@@ -331,12 +338,6 @@ void NVMeBasicContext::readAndProcessNVMeSensor(
                 return;
             }
 
-            if (length == 1)
-            {
-                std::cerr << "Basic query failed\n";
-                return;
-            }
-
             /* Deserialise the response */
             response->consume(1); /* Drop the length byte */
             std::istream is(response.get());
@@ -389,28 +390,19 @@ static double getTemperatureReading(int8_t reading)
 void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
                                        void* msg, size_t len)
 {
-    if (msg == nullptr)
+    if (msg == nullptr || len < 6)
     {
-        std::cerr << "Bad message received\n";
-        return;
-    }
-
-    if (len < 6)
-    {
-        std::cerr << "Invalid message length: " << len << "\n";
+        sensor->incrementError();
         return;
     }
 
     uint8_t* messageData = static_cast<uint8_t*>(msg);
     double value = getTemperatureReading(messageData[2]);
-
-    if (std::isfinite(value))
+    if (!std::isfinite(value))
     {
-        sensor->updateValue(value);
-    }
-    else
-    {
-        sensor->markAvailable(false);
         sensor->incrementError();
+        return;
     }
+
+    sensor->updateValue(value);
 }

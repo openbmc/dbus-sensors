@@ -19,10 +19,14 @@ class NVMeSensor : public Sensor
 
     NVMeSensor& operator=(const NVMeSensor& other) = delete;
 
+    bool sample();
+
     int bus;
 
   private:
+    const unsigned int scanDelayTicks = 5 * 60;
     sdbusplus::asio::object_server& objServer;
+    unsigned int scanDelay;
 
     void checkThresholds(void) override;
 };
