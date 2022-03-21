@@ -327,3 +327,36 @@ double IpmbSDRDevice::sensorValCalculation(uint16_t mValue, double bValue,
     double sensorValue = ((mValue * value) + bValue) * expValue;
     return sensorValue;
 }
+
+/* This function will convert the SDR sensor value if value exceeds reading
+ * margin */
+double IpmbSDRDevice::dataConversion(double value,
+                                     const uint8_t& commandAddress,
+                                     std::vector<uint8_t> data)
+{
+    if (data.empty())
+    {
+        std::cerr << " Sensor value is empty in data Conversion \n";
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+
+    double dataVal = value;
+    uint8_t busIndex = (commandAddress >> ipmbLeftShift) + 1;
+    uint8_t sensorNum = data[0];
+
+    SensorValConversion temp = sensorValRecord[busIndex][sensorNum];
+
+    dataVal =
+        sensorValCalculation(temp.mValue, temp.bValue, temp.expoVal, value);
+
+    if (dataVal > sdr01_command::maxPosReadingMargin)
+    {
+        // Negative reading handle
+        if (sdr01_command::twosCompVal == temp.negRead)
+        {
+            dataVal -= sdr01_command::thermalConst;
+        }
+    }
+
+    return dataVal;
+}
