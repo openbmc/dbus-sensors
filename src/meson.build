@@ -115,6 +115,7 @@ if get_option('ipmb').enabled()
         'ipmbsensor',
         'IpmbSensor.cpp',
         'IpmbPowerState.cpp',
+        'IpmbSDRSensor.cpp',
         dependencies: [
             default_deps,
             thresholds_dep,

@@ -15,6 +15,7 @@
 */
 
 #include <IpmbPowerState.hpp>
+#include <IpmbSDRSensor.hpp>
 #include <IpmbSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
@@ -39,6 +40,7 @@ constexpr const bool debug = false;
 
 constexpr const char* sensorType = "IpmbSensor";
 constexpr const char* powerType = "IpmbPowerMonitor";
+constexpr const char* sdrInterface = "IpmbDevice";
 
 static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
@@ -46,11 +48,13 @@ static constexpr double ipmbMinReading = 0;
 static constexpr uint8_t meAddress = 1;
 static constexpr uint8_t ipmbBusIndexDefault = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
+static constexpr uint8_t ipmbLeftShift = 2;
 static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
 boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
+boost::container::flat_map<uint8_t, std::shared_ptr<IpmbSDRDevice>> sdrsensor;
 
 boost::container::flat_map<std::string, std::shared_ptr<IpmbPowerMonitor>>
     ipmbPowers;
@@ -581,6 +585,27 @@ void createSensors(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
+void sdrHandler(sdbusplus::message_t& message,
+                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    std::string objectName;
+    SensorBaseConfigMap values;
+    message.read(objectName, values);
+
+    auto findBus = values.find("Bus");
+    if (findBus == values.end())
+    {
+        return;
+    }
+
+    uint8_t value = loadVariant<uint8_t>(values, "Bus");
+
+    auto& sdrsen = sdrsensor[value];
+    sdrsen = nullptr;
+    sdrsen = std::make_shared<IpmbSDRDevice>(dbusConnection, value);
+    sdrsen->getSDRRepositoryInfo();
+}
+
 void reinitSensors(sdbusplus::message_t& message)
 {
     constexpr const size_t reinitWaitSeconds = 2;
@@ -666,6 +691,15 @@ int main()
             "',path='" + std::string(power::path) + "',arg0='" +
             std::string(power::interface) + "'",
         reinitSensors);
+
+    auto matchSignal = std::make_shared<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        "type='signal',member='PropertiesChanged',path_namespace='" +
+            std::string(inventoryPath) + "',arg0namespace='" +
+            configInterfaceName(sdrInterface) + "'",
+        [&systemBus](sdbusplus::message_t& msg) {
+        sdrHandler(msg, systemBus);
+        });
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
