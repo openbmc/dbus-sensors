@@ -413,6 +413,12 @@ void IpmbSensor::read(void)
             }
             rawValue = static_cast<double>(rawData);
 
+            if (type == IpmbType::IpmbDevice)
+            {
+                value = IpmbSDRDevice::dataConversion(value, ipmbBusIndex,
+                                                      commandData[0]);
+            }
+
             /* Adjust value as per scale and offset */
             value = (value * scaleVal) + offsetVal;
             updateValue(value);
