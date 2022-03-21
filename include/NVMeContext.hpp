@@ -50,22 +50,18 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
         sensors.remove(sensor);
     }
 
-    virtual void pollNVMeDevices()
-    {}
-
     virtual void close()
     {
         scanTimer.cancel();
     }
 
-    virtual void readAndProcessNVMeSensor()
-    {}
+    virtual void pollNVMeDevices() = 0;
 
-    virtual void processResponse(void* msg, size_t len)
-    {
-        (void)msg;
-        (void)len;
-    }
+    virtual void readAndProcessNVMeSensor(
+        std::list<std::shared_ptr<NVMeSensor>>::iterator iter) = 0;
+
+    virtual void processResponse(std::shared_ptr<NVMeSensor>& sensor, void* msg,
+                                 size_t len) = 0;
 
   protected:
     boost::asio::deadline_timer scanTimer;
