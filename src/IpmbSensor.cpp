@@ -253,6 +253,40 @@ void IpmbSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
+/* This function will convert the SDR sensor value based on
+ * tolerance and accuracy */
+double dataConversion(double value, uint8_t commandAddress,
+                      std::vector<uint8_t> data)
+{
+    uint8_t busIndex = (commandAddress >> ipmbLeftShift) + 1;
+    if (data.empty())
+    {
+        std::cerr << " Sensor value is empty in data Conversion \n";
+        throw std::runtime_error("Invalid data");
+    }
+    uint8_t sensorNum = data[0];
+    double dataVal = value;
+    for (const auto& sensorData : IpmbSDR::sensorRecord[busIndex])
+    {
+        if (sensorNum == sensorData.sensorNumber)
+        {
+            dataVal = ((sensorData.mValue * value) +
+                       (sensorData.bValue * pow(10, sensorData.bExp))) *
+                      (pow(10, sensorData.rExp));
+            int twoComp = 128;
+            if (dataVal > sdr::maxPosReadingMargin)
+            {
+                // Negative reading handle
+                if (twoComp == sensorData.negRead)
+                {
+                    dataVal -= sdr::thermalConst;
+                }
+            }
+        }
+    }
+    return dataVal;
+}
+
 bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
 {
 
@@ -509,20 +543,14 @@ void createSensors(
             {
                 for (const auto& entry : pathPair.second)
                 {
-                    if (entry.first != configInterface)
+                    if ((entry.first != configInterface) &&
+                        (entry.first != sdrInterface))
                     {
                         continue;
                     }
                     std::string name =
                         loadVariant<std::string>(entry.second, "Name");
 
-                    std::vector<thresholds::Threshold> sensorThresholds;
-                    if (!parseThresholdsFromConfig(pathPair.second,
-                                                   sensorThresholds))
-                    {
-                        std::cerr << "error populating thresholds for " << name
-                                  << "\n";
-                    }
                     uint8_t deviceAddress =
                         loadVariant<uint8_t>(entry.second, "Address");
 
@@ -568,19 +596,64 @@ void createSensors(
                                                     findType->second);
                     }
 
-                    auto& sensor = sensors[name];
-                    sensor = std::make_unique<IpmbSensor>(
-                        dbusConnection, io, name, pathPair.first, objectServer,
-                        std::move(sensorThresholds), deviceAddress,
-                        hostSMbusIndex, pollRate, sensorTypeName);
-
-                    sensor->parseConfigValues(entry.second);
-                    if (!(sensor->sensorClassType(sensorClass)))
+                    if (entry.first == configInterface)
                     {
-                        continue;
+                        IpmbSDR::sensorRecord[ipmbBusIndex].clear();
+                        IpmbSDR::sensorRecord[ipmbBusIndex] = {
+                            {name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
                     }
-                    sensor->sensorSubType(sensorTypeName);
-                    sensor->init();
+                    else
+                    {
+                        ipmbBusIndex += 1;
+                    }
+
+                    for (auto& s : IpmbSDR::sensorRecord[ipmbBusIndex])
+                    {
+                        std::vector<thresholds::Threshold> sensorThresholds;
+                        if (!parseThresholdsFromConfig(pathPair.second,
+                                                       sensorThresholds))
+                        {
+                            std::cerr << "error populating thresholds for "
+                                      << name << "\n";
+                        }
+
+                        if (entry.first == sdrInterface)
+                        {
+                            deviceAddress = s.sensorNumber;
+
+                            name = std::to_string(ipmbBusIndex) + "-" +
+                                   s.sensorReadName;
+
+                            if (s.sensCap != sdr::sdrSensNoThres)
+                            {
+                                sensorThresholds.emplace_back(
+                                    thresholds::Level::CRITICAL,
+                                    thresholds::Direction::HIGH,
+                                    s.thresUpperCri);
+                                sensorThresholds.emplace_back(
+                                    thresholds::Level::CRITICAL,
+                                    thresholds::Direction::LOW,
+                                    s.thresLowerCri);
+                            }
+
+                            sensorTypeName = IpmbSDR::sensorUnits[s.sensorUnit];
+                        }
+
+                        auto& sensor = sensors[name];
+                        sensor = std::make_unique<IpmbSensor>(
+                            dbusConnection, io, name, pathPair.first,
+                            objectServer, std::move(sensorThresholds),
+                            deviceAddress, hostSMbusIndex, pollRate,
+                            sensorTypeName);
+
+                        sensor->parseConfigValues(entry.second);
+                        if (!(sensor->sensorClassType(sensorClass)))
+                        {
+                            continue;
+                        }
+                        sensor->sensorSubType(sensorTypeName);
+                        sensor->init();
+                    }
                 }
             }
         },
@@ -654,7 +727,7 @@ void reinitSensors(sdbusplus::message::message& message)
 
 int main()
 {
-
+    bool flag = false;
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.IpmbSensor");
@@ -668,7 +741,12 @@ int main()
 
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message&) {
-            configTimer.expires_from_now(boost::posix_time::seconds(1));
+            size_t timer = 1;
+            if (flag)
+            {
+                timer = 15;
+            }
+            configTimer.expires_from_now(boost::posix_time::seconds(timer));
             // create a timer because normally multiple properties change
             configTimer.async_wait([&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
@@ -704,6 +782,7 @@ int main()
                 std::string(inventoryPath) + "',arg0namespace='" +
                 sdrInterface + "'",
             [&](sdbusplus::message::message& msg) {
+                flag = true;
                 sdrHandler(msg, systemBus);
             });
 
