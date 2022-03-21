@@ -126,4 +126,7 @@ class IpmbSDRDevice : public std::enable_shared_from_this<IpmbSDRDevice>
 
     inline static double sensorValCalculation(uint16_t mValue, double bValue,
                                               double expValue, double value);
+
+    static double dataConversion(double value, const int& busIndex,
+                                 uint8_t sensorNum);
 };
