@@ -281,6 +281,24 @@
       "parentUuid": "911c1a8a_faefb3c2",
       "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e236f48_f4ab2089",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-03-21T12:04:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ef84cc8_ccb1814f",
+      "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
