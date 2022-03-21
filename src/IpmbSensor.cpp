@@ -263,6 +263,41 @@ void IpmbSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
+/* This function will convert the SDR sensor value if value exceeds reading
+ * margin */
+double dataConversion(double value, const uint8_t& commandAddress,
+                      std::vector<uint8_t> data)
+{
+    uint8_t busIndex = (commandAddress >> ipmbLeftShift) + 1;
+    double dataVal;
+
+    if (data.empty())
+    {
+        std::cerr << " Sensor value is empty in data Conversion \n";
+        dataVal = std::numeric_limits<double>::quiet_NaN();
+        return dataVal;
+    }
+
+    uint8_t sensorNum = data[0];
+
+    SensorValConversion temp =
+        IpmbSDRDevice::sensorValRecord[busIndex][sensorNum];
+
+    dataVal = IpmbSDRDevice::sensorValidation(temp.mValue, temp.bValue,
+                                              temp.expoVal, value);
+
+    if (dataVal > static_cast<uint8_t>(SDR01Fields::maxPosReadingMargin))
+    {
+        // Negative reading handle
+        if (static_cast<uint8_t>(SDRCmd::twosCompVal) == temp.negRead)
+        {
+            dataVal -= static_cast<uint8_t>(SDR01Fields::thermalConst);
+        }
+    }
+
+    return dataVal;
+}
+
 bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
 {
 
@@ -407,6 +442,11 @@ void IpmbSensor::read(void)
                 }
                 rawValue = static_cast<double>(rawData);
 
+                if (type == IpmbType::IpmbDevice)
+                {
+                    value = dataConversion(value, commandAddress, commandData);
+                }
+
                 /* Adjust value as per scale and offset */
                 value = (value * scaleVal) + offsetVal;
                 updateValue(value);
@@ -550,7 +590,8 @@ void createSensors(
             {
                 for (const auto& entry : pathPair.second)
                 {
-                    if (entry.first != configInterface)
+                    if ((entry.first != configInterface) &&
+                        (entry.first != sdrInterface))
                     {
                         continue;
                     }
@@ -715,7 +756,6 @@ void reinitSensors(sdbusplus::message::message& message)
 
 int main()
 {
-
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.IpmbSensor");
