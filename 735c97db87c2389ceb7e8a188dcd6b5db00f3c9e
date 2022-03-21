@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3fe2587_aac8b845",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-21T01:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "175e56de_c6eebb4e",
+      "range": {
+        "startLine": 10,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "735c97db87c2389ceb7e8a188dcd6b5db00f3c9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62a058b5_4f9dd5ea",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74512b22_99b376bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-21T01:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62a058b5_4f9dd5ea",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "735c97db87c2389ceb7e8a188dcd6b5db00f3c9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14232b31_76042ef0",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-03-17T16:30:37Z",
       "side": 1,
       "message": "You\u0027ve added this previously unknown field with no description.  How does a user know what to put here?  Please answer in your commit message.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "735c97db87c2389ceb7e8a188dcd6b5db00f3c9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddffc67c_cc09b11b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-03-21T01:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14232b31_76042ef0",
       "range": {
         "startLine": 18,
         "startChar": 0,
