@@ -142,6 +142,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aa09299_a151fff7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2022-03-21T12:03:47Z",
+      "side": 1,
+      "message": "If CPU is going through a reset then PECI return EAGAIN. Since its temporary and PECI will work once CPU reset is done. But in some cases CPU reset may take minutes.\n\nBut because of EAGAIN return code, cpusensor daemon should not hang. It should be able to handle the error code and service other requests. Eg. When its handling EAGAIN it should be able to handle a D-Bus call to the cpusensor service.",
+      "parentUuid": "6bdff72c_71933495",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "0d0339bf091041d3604fe7fe5f095c772e487f8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "56184345_6300e030",
