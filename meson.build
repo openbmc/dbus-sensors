@@ -27,38 +27,20 @@ add_project_arguments(
 cpp = meson.get_compiler('cpp')
 
 build_tests = get_option('tests')
-gpiodcxx = dependency(
-    'libgpiodcxx',
-    fallback: ['libgpiod', 'gpiodcxx_dep'],
+gpiodcxx = dependency('libgpiodcxx',
     default_options: ['bindings=cxx'],
 )
 
 # i2c-tools doesn't ship a pkg-config file for libi2c
 i2c = meson.get_compiler('cpp').find_library('i2c')
 
-sdbusplus = dependency(
-    'sdbusplus',
-    fallback: [
-        'sdbusplus',
-        'sdbusplus_dep'
-    ],
-)
-
-phosphor_logging_dep = dependency(
-    'phosphor-logging',
-    fallback: ['phosphor-logging', 'phosphor_logging_dep'],
-)
+sdbusplus = dependency('sdbusplus')
+phosphor_logging_dep = dependency('phosphor-logging')
 
 if cpp.has_header('nlohmann/json.hpp')
     nlohmann_json = declare_dependency()
 else
-    subproject('nlohmann-json')
-    nlohmann_json = declare_dependency(
-        include_directories: include_directories(
-            'subprojects/nlohmann-json/single_include',
-            'subprojects/nlohmann-json/single_include/nlohmann',
-        )
-    )
+    nlohmann_json = dependency('nlohmann_json')
 endif
 
 systemd = dependency('systemd')
