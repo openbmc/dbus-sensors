@@ -24,6 +24,11 @@ const constexpr char* jsonStore = "/var/configuration/flattened.json";
 const constexpr char* inventoryPath = "/xyz/openbmc_project/inventory";
 const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
 
+const constexpr char* ipmbService = "xyz.openbmc_project.Ipmi.Channel.Ipmb";
+const constexpr char* ipmbDbusPath = "/xyz/openbmc_project/Ipmi/Channel/Ipmb";
+const constexpr char* ipmbInterface = "org.openbmc.Ipmb";
+const constexpr char* ipmbMethod = "sendRequest";
+
 constexpr const char* cpuInventoryPath =
     "/xyz/openbmc_project/inventory/system/chassis/motherboard";
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
