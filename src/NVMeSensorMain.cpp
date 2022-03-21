@@ -16,7 +16,6 @@
 
 #include <NVMeBasicContext.hpp>
 #include <NVMeContext.hpp>
-#include <NVMeMCTPContext.hpp>
 #include <NVMeSensor.hpp>
 #include <boost/asio/deadline_timer.hpp>
 
@@ -101,11 +100,7 @@ static std::shared_ptr<NVMeContext>
     }
 
     std::shared_ptr<NVMeContext> context =
-#if HAVE_NVME_MI_MCTP
-        std::make_shared<NVMeMCTPContext>(io, rootBus);
-#else
         std::make_shared<NVMeBasicContext>(io, rootBus);
-#endif
     map[rootBus] = context;
 
     return context;
@@ -235,9 +230,6 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.NVMeSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
-#if HAVE_NVME_MI_MCTP
-    nvmeMCTP::init();
-#endif
 
     io.post([&]() { createSensors(io, objectServer, systemBus); });
 
