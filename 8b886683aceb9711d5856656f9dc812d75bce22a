@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "4eef987a_fc95d788",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 36
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "078d02bc_36a2c33e",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 36
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f49ad222_6f896c21",
         "filename": "/COMMIT_MSG",
@@ -67,10 +68,10 @@
         "endChar": 56
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "93413e29_eda2ed02",
         "filename": "/COMMIT_MSG",
@@ -91,10 +92,10 @@
         "endChar": 56
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "992f2d3a_eeefef0c",
         "filename": "/COMMIT_MSG",
@@ -115,10 +116,10 @@
         "endChar": 56
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bc2108e3_909a6291",
         "filename": "include/GpioStateSensor.hpp",
@@ -138,10 +139,10 @@
         "endChar": 0
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3fdde88e_c9f3e5ce",
         "filename": "include/GpioStateSensor.hpp",
@@ -162,10 +163,34 @@
         "endChar": 0
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f41f0e_65d4ff17",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fdde88e_c9f3e5ce",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5a2dbf7b_44f2046b",
         "filename": "include/GpioStateSensor.hpp",
@@ -185,10 +210,10 @@
         "endChar": 56
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "2a72c421_6aa17b25",
         "filename": "include/GpioStateSensor.hpp",
@@ -209,10 +234,10 @@
         "endChar": 56
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f75becf6_b3697a1e",
         "filename": "src/GpioStateSensor.cpp",
@@ -232,10 +257,10 @@
         "endChar": 78
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "966c5e2e_d4fdfbc7",
         "filename": "src/GpioStateSensor.cpp",
@@ -256,10 +281,10 @@
         "endChar": 78
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "ab91c54c_db2251fd",
         "filename": "src/GpioStateSensor.cpp",
@@ -280,10 +305,10 @@
         "endChar": 78
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0894771f_4d525b57",
         "filename": "src/GpioStateSensor.cpp",
@@ -303,10 +328,10 @@
         "endChar": 51
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "bb196685_1aa691b1",
         "filename": "src/GpioStateSensor.cpp",
@@ -327,10 +352,10 @@
         "endChar": 51
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b5a0eb74_6efe9aa1",
         "filename": "src/GpioStateSensor.cpp",
@@ -350,10 +375,10 @@
         "endChar": 5
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "7ea10bd9_80987a3d",
         "filename": "src/GpioStateSensor.cpp",
@@ -374,10 +399,10 @@
         "endChar": 5
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d2ef654e_ee38b9af",
         "filename": "src/GpioStateSensor.cpp",
@@ -397,10 +422,10 @@
         "endChar": 34
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "4847f167_50a28759",
         "filename": "src/GpioStateSensor.cpp",
@@ -421,10 +446,10 @@
         "endChar": 34
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f1980d0b_2e42db5f",
         "filename": "src/GpioStateSensor.cpp",
@@ -444,10 +469,10 @@
         "endChar": 5
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "5678c67d_98cdadc0",
         "filename": "src/GpioStateSensor.cpp",
@@ -468,10 +493,10 @@
         "endChar": 5
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3e1fe6af_6ea12ff1",
         "filename": "src/GpioStateSensor.cpp",
@@ -485,10 +510,10 @@
       "side": 1,
       "message": "incrementError ?",
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a465e7ae_eb4236bd",
         "filename": "src/GpioStateSensor.cpp",
@@ -503,10 +528,10 @@
       "message": "Ack",
       "parentUuid": "3e1fe6af_6ea12ff1",
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9d06203e_6ac26afe",
         "filename": "src/GpioStateSensor.cpp",
@@ -520,10 +545,10 @@
       "side": 1,
       "message": "incrementError ?",
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "33205131_a5e53771",
         "filename": "src/GpioStateSensor.cpp",
@@ -538,10 +563,10 @@
       "message": "Ack",
       "parentUuid": "9d06203e_6ac26afe",
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1408aba3_610b9388",
         "filename": "src/GpioStateSensor.cpp",
@@ -561,10 +586,10 @@
         "endChar": 27
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "9daad06b_5122e1ae",
         "filename": "src/GpioStateSensor.cpp",
@@ -585,10 +610,10 @@
         "endChar": 27
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2cf3907f_8970a173",
         "filename": "src/GpioStateSensor.cpp",
@@ -608,10 +633,10 @@
         "endChar": 32
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7ddd1b08_3dd0c5ff",
         "filename": "src/GpioStateSensor.cpp",
@@ -631,10 +656,10 @@
         "endChar": 52
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "0fb97107_699dd094",
         "filename": "src/GpioStateSensor.cpp",
@@ -655,10 +680,10 @@
         "endChar": 52
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "d43ba487_12590ccd",
         "filename": "src/GpioStateSensor.cpp",
@@ -679,10 +704,10 @@
         "endChar": 32
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8fa0b494_1d13c93e",
         "filename": "src/IpmbSensor.cpp",
@@ -702,10 +727,10 @@
         "endChar": 76
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "3d0586d4_5a5c69fa",
         "filename": "src/IpmbSensor.cpp",
@@ -726,10 +751,10 @@
         "endChar": 76
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1f6d5288_eb87061b",
         "filename": "src/IpmbSensor.cpp",
@@ -749,10 +774,10 @@
         "endChar": 35
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "cb7a8dc3_46ec9aeb",
         "filename": "src/IpmbSensor.cpp",
@@ -772,10 +797,10 @@
         "endChar": 42
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "961d4130_b75e1063",
         "filename": "src/IpmbSensor.cpp",
@@ -796,10 +821,10 @@
         "endChar": 42
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "1da68fcc_32397399",
         "filename": "src/IpmbSensor.cpp",
@@ -820,10 +845,10 @@
         "endChar": 35
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c7803ab2_0ebd48ce",
         "filename": "src/IpmbSensor.cpp",
@@ -843,10 +868,10 @@
         "endChar": 72
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5cd1cb9d_bbaac845",
         "filename": "src/IpmbSensor.cpp",
@@ -867,8 +892,31 @@
         "endChar": 72
       },
       "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb86178_7f53916a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cd1cb9d_bbaac845",
+      "range": {
+        "startLine": 505,
+        "startChar": 24,
+        "endLine": 508,
+        "endChar": 72
+      },
+      "revId": "8b886683aceb9711d5856656f9dc812d75bce22a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

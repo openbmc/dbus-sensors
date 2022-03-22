@@ -134,6 +134,30 @@
       },
       "revId": "f7f454b104f93341fd8a6b87e49b8d35f3887779",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af34d3e4_28ded7ba",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack, the most of the configuration form the config files has been removed and just device name is specified in the config file and rest is done as code logic.",
+      "parentUuid": "6bbe26d2_2a097ef9",
+      "range": {
+        "startLine": 497,
+        "startChar": 19,
+        "endLine": 497,
+        "endChar": 58
+      },
+      "revId": "f7f454b104f93341fd8a6b87e49b8d35f3887779",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6542d67e_0a818dee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a347cdb_eeb1f361",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 56
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfd93e1c_8af247fa",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-23T02:45:55Z",
       "side": 1,
       "message": "?  \"host number\" is not a common thing at this level.  This is taking \"bus\"",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 14
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2713face_781d398f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cfd93e1c_8af247fa",
       "range": {
         "startLine": 26,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1732198d_e9bf5afd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ca7e440f_16ddf87a",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c6a3e1f_14293fd4",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "These aren\u0027t well known namespaces, and not where I would expect the pgood signals to be showing up.  As a general rule, \"gpio\" should not appear in dbus at all.",
+      "range": {
+        "startLine": 48,
+        "startChar": 22,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc578256_1231c6da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Apart from pgood there are multiple gpio\u0027s which are part of the twinlake, the main idea here is to make it available for all the gpio state, which are part of the twinlake host controller.\nwhich is accessable via ipmb.\nso this sensor  is not only just for monitoring pgood gpio, but to monitor state of any gpio which are only accessable via ipmb.",
+      "parentUuid": "7c6a3e1f_14293fd4",
       "range": {
         "startLine": 48,
         "startChar": 22,
@@ -162,6 +258,42 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8285b89d_3e865841",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43aec9ef_1cc608b0",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f634d29_a8be6bb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ac5510c_1eed9ef0",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b69acd9_188cf687",
@@ -175,6 +307,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "This doesn\u0027t get used in any of the below interfaces, which I\u0027m pretty sure means it doesn\u0027t belong in this file.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b93e316b_86c5fb0e",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2b69acd9_188cf687",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -208,6 +364,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f275d8c_b4640768",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a8d32d9f_d68526a0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d50f3a45_acdcb1c4",
@@ -221,6 +401,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "You\u0027ve copied and pasted this definition.  Please don\u0027t.  Abstract to a common method where appropriate.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 78
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2994b19_288a062b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d50f3a45_acdcb1c4",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -254,6 +458,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9536975e_7f767601",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "803e3f5d_524d014e",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "303de9b1_b9dbbf90",
@@ -267,6 +495,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "Just inline these things please.  They\u0027re only used in one place, so there\u0027s no need to declare them at this level",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52ecb5a7_c60d86cf",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "303de9b1_b9dbbf90",
       "range": {
         "startLine": 8,
         "startChar": 0,
@@ -300,6 +552,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f0333d_ae694fbc",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d97ca5c_80922c27",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebdd3ad9_2590eb45",
@@ -313,6 +589,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "Please don\u0027t load these into per-instance variables, especially given that we only have one type here.  Write a routine that just switches on type (as you\u0027ve done) and branches in the read routines (abstracting where appropriate).  I could maybe see caching this data if you were going to cache the whole IPMB command, so it didn\u0027t have to be regenerated each time, but considering it\u0027s trivial to construct (code wise) that doesn\u0027t seem advised.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2301999c_6e6801e2",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ebdd3ad9_2590eb45",
       "range": {
         "startLine": 72,
         "startChar": 0,
@@ -346,6 +646,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c610a71_a3ed84b8",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c3820c62_39f05e46",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7746e6b_a300dd2b",
@@ -359,6 +683,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "same as above.",
+      "range": {
+        "startLine": 96,
+        "startChar": 13,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc3401a8_1ce02dee",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d7746e6b_a300dd2b",
       "range": {
         "startLine": 96,
         "startChar": 13,
@@ -392,6 +740,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d36aecb3_d69d1986",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb1b043e_530f9b57",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7950eaac_a463ccc5",
@@ -405,6 +777,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "As written, this is going to flood the logs.  I suspect this message can just be removed?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 77
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ad45bf_b45cdf4d",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7950eaac_a463ccc5",
       "range": {
         "startLine": 102,
         "startChar": 0,
@@ -438,6 +834,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13af081a_0d9777f1",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4c1065ae_f5c33e84",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 27
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8df2ce9_c220c2ab",
@@ -451,6 +871,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "This is a functional failure.  We should not be retrying at all if the IPMB device gave us an OK response code, but the wrong length payload.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 21
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c894dd7_9bb93d35",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "this happens only in case of slot cycle, the ipmb response may not populate completely at once. So that the length check function needs to be retrying for the worng length.",
+      "parentUuid": "b8df2ce9_c220c2ab",
       "range": {
         "startLine": 121,
         "startChar": 0,
@@ -478,6 +922,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4135c371_b0f41279",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b7dc9e59_d0fd01c1",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d42d471a_a6686fe3",
@@ -491,6 +953,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "Please rename this to \"mask\" considering that\u0027s what it is.  Also, when converting an in to a bool, please be explicit and add \u003e 0",
+      "range": {
+        "startLine": 137,
+        "startChar": 50,
+        "endLine": 137,
+        "endChar": 62
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa96d850_721552b1",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d42d471a_a6686fe3",
       "range": {
         "startLine": 137,
         "startChar": 50,
@@ -524,6 +1010,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce300af_d4949279",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54458c38_d4d4f37c",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 79
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0862afb_19354fb6",
@@ -547,6 +1057,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1caaff8_6322d224",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "we are currently using only pgood gpio signal and other serveral gpio (pch,bios) can also be monitored via ipmb coammands if their configuration is added, this same sensor can be used to monitor other gpios too. so it\u0027s not specifi to only power monitor.",
+      "parentUuid": "f0862afb_19354fb6",
+      "range": {
+        "startLine": 59,
+        "startChar": 56,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "698b2f98_cfd22bb7",
@@ -560,6 +1094,30 @@
       "writtenOn": "2022-02-23T03:04:50Z",
       "side": 1,
       "message": "You\u0027re reading an entityId, then loading it into a variable called pgoodGpioByte.  I suspect this doesn\u0027t need configured at all, but from this, I\u0027m not quite able to figure out what\u0027s going on.",
+      "range": {
+        "startLine": 498,
+        "startChar": 59,
+        "endLine": 498,
+        "endChar": 67
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed6d1d8b_3d63cbbb",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-03-22T11:27:31Z",
+      "side": 1,
+      "message": "Ack, instead of reading the entityid, configured from the code.",
+      "parentUuid": "698b2f98_cfd22bb7",
       "range": {
         "startLine": 498,
         "startChar": 59,
