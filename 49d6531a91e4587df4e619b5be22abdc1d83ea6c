@@ -22,6 +22,30 @@
       },
       "revId": "49d6531a91e4587df4e619b5be22abdc1d83ea6c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6f30eb5_4c8d5f4d",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001217
+      },
+      "writtenOn": "2022-03-22T20:49:14Z",
+      "side": 1,
+      "message": "`associationPath` is provided by the user configuring `GPIOStatus` and points to that thing that will ultimately be probing off this dbus. In the example we define a PCIeSlot called `example_slot_0` which probes for the existence of a named `GPIOStatus`.\n\nThink of this as the target. We still need a source. X is associated with Y of course so we have the Y and not the X. The X or source is assumed to be the parent of the `GPIOStatus` which is not user defined but instead discovered by the GPIOPresence daemon.\n\nI admit we could name `associationPath` better, I am open to suggestions.",
+      "parentUuid": "84c6e04e_90509f6f",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 27
+      },
+      "revId": "49d6531a91e4587df4e619b5be22abdc1d83ea6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

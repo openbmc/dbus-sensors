@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a53033da_425ed03c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001217
+      },
+      "writtenOn": "2022-03-22T20:49:14Z",
+      "side": 1,
+      "message": "Example provided in commit message.",
+      "parentUuid": "5d1f26c3_e79bd6ee",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 44
+      },
+      "revId": "92abbcc5e7663cd82a1e022f01fef4274b06debe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b1425e3_beffb356",
@@ -71,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02cb9d02_bdae4573",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001217
+      },
+      "writtenOn": "2022-03-22T20:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b1425e3_beffb356",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "92abbcc5e7663cd82a1e022f01fef4274b06debe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1109fe7_8e0873d3",
@@ -84,6 +132,30 @@
       "writtenOn": "2022-02-25T21:49:30Z",
       "side": 1,
       "message": "Why this change?",
+      "range": {
+        "startLine": 107,
+        "startChar": 9,
+        "endLine": 107,
+        "endChar": 22
+      },
+      "revId": "92abbcc5e7663cd82a1e022f01fef4274b06debe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11b6ce54_d021c384",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001217
+      },
+      "writtenOn": "2022-03-22T20:49:14Z",
+      "side": 1,
+      "message": "Just being consistent with the above method, not needed for my feature so I\u0027ll revert it.",
+      "parentUuid": "c1109fe7_8e0873d3",
       "range": {
         "startLine": 107,
         "startChar": 9,
