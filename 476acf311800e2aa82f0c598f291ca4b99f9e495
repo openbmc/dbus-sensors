@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ad7703a_fb367308",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-03-23T14:16:55Z",
+      "side": 1,
+      "message": "Corrected the code.",
+      "parentUuid": "0d084a54_e21285b9",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 15
+      },
+      "revId": "476acf311800e2aa82f0c598f291ca4b99f9e495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80d47ec3_5e427c37",
         "filename": "src/meson.build",
         "patchSetId": 15
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-28T23:43:24Z",
       "side": 1,
       "message": "Is this needed?",
+      "range": {
+        "startLine": 187,
+        "startChar": 12,
+        "endLine": 187,
+        "endChar": 21
+      },
+      "revId": "476acf311800e2aa82f0c598f291ca4b99f9e495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b108785b_d66b3115",
+        "filename": "src/meson.build",
+        "patchSetId": 15
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-03-23T14:16:55Z",
+      "side": 1,
+      "message": "Yes, it is. Because we support presenceGPIO in this patch:\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/45336",
+      "parentUuid": "80d47ec3_5e427c37",
       "range": {
         "startLine": 187,
         "startChar": 12,
