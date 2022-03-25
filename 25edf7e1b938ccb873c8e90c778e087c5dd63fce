@@ -85,6 +85,30 @@
       },
       "revId": "25edf7e1b938ccb873c8e90c778e087c5dd63fce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "597a8286_697875e9",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1001094
+      },
+      "writtenOn": "2022-03-25T06:47:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ec37d183_6a7021b6",
+      "range": {
+        "startLine": 504,
+        "startChar": 12,
+        "endLine": 506,
+        "endChar": 68
+      },
+      "revId": "25edf7e1b938ccb873c8e90c778e087c5dd63fce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
