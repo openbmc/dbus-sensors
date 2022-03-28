@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61c57258_4640685f",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "Please use https://github.com/openbmc/dbus-sensors/blob/master/include/Utils.hpp#L46",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 55
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "263fd2f3_2430c58e",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "static?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db08a430_699e3c21",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "static?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 21
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d6ac84f_866eed2d",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "Simplify:\n\nconst uint64_t* confBus \u003d std::get_if\u003cuint64_t\u003e(\u0026(configBus-\u003esecond));\nconst uint64_t* confAddr \u003d std::get_if\u003cuint64_t\u003e(\u0026(configAddress-\u003esecond));\n\nif (!confBus || !confAddr)",
+      "range": {
+        "startLine": 115,
+        "startChar": 1,
+        "endLine": 118,
+        "endChar": 74
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a2e59d2_947a2f28",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "This function create the sensor too. Please rename the function to reflect it.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 24
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2629ea94_c0a1799f",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "if (sensorPathStrMax\u003d\u003d\"_max\")",
+      "range": {
+        "startLine": 177,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 45
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2a13088_5d66e7d0",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "if (match(...))\n{\nnumCreated++;\n}",
+      "range": {
+        "startLine": 427,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 21
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d73de359_1a7ee58f",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "Why is the flag used here to limit calling createSensorsCallback only once if one sensor has been created? Have potential power on race conditions with entity manager been tested?",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 518,
+        "endChar": 9
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbe92414_64fc7329",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "Why not use constexpr",
+      "range": {
+        "startLine": 564,
+        "startChar": 4,
+        "endLine": 564,
+        "endChar": 25
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92692ecc_1876152a",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T21:08:59Z",
+      "side": 1,
+      "message": "Only one match is created, no need to use vector",
+      "range": {
+        "startLine": 595,
+        "startChar": 4,
+        "endLine": 595,
+        "endChar": 54
+      },
+      "revId": "a56da54310400513487001f43313c637b52f378a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
