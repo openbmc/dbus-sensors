@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "402d8416_c320f8b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T16:07:20Z",
+      "side": 1,
+      "message": "Please format it better - 2nd line can be longer.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 72
+      },
+      "revId": "fc234078fc297a3cee7500f1c3e5637feb1a11e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2096c1eb_be3cb903",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T16:07:20Z",
+      "side": 1,
+      "message": "Sorry, I know this is what I suggested last time. Reading it again seems not very clear. Maybe this is better:\n\nPhosphor-Pid-Control requires PidZone output sensor name matches the Pwm sensor name created by psusensor service. This change allows config file to define the pwm sensor name used by psusensor service.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 65
+      },
+      "revId": "fc234078fc297a3cee7500f1c3e5637feb1a11e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
