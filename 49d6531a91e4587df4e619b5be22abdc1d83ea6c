@@ -46,6 +46,30 @@
       },
       "revId": "49d6531a91e4587df4e619b5be22abdc1d83ea6c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8ecd5c0_2daa5dc8",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-03-28T16:43:41Z",
+      "side": 1,
+      "message": "Thanks for the explanation. IMO, sourcePath/thisPath/selfPath is clearer than parentPath. Another option maybe associcationPath-\u003eforwardPath and parentPath -\u003e reversePath.",
+      "parentUuid": "f6f30eb5_4c8d5f4d",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 27
+      },
+      "revId": "49d6531a91e4587df4e619b5be22abdc1d83ea6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
