@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "28baceb7_2d63180a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-29T18:24:58Z",
+      "side": 1,
+      "message": "thermal_zone0 is a linux naming convention?  What does \"thermal_zoneN\" convey in terms of the hardware?  Are there reasons why I user would set different thermal parameters for each zone?  For that matter, is there a reason a user would set different BMC thermal parameters for a given system?  I assume that a given BMC model (that we know at compile time) would have a known thermal threshold.\n\nMore details here would be great.",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "aba8437f571ded8342597ebe38304179fd4fbbf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "361039af_9bf1d5c3",
