@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14f2b663_e681ca49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-03-29T12:22:33Z",
+      "side": 1,
+      "message": "Ack.\nCould you please confirm the name for ipmbBusIndex. Zhikui Ren suggested that \"Bus\" seems acceptable for this, since this is a physical bus.",
+      "parentUuid": "e096dc10_1ece5f87",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "bba1e49779e947624ca77b39a65adaea9f5d28e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42c0a7b4_642042b9",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-21T17:46:53Z",
       "side": 1,
       "message": "You read this out, but it doesn\u0027t get used anywhere?  As written, how does this work?",
+      "range": {
+        "startLine": 472,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 21
+      },
+      "revId": "bba1e49779e947624ca77b39a65adaea9f5d28e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8510e77a_da6dce80",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-03-29T12:22:33Z",
+      "side": 1,
+      "message": "IPMB Bus Index is used in other 2 patches, so this is a base patch for the below patches. In other 2 patches, ipmbBusIndex will be used based on their requirement.\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47952\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/52164",
+      "parentUuid": "42c0a7b4_642042b9",
       "range": {
         "startLine": 472,
         "startChar": 0,
