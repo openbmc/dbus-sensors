@@ -25,6 +25,7 @@
 #include <sdbusplus/bus/match.hpp>
 
 #include <array>
+#include <charconv>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -307,14 +308,20 @@ void createSensors(
                 std::string busStr = deviceName.substr(0, findHyphen);
                 std::string addrStr = deviceName.substr(findHyphen + 1);
 
-                size_t bus = 0;
-                size_t addr = 0;
+                uint64_t bus;
+                uint64_t addr;
                 try
                 {
-                    bus = std::stoi(busStr);
-                    addr = std::stoi(addrStr, nullptr, 16);
+                    std::from_chars(busStr.data(),
+                                    busStr.data() + busStr.size(), bus);
+                    std::from_chars(addrStr.data(),
+                                    addrStr.data() + addrStr.size(), addr, 16);
                 }
                 catch (const std::invalid_argument&)
+                {
+                    continue;
+                }
+                catch (const std::out_of_range& e)
                 {
                     continue;
                 }
