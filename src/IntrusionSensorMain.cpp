@@ -48,7 +48,12 @@ static constexpr const char* sensorType =
     "xyz.openbmc_project.Configuration.ChassisIntrusionSensor";
 static constexpr const char* nicType = "xyz.openbmc_project.Configuration.NIC";
 static constexpr auto nicTypes{std::to_array<const char*>({nicType})};
+static constexpr const char* cableStatusConfiguration =
+    "xyz.openbmc_project.Configuration.CableStatus";
 static std::shared_ptr<sdbusplus::asio::connection> systemBus;
+static boost::asio::io_service io;
+static boost::asio::deadline_timer timer(io);
+static constexpr unsigned int entityManagerConfigurationPollIntervalSec = 300;
 
 namespace fs = std::filesystem;
 
@@ -179,6 +184,9 @@ boost::container::flat_map<std::string, int> pathSuffixMap;
 boost::container::flat_map<
     std::string, std::vector<std::shared_ptr<sdbusplus::asio::dbus_interface>>>
     ethInterfaces;
+boost::container::flat_map<std::string,
+                           std::shared_ptr<sdbusplus::asio::dbus_interface>>
+    assocInterfaces;
 static std::unique_ptr<sdbusplus::bus::match::match> lanStatusMatch;
 static std::unique_ptr<sdbusplus::bus::match::match> lanConfigMatch;
 
@@ -446,6 +454,106 @@ static bool initializeLanStatus(sdbusplus::asio::object_server& objServer)
     return true;
 }
 
+/** @brief Generate associations for CableStatus interface.
+ *
+ */
+static void generateAssociations(sdbusplus::asio::object_server& objServer)
+{
+    std::cout << "Generating associations\n";
+    timer.expires_from_now(
+        boost::posix_time::seconds(entityManagerConfigurationPollIntervalSec));
+
+    timer.async_wait([&objServer](const boost::system::error_code& ec) {
+        if (!ec)
+        {
+            systemBus->async_method_call(
+                [&objServer](boost::system::error_code& ec,
+                             const ManagedObjectType& managedObj) {
+                    if (ec)
+                    {
+                        std::cerr << "Error calling entity manager \n";
+                        return;
+                    }
+                    for (const auto& pathPair : managedObj)
+                    {
+                        for (const auto& interfacePair : pathPair.second)
+                        {
+                            if (interfacePair.first == cableStatusConfiguration)
+                            {
+                                auto findAssociationPath =
+                                    interfacePair.second.find(
+                                        "AssociationPath");
+                                auto findAssociationForward =
+                                    interfacePair.second.find(
+                                        "AssociationForward");
+                                auto findAssociationReverse =
+                                    interfacePair.second.find(
+                                        "AssociationReverse");
+                                if (findAssociationPath ==
+                                    interfacePair.second.end())
+                                {
+                                    std::cerr << interfacePair.first
+                                              << " missing AssociationPath";
+                                    return;
+                                }
+                                if (findAssociationForward ==
+                                    interfacePair.second.end())
+                                {
+                                    std::cerr << interfacePair.first
+                                              << " missing AssociationForward";
+                                    return;
+                                }
+                                if (findAssociationReverse ==
+                                    interfacePair.second.end())
+                                {
+                                    std::cerr << interfacePair.first
+                                              << " missing AssociationReverse";
+                                    return;
+                                }
+                                std::string associationForward =
+                                    std::get<std::string>(
+                                        findAssociationForward->second);
+                                std::string associationPath =
+                                    std::get<std::string>(
+                                        findAssociationPath->second);
+                                std::string associationReverse =
+                                    std::get<std::string>(
+                                        findAssociationReverse->second);
+                                sdbusplus::message::object_path parentPath =
+                                    pathPair.first.parent_path();
+                                if (assocInterfaces.find(parentPath.str) !=
+                                        assocInterfaces.end() &&
+                                    assocInterfaces[parentPath.str] != nullptr)
+                                {
+                                    std::cout << "AssociationInterface already "
+                                                 "initialized\n";
+                                    return;
+                                }
+                                std::cout
+                                    << "Adding association interface at path: "
+                                    << parentPath.str << "\n";
+                                assocInterfaces[parentPath.str] =
+                                    objServer.add_interface(
+                                        parentPath, association::interface);
+                                assocInterfaces[parentPath.str]
+                                    ->register_property(
+                                        "Associations",
+                                        std::vector<Association>{
+                                            {associationForward,
+                                             associationReverse,
+                                             associationPath}});
+                                assocInterfaces[parentPath.str]->initialize();
+                            }
+                        }
+                    }
+                },
+                "xyz.openbmc_project.EntityManager", "/",
+                "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+            generateAssociations(objServer);
+        }
+    });
+}
+
 int main()
 {
     int busId = -1;
@@ -454,7 +562,6 @@ int main()
     IntrusionSensorType type = IntrusionSensorType::gpio;
 
     // setup connection to dbus
-    boost::asio::io_service io;
     systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objServer(systemBus);
 
@@ -527,6 +634,8 @@ int main()
                 getNicNameInfo();
             });
     }
+
+    generateAssociations(objServer);
 
     io.run();
 
