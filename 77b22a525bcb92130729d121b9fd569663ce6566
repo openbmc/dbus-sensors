@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95024e45_9830ee6a",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-03-30T08:15:26Z",
+      "side": 1,
+      "message": "Pls use const expr string instead of hardcoding dbus service and paths",
+      "range": {
+        "startLine": 58,
+        "startChar": 9,
+        "endLine": 59,
+        "endChar": 69
+      },
+      "revId": "77b22a525bcb92130729d121b9fd569663ce6566",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef89c6a9_2ebfa355",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-03-30T08:15:26Z",
+      "side": 1,
+      "message": "Self name can change to SDRsharedptr or SDRptr something ? I think \u0027Self\u0027 is not relevent name here.",
+      "range": {
+        "startLine": 67,
+        "startChar": 36,
+        "endLine": 67,
+        "endChar": 40
+      },
+      "revId": "77b22a525bcb92130729d121b9fd569663ce6566",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87ed0681_30aee39e",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-03-30T08:15:26Z",
+      "side": 1,
+      "message": "Same comment here also. Use const expr string",
+      "range": {
+        "startLine": 97,
+        "startChar": 9,
+        "endLine": 98,
+        "endChar": 69
+      },
+      "revId": "77b22a525bcb92130729d121b9fd569663ce6566",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc1e675_1cf9d8a3",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-03-30T08:15:26Z",
+      "side": 1,
+      "message": "Best practice is to declare all the variables at the start of the function and use that variable.",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 0
+      },
+      "revId": "77b22a525bcb92130729d121b9fd569663ce6566",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcae6c9a_b0e10c41",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-03-30T08:15:26Z",
+      "side": 1,
+      "message": "Range based loop can be used here ?",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 5
+      },
+      "revId": "77b22a525bcb92130729d121b9fd569663ce6566",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
