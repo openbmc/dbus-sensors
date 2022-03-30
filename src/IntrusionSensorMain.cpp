@@ -48,20 +48,23 @@ static constexpr const char* sensorType =
     "xyz.openbmc_project.Configuration.ChassisIntrusionSensor";
 static constexpr const char* nicType = "xyz.openbmc_project.Configuration.NIC";
 static constexpr auto nicTypes{std::to_array<const char*>({nicType})};
+static constexpr const char* cableStatusConfiguration =
+    "xyz.openbmc_project.Configuration.CableStatus";
+static constexpr const char* ncsiCablePathStr =
+    "/xyz/openbmc_project/inventory/system/cable/NcsiCable";
+static std::shared_ptr<sdbusplus::asio::connection> systemBus;
 
 namespace fs = std::filesystem;
 
-static bool getIntrusionSensorConfig(
-    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    IntrusionSensorType* pType, int* pBusId, int* pSlaveAddr,
-    bool* pGpioInverted)
+static bool getIntrusionSensorConfig(IntrusionSensorType* pType, int* pBusId,
+                                     int* pSlaveAddr, bool* pGpioInverted)
 {
     // find matched configuration according to sensor type
     ManagedObjectType sensorConfigurations;
     bool useCache = false;
 
-    if (!getSensorConfiguration(sensorType, dbusConnection,
-                                sensorConfigurations, useCache))
+    if (!getSensorConfiguration(sensorType, systemBus, sensorConfigurations,
+                                useCache))
     {
         std::cerr << "error communicating to entity manager\n";
         return false;
@@ -177,12 +180,16 @@ static constexpr bool debugLanLeash = false;
 boost::container::flat_map<int, bool> lanStatusMap;
 boost::container::flat_map<int, std::string> lanInfoMap;
 boost::container::flat_map<std::string, int> pathSuffixMap;
+boost::container::flat_map<std::string,
+                           std::shared_ptr<sdbusplus::asio::dbus_interface>>
+    assocInterfaces;
+static std::unique_ptr<sdbusplus::bus::match::match> lanStatusMatch;
+static std::unique_ptr<sdbusplus::bus::match::match> lanConfigMatch;
 
-static void getNicNameInfo(
-    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+static void getNicNameInfo()
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection, [](const ManagedObjectType& sensorConfigurations) {
+        systemBus, [](const ManagedObjectType& sensorConfigurations) {
             // Get NIC name and save to map
             lanInfoMap.clear();
             for (const std::pair<sdbusplus::message::object_path, SensorData>&
@@ -324,11 +331,10 @@ static void processLanStatusChange(sdbusplus::message::message& message)
  *
  * @return true on success and false on failure
  */
-static bool initializeLanStatus(
-    const std::shared_ptr<sdbusplus::asio::connection>& conn)
+static bool initializeLanStatus()
 {
     // init lan port name from configuration
-    getNicNameInfo(conn);
+    getNicNameInfo();
 
     // get eth info from sysfs
     std::vector<fs::path> files;
@@ -380,7 +386,7 @@ static bool initializeLanStatus(
         }
 
         // init lan connected status from networkd
-        conn->async_method_call(
+        systemBus->async_method_call(
             [ethNum](boost::system::error_code ec,
                      const std::variant<std::string>& property) {
                 lanStatusMap[ethNum] = false;
@@ -415,6 +421,73 @@ static bool initializeLanStatus(
     return true;
 }
 
+/** @brief Generate associations for CableStatus interface.
+ *
+ */
+static void generateAssociations(sdbusplus::asio::object_server& objServer)
+{
+    std::cout << "Generating associations\n";
+    systemBus->async_method_call(
+        [&objServer](boost::system::error_code& ec,
+                     const ManagedObjectType& managedObj) {
+            if (ec)
+            {
+                std::cerr << "Error calling entity manager \n";
+                return;
+            }
+            sdbusplus::message::object_path ncsiCablePath(ncsiCablePathStr);
+
+            // Check if ncsi cable exists.
+            if (managedObj.find(ncsiCablePath) == managedObj.end())
+            {
+                return;
+            }
+            for (const auto& pathPair : managedObj)
+            {
+                for (const auto& interfacePair : pathPair.second)
+                {
+                    if (interfacePair.first != cableStatusConfiguration)
+                    {
+                        continue;
+                    }
+                    auto propertyMap = interfacePair.second;
+                    sdbusplus::message::object_path parentPath =
+                        pathPair.first.parent_path();
+                    if (assocInterfaces.find(parentPath.str) !=
+                            assocInterfaces.end() &&
+                        assocInterfaces[parentPath.str] != nullptr)
+                    {
+                        return;
+                    }
+
+                    auto findConnectionType =
+                        propertyMap.find("ConnectionType");
+                    if (findConnectionType == propertyMap.end())
+                    {
+                        std::cerr << interfacePair.first
+                                  << " missing ConnectionType\n";
+                        return;
+                    }
+
+                    std::string connectionType =
+                        std::get<std::string>(findConnectionType->second);
+                    std::cout << "Adding association interface at path: "
+                              << parentPath.str << "\n";
+                    assocInterfaces[parentPath.str] = objServer.add_interface(
+                        parentPath, association::interface);
+                    assocInterfaces[parentPath.str]->register_property(
+                        "Associations",
+                        std::vector<Association>{{"attached_cables",
+                                                  connectionType + "_chassis",
+                                                  ncsiCablePath}});
+                    assocInterfaces[parentPath.str]->initialize();
+                }
+            }
+        },
+        "xyz.openbmc_project.EntityManager", "/",
+        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+}
+
 int main()
 {
     int busId = -1;
@@ -424,8 +497,8 @@ int main()
 
     // setup connection to dbus
     boost::asio::io_service io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    auto objServer = sdbusplus::asio::object_server(systemBus);
+    systemBus = std::make_shared<sdbusplus::asio::connection>(io);
+    sdbusplus::asio::object_server objServer(systemBus);
 
     // setup object server, define interface
     systemBus->request_name("xyz.openbmc_project.IntrusionSensor");
@@ -437,8 +510,7 @@ int main()
 
     ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
 
-    if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                 &gpioInverted))
+    if (getIntrusionSensorConfig(&type, &busId, &slaveAddr, &gpioInverted))
     {
         chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
     }
@@ -453,7 +525,7 @@ int main()
             }
 
             std::cout << "rescan due to configuration change \n";
-            if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
+            if (getIntrusionSensorConfig(&type, &busId, &slaveAddr,
                                          &gpioInverted))
             {
                 chassisIntrusionSensor.start(type, busId, slaveAddr,
@@ -467,31 +539,61 @@ int main()
             std::string(inventoryPath) + "',arg0namespace='" + sensorType + "'",
         eventHandler);
 
-    if (initializeLanStatus(systemBus))
+    auto cableMatch = std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        sdbusplus::bus::match::rules::propertiesChangedNamespace(
+            std::string(inventoryPath), cableStatusConfiguration),
+        [&objServer](sdbusplus::message::message& msg) {
+            if (msg.is_method_error())
+            {
+                std::cerr << "callback method error\n";
+                return;
+            }
+            generateAssociations(objServer);
+        });
+
+    auto ncsiCableMatch = std::make_unique<sdbusplus::bus::match::match>(
+        static_cast<sdbusplus::bus::bus&>(*systemBus),
+        sdbusplus::bus::match::rules::interfacesAdded() +
+            sdbusplus::bus::match::rules::argNpath(0, ncsiCablePathStr),
+        [&objServer](sdbusplus::message::message& msg) {
+            if (msg.is_method_error())
+            {
+                std::cerr << "callback method error\n";
+                return;
+            }
+            generateAssociations(objServer);
+        });
+    generateAssociations(objServer);
+
+    if (initializeLanStatus())
     {
         // add match to monitor lan status change
-        sdbusplus::bus::match::match lanStatusMatch(
+        lanStatusMatch = std::make_unique<sdbusplus::bus::match::match>(
             static_cast<sdbusplus::bus::bus&>(*systemBus),
-            "type='signal', member='PropertiesChanged',"
-            "arg0namespace='org.freedesktop.network1.Link'",
+            "type='signal',"
+            "interface='org.freedesktop.DBus.Properties',"
+            "member='PropertiesChanged',"
+            "arg0='org.freedesktop.network1.Link'",
             [](sdbusplus::message::message& msg) {
                 processLanStatusChange(msg);
             });
 
         // add match to monitor entity manager signal about nic name config
         // change
-        sdbusplus::bus::match::match lanConfigMatch(
+        lanConfigMatch = std::make_unique<sdbusplus::bus::match::match>(
             static_cast<sdbusplus::bus::bus&>(*systemBus),
-            "type='signal', member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" + nicType +
-                "'",
-            [&systemBus](sdbusplus::message::message& msg) {
+            "type='signal', "
+            "member='PropertiesChanged',interface='org.freedesktop.DBus."
+            "Properties',path_namespace='" +
+                std::string(inventoryPath) + "',arg0='" + nicType + "'",
+            [](sdbusplus::message::message& msg) {
                 if (msg.is_method_error())
                 {
                     std::cerr << "callback method error\n";
                     return;
                 }
-                getNicNameInfo(systemBus);
+                getNicNameInfo();
             });
     }
 
