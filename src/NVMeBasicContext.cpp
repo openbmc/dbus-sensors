@@ -77,7 +77,7 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         return -errno;
     }
 
-    resp.reserve(UINT8_MAX + 1);
+    resp.resize(UINT8_MAX + 1);
 
     /* Issue the NVMe MI basic command */
     size = i2c_smbus_read_block_data(fileHandle.handle(), cmd, resp.data());
@@ -95,6 +95,8 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
                   << " (" << UINT8_MAX << ")\n";
         return -EBADMSG;
     }
+
+    resp.resize(size);
 
     return size;
 }
