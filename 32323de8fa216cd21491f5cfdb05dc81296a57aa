@@ -16,6 +16,29 @@
       "message": "This patch should go with https://gerrit.openbmc-project.xyz/c/openbmc/entity-manager/+/52508",
       "revId": "32323de8fa216cd21491f5cfdb05dc81296a57aa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6debe57e_fc391a03",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-03-31T00:47:58Z",
+      "side": 1,
+      "message": "In modern code, these should be using std::from_chars, which completely bypasses the issue, and doesn\u0027t require the user to call the right overload, as it\u0027s based on the type passed in.",
+      "range": {
+        "startLine": 314,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 61
+      },
+      "revId": "32323de8fa216cd21491f5cfdb05dc81296a57aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
