@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63aad851_5a72343b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-01T01:25:43Z",
+      "side": 1,
+      "message": "Who owns the CableStatus? Should it create the association, not the intrusion sensor?",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a670671_e16e9e4f",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-01T01:25:43Z",
+      "side": 1,
+      "message": "instead of pulling, consider use a match",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 464,
+        "endChar": 79
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d2136b8_bc778326",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-01T01:25:43Z",
+      "side": 1,
+      "message": "new line - other places also",
+      "range": {
+        "startLine": 495,
+        "startChar": 36,
+        "endLine": 496,
+        "endChar": 76
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "440da2ab_334cc76e",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-01T01:25:43Z",
+      "side": 1,
+      "message": "same: is the print necessary? Don\u0027t want to flood the log",
+      "range": {
+        "startLine": 528,
+        "startChar": 36,
+        "endLine": 529,
+        "endChar": 65
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d695823_72774a6a",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-01T01:25:43Z",
+      "side": 1,
+      "message": "check this first",
+      "range": {
+        "startLine": 524,
+        "startChar": 32,
+        "endLine": 531,
+        "endChar": 33
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
