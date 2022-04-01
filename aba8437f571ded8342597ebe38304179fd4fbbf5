@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "748caa54_0f1d020d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-04-01T02:32:36Z",
+      "side": 1,
+      "message": "Now we only use thermal zone to monitor BMC CPU themperature, but the thermal zone may be used for other on DIE thermal sensors. I even think we may not need two thermal (zone) sensors in the BMC, but I think it may be an example for configure mutiple thermal_zone type sensors with BMCOnDieThermalSensor.",
+      "parentUuid": "28baceb7_2d63180a",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "aba8437f571ded8342597ebe38304179fd4fbbf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "361039af_9bf1d5c3",
