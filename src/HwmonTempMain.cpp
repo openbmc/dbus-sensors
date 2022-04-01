@@ -54,6 +54,7 @@ static auto sensorTypes{
                                 "xyz.openbmc_project.Configuration.EMC1413",
                                 "xyz.openbmc_project.Configuration.EMC1414",
                                 "xyz.openbmc_project.Configuration.HDC1080",
+                                "xyz.openbmc_project.Configuration.I2CTemp",
                                 "xyz.openbmc_project.Configuration.JC42",
                                 "xyz.openbmc_project.Configuration.LM75A",
                                 "xyz.openbmc_project.Configuration.LM95234",
