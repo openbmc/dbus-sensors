@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23483c57_35d57b63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-01T06:04:59Z",
+      "side": 1,
+      "message": "Why is doing this important?",
+      "revId": "257780933d7209b678a51aafbbfefb39a9258299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da39eb3f_a79b1029",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-01T06:04:59Z",
+      "side": 1,
+      "message": "What is a J2CTemp?",
+      "range": {
+        "startLine": 57,
+        "startChar": 67,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "257780933d7209b678a51aafbbfefb39a9258299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
