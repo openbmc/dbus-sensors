@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3426d54e_4035a2bd",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-04T22:15:43Z",
+      "side": 1,
+      "message": "1. I2CTemp is a very generic name. Other items in this list is more specific. Have \nyou considered use LM63 instead of I2CTemp?\n2. Is there a corresponding  EntityManager change to add this device type?",
+      "range": {
+        "startLine": 57,
+        "startChar": 1,
+        "endLine": 57,
+        "endChar": 76
+      },
+      "revId": "1b0ab6c499a6c240c5ae92cdd409681250e779bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
