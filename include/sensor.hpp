@@ -4,6 +4,7 @@
 #include <SensorPaths.hpp>
 #include <Thresholds.hpp>
 #include <Utils.hpp>
+#include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <limits>
@@ -94,15 +95,39 @@ struct Sensor
     // construction of your Sensor subclass. See ExternalSensor for example.
     std::function<void()> externalSetHook;
 
-    using Level = thresholds::Level;
-    using Direction = thresholds::Direction;
+    struct ThresholdProperty
+    {
+        thresholds::Level level;
+        thresholds::Direction direction;
+        uint8_t sevOrder;
+        const char* levelProperty;
+        const char* alarmProperty;
+        const char* dirOrder;
+    };
 
-    std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>,
-               thresholds::thresProp.size()>
+    constexpr static std::array<ThresholdProperty, 8> thresProp = {
+        {{thresholds::Level::WARNING, thresholds::Direction::HIGH, 0,
+          "WarningHigh", "WarningAlarmHigh", "greater than"},
+         {thresholds::Level::WARNING, thresholds::Direction::LOW, 0,
+          "WarningLow", "WarningAlarmLow", "less than"},
+         {thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 1,
+          "CriticalHigh", "CriticalAlarmHigh", "greater than"},
+         {thresholds::Level::CRITICAL, thresholds::Direction::LOW, 1,
+          "CriticalLow", "CriticalAlarmLow", "less than"},
+         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::HIGH, 2,
+          "SoftShutdownHigh", "SoftShutdownAlarmHigh", "greater than"},
+         {thresholds::Level::SOFTSHUTDOWN, thresholds::Direction::LOW, 2,
+          "SoftShutdownLow", "SoftShutdownAlarmLow", "less than"},
+         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::HIGH, 3,
+          "HardShutdownHigh", "HardShutdownAlarmHigh", "greater than"},
+         {thresholds::Level::HARDSHUTDOWN, thresholds::Direction::LOW, 3,
+          "HardShutdownLow", "HardShutdownAlarmLow", "less than"}}};
+
+    std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>, 4>
         thresholdInterfaces;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface>
-        getThresholdInterface(Level lev)
+        getThresholdInterface(thresholds::Level lev)
     {
         size_t index = static_cast<size_t>(lev);
         if (index >= thresholdInterfaces.size())
@@ -205,7 +230,7 @@ struct Sensor
     {
         if (!internalSet)
         {
-            if (insecureSensorOverride == 0)
+            if (insecureSensorOverride == false)
             { // insecure sesnor override.
                 if (isSensorSettable == false)
                 { // sensor is not settable.
@@ -237,13 +262,15 @@ struct Sensor
         return 1;
     }
 
-    void setInitialProperties(const std::string& unit,
-                              const std::string& label = std::string(),
-                              size_t thresholdSize = 0)
+    void
+        setInitialProperties(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                             const std::string& unit,
+                             const std::string& label = std::string(),
+                             size_t thresholdSize = 0)
     {
         if (readState == PowerState::on || readState == PowerState::biosPost)
         {
-            setupPowerMatch(dbusConnection);
+            setupPowerMatch(conn);
         }
 
         createAssociation(association, configurationPath);
@@ -261,7 +288,10 @@ struct Sensor
             {
                 threshold.hysteresis = hysteresisTrigger;
             }
-
+            if (!(thresholds::findOrder(threshold.level, threshold.direction)))
+            {
+                continue;
+            }
             std::shared_ptr<sdbusplus::asio::dbus_interface> iface =
                 getThresholdInterface(threshold.level);
 
@@ -288,8 +318,8 @@ struct Sensor
                     oldValue = request; // todo, just let the config do this?
                     threshold.value = request;
                     thresholds::persistThreshold(configurationPath, objectType,
-                                                 threshold, dbusConnection,
-                                                 thresSize, label);
+                                                 threshold, conn, thresSize,
+                                                 label);
                     // Invalidate previously remembered value,
                     // so new thresholds will be checked during next update,
                     // even if sensor reading remains unchanged.
@@ -323,7 +353,7 @@ struct Sensor
         {
             valueMutabilityInterface =
                 std::make_shared<sdbusplus::asio::dbus_interface>(
-                    dbusConnection, sensorInterface->get_object_path(),
+                    conn, sensorInterface->get_object_path(),
                     valueMutabilityInterfaceName);
             valueMutabilityInterface->register_property("Mutable", true);
             if (!valueMutabilityInterface->initialize())
@@ -338,7 +368,7 @@ struct Sensor
         {
             availableInterface =
                 std::make_shared<sdbusplus::asio::dbus_interface>(
-                    dbusConnection, sensorInterface->get_object_path(),
+                    conn, sensorInterface->get_object_path(),
                     availableInterfaceName);
             availableInterface->register_property(
                 "Available", true, [this](const bool propIn, bool& old) {
@@ -359,48 +389,34 @@ struct Sensor
         {
             operationalInterface =
                 std::make_shared<sdbusplus::asio::dbus_interface>(
-                    dbusConnection, sensorInterface->get_object_path(),
+                    conn, sensorInterface->get_object_path(),
                     operationalInterfaceName);
             operationalInterface->register_property("Functional", true);
             operationalInterface->initialize();
         }
     }
 
-    std::string propertyLevel(const Level lev, const Direction dir)
+    std::string propertyLevel(const thresholds::Level lev,
+                              const thresholds::Direction dir)
     {
-        for (const thresholds::ThresholdDefinition& prop :
-             thresholds::thresProp)
+        for (ThresholdProperty prop : thresProp)
         {
-            if (prop.level == lev)
+            if ((prop.level == lev) && (prop.direction == dir))
             {
-                if (dir == Direction::HIGH)
-                {
-                    return std::string(prop.levelName) + "High";
-                }
-                if (dir == Direction::LOW)
-                {
-                    return std::string(prop.levelName) + "Low";
-                }
+                return prop.levelProperty;
             }
         }
         return "";
     }
 
-    std::string propertyAlarm(const Level lev, const Direction dir)
+    std::string propertyAlarm(const thresholds::Level lev,
+                              const thresholds::Direction dir)
     {
-        for (const thresholds::ThresholdDefinition& prop :
-             thresholds::thresProp)
+        for (ThresholdProperty prop : thresProp)
         {
-            if (prop.level == lev)
+            if ((prop.level == lev) && (prop.direction == dir))
             {
-                if (dir == Direction::HIGH)
-                {
-                    return std::string(prop.levelName) + "AlarmHigh";
-                }
-                if (dir == Direction::LOW)
-                {
-                    return std::string(prop.levelName) + "AlarmLow";
-                }
+                return prop.alarmProperty;
             }
         }
         return "";
@@ -465,11 +481,6 @@ struct Sensor
             std::cerr << "Sensor " << name << " reading error!\n";
             markFunctional(false);
         }
-    }
-
-    bool inError()
-    {
-        return errCount >= errorThreshold;
     }
 
     void updateValue(const double& newValue)
@@ -541,4 +552,54 @@ struct Sensor
         updateProperty(sensorInterface, value, newValue, "Value");
         internalSet = false;
     }
+};
+
+class BridgeGpio
+{
+  public:
+    BridgeGpio(const std::string& name, const int polarity,
+               const float setupTime) :
+        setupTimeMs(static_cast<unsigned int>(setupTime * 1000))
+    {
+        line = gpiod::find_line(name);
+        if (!line)
+        {
+            std::cerr << "Error finding gpio: " << name << "\n";
+        }
+        else
+        {
+            try
+            {
+                line.request({"adcsensor",
+                              gpiod::line_request::DIRECTION_OUTPUT,
+                              polarity == gpiod::line::ACTIVE_HIGH
+                                  ? 0
+                                  : gpiod::line_request::FLAG_ACTIVE_LOW});
+            }
+            catch (const std::system_error&)
+            {
+                std::cerr << "Error requesting gpio: " << name << "\n";
+            }
+        }
+    }
+
+    void set(int value)
+    {
+        if (line)
+        {
+            try
+            {
+                line.set_value(value);
+            }
+            catch (const std::system_error& exc)
+            {
+                std::cerr << "Error set_value: " << exc.what() << "\n";
+            }
+        }
+    }
+
+    unsigned int setupTimeMs;
+
+  private:
+    gpiod::line line;
 };
