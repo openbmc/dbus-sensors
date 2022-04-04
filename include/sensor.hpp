@@ -5,6 +5,7 @@
 #include <Thresholds.hpp>
 #include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <gpiod.hpp>
 
 #include <limits>
 #include <memory>
@@ -551,4 +552,54 @@ struct Sensor
         updateProperty(sensorInterface, value, newValue, "Value");
         internalSet = false;
     }
+};
+
+class BridgeGpio
+{
+  public:
+    BridgeGpio(const std::string& name, const int polarity,
+               const float setupTime) :
+        setupTimeMs(static_cast<unsigned int>(setupTime * 1000))
+    {
+        line = gpiod::find_line(name);
+        if (!line)
+        {
+            std::cerr << "Error finding gpio: " << name << "\n";
+        }
+        else
+        {
+            try
+            {
+                line.request({"adcsensor",
+                              gpiod::line_request::DIRECTION_OUTPUT,
+                              polarity == gpiod::line::ACTIVE_HIGH
+                                  ? 0
+                                  : gpiod::line_request::FLAG_ACTIVE_LOW});
+            }
+            catch (const std::system_error&)
+            {
+                std::cerr << "Error requesting gpio: " << name << "\n";
+            }
+        }
+    }
+
+    void set(int value)
+    {
+        if (line)
+        {
+            try
+            {
+                line.set_value(value);
+            }
+            catch (const std::system_error& exc)
+            {
+                std::cerr << "Error set_value: " << exc.what() << "\n";
+            }
+        }
+    }
+
+    unsigned int setupTimeMs;
+
+  private:
+    gpiod::line line;
 };
