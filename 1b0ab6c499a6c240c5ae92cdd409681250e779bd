@@ -115,6 +115,30 @@
       },
       "revId": "1b0ab6c499a6c240c5ae92cdd409681250e779bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77f3a5ca_867b4910",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001210
+      },
+      "writtenOn": "2022-04-05T04:32:55Z",
+      "side": 1,
+      "message": "If this is one dbus-sensor project, then why is there a different approach for Fan (AspeedFan, I2CFan, NuvotonFan) and for Temp (specific devices)?",
+      "parentUuid": "d1bddc0a_fcf76cf9",
+      "range": {
+        "startLine": 57,
+        "startChar": 67,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "1b0ab6c499a6c240c5ae92cdd409681250e779bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
