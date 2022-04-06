@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f01a31f_5525b43f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:19:01Z",
+      "side": 1,
+      "message": "Added the need for this change.",
+      "parentUuid": "cb9d7ba4_56b37fcf",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "0635ec57d15c5149b0193bd85bd3d978d31625d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61092329_9ab9a9aa",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-04-04T22:39:04Z",
       "side": 1,
       "message": "Why is this changed? There is no mentioning in commit message",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 62
+      },
+      "revId": "0635ec57d15c5149b0193bd85bd3d978d31625d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b5db12_91dd29dc",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:19:01Z",
+      "side": 1,
+      "message": "Added the rationale in the commit message",
+      "parentUuid": "61092329_9ab9a9aa",
       "range": {
         "startLine": 51,
         "startChar": 0,
@@ -94,6 +142,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb47d69_a5dfe6bb",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:19:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0866a5b9_8b8ce8bb",
+      "range": {
+        "startLine": 326,
+        "startChar": 36,
+        "endLine": 326,
+        "endChar": 39
+      },
+      "revId": "0635ec57d15c5149b0193bd85bd3d978d31625d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7855d78_011e52bf",
@@ -107,6 +179,30 @@
       "writtenOn": "2022-04-04T22:39:04Z",
       "side": 1,
       "message": "please add constexpr for these interfaces in the beginning of the file",
+      "range": {
+        "startLine": 419,
+        "startChar": 0,
+        "endLine": 430,
+        "endChar": 0
+      },
+      "revId": "0635ec57d15c5149b0193bd85bd3d978d31625d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "399159e8_d50b3c6c",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:19:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7855d78_011e52bf",
       "range": {
         "startLine": 419,
         "startChar": 0,
