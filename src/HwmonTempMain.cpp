@@ -422,10 +422,11 @@ void createSensors(
                         thisSensorParameters, pollRate, interfacePath,
                         readState);
                     sensor->setupRead();
-                    hwmonName.erase(
-                        remove(hwmonName.begin(), hwmonName.end(), sensorName),
-                        hwmonName.end());
                 }
+                hwmonName.erase(
+                    remove(hwmonName.begin(), hwmonName.end(), sensorName),
+                    hwmonName.end());
+
                 // Looking for keys like "Name1" for temp2_input,
                 // "Name2" for temp3_input, etc.
                 int i = 0;
@@ -440,6 +441,7 @@ void createSensors(
                     }
                     std::string sensorName =
                         std::get<std::string>(findKey->second);
+
                     hwmonFile = getFullHwmonFilePath(
                         directory.string(), "temp" + std::to_string(i + 1),
                         permitSet);
@@ -449,10 +451,11 @@ void createSensors(
                     }
                     if (hwmonFile)
                     {
-                        // To look up thresholds for these additional sensors,
-                        // match on the Index property in the threshold data
-                        // where the index comes from the sysfs file we're on,
-                        // i.e. index = 2 for temp2_input.
+                        // To look up thresholds for these additional
+                        // sensors, match on the Index property in the
+                        // threshold data where the index comes from the
+                        // sysfs file we're on, i.e. index = 2 for
+                        // temp2_input.
                         int index = i + 1;
                         std::vector<thresholds::Threshold> thresholds;
 
@@ -472,10 +475,11 @@ void createSensors(
                             std::move(thresholds), thisSensorParameters,
                             pollRate, interfacePath, readState);
                         sensor->setupRead();
-                        hwmonName.erase(remove(hwmonName.begin(),
-                                               hwmonName.end(), sensorName),
-                                        hwmonName.end());
                     }
+
+                    hwmonName.erase(
+                        remove(hwmonName.begin(), hwmonName.end(), sensorName),
+                        hwmonName.end());
                 }
                 if (hwmonName.empty())
                 {
