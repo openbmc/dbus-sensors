@@ -416,12 +416,16 @@ void createSensors(
                 }
                 if (hwmonFile)
                 {
-                    sensor = std::make_shared<HwmonTempSensor>(
-                        *hwmonFile, sensorType, objectServer, dbusConnection,
-                        io, sensorName, std::move(sensorThresholds),
-                        thisSensorParameters, pollRate, interfacePath,
-                        readState);
-                    sensor->setupRead();
+                    if (permitSet.find("temp1") != permitSet.end())
+                    {
+                        sensor = std::make_shared<HwmonTempSensor>(
+                            *hwmonFile, sensorType, objectServer,
+                            dbusConnection, io, sensorName,
+                            std::move(sensorThresholds), thisSensorParameters,
+                            pollRate, interfacePath, readState);
+                        sensor->setupRead();
+                    }
+
                     hwmonName.erase(
                         remove(hwmonName.begin(), hwmonName.end(), sensorName),
                         hwmonName.end());
@@ -440,38 +444,44 @@ void createSensors(
                     }
                     std::string sensorName =
                         std::get<std::string>(findKey->second);
-                    hwmonFile = getFullHwmonFilePath(
-                        directory.string(), "temp" + std::to_string(i + 1),
-                        permitSet);
+
+                    std::string tempIndex = "temp" + std::to_string(i + 1);
+                    hwmonFile = getFullHwmonFilePath(directory.string(),
+                                                     tempIndex, permitSet);
                     if (pathStr.starts_with("/sys/bus/iio/devices"))
                     {
                         continue;
                     }
                     if (hwmonFile)
                     {
-                        // To look up thresholds for these additional sensors,
-                        // match on the Index property in the threshold data
-                        // where the index comes from the sysfs file we're on,
-                        // i.e. index = 2 for temp2_input.
-                        int index = i + 1;
-                        std::vector<thresholds::Threshold> thresholds;
-
-                        if (!parseThresholdsFromConfig(sensorData, thresholds,
-                                                       nullptr, &index))
+                        if (permitSet.find(tempIndex) != permitSet.end())
                         {
-                            std::cerr << "error populating thresholds for "
-                                      << sensorName << " index " << index
-                                      << "\n";
+                            // To look up thresholds for these additional
+                            // sensors, match on the Index property in the
+                            // threshold data where the index comes from the
+                            // sysfs file we're on, i.e. index = 2 for
+                            // temp2_input.
+                            int index = i + 1;
+                            std::vector<thresholds::Threshold> thresholds;
+
+                            if (!parseThresholdsFromConfig(
+                                    sensorData, thresholds, nullptr, &index))
+                            {
+                                std::cerr << "error populating thresholds for "
+                                          << sensorName << " index " << index
+                                          << "\n";
+                            }
+
+                            auto& sensor = sensors[sensorName];
+                            sensor = nullptr;
+                            sensor = std::make_shared<HwmonTempSensor>(
+                                *hwmonFile, sensorType, objectServer,
+                                dbusConnection, io, sensorName,
+                                std::move(thresholds), thisSensorParameters,
+                                pollRate, interfacePath, readState);
+                            sensor->setupRead();
                         }
 
-                        auto& sensor = sensors[sensorName];
-                        sensor = nullptr;
-                        sensor = std::make_shared<HwmonTempSensor>(
-                            *hwmonFile, sensorType, objectServer,
-                            dbusConnection, io, sensorName,
-                            std::move(thresholds), thisSensorParameters,
-                            pollRate, interfacePath, readState);
-                        sensor->setupRead();
                         hwmonName.erase(remove(hwmonName.begin(),
                                                hwmonName.end(), sensorName),
                                         hwmonName.end());
