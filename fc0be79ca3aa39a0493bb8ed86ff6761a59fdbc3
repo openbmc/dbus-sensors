@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a8f08e9_93a74621",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:14:45Z",
+      "side": 1,
+      "message": "Cable Status is owned by EntityManager, generally we don\u0027t create associations in EntityManager.",
+      "parentUuid": "63aad851_5a72343b",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a670671_e16e9e4f",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-01T01:25:43Z",
       "side": 1,
       "message": "instead of pulling, consider use a match",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 464,
+        "endChar": 79
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cff3e14f_6eb31822",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:14:45Z",
+      "side": 1,
+      "message": "Good point. Switched to match.",
+      "parentUuid": "8a670671_e16e9e4f",
       "range": {
         "startLine": 463,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef1ab10b_2d209b81",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:14:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2136b8_bc778326",
+      "range": {
+        "startLine": 495,
+        "startChar": 36,
+        "endLine": 496,
+        "endChar": 76
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "440da2ab_334cc76e",
@@ -93,6 +165,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f51a9eb_a08c848c",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:14:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440da2ab_334cc76e",
+      "range": {
+        "startLine": 528,
+        "startChar": 36,
+        "endLine": 529,
+        "endChar": 65
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d695823_72774a6a",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-04-01T01:25:43Z",
       "side": 1,
       "message": "check this first",
+      "range": {
+        "startLine": 524,
+        "startChar": 32,
+        "endLine": 531,
+        "endChar": 33
+      },
+      "revId": "fc0be79ca3aa39a0493bb8ed86ff6761a59fdbc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a4b50b2_04442056",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-06T18:14:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d695823_72774a6a",
       "range": {
         "startLine": 524,
         "startChar": 32,
