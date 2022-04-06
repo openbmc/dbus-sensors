@@ -428,10 +428,11 @@ void createSensors(
                         thisSensorParameters, pollRate, interfacePath,
                         readState);
                     sensor->setupRead();
-                    hwmonName.erase(
-                        remove(hwmonName.begin(), hwmonName.end(), sensorName),
-                        hwmonName.end());
                 }
+                hwmonName.erase(
+                    remove(hwmonName.begin(), hwmonName.end(), sensorName),
+                    hwmonName.end());
+
                 // Looking for keys like "Name1" for temp2_input,
                 // "Name2" for temp3_input, etc.
                 int i = 0;
@@ -478,10 +479,11 @@ void createSensors(
                             std::move(thresholds), thisSensorParameters,
                             pollRate, interfacePath, readState);
                         sensor->setupRead();
-                        hwmonName.erase(remove(hwmonName.begin(),
-                                               hwmonName.end(), sensorName),
-                                        hwmonName.end());
                     }
+
+                    hwmonName.erase(
+                        remove(hwmonName.begin(), hwmonName.end(), sensorName),
+                        hwmonName.end());
                 }
                 if (hwmonName.empty())
                 {
