@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8897e3c8_762894ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-07T22:17:37Z",
+      "side": 1,
+      "message": "We are using this path to create association in Mapper. So it\u0027s not possible to figure out this path from mapper. We could just hardcoded \u0027NcsiCable\u0027 here and put the path prefix in the code tho.",
+      "parentUuid": "0823b438_4e26ad1f",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 85
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5f50a20_e5725c8f",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-06T22:21:24Z",
       "side": 1,
       "message": "I think it makes more sense to expose a higher level definition in the configs. For example, is there ever a \"CableStatus\" that doesn\u0027t have a forward association of \"attached_cables\"? Similarly, the reverse association can be inferred from the parent object\u0027s interfaces.\n\nThe way it is now, it is very easy to abuse this interface to set up arbitrary associations that don\u0027t really make sense in the context of network cables.",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fd46332_eee84a57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-07T22:17:37Z",
+      "side": 1,
+      "message": "you mean something like expose a definition like {\"Association\": \"Upstream\"} in the config and generate the association [attached_cables, upstream_chassis, interface] in the code?",
+      "parentUuid": "a5f50a20_e5725c8f",
       "range": {
         "startLine": 27,
         "startChar": 12,
