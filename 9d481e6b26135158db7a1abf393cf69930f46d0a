@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97f7b864_40595820",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-04-08T00:32:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand. I thought Mapper takes the existing {parent path} and {associated path} from the association definition and then creates {parent path}/{forward assciation} and {associated path}/{reverse association} having interface xyz.openbmc_project.Association. However, both {parent path} and {association path} should already exist when it does this. I suppose you could have a problem if the association definition is created before the object it associates to the parent, but that doesn\u0027t seem to be the case here. \n\nIn the code, it looks like you have a matcher looking at the same hardcoded path already, and if that is how you are going to do it, you don\u0027t really need to specify this in the config at all.",
+      "parentUuid": "8897e3c8_762894ca",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 85
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a5f50a20_e5725c8f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -90,6 +114,76 @@
         "startChar": 12,
         "endLine": 28,
         "endChar": 52
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d763669b_1f55e745",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-04-08T00:32:34Z",
+      "side": 1,
+      "message": "Yes, although probably something less generic than \"Association\". Perhaps something like {\"Connection\": \"upstream\"}.",
+      "parentUuid": "2fd46332_eee84a57",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58d21615_2fa0fa21",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-04-08T00:32:34Z",
+      "side": 1,
+      "message": "Could use https://github.com/openbmc/sdbusplus/blob/master/include/sdbusplus/bus/match.hpp#L151",
+      "range": {
+        "startLine": 607,
+        "startChar": 12,
+        "endLine": 607,
+        "endChar": 39
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7355469d_d3f5bb61",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-04-08T00:32:34Z",
+      "side": 1,
+      "message": "Won\u0027t this run every time any interface is added to ncsiCablePath? I\u0027m guessing it doesn\u0027t break anything if it does, but it might run unnecessarily.",
+      "range": {
+        "startLine": 614,
+        "startChar": 12,
+        "endLine": 614,
+        "endChar": 44
       },
       "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
