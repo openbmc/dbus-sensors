@@ -16,6 +16,24 @@
       "message": "I apologize because I said I had tested this commit, and I think I was so excited that I didn\u0027t need the extraneous sensors anymore that I missed it removing humidity and pressure.",
       "revId": "77d2564967a033407834b506e7263dd360c5a502",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "038df12d_2d7bc621",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-04-11T22:23:58Z",
+      "side": 1,
+      "message": "oh, I guess I don\u0027t have those sensors. Not sure.\n\nHow are the  humidity and pressure sensors configured? Can that be fixed after changing the Entity Manager config?",
+      "parentUuid": "659a0b76_87237a30",
+      "revId": "77d2564967a033407834b506e7263dd360c5a502",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
