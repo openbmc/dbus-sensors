@@ -478,7 +478,10 @@ void createSensors(
                                         hwmonName.end());
                     }
                 }
-                configMap.erase(findSensorCfg);
+                if (hwmonName.empty())
+                {
+                    configMap.erase(findSensorCfg);
+                }
             }
         });
     getter->getConfiguration(
