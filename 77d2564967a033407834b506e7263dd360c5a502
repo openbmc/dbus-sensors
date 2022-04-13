@@ -52,6 +52,24 @@
       "parentUuid": "038df12d_2d7bc621",
       "revId": "77d2564967a033407834b506e7263dd360c5a502",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "590fd470_2323a45f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-04-13T19:05:13Z",
+      "side": 1,
+      "message": "yea, this config https://github.com/openbmc/entity-manager/blob/master/configurations/Blyth.json has a DPS310 with temp/pressure and an SI7020 with temp/humidity.\n\nI couldn\u0027t really see a way of structuring it differently that could help, at least with how the current code is written.",
+      "parentUuid": "afe0e908_463084a8",
+      "revId": "77d2564967a033407834b506e7263dd360c5a502",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
