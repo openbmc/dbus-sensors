@@ -1,0 +1,10 @@
+Code-Review+2: Zhikui Ren <zhikui.ren@intel.com>
+Code-Review+1: Matt Spinler <spinler@us.ibm.com>
+Code-Review+1: Vernon Mauery <vernon.mauery@linux.intel.com>
+Code-Review+1: Matthew Barth <barton17pb@gmail.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Zhikui Ren <zhikui.ren@intel.com>
+Submitted-at: Wed, 13 Apr 2022 16:02:10 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/51366
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
