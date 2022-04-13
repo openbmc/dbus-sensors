@@ -34,6 +34,24 @@
       "parentUuid": "659a0b76_87237a30",
       "revId": "77d2564967a033407834b506e7263dd360c5a502",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afe0e908_463084a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-13T18:28:15Z",
+      "side": 1,
+      "message": "\u003e I was so excited\n\nAt least someones getting excited about dbus-sensors 😄\n\n\n\u003e How are the  humidity and pressure sensors configured?\n\nI think all their configs are public.\n\nLets keep this discussion going, but I\u0027m going to merge this to avoid the regression for the moment, which at the same time was fixing another regression.  At some point we can make a movie called regression-ception.",
+      "parentUuid": "038df12d_2d7bc621",
+      "revId": "77d2564967a033407834b506e7263dd360c5a502",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
