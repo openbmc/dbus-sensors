@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb1022c_1496dfaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-18T23:37:02Z",
+      "side": 1,
+      "message": "How is this different to Network service https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Network/EthernetInterface.interface.yaml",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "81683c7e46ced6fa217ad492257719a4224b8129",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
