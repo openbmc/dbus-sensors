@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05e1fda6_5076dfc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-18T19:56:24Z",
+      "side": 1,
+      "message": "The {parent path} and {association path} do already exist when the association created in mapper, but they only exist in EntityManager.\n\n-it looks like you have a matcher looking at the same hardcoded path already\n\nI\u0027ve removed the hardcoded path. \n\nI wanna keep AssociationPath here instead of hardcoded in code to provide flexibility. If in the future, there are multiple NcsiCables, we can have paths like /xyz/openbmc_project/inventory/system/cable/NcsiCable_1, /xyz/openbmc_project/inventory/system/cable/NcsiCable_2.",
+      "parentUuid": "97f7b864_40595820",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 85
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5f50a20_e5725c8f",
@@ -143,6 +167,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2663f19a_847a6a0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-18T19:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d763669b_1f55e745",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58d21615_2fa0fa21",
@@ -166,6 +214,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2231faf_73900465",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-18T19:56:24Z",
+      "side": 1,
+      "message": "Check PropertiesChanged in xyz.openbmc_project.Configuration.CableStatus instead",
+      "parentUuid": "58d21615_2fa0fa21",
+      "range": {
+        "startLine": 607,
+        "startChar": 12,
+        "endLine": 607,
+        "endChar": 39
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7355469d_d3f5bb61",
@@ -179,6 +251,30 @@
       "writtenOn": "2022-04-08T00:32:34Z",
       "side": 1,
       "message": "Won\u0027t this run every time any interface is added to ncsiCablePath? I\u0027m guessing it doesn\u0027t break anything if it does, but it might run unnecessarily.",
+      "range": {
+        "startLine": 614,
+        "startChar": 12,
+        "endLine": 614,
+        "endChar": 44
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80086d9_d0e1af2c",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-18T19:56:24Z",
+      "side": 1,
+      "message": "Now check the propertyChanged.",
+      "parentUuid": "7355469d_d3f5bb61",
       "range": {
         "startLine": 614,
         "startChar": 12,
