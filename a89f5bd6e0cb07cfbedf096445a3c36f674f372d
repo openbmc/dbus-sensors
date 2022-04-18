@@ -34,6 +34,24 @@
       "parentUuid": "f19d776c_b67a114e",
       "revId": "a89f5bd6e0cb07cfbedf096445a3c36f674f372d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e27b8e7_77b76757",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-04-18T23:35:27Z",
+      "side": 1,
+      "message": "I can confirm it works. I’ve been running it as a patch on Bletchley for a few months.",
+      "parentUuid": "785ab95d_42ca7cc1",
+      "revId": "a89f5bd6e0cb07cfbedf096445a3c36f674f372d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
