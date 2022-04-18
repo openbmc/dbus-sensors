@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca92ea7f_dd4edcdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-18T22:01:33Z",
+      "side": 1,
+      "message": "Who is the consumer of this association? What is it used for?",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "10bf73a8bb01d3135dc36ac959b29ff2ac0b4c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51bca709_31f7c25a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-18T22:01:33Z",
+      "side": 1,
+      "message": "Please follow https://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#formatting-commit-messages, wrap your lines",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 88
+      },
+      "revId": "10bf73a8bb01d3135dc36ac959b29ff2ac0b4c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c51cf54a_76f6cefa",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-18T22:01:33Z",
+      "side": 1,
+      "message": "not used anymore",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 78
+      },
+      "revId": "10bf73a8bb01d3135dc36ac959b29ff2ac0b4c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a816d7da_6bf7f33b",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-18T22:01:33Z",
+      "side": 1,
+      "message": "To reduce indentation, reverse the logic: interfacePair !\u003d cableStatusConfiguration { continue; }",
+      "range": {
+        "startLine": 489,
+        "startChar": 20,
+        "endLine": 489,
+        "endChar": 72
+      },
+      "revId": "10bf73a8bb01d3135dc36ac959b29ff2ac0b4c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3af36522_dd39dc2b",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-18T22:01:33Z",
+      "side": 1,
+      "message": "give a meaningful name make it easier to read, example: propertyMap",
+      "range": {
+        "startLine": 501,
+        "startChar": 28,
+        "endLine": 501,
+        "endChar": 48
+      },
+      "revId": "10bf73a8bb01d3135dc36ac959b29ff2ac0b4c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95377d84_6fa99e0f",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-18T22:01:33Z",
+      "side": 1,
+      "message": "need to call this once in case that match is setup after the CableStatus has already been created",
+      "range": {
+        "startLine": 601,
+        "startChar": 11,
+        "endLine": 601,
+        "endChar": 44
+      },
+      "revId": "10bf73a8bb01d3135dc36ac959b29ff2ac0b4c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

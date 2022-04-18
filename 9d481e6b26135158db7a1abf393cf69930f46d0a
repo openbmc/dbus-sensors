@@ -96,6 +96,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "268db8e6_5d9919fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-18T22:01:33Z",
+      "side": 1,
+      "message": "I agree we don\u0027t want an hardcoded path in the config.\nWhat about have intrusion sensor to query for object:ncsi_cable. If found, then create the association?",
+      "parentUuid": "05e1fda6_5076dfc6",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 85
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5f50a20_e5725c8f",
