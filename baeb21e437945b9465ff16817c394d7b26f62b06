@@ -34,6 +34,24 @@
       "parentUuid": "ac085683_d55e6d28",
       "revId": "baeb21e437945b9465ff16817c394d7b26f62b06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "554d293f_5520d403",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-04-19T03:10:04Z",
+      "side": 1,
+      "message": "\u003e Please note, this patch is depends on Aspeed ast2600 PWM driver support (not merged yet)\n\nHi Potin, I understand this needs the unmerged code from Aspeed in order to work (for those not paying close attention, they haven’t gotten merge approval for their AST2600 driver yet but it has gone through many revisions and they are actively revising it), but can you confirm that it also doesn’t break anything to merge as-is?  My understanding is that as long as the sysfs entries don’t show up this code has no effect. So, it is safe to merge right now, right?",
+      "parentUuid": "1d1dbe3a_47a3c52b",
+      "revId": "baeb21e437945b9465ff16817c394d7b26f62b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
