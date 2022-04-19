@@ -1,0 +1,8 @@
+Code-Review+1: Saravanan Palanisamy <saravanan.palanisamy@linux.intel.com>
+Code-Review+2: Zhikui Ren <zhikui.ren@intel.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Arun Lal K M <arun.lal@intel.com>
+Submitted-at: Tue, 19 Apr 2022 06:49:51 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/50070
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
