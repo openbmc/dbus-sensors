@@ -16,6 +16,24 @@
       "message": "@PL - has there been any progress on this work?",
       "revId": "baeb21e437945b9465ff16817c394d7b26f62b06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1dbe3a_47a3c52b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-19T02:04:05Z",
+      "side": 1,
+      "message": "Mark done/ack for previous comments.\n\nPlease note, this patch is depends on Aspeed ast2600 PWM driver support (not merged yet)\nhttps://lore.kernel.org/all/20211130055933.32708-1-billy_tsai@aspeedtech.com/",
+      "parentUuid": "ac085683_d55e6d28",
+      "revId": "baeb21e437945b9465ff16817c394d7b26f62b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

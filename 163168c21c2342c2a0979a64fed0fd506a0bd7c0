@@ -224,6 +224,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aec893b_1ab48a4c",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-19T02:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9dfe0b_ba344ed0",
+      "range": {
+        "startLine": 116,
+        "startChar": 34,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06f49168_8a48f381",
@@ -355,6 +379,30 @@
       "side": 1,
       "message": "agree with you, please have a check with new patch set",
       "parentUuid": "d657e648_a4c56dfb",
+      "range": {
+        "startLine": 122,
+        "startChar": 23,
+        "endLine": 122,
+        "endChar": 69
+      },
+      "revId": "163168c21c2342c2a0979a64fed0fd506a0bd7c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb9c0d37_3dd1d53d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-19T02:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7949e65_6d21449f",
       "range": {
         "startLine": 122,
         "startChar": 23,
