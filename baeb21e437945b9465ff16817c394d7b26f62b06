@@ -52,6 +52,24 @@
       "parentUuid": "1d1dbe3a_47a3c52b",
       "revId": "baeb21e437945b9465ff16817c394d7b26f62b06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa439e44_c04b0e7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-19T10:35:49Z",
+      "side": 1,
+      "message": "Yes, if the sysfs entries not exist, it just won\u0027t show add any fans.\n\nIt will be grateful if someone could also tested on platforms which using ast2500 or others, just to make sure the change doesn\u0027t break origin method.",
+      "parentUuid": "554d293f_5520d403",
+      "revId": "baeb21e437945b9465ff16817c394d7b26f62b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
