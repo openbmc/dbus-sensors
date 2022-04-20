@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e9f6ce9_a553d30d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-20T04:32:00Z",
+      "side": 1,
+      "message": "Yes if ethX status is link up, NCSI cable is plugged in. \n\nThere will be a NCSI cable config in EntityManager that probe the ethX status.\n\nSomething like \"Probe\": \"xyz.openbmc_project.Network.EthInterface({\u0027InterfaceName\u0027: \u0027^eth0$\u0027, \u0027LinkUp\u0027: true})\n\nIt\u0027s not used by Intrusion sensor. The lan leash component in Intrusion sensor already monitors the status of ethX. I\u0027m justing publishing that status in the dbus interface.",
+      "parentUuid": "235a8082_cae8a5b1",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 70
+      },
+      "revId": "81683c7e46ced6fa217ad492257719a4224b8129",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cb1022c_1496dfaa",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-18T23:37:02Z",
       "side": 1,
       "message": "How is this different to Network service https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Network/EthernetInterface.interface.yaml",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "81683c7e46ced6fa217ad492257719a4224b8129",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b402a303_10cc0d82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-20T04:32:00Z",
+      "side": 1,
+      "message": "It\u0027s the same interface.",
+      "parentUuid": "3cb1022c_1496dfaa",
       "range": {
         "startLine": 9,
         "startChar": 0,
