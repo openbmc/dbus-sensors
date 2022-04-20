@@ -247,9 +247,15 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err)
     {
         return;
     }
-    std::istream responseStream(readBuf.get());
-    if (!err)
+
+    // Power state could be changed since the last `setupRead()` call.
+    if (!readingStateGood(readState))
     {
+        updateValue(0);
+    }
+    else if (!err)
+    {
+        std::istream responseStream(readBuf.get());
         std::string response;
         try
         {
