@@ -342,6 +342,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6e37540_1ccdb521",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000521
+      },
+      "writtenOn": "2022-04-20T20:56:36Z",
+      "side": 1,
+      "message": "So Ed, since you are the repo maintainer are you okay with reverting the code back to the original design where this daemon will expose an inventory item with a presence attribute to explicitly indicate whether the cable is present or not?\n\nI\u0027m fine with either approach, looking for direction from the maintainer.",
+      "parentUuid": "7cde4856_d1175627",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1ed26e7_70dd0d66",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 36
