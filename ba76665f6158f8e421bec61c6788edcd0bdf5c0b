@@ -51,6 +51,29 @@
       "parentUuid": "2718853a_9de37943",
       "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2cc21b6_2fab03fb",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 37
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-04-21T04:26:54Z",
+      "side": 1,
+      "message": "query : Just wanted to understand significance of inline here .",
+      "range": {
+        "startLine": 24,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
