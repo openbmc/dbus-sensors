@@ -120,6 +120,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "908b1de5_d732fb1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-21T17:54:00Z",
+      "side": 1,
+      "message": "What do you think is the correct way to query the ncsi_cable? By a match or polling? We need to monitor both CableStatus configuration and NcsiCable existence here. Match probably not working here?",
+      "parentUuid": "268db8e6_5d9919fc",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 85
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5f50a20_e5725c8f",
