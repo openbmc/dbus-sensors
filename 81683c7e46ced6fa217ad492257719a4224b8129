@@ -93,6 +93,52 @@
       },
       "revId": "81683c7e46ced6fa217ad492257719a4224b8129",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65cb6d4f_2a296eb7",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-04-21T07:56:10Z",
+      "side": 1,
+      "message": "nit : Can ethernetInterfaceIndex be -ve ..? If not you can use unsigned version of int",
+      "range": {
+        "startLine": 341,
+        "startChar": 14,
+        "endLine": 341,
+        "endChar": 17
+      },
+      "revId": "81683c7e46ced6fa217ad492257719a4224b8129",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09737cd5_df6327c4",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-04-21T07:56:10Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 342,
+        "startChar": 14,
+        "endLine": 342,
+        "endChar": 17
+      },
+      "revId": "81683c7e46ced6fa217ad492257719a4224b8129",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
