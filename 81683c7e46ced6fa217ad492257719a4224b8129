@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b6f8bda_34c85825",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-04-25T15:41:25Z",
+      "side": 1,
+      "message": "What is the reason to add it here if it is already in Network service?\n\nbusctl introspect xyz.openbmc_project.Network /xyz/openbmc_project/network/eth0\nNAME                                              TYPE      SIGNATURE RESULT/VALUE                             FLAGS\n...\nxyz.openbmc_project.Network.EthernetInterface     interface -         -                                        -\n...\n\"xyz.openbmc_project.Network.Ethernet... emits-change writable\n.LinkUp                                           property  b         true                                     const\n.MTU                                              property  u         1500                                     emits-change writable\n.NICEnabled                                       property  b         true                                     emits-change writable\n.NTPServers                                       property  as        0                                        emits-change writable\n...",
+      "parentUuid": "b402a303_10cc0d82",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "81683c7e46ced6fa217ad492257719a4224b8129",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "65cb6d4f_2a296eb7",
         "filename": "src/IntrusionSensorMain.cpp",
         "patchSetId": 3
