@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccb2baae_97793793",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T02:15:11Z",
+      "side": 1,
+      "message": "A little more details would be good here.  How does one set this?  What\u0027s an example of a configuration that uses it?  Why do board wire up this way?\n\nPlease answer in your commit message",
+      "revId": "2cc400da834ee2e329f7c8d8401429f39c8bb2cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47041836_b92bb8eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T02:15:11Z",
+      "side": 1,
+      "message": "Missing tested statement.",
+      "revId": "2cc400da834ee2e329f7c8d8401429f39c8bb2cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
