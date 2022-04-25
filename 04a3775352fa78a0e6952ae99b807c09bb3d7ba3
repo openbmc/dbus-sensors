@@ -356,6 +356,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff3b24e6_8cf97b76",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "Looks like this got done.",
+      "parentUuid": "b01757b2_37aadc12",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e643becb_505607bf",
@@ -1606,6 +1630,30 @@
       "side": 1,
       "message": "libgpiod provides api for event wait. However, it doesn\u0027t support event wait from multiple lines from different chip. Therefore, using a simple pooling loop here to avoid complexity. I added a comment in the code to explain the pooling loop.",
       "parentUuid": "5bb8fbed_1e6dc48d",
+      "range": {
+        "startLine": 226,
+        "startChar": 50,
+        "endLine": 226,
+        "endChar": 58
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e35816fb_cbb2c592",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "\u003e However, it doesn\u0027t support event wait from multiple lines from different chip.\n\nThis isn\u0027t correct to my understanding.  take a look at x86-power-control for an example of a async daemon eventing on multiple GPIO lines at once.",
+      "parentUuid": "0c6a9aee_2cdcf93e",
       "range": {
         "startLine": 226,
         "startChar": 50,

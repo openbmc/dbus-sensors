@@ -366,6 +366,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d21f9e71_297325e6",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "\u003e \"GPIOStatus\" doesn\u0027t seem appropriate.\n\nI agreed with this before I read this comment.  \"GPIOStatus\" is something that we can come up with a better name for.\n\n\n\u003e I\u0027d prefer we create a well-documented phosphor-dbus-interfaces schema then, rather than a private one only known to EM.\n--------------\n\u003e Ed, would you comment on this as well?\n\nConsidering that the entire point of this interface is to do entity-manager detection, I guess we could document it, but if there\u0027s no users besides entity-manager and dbus-sensors, I\u0027m not super interested in holding up on another review.  FWIW, the difficulty of phosphor-dbus-interfaces reviews being disconnected from code is why EM has so-called \"private\" interfaces in the first place.  If Patrick is ok with the interface in the implementation, I\u0027m sure someone is happy to open the PDI review, but I\u0027m not interested in a PDI review that can\u0027t be implemented, as has happened in the past with PDI reviews;  With that said, I\u0027d be happy to be surprised.\n\n\u003e So Ed, since you are the repo maintainer are you okay with reverting the code back to the original design where this daemon will expose an inventory item with a presence attribute to explicitly indicate whether the cable is present or not?\n\n\u003e \n\nI don\u0027t see how that can work with the design that we have.  The important parts for me are:\n\n1. Entity-manager has generic interfaces, and doesn\u0027t hardcode anything\n2. Entity-manager exposes the devices for all devices managed by the bmc.\n3. dbus-sensors has interfaces that a different implementation could reasonably implement.  Specifically in this example, the device presence could potentially be exposed by say, a sata controller sideband API, so it\u0027s not necessarily \"GPIO\" from the bmc perspective, but in theory, a (insert raid controller vendor name here) card could implement the \"presence\" of a device that EM could detect.\n\n\u003e I\u0027m fine with either approach, looking for direction from the maintainer.\n\n\n\n\nMy advice: Change the name.  \"GPIO Status\" just needs changed in a find-replace fashion with \"SlotStatus\".  After that, I htink the design principals I mention above, and patricks concerns of exposing GPIO directly to dbus will be addressed.",
+      "parentUuid": "e6e37540_1ccdb521",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "072cbd346d345867dfa048a6ee54c11d6897834b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1ed26e7_70dd0d66",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 36

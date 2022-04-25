@@ -53,6 +53,184 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12362151_259bec83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "Haven\u0027t reviewed the code yet;  I suspect just a simple renaming will make everyone happy, and this can go forward.\n\nSorry for the long lag in replies.  I\u0027m getting many many patches these days, and this fell between the cracks.",
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2465c90d_b81f3d34",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 37
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "nit: Please add more details here.  The intent is not to expose gpio information.  The intent is to use GPIO information to instantiate knowledge of devices to make entity-manager aware of them, and expose the appropirate user interfaces.\n\nDbus itself is an implementation detail.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52d2345c_7bcecea0",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 37
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "Can we call this \"GPIOBasedSlotPresence\"?  GPIOStatus is way too generic in this case, and while this daemon might support new interfaces in the future, they need to explicitly be different interfaces, so that if we need to transition the logic from generic daemons to implementation aware daemons, we can do that without effecting every GPIO interface in the system.",
+      "range": {
+        "startLine": 20,
+        "startChar": 34,
+        "endLine": 20,
+        "endChar": 44
+      },
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b83bfa3_e25418df",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 37
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "See above.  This needs to have the word \"presence\" in it somewhere.\n\nSaid another way, a GPIO based button at configuration level should have nothing in similar with a GPIO based presence signal.",
+      "range": {
+        "startLine": 29,
+        "startChar": 15,
+        "endLine": 29,
+        "endChar": 25
+      },
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0ed1351_b21ab484",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 37
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "nit, this probably doesn\u0027t need said in this doc.  This is explicitly documented in the EM config.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 71
+      },
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aff228d7_b4b369c1",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 37
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "nit, please include that this is the name in the kernel devicetree.  gpioinfo is just an application for viewing the dt names.",
+      "range": {
+        "startLine": 36,
+        "startChar": 7,
+        "endLine": 36,
+        "endChar": 11
+      },
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c70f83fa_d32c3bd0",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 37
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "Should be $index.",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 20
+      },
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "828eb043_3eb40f4f",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 37
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-25T03:01:14Z",
+      "side": 1,
+      "message": "Nit, please mention (or at least think about in the design) debounce.  Slot  GPIOS that are expected to have both electrical bounce and mechanical bounce.  Software will need to handle that, and we should at least mention the word \"debounce\" in either the flow or in prose (the details can be hammered out in code).",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 80,
+        "endChar": 7
+      },
+      "revId": "ba76665f6158f8e421bec61c6788edcd0bdf5c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2cc21b6_2fab03fb",
