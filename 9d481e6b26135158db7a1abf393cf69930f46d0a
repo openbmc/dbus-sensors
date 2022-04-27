@@ -168,6 +168,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e5f88b0_e718d71c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001193
+      },
+      "writtenOn": "2022-04-27T17:51:39Z",
+      "side": 1,
+      "message": "Created another match to monitor the interfaces in /xyz/openbmc_project/inventory/system/cable/NcsiCable.",
+      "parentUuid": "95a24dc0_1ba32713",
+      "range": {
+        "startLine": 26,
+        "startChar": 32,
+        "endLine": 26,
+        "endChar": 85
+      },
+      "revId": "9d481e6b26135158db7a1abf393cf69930f46d0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5f50a20_e5725c8f",
