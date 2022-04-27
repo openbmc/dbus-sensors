@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbab5dc4_f1991799",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-04-27T18:26:53Z",
+      "side": 1,
+      "message": "You can use structured bindings here: `const auto\u0026 [path, interfaces] : managedObj`",
+      "range": {
+        "startLine": 445,
+        "startChar": 17,
+        "endLine": 445,
+        "endChar": 37
+      },
+      "revId": "d338194e671d107194e9c5a04834724662a05da2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adc8a886_b873c202",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-04-27T18:26:53Z",
+      "side": 1,
+      "message": "Similarly here: `const auto\u0026 [interface, propertyMap] : interfaces`",
+      "range": {
+        "startLine": 447,
+        "startChar": 21,
+        "endLine": 447,
+        "endChar": 64
+      },
+      "revId": "d338194e671d107194e9c5a04834724662a05da2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49ea4051_1b7cb947",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-04-27T18:26:53Z",
+      "side": 1,
+      "message": "Since this function may run more than once, does it need to do something to make sure it isn\u0027t creating the association interface multiple times?",
+      "revId": "d338194e671d107194e9c5a04834724662a05da2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
