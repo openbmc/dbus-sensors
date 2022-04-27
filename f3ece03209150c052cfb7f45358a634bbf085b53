@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f63c58b_67432c59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-27T15:31:40Z",
+      "side": 1,
+      "message": "This is really close, just a couple minor logic things that we need to resolve, then this should be good to go.  Sorry for not catching them the first time around.",
+      "revId": "f3ece03209150c052cfb7f45358a634bbf085b53",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c24674c1_9342987a",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-27T15:31:40Z",
+      "side": 1,
+      "message": "Because this code isn\u0027t doing error handling with exceptions in its current form, you need to use the no throw overload of this, ie:\n\nbool exists( const std::filesystem::path\u0026 p, std::error_code\u0026 ec ) noexcept;\n\nOtherwise, there are cases where the path doesn\u0027t exist that will throw and crash the main EM executor.\n\n\nThe use of read_symlink also requires using the same overload the way you\u0027ve done it here.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 28
+      },
+      "revId": "f3ece03209150c052cfb7f45358a634bbf085b53",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb32fc00_8ad7b5f1",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-27T15:31:40Z",
+      "side": 1,
+      "message": "This check now looks duplicated between getPwmPath and this code.  Please check if that\u0027s what you intended?  I suspect this check needs to be for a default constructed std::filesystem::path.",
+      "range": {
+        "startLine": 431,
+        "startChar": 1,
+        "endLine": 436,
+        "endChar": 25
+      },
+      "revId": "f3ece03209150c052cfb7f45358a634bbf085b53",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
