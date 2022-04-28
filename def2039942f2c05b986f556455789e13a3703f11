@@ -83,6 +83,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a44db2c_15618d35",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T21:21:13Z",
+      "side": 1,
+      "message": "Yep, continue makes sense.",
+      "parentUuid": "77a84dcc_6b0c4e81",
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21f6d56d_58030511",

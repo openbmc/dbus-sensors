@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75ee57b1_434e4680",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T21:21:13Z",
+      "side": 1,
+      "message": "can you clean this logic up a little?  I suspect you\u0027ve put the if (ec) in the wrong scope, because you\u0027re still relying on the return value of fs::exists before you actually use the value.  I would expect this to look like\n\nstd::error_code ec;\nbool exists \u003d fs::exists(path, ec);\nif (ec || !exists){\n   return false;\n}\nreturn findPwmfanPath(pwm, pwmPath);",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 5
+      },
+      "revId": "bf36df6816dd3f8151845e1c51f1c0a271db3e17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
