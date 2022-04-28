@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85f8f7eb_5e4ed137",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-28T15:52:47Z",
+      "side": 1,
+      "message": "Done, thank you for noticing!",
+      "parentUuid": "c24674c1_9342987a",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 28
+      },
+      "revId": "f3ece03209150c052cfb7f45358a634bbf085b53",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb32fc00_8ad7b5f1",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-04-27T15:31:40Z",
       "side": 1,
       "message": "This check now looks duplicated between getPwmPath and this code.  Please check if that\u0027s what you intended?  I suspect this check needs to be for a default constructed std::filesystem::path.",
+      "range": {
+        "startLine": 431,
+        "startChar": 1,
+        "endLine": 436,
+        "endChar": 25
+      },
+      "revId": "f3ece03209150c052cfb7f45358a634bbf085b53",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38125b97_305e585d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-28T15:52:47Z",
+      "side": 1,
+      "message": "Sorry, I am not quite understand your comment.\nDo you mean std::filesystem::path needs to be assigned with exist path? But I checked std::filesystem::path, it also allowed non-exist path.\n\nI modified the interface and rename the function to findPwmPath(). In this function, it make sure the pwm path is existed when return true, otherwise return false.\nI hope this change is better.",
+      "parentUuid": "eb32fc00_8ad7b5f1",
       "range": {
         "startLine": 431,
         "startChar": 1,
