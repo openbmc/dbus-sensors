@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f6d56d_58030511",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-04-28T16:28:20Z",
+      "side": 1,
+      "message": "I think this is suppose to be \u0027path\u0027?",
+      "range": {
+        "startLine": 135,
+        "startChar": 19,
+        "endLine": 135,
+        "endChar": 26
+      },
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
