@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fb705bd_e3048aa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T16:10:39Z",
+      "side": 1,
+      "message": "There are two busses in this case:\n\n1. The BMC bus that the device is connected to;  I would like this to be called \"Bus\"\n2. The bus on the remote controller.  It sounds like this is called HostSMBusIndex, which is also fine.  This kind of detail needs to be in your commit message with descriptions of what the parameter does, and what it\u0027s intended to control, because this patchset doesn\u0027t add an implementation, so it\u0027s quite difficult to discern its usage from this patch.",
+      "parentUuid": "14f2b663_e681ca49",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "bba1e49779e947624ca77b39a65adaea9f5d28e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42c0a7b4_642042b9",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "IPMB Bus Index is used in other 2 patches, so this is a base patch for the below patches. In other 2 patches, ipmbBusIndex will be used based on their requirement.\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47952\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/52164",
       "parentUuid": "42c0a7b4_642042b9",
+      "range": {
+        "startLine": 472,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 21
+      },
+      "revId": "bba1e49779e947624ca77b39a65adaea9f5d28e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c836093_b4560e92",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T16:10:39Z",
+      "side": 1,
+      "message": "That\u0027s fine, but keep in mind that this patch can\u0027t merge until the whole series is do it when you do it this way.  The fact that this parameter isn\u0027t used needs to be mentioned in the commit message to convey your intent.",
+      "parentUuid": "8510e77a_da6dce80",
       "range": {
         "startLine": 472,
         "startChar": 0,
