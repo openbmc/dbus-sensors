@@ -110,6 +110,30 @@
       },
       "revId": "f3ece03209150c052cfb7f45358a634bbf085b53",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc5b7d73_1a390487",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T16:31:12Z",
+      "side": 1,
+      "message": "I suspect I got confused diffing intermediate versions of this patch instead of Base -\u003e HEAD.  Sorry for the confusion, The code looks fine.",
+      "parentUuid": "38125b97_305e585d",
+      "range": {
+        "startLine": 431,
+        "startChar": 1,
+        "endLine": 436,
+        "endChar": 25
+      },
+      "revId": "f3ece03209150c052cfb7f45358a634bbf085b53",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
