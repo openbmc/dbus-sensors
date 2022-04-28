@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f90d8029_cabbb7fe",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T16:34:17Z",
+      "side": 1,
+      "message": "Please declare this in the scope it\u0027s used (on line 117).  I don\u0027t recall the behavior of read_symlink if it gets called with an already set ec.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 23
+      },
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4af5c252_b6c2fb2b",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T16:34:17Z",
+      "side": 1,
+      "message": "You need to check ec for an error here and return.",
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "21f6d56d_58030511",
         "filename": "src/FanMain.cpp",
         "patchSetId": 23
@@ -20,6 +60,47 @@
         "endLine": 135,
         "endChar": 26
       },
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5a5013d_da1f0791",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T16:34:17Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "21f6d56d_58030511",
+      "range": {
+        "startLine": 135,
+        "startChar": 19,
+        "endLine": 135,
+        "endChar": 26
+      },
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e681048b_9185374a",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-28T16:34:17Z",
+      "side": 1,
+      "message": "I suspect you need to check the error code here as well.  I don\u0027e beleive std::filesystem::exists guarantees the behavior of the returned value if ec is set to an error.",
       "revId": "def2039942f2c05b986f556455789e13a3703f11",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
