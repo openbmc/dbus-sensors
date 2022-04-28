@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74634c43_a2687b59",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-28T18:08:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f90d8029_cabbb7fe",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 23
+      },
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4af5c252_b6c2fb2b",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-04-28T16:34:17Z",
       "side": 1,
       "message": "You need to check ec for an error here and return.",
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a84dcc_6b0c4e81",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-28T18:08:33Z",
+      "side": 1,
+      "message": "Done, I think it should use continue because it is for loop",
+      "parentUuid": "4af5c252_b6c2fb2b",
       "revId": "def2039942f2c05b986f556455789e13a3703f11",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -88,6 +130,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e4b0564_f36f0c2c",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-28T18:08:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5a5013d_da1f0791",
+      "range": {
+        "startLine": 135,
+        "startChar": 19,
+        "endLine": 135,
+        "endChar": 26
+      },
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e681048b_9185374a",
@@ -101,6 +167,24 @@
       "writtenOn": "2022-04-28T16:34:17Z",
       "side": 1,
       "message": "I suspect you need to check the error code here as well.  I don\u0027e beleive std::filesystem::exists guarantees the behavior of the returned value if ec is set to an error.",
+      "revId": "def2039942f2c05b986f556455789e13a3703f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db603d45_09a36651",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2022-04-28T18:08:33Z",
+      "side": 1,
+      "message": "Done.\nI change the behavior you mentioned a little bit, not sure is it looks reasonable?\nReturn true if ec is success, otherwise try pwm-fan method.",
+      "parentUuid": "e681048b_9185374a",
       "revId": "def2039942f2c05b986f556455789e13a3703f11",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
