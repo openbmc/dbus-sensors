@@ -88,6 +88,24 @@
       "parentUuid": "590fd470_2323a45f",
       "revId": "77d2564967a033407834b506e7263dd360c5a502",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29992b6e_3d1a6d64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-04-29T14:35:48Z",
+      "side": 1,
+      "message": "The issue is that a single device config has multiple entries in the \u0027paths\u0027 vector.\n\n            fs::path root(\"/sys/bus/iio/devices\");\n            findFiles(root, R\"(in_temp\\d*_(input|raw))\", paths);\n            findFiles(root, R\"(in_pressure\\d*_(input|raw))\", paths);\n            findFiles(root, R\"(in_humidityrelative\\d*_(input|raw))\", paths);\n            findFiles(fs::path(\"/sys/class/hwmon\"), R\"(temp\\d+_input)\", paths);\n           \n            ...\n\n            for (auto\u0026 path : paths)\n            {\n                ...\n                configMap.erase(findSensorCfg);\n        \n            }\n\nIf the configMap entry is deleted the first time though the paths vector, then when it comes back around to handle the pressure/humidity paths entries the config for it will already be gone",
+      "parentUuid": "c3b05fe2_4d36fd41",
+      "revId": "77d2564967a033407834b506e7263dd360c5a502",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
