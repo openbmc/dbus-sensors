@@ -63,6 +63,30 @@
       },
       "revId": "bf36df6816dd3f8151845e1c51f1c0a271db3e17",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0906dac4_e6fc93bc",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:15:47Z",
+      "side": 1,
+      "message": "\u003e I saw your example return false when path not exist or non-zero error code,\n\nSure, it\u0027s possible I didn\u0027t get the logic quite right, the key is that you need to check the value of ec BEFORE you use the information available in \"exists\" above.\n\n\nstd::error_code ec;\nbool exists \u003d fs::exists(path, ec);\nif (!ec){\n    if (!exists){\n       return false;\n    }\n}\n\nreturn findPwmfanpath(...);\n\n\nI think that corrects the logic?",
+      "parentUuid": "a7aaa808_9aa8f3de",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 5
+      },
+      "revId": "bf36df6816dd3f8151845e1c51f1c0a271db3e17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
