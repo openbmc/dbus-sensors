@@ -70,6 +70,24 @@
       "parentUuid": "afe0e908_463084a8",
       "revId": "77d2564967a033407834b506e7263dd360c5a502",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3b05fe2_4d36fd41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-04-29T11:39:13Z",
+      "side": 1,
+      "message": "I am confused on how deleting the config will affect the pressure sensors.\n\nIsn\u0027t it only used in https://github.com/openbmc/dbus-sensors/blob/7dd6443b88a52cb17d925bbe0f316d6a0374a703/src/HwmonTempMain.cpp#L343-L358? So we are removing it after it is used.\n\nDoes adding\n```\n\"Labels\": [\"temp1\", \"temp2\"],\n```\nin \n\n```\n{\n            \"Address\": \"0x76\",\n            \"Bus\": 7,\n            \"Name\": \"Ambient 1 Temp\",\n            \"Name1\": \"Station Pressure\",\n            \"Type\": \"DPS310\"\n        },\n```\n\nnot work?",
+      "parentUuid": "590fd470_2323a45f",
+      "revId": "77d2564967a033407834b506e7263dd360c5a502",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
