@@ -106,6 +106,24 @@
       "parentUuid": "c3b05fe2_4d36fd41",
       "revId": "77d2564967a033407834b506e7263dd360c5a502",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf085bcb_424e51c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000524
+      },
+      "writtenOn": "2022-04-29T15:03:55Z",
+      "side": 1,
+      "message": "Matt is correct here \"...  single device config has multiple entries in the \u0027paths\u0027 vector\".  That was one of the issue in shoehorning IIO devices into HwmonTemp.",
+      "parentUuid": "29992b6e_3d1a6d64",
+      "revId": "77d2564967a033407834b506e7263dd360c5a502",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
