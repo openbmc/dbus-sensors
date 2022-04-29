@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7bf4ee2_532deff1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-04-29T12:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fb705bd_e3048aa4",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "bba1e49779e947624ca77b39a65adaea9f5d28e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42c0a7b4_642042b9",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "That\u0027s fine, but keep in mind that this patch can\u0027t merge until the whole series is do it when you do it this way.  The fact that this parameter isn\u0027t used needs to be mentioned in the commit message to convey your intent.",
       "parentUuid": "8510e77a_da6dce80",
+      "range": {
+        "startLine": 472,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 21
+      },
+      "revId": "bba1e49779e947624ca77b39a65adaea9f5d28e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6528d00_ae3722c0",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-04-29T12:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c836093_b4560e92",
       "range": {
         "startLine": 472,
         "startChar": 0,
