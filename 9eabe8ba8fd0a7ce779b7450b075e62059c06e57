@@ -1,0 +1,1193 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55482fa5_ed164740",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "The name of the device isn\u0027t \"SDR\", presumably this is something like \"controller\" or \"IPMB device\"",
+      "range": {
+        "startLine": 23,
+        "startChar": 21,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86ee4d23_4b9aa60c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Why do we need a class here?  I don\u0027t see any description of it in your commit message, and no usage of it in this patch.  In general, \"Type\" is the place to put this information about what kind of device is being controlled, rather than adding a secondary parameter.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c57ede1_a60f3847",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "In terms of configuration, this would be called something like \"IPMBDevice\"\n\n\"SDR\" is an implementation detail on the protocol on how we interact with it, and in configuration, isn\u0027t important.",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27e1baf3_65daf83d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Bus is used for noting the i2c bus, not the IPMB channel number.  Ideally we should be matching up the i2c bus number to the channel number here.",
+      "range": {
+        "startLine": 31,
+        "startChar": 33,
+        "endLine": 31,
+        "endChar": 45
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a1c9fe3_677d8b7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Lots to do here, but starting to take shape.",
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a46e80c_2cea7e0c",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Please just inline this in the two places it\u0027s used.  Ideally the two places it\u0027s used would be deduplicated, but I\u0027m ok with not, it\u0027s just more clear in code if we do the shifts in the two places they\u0027re required, rather than have a global here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 43
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d0f9a7d_2d84e5ae",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Does this need to be part of your configuration data in entity-manager?  Or is this default good for all ipmb controllers?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 33
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92a5a564_35985b49",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "All of these enums beyond this are trying to create enums for each record type (1,2, 3) for data structures that can\u0027t really be used together.  It would be much better if these were separated by field indexes, id\n\nenum class SDR01Fields {\n    SdrType \u003d 0;\n    sdr address \u003d 56;\n   ....\n    max \u003d 72;\n};\n\nI think that would simplify your parsing code quite a bit.",
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddceffda_ea856112",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "This parameter doesn\u0027t belong in this enum.  It\u0027s a mask, and considering it\u0027s only used in one place, please just inline the declaration.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "015a520b_0a231969",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Doesn\u0027t look used?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 51
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b76487a_61cfdea7",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Per the comment on line 18, please put all of these indexes into the data structure into a single enum.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 45
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "396f96a1_b15e01e7",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Doesn\u0027t look used?",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 45
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09de1fd9_4e099d67",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "This is only used in one spot, please inline.  Also, it\u0027s not clear to me what this parameter is doing, so a comment about what it\u0027s for might be appropriate.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 43
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf830f23_f67006cd",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Same as above, please put all these indexes in a single enum.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 39
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7507e6d2_4cb3e5d3",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Can we come up with some better naming here?  This is a mask, \"thres\" and Acce\" are strange abbreviations that make this difficult to read.",
+      "range": {
+        "startLine": 65,
+        "startChar": 25,
+        "endLine": 65,
+        "endChar": 37
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4688dc99_765838a9",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Similar to others, this param is only used in one scope.  Please inline.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 41
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4619079_217ee12e",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Please explicitly default construct these with zeros similar to how we do other places with \u003d 0;  (like you do on line 101.)",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 20
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b197a18d_05079694",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "it\u0027s a little odd that this initializes to 1 valid record.  Shouldn\u0027t it be 0?",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 34
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "581a8197_595a52dc",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "A comment should be here about what this is indexed on would be helpful.\n\nIt\u0027s not clear why this is 5;  Would this be better as an unordered_map or std::map, so we\u0027re only storing the things that we are using?",
+      "range": {
+        "startLine": 107,
+        "startChar": 54,
+        "endLine": 107,
+        "endChar": 55
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7498565_224ff182",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "first, please make this more complete.  There are more than 4 sensor types supported by both ipmi and dbus, so lets map as many as we can.\n\nSecond, these kinds of map lookups are generally better done as linear array lookups, so that they don\u0027t malloc.  IE\n\nconstexpr std::array\u003cstd::pair\u003cstd::string_view, uint8_t\u003e\u003e{\n   {\"temperature\", 1},\n   ....\n}\n\n\nOne linear scan of a small, compile time table is much faster than mallocing a map and sorting it, then using the map result.\n\nIn a perfect world, we could also use std::binary_search and avoid the linear cost, but I doubt it\u0027s worth the complexity in this case.\n\n\nAlso, this data structure doesn\u0027t even look used?",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 74
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e05c03d_aca03030",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "These are only used in IpmbSDRSensor for the moment.  I suspect they can be declared in that file.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 49
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c4058a5_f9466b71",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "?  These kinds of headers are not generally encouraged, especially on new files.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 2
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4a9a5f3_82a7b4c2",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "nit, extra parens.",
+      "range": {
+        "startLine": 21,
+        "startChar": 23,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87151878_48bfc6f2",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "I\u0027m fairly sure this isn\u0027t what you intended.  This is constructing a new IPMBSDR instance every time this method is called.  I suspect that item needs its lifetime owned somewhere else (so that if the node is deleted, the item can be deleted as well) and this capture done by weak_ptr, like we do other places.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 72
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f088c26f_eb17658f",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "This is not the correct range check.  you index to 2 on line 53, so this needs to be checked that it\u0027s at least of size 2 (although I suspect the standard response is larger, and we should check against that).",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 29
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b08775_596b6d8d",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "nit extra parens;\n\nNon-nit, everywhere else in this file you use explicit index names for response fields;  Lets do the same here and follow a similar pattern.",
+      "range": {
+        "startLine": 53,
+        "startChar": 37,
+        "endLine": 53,
+        "endChar": 60
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40e71193_afb6fb5d",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Please unabbreviate this.  abbreviating \"reserve\" doesn\u0027t save many characters, and makes this harder to read.",
+      "range": {
+        "startLine": 63,
+        "startChar": 21,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a77a0303_55b9a440",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "same as above, as a general rule, unless it\u0027s data specific to that request, you don\u0027t want to capture by shared_ptr in an async callback.  This leads to situations where the IpmbSDR object owns _itself_, which can be a problem for destruction and memory \"leaks\".\n\nPlease take a look elsewhere in dbus-sensors where we capture by weak_ptr()",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 21
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf518f28_86541425",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Considering these are part of the same reservation ID, please just put them into a uint16_t in this scope, rather than passing them as two parameters.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 41
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f6ac21b_805c233d",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Please break the content of this lambda out into its own method and call that directly from the lambda here (note, at some point async_method_call will support std::bind_front, which is the ideal here).  In general, this should be done for most async callbacks of any reasonable size.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 53
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f19666e9_1d0907bc",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Can we use a more appropriate data structure that separates these things out at least by SDR ID?  Ideally something like\n\nstruct SDRData {\n   // parsed SDR fields\n}\n\nstd::vector\u003cSDRData\u003e\n\nbut even\nstd::vector\u003cstd::vector\u003cuint8_t\u003e\u003e\nwould be better here than just storing the raw binary.",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 134,
+        "endChar": 13
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "524455b7_2f3ef15e",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "This check doesn\u0027t look right to me.  We\u0027re comparing the number of SDRs against the size of the structure?  Please look and see if this is what you intended.",
+      "range": {
+        "startLine": 137,
+        "startChar": 16,
+        "endLine": 138,
+        "endChar": 62
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ce08172_e4fdf11e",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Please prefer to just return here as it saves scopes for following conditionals.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 80
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c954fce4_903b857f",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "same here as above.  Not sure what\u0027s going on with this logic.",
+      "range": {
+        "startLine": 145,
+        "startChar": 21,
+        "endLine": 146,
+        "endChar": 67
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e406704_ae7c2c44",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Why 1 here?  Shouldn\u0027t it be zero?",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 51
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03aefb2f_65ef2d92",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "no need for an else given that line 155 returns.",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 13
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b18c738a_24177063",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Some of the logic in this branch (about 3-4 of the operations) is shared with the branch above.  please try to deduplicate if you can.",
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93fed8dd_08cd2876",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "possible nullptr dereference if data.size() \u003d\u003d 0\n\nYou already have a range check down below, it just needs rearranged.",
+      "range": {
+        "startLine": 183,
+        "startChar": 12,
+        "endLine": 183,
+        "endChar": 26
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65667fa3_57de7ee9",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Considering you\u0027re indexing based on the \"sdr\" enum class, please base this check on that structure, with something like sdr::max.  As written, there are no guarantees that we can\u0027t index out of the array if sdr::field is \u003e dataLenType01.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 72
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e62567_3933d875",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "I\u0027m not following what this is for.  Is this just to say the SDR is complete?",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 0
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ff5d521_ab5bf420",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Please move this up above line 182 and use this variable for your check on that line to make that check more clear.",
+      "range": {
+        "startLine": 202,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 44
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17d2f206_2caef28b",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Nit, it would help the readability if you structured this as\n\n// comment about parameter\nint parameter;\n\nAnd removed the newline in between, keeping the newline between each parameter.",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 0
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a5e9f61_e1489344",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Why is this a loop?  It looks like it\u0027s doing the same operation per character (the variable iLoop isn\u0027t used).",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 49
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5525b2c_6972e2c1",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Considering we\u0027re reading from a binary interface here, this needs some sanity checks to ensure the names are printable ascii characters.",
+      "range": {
+        "startLine": 232,
+        "startChar": 8,
+        "endLine": 232,
+        "endChar": 16
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c73268b_8f1c5459",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "This function needs a range check.  If this method gets passed in data.size() \u003d\u003d 0, it will seg fault.",
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c98de037_c17ddb7d",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "nit, extra parens.",
+      "range": {
+        "startLine": 251,
+        "startChar": 20,
+        "endLine": 251,
+        "endChar": 21
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d12c525f_077d1804",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "This is assuming the type of the sensor is linear, which hasn\u0027t been checked in this function.  It\u0027s fine if you don\u0027t support they other types, as they\u0027re not common, but you need to at least check for them and explicitly ignore those sensors.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 42
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed20135_1dd55ff6",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "nit: These are pretty complex math expressions with a lot of duplicated data.  can we split up at least the calculation of the B double value and the K2 power value into their own variables to make this easier to read?",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 27
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c06b0ea_5a057b56",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Given that we have to pre-calculate the double floats of these above to determine the thresholds, could we store these as two doubles to avoid having to call pow() for every sensor reading?",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 24
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ede545c9_97a8685f",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "This looks like an index check, but it should be done explicitly against sensorRecord.size() instead of hardcoding the number.",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 331,
+        "endChar": 22
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5551a4a_d168d693",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "In terms of code, I\u0027m pretty sure this path of adding to IPMBSensor is not going to go the way you want.  IPMBSensor class represents a SINGLE sensor.  Your new SDR code represents multiple sensors read from a device.  I suspect you\u0027re going to need a new class here, especially considering basically none of the IPMBSensor parameters are common with this SDR reader.",
+      "range": {
+        "startLine": 591,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 53
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3ae5930_5e0705e6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "If we are given a bus number, we check the SDR info?  That can\u0027t be right.  Do we need another parameer to control this behavior, like \"use sdr\"",
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "588c3978_9d236ef7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-04-29T16:06:31Z",
+      "side": 1,
+      "message": "Please don\u0027t do wildcard reference captures; They have lead to use after free errors in the past.  Please explicitly name your captures as needed.",
+      "range": {
+        "startLine": 706,
+        "startChar": 13,
+        "endLine": 706,
+        "endChar": 14
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
