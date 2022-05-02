@@ -16,6 +16,24 @@
       "message": "Is it possible to add a unit test for this case?",
       "revId": "10add96ff5ba63e3a0ae27c2699c35729db32b9d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8435f195_4c96ed5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-05-02T17:47:22Z",
+      "side": 1,
+      "message": "it will be pretty difficult. This depends on dbus and filesystems.\n\nWe might be able to if we can mock out\n\n- buildSensorConfigMap\n- findFiles\n- sensor \u003d std::make_shared\u003cHwmonTempSensor\u003e()\n- sensor-\u003esetupRead()\n\nI think those are the only ones that we will have issue with.",
+      "parentUuid": "9384b8e7_149c459e",
+      "revId": "10add96ff5ba63e3a0ae27c2699c35729db32b9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
