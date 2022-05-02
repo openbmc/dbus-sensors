@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1677129_a62a1482",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-02T21:41:04Z",
+      "side": 1,
+      "message": "I am not understanding how the code change accomplish this. See in line question in the source code",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "10add96ff5ba63e3a0ae27c2699c35729db32b9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9384b8e7_149c459e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -32,6 +55,23 @@
       "side": 1,
       "message": "it will be pretty difficult. This depends on dbus and filesystems.\n\nWe might be able to if we can mock out\n\n- buildSensorConfigMap\n- findFiles\n- sensor \u003d std::make_shared\u003cHwmonTempSensor\u003e()\n- sensor-\u003esetupRead()\n\nI think those are the only ones that we will have issue with.",
       "parentUuid": "9384b8e7_149c459e",
+      "revId": "10add96ff5ba63e3a0ae27c2699c35729db32b9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eda033e2_a815259e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-02T21:41:04Z",
+      "side": 1,
+      "message": "When hwmonFile is nullptr? Is it only when there is no Label for it? If there are other reasons, this may erase when it should not.",
       "revId": "10add96ff5ba63e3a0ae27c2699c35729db32b9d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
