@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe828979_eb30867f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-02T21:49:49Z",
+      "side": 1,
+      "message": "I think I answered my own question by reading the untils.cpp",
+      "parentUuid": "d1677129_a62a1482",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "10add96ff5ba63e3a0ae27c2699c35729db32b9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9384b8e7_149c459e",
@@ -90,6 +114,24 @@
       "writtenOn": "2022-05-02T21:41:04Z",
       "side": 1,
       "message": "When hwmonFile is nullptr? Is it only when there is no Label for it? If there are other reasons, this may erase when it should not.",
+      "revId": "10add96ff5ba63e3a0ae27c2699c35729db32b9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c9f505e_fe1f2e22",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-02T21:49:49Z",
+      "side": 1,
+      "message": "I think I answered my own question by reading the untils.cpp",
+      "parentUuid": "eda033e2_a815259e",
       "revId": "10add96ff5ba63e3a0ae27c2699c35729db32b9d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
