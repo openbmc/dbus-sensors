@@ -124,6 +124,24 @@
       "parentUuid": "29992b6e_3d1a6d64",
       "revId": "77d2564967a033407834b506e7263dd360c5a502",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4298d0d5_0afc3d08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-05-02T04:53:04Z",
+      "side": 1,
+      "message": "understood,\n\nI have added a new change in attempt to fix this issue. Please take a look,\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/53383",
+      "parentUuid": "bf085bcb_424e51c2",
+      "revId": "77d2564967a033407834b506e7263dd360c5a502",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
