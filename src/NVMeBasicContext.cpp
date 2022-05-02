@@ -246,29 +246,28 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
     thread.detach();
 }
 
-void NVMeBasicContext::readAndProcessNVMeSensor(
-    std::list<std::shared_ptr<NVMeSensor>>::iterator iter)
+void NVMeBasicContext::readAndProcessNVMeSensor()
 {
-    if (iter == sensors.end())
+    if (pollCursor == sensors.end())
     {
         this->pollNVMeDevices();
         return;
     }
 
-    std::shared_ptr<NVMeSensor> sensor = *iter++;
+    std::shared_ptr<NVMeSensor> sensor = *pollCursor++;
 
     if (!sensor->readingStateGood())
     {
         sensor->markAvailable(false);
         sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
-        readAndProcessNVMeSensor(iter);
+        readAndProcessNVMeSensor();
         return;
     }
 
     /* Potentially defer sampling the sensor sensor if it is in error */
     if (!sensor->sample())
     {
-        readAndProcessNVMeSensor(iter);
+        readAndProcessNVMeSensor();
         return;
     }
 
@@ -326,7 +325,7 @@ void NVMeBasicContext::readAndProcessNVMeSensor(
             response->prepare(len);
             return len;
         },
-        [self{shared_from_this()}, iter, sensor, response](
+        [self{shared_from_this()}, sensor, response](
             const boost::system::error_code& ec, std::size_t length) mutable {
             if (ec)
             {
@@ -350,30 +349,30 @@ void NVMeBasicContext::readAndProcessNVMeSensor(
             self->processResponse(sensor, data.data(), data.size());
 
             /* Enqueue processing of the next sensor */
-            self->readAndProcessNVMeSensor(iter);
+            self->readAndProcessNVMeSensor();
         });
 }
 
 void NVMeBasicContext::pollNVMeDevices()
 {
-    auto scan = sensors.begin();
+    pollCursor = sensors.begin();
 
     scanTimer.expires_from_now(boost::posix_time::seconds(1));
-    scanTimer.async_wait([self{shared_from_this()},
-                          scan](const boost::system::error_code errorCode) {
-        if (errorCode == boost::asio::error::operation_aborted)
-        {
-            return;
-        }
+    scanTimer.async_wait(
+        [self{shared_from_this()}](const boost::system::error_code errorCode) {
+            if (errorCode == boost::asio::error::operation_aborted)
+            {
+                return;
+            }
 
-        if (errorCode)
-        {
-            std::cerr << errorCode.message() << "\n";
-            return;
-        }
+            if (errorCode)
+            {
+                std::cerr << errorCode.message() << "\n";
+                return;
+            }
 
-        self->readAndProcessNVMeSensor(scan);
-    });
+            self->readAndProcessNVMeSensor();
+        });
 }
 
 static double getTemperatureReading(int8_t reading)
