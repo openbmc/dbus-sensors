@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cae7e12_4947d5b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-04T15:26:41Z",
+      "side": 1,
+      "message": "This doesn\u0027t really answer my question though.  \"thermal zone\" is a linux naming convention, which we explicitly try to avoid in config files, and also has problematic naming because of the fact that \"thermal zone\" could also mean the zones we use to configure fans.  What I\u0027m trying to understand is:\n\n1. Do these thermal zones need to be configurable per-platform?  Or are they determined by the SOC?\n2. If yes, how would a user determine how many \"thermal zones\" they need or want?\n3. Is any of this auto-detectable based on the SOC (aspeed, nuvoton, ect) we\u0027re using, so we can have reasonable defaults for users that don\u0027t configure these thermal zones?",
+      "parentUuid": "79326789_6d775699",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "aba8437f571ded8342597ebe38304179fd4fbbf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "361039af_9bf1d5c3",
