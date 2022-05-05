@@ -22,6 +22,30 @@
       },
       "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60b3f124_6fef2f61",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-05T05:11:08Z",
+      "side": 1,
+      "message": "It\u0027s the same implementation as in \"PSUSensorMain.cpp\". What would be better option here?\n- remove printing the message completely\n- print it as non-error message",
+      "parentUuid": "6c4f9916_3c2f910b",
+      "range": {
+        "startLine": 262,
+        "startChar": 16,
+        "endLine": 262,
+        "endChar": 79
+      },
+      "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
