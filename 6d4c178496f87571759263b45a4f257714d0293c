@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd19d7e_bf6b7240",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-05-05T00:14:32Z",
+      "side": 1,
+      "message": "Ah, interesting. I did think that was driving it somewhat, but also that minimising mux switching might have been a goal?\n\nAnyway, each sensor on its own timer loop would simplify things a bit.\n\nUsing the iterator here at least got us away from popping/pushing sensors and the ownership headaches and overhead that went with it.\n\nThe shared pointer is now only required because of the callback to complete the polling for a sensor if that specific sensor gets deleted. Otherwise we could use  std::list\u003cNVMeSensor\u003e (i.e. it\u0027s now reduced to the usual async pattern, rather than a requirement of how the list was managed).",
+      "parentUuid": "98971ba3_55764379",
+      "revId": "6d4c178496f87571759263b45a4f257714d0293c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6d09f50_f77c4f8b",
