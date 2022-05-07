@@ -43,6 +43,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f1b7e40_e9c2fb19",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T12:24:38Z",
+      "side": 1,
+      "message": "Where is this function used? I do not see a usage in this PR.",
+      "range": {
+        "startLine": 258,
+        "startChar": 7,
+        "endLine": 258,
+        "endChar": 21
+      },
+      "revId": "7a5eda5c42620546a4c3ab8420b63c1074d0c8ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ace1e62_fcf9e84b",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
