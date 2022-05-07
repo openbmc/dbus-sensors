@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73ef6557_b5479fd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T13:10:29Z",
+      "side": 1,
+      "message": "use single quotes",
+      "range": {
+        "startLine": 15,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "bb149bfb7cf970d796a79a7b5dcc6d0be82c7187",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eec9692e_8b3f7d52",
         "filename": "src/IntrusionSensorMain.cpp",
         "patchSetId": 9
