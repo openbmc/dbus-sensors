@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b85fcf8_46720098",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T20:05:48Z",
+      "side": 1,
+      "message": "Commit message is not giving much explanation. Need a tested section too.",
+      "revId": "257780933d7209b678a51aafbbfefb39a9258299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da39eb3f_a79b1029",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 1
@@ -55,6 +72,30 @@
       "side": 1,
       "message": "This is a bug, I fixed it, but I could only make another patch https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/52548",
       "parentUuid": "da39eb3f_a79b1029",
+      "range": {
+        "startLine": 57,
+        "startChar": 67,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "257780933d7209b678a51aafbbfefb39a9258299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3305d53e_39f93fe7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T20:05:48Z",
+      "side": 1,
+      "message": "Why another patch?",
+      "parentUuid": "c706c977_e68f2517",
       "range": {
         "startLine": 57,
         "startChar": 67,
