@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a41b08ec_4faf5730",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "??",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 55
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "451d50f0_967fe090",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "Why are we closing and reopening the file every time?",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 42
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f12e804e_3d81cfaa",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "Can the logic be re-written like calling setupRead again?\nYou will have to add waitTimer.expires_from_now in setupread, that\u0027s all right?",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 7
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b1001da_b4ab0025",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "Or abstract out to a different function, like restartRead.",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 7
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5324daa9_059196d7",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "Can we pass by reference? and avoid pointer?",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 76
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f725b4f0_7830ae0c",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "This is a very big function doing lot of things. \nAs a suggestion, can we split into smaller functions?",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 32
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0681ed7_c4849360",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "How are we sure there is a value here?",
+      "range": {
+        "startLine": 157,
+        "startChar": 34,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7675a266_9f546366",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "it might have a .bad property.",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b767f974_1e50ed21",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "Can we pass as reference and avoid pointer?\nnumSensors too.",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 19
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec2fef7_e9504966",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T19:46:06Z",
+      "side": 1,
+      "message": "Can retVal variable be avoided and function be called in if condition directly?",
+      "range": {
+        "startLine": 501,
+        "startChar": 13,
+        "endLine": 501,
+        "endChar": 19
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
