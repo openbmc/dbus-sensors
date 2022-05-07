@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "acf62f16_ab678b7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T20:00:49Z",
+      "side": 1,
+      "message": "Wrap the commit message so that it is less than 80 characters a line. And yes tested section too.",
+      "parentUuid": "c7625d47_069f7665",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 118
+      },
+      "revId": "1b0ab6c499a6c240c5ae92cdd409681250e779bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3426d54e_4035a2bd",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 2
