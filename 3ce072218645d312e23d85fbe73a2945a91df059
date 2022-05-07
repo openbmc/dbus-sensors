@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4453eceb_1d980d13",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T11:45:19Z",
+      "side": 1,
+      "message": "Seems like we are setting to 1 in every read loop, but as per comment given below we only need to set it once rt? \nSo can this be made as part of init? rather than read loop?",
+      "range": {
+        "startLine": 134,
+        "startChar": 8,
+        "endLine": 134,
+        "endChar": 29
+      },
+      "revId": "3ce072218645d312e23d85fbe73a2945a91df059",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f75e15_e6f9002f",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T11:45:19Z",
+      "side": 1,
+      "message": "instable?",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 31
+      },
+      "revId": "3ce072218645d312e23d85fbe73a2945a91df059",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa323e75_b00ecc71",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T11:45:19Z",
+      "side": 1,
+      "message": "Suggestion \ncreateSensorsCallback is already a very long function, can we make the code newly added into a separate function so that some level of abstraction is achieved?",
+      "range": {
+        "startLine": 631,
+        "startChar": 12,
+        "endLine": 631,
+        "endChar": 73
+      },
+      "revId": "3ce072218645d312e23d85fbe73a2945a91df059",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db6aa4a3_3f39a754",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T11:45:19Z",
+      "side": 1,
+      "message": "isn\u0027t string by default a null string?",
+      "range": {
+        "startLine": 664,
+        "startChar": 24,
+        "endLine": 664,
+        "endChar": 47
+      },
+      "revId": "3ce072218645d312e23d85fbe73a2945a91df059",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
