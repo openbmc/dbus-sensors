@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e65444e_d20357f5",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T13:18:42Z",
+      "side": 1,
+      "message": "Do we need to pass as pointer? Can we pass as reference? \nThat way line 71 can be written as \nfor (const SensorBaseConfiguration\u0026 suppConfig : sensorData)",
+      "range": {
+        "startLine": 63,
+        "startChar": 25,
+        "endLine": 63,
+        "endChar": 53
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71488dd6_c9629393",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T13:18:42Z",
+      "side": 1,
+      "message": "isn\u0027t string null by default?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 30
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f7212be_3a39fee6",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T13:18:42Z",
+      "side": 1,
+      "message": "What is the use of this map? \nWe store it statically, and then?\nWas the plan to give a immediate response when the function is called again? \nIn that case add that code too.",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "111db764_e287b4b2",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T13:18:42Z",
+      "side": 1,
+      "message": "If to always return true, make function void.",
+      "range": {
+        "startLine": 396,
+        "startChar": 4,
+        "endLine": 396,
+        "endChar": 16
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
