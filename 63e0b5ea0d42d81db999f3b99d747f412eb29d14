@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1221131_8915ab52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T12:05:40Z",
+      "side": 1,
+      "message": "Question,\nI am assuming that existing ADC sensor code was supporting iio-hwmon devices. And in PR I see that a common function is handeling both iio and non iio devices. Can we keep the support for \u0027non iio-hwmon devices\u0027 as a separate function and do not touch the existing code? and this new function can be called from createSensors. Making sure existing functionality is untouched and making it easier to review. \n\nit\u0027s a suggestion, tell me if I am missing some points on why this was implemented this way.",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c4f9916_3c2f910b",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 2
@@ -43,6 +66,29 @@
         "startChar": 16,
         "endLine": 262,
         "endChar": 79
+      },
+      "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e45f7a9b_998f6e01",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T12:05:40Z",
+      "side": 1,
+      "message": "Suggestion,\nThe abstraction could have been done separately in a clean up PR. As now it is hard to look at the diff.",
+      "range": {
+        "startLine": 422,
+        "startChar": 12,
+        "endLine": 422,
+        "endChar": 33
       },
       "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
