@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad997c5_aadad226",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-07T13:23:08Z",
+      "side": 1,
+      "message": "Question,\nWhy this change?",
+      "range": {
+        "startLine": 532,
+        "startChar": 12,
+        "endLine": 532,
+        "endChar": 32
+      },
+      "revId": "176cc711a138bb7ff5a7a3628d3d69285ce5c8a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
