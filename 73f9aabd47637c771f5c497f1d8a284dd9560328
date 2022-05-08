@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "006b69c5_82685039",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "Please reference others code to understand the meaning.open is C code that why you need those lines.",
+      "parentUuid": "a41b08ec_4faf5730",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 55
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "451d50f0_967fe090",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-07T19:46:06Z",
       "side": 1,
       "message": "Why are we closing and reopening the file every time?",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 42
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db1d679_d6808d97",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "The sysfs can be used by others services but not only ampereCpuSensor.",
+      "parentUuid": "451d50f0_967fe090",
       "range": {
         "startLine": 145,
         "startChar": 4,
@@ -93,6 +141,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35cc6487_4a09c711",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "Just coding style.",
+      "parentUuid": "4b1001da_b4ab0025",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 7
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dcd4196_bfac30dd",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "I don\u0027t see any reason to do that. This logic is used by many other sensor service in dbus-sensor. It proved the correction of this logic.",
+      "parentUuid": "f12e804e_3d81cfaa",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 7
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5324daa9_059196d7",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-05-07T19:46:06Z",
       "side": 1,
       "message": "Can we pass by reference? and avoid pointer?",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 76
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f6d8d94_2bf40a61",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "Just coding style. No need to do that.",
+      "parentUuid": "5324daa9_059196d7",
       "range": {
         "startLine": 84,
         "startChar": 4,
@@ -139,6 +259,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24a109c2_bd09d89b",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "If you look at other codes in D-Bus sensors, the functions are even bigger. These functions are split as small as possible.",
+      "parentUuid": "f725b4f0_7830ae0c",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 32
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0681ed7_c4849360",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-05-07T19:46:06Z",
       "side": 1,
       "message": "How are we sure there is a value here?",
+      "range": {
+        "startLine": 157,
+        "startChar": 34,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a954c811_2d7229d6",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "We are matching the sysfs which created by Ampere driver. So we are sure about that.",
+      "parentUuid": "d0681ed7_c4849360",
       "range": {
         "startLine": 157,
         "startChar": 34,
@@ -185,6 +353,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9d8361a_17e90627",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "Just condition using. Just make sure the condition to be corrected. Both .good() and .bad() are ok.",
+      "parentUuid": "7675a266_9f546366",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b767f974_1e50ed21",
@@ -208,6 +400,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b70d875_bfd0d5e4",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "Yes, but no need to do that.",
+      "parentUuid": "b767f974_1e50ed21",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 19
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aec2fef7_e9504966",
@@ -221,6 +437,30 @@
       "writtenOn": "2022-05-07T19:46:06Z",
       "side": 1,
       "message": "Can retVal variable be avoided and function be called in if condition directly?",
+      "range": {
+        "startLine": 501,
+        "startChar": 13,
+        "endLine": 501,
+        "endChar": 19
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab1e67d3_b7c3526e",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:36:23Z",
+      "side": 1,
+      "message": "Just coding style. It can.",
+      "parentUuid": "aec2fef7_e9504966",
       "range": {
         "startLine": 501,
         "startChar": 13,
