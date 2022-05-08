@@ -22,6 +22,30 @@
       },
       "revId": "176cc711a138bb7ff5a7a3628d3d69285ce5c8a7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32714214_c01490a9",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:43:51Z",
+      "side": 1,
+      "message": "\"In the first power on time of the host, when the CurrentHostState\npowered is \"...HostState.Running\", the SMPro-hwmon drivers are binded.\nThe host sensors paths are created. The AmpereSoc daemon will scan the\nCPU sensor paths and create the host sensor dbus objects.\" we will only create the host sensor at the first time power on of the host.",
+      "parentUuid": "7ad997c5_aadad226",
+      "range": {
+        "startLine": 532,
+        "startChar": 12,
+        "endLine": 532,
+        "endChar": 32
+      },
+      "revId": "176cc711a138bb7ff5a7a3628d3d69285ce5c8a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
