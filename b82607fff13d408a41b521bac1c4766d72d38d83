@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac0d2f6_6c15c766",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:42:17Z",
+      "side": 1,
+      "message": "Just coding style and reserve for others changing if need.",
+      "parentUuid": "7e65444e_d20357f5",
+      "range": {
+        "startLine": 63,
+        "startChar": 25,
+        "endLine": 63,
+        "endChar": 53
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71488dd6_c9629393",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-07T13:18:42Z",
       "side": 1,
       "message": "isn\u0027t string null by default?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 30
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd9c752e_43bfdabe",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:42:17Z",
+      "side": 1,
+      "message": "We can remove but no need.",
+      "parentUuid": "71488dd6_c9629393",
       "range": {
         "startLine": 65,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e5cf04_0fbaa6b9",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:42:17Z",
+      "side": 1,
+      "message": "Each CPU can have the GPIO to identify the presentation.",
+      "parentUuid": "0f7212be_3a39fee6",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "111db764_e287b4b2",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-05-07T13:18:42Z",
       "side": 1,
       "message": "If to always return true, make function void.",
+      "range": {
+        "startLine": 396,
+        "startChar": 4,
+        "endLine": 396,
+        "endChar": 16
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2161c6b3_465d0530",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-08T11:42:17Z",
+      "side": 1,
+      "message": "I don\u0027t think it need.",
+      "parentUuid": "111db764_e287b4b2",
       "range": {
         "startLine": 396,
         "startChar": 4,
