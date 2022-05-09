@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "711f7f79_2a7493d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-09T05:38:14Z",
+      "side": 1,
+      "message": "Main goal was to reduce code duplication to bare minimum. The functional differences in this PR are:\n- there is one more matching round for name/driver combination\n- if above step is successful: then extraction/omission of i2c related parameters and matching them to was was retrieved from entity-manager",
+      "parentUuid": "d1221131_8915ab52",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c4f9916_3c2f910b",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "writtenOn": "2022-05-07T12:05:40Z",
       "side": 1,
       "message": "Suggestion,\nThe abstraction could have been done separately in a clean up PR. As now it is hard to look at the diff.",
+      "range": {
+        "startLine": 422,
+        "startChar": 12,
+        "endLine": 422,
+        "endChar": 33
+      },
+      "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac6acbf_232c93fd",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-09T05:38:14Z",
+      "side": 1,
+      "message": "Understood.",
+      "parentUuid": "e45f7a9b_998f6e01",
       "range": {
         "startLine": 422,
         "startChar": 12,
