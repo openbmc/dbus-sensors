@@ -48,6 +48,13 @@ inline std::string escapeName(const std::string& sensorName)
     return boost::replace_all_copy(sensorName, " ", "_");
 }
 
+enum class PowerState
+{
+    on,
+    biosPost,
+    always
+};
+
 std::optional<std::string> openAndRead(const std::string& hwmonFile);
 std::optional<std::string>
     getFullHwmonFilePath(const std::string& directory,
@@ -60,6 +67,9 @@ bool findFiles(const std::filesystem::path& dirPath,
                int symlinkDepth = 1);
 bool isPowerOn(void);
 bool hasBiosPost(void);
+void setupPowerMatchCallback(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    std::function<void(PowerState type, bool state)>&& callback);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     const std::string& type,
@@ -78,13 +88,6 @@ void createAssociation(
 // replaces limits if MinReading and MaxReading are found.
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
-
-enum class PowerState
-{
-    on,
-    biosPost,
-    always
-};
 
 bool readingStateGood(const PowerState& powerState);
 

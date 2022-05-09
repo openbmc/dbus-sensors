@@ -395,7 +395,9 @@ static void
         post::interface, post::property);
 }
 
-void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
+void setupPowerMatchCallback(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    std::function<void(PowerState type, bool state)>&& callback)
 {
     static boost::asio::steady_timer timer(conn->get_io_context());
     // create a match for powergood changes, first time do a method call to
@@ -410,7 +412,7 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(power::path) + "',arg0='" +
             std::string(power::interface) + "'",
-        [](sdbusplus::message_t& message) {
+        [callback](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             values;
@@ -424,11 +426,12 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             {
                 timer.cancel();
                 powerStatusOn = false;
+                callback(PowerState::on, powerStatusOn);
                 return;
             }
             // on comes too quickly
             timer.expires_after(std::chrono::seconds(10));
-            timer.async_wait([](boost::system::error_code ec) {
+            timer.async_wait([callback](boost::system::error_code ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     return;
@@ -439,6 +442,7 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
                     return;
                 }
                 powerStatusOn = true;
+                callback(PowerState::on, powerStatusOn);
             });
         }
         });
@@ -448,7 +452,7 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(post::path) + "',arg0='" +
             std::string(post::interface) + "'",
-        [](sdbusplus::message_t& message) {
+        [callback](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             values;
@@ -460,11 +464,17 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             biosHasPost = (value != "Inactive") &&
                           (value != "xyz.openbmc_project.State.OperatingSystem."
                                     "Status.OSStatus.Inactive");
+            callback(PowerState::biosPost, biosHasPost);
         }
         });
 
     getPowerStatus(conn);
     getPostStatus(conn);
+}
+
+void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
+{
+    setupPowerMatchCallback(conn, [](PowerState, bool) { });
 }
 
 // replaces limits if MinReading and MaxReading are found.
