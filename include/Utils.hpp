@@ -60,6 +60,9 @@ bool findFiles(const std::filesystem::path& dirPath,
                int symlinkDepth = 1);
 bool isPowerOn(void);
 bool hasBiosPost(void);
+void setupPowerMatchCallbacks(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                              std::function<void(bool power)>&& powerCallback,
+                              std::function<void(bool post)>&& postCallback);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     const std::string& type,
