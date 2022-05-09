@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f500e29c_4aba7fd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-09T17:22:32Z",
+      "side": 1,
+      "message": "typo.",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "14bf3d551e67aeadce3a6185629f352b440adf97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a686f3d_254e42b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-09T17:22:32Z",
+      "side": 1,
+      "message": "Help me out a little here.  This patchset has a number of +1s, yet has an obvious typo in the commit message, and is breaking one of the main abstractions/principals of entity-manager by putting linux DT specifics into the entity-manager config files.  The existing ADC sensor implementations are meant to point to ADCs that exist in the BMC.  If there are external devices, they would get their own Type: code, and would be matched up with the DT equivalent at runtime, but I see no mention of that here, and I see code that\u0027s just pushing more complexity into the config files, without making mention of the actual parameter in the commit message.\n\nWe try to avoid using linux-specifics in entity-manager config files because they\u0027re intended to be writable by hardware and platform engineers, that might not understand what a linux device tree name is.\n\nCan you please talk to some of these concerns in your commit message?",
+      "revId": "14bf3d551e67aeadce3a6185629f352b440adf97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
