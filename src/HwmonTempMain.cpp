@@ -63,6 +63,7 @@ static auto sensorTypes{
                                 "xyz.openbmc_project.Configuration.MAX6581",
                                 "xyz.openbmc_project.Configuration.MAX6654",
                                 "xyz.openbmc_project.Configuration.NCT7802",
+                                "xyz.openbmc_project.Configuration.NCT6779",
                                 "xyz.openbmc_project.Configuration.SBTSI",
                                 "xyz.openbmc_project.Configuration.SI7020",
                                 "xyz.openbmc_project.Configuration.TMP112",
