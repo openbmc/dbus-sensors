@@ -57,6 +57,7 @@ static auto sensorTypes{
                                 "xyz.openbmc_project.Configuration.HDC1080",
                                 "xyz.openbmc_project.Configuration.JC42",
                                 "xyz.openbmc_project.Configuration.LM75A",
+                                "xyz.openbmc_project.Configuration.LM25066",
                                 "xyz.openbmc_project.Configuration.LM95234",
                                 "xyz.openbmc_project.Configuration.MAX31725",
                                 "xyz.openbmc_project.Configuration.MAX31730",
