@@ -45,6 +45,23 @@
       },
       "revId": "fc234078fc297a3cee7500f1c3e5637feb1a11e3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9856fa08_2e351006",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-10T10:40:25Z",
+      "side": 1,
+      "message": "Trying to map above output with your commit message \n\"Override pwm sensor name with PwmName \"\nCould please point which is pwm sensor and PwmName respectively here ..?",
+      "revId": "fc234078fc297a3cee7500f1c3e5637feb1a11e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
