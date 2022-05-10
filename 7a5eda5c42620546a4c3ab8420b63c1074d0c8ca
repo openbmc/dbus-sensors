@@ -66,6 +66,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2aa4bb08_41cc182a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-10T10:23:38Z",
+      "side": 1,
+      "message": "Should it be const type ..?",
+      "range": {
+        "startLine": 258,
+        "startChar": 44,
+        "endLine": 258,
+        "endChar": 59
+      },
+      "revId": "7a5eda5c42620546a4c3ab8420b63c1074d0c8ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ace1e62_fcf9e84b",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
@@ -204,6 +227,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e45c2275_82ebf36e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-10T10:23:38Z",
+      "side": 1,
+      "message": "nit : meaningful name ..?",
+      "range": {
+        "startLine": 610,
+        "startChar": 31,
+        "endLine": 610,
+        "endChar": 32
+      },
+      "revId": "7a5eda5c42620546a4c3ab8420b63c1074d0c8ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae79d083_ea62aff6",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
@@ -215,6 +261,29 @@
       "writtenOn": "2022-05-02T16:44:12Z",
       "side": 1,
       "message": "This is way too much logic to be doing in a lambda.  Please break it out into normal functions (in a separate patch) then add to them as needed.",
+      "revId": "7a5eda5c42620546a4c3ab8420b63c1074d0c8ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ce86425_5a732cf5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-10T10:23:38Z",
+      "side": 1,
+      "message": "nit : You can use meaningful name instead generic one.",
+      "range": {
+        "startLine": 730,
+        "startChar": 9,
+        "endLine": 730,
+        "endChar": 13
+      },
       "revId": "7a5eda5c42620546a4c3ab8420b63c1074d0c8ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
