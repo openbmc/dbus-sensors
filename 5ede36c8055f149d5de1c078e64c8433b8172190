@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ad6d163_43f1ebb0",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-10T10:00:11Z",
+      "side": 1,
+      "message": "Query : In any point of time hwmonInputIndex will get   -ve value ..?",
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49c10c9b_c58e550f",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-10T10:00:11Z",
+      "side": 1,
+      "message": "Query : Just wanted to know significance char* used here , In above statement for interfacePath, I see std::string*  used . So can we std::string* here instead char*..?",
+      "range": {
+        "startLine": 175,
+        "startChar": 18,
+        "endLine": 175,
+        "endChar": 24
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81fb143d_02fe2e3a",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-10T10:00:11Z",
+      "side": 1,
+      "message": "Quick query here  ,As we have assigned nullptr to sensor here so sensor necessarily to be pointer .So instead auto can we use char* or void* as data type..? Please share your thoughts also let me know anything wrong in my understanding.",
+      "range": {
+        "startLine": 360,
+        "startChar": 12,
+        "endLine": 360,
+        "endChar": 18
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
