@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1e8e38b_5d53eba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-10T18:18:15Z",
+      "side": 1,
+      "message": "More details needed here.",
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2d316d6_503a9539",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-10T18:18:15Z",
+      "side": 1,
+      "message": "\"I2C ADC\" Is not a specific model of chip to be used, so this is not something we really want to do here.  Per what we do elsewhere, please include the specific model of chip, such that it can be instantiated properly in the new_device mechanisms.",
+      "range": {
+        "startLine": 48,
+        "startChar": 67,
+        "endLine": 48,
+        "endChar": 73
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ad6d163_43f1ebb0",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
