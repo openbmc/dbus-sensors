@@ -2208,6 +2208,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f114b87_c983cbd1",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-11T09:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c06b0ea_5a057b56",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 24
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ede545c9_97a8685f",
