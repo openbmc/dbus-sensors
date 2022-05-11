@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25eaf971_8678174b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-11T17:24:41Z",
+      "side": 1,
+      "message": "You\u0027re adding a new supported device type that wasn\u0027t supported.  Why is it useful?  What config parameters does it take that are different than others?  How does it differ from the existing code?",
+      "parentUuid": "ad5b409d_fb6b3621",
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2d316d6_503a9539",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3

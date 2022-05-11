@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec491daa_58da6a13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-11T17:24:41Z",
+      "side": 1,
+      "message": "I think we can get both goals (keeping separation while reducing code duplication) in one patch.  FWIW, there\u0027s already some code duplication between the various types that could be improved, so duplicating in the same way this is making it no worse.",
+      "parentUuid": "711f7f79_2a7493d4",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c4f9916_3c2f910b",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 2
