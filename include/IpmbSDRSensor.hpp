@@ -105,6 +105,17 @@ class IpmbSDRDevice : public std::enable_shared_from_this<IpmbSDRDevice>
     inline static std::map<int, std::map<uint8_t, SensorValConversion>>
         sensorValRecord;
 
+    /* Sensor unit type codes - Refer IPMI spec 43.17 */
+    inline static std::array<std::string, 8> sensorUnits = {
+        {{"unspecified"},
+         {"temperature"}, // degrees C
+         {"temperature"}, // degrees F
+         {"temperature"}, // degrees K
+         {"voltage"},     // Volts
+         {"current"},     // Amps
+         {"power"},       // Watts
+         {"energy"}}};    // Joules
+
     void
         getSDRRepositoryInfo(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              uint8_t cmdAddr);
