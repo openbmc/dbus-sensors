@@ -164,6 +164,30 @@
       },
       "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6228de8_99a26fa0",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-11T06:22:10Z",
+      "side": 1,
+      "message": "I\u0027ve removed createSensorsCallback function and put the implementation in lambda. Should be a bit easier to compare the diff now.",
+      "parentUuid": "5f23f6ec_55e57e9a",
+      "range": {
+        "startLine": 422,
+        "startChar": 12,
+        "endLine": 422,
+        "endChar": 33
+      },
+      "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

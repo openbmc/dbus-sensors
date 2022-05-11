@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad5b409d_fb6b3621",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-11T06:22:10Z",
+      "side": 1,
+      "message": "Could you elaborate what kind of details would be needed?",
+      "parentUuid": "d1e8e38b_5d53eba6",
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2d316d6_503a9539",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2022-05-10T18:18:15Z",
       "side": 1,
       "message": "\"I2C ADC\" Is not a specific model of chip to be used, so this is not something we really want to do here.  Per what we do elsewhere, please include the specific model of chip, such that it can be instantiated properly in the new_device mechanisms.",
+      "range": {
+        "startLine": 48,
+        "startChar": 67,
+        "endLine": 48,
+        "endChar": 73
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c50b0a_29fa52f5",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-11T06:22:10Z",
+      "side": 1,
+      "message": "But that scenario would potentially conflict implementation in PSUSensors which uses specific models of chip. I don\u0027t really see how this design would for example cover the scenario where ADS7828 is used as onboard adc and at the same time would be used as adc in PSU.",
+      "parentUuid": "a2d316d6_503a9539",
       "range": {
         "startLine": 48,
         "startChar": 67,
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4cc2dc90_f0ddeece",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-11T06:22:10Z",
+      "side": 1,
+      "message": "For currently implemented sensors (iio-hwmon and ads7828) it shouldn\u0027t.",
+      "parentUuid": "6ad6d163_43f1ebb0",
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49c10c9b_c58e550f",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
@@ -83,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d9052db_de867c4f",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-11T06:22:10Z",
+      "side": 1,
+      "message": "String does not yet support constexpr constructor so this cannot be changed due to lines 46-48:\nstatic constexpr auto sensorTypes{\n    std::to_array\u003cconst char*\u003e({\"xyz.openbmc_project.Configuration.ADC\",\n                                \"xyz.openbmc_project.Configuration.I2CADC\"})};",
+      "parentUuid": "49c10c9b_c58e550f",
+      "range": {
+        "startLine": 175,
+        "startChar": 18,
+        "endLine": 175,
+        "endChar": 24
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81fb143d_02fe2e3a",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
@@ -94,6 +178,30 @@
       "writtenOn": "2022-05-10T10:00:11Z",
       "side": 1,
       "message": "Quick query here  ,As we have assigned nullptr to sensor here so sensor necessarily to be pointer .So instead auto can we use char* or void* as data type..? Please share your thoughts also let me know anything wrong in my understanding.",
+      "range": {
+        "startLine": 360,
+        "startChar": 12,
+        "endLine": 360,
+        "endChar": 18
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d1e9e55_96c36a84",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-11T06:22:10Z",
+      "side": 1,
+      "message": "sensors is of type: boost::container::flat_map\u003cstd::string, std::shared_ptr\u003cADCSensor\u003e\u003e\u0026 sensors\nSo at line 359 I could have left: std::shared_ptr\u003cADCSensor\u003e sensor \u003d sensors[sensorName] but i\u0027m not really sure why i\u0027m not supposed to use auto here.",
+      "parentUuid": "81fb143d_02fe2e3a",
       "range": {
         "startLine": 360,
         "startChar": 12,
