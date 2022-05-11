@@ -97,6 +97,17 @@ class IpmbSDRDevice : public std::enable_shared_from_this<IpmbSDRDevice>
 
     std::vector<uint8_t> sdrCommandData = {};
 
+    /* Sensor unit type codes - Refer IPMI spec 43.17 */
+    inline static std::array<std::string, 8> sensorUnits = {
+        {{"unspecified"},
+         {"temperature"}, // degrees C
+         {"temperature"}, // degrees F
+         {"temperature"}, // degrees K
+         {"voltage"},     // Volts
+         {"current"},     // Amps
+         {"power"},       // Watts
+         {"energy"}}};    // Joules
+
     void getSDRRepositoryInfo();
 
     void reserveSDRRepository(uint16_t recordCount);
