@@ -490,6 +490,33 @@ void IpmbSensor::parseConfigValues(const SensorBaseConfigMap& entry)
     }
 }
 
+void configSDRSensors(const SensorInfo& sensorInfo,
+                      const std::string& interface, std::string& name,
+                      uint8_t& deviceAddress, uint8_t ipmbBusIndex,
+                      std::vector<thresholds::Threshold>& sensorThresholds,
+                      std::string& sensorTypeName)
+{
+    if (interface == sdrInterface)
+    {
+        deviceAddress = sensorInfo.sensorNumber;
+
+        name = std::to_string(ipmbBusIndex) + "-" + sensorInfo.sensorReadName;
+
+        if (sensorInfo.sensCap !=
+            (static_cast<uint8_t>(SDR01Command::sdrSensNoThres)))
+        {
+            sensorThresholds.emplace_back(thresholds::Level::CRITICAL,
+                                          thresholds::Direction::HIGH,
+                                          sensorInfo.thresUpperCri);
+            sensorThresholds.emplace_back(thresholds::Level::CRITICAL,
+                                          thresholds::Direction::LOW,
+                                          sensorInfo.thresLowerCri);
+        }
+
+        sensorTypeName = IpmbSDRDevice::sensorUnits[sensorInfo.sensorUnit];
+    }
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>>&
@@ -512,20 +539,14 @@ void createSensors(
             {
                 for (const auto& entry : pathPair.second)
                 {
-                    if (entry.first != configInterface)
+                    if ((entry.first != configInterface) &&
+                        (entry.first != sdrInterface))
                     {
                         continue;
                     }
                     std::string name =
                         loadVariant<std::string>(entry.second, "Name");
 
-                    std::vector<thresholds::Threshold> sensorThresholds;
-                    if (!parseThresholdsFromConfig(pathPair.second,
-                                                   sensorThresholds))
-                    {
-                        std::cerr << "error populating thresholds for " << name
-                                  << "\n";
-                    }
                     uint8_t deviceAddress =
                         loadVariant<uint8_t>(entry.second, "Address");
 
@@ -571,19 +592,46 @@ void createSensors(
                                                     findType->second);
                     }
 
-                    auto& sensor = sensors[name];
-                    sensor = std::make_unique<IpmbSensor>(
-                        dbusConnection, io, name, pathPair.first, objectServer,
-                        std::move(sensorThresholds), deviceAddress,
-                        hostSMbusIndex, pollRate, sensorTypeName);
-
-                    sensor->parseConfigValues(entry.second);
-                    if (!(sensor->sensorClassType(sensorClass)))
+                    if (entry.first == configInterface)
                     {
-                        continue;
+                        IpmbSDRDevice::sensorRecord[ipmbBusIndex] = {
+                            {name, 0, 0, 0, 0, 0}};
                     }
-                    sensor->sensorSubType(sensorTypeName);
-                    sensor->init();
+                    else
+                    {
+                        ipmbBusIndex += 1;
+                    }
+
+                    for (auto& sensorInfo :
+                         IpmbSDRDevice::sensorRecord[ipmbBusIndex])
+                    {
+                        std::vector<thresholds::Threshold> sensorThresholds;
+                        if (!parseThresholdsFromConfig(pathPair.second,
+                                                       sensorThresholds))
+                        {
+                            std::cerr << "error populating thresholds for "
+                                      << name << "\n";
+                        }
+
+                        configSDRSensors(sensorInfo, entry.first, name,
+                                         deviceAddress, ipmbBusIndex,
+                                         sensorThresholds, sensorTypeName);
+
+                        auto& sensor = sensors[name];
+                        sensor = std::make_unique<IpmbSensor>(
+                            dbusConnection, io, name, pathPair.first,
+                            objectServer, std::move(sensorThresholds),
+                            deviceAddress, hostSMbusIndex, pollRate,
+                            sensorTypeName);
+
+                        sensor->parseConfigValues(entry.second);
+                        if (!(sensor->sensorClassType(sensorClass)))
+                        {
+                            continue;
+                        }
+                        sensor->sensorSubType(sensorTypeName);
+                        sensor->init();
+                    }
                 }
             }
         },
