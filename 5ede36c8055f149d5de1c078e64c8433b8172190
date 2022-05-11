@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f122b17_7f1b1d90",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-11T06:33:53Z",
+      "side": 1,
+      "message": "so better to use it as unsigned int ...?",
+      "parentUuid": "4cc2dc90_f0ddeece",
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49c10c9b_c58e550f",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
@@ -155,6 +173,30 @@
       "side": 1,
       "message": "String does not yet support constexpr constructor so this cannot be changed due to lines 46-48:\nstatic constexpr auto sensorTypes{\n    std::to_array\u003cconst char*\u003e({\"xyz.openbmc_project.Configuration.ADC\",\n                                \"xyz.openbmc_project.Configuration.I2CADC\"})};",
       "parentUuid": "49c10c9b_c58e550f",
+      "range": {
+        "startLine": 175,
+        "startChar": 18,
+        "endLine": 175,
+        "endChar": 24
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93f5e96d_ee88a8fa",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-11T06:33:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0d9052db_de867c4f",
       "range": {
         "startLine": 175,
         "startChar": 18,
@@ -202,6 +244,30 @@
       "side": 1,
       "message": "sensors is of type: boost::container::flat_map\u003cstd::string, std::shared_ptr\u003cADCSensor\u003e\u003e\u0026 sensors\nSo at line 359 I could have left: std::shared_ptr\u003cADCSensor\u003e sensor \u003d sensors[sensorName] but i\u0027m not really sure why i\u0027m not supposed to use auto here.",
       "parentUuid": "81fb143d_02fe2e3a",
+      "range": {
+        "startLine": 360,
+        "startChar": 12,
+        "endLine": 360,
+        "endChar": 18
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "166be239_2da98a23",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-11T06:33:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7d1e9e55_96c36a84",
       "range": {
         "startLine": 360,
         "startChar": 12,
