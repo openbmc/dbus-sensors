@@ -55,6 +55,7 @@ boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>> sensors;
 boost::container::flat_map<uint8_t, std::shared_ptr<IpmbSDRDevice>> sdrsensor;
 
 std::unique_ptr<boost::asio::steady_timer> initCmdTimer;
+std::unique_ptr<boost::asio::steady_timer> sdrWaitTimer;
 
 IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        boost::asio::io_service& io,
@@ -512,11 +513,38 @@ void IpmbSensor::parseConfigValues(const SensorBaseConfigMap& entry)
     readState = getPowerState(entry);
 }
 
+void configSDRSensors(const SensorInfo& sensorInfo,
+                      const std::string& interface, std::string& name,
+                      uint8_t& deviceAddress, uint8_t index,
+                      std::vector<thresholds::Threshold>& sensorThresholds,
+                      std::string& sensorTypeName)
+{
+    if (interface != configInterfaceName(sdrInterface))
+    {
+        return;
+    }
+    deviceAddress = sensorInfo.sensorNumber;
+
+    name = std::to_string(index + 1) + "-" + sensorInfo.sensorReadName;
+
+    if (sensorInfo.sensCap != (sdrtype01::sdrSensNoThres))
+    {
+        sensorThresholds.emplace_back(thresholds::Level::CRITICAL,
+                                      thresholds::Direction::HIGH,
+                                      sensorInfo.thresUpperCri);
+        sensorThresholds.emplace_back(thresholds::Level::CRITICAL,
+                                      thresholds::Direction::LOW,
+                                      sensorInfo.thresLowerCri);
+    }
+    sensorTypeName = IpmbSDRDevice::sensorUnits[sensorInfo.sensorUnit];
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
         sensors,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    bool ipmbSDREnable)
 {
     if (!dbusConnection)
     {
@@ -534,10 +562,17 @@ void createSensors(
         {
             for (const auto& [intf, cfg] : interfaces)
             {
-                if (intf != configInterfaceName(sensorType))
+                if ((!ipmbSDREnable) &&
+                    (intf != configInterfaceName(sensorType)))
                 {
                     continue;
                 }
+                if ((ipmbSDREnable) &&
+                    (intf != configInterfaceName(sdrInterface)))
+                {
+                    continue;
+                }
+
                 std::string name = loadVariant<std::string>(cfg, "Name");
 
                 std::vector<thresholds::Threshold> sensorThresholds;
@@ -580,6 +615,38 @@ void createSensors(
                         std::visit(VariantToStringVisitor(), findType->second);
                 }
 
+                if (intf == configInterfaceName(sdrInterface))
+                {
+                    for (auto& sensorInfo : sensorRecord[ipmbBusIndex])
+                    {
+                        std::vector<thresholds::Threshold> sensorThreshold;
+                        if (!parseThresholdsFromConfig(interfaces,
+                                                       sensorThreshold))
+                        {
+                            std::cerr << "error populating thresholds for "
+                                      << name << "\n";
+                        }
+
+                        configSDRSensors(sensorInfo, intf, name, deviceAddress,
+                                         ipmbBusIndex, sensorThreshold,
+                                         sensorTypeName);
+
+                        auto& sensor = sensors[name];
+                        sensor = std::make_shared<IpmbSensor>(
+                            dbusConnection, io, name, path, objectServer,
+                            std::move(sensorThreshold), deviceAddress,
+                            hostSMbusIndex, pollRate, sensorTypeName);
+
+                        sensor->parseConfigValues(cfg);
+                        if (!(sensor->sensorClassType(sensorClass)))
+                        {
+                            continue;
+                        }
+                        sensor->sensorSubType(sensorTypeName);
+                        sensor->init();
+                    }
+                    continue;
+                }
                 auto& sensor = sensors[name];
                 sensor = nullptr;
                 sensor = std::make_shared<IpmbSensor>(
@@ -601,8 +668,12 @@ void createSensors(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
-void sdrHandler(sdbusplus::message_t& message,
-                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+void sdrHandler(
+    sdbusplus::message_t& message,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
+        sensors)
 {
     std::string objectName;
     SensorBaseConfigMap values;
@@ -620,6 +691,22 @@ void sdrHandler(sdbusplus::message_t& message,
     sdrsen = nullptr;
     sdrsen = std::make_shared<IpmbSDRDevice>(dbusConnection, busIndex);
     sdrsen->getSDRRepositoryInfo();
+
+    size_t waitSeconds = 15;
+    sdrWaitTimer->expires_from_now(std::chrono::seconds(waitSeconds));
+    sdrWaitTimer->async_wait([&io, &objectServer, &sensors, &dbusConnection](
+                                 const boost::system::error_code ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return; // we're being canceled
+        }
+
+        createSensors(io, objectServer, sensors, dbusConnection, true);
+        if (sensors.empty())
+        {
+            std::cout << "SDR Configuration not detected\n";
+        }
+    });
 }
 
 void reinitSensors(sdbusplus::message_t& message)
@@ -674,8 +761,10 @@ int main()
     systemBus->request_name("xyz.openbmc_project.IpmbSensor");
 
     initCmdTimer = std::make_unique<boost::asio::steady_timer>(io);
+    sdrWaitTimer = std::make_unique<boost::asio::steady_timer>(io);
 
-    io.post([&]() { createSensors(io, objectServer, sensors, systemBus); });
+    io.post(
+        [&]() { createSensors(io, objectServer, sensors, systemBus, false); });
 
     boost::asio::steady_timer configTimer(io);
 
@@ -688,7 +777,7 @@ int main()
             {
                 return; // we're being canceled
             }
-            createSensors(io, objectServer, sensors, systemBus);
+            createSensors(io, objectServer, sensors, systemBus, false);
             if (sensors.empty())
             {
                 std::cout << "Configuration not detected\n";
@@ -712,8 +801,8 @@ int main()
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" +
             configInterfaceName(sdrInterface) + "'",
-        [&systemBus](sdbusplus::message_t& msg) {
-        sdrHandler(msg, systemBus);
+        [&systemBus, &io, &objectServer](sdbusplus::message_t& msg) {
+        sdrHandler(msg, systemBus, io, objectServer, sensors);
         });
 
     setupManufacturingModeMatch(*systemBus);
