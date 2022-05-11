@@ -103,6 +103,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b389fa2e_39ad11a2",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-11T17:28:54Z",
+      "side": 1,
+      "message": "\u003e But that scenario would potentially conflict implementation in PSUSensors which uses specific models of chip. \n\n\nSpecial emphasis on the word \"potentially\".  There should be one daemon handling any given device to avoid access conflicts, and we will make sure that the lists don\u0027t conflict between psusensor and adcsensor.  FWIW, we already do this to a significant extent.\n\nActually, you bring up a very good point, why isn\u0027t this device being added to PSU sensor?  It seems like we\u0027re reinventing some code to handle what it handles already?  Keep in mind, \"PSUsensor\" is poorly named these days (we could probably rename it at some point) it could arguably be called \"PmBus Sensor\".\n\n\n\u003e I don\u0027t really see how this design would for example cover the scenario where ADS7828 is used as onboard adc and at the same time would be used as adc in PSU.\n\n\nA \"PSU\" is just a collection of components, so it would have an entity-manager config file that specified an exposes of ADS7828, and there would be a separate file that specifies the same record for the baseboard.  That way, this code doesn\u0027t have to have any concept of what a \"PSU\" is, and only deals with the individual pieces.",
+      "parentUuid": "c4c50b0a_29fa52f5",
+      "range": {
+        "startLine": 48,
+        "startChar": 67,
+        "endLine": 48,
+        "endChar": 73
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ad6d163_43f1ebb0",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
