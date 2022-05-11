@@ -267,6 +267,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "443362b8_ace9c921",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-11T17:32:34Z",
+      "side": 1,
+      "message": "In modern code, we could recommend using std::string_view, which does support constexpr these days, and has overloads for both string and const char*.\n\nWith that said, that\u0027s unimportant in this patch.",
+      "parentUuid": "93f5e96d_ee88a8fa",
+      "range": {
+        "startLine": 175,
+        "startChar": 18,
+        "endLine": 175,
+        "endChar": 24
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81fb143d_02fe2e3a",
