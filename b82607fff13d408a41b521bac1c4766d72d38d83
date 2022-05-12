@@ -50,6 +50,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea71e7a6_cf2afbe2",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-12T05:16:45Z",
+      "side": 1,
+      "message": "nit : Have you though of using cpuPresence instead cpuIsPresent here ..? It will be more readable",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 63,
+        "endChar": 24
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "71488dd6_c9629393",
         "filename": "include/AmpereCPU.hpp",
         "patchSetId": 19
@@ -90,6 +113,29 @@
         "startChar": 4,
         "endLine": 65,
         "endChar": 30
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "284def13_a5055e30",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-12T05:16:45Z",
+      "side": 1,
+      "message": "did u mean CPU Presence here ..?",
+      "range": {
+        "startLine": 95,
+        "startChar": 15,
+        "endLine": 95,
+        "endChar": 22
       },
       "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
@@ -138,6 +184,47 @@
         "endLine": 134,
         "endChar": 15
       },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f815671e_f6456292",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-12T05:16:45Z",
+      "side": 1,
+      "message": "I agreed to Arun queries , If we are not doing anything with cpuPresence[gpioName] better to remove it or add code to utilize it .",
+      "parentUuid": "a1e5cf04_0fbaa6b9",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cb28baf_11b58436",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-12T05:16:45Z",
+      "side": 1,
+      "message": "you can align this line to left ..refer line number 44",
       "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
