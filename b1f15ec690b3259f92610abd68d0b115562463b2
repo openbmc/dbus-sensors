@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7231d3_525edff7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T17:49:57Z",
+      "side": 1,
+      "message": "I like the idea of adding a separate file bridgeGpio.hpp, make it explicit and clear.  common.hpp is a bit vague and confusing.",
+      "parentUuid": "ea654d62_31a7ce0b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "b1f15ec690b3259f92610abd68d0b115562463b2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a0be553a_9fde1507",
