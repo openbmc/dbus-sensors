@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "968878b1_e41476d4",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T19:35:36Z",
+      "side": 1,
+      "message": "what is this scale factor here? Is int type adequate?",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4aafbac4_d0c6ad35",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 19
@@ -90,6 +113,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc88a9b1_4f515cc1",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T19:35:36Z",
+      "side": 1,
+      "message": "include path and sensor name to help troubleshoot?",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45dfed75_0503bf0d",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 19
@@ -101,6 +141,40 @@
       "writtenOn": "2022-05-12T09:15:36Z",
       "side": 1,
       "message": "Constructors generally do not return  ..so does this return statement valid here ..?\nRefer https://github.com/openbmc/dbus-sensors/blob/9eb0cc3d8272bcdc58ead70c9a39fe8cecd5b6b5/src/ADCSensor.cpp#L65 \nI don\u0027t see return statement there .",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4098cef3_3aea32be",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T19:35:36Z",
+      "side": 1,
+      "message": "what is the difference between sensorScaleFactor and sensorFactor?",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b15fcd4_da68ccf2",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T19:35:36Z",
+      "side": 1,
+      "message": "else if",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -148,6 +222,23 @@
         "endLine": 148,
         "endChar": 42
       },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35412b77_2557357c",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T19:35:36Z",
+      "side": 1,
+      "message": "move before use",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -340,6 +431,30 @@
       "side": 1,
       "message": "Just coding style. No need to do that.",
       "parentUuid": "5324daa9_059196d7",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 76
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1ba26c8_ca8f0598",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T19:35:36Z",
+      "side": 1,
+      "message": "It is more than a coding style. Reference and smart pointers are much safer. Please do not use raw pointers.",
+      "parentUuid": "8f6d8d94_2bf40a61",
       "range": {
         "startLine": 84,
         "startChar": 4,
