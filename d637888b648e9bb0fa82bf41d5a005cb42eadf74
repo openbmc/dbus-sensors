@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95ca2903_eae517a6",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T23:52:38Z",
+      "side": 1,
+      "message": "function does not do what this comment says",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5106e56_78d969cf",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T23:52:38Z",
+      "side": 1,
+      "message": "This does not look right. Are you trying to pass the object self (this) into the callback at line39?\n\nstd::weak_ptr\u003cIpmbSDRDevice\u003e weakRef \u003d weak_from_this();\ninside callback (line 41) add:\n\nauto self \u003d weakRef.lock();",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 76
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6982f1f4_1c447217",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T23:52:38Z",
+      "side": 1,
+      "message": "This block calls self-\u003exxx each line, Can it be encapsulated into a member function of the class?",
+      "range": {
+        "startLine": 126,
+        "startChar": 3,
+        "endLine": 161,
+        "endChar": 13
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c93bcdf_65ceba64",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T23:52:38Z",
+      "side": 1,
+      "message": "This is a success case, right? Is it necessary to log?",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 40
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c493c7a_4923ffb2",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T23:52:38Z",
+      "side": 1,
+      "message": "data.size() return type is not uint8_t, why static_cast\u003cuint8_t\u003e here?",
+      "range": {
+        "startLine": 179,
+        "startChar": 24,
+        "endLine": 179,
+        "endChar": 44
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af01028_1db48593",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-12T23:52:38Z",
+      "side": 1,
+      "message": "lots of this stat_cast from enum to index. It would be easier to read if structure is defined like: \nstruct SdrMessageData \n{\n     uint8_t sdrType,\n     uint8_t sdrSenNum,\n     ....\n}\n\nSdrMessageData msg * \u003d reinterpret_cast\u003c SdrMessageData *\u003e (data.data());\nif (msg-\u003esdrType !\u003d ...) \n{\n}",
+      "range": {
+        "startLine": 188,
+        "startChar": 25,
+        "endLine": 188,
+        "endChar": 50
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
