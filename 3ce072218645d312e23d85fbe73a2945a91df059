@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68ebb052_096cedeb",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-12T12:16:22Z",
+      "side": 1,
+      "message": "This header is already declared in PSUSensor.hpp.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 19
+      },
+      "revId": "3ce072218645d312e23d85fbe73a2945a91df059",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6234408_69c2dccb",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-12T12:16:22Z",
+      "side": 1,
+      "message": "weakRef is declared in both if \u0026 else condition and also in here. Where this one will be used ?",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 56
+      },
+      "revId": "3ce072218645d312e23d85fbe73a2945a91df059",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4453eceb_1d980d13",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 10
@@ -42,6 +88,29 @@
         "startChar": 20,
         "endLine": 138,
         "endChar": 31
+      },
+      "revId": "3ce072218645d312e23d85fbe73a2945a91df059",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f9ca028_c23811c2",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-12T12:16:22Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 19
       },
       "revId": "3ce072218645d312e23d85fbe73a2945a91df059",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
