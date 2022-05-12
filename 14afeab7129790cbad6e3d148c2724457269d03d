@@ -39,6 +39,30 @@
       },
       "revId": "14afeab7129790cbad6e3d148c2724457269d03d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd5c8235_2d0eb5d4",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-12T12:02:32Z",
+      "side": 1,
+      "message": "A constexpr value cannot be modified and it will be executed in the compilation time. Static will define the variable throughout the lifetime of the program, eventhough it is called multiple times, it will allocate memory once, and it is memory efficient.",
+      "parentUuid": "d6e9645c_6cea868a",
+      "range": {
+        "startLine": 552,
+        "startChar": 43,
+        "endLine": 552,
+        "endChar": 61
+      },
+      "revId": "14afeab7129790cbad6e3d148c2724457269d03d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
