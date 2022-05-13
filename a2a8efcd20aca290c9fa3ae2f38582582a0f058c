@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "605d0f38_bd2ac4cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-13T23:29:19Z",
+      "side": 1,
+      "message": "I see three review with topic IPMB-based-SDR, are there dependency among the three? Should they be reviewed in certain order?",
+      "revId": "a2a8efcd20aca290c9fa3ae2f38582582a0f058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "509c8901_1d6dbf7f",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-13T23:29:19Z",
+      "side": 1,
+      "message": "do this in the beginning: \nif (data.empty())\n{\n   return std::numeric_limits\u003cdouble\u003e::quiet_NaN();\n}",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 5
+      },
+      "revId": "a2a8efcd20aca290c9fa3ae2f38582582a0f058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c39b2803_949ca6ed",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-13T23:29:19Z",
+      "side": 1,
+      "message": "Make this a function of IpmbSDRDevice?",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 0
+      },
+      "revId": "a2a8efcd20aca290c9fa3ae2f38582582a0f058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
