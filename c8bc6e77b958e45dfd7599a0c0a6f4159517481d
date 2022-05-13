@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60ce98da_09775784",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-13T01:09:28Z",
+      "side": 1,
+      "message": "use std::array for this. Build failed on this",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 57
+      },
+      "revId": "c8bc6e77b958e45dfd7599a0c0a6f4159517481d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
