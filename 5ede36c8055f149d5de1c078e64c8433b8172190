@@ -127,6 +127,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "928bcec0_b84796dd",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-16T08:27:28Z",
+      "side": 1,
+      "message": "I assumed that PSU sensors is a unique service for PSU sensors. But now it seems logical that support for this particular IC \"ads7828\" could be added to PSU sensor implementation. However, to fully cover the implementation some functionalities would have to be merged from ADC Sensor: \n- \"CPURequired\" parameter to cover the cases where adc provides readings that are above/below threshold when cpu socket is not populated (to avoid triggering alerts)\n- \"BridgeGpio\" parameter to cover the cases where some circuitry has to be switched in order to perform valid reading (battery voltages for example).\n\nWould that be fine?",
+      "parentUuid": "b389fa2e_39ad11a2",
+      "range": {
+        "startLine": 48,
+        "startChar": 67,
+        "endLine": 48,
+        "endChar": 73
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ad6d163_43f1ebb0",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
