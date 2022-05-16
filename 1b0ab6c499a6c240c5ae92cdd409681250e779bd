@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f474faa9_195e2fc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-16T22:51:57Z",
+      "side": 1,
+      "message": "\u003e Sorry, I don\u0027t quite understand what\u0027s wrong.\n\nThe expectations for commit messages are documented in the developing guide;  Please read it, and it will make the requirements clear.  I\u0027m happy to help if any of them are unclear.",
+      "parentUuid": "acf62f16_ab678b7b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 118
+      },
+      "revId": "1b0ab6c499a6c240c5ae92cdd409681250e779bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3426d54e_4035a2bd",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 2
@@ -203,6 +227,30 @@
       "side": 1,
       "message": "Combining the discussion from here into this one thread.\n\n\u003e I deliberately used a generic name for the hwmon i2c device, because I don\u0027t see the point in adding a new driver each time, which will only be listed but won\u0027t do anything specific. For example, for temperature sensors we use LM63, slightly modified LM63 (wrong connection compensation), EMC2305 and l_pcs_i2c. l_pcs_i2c is no longer used by anyone.\n\u003e I did not add it to the EntityManager, because I have these sensors in the DevTree.\n\nEntity-manager features scans and discovers system devices dynamically. It does not require or rely on device tree definition. Add device specific types allow entity-manager to bind specific drivers as it probes system configurations.",
       "parentUuid": "77f3a5ca_867b4910",
+      "range": {
+        "startLine": 57,
+        "startChar": 67,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "1b0ab6c499a6c240c5ae92cdd409681250e779bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "530aa5a8_a57d6ff9",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-16T22:51:57Z",
+      "side": 1,
+      "message": "\u003e If this is one dbus-sensor project, then why is there a different approach for Fan (AspeedFan, I2CFan, NuvotonFan) and for Temp (specific devices)?\n\nAspeedFan and NuvotonFan arguably should\u0027ve been combined, given that we know what BMC we\u0027re on at compile time, and that at board level, they are conveying the same thing (PWM controlled pins from the bmc).  AspeedFan was originally supposed to denote \"fan attached to the aspeed controller\" but given that there aren\u0027t that many bmc model variants, and there\u0027s a desire for config files to work across bmc boundaries (ie DC-SCM) those arguably should be combined into a single unit these days.\n\nI2cFan arguably should\u0027ve gone into its own daemon/implementation/abstraction, but the maintainer at the time thought that it was simpler that way.  FWIW, if you look at the code, it causes a lot of duplication of functionality, and causes fansensor to take a link dependency on i2c, which isn\u0027t great.\n\nAs far as why Fans and Temps are different, it\u0027s because they are fundamentally different problems being solved, and have different failure modes.  The goal of splitting them up is such that if say, hwmontempsensor fails, it doesn\u0027t take down the control of the other sensors, which makes it very easy for a user-front line programmer to triage.  For example, if all your tmp75 devices disappear on the system, it probably means that hwmontempsensor crashed.\n\n\n\n\u003e Entity-manager features scans and discovers system devices dynamically. It does not require or rely on device tree definition.\n\n+1",
+      "parentUuid": "4486d94c_231ad164",
       "range": {
         "startLine": 57,
         "startChar": 67,
