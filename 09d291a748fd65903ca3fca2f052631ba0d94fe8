@@ -120,6 +120,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9929c1b5_0ec31ac9",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38ccc42f_6d5aee40",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 19
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "887cd815_52313569",
@@ -181,6 +205,30 @@
       "side": 1,
       "message": "I meant log an error to stderr, but sure, that\u0027s fine.",
       "parentUuid": "55a4d44c_24654a54",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2a2e8a5_fb5a8bca",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5665114b_e0a5ef92",
       "range": {
         "startLine": 72,
         "startChar": 8,
@@ -382,6 +430,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6784e45_fa9660ba",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df905005_3c9df8ef",
+      "range": {
+        "startLine": 84,
+        "startChar": 30,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "322416d2_8d3bdfd2",
@@ -419,6 +491,30 @@
       "side": 1,
       "message": "Will address this.",
       "parentUuid": "322416d2_8d3bdfd2",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 28
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c3a5a18_a53d7e54",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcab7435_deae9750",
       "range": {
         "startLine": 148,
         "startChar": 4,
@@ -476,6 +572,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11ab630_81a10613",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9054f37_dd5db651",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 47
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e814853e_50cc907c",
@@ -513,6 +633,30 @@
       "side": 1,
       "message": "I have split this patch, and there is one rebased on top of this for code clean up. \nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/49718\nCan you please go through that, and I will address the clean up comments there.",
       "parentUuid": "e814853e_50cc907c",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 5
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "977e8087_3106b643",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "469ac293_e8ed28bd",
       "range": {
         "startLine": 268,
         "startChar": 0,
@@ -631,6 +775,30 @@
       "side": 1,
       "message": "Will address this.",
       "parentUuid": "8d7d3e97_5520978c",
+      "range": {
+        "startLine": 485,
+        "startChar": 45,
+        "endLine": 486,
+        "endChar": 16
+      },
+      "revId": "09d291a748fd65903ca3fca2f052631ba0d94fe8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01709647_0ad4c2c8",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66cdbf62_3dd44ee7",
       "range": {
         "startLine": 485,
         "startChar": 45,

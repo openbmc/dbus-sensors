@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "49247884_a71e019e",
         "filename": "src/IpmbSensor.cpp",
@@ -20,10 +21,10 @@
         "endChar": 30
       },
       "revId": "1dc85f51670dea67df5bb80c7328419f2eacec27",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "dbba5d09_12594958",
         "filename": "src/IpmbSensor.cpp",
@@ -44,10 +45,34 @@
         "endChar": 30
       },
       "revId": "1dc85f51670dea67df5bb80c7328419f2eacec27",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d93e78ac_b20fd73f",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "dbba5d09_12594958",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 30
+      },
+      "revId": "1dc85f51670dea67df5bb80c7328419f2eacec27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "fe0022ab_dd312acb",
         "filename": "src/IpmbSensor.cpp",
@@ -67,10 +92,10 @@
         "endChar": 35
       },
       "revId": "1dc85f51670dea67df5bb80c7328419f2eacec27",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3b34f379_3209ed4e",
         "filename": "src/IpmbSensor.cpp",
@@ -91,8 +116,31 @@
         "endChar": 35
       },
       "revId": "1dc85f51670dea67df5bb80c7328419f2eacec27",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa635133_218e41d3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3b34f379_3209ed4e",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 35
+      },
+      "revId": "1dc85f51670dea67df5bb80c7328419f2eacec27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

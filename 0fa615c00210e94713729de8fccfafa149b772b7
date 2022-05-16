@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "45c1bf10_af450776",
         "filename": "include/IpmbSensor.hpp",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Why you are adding new types in the middle instead of appending to existing defintions ?\nWouldn\u0027t this impact existing sensors using this definiton, for example, \n\u0027elevenBit\u0027 value was 2, now it will be 4, right ?\n\nPlease check for regression, i.e.) other sensors sharing this code (proxyRead\u003dtrue) are working correctly, before as well as after your changes.",
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9590b91c_70ccb320",
         "filename": "include/IpmbSensor.hpp",
@@ -32,10 +33,28 @@
       "message": "This enum is used in a switch case, so value does not matter. \nAnyway I will add it to the end instead of in middle.\n\nproxyRead\u003dtrue and false was tested. And same is updated in commit message.",
       "parentUuid": "45c1bf10_af450776",
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67fe8c7b_387db3a0",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9590b91c_70ccb320",
+      "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "570119ee_cbcf88f1",
         "filename": "src/IpmbSensor.cpp",
@@ -49,10 +68,28 @@
       "side": 1,
       "message": "I think that the if else conditions can also be moved out to header file and just calling a function here by passing the IpmbType should do the required functionalities and command selections, so that the code readability will also be nice to have in place even though it is existing from legacy.",
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d244596a_e7b77188",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "570119ee_cbcf88f1",
+      "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1690a537_1d5a8180",
         "filename": "src/IpmbSensor.cpp",
@@ -72,10 +109,10 @@
         "endChar": 43
       },
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f1aabdf4_2013ad2b",
         "filename": "src/IpmbSensor.cpp",
@@ -96,10 +133,34 @@
         "endChar": 43
       },
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e47d9e0f_a98b6e88",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1aabdf4_2013ad2b",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 43
+      },
+      "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "df385624_952e1417",
         "filename": "src/IpmbSensor.cpp",
@@ -119,10 +180,10 @@
         "endChar": 9
       },
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "531f4a00_6bf4b5b4",
         "filename": "src/IpmbSensor.cpp",
@@ -143,10 +204,34 @@
         "endChar": 9
       },
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b24ef370_f2404803",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "531f4a00_6bf4b5b4",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 9
+      },
+      "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d2bfa6ca_3adc165c",
         "filename": "src/IpmbSensor.cpp",
@@ -166,10 +251,10 @@
         "endChar": 79
       },
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3f689145_d95e14a4",
         "filename": "src/IpmbSensor.cpp",
@@ -190,8 +275,31 @@
         "endChar": 79
       },
       "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1288639_57ff9928",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f689145_d95e14a4",
+      "range": {
+        "startLine": 587,
+        "startChar": 31,
+        "endLine": 589,
+        "endChar": 79
+      },
+      "revId": "0fa615c00210e94713729de8fccfafa149b772b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "0f8cf038_490d5488",
         "filename": "include/IpmbSensor.hpp",
@@ -20,10 +21,10 @@
         "endChar": 31
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7ad5f68c_d9857527",
         "filename": "include/IpmbSensor.hpp",
@@ -44,10 +45,58 @@
         "endChar": 31
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a29455cd_67114763",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ad5f68c_d9857527",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31fe1cb3_943eba67",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ad5f68c_d9857527",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ac675d3a_aa665297",
         "filename": "src/IpmbSensor.cpp",
@@ -67,10 +116,10 @@
         "endChar": 21
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "252ff161_8bb3863c",
         "filename": "src/IpmbSensor.cpp",
@@ -91,10 +140,10 @@
         "endChar": 21
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5715f909_e211771e",
         "filename": "src/IpmbSensor.cpp",
@@ -115,10 +164,10 @@
         "endChar": 21
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b97da877_de9893ea",
         "filename": "src/IpmbSensor.cpp",
@@ -139,10 +188,34 @@
         "endChar": 21
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4685a6b1_61453ef2",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97da877_de9893ea",
+      "range": {
+        "startLine": 201,
+        "startChar": 8,
+        "endLine": 201,
+        "endChar": 21
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7939a576_abdc258d",
         "filename": "src/IpmbSensor.cpp",
@@ -162,10 +235,10 @@
         "endChar": 60
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "354fa3a5_2a9a2425",
         "filename": "src/IpmbSensor.cpp",
@@ -186,10 +259,10 @@
         "endChar": 60
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6873de55_9b87d5c5",
         "filename": "src/IpmbSensor.cpp",
@@ -210,8 +283,31 @@
         "endChar": 60
       },
       "revId": "eda4983de591524773a227e003e84e7ded9ff303",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6736c6d6_0349d49c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-16T16:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6873de55_9b87d5c5",
+      "range": {
+        "startLine": 648,
+        "startChar": 0,
+        "endLine": 648,
+        "endChar": 60
+      },
+      "revId": "eda4983de591524773a227e003e84e7ded9ff303",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
