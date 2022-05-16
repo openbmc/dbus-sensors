@@ -41,7 +41,7 @@ IntelCPUSensor::IntelCPUSensor(
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, int cpuId, bool show,
-    double dtsOffset) :
+    double dtsOffset, const std::string& inventoryPath) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, 0, 0, conn, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io),
@@ -82,10 +82,13 @@ IntelCPUSensor::IntelCPUSensor(
                 thresholdInterfaces[static_cast<size_t>(threshold.level)] =
                     objectServer.add_interface(interfacePath, interface);
             }
+            setInitialProperties(units);
+
             association = objectServer.add_interface(interfacePath,
                                                      association::interface);
 
-            setInitialProperties(units);
+            setInventoryAssociation(association, sensorConfiguration,
+                                    inventoryPath);
         }
     }
 
