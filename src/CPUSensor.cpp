@@ -33,6 +33,8 @@
 #include <string>
 #include <vector>
 
+namespace fs = std::filesystem;
+
 CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -81,10 +83,15 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                 thresholdInterfaces[static_cast<size_t>(threshold.level)] =
                     objectServer.add_interface(interfacePath, interface);
             }
+            setInitialProperties(units);
+
             association = objectServer.add_interface(interfacePath,
                                                      association::interface);
+            auto inventoryPath =
+                fs::path(cpuInventoryPath) / ("cpu" + std::to_string(cpuId));
 
-            setInitialProperties(units);
+            setInventoryAssociation(association, sensorConfiguration,
+                                    inventoryPath.string());
         }
     }
 

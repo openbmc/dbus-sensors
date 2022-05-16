@@ -509,7 +509,7 @@ void createAssociation(
 
 void setInventoryAssociation(
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path,
+    const std::string& path, const std::string& inventoryPath,
     const std::vector<std::string>& chassisPaths = std::vector<std::string>())
 {
     if (association)
@@ -518,7 +518,7 @@ void setInventoryAssociation(
         std::vector<Association> associations;
         std::string objPath(p.parent_path().string());
 
-        associations.emplace_back("inventory", "sensors", objPath);
+        associations.emplace_back("inventory", "sensors", inventoryPath);
         associations.emplace_back("chassis", "all_sensors", objPath);
 
         for (const std::string& chassisPath : chassisPaths)
@@ -548,10 +548,10 @@ void createInventoryAssoc(
             {
                 // In case of error, set the default associations and
                 // initialize the association Interface.
-                setInventoryAssociation(association, path);
+                setInventoryAssociation(association, path, path);
                 return;
             }
-            setInventoryAssociation(association, path, invSysObjPaths);
+            setInventoryAssociation(association, path, path, invSysObjPaths);
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTreePaths",
         "/xyz/openbmc_project/inventory/system", 2,
