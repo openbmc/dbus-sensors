@@ -335,28 +335,27 @@ static void
     conn->async_method_call(
         [conn, retries](boost::system::error_code ec,
                         const std::variant<std::string>& state) {
-            if (ec)
+        if (ec)
+        {
+            if (retries)
             {
-                if (retries)
-                {
-                    auto timer = std::make_shared<boost::asio::steady_timer>(
-                        conn->get_io_context());
-                    timer->expires_after(std::chrono::seconds(15));
-                    timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getPowerStatus(conn, retries - 1);
-                        });
-                    return;
-                }
-
-                // we commonly come up before power control, we'll capture the
-                // property change later
-                std::cerr << "error getting power status " << ec.message()
-                          << "\n";
+                auto timer = std::make_shared<boost::asio::steady_timer>(
+                    conn->get_io_context());
+                timer->expires_after(std::chrono::seconds(15));
+                timer->async_wait(
+                    [timer, conn, retries](boost::system::error_code) {
+                    getPowerStatus(conn, retries - 1);
+                });
                 return;
             }
-            powerStatusOn =
-                boost::ends_with(std::get<std::string>(state), ".Running");
+
+            // we commonly come up before power control, we'll capture the
+            // property change later
+            std::cerr << "error getting power status " << ec.message() << "\n";
+            return;
+        }
+        powerStatusOn =
+            boost::ends_with(std::get<std::string>(state), ".Running");
         },
         power::busname, power::path, properties::interface, properties::get,
         power::interface, power::property);
@@ -369,29 +368,28 @@ static void
     conn->async_method_call(
         [conn, retries](boost::system::error_code ec,
                         const std::variant<std::string>& state) {
-            if (ec)
+        if (ec)
+        {
+            if (retries)
             {
-                if (retries)
-                {
-                    auto timer = std::make_shared<boost::asio::steady_timer>(
-                        conn->get_io_context());
-                    timer->expires_after(std::chrono::seconds(15));
-                    timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getPostStatus(conn, retries - 1);
-                        });
-                    return;
-                }
-                // we commonly come up before power control, we'll capture the
-                // property change later
-                std::cerr << "error getting post status " << ec.message()
-                          << "\n";
+                auto timer = std::make_shared<boost::asio::steady_timer>(
+                    conn->get_io_context());
+                timer->expires_after(std::chrono::seconds(15));
+                timer->async_wait(
+                    [timer, conn, retries](boost::system::error_code) {
+                    getPostStatus(conn, retries - 1);
+                });
                 return;
             }
-            auto& value = std::get<std::string>(state);
-            biosHasPost = (value != "Inactive") &&
-                          (value != "xyz.openbmc_project.State.OperatingSystem."
-                                    "Status.OSStatus.Inactive");
+            // we commonly come up before power control, we'll capture the
+            // property change later
+            std::cerr << "error getting post status " << ec.message() << "\n";
+            return;
+        }
+        auto& value = std::get<std::string>(state);
+        biosHasPost = (value != "Inactive") &&
+                      (value != "xyz.openbmc_project.State.OperatingSystem."
+                                "Status.OSStatus.Inactive");
         },
         post::busname, post::path, properties::interface, properties::get,
         post::interface, post::property);
@@ -413,36 +411,36 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             "',path='" + std::string(power::path) + "',arg0='" +
             std::string(power::interface) + "'",
         [](sdbusplus::message::message& message) {
-            std::string objectName;
-            boost::container::flat_map<std::string, std::variant<std::string>>
-                values;
-            message.read(objectName, values);
-            auto findState = values.find(power::property);
-            if (findState != values.end())
+        std::string objectName;
+        boost::container::flat_map<std::string, std::variant<std::string>>
+            values;
+        message.read(objectName, values);
+        auto findState = values.find(power::property);
+        if (findState != values.end())
+        {
+            bool on = boost::ends_with(std::get<std::string>(findState->second),
+                                       ".Running");
+            if (!on)
             {
-                bool on = boost::ends_with(
-                    std::get<std::string>(findState->second), ".Running");
-                if (!on)
+                timer.cancel();
+                powerStatusOn = false;
+                return;
+            }
+            // on comes too quickly
+            timer.expires_after(std::chrono::seconds(10));
+            timer.async_wait([](boost::system::error_code ec) {
+                if (ec == boost::asio::error::operation_aborted)
                 {
-                    timer.cancel();
-                    powerStatusOn = false;
                     return;
                 }
-                // on comes too quickly
-                timer.expires_after(std::chrono::seconds(10));
-                timer.async_wait([](boost::system::error_code ec) {
-                    if (ec == boost::asio::error::operation_aborted)
-                    {
-                        return;
-                    }
-                    if (ec)
-                    {
-                        std::cerr << "Timer error " << ec.message() << "\n";
-                        return;
-                    }
-                    powerStatusOn = true;
-                });
-            }
+                if (ec)
+                {
+                    std::cerr << "Timer error " << ec.message() << "\n";
+                    return;
+                }
+                powerStatusOn = true;
+            });
+        }
         });
 
     postMatch = std::make_unique<sdbusplus::bus::match::match>(
@@ -451,19 +449,18 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
             "',path='" + std::string(post::path) + "',arg0='" +
             std::string(post::interface) + "'",
         [](sdbusplus::message::message& message) {
-            std::string objectName;
-            boost::container::flat_map<std::string, std::variant<std::string>>
-                values;
-            message.read(objectName, values);
-            auto findState = values.find(post::property);
-            if (findState != values.end())
-            {
-                auto& value = std::get<std::string>(findState->second);
-                biosHasPost =
-                    (value != "Inactive") &&
-                    (value != "xyz.openbmc_project.State.OperatingSystem."
-                              "Status.OSStatus.Inactive");
-            }
+        std::string objectName;
+        boost::container::flat_map<std::string, std::variant<std::string>>
+            values;
+        message.read(objectName, values);
+        auto findState = values.find(post::property);
+        if (findState != values.end())
+        {
+            auto& value = std::get<std::string>(findState->second);
+            biosHasPost = (value != "Inactive") &&
+                          (value != "xyz.openbmc_project.State.OperatingSystem."
+                                    "Status.OSStatus.Inactive");
+        }
         });
 
     getPowerStatus(conn);
@@ -544,14 +541,14 @@ void createInventoryAssoc(
     conn->async_method_call(
         [association, path](const boost::system::error_code ec,
                             const std::vector<std::string>& invSysObjPaths) {
-            if (ec)
-            {
-                // In case of error, set the default associations and
-                // initialize the association Interface.
-                setInventoryAssociation(association, path);
-                return;
-            }
-            setInventoryAssociation(association, path, invSysObjPaths);
+        if (ec)
+        {
+            // In case of error, set the default associations and
+            // initialize the association Interface.
+            setInventoryAssociation(association, path);
+            return;
+        }
+        setInventoryAssociation(association, path, invSysObjPaths);
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTreePaths",
         "/xyz/openbmc_project/inventory/system", 2,
@@ -631,30 +628,28 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         rules::argNpath(0, "/xyz/openbmc_project/security/special_mode");
     static std::unique_ptr<sdbusplus::bus::match::match> specialModeIntfMatch =
         std::make_unique<sdbusplus::bus::match::match>(
-            conn, filterSpecialModeIntfAdd, [](sdbusplus::message::message& m) {
-                sdbusplus::message::object_path path;
-                using PropertyMap =
-                    boost::container::flat_map<std::string,
-                                               std::variant<std::string>>;
-                boost::container::flat_map<std::string, PropertyMap>
-                    interfaceAdded;
-                m.read(path, interfaceAdded);
-                auto intfItr = interfaceAdded.find(specialModeInterface);
-                if (intfItr == interfaceAdded.end())
-                {
-                    return;
-                }
-                PropertyMap& propertyList = intfItr->second;
-                auto itr = propertyList.find("SpecialMode");
-                if (itr == propertyList.end())
-                {
-                    std::cerr << "error getting  SpecialMode property "
-                              << "\n";
-                    return;
-                }
-                auto manufacturingModeStatus =
-                    std::get_if<std::string>(&itr->second);
-                handleSpecialModeChange(*manufacturingModeStatus);
+            conn, filterSpecialModeIntfAdd,
+            [](sdbusplus::message::message& m) {
+        sdbusplus::message::object_path path;
+        using PropertyMap =
+            boost::container::flat_map<std::string, std::variant<std::string>>;
+        boost::container::flat_map<std::string, PropertyMap> interfaceAdded;
+        m.read(path, interfaceAdded);
+        auto intfItr = interfaceAdded.find(specialModeInterface);
+        if (intfItr == interfaceAdded.end())
+        {
+            return;
+        }
+        PropertyMap& propertyList = intfItr->second;
+        auto itr = propertyList.find("SpecialMode");
+        if (itr == propertyList.end())
+        {
+            std::cerr << "error getting  SpecialMode property "
+                      << "\n";
+            return;
+        }
+        auto manufacturingModeStatus = std::get_if<std::string>(&itr->second);
+        handleSpecialModeChange(*manufacturingModeStatus);
             });
 
     const std::string filterSpecialModeChange =
@@ -663,35 +658,34 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         rules::argN(0, specialModeInterface);
     static std::unique_ptr<sdbusplus::bus::match::match>
         specialModeChangeMatch = std::make_unique<sdbusplus::bus::match::match>(
-            conn, filterSpecialModeChange, [](sdbusplus::message::message& m) {
-                std::string interfaceName;
-                boost::container::flat_map<std::string,
-                                           std::variant<std::string>>
-                    propertiesChanged;
+            conn, filterSpecialModeChange,
+            [](sdbusplus::message::message& m) {
+        std::string interfaceName;
+        boost::container::flat_map<std::string, std::variant<std::string>>
+            propertiesChanged;
 
-                m.read(interfaceName, propertiesChanged);
-                auto itr = propertiesChanged.find("SpecialMode");
-                if (itr == propertiesChanged.end())
-                {
-                    return;
-                }
-                auto manufacturingModeStatus =
-                    std::get_if<std::string>(&itr->second);
-                handleSpecialModeChange(*manufacturingModeStatus);
+        m.read(interfaceName, propertiesChanged);
+        auto itr = propertiesChanged.find("SpecialMode");
+        if (itr == propertiesChanged.end())
+        {
+            return;
+        }
+        auto manufacturingModeStatus = std::get_if<std::string>(&itr->second);
+        handleSpecialModeChange(*manufacturingModeStatus);
             });
 
     conn.async_method_call(
         [](const boost::system::error_code ec,
            const std::variant<std::string>& getManufactMode) {
-            if (ec)
-            {
-                std::cerr << "error getting  SpecialMode status "
-                          << ec.message() << "\n";
-                return;
-            }
-            auto manufacturingModeStatus =
-                std::get_if<std::string>(&getManufactMode);
-            handleSpecialModeChange(*manufacturingModeStatus);
+        if (ec)
+        {
+            std::cerr << "error getting  SpecialMode status " << ec.message()
+                      << "\n";
+            return;
+        }
+        auto manufacturingModeStatus =
+            std::get_if<std::string>(&getManufactMode);
+        handleSpecialModeChange(*manufacturingModeStatus);
         },
         "xyz.openbmc_project.SpecialMode",
         "/xyz/openbmc_project/security/special_mode",

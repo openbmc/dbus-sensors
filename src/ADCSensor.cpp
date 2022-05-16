@@ -114,27 +114,27 @@ void ADCSensor::setupRead(void)
             boost::posix_time::milliseconds(bridgeGpio->setupTimeMs));
         waitTimer.async_wait(
             [weakRef, buffer](const boost::system::error_code& ec) {
-                std::shared_ptr<ADCSensor> self = weakRef.lock();
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
+            std::shared_ptr<ADCSensor> self = weakRef.lock();
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
 
-                if (self)
-                {
-                    boost::asio::async_read_until(
-                        self->inputDev, *buffer, '\n',
-                        [weakRef, buffer](const boost::system::error_code& ec,
-                                          std::size_t /*bytes_transfered*/) {
-                            std::shared_ptr<ADCSensor> self = weakRef.lock();
-                            if (self)
-                            {
-                                self->readBuf = buffer;
-                                self->handleResponse(ec);
-                            }
-                        });
-                }
-            });
+            if (self)
+            {
+                boost::asio::async_read_until(
+                    self->inputDev, *buffer, '\n',
+                    [weakRef, buffer](const boost::system::error_code& ec,
+                                      std::size_t /*bytes_transfered*/) {
+                    std::shared_ptr<ADCSensor> self = weakRef.lock();
+                    if (self)
+                    {
+                        self->readBuf = buffer;
+                        self->handleResponse(ec);
+                    }
+                    });
+            }
+        });
     }
     else
     {
@@ -142,12 +142,12 @@ void ADCSensor::setupRead(void)
             inputDev, *buffer, '\n',
             [weakRef, buffer](const boost::system::error_code& ec,
                               std::size_t /*bytes_transfered*/) {
-                std::shared_ptr<ADCSensor> self = weakRef.lock();
-                if (self)
-                {
-                    self->readBuf = buffer;
-                    self->handleResponse(ec);
-                }
+            std::shared_ptr<ADCSensor> self = weakRef.lock();
+            if (self)
+            {
+                self->readBuf = buffer;
+                self->handleResponse(ec);
+            }
             });
     }
 }

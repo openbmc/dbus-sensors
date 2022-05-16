@@ -114,13 +114,12 @@ void HwmonTempSensor::setupRead(void)
     boost::asio::async_read_until(inputDev, readBuf, '\n',
                                   [weakRef](const boost::system::error_code& ec,
                                             std::size_t /*bytes_transfered*/) {
-                                      std::shared_ptr<HwmonTempSensor> self =
-                                          weakRef.lock();
-                                      if (self)
-                                      {
-                                          self->handleResponse(ec);
-                                      }
-                                  });
+        std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
+        if (self)
+        {
+            self->handleResponse(ec);
+        }
+    });
 }
 
 void HwmonTempSensor::restartRead()

@@ -199,24 +199,22 @@ void ChassisIntrusionSensor::readGpio()
 
 void ChassisIntrusionSensor::pollSensorStatusByGpio(void)
 {
-    mGpioFd.async_wait(
-        boost::asio::posix::stream_descriptor::wait_read,
-        [this](const boost::system::error_code& ec) {
-            if (ec == boost::system::errc::bad_file_descriptor)
-            {
-                return; // we're being destroyed
-            }
-            if (ec)
-            {
-                std::cerr
-                    << "Error on GPIO based intrusion sensor wait event\n";
-            }
-            else
-            {
-                readGpio();
-            }
-            pollSensorStatusByGpio();
-        });
+    mGpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
+                       [this](const boost::system::error_code& ec) {
+        if (ec == boost::system::errc::bad_file_descriptor)
+        {
+            return; // we're being destroyed
+        }
+        if (ec)
+        {
+            std::cerr << "Error on GPIO based intrusion sensor wait event\n";
+        }
+        else
+        {
+            readGpio();
+        }
+        pollSensorStatusByGpio();
+    });
 }
 
 void ChassisIntrusionSensor::initGpioDeviceFile()
@@ -315,7 +313,7 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
             mIface->register_property(
                 "Status", mValue,
                 [&](const std::string& req, std::string& propertyValue) {
-                    return setSensorValue(req, propertyValue);
+                return setSensorValue(req, propertyValue);
                 });
             mIface->initialize();
 

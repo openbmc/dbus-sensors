@@ -182,50 +182,49 @@ static void getNicNameInfo(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection, [](const ManagedObjectType& sensorConfigurations) {
-            // Get NIC name and save to map
-            lanInfoMap.clear();
-            for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                     sensor : sensorConfigurations)
+        dbusConnection,
+        [](const ManagedObjectType& sensorConfigurations) {
+        // Get NIC name and save to map
+        lanInfoMap.clear();
+        for (const std::pair<sdbusplus::message::object_path, SensorData>&
+                 sensor : sensorConfigurations)
+        {
+            const std::pair<std::string, boost::container::flat_map<
+                                             std::string, BasicVariantType>>*
+                baseConfiguration = nullptr;
+
+            // find base configuration
+            auto sensorBase = sensor.second.find(nicType);
+            if (sensorBase == sensor.second.end())
             {
-                const std::pair<
-                    std::string,
-                    boost::container::flat_map<std::string, BasicVariantType>>*
-                    baseConfiguration = nullptr;
+                continue;
+            }
+            baseConfiguration = &(*sensorBase);
 
-                // find base configuration
-                auto sensorBase = sensor.second.find(nicType);
-                if (sensorBase == sensor.second.end())
+            auto findEthIndex = baseConfiguration->second.find("EthIndex");
+            auto findName = baseConfiguration->second.find("Name");
+
+            if (findEthIndex != baseConfiguration->second.end() &&
+                findName != baseConfiguration->second.end())
+            {
+                auto* pEthIndex = std::get_if<uint64_t>(&findEthIndex->second);
+                auto* pName = std::get_if<std::string>(&findName->second);
+                if (pEthIndex != nullptr && pName != nullptr)
                 {
-                    continue;
-                }
-                baseConfiguration = &(*sensorBase);
-
-                auto findEthIndex = baseConfiguration->second.find("EthIndex");
-                auto findName = baseConfiguration->second.find("Name");
-
-                if (findEthIndex != baseConfiguration->second.end() &&
-                    findName != baseConfiguration->second.end())
-                {
-                    auto* pEthIndex =
-                        std::get_if<uint64_t>(&findEthIndex->second);
-                    auto* pName = std::get_if<std::string>(&findName->second);
-                    if (pEthIndex != nullptr && pName != nullptr)
+                    lanInfoMap[*pEthIndex] = *pName;
+                    if (debugLanLeash)
                     {
-                        lanInfoMap[*pEthIndex] = *pName;
-                        if (debugLanLeash)
-                        {
-                            std::cout << "find name of eth" << *pEthIndex
-                                      << " is " << *pName << "\n";
-                        }
+                        std::cout << "find name of eth" << *pEthIndex << " is "
+                                  << *pName << "\n";
                     }
                 }
             }
+        }
 
-            if (lanInfoMap.size() == 0)
-            {
-                std::cerr << "can't find matched NIC name. \n";
-            }
+        if (lanInfoMap.size() == 0)
+        {
+            std::cerr << "can't find matched NIC name. \n";
+        }
         });
 
     getter->getConfiguration(
@@ -383,29 +382,29 @@ static bool initializeLanStatus(
         conn->async_method_call(
             [ethNum](boost::system::error_code ec,
                      const std::variant<std::string>& property) {
-                lanStatusMap[ethNum] = false;
-                if (ec)
-                {
-                    std::cerr << "Error reading init status of eth" << ethNum
-                              << "\n";
-                    return;
-                }
-                const std::string* pState = std::get_if<std::string>(&property);
-                if (pState == nullptr)
-                {
-                    std::cerr << "Unable to read lan status value\n";
-                    return;
-                }
-                bool isLanConnected =
-                    (*pState == "routable" || *pState == "carrier" ||
-                     *pState == "degraded");
-                if (debugLanLeash)
-                {
-                    std::cout << "ethNum = " << std::to_string(ethNum)
-                              << ", init LAN status = "
-                              << (isLanConnected ? "true" : "false") << "\n";
-                }
-                lanStatusMap[ethNum] = isLanConnected;
+            lanStatusMap[ethNum] = false;
+            if (ec)
+            {
+                std::cerr << "Error reading init status of eth" << ethNum
+                          << "\n";
+                return;
+            }
+            const std::string* pState = std::get_if<std::string>(&property);
+            if (pState == nullptr)
+            {
+                std::cerr << "Unable to read lan status value\n";
+                return;
+            }
+            bool isLanConnected =
+                (*pState == "routable" || *pState == "carrier" ||
+                 *pState == "degraded");
+            if (debugLanLeash)
+            {
+                std::cout << "ethNum = " << std::to_string(ethNum)
+                          << ", init LAN status = "
+                          << (isLanConnected ? "true" : "false") << "\n";
+            }
+            lanStatusMap[ethNum] = isLanConnected;
             },
             "org.freedesktop.network1",
             "/org/freedesktop/network1/link/_" + pathSuffix,
@@ -446,20 +445,19 @@ int main()
     // callback to handle configuration change
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
-            if (message.is_method_error())
-            {
-                std::cerr << "callback method error\n";
-                return;
-            }
+        if (message.is_method_error())
+        {
+            std::cerr << "callback method error\n";
+            return;
+        }
 
-            std::cout << "rescan due to configuration change \n";
-            if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                         &gpioInverted))
-            {
-                chassisIntrusionSensor.start(type, busId, slaveAddr,
-                                             gpioInverted);
-            }
-        };
+        std::cout << "rescan due to configuration change \n";
+        if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
+                                     &gpioInverted))
+        {
+            chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+        }
+    };
 
     auto eventMatch = std::make_unique<sdbusplus::bus::match::match>(
         static_cast<sdbusplus::bus::bus&>(*systemBus),
@@ -475,7 +473,7 @@ int main()
             "type='signal', member='PropertiesChanged',"
             "arg0namespace='org.freedesktop.network1.Link'",
             [](sdbusplus::message::message& msg) {
-                processLanStatusChange(msg);
+            processLanStatusChange(msg);
             });
 
         // add match to monitor entity manager signal about nic name config
@@ -486,12 +484,12 @@ int main()
                 std::string(inventoryPath) + "',arg0namespace='" + nicType +
                 "'",
             [&systemBus](sdbusplus::message::message& msg) {
-                if (msg.is_method_error())
-                {
-                    std::cerr << "callback method error\n";
-                    return;
-                }
-                getNicNameInfo(systemBus);
+            if (msg.is_method_error())
+            {
+                std::cerr << "callback method error\n";
+                return;
+            }
+            getNicNameInfo(systemBus);
             });
     }
 

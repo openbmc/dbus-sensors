@@ -214,12 +214,12 @@ void PSUSubEvent::setupRead(void)
         inputDev, *buffer, '\n',
         [weakRef, buffer](const boost::system::error_code& ec,
                           std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<PSUSubEvent> self = weakRef.lock();
-            if (self)
-            {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
-            }
+        std::shared_ptr<PSUSubEvent> self = weakRef.lock();
+        if (self)
+        {
+            self->readBuf = buffer;
+            self->handleResponse(ec);
+        }
         });
 }
 

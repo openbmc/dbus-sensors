@@ -201,64 +201,62 @@ void createSensors(
     dbusConnection->async_method_call(
         [&io, &objectServer, &dbusConnection, &sensors](
             boost::system::error_code ec, const ManagedObjectType& resp) {
-            if (ec)
+        if (ec)
+        {
+            std::cerr << "Error contacting entity manager\n";
+            return;
+        }
+        for (const auto& pathPair : resp)
+        {
+            for (const auto& entry : pathPair.second)
             {
-                std::cerr << "Error contacting entity manager\n";
-                return;
-            }
-            for (const auto& pathPair : resp)
-            {
-                for (const auto& entry : pathPair.second)
+                if (entry.first != configInterface)
                 {
-                    if (entry.first != configInterface)
-                    {
-                        continue;
-                    }
-                    std::string name =
-                        loadVariant<std::string>(entry.second, "Name");
-
-                    std::vector<thresholds::Threshold> sensorThresholds;
-                    if (!parseThresholdsFromConfig(pathPair.second,
-                                                   sensorThresholds))
-                    {
-                        std::cerr << "error populating thresholds for " << name
-                                  << "\n";
-                    }
-
-                    uint8_t busId = loadVariant<uint8_t>(entry.second, "Bus");
-
-                    uint8_t mcuAddress =
-                        loadVariant<uint8_t>(entry.second, "Address");
-
-                    uint8_t tempReg = loadVariant<uint8_t>(entry.second, "Reg");
-
-                    std::string sensorClass =
-                        loadVariant<std::string>(entry.second, "Class");
-
-                    if constexpr (debug)
-                    {
-                        std::cerr
-                            << "Configuration parsed for \n\t" << entry.first
-                            << "\n"
-                            << "with\n"
-                            << "\tName: " << name << "\n"
-                            << "\tBus: " << static_cast<int>(busId) << "\n"
-                            << "\tAddress: " << static_cast<int>(mcuAddress)
-                            << "\n"
-                            << "\tReg: " << static_cast<int>(tempReg) << "\n"
-                            << "\tClass: " << sensorClass << "\n";
-                    }
-
-                    auto& sensor = sensors[name];
-
-                    sensor = std::make_unique<MCUTempSensor>(
-                        dbusConnection, io, name, pathPair.first, objectServer,
-                        std::move(sensorThresholds), busId, mcuAddress,
-                        tempReg);
-
-                    sensor->init();
+                    continue;
                 }
+                std::string name =
+                    loadVariant<std::string>(entry.second, "Name");
+
+                std::vector<thresholds::Threshold> sensorThresholds;
+                if (!parseThresholdsFromConfig(pathPair.second,
+                                               sensorThresholds))
+                {
+                    std::cerr << "error populating thresholds for " << name
+                              << "\n";
+                }
+
+                uint8_t busId = loadVariant<uint8_t>(entry.second, "Bus");
+
+                uint8_t mcuAddress =
+                    loadVariant<uint8_t>(entry.second, "Address");
+
+                uint8_t tempReg = loadVariant<uint8_t>(entry.second, "Reg");
+
+                std::string sensorClass =
+                    loadVariant<std::string>(entry.second, "Class");
+
+                if constexpr (debug)
+                {
+                    std::cerr << "Configuration parsed for \n\t" << entry.first
+                              << "\n"
+                              << "with\n"
+                              << "\tName: " << name << "\n"
+                              << "\tBus: " << static_cast<int>(busId) << "\n"
+                              << "\tAddress: " << static_cast<int>(mcuAddress)
+                              << "\n"
+                              << "\tReg: " << static_cast<int>(tempReg) << "\n"
+                              << "\tClass: " << sensorClass << "\n";
+                }
+
+                auto& sensor = sensors[name];
+
+                sensor = std::make_unique<MCUTempSensor>(
+                    dbusConnection, io, name, pathPair.first, objectServer,
+                    std::move(sensorThresholds), busId, mcuAddress, tempReg);
+
+                sensor->init();
             }
+        }
         },
         entityManagerName, "/", "org.freedesktop.DBus.ObjectManager",
         "GetManagedObjects");
@@ -277,26 +275,26 @@ int main()
 
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message&) {
-            configTimer.expires_from_now(boost::posix_time::seconds(1));
-            // create a timer because normally multiple properties change
-            configTimer.async_wait([&](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
-                // config timer error
-                if (ec)
-                {
-                    std::cerr << "timer error\n";
-                    return;
-                }
-                createSensors(io, objectServer, sensors, systemBus);
-                if (sensors.empty())
-                {
-                    std::cout << "Configuration not detected\n";
-                }
-            });
-        };
+        configTimer.expires_from_now(boost::posix_time::seconds(1));
+        // create a timer because normally multiple properties change
+        configTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
+            // config timer error
+            if (ec)
+            {
+                std::cerr << "timer error\n";
+                return;
+            }
+            createSensors(io, objectServer, sensors, systemBus);
+            if (sensors.empty())
+            {
+                std::cout << "Configuration not detected\n";
+            }
+        });
+    };
 
     sdbusplus::bus::match::match configMatch(
         static_cast<sdbusplus::bus::bus&>(*systemBus),

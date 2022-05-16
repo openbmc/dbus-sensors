@@ -128,12 +128,12 @@ void PSUSensor::setupRead(void)
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
     inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
                         [weakRef](const boost::system::error_code& ec) {
-                            std::shared_ptr<PSUSensor> self = weakRef.lock();
-                            if (self)
-                            {
-                                self->handleResponse(ec);
-                            }
-                        });
+        std::shared_ptr<PSUSensor> self = weakRef.lock();
+        if (self)
+        {
+            self->handleResponse(ec);
+        }
+    });
 }
 
 void PSUSensor::restartRead(void)
