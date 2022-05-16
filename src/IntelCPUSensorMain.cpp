@@ -375,13 +375,16 @@ bool createSensors(boost::asio::io_service& io,
                               << sensorName << "\n";
                 }
             }
+            fs::path inventoryPath =
+                fs::path(cpuInventoryPath) / ("cpu" + std::to_string(cpuId));
+
             auto& sensorPtr = gCpuSensors[sensorName];
             // make sure destructor fires before creating a new one
             sensorPtr = nullptr;
             sensorPtr = std::make_shared<IntelCPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show, dtsOffset);
+                show, dtsOffset, inventoryPath.string());
             sensorPtr->setupRead();
             createdSensors.insert(sensorName);
             if (debug)
