@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06966b36_4bad50d1",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-16T11:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "95ca2903_eae517a6",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5106e56_78d969cf",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-12T23:52:38Z",
       "side": 1,
       "message": "This does not look right. Are you trying to pass the object self (this) into the callback at line39?\n\nstd::weak_ptr\u003cIpmbSDRDevice\u003e weakRef \u003d weak_from_this();\ninside callback (line 41) add:\n\nauto self \u003d weakRef.lock();",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 76
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96ed427b_20a34595",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-16T11:39:16Z",
+      "side": 1,
+      "message": "I tried using weak_ptr instead of shared_ptr, but I am getting the print \"No self\" which is in below logic.\n\nstd::weak_ptr\u003cIpmbSDRDevice\u003e weakRef \u003d weak_from_this();\n\nconn-\u003easync_method_call(\n    [weakRef](boost::system::error_code ec, const IpmbMethodType\u0026 response) {\n      std::shared_ptr\u003cIpmbSDRDevice\u003e self \u003d weakRef.lock();\n       if (!self)\n       {\n            std::cerr \u003c\u003c \" No self \\n\";\n       }\n});",
+      "parentUuid": "f5106e56_78d969cf",
       "range": {
         "startLine": 35,
         "startChar": 4,
@@ -93,6 +141,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31cda537_f360a149",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-16T11:39:16Z",
+      "side": 1,
+      "message": "It is not necessary, I just want to make sure that all the sensor is read for each host. If this needs to be removed, then I will remove this log in the next patchset.",
+      "parentUuid": "3c93bcdf_65ceba64",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 40
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c493c7a_4923ffb2",
@@ -116,6 +188,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82fa7117_5e9c1f68",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-16T11:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6c493c7a_4923ffb2",
+      "range": {
+        "startLine": 179,
+        "startChar": 24,
+        "endLine": 179,
+        "endChar": 44
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7af01028_1db48593",
@@ -129,6 +225,30 @@
       "writtenOn": "2022-05-12T23:52:38Z",
       "side": 1,
       "message": "lots of this stat_cast from enum to index. It would be easier to read if structure is defined like: \nstruct SdrMessageData \n{\n     uint8_t sdrType,\n     uint8_t sdrSenNum,\n     ....\n}\n\nSdrMessageData msg * \u003d reinterpret_cast\u003c SdrMessageData *\u003e (data.data());\nif (msg-\u003esdrType !\u003d ...) \n{\n}",
+      "range": {
+        "startLine": 188,
+        "startChar": 25,
+        "endLine": 188,
+        "endChar": 50
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38a9665b_50da449a",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-16T11:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7af01028_1db48593",
       "range": {
         "startLine": 188,
         "startChar": 25,
