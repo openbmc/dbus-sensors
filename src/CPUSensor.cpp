@@ -33,6 +33,30 @@
 #include <string>
 #include <vector>
 
+namespace fs = std::filesystem;
+
+void setCpuInventoryAssociation(
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path, int cpuId)
+{
+    if (association)
+    {
+        fs::path p(path);
+        std::vector<Association> associations;
+        std::cout << path << std::endl;
+        associations.emplace_back("chassis", "all_sensors",
+                                  p.parent_path().string());
+        auto inventoryPath =
+            fs::path(
+                "/xyz/openbmc_project/inventory/system/chassis/motherboard") /
+            ("cpu" + std::to_string(cpuId));
+        associations.emplace_back("inventory", "sensors", inventoryPath.string());
+
+        association->register_property("Associations", associations);
+        association->initialize();
+    }
+}
+
 CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      sdbusplus::asio::object_server& objectServer,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -81,10 +105,11 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                 thresholdInterfaces[static_cast<size_t>(threshold.level)] =
                     objectServer.add_interface(interfacePath, interface);
             }
+            setInitialProperties(units);
+
             association = objectServer.add_interface(interfacePath,
                                                      association::interface);
-
-            setInitialProperties(units);
+            setCpuInventoryAssociation(association, path, cpuId);
         }
     }
 
