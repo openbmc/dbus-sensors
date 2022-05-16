@@ -242,6 +242,9 @@ inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
         properties::set, "xyz.openbmc_project.Led.Group", "Asserted",
         std::variant<bool>(on));
 }
+void setInventoryAssociation(
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& inventoryPath, const std::string& chassisPath);
 
 void createInventoryAssoc(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
