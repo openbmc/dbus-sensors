@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61d5bf9f_ef0df065",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-16T15:54:04Z",
+      "side": 1,
+      "message": "That is actually a bug in your code:\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/52160/14/src/IpmbSensor.cpp#610\n The object is a local variable gets out of scope and destroyed when the function returns",
+      "parentUuid": "96ed427b_20a34595",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 76
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6982f1f4_1c447217",
         "filename": "src/IpmbSDRSensor.cpp",
         "patchSetId": 14
