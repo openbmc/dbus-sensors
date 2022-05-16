@@ -156,13 +156,13 @@ void CPUSensor::setupRead(void)
     std::weak_ptr<CPUSensor> weakRef = weak_from_this();
     inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
                         [weakRef](const boost::system::error_code& ec) {
-                            std::shared_ptr<CPUSensor> self = weakRef.lock();
+        std::shared_ptr<CPUSensor> self = weakRef.lock();
 
-                            if (self)
-                            {
-                                self->handleResponse(ec);
-                            }
-                        });
+        if (self)
+        {
+            self->handleResponse(ec);
+        }
+    });
 }
 
 void CPUSensor::updateMinMaxValues(void)

@@ -116,20 +116,20 @@ std::string createSensorName(const std::string& label, const std::string& item,
     bool isWordEnd = true;
     std::transform(sensorName.begin(), sensorName.end(), sensorName.begin(),
                    [&isWordEnd](int c) {
-                       if (std::isspace(c))
-                       {
-                           isWordEnd = true;
-                       }
-                       else
-                       {
-                           if (isWordEnd)
-                           {
-                               isWordEnd = false;
-                               return std::toupper(c);
-                           }
-                       }
-                       return c;
-                   });
+        if (std::isspace(c))
+        {
+            isWordEnd = true;
+        }
+        else
+        {
+            if (isWordEnd)
+            {
+                isWordEnd = false;
+                return std::toupper(c);
+            }
+        }
+        return c;
+    });
     return sensorName;
 }
 
@@ -737,33 +737,33 @@ int main()
 
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&](sdbusplus::message::message& message) {
-            if (message.is_method_error())
+        if (message.is_method_error())
+        {
+            std::cerr << "callback method error\n";
+            return;
+        }
+
+        if (debug)
+        {
+            std::cout << message.get_path() << " is changed\n";
+        }
+
+        // this implicitly cancels the timer
+        filterTimer.expires_from_now(boost::posix_time::seconds(1));
+        filterTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
             {
-                std::cerr << "callback method error\n";
-                return;
+                return; // we're being canceled
             }
 
-            if (debug)
+            if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs,
+                             objectServer))
             {
-                std::cout << message.get_path() << " is changed\n";
+                detectCpuAsync(pingTimer, creationTimer, io, objectServer,
+                               systemBus, cpuConfigs, sensorConfigs);
             }
-
-            // this implicitly cancels the timer
-            filterTimer.expires_from_now(boost::posix_time::seconds(1));
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
-
-                if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs,
-                                 objectServer))
-                {
-                    detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                                   systemBus, cpuConfigs, sensorConfigs);
-                }
-            });
-        };
+        });
+    };
 
     for (const char* type : sensorTypes)
     {

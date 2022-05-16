@@ -288,21 +288,21 @@ struct Sensor
             iface->register_property(
                 level, threshold.value,
                 [&, label, thresSize](const double& request, double& oldValue) {
-                    oldValue = request; // todo, just let the config do this?
-                    threshold.value = request;
-                    thresholds::persistThreshold(configurationPath, objectType,
-                                                 threshold, dbusConnection,
-                                                 thresSize, label);
-                    // Invalidate previously remembered value,
-                    // so new thresholds will be checked during next update,
-                    // even if sensor reading remains unchanged.
-                    value = std::numeric_limits<double>::quiet_NaN();
+                oldValue = request; // todo, just let the config do this?
+                threshold.value = request;
+                thresholds::persistThreshold(configurationPath, objectType,
+                                             threshold, dbusConnection,
+                                             thresSize, label);
+                // Invalidate previously remembered value,
+                // so new thresholds will be checked during next update,
+                // even if sensor reading remains unchanged.
+                value = std::numeric_limits<double>::quiet_NaN();
 
-                    // Although tempting, don't call checkThresholds() from here
-                    // directly. Let the regular sensor monitor call the same
-                    // using updateValue(), which can check conditions like
-                    // poweron, etc., before raising any event.
-                    return 1;
+                // Although tempting, don't call checkThresholds() from here
+                // directly. Let the regular sensor monitor call the same
+                // using updateValue(), which can check conditions like
+                // poweron, etc., before raising any event.
+                return 1;
                 });
             iface->register_property(alarm, false);
         }

@@ -177,10 +177,10 @@ inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
 {
     conn->async_method_call(
         [name](const boost::system::error_code ec) {
-            if (ec)
-            {
-                std::cerr << "Failed to set LED " << name << "\n";
-            }
+        if (ec)
+        {
+            std::cerr << "Failed to set LED " << name << "\n";
+        }
         },
         "xyz.openbmc_project.LED.GroupManager",
         "/xyz/openbmc_project/led/groups/" + name, properties::interface,
@@ -217,30 +217,30 @@ struct GetSensorConfiguration :
              retries](const boost::system::error_code ec,
                       boost::container::flat_map<std::string, BasicVariantType>&
                           data) {
-                if (ec)
+            if (ec)
+            {
+                std::cerr << "Error getting " << path << ": retries left"
+                          << retries - 1 << "\n";
+                if (!retries)
                 {
-                    std::cerr << "Error getting " << path << ": retries left"
-                              << retries - 1 << "\n";
-                    if (!retries)
-                    {
-                        return;
-                    }
-                    auto timer = std::make_shared<boost::asio::steady_timer>(
-                        self->dbusConnection->get_io_context());
-                    timer->expires_after(std::chrono::seconds(10));
-                    timer->async_wait([self, timer, path, interface, owner,
-                                       retries](boost::system::error_code ec) {
-                        if (ec)
-                        {
-                            std::cerr << "Timer error!\n";
-                            return;
-                        }
-                        self->getPath(path, interface, owner, retries - 1);
-                    });
                     return;
                 }
+                auto timer = std::make_shared<boost::asio::steady_timer>(
+                    self->dbusConnection->get_io_context());
+                timer->expires_after(std::chrono::seconds(10));
+                timer->async_wait([self, timer, path, interface, owner,
+                                   retries](boost::system::error_code ec) {
+                    if (ec)
+                    {
+                        std::cerr << "Timer error!\n";
+                        return;
+                    }
+                    self->getPath(path, interface, owner, retries - 1);
+                });
+                return;
+            }
 
-                self->respData[path][interface] = std::move(data);
+            self->respData[path][interface] = std::move(data);
             },
             owner, path, "org.freedesktop.DBus.Properties", "GetAll",
             interface);
@@ -258,52 +258,50 @@ struct GetSensorConfiguration :
         dbusConnection->async_method_call(
             [self, interfaces, retries](const boost::system::error_code ec,
                                         const GetSubTreeType& ret) {
-                if (ec)
+            if (ec)
+            {
+                std::cerr << "Error calling mapper\n";
+                if (!retries)
                 {
-                    std::cerr << "Error calling mapper\n";
-                    if (!retries)
-                    {
-                        return;
-                    }
-                    auto timer = std::make_shared<boost::asio::steady_timer>(
-                        self->dbusConnection->get_io_context());
-                    timer->expires_after(std::chrono::seconds(10));
-                    timer->async_wait([self, timer, interfaces,
-                                       retries](boost::system::error_code ec) {
-                        if (ec)
-                        {
-                            std::cerr << "Timer error!\n";
-                            return;
-                        }
-                        self->getConfiguration(interfaces, retries - 1);
-                    });
-
                     return;
                 }
-                for (const auto& [path, objDict] : ret)
-                {
-                    if (objDict.empty())
+                auto timer = std::make_shared<boost::asio::steady_timer>(
+                    self->dbusConnection->get_io_context());
+                timer->expires_after(std::chrono::seconds(10));
+                timer->async_wait([self, timer, interfaces,
+                                   retries](boost::system::error_code ec) {
+                    if (ec)
                     {
+                        std::cerr << "Timer error!\n";
                         return;
                     }
-                    const std::string& owner = objDict.begin()->first;
+                    self->getConfiguration(interfaces, retries - 1);
+                });
 
-                    for (const std::string& interface : objDict.begin()->second)
-                    {
-                        // anything that starts with a requested configuration
-                        // is good
-                        if (std::find_if(
-                                interfaces.begin(), interfaces.end(),
-                                [interface](const std::string& possible) {
-                                    return boost::starts_with(interface,
-                                                              possible);
-                                }) == interfaces.end())
-                        {
-                            continue;
-                        }
-                        self->getPath(path, interface, owner);
-                    }
+                return;
+            }
+            for (const auto& [path, objDict] : ret)
+            {
+                if (objDict.empty())
+                {
+                    return;
                 }
+                const std::string& owner = objDict.begin()->first;
+
+                for (const std::string& interface : objDict.begin()->second)
+                {
+                    // anything that starts with a requested configuration
+                    // is good
+                    if (std::find_if(interfaces.begin(), interfaces.end(),
+                                     [interface](const std::string& possible) {
+                        return boost::starts_with(interface, possible);
+                        }) == interfaces.end())
+                    {
+                        continue;
+                    }
+                    self->getPath(path, interface, owner);
+                }
+            }
             },
             mapper::busName, mapper::path, mapper::interface, mapper::subtree,
             "/", 0, interfaces);

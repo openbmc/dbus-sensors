@@ -140,58 +140,57 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                 const boost::system::error_code& ec,
                 const boost::container::flat_map<std::string, BasicVariantType>&
                     result) {
-                if (ec)
-                {
-                    return; // threshold not supported
-                }
+            if (ec)
+            {
+                return; // threshold not supported
+            }
 
-                if (!labelMatch.empty())
+            if (!labelMatch.empty())
+            {
+                auto labelFind = result.find("Label");
+                if (labelFind == result.end())
                 {
-                    auto labelFind = result.find("Label");
-                    if (labelFind == result.end())
-                    {
-                        std::cerr << "No label in threshold configuration\n";
-                        return;
-                    }
-                    std::string label =
-                        std::visit(VariantToStringVisitor(), labelFind->second);
-                    if (label != labelMatch)
-                    {
-                        return;
-                    }
-                }
-
-                auto directionFind = result.find("Direction");
-                auto severityFind = result.find("Severity");
-                auto valueFind = result.find("Value");
-                if (valueFind == result.end() || severityFind == result.end() ||
-                    directionFind == result.end())
-                {
-                    std::cerr << "Malformed threshold in configuration\n";
+                    std::cerr << "No label in threshold configuration\n";
                     return;
                 }
-                unsigned int severity = std::visit(
-                    VariantToUnsignedIntVisitor(), severityFind->second);
-
-                std::string dir =
-                    std::visit(VariantToStringVisitor(), directionFind->second);
-                if ((findThresholdLevel(severity) != threshold.level) ||
-                    (findThresholdDirection(dir) != threshold.direction))
+                std::string label =
+                    std::visit(VariantToStringVisitor(), labelFind->second);
+                if (label != labelMatch)
                 {
-                    return; // not the droid we're looking for
+                    return;
                 }
+            }
 
-                std::variant<double> value(threshold.value);
-                conn->async_method_call(
-                    [](const boost::system::error_code& ec) {
-                        if (ec)
-                        {
-                            std::cerr << "Error setting threshold " << ec
-                                      << "\n";
-                        }
-                    },
-                    entityManagerName, path, "org.freedesktop.DBus.Properties",
-                    "Set", thresholdInterface, "Value", value);
+            auto directionFind = result.find("Direction");
+            auto severityFind = result.find("Severity");
+            auto valueFind = result.find("Value");
+            if (valueFind == result.end() || severityFind == result.end() ||
+                directionFind == result.end())
+            {
+                std::cerr << "Malformed threshold in configuration\n";
+                return;
+            }
+            unsigned int severity =
+                std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+
+            std::string dir =
+                std::visit(VariantToStringVisitor(), directionFind->second);
+            if ((findThresholdLevel(severity) != threshold.level) ||
+                (findThresholdDirection(dir) != threshold.direction))
+            {
+                return; // not the droid we're looking for
+            }
+
+            std::variant<double> value(threshold.value);
+            conn->async_method_call(
+                [](const boost::system::error_code& ec) {
+                if (ec)
+                {
+                    std::cerr << "Error setting threshold " << ec << "\n";
+                }
+                },
+                entityManagerName, path, "org.freedesktop.DBus.Properties",
+                "Set", thresholdInterface, "Value", value);
             },
             entityManagerName, path, "org.freedesktop.DBus.Properties",
             "GetAll", thresholdInterface);

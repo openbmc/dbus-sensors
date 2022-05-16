@@ -118,10 +118,11 @@ TachSensor::~TachSensor()
 
 void TachSensor::setupRead(void)
 {
-    boost::asio::async_read_until(
-        inputDev, readBuf, '\n',
-        [&](const boost::system::error_code& ec,
-            std::size_t /*bytes_transfered*/) { handleResponse(ec); });
+    boost::asio::async_read_until(inputDev, readBuf, '\n',
+                                  [&](const boost::system::error_code& ec,
+                                      std::size_t /*bytes_transfered*/) {
+        handleResponse(ec);
+    });
 }
 
 void TachSensor::handleResponse(const boost::system::error_code& err)
@@ -253,22 +254,21 @@ void PresenceSensor::monitorPresence(void)
 {
     gpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
                       [this](const boost::system::error_code& ec) {
-                          if (ec == boost::system::errc::bad_file_descriptor)
-                          {
-                              return; // we're being destroyed
-                          }
-                          if (ec)
-                          {
-                              std::cerr << "Error on presence sensor " << name
-                                        << " \n";
-                              ;
-                          }
-                          else
-                          {
-                              read();
-                          }
-                          monitorPresence();
-                      });
+        if (ec == boost::system::errc::bad_file_descriptor)
+        {
+            return; // we're being destroyed
+        }
+        if (ec)
+        {
+            std::cerr << "Error on presence sensor " << name << " \n";
+            ;
+        }
+        else
+        {
+            read();
+        }
+        monitorPresence();
+    });
 }
 
 void PresenceSensor::read(void)

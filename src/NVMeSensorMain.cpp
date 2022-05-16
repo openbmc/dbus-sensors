@@ -237,24 +237,24 @@ int main()
     std::function<void(sdbusplus::message::message&)> eventHandler =
         [&filterTimer, &io, &objectServer,
          &systemBus](sdbusplus::message::message&) {
-            // this implicitly cancels the timer
-            filterTimer.expires_from_now(boost::posix_time::seconds(1));
+        // this implicitly cancels the timer
+        filterTimer.expires_from_now(boost::posix_time::seconds(1));
 
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
+        filterTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
 
-                if (ec)
-                {
-                    std::cerr << "Error: " << ec.message() << "\n";
-                    return;
-                }
+            if (ec)
+            {
+                std::cerr << "Error: " << ec.message() << "\n";
+                return;
+            }
 
-                createSensors(io, objectServer, systemBus);
-            });
-        };
+            createSensors(io, objectServer, systemBus);
+        });
+    };
 
     sdbusplus::bus::match::match configMatch(
         static_cast<sdbusplus::bus::bus&>(*systemBus),
@@ -270,7 +270,7 @@ int main()
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
         [](sdbusplus::message::message& msg) {
-            interfaceRemoved(msg, nvmeDeviceMap);
+        interfaceRemoved(msg, nvmeDeviceMap);
         });
 
     setupManufacturingModeMatch(*systemBus);
