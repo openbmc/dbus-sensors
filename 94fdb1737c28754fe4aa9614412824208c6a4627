@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9970ec4_4b0931de",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-16T18:59:40Z",
+      "side": 1,
+      "message": "this is more like configSdrSensor() to me.",
+      "range": {
+        "startLine": 492,
+        "startChar": 5,
+        "endLine": 492,
+        "endChar": 20
+      },
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb0adb65_750889bf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-16T18:59:40Z",
+      "side": 1,
+      "message": "pass by value here",
+      "range": {
+        "startLine": 494,
+        "startChar": 21,
+        "endLine": 494,
+        "endChar": 42
+      },
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "635a6d16_6e86e348",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-16T18:59:40Z",
+      "side": 1,
+      "message": "I don\u0027t understand how can this variable auto increment within this loop. This is a physical ipmb bus index, right? Please explain why it would increment as iteration at line 539.",
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64588f6d_a4569abb",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-05-16T18:59:40Z",
+      "side": 1,
+      "message": "Logic can be simplified:\nif (entry.first \u003d\u003d configInterface) {\n/*old code*/\n} else if (entry.first \u003d\u003d IpmbSDRInterface)\n{\n/*new code*/\nvalidateSensors()\n}",
+      "range": {
+        "startLine": 594,
+        "startChar": 1,
+        "endLine": 624,
+        "endChar": 44
+      },
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
