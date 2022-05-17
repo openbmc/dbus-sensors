@@ -973,6 +973,7 @@ void propertyInitialize(void)
         {"power4", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
         {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
+        {"vin1", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
         {"vout1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
