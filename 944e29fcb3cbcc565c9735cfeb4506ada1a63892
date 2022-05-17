@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75056ac1_0e98bdc3",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-05-17T15:11:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b9738e74_b5f9f742",
+      "revId": "944e29fcb3cbcc565c9735cfeb4506ada1a63892",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fcb647c_fbea96ae",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-10T12:13:48Z",
       "side": 1,
       "message": "can we make this function as const ,being getter function ..?",
+      "revId": "944e29fcb3cbcc565c9735cfeb4506ada1a63892",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d8aa277_cee2d6d5",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-05-17T15:11:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7fcb647c_fbea96ae",
       "revId": "944e29fcb3cbcc565c9735cfeb4506ada1a63892",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +94,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "147b6a91_46bf9ff6",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-05-17T15:11:10Z",
+      "side": 1,
+      "message": "yes, treating it as a constant, inline is not necessary for the variable\u0027s here so all can be changed.",
+      "parentUuid": "73c6946d_4d021172",
+      "range": {
+        "startLine": 6,
+        "startChar": 22,
+        "endLine": 6,
+        "endChar": 32
+      },
+      "revId": "944e29fcb3cbcc565c9735cfeb4506ada1a63892",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85bd115c_d0205c59",
@@ -71,6 +131,30 @@
       "writtenOn": "2022-05-10T12:13:48Z",
       "side": 1,
       "message": "query : wanted to know advantage of inline here .",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "944e29fcb3cbcc565c9735cfeb4506ada1a63892",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64adcace_561a8312",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-05-17T15:11:10Z",
+      "side": 1,
+      "message": "inline is not necessary for the variables here, and changed in the following patches.",
+      "parentUuid": "85bd115c_d0205c59",
       "range": {
         "startLine": 9,
         "startChar": 7,
