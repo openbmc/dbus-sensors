@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4feb085_0224e1df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2022-05-17T01:33:22Z",
+      "side": 1,
+      "message": "more information about the sensor? eg. the device, the driver?",
+      "revId": "1f506cb4824aa249d08639107a3d3f380425695c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
