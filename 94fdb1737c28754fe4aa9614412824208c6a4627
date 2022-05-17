@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfcbb21f_745af109",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-17T13:57:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b9970ec4_4b0931de",
+      "range": {
+        "startLine": 492,
+        "startChar": 5,
+        "endLine": 492,
+        "endChar": 20
+      },
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb0adb65_750889bf",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-16T18:59:40Z",
       "side": 1,
       "message": "pass by value here",
+      "range": {
+        "startLine": 494,
+        "startChar": 21,
+        "endLine": 494,
+        "endChar": 42
+      },
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5736327e_c76d694a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-17T13:57:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb0adb65_750889bf",
       "range": {
         "startLine": 494,
         "startChar": 21,
@@ -66,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0baee85_3548a288",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-17T13:57:37Z",
+      "side": 1,
+      "message": "yes, it is a physical IPMB bus. For sensorRecord map, ipmbBusIndex value is declared as key. Also, ipmbBusIndex value will be assigned to 0 as default, if it is not present in config for IpmbSensor.\n\nSince one of the bus value is 0 for SDR, I have incremented with 1, so that the keys in the map will be different for IpmbSensor and SDR sensor.",
+      "parentUuid": "635a6d16_6e86e348",
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64588f6d_a4569abb",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 3
@@ -77,6 +143,30 @@
       "writtenOn": "2022-05-16T18:59:40Z",
       "side": 1,
       "message": "Logic can be simplified:\nif (entry.first \u003d\u003d configInterface) {\n/*old code*/\n} else if (entry.first \u003d\u003d IpmbSDRInterface)\n{\n/*new code*/\nvalidateSensors()\n}",
+      "range": {
+        "startLine": 594,
+        "startChar": 1,
+        "endLine": 624,
+        "endChar": 44
+      },
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cba409e5_993332a7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-17T13:57:37Z",
+      "side": 1,
+      "message": "Since the old and new code shares the below logic and to avoid duplication, I have modified the code instead of using if condition. Could you please share your thoughts on this.\n\n auto\u0026 sensor \u003d sensors[name];\n sensor \u003d std::make_unique\u003cIpmbSensor\u003e(\n          dbusConnection, io, name, pathPair.first,\n          objectServer, std::move(sensorThresholds),\n          deviceAddress, hostSMbusIndex, pollRate,\n          sensorTypeName);\n\n          sensor-\u003eparseConfigValues(entry.second);\n          if (!(sensor-\u003esensorClassType(sensorClass)))\n          {\n             continue;\n          }\n          sensor-\u003esensorSubType(sensorTypeName);\n          sensor-\u003einit();",
+      "parentUuid": "64588f6d_a4569abb",
       "range": {
         "startLine": 594,
         "startChar": 1,
