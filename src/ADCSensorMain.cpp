@@ -256,6 +256,31 @@ void createSensors(
                     }
                 }
 
+                auto findMaxValue = baseConfiguration->second.find("MaxValue");
+                float maxValue = 1.8;
+                if (findMaxValue != baseConfiguration->second.end())
+                {
+                    maxValue = std::visit(VariantToDoubleVisitor(),
+                                          findMaxValue->second);
+                }
+                else
+                {
+                    maxValue = 1.8 / scaleFactor;
+                }
+
+                auto findMinValue = baseConfiguration->second.find("MinValue");
+                float minValue = 0;
+                if (findMinValue != baseConfiguration->second.end())
+                {
+                    minValue = std::visit(VariantToDoubleVisitor(),
+                                          findMinValue->second);
+                }
+                else
+                {
+                    minValue = 0 / scaleFactor;
+                }
+
+
                 auto findPowerOn = baseConfiguration->second.find("PowerState");
                 PowerState readState = PowerState::always;
                 if (findPowerOn != baseConfiguration->second.end())
@@ -313,7 +338,8 @@ void createSensors(
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
                     std::move(sensorThresholds), scaleFactor, pollRate,
-                    readState, *interfacePath, std::move(bridgeGpio));
+                    readState, maxValue, minValue, *interfacePath,
+                    std::move(bridgeGpio));
                 sensor->setupRead();
             }
         });
