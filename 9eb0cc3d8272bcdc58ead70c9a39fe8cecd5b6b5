@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "444f5278_2ee3b11c",
+        "filename": "src/ADCSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-19T18:12:45Z",
+      "side": 0,
+      "message": "You\u0027ve completely removed this device level scaling.......  This is going to change values that previously worked.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 70
+      },
+      "revId": "9eb0cc3d8272bcdc58ead70c9a39fe8cecd5b6b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

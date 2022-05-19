@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71ca2aed_b10972a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-19T18:12:45Z",
+      "side": 1,
+      "message": "I\u0027m really having trouble understanding how this is demonstrated.  ScaleFactor, MinValue, and MaxValue are different things.\n\nScaleFactor is meant to compensate for the fact that many ADCs are scaled in hardware before the signal is processed by the BMC.  In this patch you\u0027ve completely changed how that math works, and even removed the 1.8V ADC \"normalization\" that we do.\n\nMinValue/MaxValue are intended to set the expected min/max range of the signal such that we can generate reasonable resolution numbers in IPMI.\n\nThe two parameter sets are largely mutually exclusive.  As such, I really don\u0027t understand this patch.  Can you please add more details, including the details of what I\u0027ve put above about how each one i defined currently, and add in how you\u0027ve redefined them.\n\nAlso, please include details about backward compatibility of configs.  If I\u0027m reading this patch correctly, this change will functionally break a majority of entity-manager configs in the codebase, so please make a statement about that.",
+      "revId": "a1268e59ef741d2a05db3ce3984be6eb56942ec5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
