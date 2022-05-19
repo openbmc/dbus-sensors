@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "731be4b4_9f4a8750",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06966b36_4bad50d1",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5106e56_78d969cf",
@@ -119,6 +143,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46dfa22c_e49ed4ac",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Thanks for your response, I have changed to weak_ptr() now.",
+      "parentUuid": "61d5bf9f_ef0df065",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 76
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6982f1f4_1c447217",
@@ -132,6 +180,30 @@
       "writtenOn": "2022-05-12T23:52:38Z",
       "side": 1,
       "message": "This block calls self-\u003exxx each line, Can it be encapsulated into a member function of the class?",
+      "range": {
+        "startLine": 126,
+        "startChar": 3,
+        "endLine": 161,
+        "endChar": 13
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "879bec67_81a4e452",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6982f1f4_1c447217",
       "range": {
         "startLine": 126,
         "startChar": 3,
@@ -189,6 +261,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84ef9047_dc7cea2c",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31cda537_f360a149",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 40
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c493c7a_4923ffb2",
@@ -236,6 +332,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "047bc47d_9f9b9012",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82fa7117_5e9c1f68",
+      "range": {
+        "startLine": 179,
+        "startChar": 24,
+        "endLine": 179,
+        "endChar": 44
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7af01028_1db48593",
@@ -273,6 +393,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "7af01028_1db48593",
+      "range": {
+        "startLine": 188,
+        "startChar": 25,
+        "endLine": 188,
+        "endChar": 50
+      },
+      "revId": "d637888b648e9bb0fa82bf41d5a005cb42eadf74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab341427_5959421a",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38a9665b_50da449a",
       "range": {
         "startLine": 188,
         "startChar": 25,

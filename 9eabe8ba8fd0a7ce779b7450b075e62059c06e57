@@ -1087,6 +1087,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4856765f_7c462472",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a927ff73_4364c758",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 72
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f088c26f_eb17658f",
@@ -1265,6 +1289,30 @@
       "side": 1,
       "message": "Same as above issue is facing here.",
       "parentUuid": "a77a0303_55b9a440",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 21
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9538cff_773ef751",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2405a217_a1a39a2b",
       "range": {
         "startLine": 69,
         "startChar": 9,
@@ -1651,6 +1699,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eca5ae75_e023f8a0",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83498eaf_d6b1f857",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 13
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b18c738a_24177063",
@@ -1999,6 +2071,30 @@
       "writtenOn": "2022-04-29T16:06:31Z",
       "side": 1,
       "message": "Considering we\u0027re reading from a binary interface here, this needs some sanity checks to ensure the names are printable ascii characters.",
+      "range": {
+        "startLine": 232,
+        "startChar": 8,
+        "endLine": 232,
+        "endChar": 16
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc709388_e8ed1a04",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-19T13:41:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b5525b2c_6972e2c1",
       "range": {
         "startLine": 232,
         "startChar": 8,
