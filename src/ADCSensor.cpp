@@ -36,9 +36,7 @@
 // scaling factor from hwmon
 static constexpr unsigned int sensorScaleFactor = 1000;
 
-static constexpr double roundFactor = 10000;     // 3 decimal places
-static constexpr double maxVoltageReading = 1.8; // pre sensor scaling
-static constexpr double minVoltageReading = 0;
+static constexpr double roundFactor = 10000; // 3 decimal places
 
 ADCSensor::ADCSensor(const std::string& path,
                      sdbusplus::asio::object_server& objectServer,
@@ -46,13 +44,13 @@ ADCSensor::ADCSensor(const std::string& path,
                      boost::asio::io_service& io, const std::string& sensorName,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const double scaleFactor, const float pollRate,
-                     PowerState readState,
+                     PowerState readState, const double maxValue,
+                     const double minValue,
                      const std::string& sensorConfiguration,
                      std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           "xyz.openbmc_project.Configuration.ADC", false, false,
-           maxVoltageReading / scaleFactor, minVoltageReading / scaleFactor,
-           conn, readState),
+           "xyz.openbmc_project.Configuration.ADC", false, false, maxValue,
+           minValue, conn, readState),
     std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
     inputDev(io), waitTimer(io), path(path), scaleFactor(scaleFactor),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
