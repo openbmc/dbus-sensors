@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe36a9f9_8db4071b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-20T07:32:46Z",
+      "side": 1,
+      "message": "Please wrap this commit by 50/72.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "433ff02fa90d95df2b00cebb3f416328113a4ecb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c058eb7f_04aadea1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-20T07:32:46Z",
+      "side": 1,
+      "message": "What if ChannelNames is not present in entity config ? \nIs there any default value assigned ?",
+      "range": {
+        "startLine": 579,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 25
+      },
+      "revId": "433ff02fa90d95df2b00cebb3f416328113a4ecb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f44c905f_4f81e9f7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-20T07:32:46Z",
+      "side": 1,
+      "message": "If this condition is satisfied, else part will not be used. You can prefer to use \"continue\" after line 591.",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 592,
+        "endChar": 21
+      },
+      "revId": "433ff02fa90d95df2b00cebb3f416328113a4ecb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28a2c554_290d0614",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-20T07:32:46Z",
+      "side": 1,
+      "message": "no need to use else here, if \"continue\" is used above.",
+      "range": {
+        "startLine": 593,
+        "startChar": 1,
+        "endLine": 593,
+        "endChar": 24
+      },
+      "revId": "433ff02fa90d95df2b00cebb3f416328113a4ecb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
