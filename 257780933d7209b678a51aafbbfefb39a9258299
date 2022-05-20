@@ -35,6 +35,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c3ac0b7_0d66e7bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-05-20T03:26:35Z",
+      "side": 1,
+      "message": "Where you planning to abandon this in favour of https://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/52548 ?",
+      "revId": "257780933d7209b678a51aafbbfefb39a9258299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da39eb3f_a79b1029",
