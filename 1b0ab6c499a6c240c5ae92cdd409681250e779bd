@@ -283,6 +283,30 @@
       },
       "revId": "1b0ab6c499a6c240c5ae92cdd409681250e779bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6adccdd3_05af1dbd",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-22T16:58:18Z",
+      "side": 1,
+      "message": "\u003e Entity manager is able to load drivers for i2c devices at runtime, this is independent of the device tree. So entity manager uses the Type field to determine which driver should be loaded for the device, and loads the driver (by writing sysfs) if it is not loaded. Though these sensors all uses hwmon for reading, the kernel driver being used is different.\n\nExactly.",
+      "parentUuid": "e475149a_4bc49480",
+      "range": {
+        "startLine": 57,
+        "startChar": 67,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "1b0ab6c499a6c240c5ae92cdd409681250e779bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
