@@ -251,6 +251,29 @@
       },
       "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99c0d5d8_f4003975",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:22:44Z",
+      "side": 1,
+      "message": "we already have the \"type\" field that can tell us what this is, why aren\u0027t we just adding a new \"MEpmbus\" type, and using that as the branch?",
+      "range": {
+        "startLine": 631,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 20
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
