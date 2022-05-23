@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f65c51d8_5c9af7a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:16:10Z",
+      "side": 1,
+      "message": "Can this be \"MEGetPmbus\" instead?  That means that later when we add \"OtherManagementControllerPmbus\" the sort list gets sorted by name of device, which is better.",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39898d11_ced369dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:16:10Z",
+      "side": 1,
+      "message": "THis kind of parameter should not be included in per-device-facing json.  We know what types are on pmbus sensors, and we know the type of the device on the other side, this shouldn\u0027t be required.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5f2f50a_329ea78b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:16:10Z",
+      "side": 1,
+      "message": "When would someone use the old method, and when would someone use the new method?  is it something we can detect instead of adding all new configs for it?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 53
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f3c54234_0dd68151",
