@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83c22e40_e717f272",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:20:35Z",
+      "side": 1,
+      "message": "I suspect we need a new Type: code in the config for this, considering it\u0027s a very different sensor, and takes completely different parameters.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 47
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f65c51d8_5c9af7a6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 25
@@ -134,6 +157,98 @@
       "writtenOn": "2022-05-23T18:00:01Z",
       "side": 1,
       "message": "Leave it up for couple more days to see if @Ed has additional input for latest patch.",
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bb59f96_dd7372dd",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:20:35Z",
+      "side": 1,
+      "message": "Magic numbers.  Please at least include a comment about what these represent.  Presumably this is Intel mfg id?",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 66
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91721098_a5bdd896",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:20:35Z",
+      "side": 1,
+      "message": "This is already handled by manufacturerId.size().  No need for a new variable.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2be5afe8_ee4f45c1",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:20:35Z",
+      "side": 1,
+      "message": "Please use an appropriately typed enum class for this.  It\u0027s likely more will be added at some point.",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 26
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8725d34c_6cf3b566",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-23T20:20:35Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right.  see comment on commit message, I suspect this needs a new Type or subtype that\u0027s different from ipmbsensor.  As written, this will accept SOME parameters without error that are invalid.",
+      "range": {
+        "startLine": 626,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 7
+      },
       "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
