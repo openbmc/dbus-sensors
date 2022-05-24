@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5eb50031_86781a68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-05-24T03:46:53Z",
+      "side": 1,
+      "message": "1. Users can configure DTS to determine how many thermal zone they need.\nThe thermal zone may not only contains BMC CPU thermal sensor.\nFor example user can set DTS like: thermal zone 0 i2c temperature sensor to monitor board temperture, thermal zone 1 monitor CPU temp\nI think it should be configurable per-platform.\n\n2. It\u0027s all depend on platfrom design\n\n3. This change purpose is export CPU temperture from sysfs to Openbmc applications.\nAnd the Kernel thermal framework make thermal sysfs under thermal zones. The \"zones\" may contain cool device, or not. It depend on platform. Users can configure their fan control by phosphor pid or thermal zone. No matter what they choose, they still need a way to read thermal sensor data.",
+      "parentUuid": "7cae7e12_4947d5b1",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "aba8437f571ded8342597ebe38304179fd4fbbf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "361039af_9bf1d5c3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
