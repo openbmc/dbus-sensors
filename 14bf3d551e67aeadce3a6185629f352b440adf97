@@ -39,6 +39,23 @@
       "message": "Help me out a little here.  This patchset has a number of +1s, yet has an obvious typo in the commit message, and is breaking one of the main abstractions/principals of entity-manager by putting linux DT specifics into the entity-manager config files.  The existing ADC sensor implementations are meant to point to ADCs that exist in the BMC.  If there are external devices, they would get their own Type: code, and would be matched up with the DT equivalent at runtime, but I see no mention of that here, and I see code that\u0027s just pushing more complexity into the config files, without making mention of the actual parameter in the commit message.\n\nWe try to avoid using linux-specifics in entity-manager config files because they\u0027re intended to be writable by hardware and platform engineers, that might not understand what a linux device tree name is.\n\nCan you please talk to some of these concerns in your commit message?",
       "revId": "14bf3d551e67aeadce3a6185629f352b440adf97",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c0942e_9f1032fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-24T18:49:47Z",
+      "side": 1,
+      "message": "The patch matchs device name in DTS:\n\tiio-hwmon {\n\t\tcompatible \u003d \"iio-hwmon\";\n\t\tio-channels \u003d \u003c\u0026adc0mux 0\u003e, \u003c\u0026adc0mux 1\u003e,\n\t\t\t\u003c\u0026adc1mux 0\u003e, \u003c\u0026adc1mux 1\u003e,\n\t\t\t\u003c\u0026adc2mux 0\u003e, \u003c\u0026adc2mux 1\u003e,\n\t\t\t\u003c\u0026adc3mux 0\u003e, \u003c\u0026adc3mux 1\u003e;\n\t};\n\n\tiio-hwmon-adc14 {\n\t\tcompatible \u003d \"iio-hwmon\";\n\t\tio-channels \u003d \u003c\u0026adc 14\u003e;\n\t};\n\n\tiio-hwmon-battery {\n\t\tcompatible \u003d \"iio-hwmon\";\n\t\tio-channels \u003d \u003c\u0026adc 15\u003e;\n\t};\nwith the configuration file in entity-manager.\n\nIt is breaked the rules \"Use real hardware info to match the configuration and should not depend on DTS\" when implement the dbus-sensors daemon.\n\nSo I will close this patch and also \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/42542.\n\nThe possible solution is move all ADC channels into one device as below:\n        iio-hwmon {\n\t\tcompatible \u003d \"iio-hwmon\";\n\t\tio-channels \u003d \u003c\u0026adc0mux 0\u003e, \u003c\u0026adc0mux 1\u003e,\n\t\t\t\u003c\u0026adc1mux 0\u003e, \u003c\u0026adc1mux 1\u003e,\n\t\t\t\u003c\u0026adc2mux 0\u003e, \u003c\u0026adc2mux 1\u003e,\n\t\t\t\u003c\u0026adc3mux 0\u003e, \u003c\u0026adc3mux 1\u003e,\n\t\t\t\u003c\u0026adc4mux 0\u003e, \u003c\u0026adc4mux 1\u003e,\n\t\t\t\u003c\u0026adc5mux 0\u003e, \u003c\u0026adc5mux 1\u003e,\n\t\t\t\u003c\u0026adc6mux 0\u003e, \u003c\u0026adc6mux 1\u003e,\n\t\t\t\u003c\u0026adc7mux 0\u003e, \u003c\u0026adc7mux 1\u003e,\n\t\t\t\u003c\u0026adc8mux 0\u003e, \u003c\u0026adc8mux 1\u003e,\n\t\t\t\u003c\u0026adc9mux 0\u003e, \u003c\u0026adc9mux 1\u003e,\n\t\t\t\u003c\u0026adc10mux 0\u003e, \u003c\u0026adc10mux 1\u003e,\n\t\t\t\u003c\u0026adc11mux 0\u003e, \u003c\u0026adc11mux 1\u003e,\n\t\t\t\u003c\u0026adc12mux 0\u003e, \u003c\u0026adc12mux 1\u003e,\n\t\t\t\u003c\u0026adc13mux 0\u003e, \u003c\u0026adc13mux 1\u003e,\n\t\t\t\u003c\u0026adc 14\u003e, \u003c\u0026adc 15\u003e;\n\t};\nThen we don\u0027t need these patches.",
+      "revId": "14bf3d551e67aeadce3a6185629f352b440adf97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
