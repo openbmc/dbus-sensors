@@ -120,6 +120,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9354e147_ba1239d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-24T14:06:23Z",
+      "side": 1,
+      "message": "\u003e 1. Users can configure DTS to determine how many thermal zone they need.\n\u003e The thermal zone may not only contains BMC CPU thermal sensor.\n\u003e For example user can set DTS like: thermal zone 0 i2c temperature sensor to monitor board temperture, thermal zone 1 monitor CPU temp\n\u003e I think it should be configurable per-platform.\n\nWe already have configuration items for thermal zones and thermal controllers.  How is this different than what exists already?\n\n\u003e \n\u003e 2. It\u0027s all depend on platfrom design\n\nSo a thermal zone is for multiple sensors?  How would a \"platform design\" determine how many they want?  Why would they use a thermal zone over the existing mechanisms for aggregating?\n\n\u003e \n\u003e 3. This change purpose is export CPU temperture from sysfs to Openbmc applications.\n\nThere are already several examples of exporting CPU temperatures from sysfs, generally using hwmontempsensor or cpusensor.  Why do we need a new one?\n\n\u003e And the Kernel thermal framework make thermal sysfs under thermal zones. The \"zones\" may contain cool device, or not. It depend on platform. Users can configure their fan control by phosphor pid or thermal zone. No matter what they choose, they still need a way to read thermal sensor data.\n\nWe still need a description of why this is different and needed compared to the existing thermal zones.  We\u0027re currently doing thermal control in userspace, which currently doesn\u0027t require the kernel.\n\n\nIdeally all of the above questions would be answered in your commit message, along with background.",
+      "parentUuid": "5eb50031_86781a68",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "aba8437f571ded8342597ebe38304179fd4fbbf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "361039af_9bf1d5c3",
