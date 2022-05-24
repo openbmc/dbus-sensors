@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "666075de_5ee34538",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-24T15:08:25Z",
+      "side": 1,
+      "message": "This is essentially duplicating features (thresholding, hysteresis, thermal zones, poll times, ect) that we have already in userspace.  The commit message needs to identify:\n1. Why this is needed over the existing solutions.\n2. When a user would pick one solution over another.\n\nI really suspect this is completely duplicating functionality, which, might be better than what we have, but if it\u0027s better, we should plan on a full transition, and removing the userspace thresholding code entirely for hwmon sensors.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 2
+      },
+      "revId": "c9fef494b9340e7bdc09c94e7bad9c06ab7b5127",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
