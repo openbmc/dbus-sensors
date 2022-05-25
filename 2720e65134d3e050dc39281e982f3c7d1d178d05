@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73aaacfb_0b75a07e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "This can be done.",
+      "parentUuid": "83c22e40_e717f272",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 47
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f65c51d8_5c9af7a6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 25
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-23T20:16:10Z",
       "side": 1,
       "message": "Can this be \"MEGetPmbus\" instead?  That means that later when we add \"OtherManagementControllerPmbus\" the sort list gets sorted by name of device, which is better.",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff333f1d_7cb782e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "Yes, will change it.",
+      "parentUuid": "f65c51d8_5c9af7a6",
       "range": {
         "startLine": 27,
         "startChar": 20,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "457464fd_9ee7ca74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "Get PMBUS Readings returns more than one register, so if we want to just read Temperature then we have to specify which register is mapped to which reading. So in Baseboard.json file we mention register to read. \nThe details of response of Get PMBUS Readings can be found in Page 90 of https://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/intel-power-node-manager-v3-spec.pdf\n\nAnd these \"Monitored Register\" in response of Get PMBUS Readings will be mapped to a particular value of sensor (like Temperature, Current, Voltage etc). This mapping is configured while making the IFWI image. And through Baseboard.json BMC will obtain the details of which \"Monitored Register\" needs to be read from response of Get PMBUS Readings.",
+      "parentUuid": "39898d11_ced369dc",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e5f2f50a_329ea78b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 25
@@ -83,6 +155,30 @@
       "writtenOn": "2022-05-23T20:16:10Z",
       "side": 1,
       "message": "When would someone use the old method, and when would someone use the new method?  is it something we can detect instead of adding all new configs for it?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 53
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aaf812a_ae9e1234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "In cases where ME does not support Get PMBUS Readings, as well as pmbus proxy is enabled, old method will be used. \nI do not know as of now if there is a mechanism to check if Get PMBUS Readings is supported by ME or not, I will look into that. \nBut even if BMC on boot up can detect which method to use, we will still need configuration required for sending Get PMBUS Readings request.",
+      "parentUuid": "e5f2f50a_329ea78b",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -186,6 +282,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e782da79_21759883",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "Yes it is Intel manufacture ID, will include a comment.",
+      "parentUuid": "7bb59f96_dd7372dd",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 66
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91721098_a5bdd896",
         "filename": "include/IpmbSensor.hpp",
         "patchSetId": 25
@@ -197,6 +317,30 @@
       "writtenOn": "2022-05-23T20:20:35Z",
       "side": 1,
       "message": "This is already handled by manufacturerId.size().  No need for a new variable.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3f652e6_2ce6e701",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "91721098_a5bdd896",
       "range": {
         "startLine": 62,
         "startChar": 0,
@@ -232,6 +376,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d8a2ad5_db703d90",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "2be5afe8_ee4f45c1",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 26
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8725d34c_6cf3b566",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 25
@@ -255,6 +423,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba6ce86d_79c7fd34",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "Will address this.",
+      "parentUuid": "8725d34c_6cf3b566",
+      "range": {
+        "startLine": 626,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 7
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99c0d5d8_f4003975",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 25
@@ -266,6 +458,30 @@
       "writtenOn": "2022-05-23T20:22:44Z",
       "side": 1,
       "message": "we already have the \"type\" field that can tell us what this is, why aren\u0027t we just adding a new \"MEpmbus\" type, and using that as the branch?",
+      "range": {
+        "startLine": 631,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 20
+      },
+      "revId": "2720e65134d3e050dc39281e982f3c7d1d178d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f4e6a4c_745e5869",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-05-25T09:38:02Z",
+      "side": 1,
+      "message": "Will do this.",
+      "parentUuid": "99c0d5d8_f4003975",
       "range": {
         "startLine": 631,
         "startChar": 0,
