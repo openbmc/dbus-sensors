@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f57a7990_d3c3ca1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-05-25T08:09:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe36a9f9_8db4071b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "433ff02fa90d95df2b00cebb3f416328113a4ecb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c058eb7f_04aadea1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-20T07:32:46Z",
       "side": 1,
       "message": "What if ChannelNames is not present in entity config ? \nIs there any default value assigned ?",
+      "range": {
+        "startLine": 579,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 25
+      },
+      "revId": "433ff02fa90d95df2b00cebb3f416328113a4ecb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc60fd79_88b501c9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-05-25T08:09:10Z",
+      "side": 1,
+      "message": "the values couldn\u0027t be defined default her.",
+      "parentUuid": "c058eb7f_04aadea1",
       "range": {
         "startLine": 579,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "025e4437_a9b75812",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-05-25T08:09:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f44c905f_4f81e9f7",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 592,
+        "endChar": 21
+      },
+      "revId": "433ff02fa90d95df2b00cebb3f416328113a4ecb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28a2c554_290d0614",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-05-20T07:32:46Z",
       "side": 1,
       "message": "no need to use else here, if \"continue\" is used above.",
+      "range": {
+        "startLine": 593,
+        "startChar": 1,
+        "endLine": 593,
+        "endChar": 24
+      },
+      "revId": "433ff02fa90d95df2b00cebb3f416328113a4ecb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe8d862_7d708133",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-05-25T08:09:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "28a2c554_290d0614",
       "range": {
         "startLine": 593,
         "startChar": 1,
