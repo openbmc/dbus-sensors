@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "064a7bde_249d51b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-05-25T12:40:55Z",
+      "side": 1,
+      "message": "Hi Ed / Zhikui Ren,\n\nI have addressed all the comments. Please provide your suggestions on this patchset.\n\nThanks",
+      "revId": "fa4359be4de95c6c4fc0a6e047e91590d5d00c66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
