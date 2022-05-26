@@ -7,8 +7,7 @@ After=xyz.openbmc_project.EntityManager.service
 [Service]
 Restart=always
 RestartSec=5
-ExecStart=/usr/bin/env intrusionsensor
-SyslogIdentifier=intrusion-sensor
+ExecStart=/usr/bin/intrusionsensor
 
 [Install]
 WantedBy=multi-user.target
