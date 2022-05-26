@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b86c305f_4d50be1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-26T11:00:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "25eaf971_8678174b",
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2d316d6_503a9539",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 3
@@ -259,6 +277,30 @@
       "side": 1,
       "message": "\u003e Won\u0027t changing I2CADC to ADS7828 conflict with this change: https://gerrit.openbmc.org/c/openbmc/entity-manager/+/53373 that allows instantiating ADS7828 devices in runtime by entity-manager?\n\nNo, it would not. EntityManager binds the driver to the i2c device and creates \"xyz.openbmc_project.Configuration.ADS7828\" for Type: \"ADS7828\"",
       "parentUuid": "0958d4ff_cdc3e87a",
+      "range": {
+        "startLine": 48,
+        "startChar": 67,
+        "endLine": 48,
+        "endChar": 73
+      },
+      "revId": "5ede36c8055f149d5de1c078e64c8433b8172190",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6291229c_0f57d42e",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-05-26T11:00:43Z",
+      "side": 1,
+      "message": "I\u0027ve changed \"I2CADC\" to specific IC that is supposed to be supported: ADS7828.",
+      "parentUuid": "12948d67_5d8b1302",
       "range": {
         "startLine": 48,
         "startChar": 67,
