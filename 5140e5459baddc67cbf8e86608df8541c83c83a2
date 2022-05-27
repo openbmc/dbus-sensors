@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac884b1_8cc1f425",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-27T17:21:36Z",
+      "side": 1,
+      "message": "Entity-manager configs should not require referencing the DTS.  They should be buildable by engineers with only access to the board schematic.",
+      "range": {
+        "startLine": 15,
+        "startChar": 35,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "5140e5459baddc67cbf8e86608df8541c83c83a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c7c43a9_0cc0a1ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-27T17:21:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t really seem right either.  If we know at compile time, we don\u0027t need a per-hardware config at all, and we can just enable the feature at compile time.\n\nIf users do as this suggests, the BMC is going to show up in the system as a FRU, which isn\u0027t really what we want.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "5140e5459baddc67cbf8e86608df8541c83c83a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
