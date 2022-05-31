@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb3d0292_ce2f6850",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2022-05-31T12:47:08Z",
+      "side": 1,
+      "message": "extern \"C\" {} used to preserve  C code from C++ type conversation i.e preserving  the C-language calling convention present in C header included in .CPP files.",
+      "parentUuid": "85c86f78_54a8cad9",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "017a6fa2_3fe891ba",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 19
