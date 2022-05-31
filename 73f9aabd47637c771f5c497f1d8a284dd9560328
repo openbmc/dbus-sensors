@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7630faa_2b91d930",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Default device scale factor for its\u0027 sensor. In Ampere case it is 1.\nI updated it to double for more flexible.",
+      "parentUuid": "968878b1_e41476d4",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4aafbac4_d0c6ad35",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 19
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85c86f78_54a8cad9",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "I don\u0027t see others code add this include in \"C\"{}. Is need necessary?",
+      "parentUuid": "4aafbac4_d0c6ad35",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "017a6fa2_3fe891ba",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 19
@@ -54,6 +96,30 @@
       "writtenOn": "2022-05-12T09:15:36Z",
       "side": 1,
       "message": "nit : should it be defined 10000.000 for more readability ..?",
+      "range": {
+        "startLine": 36,
+        "startChar": 38,
+        "endLine": 36,
+        "endChar": 43
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63fbb05_3dd178e6",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "017a6fa2_3fe891ba",
       "range": {
         "startLine": 36,
         "startChar": 38,
@@ -128,6 +194,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed7e7328_800bf2f4",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cc88a9b1_4f515cc1",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45dfed75_0503bf0d",
@@ -141,6 +225,24 @@
       "writtenOn": "2022-05-12T09:15:36Z",
       "side": 1,
       "message": "Constructors generally do not return  ..so does this return statement valid here ..?\nRefer https://github.com/openbmc/dbus-sensors/blob/9eb0cc3d8272bcdc58ead70c9a39fe8cecd5b6b5/src/ADCSensor.cpp#L65 \nI don\u0027t see return statement there .",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35d6ec94_8da13897",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "45dfed75_0503bf0d",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -164,6 +266,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8dcb988c_e6a26358",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "sensorScaleFactor is hwmon scale. It is 1000. The sensorFactor is individual sensor Scale, it is configurable.",
+      "parentUuid": "4098cef3_3aea32be",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b15fcd4_da68ccf2",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 19
@@ -175,6 +295,24 @@
       "writtenOn": "2022-05-12T19:35:36Z",
       "side": 1,
       "message": "else if",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d547025_ee6f911b",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1b15fcd4_da68ccf2",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -239,6 +377,24 @@
       "writtenOn": "2022-05-12T19:35:36Z",
       "side": 1,
       "message": "move before use",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdf22bcc_77e230ed",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "35412b77_2557357c",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -356,6 +512,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41e58db2_c5e6acf1",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Is it necessary? I don\u0027t see any code in dbus-sensors make this function as const.",
+      "parentUuid": "433d9319_2b36bcca",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1ec54d2_70c81fda",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 19
@@ -367,6 +541,24 @@
       "writtenOn": "2022-05-12T09:15:36Z",
       "side": 1,
       "message": "I don\u0027t see this header used here . You can removed it if unsued .",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7469189e_6e90c31d",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d1ec54d2_70c81fda",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -384,6 +576,30 @@
       "writtenOn": "2022-05-12T09:15:36Z",
       "side": 1,
       "message": "can you add more details about what signify 3 here ..?",
+      "range": {
+        "startLine": 58,
+        "startChar": 42,
+        "endLine": 58,
+        "endChar": 43
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8a228e_52a1e027",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "The \"device\" file is in 1e78a0c0.i2c-bus/i2c-2/2-004f/smpro-hwmon.0.auto/device. That why the match size is 3.",
+      "parentUuid": "60c4b453_a3af8931",
       "range": {
         "startLine": 58,
         "startChar": 42,
@@ -455,6 +671,30 @@
       "side": 1,
       "message": "It is more than a coding style. Reference and smart pointers are much safer. Please do not use raw pointers.",
       "parentUuid": "8f6d8d94_2bf40a61",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 76
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c30012a6_94d5bde8",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "All of pointer in this functions is updated inside the function. That why I use pointer.\nIf you preference the others code, they don\u0027t add findMatchConfig(). All of the finding and matching configuration code is in a long function createSensorsCallback().",
+      "parentUuid": "e1ba26c8_ca8f0598",
       "range": {
         "startLine": 84,
         "startChar": 4,
@@ -549,6 +789,30 @@
       "side": 1,
       "message": "We are matching the sysfs which created by Ampere driver. So we are sure about that.",
       "parentUuid": "d0681ed7_c4849360",
+      "range": {
+        "startLine": 157,
+        "startChar": 34,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebc7b624_2a3b0c6f",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Added try catch.\nI preference PSUSensor code on this.",
+      "parentUuid": "a954c811_2d7229d6",
       "range": {
         "startLine": 157,
         "startChar": 34,
@@ -713,6 +977,24 @@
       "writtenOn": "2022-05-12T09:15:36Z",
       "side": 1,
       "message": "nit: I see you followed function_name(void) for function which dont have any parameters .so you should apply same for main i.e int main(void).",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07457eea_4a415185",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:26:50Z",
+      "side": 1,
+      "message": "Sync up other function to use main() format.",
+      "parentUuid": "83205897_430256cc",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
