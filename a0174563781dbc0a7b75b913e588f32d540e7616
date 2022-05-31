@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a8e89b1_c2311bec",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T13:39:49Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "db2ecf64_71970e37",
+      "revId": "a0174563781dbc0a7b75b913e588f32d540e7616",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5d4a4b4_1af8630f",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62dbb915_5d9c09b7",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T13:39:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e5d4a4b4_1af8630f",
+      "range": {
+        "startLine": 392,
+        "startChar": 62,
+        "endLine": 392,
+        "endChar": 65
+      },
+      "revId": "a0174563781dbc0a7b75b913e588f32d540e7616",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19f575b1_2c92ade6",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-05-31T12:47:08Z",
       "side": 1,
       "message": "query : this should unsigned int if its indicating number of sensors created ..?",
+      "range": {
+        "startLine": 394,
+        "startChar": 4,
+        "endLine": 394,
+        "endChar": 5
+      },
+      "revId": "a0174563781dbc0a7b75b913e588f32d540e7616",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "426cde53_89a2b5cb",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T13:39:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "19f575b1_2c92ade6",
       "range": {
         "startLine": 394,
         "startChar": 4,
