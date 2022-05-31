@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74bd7868_7a15fa9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-31T17:27:35Z",
+      "side": 1,
+      "message": "Both of the other maintainers have weighed in.  LGTM.",
+      "revId": "bb67932a46982c8fce101aa0fef8f11837f6f8ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
