@@ -95,6 +95,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20b0c669_a4f6e6a1",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:32:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea1b6cd7_87a6437a",
+      "range": {
+        "startLine": 63,
+        "startChar": 25,
+        "endLine": 63,
+        "endChar": 53
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ca35ddd_ea56ab4a",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:32:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea71e7a6_cf2afbe2",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 63,
+        "endChar": 24
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71488dd6_c9629393",
@@ -142,6 +190,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f838a173_c56111dc",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:32:10Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "cd9c752e_43bfdabe",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 30
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "284def13_a5055e30",
@@ -155,6 +227,30 @@
       "writtenOn": "2022-05-12T05:16:45Z",
       "side": 1,
       "message": "did u mean CPU Presence here ..?",
+      "range": {
+        "startLine": 95,
+        "startChar": 15,
+        "endLine": 95,
+        "endChar": 22
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d6e3eb_1a4658bd",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:32:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "284def13_a5055e30",
       "range": {
         "startLine": 95,
         "startChar": 15,
@@ -262,6 +358,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f20f10b8_a29c48c7",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:32:10Z",
+      "side": 1,
+      "message": "Removed cpuPresence.",
+      "parentUuid": "b1a1e11d_36a7ba9e",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cb28baf_11b58436",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 19
@@ -273,6 +393,24 @@
       "writtenOn": "2022-05-12T05:16:45Z",
       "side": 1,
       "message": "you can align this line to left ..refer line number 44",
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fd2fe63_28a9b9c3",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:32:10Z",
+      "side": 1,
+      "message": "run-unit-test-docker does not accept the changing as you suggest.",
+      "parentUuid": "1cb28baf_11b58436",
       "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -338,6 +476,30 @@
       "side": 1,
       "message": "I agree with Arun",
       "parentUuid": "2161c6b3_465d0530",
+      "range": {
+        "startLine": 396,
+        "startChar": 4,
+        "endLine": 396,
+        "endChar": 16
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f91cf0aa_14298a4e",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-05-31T11:32:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0b77f5ab_8a9887ca",
       "range": {
         "startLine": 396,
         "startChar": 4,
