@@ -146,6 +146,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fe554818_b518fa3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000899
+      },
+      "writtenOn": "2022-05-31T09:35:28Z",
+      "side": 1,
+      "message": "update commit message\nIn the thermal framework design, you can set multiple sensor in a zone to descript the \"hotspot\", but sysfs only show one temperature.\nThe hwmontempsensor device architecture is most like thermal sysfs, so we choose use it.",
+      "parentUuid": "9354e147_ba1239d1",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "aba8437f571ded8342597ebe38304179fd4fbbf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "361039af_9bf1d5c3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
