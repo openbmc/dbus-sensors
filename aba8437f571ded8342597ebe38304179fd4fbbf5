@@ -168,6 +168,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed83f4e_f60002c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-31T15:45:37Z",
+      "side": 1,
+      "message": "\u003e update commit message\n\u003e In the thermal framework design, you can set multiple sensor in a zone to descript the \"hotspot\", but sysfs only show one temperature.\n\nBy that description, entity-manager already has an implementation of that, called \"Zone\" in the config files.  You haven\u0027t really enumerated how this is different, or why we need another one.\n\nFor that matter, there is also phosphor margin temp, which is a second way in the project (not something I\u0027d recommend though) for doing this same thing.\n\n\u003e The hwmontempsensor device architecture is most like thermal sysfs, so we choose use it.\n\nYou still haven\u0027t enumerated why someone would choose to use it over the existing solutions.",
+      "parentUuid": "fe554818_b518fa3b",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "aba8437f571ded8342597ebe38304179fd4fbbf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "361039af_9bf1d5c3",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c2d5106_5fc59429",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-31T15:45:37Z",
+      "side": 1,
+      "message": "I\u0027m starting to wonder if doing a design doc would be a good idea here.  it doesn\u0027t need to be extensive, but has a lot of template questions for the information I\u0027m asking for that might help guide you for what\u0027s being asked.  I don\u0027t necessarily want to impose more work, but the more responses I get to this, the more it seems like this is just duplicating function that exists in a couple places already, that we arguably shouldn\u0027t be duplicating.  I\u0027m happy to be convinced that we need this over the existing solutions, but to do that, we need some kind of statement about what the existing solutions can\u0027t do, and why adding this dependency on the kernel thresholding and margining system is beneficial to us.",
+      "revId": "ac9ada4e8022334e188a46877b8a6c73694a385a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

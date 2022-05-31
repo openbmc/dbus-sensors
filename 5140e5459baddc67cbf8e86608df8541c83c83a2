@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7694eb82_e0980ac4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-31T15:45:37Z",
+      "side": 1,
+      "message": "Your response doesn\u0027t answer the question.  Yes, this is an example, but given that \"Index\" doesn\u0027t represent anything physical in this case, it generally would not go in an EM config file.",
+      "parentUuid": "41f39440_dafcd0e0",
+      "range": {
+        "startLine": 15,
+        "startChar": 35,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "5140e5459baddc67cbf8e86608df8541c83c83a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c7c43a9_0cc0a1ff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Remove this comment, BMC model is know at compile time. But DTB may changed at boot time.",
       "parentUuid": "4c7c43a9_0cc0a1ff",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "5140e5459baddc67cbf8e86608df8541c83c83a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ddc163_d2f07e89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-05-31T15:45:37Z",
+      "side": 1,
+      "message": "EM configs should have no reference to DTS/DTB",
+      "parentUuid": "20261f80_27293cdc",
       "range": {
         "startLine": 18,
         "startChar": 0,
