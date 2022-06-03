@@ -5,6 +5,7 @@
 #include <Thresholds.hpp>
 #include <Utils.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/exception.hpp>
 
 #include <limits>
 #include <memory>
@@ -35,6 +36,22 @@ struct SensorInstrumentation
     int numStreakMisses = 0;
     double minCollected = 0.0;
     double maxCollected = 0.0;
+};
+
+struct SetSensorError : sdbusplus::exception_t
+{
+    const char* name() const noexcept override
+    {
+        return "xyz.openbmc_project.Common.Errors.NotAllowed";
+    }
+    const char* description() const noexcept override
+    {
+        return "Not allowed to set property value.";
+    }
+    int get_errno() const noexcept override
+    {
+        return EACCES;
+    }
 };
 
 struct Sensor
@@ -205,17 +222,10 @@ struct Sensor
     {
         if (!internalSet)
         {
-            if (insecureSensorOverride == 0)
-            { // insecure sesnor override.
-                if (isSensorSettable == false)
-                { // sensor is not settable.
-                    if (getManufacturingMode() == false)
-                    { // manufacture mode is not enable.
-                        std::cerr << "Sensor " << name
-                                  << ": Not allowed to set property value.\n";
-                        return -EACCES;
-                    }
-                }
+            if (insecureSensorOverride == 0 && !isSensorSettable &&
+                !getManufacturingMode())
+            {
+                throw SetSensorError();
             }
 
             oldValue = newValue;
@@ -234,7 +244,7 @@ struct Sensor
         {
             oldValue = newValue;
         }
-        return 1;
+        return true;
     }
 
     void setInitialProperties(const std::string& unit,
@@ -252,7 +262,7 @@ struct Sensor
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
-            "Value", value, [&](const double& newValue, double& oldValue) {
+            "Value", value, [this](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
             });
 
