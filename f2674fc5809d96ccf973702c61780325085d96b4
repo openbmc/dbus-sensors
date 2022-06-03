@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebbffb36_2cdd5472",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-03T18:11:01Z",
+      "side": 1,
+      "message": "Can you use this:  https://github.com/openbmc/dbus-sensors/blob/master/src/Utils.cpp#L507\n\nSo no need to add a new function here?",
+      "revId": "f2674fc5809d96ccf973702c61780325085d96b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6942b1a6_8142d68e",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-03T18:11:01Z",
+      "side": 1,
+      "message": "This needs to be called after association is created.",
+      "revId": "f2674fc5809d96ccf973702c61780325085d96b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
