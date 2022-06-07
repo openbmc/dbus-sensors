@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9cd56cf_d585758d",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:34:25Z",
+      "side": 1,
+      "message": "reduce indentation using the following pattern:\nif interface !\u003d sdrInterface\n{\nreturn;\n}",
+      "range": {
+        "startLine": 498,
+        "startChar": 4,
+        "endLine": 498,
+        "endChar": 34
+      },
+      "revId": "44f9c8917c2e7f070cb36abc9bae322797b972b8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fb24ddd_450971d3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:34:25Z",
+      "side": 1,
+      "message": "Why not only create SDRDevice record for busIndex that has sdrInterface",
+      "range": {
+        "startLine": 594,
+        "startChar": 0,
+        "endLine": 598,
+        "endChar": 17
+      },
+      "revId": "44f9c8917c2e7f070cb36abc9bae322797b972b8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
