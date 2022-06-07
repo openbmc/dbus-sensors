@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b75d7e7e_a6500667",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-06-07T23:09:54Z",
+      "side": 1,
+      "message": "It\u0027s not quite the same because it assumes that the association target path is the parent of the path passed to this function. I guess it might be worthwhile to refactor this, but that seems to be a change that affects a bunch of other components.",
+      "parentUuid": "ebbffb36_2cdd5472",
+      "revId": "f2674fc5809d96ccf973702c61780325085d96b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6942b1a6_8142d68e",
         "filename": "src/CPUSensor.cpp",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-03T18:11:01Z",
       "side": 1,
       "message": "This needs to be called after association is created.",
+      "revId": "f2674fc5809d96ccf973702c61780325085d96b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94be4210_c14db1ba",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-06-07T23:09:54Z",
+      "side": 1,
+      "message": "This is intentionally called before creating the association because the implementation creates default associations. This is similar to the patter here: https://github.com/openbmc/dbus-sensors/blob/bb67932a46982c8fce101aa0fef8f11837f6f8ae/src/PSUSensor.cpp#L94",
+      "parentUuid": "6942b1a6_8142d68e",
       "revId": "f2674fc5809d96ccf973702c61780325085d96b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
