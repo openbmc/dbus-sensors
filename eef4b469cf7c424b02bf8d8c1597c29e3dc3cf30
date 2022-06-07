@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7a893c_e1337024",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "I have not finished review all code, but want to provide some immediate feedback. Some comments apply to multiple places",
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b1b357_bdf804dd",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "These look like constexpr to me, not enum",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 2
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c89a645_3235b2ed",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "sdrData (or other) is a better name than getXXXX since it is not a function",
+      "range": {
+        "startLine": 109,
+        "startChar": 25,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7ec24ff_d9e31665",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "if (!self)\n{\n  return; //handle objects was destructed\n}",
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d55b486f_a1b5b6af",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "range checking?",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ca8cfe0_9df63ae6",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "const",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57831c60_a5c2dcd8",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "check self",
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7156d07a_501957d0",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "uint8_t",
+      "range": {
+        "startLine": 134,
+        "startChar": 9,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c730a5_2c60f33d",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "This seems redundant: data.size() \u003d\u003d SDR01Command::dataLength at this point",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 64
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95515729_89151377",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "Is this logic reversed, linear \u003d\u003d 0 means it is linear?",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 5
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09cbf3f_2086da76",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "can check early",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 5
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b7bcf7d_59082353",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-07T04:18:50Z",
+      "side": 1,
+      "message": "add \"sdrSen \u003d nullptr;\" to destroy the existing object if any",
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
