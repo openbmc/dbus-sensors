@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2f8a651_6587da80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-06-09T02:15:21Z",
+      "side": 1,
+      "message": "Trivial change.  As always, happy to discuss, but merging quickly to get it off the list.",
+      "revId": "dccd1d4b1189ef3aece98f4c9c0a44aa3cf7f9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
