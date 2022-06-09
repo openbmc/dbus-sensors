@@ -9,7 +9,7 @@ namespace sensor_paths
 
 // This is an allowlist of the units a sensor can measure. Should be in sync
 // with
-// phosphor-dbus-interfaces/blob/master/xyz/openbmc_project/Sensor/Value.interface.yaml#L35
+// phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml#L38
 
 std::string getPathForUnits(const std::string& units)
 {
