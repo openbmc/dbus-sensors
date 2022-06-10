@@ -159,7 +159,7 @@ PSUSubEvent::PSUSubEvent(
     }
 
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    fd = open(path.c_str(), O_RDONLY);
+    fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
     if (fd < 0)
     {
         std::cerr << "PSU sub event failed to open file\n";
@@ -207,20 +207,15 @@ void PSUSubEvent::setupRead(void)
         return;
     }
 
-    std::shared_ptr<boost::asio::streambuf> buffer =
-        std::make_shared<boost::asio::streambuf>();
     std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
-    boost::asio::async_read_until(
-        inputDev, *buffer, '\n',
-        [weakRef, buffer](const boost::system::error_code& ec,
-                          std::size_t /*bytes_transfered*/) {
+    inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
+                        [weakRef](const boost::system::error_code& ec) {
         std::shared_ptr<PSUSubEvent> self = weakRef.lock();
         if (self)
         {
-            self->readBuf = buffer;
             self->handleResponse(ec);
         }
-        });
+    });
 }
 
 void PSUSubEvent::restartRead()
@@ -240,23 +235,28 @@ void PSUSubEvent::restartRead()
     });
 }
 
+// Create a buffer expected to be able to hold more characters than will be
+// present in the input file.
+static constexpr uint32_t psuBufLen = 128;
 void PSUSubEvent::handleResponse(const boost::system::error_code& err)
 {
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
+        std::cerr << "Bad file descriptor for " << path << "\n";
         return;
     }
-    std::istream responseStream(readBuf.get());
-    if (!err)
+
+    std::string buffer;
+    buffer.resize(psuBufLen);
+    lseek(fd, 0, SEEK_SET);
+    int rdLen = read(fd, buffer.data(), psuBufLen);
+
+    if (rdLen > 0)
     {
-        std::string response;
         try
         {
-            std::getline(responseStream, response);
-            int nvalue = std::stoi(response);
-            responseStream.clear();
-
+            int nvalue = std::stoi(buffer);
             updateValue(nvalue);
             errCount = 0;
         }

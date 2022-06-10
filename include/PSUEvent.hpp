@@ -57,7 +57,6 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
 
     PowerState readState;
     boost::asio::deadline_timer waitTimer;
-    std::shared_ptr<boost::asio::streambuf> readBuf;
     void restartRead();
     void handleResponse(const boost::system::error_code& err);
     void updateValue(const int& newValue);
