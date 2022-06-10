@@ -1464,6 +1464,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a7c9c3b_cc834218",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-06-10T07:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8bee88e_8d335b79",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 134,
+        "endChar": 13
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "524455b7_2f3ef15e",
@@ -1548,6 +1572,30 @@
       "side": 1,
       "message": "Return cannot be used, since the data is not received fully.",
       "parentUuid": "5ce08172_e4fdf11e",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 80
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d3f32a_4cbf8c8d",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-06-10T07:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d3f6874_b99b75e8",
       "range": {
         "startLine": 142,
         "startChar": 0,
