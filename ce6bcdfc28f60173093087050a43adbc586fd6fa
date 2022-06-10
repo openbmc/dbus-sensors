@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d11d8b1_b00f0235",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2022-06-10T07:37:19Z",
+      "side": 1,
+      "message": "Hello! Please review this simple patch that fixes broken links in the documentation",
+      "revId": "ce6bcdfc28f60173093087050a43adbc586fd6fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
