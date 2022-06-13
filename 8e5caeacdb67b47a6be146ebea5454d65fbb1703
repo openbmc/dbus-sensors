@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a8caf4_f8a91436",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-06-13T16:18:04Z",
+      "side": 1,
+      "message": "This part is outside patch but I think it will be good if we can put a error message here. In case read loop stop because of this error it will just silently stop updates without any log in journal. Maintainers can suggest if it\u0027s good to have.",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 5
+      },
+      "revId": "8e5caeacdb67b47a6be146ebea5454d65fbb1703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56f40745_0e57c71b",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-06-13T16:18:04Z",
+      "side": 1,
+      "message": "What if sensor that is being monitored is not boolean or store integer value that is more than one characters long. In that case current fix will only read first character and leave rest for next read cycle. Won\u0027t that will be misleading ?",
+      "range": {
+        "startLine": 246,
+        "startChar": 1,
+        "endLine": 256,
+        "endChar": 0
+      },
+      "revId": "8e5caeacdb67b47a6be146ebea5454d65fbb1703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "423a9db1_a6e4963b",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-06-13T16:18:04Z",
+      "side": 0,
+      "message": "I think we can drop readBuf from class atributes as well. handleResponse is creating a local variable and updating value with that.",
+      "range": {
+        "startLine": 219,
+        "startChar": 1,
+        "endLine": 221,
+        "endChar": 8
+      },
+      "revId": "dccd1d4b1189ef3aece98f4c9c0a44aa3cf7f9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
