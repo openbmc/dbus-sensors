@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "a8357b26_e725b546",
         "filename": "service_files/xyz.openbmc_project.adcsensor.service",
@@ -20,10 +21,10 @@
         "endChar": 50
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "85d8401a_22c4cd22",
         "filename": "service_files/xyz.openbmc_project.adcsensor.service",
@@ -44,10 +45,34 @@
         "endChar": 50
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86e4a607_95ac7f2b",
+        "filename": "service_files/xyz.openbmc_project.adcsensor.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:15:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "85d8401a_22c4cd22",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 50
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "55210378_3c9c85a5",
         "filename": "src/AmpereCPUMain.cpp",
@@ -67,10 +92,34 @@
         "endChar": 9
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd02d91_c108b4f2",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:15:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "55210378_3c9c85a5",
+      "range": {
+        "startLine": 629,
+        "startChar": 0,
+        "endLine": 637,
+        "endChar": 9
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "dfe30a9e_eea78fa4",
         "filename": "src/AmpereCPUMain.cpp",
@@ -90,10 +139,10 @@
         "endChar": 9
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5ebb3668_17c8ef42",
         "filename": "src/AmpereCPUMain.cpp",
@@ -114,10 +163,34 @@
         "endChar": 9
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d07e6bd5_88a83f5d",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:15:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5ebb3668_17c8ef42",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 657,
+        "endChar": 9
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6746ce59_321dadd0",
         "filename": "src/AmpereCPUMain.cpp",
@@ -137,10 +210,10 @@
         "endChar": 36
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "12cf7cd3_b401962d",
         "filename": "src/AmpereCPUMain.cpp",
@@ -161,10 +234,34 @@
         "endChar": 36
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d26d7ad2_9548bb9f",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:15:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "12cf7cd3_b401962d",
+      "range": {
+        "startLine": 675,
+        "startChar": 0,
+        "endLine": 675,
+        "endChar": 36
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "3b9933d3_c2f50af3",
         "filename": "src/AmpereCPUMain.cpp",
@@ -184,10 +281,10 @@
         "endChar": 65
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "52b193e0_1bf2c1be",
         "filename": "src/AmpereCPUMain.cpp",
@@ -208,8 +305,31 @@
         "endChar": 65
       },
       "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be64be65_d19cf997",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:15:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "52b193e0_1bf2c1be",
+      "range": {
+        "startLine": 679,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 65
+      },
+      "revId": "91028cfeb742679a533e18a0cdd091f0ecdba6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

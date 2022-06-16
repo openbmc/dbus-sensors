@@ -380,6 +380,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd4b61c_d4b392b7",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:15:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f20f10b8_a29c48c7",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cb28baf_11b58436",
@@ -411,6 +435,24 @@
       "side": 1,
       "message": "run-unit-test-docker does not accept the changing as you suggest.",
       "parentUuid": "1cb28baf_11b58436",
+      "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27521930_f06c6ac0",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:15:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2fd2fe63_28a9b9c3",
       "revId": "b82607fff13d408a41b521bac1c4766d72d38d83",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
