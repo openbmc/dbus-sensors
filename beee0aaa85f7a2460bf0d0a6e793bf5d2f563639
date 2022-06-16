@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33b706d5_6b8378d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-16T10:56:21Z",
+      "side": 1,
+      "message": "Hai all,\nGentle remainder, Please review on this patch if possible.",
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
