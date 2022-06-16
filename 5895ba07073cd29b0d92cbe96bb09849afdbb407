@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "dab99730_bc3d1e8d",
         "filename": "include/AmpereCPU.hpp",
@@ -20,10 +21,10 @@
         "endChar": 15
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "72c4b2af_174c97b1",
         "filename": "include/AmpereCPU.hpp",
@@ -44,10 +45,10 @@
         "endChar": 15
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0f26ebb5_1eb086d5",
         "filename": "include/AmpereCPU.hpp",
@@ -68,10 +69,34 @@
         "endChar": 15
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32bbe83f_e4b8d609",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0f26ebb5_1eb086d5",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "8f7665c8_26f98887",
         "filename": "meson_options.txt",
@@ -91,10 +116,10 @@
         "endChar": 52
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "24ae6699_a60254e8",
         "filename": "meson_options.txt",
@@ -115,10 +140,10 @@
         "endChar": 52
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "768dda48_812fd595",
         "filename": "meson_options.txt",
@@ -139,10 +164,10 @@
         "endChar": 52
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e947d3bb_c4ff6416",
         "filename": "meson_options.txt",
@@ -163,10 +188,10 @@
         "endChar": 52
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e6387150_2604812b",
         "filename": "service_files/meson.build",
@@ -186,10 +211,10 @@
         "endChar": 53
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "27f405af_643d5f20",
         "filename": "service_files/meson.build",
@@ -210,10 +235,10 @@
         "endChar": 53
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1125a00e_8c1496fe",
         "filename": "service_files/meson.build",
@@ -234,10 +259,10 @@
         "endChar": 53
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a141ba60_a6182fea",
         "filename": "service_files/meson.build",
@@ -258,10 +283,10 @@
         "endChar": 53
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bca90fbf_be6032b6",
         "filename": "service_files/meson.build",
@@ -282,10 +307,10 @@
         "endChar": 53
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c9c1ca51_b5fe2c25",
         "filename": "service_files/xyz.openbmc_project.amperecpusensor.service",
@@ -305,10 +330,10 @@
         "endChar": 44
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1432b31b_fe2424fd",
         "filename": "service_files/xyz.openbmc_project.amperecpusensor.service",
@@ -329,10 +354,34 @@
         "endChar": 44
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "335241df_8eabecd6",
+        "filename": "service_files/xyz.openbmc_project.amperecpusensor.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1432b31b_fe2424fd",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "24daec74_e5e84dbd",
         "filename": "src/meson.build",
@@ -352,10 +401,10 @@
         "endChar": 24
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5ee07c1a_c8a9ced6",
         "filename": "src/meson.build",
@@ -376,8 +425,31 @@
         "endChar": 24
       },
       "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd5c0f35_e317c042",
+        "filename": "src/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5ee07c1a_c8a9ced6",
+      "range": {
+        "startLine": 210,
+        "startChar": 12,
+        "endLine": 210,
+        "endChar": 24
+      },
+      "revId": "5895ba07073cd29b0d92cbe96bb09849afdbb407",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

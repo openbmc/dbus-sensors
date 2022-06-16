@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "cdfaef06_3397e9f9",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 27
       },
       "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f31d44a8_5b4c971c",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,34 @@
         "endChar": 27
       },
       "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe5d1232_64b0ed3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f31d44a8_5b4c971c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ca84b221_c72685e4",
         "filename": "/COMMIT_MSG",
@@ -67,10 +92,10 @@
         "endChar": 33
       },
       "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "acb4480b_88f31bf8",
         "filename": "/COMMIT_MSG",
@@ -91,8 +116,7 @@
         "endChar": 33
       },
       "revId": "debe11ab858414928a63ac5d4ea8769c7640de98",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

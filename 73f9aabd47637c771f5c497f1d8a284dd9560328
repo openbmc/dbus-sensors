@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4053228_70251529",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e7630faa_2b91d930",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4aafbac4_d0c6ad35",
@@ -318,6 +342,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d03ed57_6760cac9",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8dcb988c_e6a26358",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b15fcd4_da68ccf2",
@@ -431,6 +473,24 @@
       "side": 1,
       "message": "Updated.",
       "parentUuid": "35412b77_2557357c",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c58edaf_00283d65",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bdf22bcc_77e230ed",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -564,6 +624,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffa85075_dfac370c",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "41e58db2_c5e6acf1",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1ec54d2_70c81fda",
@@ -636,6 +714,30 @@
       "side": 1,
       "message": "The \"device\" file is in 1e78a0c0.i2c-bus/i2c-2/2-004f/smpro-hwmon.0.auto/device. That why the match size is 3.",
       "parentUuid": "60c4b453_a3af8931",
+      "range": {
+        "startLine": 58,
+        "startChar": 42,
+        "endLine": 58,
+        "endChar": 43
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d628b642_73298d94",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3a8a228e_52a1e027",
       "range": {
         "startLine": 58,
         "startChar": 42,
@@ -731,6 +833,30 @@
       "side": 1,
       "message": "All of pointer in this functions is updated inside the function. That why I use pointer.\nIf you preference the others code, they don\u0027t add findMatchConfig(). All of the finding and matching configuration code is in a long function createSensorsCallback().",
       "parentUuid": "e1ba26c8_ca8f0598",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 76
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c59ddd1d_7e5d765e",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c30012a6_94d5bde8",
       "range": {
         "startLine": 84,
         "startChar": 4,
@@ -1031,6 +1157,24 @@
       "side": 1,
       "message": "Sync up other function to use main() format.",
       "parentUuid": "83205897_430256cc",
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c4eae4_de7010cd",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "07457eea_4a415185",
       "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
