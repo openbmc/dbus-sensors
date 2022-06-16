@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb3ae800_1ec3a056",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:17:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "614ee073_8b7b24a9",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed786f5c_d39ae740",
@@ -95,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9109bcf8_d36700da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:17:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0e8386f3_0364f233",
+      "range": {
+        "startLine": 11,
+        "startChar": 62,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d1a12ed_ad47386e",
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "We knew the path, but at the first scan when BMC boot up with the host is off, the path is not available because the Altra driver is not binded.\nOne more case, in 2P system, when the host boots up with only 1 CPU, the second CPU is failed to boot. Only one sensor path is created. In this case only one driver is binded. At the next boot, 2 CPU boot normally, then there are 2 Altra drivers, one for CPU1 and one for CPU2.",
       "parentUuid": "2d1a12ed_ad47386e",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6cbbed3_7288932a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:17:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d23cf8cc_e26c97cb",
       "range": {
         "startLine": 14,
         "startChar": 26,
@@ -309,6 +381,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2d366a9_ce9ea032",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:17:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "547ad700_376d5da3",
+      "range": {
+        "startLine": 782,
+        "startChar": 22,
+        "endLine": 782,
+        "endChar": 38
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "457995a0_77275135",
@@ -370,6 +466,30 @@
       "side": 1,
       "message": "Removed the block.",
       "parentUuid": "32b53a5a_15405149",
+      "range": {
+        "startLine": 790,
+        "startChar": 0,
+        "endLine": 801,
+        "endChar": 15
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6abe7183_b753d279",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-16T01:17:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3283bad8_3b85d1fb",
       "range": {
         "startLine": 790,
         "startChar": 0,
