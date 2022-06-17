@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "819b5b4f_1b061fb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-06-17T15:54:51Z",
+      "side": 1,
+      "message": "@Ed is this the one you are referring: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/46918",
+      "parentUuid": "d88221a9_34fa9001",
+      "revId": "8e5caeacdb67b47a6be146ebea5454d65fbb1703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56a8caf4_f8a91436",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
