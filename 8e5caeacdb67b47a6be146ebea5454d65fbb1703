@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60e4f2a7_561e1fc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2022-06-17T19:35:28Z",
+      "side": 1,
+      "message": "We try to build with this change. Currently getting build error. So not applied on this change.",
+      "parentUuid": "819b5b4f_1b061fb6",
+      "revId": "8e5caeacdb67b47a6be146ebea5454d65fbb1703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56a8caf4_f8a91436",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
@@ -61,6 +79,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b9fbeb9_8e379a7f",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2022-06-17T19:35:28Z",
+      "side": 1,
+      "message": "Added cout statement. Thanks",
+      "parentUuid": "56a8caf4_f8a91436",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 5
+      },
+      "revId": "8e5caeacdb67b47a6be146ebea5454d65fbb1703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56f40745_0e57c71b",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
@@ -72,6 +114,30 @@
       "writtenOn": "2022-06-13T16:18:04Z",
       "side": 1,
       "message": "What if sensor that is being monitored is not boolean or store integer value that is more than one characters long. In that case current fix will only read first character and leave rest for next read cycle. Won\u0027t that will be misleading ?",
+      "range": {
+        "startLine": 246,
+        "startChar": 1,
+        "endLine": 256,
+        "endChar": 0
+      },
+      "revId": "8e5caeacdb67b47a6be146ebea5454d65fbb1703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "783b0966_065237f1",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2022-06-17T19:35:28Z",
+      "side": 1,
+      "message": "Fixed by taking variable \"psuBufLen\". Please confirm on this change. Thanks",
+      "parentUuid": "56f40745_0e57c71b",
       "range": {
         "startLine": 246,
         "startChar": 1,
