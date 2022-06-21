@@ -16,6 +16,23 @@
 
 #include "PresenceSensor.hpp"
 
+sharedGpio PollingPresenceSensor::staticGpioMap;
+
+PresenceSensor::~PresenceSensor() = default;
+
+void PresenceSensor::updateAndTracePresence(void)
+{
+    status = (gpioLine.get_value() != 0);
+    if (status)
+    {
+        logPresent(sensorName);
+    }
+    else
+    {
+        logRemoved(sensorName);
+    }
+}
+
 EventPresenceSensor::EventPresenceSensor(const std::string& iSensorType,
                                          const std::string& iSensorName,
                                          const std::string& gpioName,
@@ -52,23 +69,6 @@ EventPresenceSensor::EventPresenceSensor(const std::string& iSensorType,
         std::cerr << "Error reading gpio " << gpioName << ": " << e.what()
                   << "\n";
         return;
-    }
-
-    monitorPresence();
-}
-
-PresenceSensor::~PresenceSensor() = default;
-
-void PresenceSensor::updateAndTracePresence(void)
-{
-    status = (gpioLine.get_value() != 0);
-    if (status)
-    {
-        logPresent(sensorName);
-    }
-    else
-    {
-        logRemoved(sensorName);
     }
 }
 
@@ -116,4 +116,124 @@ void EventPresenceSensor::updateAndTracePresence(void)
     {
         logRemoved(sensorName);
     }
+}
+
+void sharedGpio::removeGpio(const std::string& gpioName)
+{
+    auto search = gpioMap.find(gpioName);
+    if (search != gpioMap.end())
+    {
+        if (search->second.userCount > 1)
+        {
+            // Additional users, so just decrement user count
+            --(search->second.userCount);
+        }
+        else
+        {
+            // Remove GPIO
+            search->second.line.release();
+            gpioMap.erase(search);
+        }
+    }
+}
+
+PollingPresenceSensor::PollingPresenceSensor(const std::string& iSensorType,
+                                             const std::string& iSensorName,
+                                             const std::string& gpioName,
+                                             bool inverted,
+                                             boost::asio::io_context& io) :
+    PresenceSensor(iSensorType, iSensorName),
+    gpioName(gpioName), pollTimer(io)
+{
+    initGpio(gpioName, inverted);
+}
+
+void PollingPresenceSensor::initGpio(const std::string& gpioName, bool inverted)
+{
+    gpioLine = staticGpioMap.findGpio(gpioName);
+    if (gpioLine)
+    {
+        updateAndTracePresence();
+    }
+    else
+    {
+        gpioLine = gpiod::find_line(gpioName);
+        if (!gpioLine)
+        {
+            std::cerr << "Unable to find gpio " << gpioName << " (polling)\n";
+            status = false;
+            return;
+        }
+
+        try
+        {
+            gpioLine.request(
+                {sensorType + "Sensor", gpiod::line_request::DIRECTION_INPUT,
+                 inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+            updateAndTracePresence();
+        }
+        catch (const std::system_error& e)
+        {
+            std::cerr << "Error reading gpio " << gpioName << ": " << e.what()
+                      << " (polling)\n";
+            status = false;
+            return;
+        }
+    }
+    // Add/increment gpio usage count
+    staticGpioMap.addGpio(gpioName, gpioLine);
+}
+
+inline void PollingPresenceSensor::afterPollTimerExpires(
+    const std::weak_ptr<PollingPresenceSensor>& weakRef,
+    const boost::system::error_code& ec)
+{
+    std::shared_ptr<PollingPresenceSensor> self = weakRef.lock();
+    if (!self)
+    {
+        std::cerr << "Failed to get lock for pollingPresenceSensor: "
+                  << ec.message() << "\n";
+        return;
+    }
+    if (ec)
+    {
+        if (ec != boost::system::errc::bad_file_descriptor)
+        {
+            std::cerr << "GPIO polling timer failed for " << self->sensorName
+                      << ": " << ec.what() << ")\n";
+        }
+        return;
+    }
+    self->monitorPresence();
+}
+
+void PollingPresenceSensor::monitorPresence(void)
+{
+    if (!gpioLine)
+    {
+        std::cerr << "monitorPresence encountered null gpioLine for "
+                  << sensorName << "\n";
+        return;
+    }
+
+    // Determine if the value has changed
+    int statusTry = gpioLine.get_value();
+    if (static_cast<int>(status) != statusTry)
+    {
+        status = (statusTry != 0);
+        if (status)
+        {
+            logPresent(sensorName);
+        }
+        else
+        {
+            logRemoved(sensorName);
+        }
+    }
+
+    std::weak_ptr<PollingPresenceSensor> weakRef = weak_from_this();
+    pollTimer.expires_after(std::chrono::seconds(1));
+    pollTimer.async_wait([&, weakRef](const boost::system::error_code& ec) {
+        afterPollTimerExpires(weakRef, ec);
+    });
 }
