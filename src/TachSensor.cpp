@@ -30,6 +30,7 @@
 #include <iostream>
 #include <istream>
 #include <limits>
+#include <map>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -38,11 +39,14 @@
 #include <vector>
 
 static constexpr unsigned int pwmPollMs = 500;
+std::map<std::string, gpiod::line>
+    staticGpioMap; // Used to map two rotors to ONE GPIOLine.
+static constexpr int presConfirmTimes = 3;
 
 TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        sdbusplus::asio::object_server& objectServer,
                        std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       std::unique_ptr<PresenceSensor>&& presenceSensor,
+                       std::unique_ptr<PSensor>&& presenceSensor,
                        std::optional<RedundancySensor>* redundancy,
                        boost::asio::io_service& io, const std::string& fanName,
                        std::vector<thresholds::Threshold>&& thresholdsIn,
@@ -240,8 +244,7 @@ PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
     catch (const std::system_error&)
     {
         std::cerr << "Error reading gpio: " << gpioName << "\n";
-        status = false;
-        return;
+        throw std::runtime_error("Error request gpio");
     }
 
     monitorPresence();
@@ -289,9 +292,89 @@ void PresenceSensor::read(void)
     }
 }
 
-bool PresenceSensor::getValue(void) const
+bool PresenceSensor::getValue(void)
 {
     return status;
+}
+
+void PollingPresenceSensor::initGpio(const std::string& gpioName, bool inverted)
+{
+    if (staticGpioMap.contains(gpioName))
+    {
+        gpioLine = staticGpioMap[gpioName];
+        return;
+    }
+
+    gpioLine = gpiod::find_line(gpioName);
+    if (!gpioLine)
+    {
+        std::cerr << "Error requesting gpio: " << gpioName << "\n";
+        fanInserted = false;
+        return;
+    }
+
+    try
+    {
+        gpioLine.request({"FanSensor", gpiod::line_request::DIRECTION_INPUT,
+                          inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+        fanInserted = (gpioLine.get_value() != 0);
+    }
+    catch (const std::system_error&)
+    {
+        std::cerr << "Error reading gpio: " << gpioName << "\n";
+        fanInserted = false;
+    }
+
+    staticGpioMap.emplace(gpioName, gpioLine);
+}
+
+PollingPresenceSensor::PollingPresenceSensor(const std::string& gpioName,
+                                             bool inverted,
+                                             boost::asio::io_service& io,
+                                             const std::string& name) :
+    name(name),
+    repeatTimer(io), gpioName(gpioName)
+{
+    initGpio(gpioName, inverted);
+
+    monitorPresence();
+}
+
+PollingPresenceSensor::~PollingPresenceSensor()
+{
+    staticGpioMap.erase(gpioName);
+    gpioLine.release();
+}
+
+void PollingPresenceSensor::monitorPresence(void)
+{
+    auto statusTry = gpioLine.get_value();
+
+    if (static_cast<int>(fanInserted) != statusTry)
+    {
+        if (++confirmTimes >= presConfirmTimes)
+        {
+            fanInserted = (statusTry != 0);
+            if (fanInserted)
+            {
+                logFanInserted(name);
+            }
+            else
+            {
+                logFanRemoved(name);
+            }
+
+            confirmTimes = 0;
+        }
+    }
+    repeatTimer.expires_after(std::chrono::seconds(1));
+    repeatTimer.async_wait(
+        [this](const boost::system::error_code&) { monitorPresence(); });
+}
+
+bool PollingPresenceSensor::getValue(void)
+{
+    return fanInserted;
 }
 
 RedundancySensor::RedundancySensor(size_t count,
