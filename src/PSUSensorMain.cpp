@@ -1015,9 +1015,12 @@ void propertyInitialize(void)
         {"temp6", PSUProperty("Temperature", 127, -128, 3, 0)},
         {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3, 0)},
         {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
-        {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)}};
+        {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)},
+        {"fan3", PSUProperty("Fan Speed 3", 30000, 0, 0, 0)},
+        {"fan4", PSUProperty("Fan Speed 4", 30000, 0, 0, 0)}};
 
-    pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"}};
+    pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"},
+                {"fan3", "Fan_3"}, {"fan4", "Fan_4"}};
 
     limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
                        {"Failure", {"crit_alarm", "lcrit_alarm"}}};
@@ -1029,7 +1032,9 @@ void propertyInitialize(void)
 
     groupEventMatch = {{"FanFault",
                         {{"fan1", {"fan1_alarm", "fan1_fault"}},
-                         {"fan2", {"fan2_alarm", "fan2_fault"}}}}};
+                         {"fan2", {"fan2_alarm", "fan2_fault"}},
+                         {"fan3", {"fan3_alarm", "fan3_fault"}},
+                         {"fan4", {"fan4_alarm", "fan4_fault"}}}}};
 }
 
 int main()
