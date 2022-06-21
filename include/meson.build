@@ -5,3 +5,7 @@ configure_file(input: 'dbus-sensor_config.h.in',
                output: 'dbus-sensor_config.h',
                configuration: conf_data)
 
+tach_conf_data = configuration_data()
+tach_conf_data.set('PRES_NOUSE_EVENT', get_option('pres-nouse-interrupt').enabled())
+configure_file(output: 'tach_config.h',
+               configuration: tach_conf_data)

@@ -1,4 +1,6 @@
 #pragma once
+#include "tach_config.h"
+
 #include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
@@ -22,7 +24,12 @@ class PresenceSensor
     ~PresenceSensor();
 
     void monitorPresence(void);
+#ifdef PRES_NOUSE_EVENT
+    void initGpio(const std::string& pinName, bool inverted);
+    std::string getGpioPresLabel(void);
+#else
     void read(void);
+#endif
     bool getValue(void);
 
   private:
@@ -30,6 +37,11 @@ class PresenceSensor
     gpiod::line gpioLine;
     boost::asio::posix::stream_descriptor gpioFd;
     std::string name;
+#ifdef PRES_NOUSE_EVENT
+    int confirmTimes = 0;
+    boost::asio::steady_timer repeatTimer;
+    std::string gpioName;
+#endif
 };
 
 namespace redundancy
