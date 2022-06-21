@@ -466,8 +466,39 @@ void createSensors(
                         }
                         if (!presenceSensor)
                         {
-                            presenceSensor = std::make_shared<PresenceSensor>(
-                                *pinName, inverted, io, sensorName);
+                            auto findMonitorType =
+                                presenceConfig->second.find("MonitorType");
+                            bool polling = false;
+                            if (findMonitorType != presenceConfig->second.end())
+                            {
+                                auto mType = std::get<std::string>(
+                                    findMonitorType->second);
+                                if (mType == "Polling")
+                                {
+                                    polling = true;
+                                }
+                                else if (mType != "Event")
+                                {
+                                    std::cerr
+                                        << "Unsupported GPIO MonitorType of "
+                                        << mType << " for " << sensorName
+                                        << " (supported types: Polling, Event (default))\n";
+                                }
+                            }
+                            if (polling)
+                            {
+                                presenceSensor =
+                                    std::make_shared<PollingPresenceSensor>(
+                                        "Fan", sensorName, *pinName, inverted,
+                                        io);
+                            }
+                            else
+                            {
+                                presenceSensor =
+                                    std::make_shared<EventPresenceSensor>(
+                                        "Fan", sensorName, *pinName, inverted,
+                                        io);
+                            }
                             presenceSensors[*pinName] = presenceSensor;
                         }
                     }
