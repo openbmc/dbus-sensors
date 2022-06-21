@@ -64,3 +64,45 @@ class EventPresenceSensor :
   private:
     boost::asio::posix::stream_descriptor gpioFd;
 };
+
+class sharedGpio
+{
+    struct gpioUsers
+    {
+        gpiod::line line;
+        unsigned int userCount;
+    };
+    std::unordered_map<std::string, gpioUsers> gpioMap;
+
+  public:
+    void addGpio(const std::string& gpioName, gpiod::line& gpioLine);
+    gpiod::line findGpio(const std::string& gpioName);
+    void removeGpio(const std::string& gpioName);
+};
+
+class PollingPresenceSensor :
+    public PresenceSensor,
+    public std::enable_shared_from_this<PollingPresenceSensor>
+{
+    // Used to map multiple objects to a single GPIO line
+    static sharedGpio staticGpioMap;
+
+  public:
+    PollingPresenceSensor(const std::string& iSensorType,
+                          const std::string& iSensorName,
+                          const std::string& gpioName, bool inverted,
+                          boost::asio::io_context& io);
+    ~PollingPresenceSensor()
+    {
+        staticGpioMap.removeGpio(gpioName);
+    }
+    void monitorPresence(void) override;
+    void initGpio(const std::string& gpioName, bool inverted);
+    static inline void afterPollTimerExpires(
+        const std::weak_ptr<PollingPresenceSensor>& weakRef,
+        const boost::system::error_code& ec);
+
+  private:
+    std::string gpioName;
+    boost::asio::steady_timer pollTimer;
+};

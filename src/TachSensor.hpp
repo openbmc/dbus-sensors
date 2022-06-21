@@ -41,6 +41,18 @@ class RedundancySensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     sdbusplus::asio::object_server& objectServer;
     boost::container::flat_map<std::string, bool> statuses;
+
+    inline void logFanRedundancyLost(void)
+    {
+        const auto* msg = "OpenBMC.0.1.FanRedundancyLost";
+        lg2::error("Fan Inserted", "REDFISH_MESSAGE_ID", msg);
+    }
+
+    inline void logFanRedundancyRestored(void)
+    {
+        const auto* msg = "OpenBMC.0.1.FanRedundancyRegained";
+        lg2::error("Fan Removed", "REDFISH_MESSAGE_ID", msg);
+    }
 };
 
 class TachSensor :
@@ -51,7 +63,7 @@ class TachSensor :
     TachSensor(const std::string& path, const std::string& objectType,
                sdbusplus::asio::object_server& objectServer,
                std::shared_ptr<sdbusplus::asio::connection>& conn,
-               std::unique_ptr<PresenceSensor>&& presence,
+               std::shared_ptr<PresenceSensor>&& presence,
                std::optional<RedundancySensor>* redundancy,
                boost::asio::io_context& io, const std::string& fanName,
                std::vector<thresholds::Threshold>&& thresholds,
@@ -68,7 +80,7 @@ class TachSensor :
     std::array<char, 128> readBuf{};
     sdbusplus::asio::object_server& objServer;
     std::optional<RedundancySensor>* redundancy;
-    std::unique_ptr<PresenceSensor> presence;
+    std::shared_ptr<PresenceSensor> presence;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemAssoc;
     boost::asio::random_access_file inputDev;
@@ -81,29 +93,3 @@ class TachSensor :
     void restartRead(size_t pollTime);
     void checkThresholds(void) override;
 };
-
-inline void logFanInserted(const std::string& device)
-{
-    const auto* msg = "OpenBMC.0.1.FanInserted";
-    lg2::error("Fan Inserted", "REDFISH_MESSAGE_ID", msg,
-               "REDFISH_MESSAGE_ARGS", device);
-}
-
-inline void logFanRemoved(const std::string& device)
-{
-    const auto* msg = "OpenBMC.0.1.FanRemoved";
-    lg2::error("Fan Removed", "REDFISH_MESSAGE_ID", msg, "REDFISH_MESSAGE_ARGS",
-               device);
-}
-
-inline void logFanRedundancyLost(void)
-{
-    const auto* msg = "OpenBMC.0.1.FanRedundancyLost";
-    lg2::error("Fan Inserted", "REDFISH_MESSAGE_ID", msg);
-}
-
-inline void logFanRedundancyRestored(void)
-{
-    const auto* msg = "OpenBMC.0.1.FanRedundancyRegained";
-    lg2::error("Fan Removed", "REDFISH_MESSAGE_ID", msg);
-}
