@@ -13,6 +13,7 @@ class PresenceSensor
         sensorType(type), sensorName(name){};
     virtual ~PresenceSensor() = 0;
 
+    virtual void monitorPresence(void) = 0;
     bool isPresent(void) const
     {
         return status;
@@ -23,8 +24,6 @@ class PresenceSensor
     bool status = false;
     std::string sensorType;
     std::string sensorName;
-
-    virtual void monitorPresence(void) = 0;
 
     inline void logPresent(const std::string& device)
     {
@@ -60,11 +59,11 @@ class EventPresenceSensor :
         gpioFd.close();
         gpioLine.release();
     }
+    void monitorPresence(void) override;
 
   private:
     boost::asio::posix::stream_descriptor gpioFd;
 
-    void monitorPresence(void) override;
     void read(void);
 };
 
@@ -87,9 +86,6 @@ class PollingPresenceSensor :
     public PresenceSensor,
     public std::enable_shared_from_this<PollingPresenceSensor>
 {
-    // Used to map multiple objects to a single GPIO line
-    static sharedGpio staticGpioMap;
-
   public:
     PollingPresenceSensor(const std::string& iSensorType,
                           const std::string& iSensorName,
@@ -99,11 +95,15 @@ class PollingPresenceSensor :
     {
         staticGpioMap.removeGpio(gpioName);
     }
+    void monitorPresence(void) override;
 
   private:
+    // Used to map multiple objects to a single GPIO line
+    static sharedGpio staticGpioMap;
+
     std::string gpioName;
     boost::asio::steady_timer pollTimer;
-    void monitorPresence(void) override;
+
     void initGpio(const std::string& gpioName, bool inverted);
     static inline void afterPollTimerExpires(
         const std::weak_ptr<PollingPresenceSensor>& weakRef,

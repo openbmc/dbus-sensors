@@ -18,6 +18,21 @@
 
 sharedGpio PollingPresenceSensor::staticGpioMap;
 
+PresenceSensor::~PresenceSensor() = default;
+
+void PresenceSensor::updateAndTracePresence(void)
+{
+    status = (gpioLine.get_value() != 0);
+    if (status)
+    {
+        logPresent(sensorName);
+    }
+    else
+    {
+        logRemoved(sensorName);
+    }
+}
+
 EventPresenceSensor::EventPresenceSensor(const std::string& iSensorType,
                                          const std::string& iSensorName,
                                          const std::string& gpioName,
@@ -54,23 +69,6 @@ EventPresenceSensor::EventPresenceSensor(const std::string& iSensorType,
         std::cerr << "Error reading gpio " << gpioName << ": " << e.what()
                   << "\n";
         return;
-    }
-
-    monitorPresence();
-}
-
-PresenceSensor::~PresenceSensor() = default;
-
-void PresenceSensor::updateAndTracePresence(void)
-{
-    status = (gpioLine.get_value() != 0);
-    if (status)
-    {
-        logPresent(sensorName);
-    }
-    else
-    {
-        logRemoved(sensorName);
     }
 }
 
@@ -232,6 +230,7 @@ void PollingPresenceSensor::monitorPresence(void)
         return;
     }
 
+    // Determine if the value has changed
     int statusTry = gpioLine.get_value();
     if (static_cast<int>(status) != statusTry)
     {
