@@ -22,14 +22,16 @@ class PresenceSensor
     ~PresenceSensor();
 
     void monitorPresence(void);
-    void read(void);
+    void initGpio(const std::string& pinName, bool inverted);
     bool getValue(void);
 
   private:
     bool status = true;
+    int confirmTimes = 0;
     gpiod::line gpioLine;
     boost::asio::posix::stream_descriptor gpioFd;
     std::string name;
+    boost::asio::steady_timer repeatTimer;
 };
 
 namespace redundancy
