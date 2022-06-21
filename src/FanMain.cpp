@@ -105,6 +105,7 @@ FanTypes getFanType(const fs::path& parentPath)
 
     return FanTypes::i2c;
 }
+
 void enablePwm(const fs::path& filePath)
 {
     std::fstream enableFile(filePath, std::ios::in | std::ios::out);
@@ -413,7 +414,7 @@ void createSensors(
             auto presenceConfig =
                 sensorData->find(cfgIntf + std::string(".Presence"));
 
-            std::unique_ptr<PresenceSensor> presenceSensor(nullptr);
+            std::shared_ptr<PSensor> presenceSensor(nullptr);
 
             // presence sensors are optional
             if (presenceConfig != sensorData->end())
@@ -433,8 +434,17 @@ void createSensors(
                     if (const auto* pinName =
                             std::get_if<std::string>(&findPinName->second))
                     {
-                        presenceSensor = std::make_unique<PresenceSensor>(
-                            *pinName, inverted, io, sensorName);
+                        try
+                        {
+                            presenceSensor = std::make_shared<PresenceSensor>(
+                                *pinName, inverted, io, sensorName);
+                        }
+                        catch (const std::runtime_error&)
+                        {
+                            presenceSensor =
+                                std::make_shared<PollingPresenceSensor>(
+                                    *pinName, inverted, io, sensorName);
+                        }
                     }
                     else
                     {
