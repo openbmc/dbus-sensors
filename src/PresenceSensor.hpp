@@ -12,6 +12,7 @@ class PresenceSensor
         sensorType(type), sensorName(name){};
     virtual ~PresenceSensor() = 0;
 
+    virtual void monitorPresence() = 0;
     bool isPresent() const
     {
         return status;
@@ -22,8 +23,6 @@ class PresenceSensor
     bool status = false;
     std::string sensorType;
     std::string sensorName;
-
-    virtual void monitorPresence() = 0;
 
     inline void logPresent(const std::string& device)
     {
@@ -58,10 +57,53 @@ class EventPresenceSensor :
     {
         gpioFd.close();
     }
+    void monitorPresence() override;
 
   private:
     boost::asio::posix::stream_descriptor gpioFd;
 
-    void monitorPresence() override;
     void read();
+};
+
+class SharedGpio
+{
+    struct GpioUsers
+    {
+        gpiod::line line;
+        unsigned int userCount;
+    };
+    std::unordered_map<std::string, GpioUsers> gpioMap;
+
+  public:
+    void addGpio(const std::string& gpioName, gpiod::line& gpioLine);
+    gpiod::line findGpio(const std::string& gpioName);
+    void removeGpio(const std::string& gpioName);
+};
+
+class PollingPresenceSensor :
+    public PresenceSensor,
+    public std::enable_shared_from_this<PollingPresenceSensor>
+{
+  public:
+    PollingPresenceSensor(const std::string& iSensorType,
+                          const std::string& iSensorName,
+                          const std::string& gpioName, bool inverted,
+                          boost::asio::io_context& io);
+    ~PollingPresenceSensor() override
+    {
+        staticGpioMap.removeGpio(gpioName);
+    }
+    void monitorPresence() override;
+
+  private:
+    // Used to map multiple objects to a single GPIO line
+    static SharedGpio staticGpioMap;
+
+    std::string gpioName;
+    boost::asio::steady_timer pollTimer;
+
+    void initGpio(const std::string& gpioName, bool inverted);
+    static inline void
+        pollTimerHandler(const std::weak_ptr<PollingPresenceSensor>& weakRef,
+                         const boost::system::error_code& ec);
 };
