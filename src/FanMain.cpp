@@ -469,12 +469,41 @@ void createSensors(
                         }
                         if (!presenceGpio)
                         {
+                            auto findMonitorType =
+                                presenceConfig->second.find("MonitorType");
+                            bool polling = false;
+                            if (findMonitorType != presenceConfig->second.end())
+                            {
+                                auto mType = std::get<std::string>(
+                                    findMonitorType->second);
+                                if (mType == "Polling")
+                                {
+                                    polling = true;
+                                }
+                                else if (mType != "Event")
+                                {
+                                    std::cerr
+                                        << "Unsupported GPIO MonitorType of "
+                                        << mType << " for " << sensorName
+                                        << " (supported types: Polling, Event (default))\n";
+                                }
+                            }
                             try
                             {
-                                presenceGpio =
-                                    std::make_shared<EventPresenceGpio>(
-                                        "Fan", sensorName, *pinName, inverted,
-                                        io);
+                                if (polling)
+                                {
+                                    presenceGpio =
+                                        std::make_shared<PollingPresenceGpio>(
+                                            "Fan", sensorName, *pinName,
+                                            inverted, io);
+                                }
+                                else
+                                {
+                                    presenceGpio =
+                                        std::make_shared<EventPresenceGpio>(
+                                            "Fan", sensorName, *pinName,
+                                            inverted, io);
+                                }
                                 presenceGpios[*pinName] = presenceGpio;
                             }
                             catch (const std::system_error& e)
