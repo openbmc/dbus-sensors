@@ -413,13 +413,15 @@ void createSensors(
             auto presenceConfig =
                 sensorData->find(cfgIntf + std::string(".Presence"));
 
-            std::unique_ptr<PresenceSensor> presenceSensor(nullptr);
+            std::shared_ptr<PSensor> presenceSensor(nullptr);
 
             // presence sensors are optional
             if (presenceConfig != sensorData->end())
             {
                 auto findPolarity = presenceConfig->second.find("Polarity");
                 auto findPinName = presenceConfig->second.find("PinName");
+                auto findMonitorType =
+                    presenceConfig->second.find("MonitorType");
 
                 if (findPinName == presenceConfig->second.end() ||
                     findPolarity == presenceConfig->second.end())
@@ -430,11 +432,26 @@ void createSensors(
                 {
                     bool inverted =
                         std::get<std::string>(findPolarity->second) == "Low";
+                    bool polling = false;
+                    if (findMonitorType != presenceConfig->second.end())
+                    {
+                        polling = std::get<std::string>(
+                                      findMonitorType->second) == "Polling";
+                    }
                     if (const auto* pinName =
                             std::get_if<std::string>(&findPinName->second))
                     {
-                        presenceSensor = std::make_unique<PresenceSensor>(
-                            *pinName, inverted, io, sensorName);
+                        if (!polling)
+                        {
+                            presenceSensor = std::make_shared<PresenceSensor>(
+                                *pinName, inverted, io, sensorName);
+                        }
+                        else
+                        {
+                            presenceSensor =
+                                std::make_shared<PollingPresenceSensor>(
+                                    *pinName, inverted, io, sensorName);
+                        }
                     }
                     else
                     {

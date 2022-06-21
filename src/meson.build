@@ -113,6 +113,7 @@ if get_option('fan').allowed()
     executable(
         'fansensor',
         'FanMain.cpp',
+        'GpioPresence.cpp',
         'TachSensor.cpp',
         'PwmSensor.cpp',
         dependencies: [
