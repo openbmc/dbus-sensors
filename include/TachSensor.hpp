@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Thresholds.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
@@ -18,18 +19,25 @@ class PresenceSensor
 {
   public:
     PresenceSensor(const std::string& gpioName, bool inverted,
-                   boost::asio::io_service& io, const std::string& name);
+                   boost::asio::io_service& io, const std::string& name,
+                   bool supportPollingPresence);
     ~PresenceSensor();
 
     void monitorPresence(void);
+    void monitorPresenceWithoutEventListen(void);
     void read(void);
-    bool getValue(void) const;
+    bool getValue(void);
+    void initGpio(const std::string& gpioName, bool inverted);
+    std::string getGpioPresLabel(void);
 
   private:
     bool status = true;
     gpiod::line gpioLine;
     boost::asio::posix::stream_descriptor gpioFd;
     std::string name;
+    int confirmTimes = 0;
+    boost::asio::steady_timer repeatTimer;
+    std::string gpioName;
 };
 
 namespace redundancy

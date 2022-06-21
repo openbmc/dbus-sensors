@@ -389,8 +389,28 @@ void createSensors(
                     if (const auto* pinName =
                             std::get_if<std::string>(&findPinName->second))
                     {
+                        auto findPollingAccess =
+                            presenceConfig->second.find("EnablePollingAccess");
+                        bool supportPollingPresence = false;
+                        if (findPollingAccess == presenceConfig->second.end())
+                        {
+                            std::cerr << "We support event listen method "
+                                         "to get fan Presence"
+                                      << " \n";
+                        }
+                        else
+                        {
+                            const auto* pollingAccess = std::get_if<uint64_t>(
+                                &findPollingAccess->second);
+                            if (*pollingAccess == 1)
+                            {
+                                supportPollingPresence = true;
+                            }
+                        }
+
                         presenceSensor = std::make_unique<PresenceSensor>(
-                            *pinName, inverted, io, sensorName);
+                            *pinName, inverted, io, sensorName,
+                            supportPollingPresence);
                     }
                     else
                     {
