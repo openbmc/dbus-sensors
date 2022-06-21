@@ -46,7 +46,7 @@ static constexpr unsigned int pwmPollMs = 500;
 TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        sdbusplus::asio::object_server& objectServer,
                        std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       std::unique_ptr<PresenceSensor>&& presenceSensor,
+                       std::shared_ptr<PresenceSensor>&& presenceSensor,
                        std::optional<RedundancySensor>* redundancy,
                        boost::asio::io_context& io, const std::string& fanName,
                        std::vector<thresholds::Threshold>&& thresholdsIn,
@@ -79,6 +79,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
 
     if (presence)
     {
+        presence->monitorPresence();
         itemIface =
             objectServer.add_interface("/xyz/openbmc_project/inventory/" + name,
                                        "xyz.openbmc_project.Inventory.Item");
