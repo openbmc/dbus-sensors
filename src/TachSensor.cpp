@@ -29,6 +29,7 @@
 #include <iostream>
 #include <istream>
 #include <limits>
+#include <map>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -37,6 +38,12 @@
 #include <vector>
 
 static constexpr unsigned int pwmPollMs = 500;
+#ifdef PRES_NOUSE_EVENT
+std::map<std::string, gpiod::line>
+    staticGpioMap; // Used to map two rotors to ONE GPIOLine.
+std::map<std::string, bool> gpioPresValueMap;
+static constexpr int presConfirmTimes = 3;
+#endif
 
 TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        sdbusplus::asio::object_server& objectServer,
@@ -205,6 +212,100 @@ void TachSensor::checkThresholds(void)
         setLed(dbusConnection, *led, curLed);
     }
 }
+#ifdef PRES_NOUSE_EVENT
+void PresenceSensor::initGpio(const std::string& gpioName, bool inverted)
+{
+    if (staticGpioMap.contains(gpioName))
+    {
+        gpioLine = staticGpioMap.at(gpioName);
+        return;
+    }
+
+    gpioLine = gpiod::find_line(gpioName);
+    try
+    {
+        gpioLine.request({"FanSensor", gpiod::line_request::DIRECTION_INPUT,
+                          inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+    }
+    catch (const std::system_error&)
+    {
+        std::cerr << "Error reading gpio: " << gpioName << "\n";
+        return;
+    }
+
+    staticGpioMap.emplace(gpioName, gpioLine);
+    gpioPresValueMap.emplace(getGpioPresLabel(), gpioLine.get_value());
+}
+
+std::string PresenceSensor::getGpioPresLabel()
+{
+    return gpioLine.get_chip().name() + std::to_string(gpioLine.offset());
+}
+
+PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
+                               boost::asio::io_service& io,
+                               const std::string& name) :
+    gpioFd(io),
+    name(name), repeatTimer(io), gpioName(gpioName)
+{
+    initGpio(gpioName, inverted);
+
+    if (!gpioLine)
+    {
+        std::cerr << "Error requesting gpio: " << gpioName << "\n";
+        status = false;
+        return;
+    }
+
+    monitorPresence();
+}
+
+PresenceSensor::~PresenceSensor()
+{
+    staticGpioMap.erase(gpioName);
+    gpioPresValueMap.erase(getGpioPresLabel());
+    gpioLine.release();
+}
+
+void PresenceSensor::monitorPresence(void)
+{
+    auto statusTry = gpioLine.get_value();
+
+    if (gpioPresValueMap.at(getGpioPresLabel()) != statusTry)
+    {
+        if (++confirmTimes >= presConfirmTimes)
+        {
+            gpioPresValueMap.at(getGpioPresLabel()) = statusTry;
+            status = statusTry;
+            if (statusTry)
+            {
+                logFanInserted(name);
+            }
+            else
+            {
+                logFanRemoved(name);
+            }
+
+            confirmTimes = 0;
+        }
+    }
+    repeatTimer.expires_after(std::chrono::seconds(1));
+    repeatTimer.async_wait(
+        [this](const boost::system::error_code&) { monitorPresence(); });
+}
+
+bool PresenceSensor::getValue()
+{
+    if (!gpioLine)
+    {
+        std::cerr << "Error get gpioLine" << std::endl;
+        return false;
+    }
+
+    return gpioPresValueMap.at(getGpioPresLabel());
+}
+
+#else
 
 PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
                                boost::asio::io_service& io,
@@ -290,6 +391,7 @@ bool PresenceSensor::getValue(void) const
 {
     return status;
 }
+#endif
 
 RedundancySensor::RedundancySensor(size_t count,
                                    const std::vector<std::string>& children,
