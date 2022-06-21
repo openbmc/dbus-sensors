@@ -14,16 +14,23 @@
 #include <utility>
 #include <vector>
 
-class PresenceSensor
+class PSensor
+{
+  public:
+    virtual bool getValue(void) = 0;
+    virtual ~PSensor() = default;
+};
+
+class PresenceSensor : public PSensor
 {
   public:
     PresenceSensor(const std::string& gpioName, bool inverted,
                    boost::asio::io_service& io, const std::string& name);
-    ~PresenceSensor();
+    ~PresenceSensor() override;
 
     void monitorPresence(void);
     void read(void);
-    bool getValue(void) const;
+    bool getValue(void) override;
 
   private:
     bool status = true;
@@ -32,6 +39,25 @@ class PresenceSensor
     std::string name;
 };
 
+class PollingPresenceSensor : public PSensor
+{
+  public:
+    PollingPresenceSensor(const std::string& gpioName, bool inverted,
+                          boost::asio::io_service& io, const std::string& name);
+    ~PollingPresenceSensor() override;
+
+    void monitorPresence(void);
+    bool getValue(void) override;
+    void initGpio(const std::string& gpioName, bool inverted);
+
+  private:
+    bool fanInserted = true;
+    gpiod::line gpioLine;
+    std::string name;
+    int confirmTimes = 0;
+    boost::asio::steady_timer repeatTimer;
+    std::string gpioName;
+};
 namespace redundancy
 {
 constexpr const char* full = "Full";
@@ -64,7 +90,7 @@ class TachSensor : public Sensor
     TachSensor(const std::string& path, const std::string& objectType,
                sdbusplus::asio::object_server& objectServer,
                std::shared_ptr<sdbusplus::asio::connection>& conn,
-               std::unique_ptr<PresenceSensor>&& presence,
+               std::unique_ptr<PSensor>&& presence,
                std::optional<RedundancySensor>* redundancy,
                boost::asio::io_service& io, const std::string& fanName,
                std::vector<thresholds::Threshold>&& thresholds,
@@ -77,7 +103,7 @@ class TachSensor : public Sensor
   private:
     sdbusplus::asio::object_server& objServer;
     std::optional<RedundancySensor>* redundancy;
-    std::unique_ptr<PresenceSensor> presence;
+    std::unique_ptr<PSensor> presence;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemAssoc;
     boost::asio::streambuf readBuf;

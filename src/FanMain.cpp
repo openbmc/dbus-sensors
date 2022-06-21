@@ -80,6 +80,34 @@ FanTypes getFanType(const fs::path& parentPath)
     // todo: will we need to support other types?
     return FanTypes::i2c;
 }
+
+std::optional<bool> enableEventListen(const std::string& pinName, bool inverted)
+{
+    gpiod::line gpioLine = gpiod::find_line(pinName);
+
+    if (!gpioLine)
+    {
+        std::cerr << "Error try requesting gpio: " << pinName << "\n";
+        return std::nullopt;
+    }
+
+    try
+    {
+        gpioLine.request({"FanSensor", gpiod::line_request::EVENT_BOTH_EDGES,
+                          inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error reading gpio: " << pinName
+                  << " with listening method. Use polling method."
+                  << "\n";
+        gpioLine.release();
+        return false;
+    }
+    gpioLine.release();
+    return true;
+}
+
 void enablePwm(const fs::path& filePath)
 {
     std::fstream enableFile(filePath, std::ios::in | std::ios::out);
@@ -369,7 +397,7 @@ void createSensors(
             auto presenceConfig =
                 sensorData->find(baseType + std::string(".Presence"));
 
-            std::unique_ptr<PresenceSensor> presenceSensor(nullptr);
+            std::unique_ptr<PSensor> presenceSensor(nullptr);
 
             // presence sensors are optional
             if (presenceConfig != sensorData->end())
@@ -389,8 +417,23 @@ void createSensors(
                     if (const auto* pinName =
                             std::get_if<std::string>(&findPinName->second))
                     {
-                        presenceSensor = std::make_unique<PresenceSensor>(
-                            *pinName, inverted, io, sensorName);
+                        auto enableListen =
+                            enableEventListen(*pinName, inverted);
+                        if (!enableListen)
+                        {
+                            continue;
+                        }
+                        else if (*enableListen == true)
+                        {
+                            presenceSensor = std::make_unique<PresenceSensor>(
+                                *pinName, inverted, io, sensorName);
+                        }
+                        else
+                        {
+                            presenceSensor =
+                                std::make_unique<PollingPresenceSensor>(
+                                    *pinName, inverted, io, sensorName);
+                        }
                     }
                     else
                     {
