@@ -22,6 +22,30 @@
       },
       "revId": "4e19072b401324345c26e8c1f298b1f67bfc8f03",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e66c683_5d43881f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-06-22T07:32:43Z",
+      "side": 1,
+      "message": "Sorry I missed an important note.\nI have tried the \u0027BindConnector\u0027 you mentioned. It didn\u0027t work because:\nMy board uses the interrupt pin differently than the community when using the chip PCA9555 (it\u0027s not designed to use the interrupt pin). As a result, FanSensor cannot obtain gpiochip information normally.\nI modified the commit msg.",
+      "parentUuid": "660dba3d_d7899703",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "4e19072b401324345c26e8c1f298b1f67bfc8f03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
