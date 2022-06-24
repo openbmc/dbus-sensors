@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8fb35e4_89abd017",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c19b6a24_b66de207",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7e8a113_3e77beb3",
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc3ab3ed_051059f4",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7e8a113_3e77beb3",
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9991f7a9_24ef9a91",
@@ -71,6 +113,30 @@
       "writtenOn": "2022-06-17T22:57:06Z",
       "side": 1,
       "message": "why inline here in cpp file?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c8e05a5_f7fa8ffb",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9991f7a9_24ef9a91",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -104,6 +170,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "052ad843_6ca20f8a",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "yes, this method gets a single gpio name of the host controller(twinlake).",
+      "parentUuid": "31b658ad_21f3c43b",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 12
+      },
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efef9dc4_bea65870",
@@ -117,6 +207,30 @@
       "writtenOn": "2022-06-17T22:57:06Z",
       "side": 1,
       "message": "why the magic number 2 here?\nwhat if pathName.size() is less than 2",
+      "range": {
+        "startLine": 32,
+        "startChar": 52,
+        "endLine": 32,
+        "endChar": 53
+      },
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70f11bd1_db58fb57",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "some example path name 1_CPU_Good, 2_CPU_Good\n\nAs you can see pathName are prefixed with the host instance number, this logic is to remove thee host instance number and use only ipmbGpio name (so first two character are removed).\nunlikely the ipmbGpio name are not less than two.",
+      "parentUuid": "efef9dc4_bea65870",
       "range": {
         "startLine": 32,
         "startChar": 52,
@@ -150,6 +264,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77919ee4_1ec80777",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0e1ffb53_7b1f3b31",
+      "range": {
+        "startLine": 33,
+        "startChar": 52,
+        "endLine": 33,
+        "endChar": 77
+      },
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9c2b12e_19c9dcc4",
@@ -163,6 +301,30 @@
       "writtenOn": "2022-06-17T22:57:06Z",
       "side": 1,
       "message": "Need to remove all gpioInterface in gpioInterfaceMap",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e584e411_c24344b6",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d9c2b12e_19c9dcc4",
       "range": {
         "startLine": 56,
         "startChar": 0,
@@ -196,6 +358,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "901c3884_ffac3531",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f2d5e38d_85de80fc",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 47
+      },
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f5c876b_3aca401b",
@@ -209,6 +395,30 @@
       "writtenOn": "2022-06-17T22:57:06Z",
       "side": 1,
       "message": "Why limit to Twinlake? Can it be IpmbGpioState or something more generic so other system can use it also",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 63
+      },
+      "revId": "beee0aaa85f7a2460bf0d0a6e793bf5d2f563639",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8f9ec4f_913d5823",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-06-24T14:34:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4f5c876b_3aca401b",
       "range": {
         "startLine": 43,
         "startChar": 0,
