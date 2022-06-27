@@ -52,6 +52,24 @@
       "parentUuid": "4aedda14_14a9fb36",
       "revId": "fab9b7b9b028c614884aad234c8724a099d8027c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcc738af_2aeff8ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-06-27T23:03:47Z",
+      "side": 1,
+      "message": "It does appear to be.",
+      "parentUuid": "78c22431_c037e275",
+      "revId": "fab9b7b9b028c614884aad234c8724a099d8027c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
