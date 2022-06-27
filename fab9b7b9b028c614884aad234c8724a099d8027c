@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2b5c36c_0b3efd78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-06-27T06:47:29Z",
+      "side": 1,
+      "message": "Is it somehow possible to retrigger CI pipeline? I\u0027ve rebased the change due to being out of date and apparently CI fails on files unrelated to this particular change.",
+      "revId": "fab9b7b9b028c614884aad234c8724a099d8027c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
