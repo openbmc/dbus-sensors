@@ -68,7 +68,7 @@ struct Sensor
         minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
-        readState(readState), errCount(0),
+        readState(readState),
         instrumentation(enableInstrumentation
                             ? std::make_unique<SensorInstrumentation>()
                             : nullptr)
@@ -102,7 +102,7 @@ struct Sensor
     double hysteresisPublish;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
-    size_t errCount;
+    size_t errCount{0};
     std::unique_ptr<SensorInstrumentation> instrumentation;
 
     // This member variable provides a hook that can be used to receive

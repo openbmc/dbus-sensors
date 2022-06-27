@@ -46,8 +46,8 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     inputDev(io), waitTimer(io),
     nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
-    dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs),
-    minMaxReadCounter(0)
+    dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs)
+
 {
     if (show)
     {

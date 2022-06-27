@@ -51,7 +51,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
   private:
     int value = 0;
     int fd;
-    size_t errCount;
+    size_t errCount{0};
     std::string path;
     std::string eventName;
 

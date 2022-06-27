@@ -45,7 +45,7 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
     bool show;
     size_t pollTime;
     bool loggedInterfaceDown = false;
-    uint8_t minMaxReadCounter;
+    uint8_t minMaxReadCounter{0};
     int fd;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;

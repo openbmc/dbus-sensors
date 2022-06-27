@@ -149,9 +149,9 @@ PSUSubEvent::PSUSubEvent(
     std::enable_shared_from_this<PSUSubEvent>(),
     eventInterface(std::move(eventInterface)), asserts(std::move(asserts)),
     combineEvent(std::move(combineEvent)), assertState(std::move(state)),
-    errCount(0), path(path), eventName(eventName), readState(powerState),
-    waitTimer(io), inputDev(io), psuName(psuName),
-    groupEventName(groupEventName), systemBus(conn)
+    path(path), eventName(eventName), readState(powerState), waitTimer(io),
+    inputDev(io), psuName(psuName), groupEventName(groupEventName),
+    systemBus(conn)
 {
     if (pollRate > 0.0)
     {

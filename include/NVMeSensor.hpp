@@ -26,7 +26,7 @@ class NVMeSensor : public Sensor
   private:
     const unsigned int scanDelayTicks = 5 * 60;
     sdbusplus::asio::object_server& objServer;
-    unsigned int scanDelay;
+    unsigned int scanDelay{0};
 
     void checkThresholds(void) override;
 };

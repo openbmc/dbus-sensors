@@ -56,7 +56,7 @@ class ExternalSensor :
 
     std::chrono::steady_clock::time_point writeLast;
     std::chrono::steady_clock::duration writeTimeout;
-    bool writeAlive;
+    bool writeAlive{false};
     bool writePerishable;
     std::function<void(const std::chrono::steady_clock::time_point& now)>
         writeHook;

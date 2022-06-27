@@ -33,7 +33,7 @@ ExternalSensor::ExternalSensor(
     writeTimeout(
         std::chrono::duration_cast<std::chrono::steady_clock::duration>(
             std::chrono::duration<double>(timeoutSecs))),
-    writeAlive(false), writePerishable(timeoutSecs > 0.0)
+    writePerishable(timeoutSecs > 0.0)
 {
     // The caller must specify what physical characteristic
     // an external sensor is expected to be measuring, such as temperature,
