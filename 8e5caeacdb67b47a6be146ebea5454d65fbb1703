@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3aca4a95_113c6898",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2022-06-28T17:39:53Z",
+      "side": 1,
+      "message": "@Ed, Please ignore above comment.  With io_uring changes itself PSU events are logged correctly in redfish logs. So Current patch changes not required. We have verified with your patches. Working fine.\nhttps://gerrit.openbmc.org/c/openbmc/openbmc/+/46919\nand \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/46918\n\nSo shall we abandon this change.?",
+      "parentUuid": "a62596d5_578694f5",
+      "revId": "8e5caeacdb67b47a6be146ebea5454d65fbb1703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56a8caf4_f8a91436",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 2
