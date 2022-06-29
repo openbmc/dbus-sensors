@@ -56,6 +56,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e89ab755_2e67bd7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-06-29T02:24:38Z",
+      "side": 1,
+      "message": "\u003e Patch Set 11:\n\u003e \n\u003e The only open question left to resolve is:\n\u003e \"Should PSUSensors make an attempt to recover a device even when a user unbinds and rebinds a driver from a device even though this is not a supported use-case?\"\n\nYep, and that\u0027s pretty core to this patchset.",
+      "revId": "d6839625c161295e44f6dab365b34e89f11dd6bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0bad81d1_570a1ea5",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 11

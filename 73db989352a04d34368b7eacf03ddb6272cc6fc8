@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fce16718_dad91c2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-06-29T02:24:38Z",
+      "side": 1,
+      "message": "I think this is still a concern, and I\u0027m really not understanding the use case.\n\n\u003e Flow is to change the voltage on a rail, read the voltage from some other device rinse and repeat.\n\n\nSo...\n\nsystemctl stop xyz.openbmc_project.PSUSesnsor.service\n\n\u003e\u003e  Change voltage rail, take readings, loop over hwmon outputs, do whatever needs done to margin your stuff\n\nsystemctl start xyz.openbmc_project.PSUSensor.service\n\n\nAlternatively, if you really want to have fine grained control, remove the relevant node from the Entity-manager dbus interfaces, let PSUSensor destruct the object itself, then add the node back when you\u0027re done.\n\n\nThere\u0027s two ways to do what you do that don\u0027t involve possibly breaking non-debug use cases, can we walk through in more detail why either of those existing options don\u0027t meet your needs?",
+      "parentUuid": "b9e73d6f_f511d8d9",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10ace64e_8a86d60b",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9

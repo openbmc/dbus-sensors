@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f8fa8807_d544d828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-06-29T02:24:38Z",
+      "side": 1,
+      "message": "\u003e -- through the IPMI interface on another machine --\n\nThis part I\u0027m not understanding;  You\u0027re already logged into the bmc shell, and access iotools level stuff, why drop to a lower fidelity, slower, more problematic IPMI interface?  Is there someone physically at the console?\n\n\u003e So here we are, with a patch that tries to make PSUSensors more tolerant to corner conditions.\n\nAnd the problem is that if these corner conditions happen in a non-debug scenario (which they have in the past) now you can no longer detect hardware issues properly, so I\u0027m not really sure how to support both use cases.  Lets chase down the other thread, and keep trying to understand why this is needed;",
+      "parentUuid": "45a25709_8f7fc41b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "eb6378234b64b81bcf5936069019a0dd516d911b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9bd5b39_231cefd6",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 6
