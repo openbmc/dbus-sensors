@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "6c759c92_e84c79c0",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 42
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4facfb74_8fa51688",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 42
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "090e82a2_8183a801",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,34 @@
         "endChar": 42
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9e73d6f_f511d8d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2022-06-29T00:19:18Z",
+      "side": 1,
+      "message": "Please reopen this comment if there are any more concerns.",
+      "parentUuid": "090e82a2_8183a801",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "10ace64e_8a86d60b",
         "filename": "src/PSUSensor.cpp",
@@ -91,10 +116,10 @@
         "endChar": 1
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1b2ec1cf_54a3650a",
         "filename": "src/PSUSensor.cpp",
@@ -115,10 +140,10 @@
         "endChar": 1
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7ffa743b_4711c4b0",
         "filename": "src/PSUSensor.cpp",
@@ -139,10 +164,10 @@
         "endChar": 1
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "db4be26e_358bb512",
         "filename": "src/PSUSensor.cpp",
@@ -163,10 +188,10 @@
         "endChar": 1
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "959842ed_6d5f5089",
         "filename": "src/PSUSensor.cpp",
@@ -186,10 +211,10 @@
         "endChar": 12
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "feac60dc_0f51cee5",
         "filename": "src/PSUSensor.cpp",
@@ -210,10 +235,10 @@
         "endChar": 12
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ff9e9995_8409d07e",
         "filename": "src/PSUSensor.cpp",
@@ -233,10 +258,10 @@
         "endChar": 5
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "9acf8756_3de86cc7",
         "filename": "src/PSUSensor.cpp",
@@ -257,8 +282,7 @@
         "endChar": 5
       },
       "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
