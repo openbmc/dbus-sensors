@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "067256bc_1f8a7bcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000388
+      },
+      "writtenOn": "2022-06-29T00:15:46Z",
+      "side": 1,
+      "message": "One thing as a reviewer - I sometimes skip reviews if there\u0027s unresolved comments. It may be a good idea to resolve all the comments (if they have been resolved) and ping the maintainers on discord to get their attention.",
+      "parentUuid": "ac834140_465b6b4a",
+      "revId": "d6839625c161295e44f6dab365b34e89f11dd6bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0bad81d1_570a1ea5",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 11
