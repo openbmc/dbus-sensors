@@ -64,8 +64,11 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     std::string eventName;
 
     PowerState readState;
+    // Note, buffer MUST be declared before inputDev and timer to ensure that
+    // async operations are complete before the buffer is destroyed.
+    std::array<char, 128> buffer{};
     boost::asio::steady_timer waitTimer;
-    std::shared_ptr<std::array<char, 128>> buffer;
+
     void restartRead();
     void handleResponse(const boost::system::error_code& err,
                         size_t bytesTransferred);
