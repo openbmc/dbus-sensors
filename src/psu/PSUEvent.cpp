@@ -31,6 +31,7 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <charconv>
 #include <iostream>
 #include <memory>
 #include <set>
@@ -152,7 +153,6 @@ PSUSubEvent::PSUSubEvent(
     inputDev(io, path, boost::asio::random_access_file::read_only),
     psuName(psuName), groupEventName(groupEventName), systemBus(conn)
 {
-    buffer = std::make_shared<std::array<char, 128>>();
     if (pollRate > 0.0)
     {
         eventPollMs = static_cast<unsigned int>(pollRate * 1000);
@@ -197,17 +197,11 @@ void PSUSubEvent::setupRead()
         restartRead();
         return;
     }
-    if (!buffer)
-    {
-        std::cerr << "Buffer was invalid?";
-        return;
-    }
 
     std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
-    inputDev.async_read_some_at(
-        0, boost::asio::buffer(buffer->data(), buffer->size() - 1),
-        [weakRef, buffer{buffer}](const boost::system::error_code& ec,
-                                  std::size_t bytesTransferred) {
+    inputDev.async_read_some_at(0, boost::asio::buffer(buffer),
+                                [weakRef](const boost::system::error_code& ec,
+                                          std::size_t bytesTransferred) {
             std::shared_ptr<PSUSubEvent> self = weakRef.lock();
             if (self)
             {
@@ -246,31 +240,26 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
     {
         return;
     }
-    if (!buffer)
-    {
-        std::cerr << "Buffer was invalid?";
-        return;
-    }
-    // null terminate the string so we don't walk off the end
-    std::array<char, 128>& bufferRef = *buffer;
-    bufferRef[bytesTransferred] = '\0';
 
-    if (!err)
+    if (err)
     {
-        try
-        {
-            int nvalue = std::stoi(bufferRef.data());
-            updateValue(nvalue);
-            errCount = 0;
-        }
-        catch (const std::invalid_argument&)
-        {
-            errCount++;
-        }
+        errCount++;
     }
     else
     {
-        errCount++;
+        const char* bufferEnd = buffer.data() + bytesTransferred;
+        int nvalue = 0;
+        std::from_chars_result ret = std::from_chars(buffer.data(), bufferEnd,
+                                                     nvalue);
+        if (ret.ec != std::errc())
+        {
+            errCount++;
+        }
+        else
+        {
+            updateValue(nvalue);
+            errCount = 0;
+        }
     }
     if (errCount >= warnAfterErrorCount)
     {

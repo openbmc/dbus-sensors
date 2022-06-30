@@ -32,6 +32,7 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <charconv>
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -61,7 +62,6 @@ PSUSensor::PSUSensor(
     waitTimer(io), path(path), sensorFactor(factor), sensorOffset(offset),
     thresholdTimer(io)
 {
-    buffer = std::make_shared<std::array<char, 128>>();
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
     {
@@ -157,21 +157,10 @@ void PSUSensor::setupRead()
         return;
     }
 
-    if (buffer == nullptr)
-    {
-        std::cerr << "Buffer was invalid?";
-        return;
-    }
-
     std::weak_ptr<PSUSensor> weak = weak_from_this();
-    // Note, we are building a asio buffer that is one char smaller than
-    // the actual data structure, so that we can always append the null
-    // terminator.  This can go away once std::from_chars<double> is available
-    // in the standard
     inputDev.async_read_some_at(
-        0, boost::asio::buffer(buffer->data(), buffer->size() - 1),
-        [weak, buffer{buffer}](const boost::system::error_code& ec,
-                               size_t bytesRead) {
+        0, boost::asio::buffer(buffer),
+        [weak](const boost::system::error_code& ec, size_t bytesRead) {
             std::shared_ptr<PSUSensor> self = weak.lock();
             if (!self)
             {
@@ -226,19 +215,18 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
         return;
     }
 
-    // null terminate the string so we don't walk off the end
-    std::array<char, 128>& bufferRef = *buffer;
-    bufferRef[bytesRead] = '\0';
+    const char* bufferEnd = buffer.data() + bytesRead;
+    std::from_chars_result ret = std::from_chars(buffer.data(), bufferEnd,
+                                                 rawValue);
 
-    try
-    {
-        rawValue = std::stod(bufferRef.data());
-        updateValue((rawValue / sensorFactor) + sensorOffset);
-    }
-    catch (const std::invalid_argument&)
+    if (ret.ec != std::errc())
     {
         std::cerr << "Could not parse  input from " << path << "\n";
         incrementError();
+    }
+    else
+    {
+        updateValue((rawValue / sensorFactor) + sensorOffset);
     }
 
     restartRead();
