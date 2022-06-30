@@ -29,12 +29,14 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <array>
+#include <charconv>
 #include <chrono>
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <set>
-#include <stdexcept>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
 
@@ -151,7 +153,6 @@ PSUSubEvent::PSUSubEvent(
     waitTimer(io), psuName(psuName), groupEventName(groupEventName),
     systemBus(conn)
 {
-    buffer = std::make_shared<std::array<char, 128>>();
     if (pollRate > 0.0)
     {
         eventPollMs = static_cast<unsigned int>(pollRate * 1000);
@@ -196,40 +197,10 @@ void PSUSubEvent::setupRead()
         restartRead();
         return;
     }
-    if (!buffer)
-    {
-        lg2::error("Buffer was invalid?");
-        return;
-    }
 
-    std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
     inputDev.async_read_some_at(
-        0, boost::asio::buffer(buffer->data(), buffer->size() - 1),
-        [weakRef, buffer{buffer}](const boost::system::error_code& ec,
-                                  std::size_t bytesTransferred) {
-            std::shared_ptr<PSUSubEvent> self = weakRef.lock();
-            if (self)
-            {
-                self->handleResponse(ec, bytesTransferred);
-            }
-        });
-}
-
-void PSUSubEvent::restartRead()
-{
-    std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
-    waitTimer.expires_after(std::chrono::milliseconds(eventPollMs));
-    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            return;
-        }
-        std::shared_ptr<PSUSubEvent> self = weakRef.lock();
-        if (self)
-        {
-            self->setupRead();
-        }
-    });
+        0, boost::asio::buffer(buffer),
+        std::bind_front(&PSUSubEvent::handleResponseStatic, weak_from_this()));
 }
 
 void PSUSubEvent::handleResponse(const boost::system::error_code& err,
@@ -245,31 +216,26 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
     {
         return;
     }
-    if (!buffer)
-    {
-        lg2::error("Buffer was invalid?");
-        return;
-    }
-    // null terminate the string so we don't walk off the end
-    std::array<char, 128>& bufferRef = *buffer;
-    bufferRef[bytesTransferred] = '\0';
 
-    if (!err)
+    if (err)
     {
-        try
-        {
-            int nvalue = std::stoi(bufferRef.data());
-            updateValue(nvalue);
-            errCount = 0;
-        }
-        catch (const std::invalid_argument&)
-        {
-            errCount++;
-        }
+        errCount++;
     }
     else
     {
-        errCount++;
+        const char* bufferEnd = buffer.data() + bytesTransferred;
+        int nvalue = 0;
+        std::from_chars_result ret =
+            std::from_chars(buffer.data(), bufferEnd, nvalue);
+        if (ret.ec != std::errc())
+        {
+            errCount++;
+        }
+        else
+        {
+            updateValue(nvalue);
+            errCount = 0;
+        }
     }
     if (errCount >= warnAfterErrorCount)
     {
@@ -281,6 +247,38 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
         errCount++;
     }
     restartRead();
+}
+
+void PSUSubEvent::handleResponseStatic(
+    const std::weak_ptr<PSUSubEvent>& weakRef,
+    const boost::system::error_code& ec, std::size_t bytesTransferred)
+{
+    std::shared_ptr<PSUSubEvent> self = weakRef.lock();
+    if (self)
+    {
+        self->handleResponse(ec, bytesTransferred);
+    }
+}
+
+void PSUSubEvent::handleTimeout(const std::weak_ptr<PSUSubEvent>& weakRef,
+                                const boost::system::error_code& ec)
+{
+    if (ec == boost::asio::error::operation_aborted)
+    {
+        return;
+    }
+    std::shared_ptr<PSUSubEvent> self = weakRef.lock();
+    if (self)
+    {
+        self->setupRead();
+    }
+}
+
+void PSUSubEvent::restartRead()
+{
+    waitTimer.expires_after(std::chrono::milliseconds(eventPollMs));
+    waitTimer.async_wait(
+        std::bind_front(&PSUSubEvent::handleTimeout, weak_from_this()));
 }
 
 // Any of the sub events of one event is asserted, then the event will be
