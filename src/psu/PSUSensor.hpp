@@ -32,6 +32,10 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const std::string& label, size_t tSize, double pollRate,
               const std::shared_ptr<I2CDevice>& i2cDevice);
     ~PSUSensor() override;
+    PSUSensor(const PSUSensor&) = delete;
+    PSUSensor(PSUSensor&&) = delete;
+    PSUSensor& operator=(PSUSensor&&) = delete;
+    PSUSensor& operator=(const PSUSensor&) = delete;
     void setupRead();
     void activate(const std::string& newPath,
                   const std::shared_ptr<I2CDevice>& newI2CDevice);
@@ -44,10 +48,10 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     }
 
   private:
-    // Note, this buffer is a shared_ptr because during a read, its lifetime
-    // might have to outlive the PSUSensor class if the object gets destroyed
-    // while in the middle of a read operation
-    std::shared_ptr<std::array<char, 128>> buffer;
+    // Note, this buffer must be declared before any objects that might do async
+    // operations to ensure that those operations are complete before buffer is
+    // destructed.
+    std::array<char, 128> buffer{};
     std::shared_ptr<I2CDevice> i2cDevice;
     sdbusplus::asio::object_server& objServer;
     boost::asio::random_access_file inputDev;
@@ -57,6 +61,9 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     double sensorOffset;
     thresholds::ThresholdTimer thresholdTimer;
     void restartRead();
+    static void handleResponseStatic(const std::weak_ptr<PSUSensor>& weak,
+                                     const boost::system::error_code& ec,
+                                     size_t bytesRead);
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void checkThresholds() override;
     unsigned int sensorPollMs = defaultSensorPollMs;

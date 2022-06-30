@@ -50,6 +50,10 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
                 std::shared_ptr<bool> state, const std::string& psuName,
                 double pollRate);
     ~PSUSubEvent();
+    PSUSubEvent(const PSUSubEvent&) = delete;
+    PSUSubEvent(PSUSubEvent&&) = delete;
+    PSUSubEvent& operator=(PSUSubEvent&&) = delete;
+    PSUSubEvent& operator=(const PSUSubEvent&) = delete;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface;
     std::shared_ptr<std::set<std::string>> asserts;
@@ -64,10 +68,19 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     std::string eventName;
 
     PowerState readState;
-    std::shared_ptr<std::array<char, 128>> buffer;
+    // Note, buffer MUST be declared before inputDev and timer to ensure that
+    // async operations are complete before the buffer is destroyed.
+    std::array<char, 128> buffer{};
+
     void restartRead();
     void handleResponse(const boost::system::error_code& err,
                         size_t bytesTransferred);
+
+    static void handleResponseStatic(const std::weak_ptr<PSUSubEvent>& weakRef,
+                                     const boost::system::error_code& ec,
+                                     std::size_t bytesTransferred);
+    static void handleTimeout(const std::weak_ptr<PSUSubEvent>& weakRef,
+                              const boost::system::error_code& ec);
     void updateValue(const int& newValue);
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
