@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c4d6ab_cb6ecb16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-01T16:36:38Z",
+      "side": 1,
+      "message": "Have not reviewed the full patch, given the need that most of it will need to be broken up, reviewing the logic at this time doesn\u0027t seem like the best use of time.",
+      "revId": "f1a2064c99489a6845bcfce85928c46d3a5ea496",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f6ae7e6_97bc9ab8",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-01T16:36:38Z",
+      "side": 1,
+      "message": "This is now a ~350 line lambda function, +100 lines from the previous code.  Prior to this patch it was already too long, but as it stands, it\u0027s definitely over any sort of reasonable limit, and has ingested the logic from isAdc as well, which makes it worse.  The project as a whole (dbus-sensors especially) is making an effort to use fewer lambda functions, given their problems in readability and reviewability that occur with things like this.\n\nPlease refactor this in a patch (prior to this patch so it can be reviewed effectively).\n\nI will leave it up to for the first pass on how some of the diffs go to break this up into smaller functions.  If you need suggestions, please let me know.",
+      "revId": "f1a2064c99489a6845bcfce85928c46d3a5ea496",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
