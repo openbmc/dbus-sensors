@@ -143,6 +143,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d531ac81_224566d7",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1001153
+      },
+      "writtenOn": "2022-07-01T11:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60b3f124_6fef2f61",
+      "range": {
+        "startLine": 262,
+        "startChar": 16,
+        "endLine": 262,
+        "endChar": 79
+      },
+      "revId": "63e0b5ea0d42d81db999f3b99d747f412eb29d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e45f7a9b_998f6e01",
