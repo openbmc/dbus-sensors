@@ -22,6 +22,30 @@
       },
       "revId": "64436cb1f1f92a3fccf92c3ca4079cedeb4273c3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "204281bb_a88371d4",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-01T12:58:16Z",
+      "side": 1,
+      "message": "This gerrit patch is a base patch for below 2 features.\nhttps://gerrit.openbmc-project.xyz/c/openbmc/dbus-sensors/+/47952\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/52160/20\n\nSince \"ipmbBusIndex\" variable is not used in this patch, \"unused parameter\" error occurs in CI, therefore, this log is used here. In the following patchset, it is removed.\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/38905",
+      "parentUuid": "5ce6c3ce_010a0d6c",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 558,
+        "endChar": 72
+      },
+      "revId": "64436cb1f1f92a3fccf92c3ca4079cedeb4273c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
