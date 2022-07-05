@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9682fed6_27bb2588",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-05T16:37:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fbcf5104_0bdf724c",
+      "range": {
+        "startLine": 204,
+        "startChar": 41,
+        "endLine": 204,
+        "endChar": 43
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84da9c30_6d32d436",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-05T16:22:09Z",
       "side": 1,
       "message": "is it possible for this to return part of the data, which will result in wrong data value?",
+      "range": {
+        "startLine": 210,
+        "startChar": 8,
+        "endLine": 210,
+        "endChar": 67
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baefe814_c9bb8f41",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-05T16:37:01Z",
+      "side": 1,
+      "message": "I don\u0027t believe so.  The hwmon interface I believe guarantees that the whole value will be returned on a single read.",
+      "parentUuid": "84da9c30_6d32d436",
       "range": {
         "startLine": 210,
         "startChar": 8,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca240917_347f42d7",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-05T16:37:01Z",
+      "side": 1,
+      "message": "ACK.  FWIW, this code is completely changing in the next patch to not rely on std::stoi (usese from_chars instead).  But sure, i\u0027m happy to make this patch correct.  ACK.",
+      "parentUuid": "8c2bcada_94aa4be9",
+      "range": {
+        "startLine": 265,
+        "startChar": 34,
+        "endLine": 265,
+        "endChar": 50
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a18b72c7_d7660a5e",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 10
@@ -83,6 +155,30 @@
       "writtenOn": "2022-07-05T16:22:09Z",
       "side": 1,
       "message": "\\n",
+      "range": {
+        "startLine": 124,
+        "startChar": 41,
+        "endLine": 124,
+        "endChar": 43
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57074b76_e246867f",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-05T16:37:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a18b72c7_d7660a5e",
       "range": {
         "startLine": 124,
         "startChar": 41,
@@ -106,6 +202,30 @@
       "writtenOn": "2022-07-05T16:22:09Z",
       "side": 1,
       "message": "not used, is it only for keeping buffer alive until the callback?",
+      "range": {
+        "startLine": 135,
+        "startChar": 15,
+        "endLine": 135,
+        "endChar": 29
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e8e735f_d52cfd6f",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-05T16:37:01Z",
+      "side": 1,
+      "message": "Correct.",
+      "parentUuid": "dd92a1bd_176d5743",
       "range": {
         "startLine": 135,
         "startChar": 15,
