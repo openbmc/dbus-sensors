@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "147422b0_98059bfe",
+        "filename": "meson.build",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T18:39:18Z",
+      "side": 1,
+      "message": "yes, it changes the underlying reactor, but I\u0027d be surprised if it had any specific effects.  What might be happening is that things that were previously serial are now parallel, it exposed a timing bug?\n\nIf you disable these build options on cpusensor only, does the issue go away?",
+      "parentUuid": "0cd3d023_68cae673",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fbcf5104_0bdf724c",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 10
@@ -203,6 +227,30 @@
       "side": 1,
       "message": "Can you please share the next patch?",
       "parentUuid": "ca240917_347f42d7",
+      "range": {
+        "startLine": 265,
+        "startChar": 34,
+        "endLine": 265,
+        "endChar": 50
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee01701d_73721b1b",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T18:39:18Z",
+      "side": 1,
+      "message": "It\u0027s next in the series above, but yes, here\u0027s the link:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/55041/2",
+      "parentUuid": "8472cf4d_d2a37f43",
       "range": {
         "startLine": 265,
         "startChar": 34,
