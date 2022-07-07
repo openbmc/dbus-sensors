@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "818e27fa_fe3601a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001292
+      },
+      "writtenOn": "2022-07-07T15:59:34Z",
+      "side": 1,
+      "message": "Thanks for making the previous changes.  I found one I missed with the namespace name which I think can be made more generic so it can be used on multiple platforms.  Otherwise, the changes are looking good.",
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d000aa1_8ef93b7f",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001292
+      },
+      "writtenOn": "2022-07-07T15:59:34Z",
+      "side": 1,
+      "message": "Sorry, missed this in previous review.  We should examine all twinlake definitions and replace them with generic options unless they are platform specific (and moved to platform specific code).  In this case, I think most of these functions are generic for any platform so changing the namespace from twinlake to something more generic is appropriate.",
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
