@@ -2538,6 +2538,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b90c1135_ed441ec6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T03:46:22Z",
+      "side": 1,
+      "message": "\u003e After all the sensor information is received for all host,\n\nTHat\u0027s not how these things generally work.  All hosts might not be available.  Generally we have a wait timer.",
+      "parentUuid": "0d4c0a99_07ba05b9",
+      "range": {
+        "startLine": 591,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 53
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e3ae5930_5e0705e6",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 8
@@ -2567,6 +2591,24 @@
       "side": 1,
       "message": "I did not understand the above comment. Could you please clarify this comment.\n\nLike what we need to control in SDR parameter?",
       "parentUuid": "e3ae5930_5e0705e6",
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef555a6a_089ba87b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T03:46:22Z",
+      "side": 1,
+      "message": "I think this is now solved.",
+      "parentUuid": "db0e28aa_347274ea",
       "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

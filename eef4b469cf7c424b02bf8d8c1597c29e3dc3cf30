@@ -214,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92996801_8d8673bc",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T03:46:22Z",
+      "side": 1,
+      "message": "Yes.  You need to range check immediately before indexing into anything whos size is determined at runtime.\n\nBecause of the way these are declared, this is actually fine, but the code is difficult to read.  Inline the two variables here and it should be fine.",
+      "parentUuid": "cf785ef8_6ab944a5",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "eef4b469cf7c424b02bf8d8c1597c29e3dc3cf30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ca8cfe0_9df63ae6",
         "filename": "src/IpmbSDRSensor.cpp",
         "patchSetId": 17
