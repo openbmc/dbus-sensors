@@ -50,6 +50,29 @@
       "message": "Does patchset 20 resolve the remaining comments from Ed and Zhikui?  It is difficult to determine the current state of this patch set.",
       "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f70e074c_c318322e",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T03:02:39Z",
+      "side": 1,
+      "message": "Each of these things is per-sdr.  This will have bugs if more than one IpmiSdrDevice is instantiated.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 0
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

@@ -1370,6 +1370,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24fcaed0_d2aef5d6",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T03:02:39Z",
+      "side": 1,
+      "message": "sure.  ok as is.",
+      "parentUuid": "86589df3_80b00d38",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 41
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f6ac21b_805c233d",
@@ -1525,6 +1549,30 @@
       "side": 1,
       "message": "This condition is to check whether all the data is received for each sensor, since SDR Type 1 have to receive data 4 times (4*18) to get a complete data. iCnt will check the number of times data received for each sensor. If iCnt is less than 4, it will again call getSDRSensorData() func to receive the remaining data. Once iCnt is 4, then it will move to else part and next sensor will be started to receive all the data.",
       "parentUuid": "524455b7_2f3ef15e",
+      "range": {
+        "startLine": 137,
+        "startChar": 16,
+        "endLine": 138,
+        "endChar": 62
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57f02aba_c885d1bf",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T03:02:39Z",
+      "side": 1,
+      "message": "\u003e This condition is to check whether all the data is received for each sensor, since SDR Type 1 have to receive data 4 times (4*18) to get a complete data.\n\nNot all SDRs are type 1.  Not all records are the same size, and you need to pull all records.  I don\u0027t think the logic as you\u0027ve laid it out will work if there are non-type 1 records in the reply.",
+      "parentUuid": "fc9cd995_4c8c2496",
       "range": {
         "startLine": 137,
         "startChar": 16,
@@ -1820,6 +1868,24 @@
       "side": 1,
       "message": "The value assigned to each variable is different for each condition, therefore, not able to deduplicate the variable.",
       "parentUuid": "b18c738a_24177063",
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69f140d8_eed32082",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-07T03:02:39Z",
+      "side": 1,
+      "message": "Lets follow up and see if this is still an issue.",
+      "parentUuid": "b629764b_d5a794d0",
       "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
