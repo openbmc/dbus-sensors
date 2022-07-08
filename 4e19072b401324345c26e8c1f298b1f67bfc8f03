@@ -70,6 +70,30 @@
       },
       "revId": "4e19072b401324345c26e8c1f298b1f67bfc8f03",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31b9aaf8_16752ae3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-08T07:29:16Z",
+      "side": 1,
+      "message": "This usage doesn\u0027t work either",
+      "parentUuid": "9f027bec_7efdf2b5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "4e19072b401324345c26e8c1f298b1f67bfc8f03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
