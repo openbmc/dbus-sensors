@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "03720164_34a89632",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "Generally \"Done\" or \"This has been fixed\" is what you use when things have been updated.  \"ACK\" generally means \"I\u0027m still working on this\" and it\u0027s one of the reasons I thought this patch was still being worked.",
+      "parentUuid": "2713face_781d398f",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 14
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca7e440f_16ddf87a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "Apart from pgood there are multiple gpio\u0027s which are part of the twinlake, the main idea here is to make it available for all the gpio state, which are part of the twinlake host controller.\nwhich is accessable via ipmb.\nso this sensor  is not only just for monitoring pgood gpio, but to monitor state of any gpio which are only accessable via ipmb.",
       "parentUuid": "7c6a3e1f_14293fd4",
+      "range": {
+        "startLine": 48,
+        "startChar": 22,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f209ce6_532a0266",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "\u003e the main idea here is to make it available for all the gpio state\n\nWe don\u0027t make gpio state directly available on dbus.  This has been discussed many times.  If you\u0027d like to have another conversation about it, feel free to push a review to phosphor-dbus-interfaces.",
+      "parentUuid": "bc578256_1231c6da",
       "range": {
         "startLine": 48,
         "startChar": 22,
@@ -296,6 +344,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e7a862c_3e0363b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "I\u0027ve left many multitudes of comments, many of which are coding style or code safety violations that I would expect most reviewers to be able to find.  There are plenty of patches that need reviewed, and maintainers don\u0027t have lots of time to spend on every single one.\n\nThere\u0027s obvious dbus-interface violations, not just in not following the existing interfaces, but in core principals like \"don\u0027t put GPIO on dbus\" that have been discussed many times.  Those kind of themes are things that just about any maintainer or developer can teach.\n\nI\u0027m sorry it\u0027s taking so long.  I really am.  Hopefully we can get things wrapped up soon.",
+      "parentUuid": "8285b89d_3e865841",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b69acd9_188cf687",
         "filename": "include/GpioStateSensor.hpp",
         "patchSetId": 13
@@ -331,6 +397,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "2b69acd9_188cf687",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81795083_827d06de",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "Was this moved?",
+      "parentUuid": "b93e316b_86c5fb0e",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -529,6 +619,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c8b907_518c6232",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "Was this done?",
+      "parentUuid": "52ecb5a7_c60d86cf",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d97ca5c_80922c27",
@@ -566,6 +680,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "3d97ca5c_80922c27",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d1b688a_315eb9c7",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "Was this fixed?",
+      "parentUuid": "e9f0333d_ae694fbc",
       "range": {
         "startLine": 31,
         "startChar": 0,
@@ -670,6 +808,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c7877ce_79ea0e3a",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "Was this fixed?",
+      "parentUuid": "3c610a71_a3ed84b8",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7746e6b_a300dd2b",
@@ -754,6 +916,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "fb1b043e_530f9b57",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13e8b541_b1a9fdf5",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "Was this fixed?",
+      "parentUuid": "d36aecb3_d69d1986",
       "range": {
         "startLine": 98,
         "startChar": 0,
@@ -907,6 +1093,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4fd90772_c70c5291",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "If the device returns the wrong length response when it\u0027s unplugged, then that\u0027s a bug further up or down the stack.  At this level, all ipmi responses should be correct.  I\u0027m not quite sure why you would see an incorrect length response with a correct response status, but it\u0027s not something we should be considering here.",
+      "parentUuid": "9c894dd7_9bb93d35",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 21
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7dc9e59_d0fd01c1",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 13
@@ -936,6 +1146,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "b7dc9e59_d0fd01c1",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44c9ff87_1fb81740",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "Was this done?",
+      "parentUuid": "4135c371_b0f41279",
       "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1071,6 +1299,30 @@
       "side": 1,
       "message": "we are currently using only pgood gpio signal and other serveral gpio (pch,bios) can also be monitored via ipmb coammands if their configuration is added, this same sensor can be used to monitor other gpios too. so it\u0027s not specifi to only power monitor.",
       "parentUuid": "f0862afb_19354fb6",
+      "range": {
+        "startLine": 59,
+        "startChar": 56,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "409b28d7_c7024648",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T05:50:44Z",
+      "side": 1,
+      "message": "Given that each of those thing require different dbus interfaces, no they can\u0027t",
+      "parentUuid": "e1caaff8_6322d224",
       "range": {
         "startLine": 59,
         "startChar": 56,
