@@ -500,6 +500,24 @@
       "message": "As the other sensors that accept multiple Configuration types do, please deduplicate this match expression with the line above it.",
       "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "969ede7e_d89947e8",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:16:53Z",
+      "side": 1,
+      "message": "The old code that existed was more correct.  We can always add more names that call the same code, as we have in many other places.  This has now changes to be much more generic, to the point that the config file isn\u0027t self-describing,",
+      "parentUuid": "8068b005_5c872d35",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
