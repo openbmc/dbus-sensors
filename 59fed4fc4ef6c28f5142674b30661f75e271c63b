@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee7e6b23_dc62f246",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "This is still the wrong path for this, and still mentions \"gpio\" on dbus.",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4be4428_e5c8bbed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "This is still the wrong path for this, and still mentions \"gpio\" on dbus.",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 65
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9a6d703d_79afab63",
@@ -14,6 +54,305 @@
       "writtenOn": "2022-07-06T19:14:36Z",
       "side": 1,
       "message": "Few minor comments to address.",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d036db5_4a15d652",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "Please make this a std::array so it doesn\u0027t need to be constructed at startup.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 54
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12a3fbee_46b3b7d3",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "Why do this conversion?  Ideally we should be using a std::chrono type here, but I know that\u0027s not common, but there\u0027s no reason to be using another thing.",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62c5b7b4_7efd2b99",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "Please don\u0027t do manual dbus path manipulation.  We have sdbusplus::message::object_path.  Please use it.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 77
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86f9fc17_839e4607",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "You do this lookup 3 times in 3 lines.  Please rearrange so you\u0027re only doing the lookup once.",
+      "range": {
+        "startLine": 33,
+        "startChar": 28,
+        "endLine": 33,
+        "endChar": 39
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86311f2d_57d8c6a4",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "false is already a bool, it doesn\u0027t need cast.",
+      "range": {
+        "startLine": 36,
+        "startChar": 58,
+        "endLine": 36,
+        "endChar": 64
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "110df191_6319d570",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "?  Why are we catching the exception here and not propogating it up?  Surely if the devices fail to initialize this object needs destroyed?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c86214_529a3947",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "Why is this needed?\n\nAlso, isn\u0027t there missing calls to deregister the object manager interfaces?",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 21
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b37df9cf_4276ba41",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "missing range check.  Also, it\u0027s not clear why this is being done.  I suspect it\u0027s another case where it should be using sdbusplus::message::object_path, but it\u0027s hard to know based on the code.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 64
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b1240df_da2c1251",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "You\u0027ve hardcoded a path here.  This means that nothing with a different name will handle this function properly.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 45
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "924c72ed_c37a4b36",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "memory safety issue.  Please look at the other examples of how we caputure using weak_from_this() to avoid lifetime issues.",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "646c838e_603fe91b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "Please don\u0027t put this much content in a lambda.  This has been mentioned about this function before.  This is actually 2 lambdas deep.  Break your functions up where necessary into the required callbacks to make the code readable.",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 56
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a680389_fc4c4e7b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "Please don\u0027t rely on implicit bool conversion here.  \u003d\u003d 0 would be fine, but ideally \u003d\u003d \u003cIPMI return code enum\u003e would be better.",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86e1e136_ac87beb0",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "This can be const I beleive.",
+      "range": {
+        "startLine": 121,
+        "startChar": 17,
+        "endLine": 121,
+        "endChar": 21
+      },
       "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -49,6 +388,29 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "463c5583_c8387763",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b65030d_d767402c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "This is still searching on ipmbGpioState as a config file name.  We\u0027ve discussed before, GPIO is not a high level type, the component you\u0027re adapting to is the twinlake controller, that is the type.",
+      "range": {
+        "startLine": 575,
+        "startChar": 39,
+        "endLine": 575,
+        "endChar": 52
+      },
       "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -119,6 +481,23 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "81805155_fb512626",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20f1fcbb_0ecf5d16",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-09T06:14:34Z",
+      "side": 1,
+      "message": "As the other sensors that accept multiple Configuration types do, please deduplicate this match expression with the line above it.",
       "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
