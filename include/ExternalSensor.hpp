@@ -18,7 +18,7 @@ class ExternalSensor :
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& conn,
                    const std::string& sensorName,
-                   const std::string& sensorMeasure,
+                   const std::string& sensorUnits,
                    std::vector<thresholds::Threshold>&& thresholdsIn,
                    const std::string& sensorConfiguration, double maxReading,
                    double minReading, double timeoutSecs,

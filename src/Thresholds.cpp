@@ -210,7 +210,7 @@ void updateThresholds(Sensor* sensor)
         }
 
         std::string property =
-            sensor->propertyLevel(threshold.level, threshold.direction);
+            Sensor::propertyLevel(threshold.level, threshold.direction);
         if (property.empty())
         {
             continue;
@@ -446,7 +446,7 @@ void assertThresholds(Sensor* sensor, double assertValue,
         return;
     }
 
-    std::string property = sensor->propertyAlarm(level, direction);
+    std::string property = Sensor::propertyAlarm(level, direction);
     if (property.empty())
     {
         std::cout << "Alarm property is empty \n";
@@ -505,7 +505,7 @@ bool parseThresholdsFromAttr(
         {
             for (const auto& t : map.at(item))
             {
-                auto& [suffix, level, direction, offset] = t;
+                const auto& [suffix, level, direction, offset] = t;
                 auto attrPath =
                     boost::replace_all_copy(inputPath, item, suffix);
                 if (auto val = readFile(attrPath, scaleFactor))

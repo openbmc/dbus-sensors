@@ -47,9 +47,8 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      const std::string& label, size_t tSize, double pollRate) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState),
-    std::enable_shared_from_this<PSUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), sensorFactor(factor),
-    sensorOffset(offset), thresholdTimer(io)
+    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
+    sensorFactor(factor), sensorOffset(offset), thresholdTimer(io)
 {
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)

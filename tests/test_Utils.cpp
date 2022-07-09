@@ -93,7 +93,7 @@ TEST_F(TestUtils, findFiles_in_hwmon_no_match)
     auto ret = findFiles(hwmonDir, R"(in\d+_input)", foundPaths);
 
     EXPECT_TRUE(ret);
-    EXPECT_EQ(foundPaths.size(), 0u);
+    EXPECT_EQ(foundPaths.size(), 0U);
 }
 
 TEST_F(TestUtils, findFiles_in_hwmon_match)
@@ -102,7 +102,7 @@ TEST_F(TestUtils, findFiles_in_hwmon_match)
     auto ret = findFiles(hwmonDir, R"(temp\d+_input)", foundPaths);
 
     EXPECT_TRUE(ret);
-    EXPECT_EQ(foundPaths.size(), 2u);
+    EXPECT_EQ(foundPaths.size(), 2U);
 }
 
 TEST_F(TestUtils, findFiles_in_peci_no_match)
@@ -123,7 +123,7 @@ TEST_F(TestUtils, findFiles_in_peci_match)
         findFiles(peciDir, R"(peci-\d+/\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
                   foundPaths, 6);
     EXPECT_TRUE(ret);
-    EXPECT_EQ(foundPaths.size(), 1u);
+    EXPECT_EQ(foundPaths.size(), 1U);
 
     foundPaths.clear();
 
@@ -131,7 +131,7 @@ TEST_F(TestUtils, findFiles_in_peci_match)
                     R"(peci-\d+/\d+-.+/peci-.+/hwmon/hwmon\d+/temp\d+_input)",
                     foundPaths, 6);
     EXPECT_TRUE(ret);
-    EXPECT_EQ(foundPaths.size(), 3u);
+    EXPECT_EQ(foundPaths.size(), 3U);
 }
 
 TEST_F(TestUtils, findFiles_hwmonPath_end_with_slash)
@@ -141,7 +141,7 @@ TEST_F(TestUtils, findFiles_hwmonPath_end_with_slash)
     auto ret = findFiles(p, R"(temp\d+_input)", foundPaths);
 
     EXPECT_TRUE(ret);
-    EXPECT_EQ(foundPaths.size(), 2u);
+    EXPECT_EQ(foundPaths.size(), 2U);
 }
 
 TEST_F(TestUtils, findFiles_peciPath_end_with_slash)
@@ -153,7 +153,7 @@ TEST_F(TestUtils, findFiles_peciPath_end_with_slash)
                   foundPaths, 6);
 
     EXPECT_TRUE(ret);
-    EXPECT_EQ(foundPaths.size(), 3u);
+    EXPECT_EQ(foundPaths.size(), 3U);
 }
 
 TEST_F(TestUtils, findFiles_in_sub_peci_match)
@@ -163,7 +163,7 @@ TEST_F(TestUtils, findFiles_in_sub_peci_match)
         findFiles(peciDir / "peci-0", R"(\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
                   foundPaths, 5);
     EXPECT_TRUE(ret);
-    EXPECT_EQ(foundPaths.size(), 1u);
+    EXPECT_EQ(foundPaths.size(), 1U);
 
     foundPaths.clear();
 
@@ -171,5 +171,5 @@ TEST_F(TestUtils, findFiles_in_sub_peci_match)
                     R"(\d+-.+/peci-.+/hwmon/hwmon\d+/temp\d+_input)",
                     foundPaths, 5);
     EXPECT_TRUE(ret);
-    EXPECT_EQ(foundPaths.size(), 3u);
+    EXPECT_EQ(foundPaths.size(), 3U);
 }

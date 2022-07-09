@@ -19,9 +19,9 @@ FileHandle::FileHandle(const std::filesystem::path& name,
 
 FileHandle::FileHandle(int fdIn) : fd(fdIn){};
 
-FileHandle::FileHandle(FileHandle&& in) noexcept
+FileHandle::FileHandle(FileHandle&& in) noexcept : fd(in.fd)
 {
-    fd = in.fd;
+
     in.fd = -1;
 }
 
@@ -34,7 +34,7 @@ FileHandle& FileHandle::operator=(FileHandle&& in) noexcept
 
 FileHandle::~FileHandle()
 {
-    if (fd)
+    if (fd != 0)
     {
         int r = close(fd);
         if (r < 0)
@@ -44,7 +44,7 @@ FileHandle::~FileHandle()
     }
 }
 
-int FileHandle::handle()
+int FileHandle::handle() const
 {
     return fd;
 }

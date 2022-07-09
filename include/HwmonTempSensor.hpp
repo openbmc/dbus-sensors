@@ -29,9 +29,8 @@ class HwmonTempSensor :
                     boost::asio::io_service& io, const std::string& sensorName,
                     std::vector<thresholds::Threshold>&& thresholds,
                     const struct SensorParams& thisSensorParameters,
-                    const float pollRate,
-                    const std::string& sensorConfiguration,
-                    const PowerState powerState);
+                    float pollRate, const std::string& sensorConfiguration,
+                    PowerState powerState);
     ~HwmonTempSensor() override;
     void setupRead(void);
 

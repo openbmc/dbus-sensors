@@ -146,12 +146,11 @@ PSUSubEvent::PSUSubEvent(
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
     std::shared_ptr<bool> state, const std::string& psuName, double pollRate) :
-    std::enable_shared_from_this<PSUSubEvent>(),
-    eventInterface(std::move(eventInterface)), asserts(std::move(asserts)),
-    combineEvent(std::move(combineEvent)), assertState(std::move(state)),
-    path(path), eventName(eventName), readState(powerState), waitTimer(io),
-    inputDev(io), psuName(psuName), groupEventName(groupEventName),
-    systemBus(conn)
+    eventInterface(std::move(eventInterface)),
+    asserts(std::move(asserts)), combineEvent(std::move(combineEvent)),
+    assertState(std::move(state)), path(path), eventName(eventName),
+    readState(powerState), waitTimer(io), inputDev(io), psuName(psuName),
+    groupEventName(groupEventName), systemBus(conn)
 {
     if (pollRate > 0.0)
     {
@@ -308,7 +307,7 @@ void PSUSubEvent::updateValue(const int& newValue)
 
             return;
         }
-        if (*assertState == true)
+        if (*assertState)
         {
             *assertState = false;
             auto foundCombine = (*combineEvent).find(groupEventName);
@@ -345,7 +344,7 @@ void PSUSubEvent::updateValue(const int& newValue)
     {
         std::cerr << "PSUSubEvent asserted by " << path << "\n";
 
-        if ((*assertState == false) && ((*asserts).empty()))
+        if ((!*assertState) && ((*asserts).empty()))
         {
             *assertState = true;
             if (!assertMessage.empty())

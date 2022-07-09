@@ -107,7 +107,7 @@ std::string createSensorName(const std::string& label, const std::string& item,
                              const int& cpuId)
 {
     std::string sensorName = label;
-    if (item.compare("input") != 0)
+    if (item != "input")
     {
         sensorName += " " + item;
     }
@@ -116,7 +116,7 @@ std::string createSensorName(const std::string& label, const std::string& item,
     bool isWordEnd = true;
     std::transform(sensorName.begin(), sensorName.end(), sensorName.begin(),
                    [&isWordEnd](int c) {
-        if (std::isspace(c))
+        if (std::isspace(c) != 0)
         {
             isWordEnd = true;
         }
@@ -396,7 +396,7 @@ bool createSensors(boost::asio::io_service& io,
         }
     }
 
-    if (createdSensors.size())
+    if (static_cast<unsigned int>(!createdSensors.empty()) != 0U)
     {
         std::cout << "Sensor" << (createdSensors.size() == 1 ? " is" : "s are")
                   << " created\n";
@@ -478,7 +478,7 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
         msg.addr = config.addr;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-        if (!ioctl(file, PECI_IOC_PING, &msg))
+        if (ioctl(file, PECI_IOC_PING, &msg) == 0)
         {
             bool dimmReady = false;
             for (unsigned int rank = 0; rank < rankNumMax; rank++)
@@ -491,10 +491,10 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
                 msg.rx_len = 4;
 
                 // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-                if (!ioctl(file, PECI_IOC_RD_PKG_CFG, &msg))
+                if (ioctl(file, PECI_IOC_RD_PKG_CFG, &msg) == 0)
                 {
-                    if (msg.pkg_config[0] || msg.pkg_config[1] ||
-                        msg.pkg_config[2])
+                    if ((msg.pkg_config[0] != 0U) ||
+                        (msg.pkg_config[1] != 0U) || (msg.pkg_config[2] != 0U))
                     {
                         dimmReady = true;
                         break;
@@ -554,7 +554,7 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
         }
     }
 
-    if (rescanDelaySeconds)
+    if (rescanDelaySeconds != 0U)
     {
         creationTimer.expires_from_now(
             boost::posix_time::seconds(rescanDelaySeconds));
@@ -698,7 +698,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
         }
     }
 
-    if (cpuConfigs.size())
+    if (static_cast<unsigned int>(!cpuConfigs.empty()) != 0U)
     {
         std::cout << "CPU config" << (cpuConfigs.size() == 1 ? " is" : "s are")
                   << " parsed\n";

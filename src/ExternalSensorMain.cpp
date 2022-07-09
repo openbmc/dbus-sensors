@@ -371,7 +371,7 @@ int main()
             return;
         }
 
-        auto messagePath = message.get_path();
+        const auto* messagePath = message.get_path();
         sensorsChanged->insert(messagePath);
         if constexpr (debug)
         {

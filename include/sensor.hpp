@@ -132,7 +132,7 @@ struct Sensor
         return interface;
     }
 
-    void updateInstrumentation(double readValue)
+    void updateInstrumentation(double readValue) const
     {
         // Do nothing if this feature is not enabled
         if constexpr (!enableInstrumentation)
@@ -244,7 +244,7 @@ struct Sensor
         {
             oldValue = newValue;
         }
-        return true;
+        return 1;
     }
 
     void setInitialProperties(const std::string& unit,
@@ -379,7 +379,7 @@ struct Sensor
         }
     }
 
-    std::string propertyLevel(const Level lev, const Direction dir)
+    static std::string propertyLevel(const Level lev, const Direction dir)
     {
         for (const thresholds::ThresholdDefinition& prop :
              thresholds::thresProp)
@@ -399,7 +399,7 @@ struct Sensor
         return "";
     }
 
-    std::string propertyAlarm(const Level lev, const Direction dir)
+    static std::string propertyAlarm(const Level lev, const Direction dir)
     {
         for (const thresholds::ThresholdDefinition& prop :
              thresholds::thresProp)
@@ -419,7 +419,7 @@ struct Sensor
         return "";
     }
 
-    bool readingStateGood()
+    bool readingStateGood() const
     {
         if (readState == PowerState::on && !isPowerOn())
         {
@@ -480,7 +480,7 @@ struct Sensor
         }
     }
 
-    bool inError()
+    bool inError() const
     {
         return errCount >= errorThreshold;
     }
@@ -518,7 +518,8 @@ struct Sensor
 
     void updateProperty(
         std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
-        double& oldValue, const double& newValue, const char* dbusPropertyName)
+        double& oldValue, const double& newValue,
+        const char* dbusPropertyName) const
     {
         if (requiresUpdate(oldValue, newValue))
         {
@@ -532,18 +533,14 @@ struct Sensor
         }
     }
 
-    bool requiresUpdate(const double& lVal, const double& rVal)
+    bool requiresUpdate(const double& lVal, const double& rVal) const
     {
         if (std::isnan(lVal) || std::isnan(rVal))
         {
             return true;
         }
         double diff = std::abs(lVal - rVal);
-        if (diff > hysteresisPublish)
-        {
-            return true;
-        }
-        return false;
+        return diff > hysteresisPublish;
     }
 
   private:

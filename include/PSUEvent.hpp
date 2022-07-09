@@ -34,7 +34,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     PSUSubEvent(std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
                 const std::string& path,
                 std::shared_ptr<sdbusplus::asio::connection>& conn,
-                boost::asio::io_service& io, const PowerState& readState,
+                boost::asio::io_service& io, const PowerState& powerState,
                 const std::string& groupEventName, const std::string& eventName,
                 std::shared_ptr<std::set<std::string>> asserts,
                 std::shared_ptr<std::set<std::string>> combineEvent,
@@ -50,7 +50,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
 
   private:
     int value = 0;
-    int fd;
+    int fd{};
     size_t errCount{0};
     std::string path;
     std::string eventName;
@@ -77,7 +77,7 @@ class PSUCombineEvent
 {
   public:
     PSUCombineEvent(
-        sdbusplus::asio::object_server& objectSever,
+        sdbusplus::asio::object_server& objectServer,
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         boost::asio::io_service& io, const std::string& psuName,
         const PowerState& powerState,

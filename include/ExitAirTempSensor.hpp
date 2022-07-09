@@ -24,17 +24,17 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
     CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
               const std::string& name, const std::string& sensorConfiguration,
               sdbusplus::asio::object_server& objectServer,
-              std::vector<thresholds::Threshold>&& thresholds,
+              std::vector<thresholds::Threshold>&& thresholdData,
               std::shared_ptr<ExitAirTempSensor>& parent);
     ~CFMSensor() override;
 
-    bool calculate(double&);
+    bool calculate(double& /*value*/);
     void updateReading(void);
     void setupMatches(void);
     void createMaxCFMIface(void);
     void addTachRanges(const std::string& serviceName, const std::string& path);
     void checkThresholds(void) override;
-    uint64_t getMaxRpm(uint64_t cfmMax);
+    uint64_t getMaxRpm(uint64_t cfmMax) const;
 
   private:
     std::vector<sdbusplus::bus::match::match> matches;
@@ -63,7 +63,7 @@ struct ExitAirTempSensor :
                       const std::string& name,
                       const std::string& sensorConfiguration,
                       sdbusplus::asio::object_server& objectServer,
-                      std::vector<thresholds::Threshold>&& thresholds);
+                      std::vector<thresholds::Threshold>&& thresholdData);
     ~ExitAirTempSensor() override;
 
     void checkThresholds(void) override;
@@ -79,6 +79,6 @@ struct ExitAirTempSensor :
 
     sdbusplus::asio::object_server& objServer;
     std::chrono::time_point<std::chrono::steady_clock> lastTime;
-    double getTotalCFM(void);
+    static double getTotalCFM(void);
     bool calculate(double& val);
 };

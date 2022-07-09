@@ -221,7 +221,7 @@ struct GetSensorConfiguration :
             {
                 std::cerr << "Error getting " << path << ": retries left"
                           << retries - 1 << "\n";
-                if (!retries)
+                if (retries == 0U)
                 {
                     return;
                 }
@@ -261,7 +261,7 @@ struct GetSensorConfiguration :
             if (ec)
             {
                 std::cerr << "Error calling mapper\n";
-                if (!retries)
+                if (retries == 0U)
                 {
                     return;
                 }
