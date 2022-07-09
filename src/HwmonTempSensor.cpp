@@ -51,8 +51,7 @@ HwmonTempSensor::HwmonTempSensor(
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
            conn, powerState),
-    std::enable_shared_from_this<HwmonTempSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path),
+    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     offsetValue(thisSensorParameters.offsetValue),
     scaleValue(thisSensorParameters.scaleValue),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))

@@ -99,7 +99,7 @@ void MCUTempSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
-int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
+int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data) const
 {
     std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
 
@@ -129,7 +129,7 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data)
         return -1;
     }
 
-    if (!(funcs & I2C_FUNC_SMBUS_READ_WORD_DATA))
+    if ((funcs & I2C_FUNC_SMBUS_READ_WORD_DATA) == 0U)
     {
         std::cerr << " not support I2C_FUNC_SMBUS_READ_WORD_DATA\n";
         close(fd);

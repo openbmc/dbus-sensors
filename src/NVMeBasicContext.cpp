@@ -122,7 +122,7 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
         {
             std::cerr << "Failed to read request from in descriptor "
                       << strerror(errno) << "\n";
-            if (rc)
+            if (rc != 0)
             {
                 return -errno;
             }
@@ -158,7 +158,7 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
             std::cerr << "Failed to write block (" << std::dec << len
                       << ") length to out descriptor: "
                       << strerror(static_cast<int>(-rc)) << "\n";
-            if (rc)
+            if (rc != 0)
             {
                 return -errno;
             }
@@ -176,7 +176,7 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
                 std::cerr << "Failed to write block data of length " << std::dec
                           << lenRemaining << " to out pipe: " << strerror(errno)
                           << "\n";
-                if (rc)
+                if (rc != 0)
                 {
                     return -errno;
                 }
@@ -400,8 +400,8 @@ void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
     uint8_t* messageData = static_cast<uint8_t*>(msg);
 
     uint8_t status = messageData[0];
-    if ((status & NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY) ||
-        !(status & NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL))
+    if (((status & NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY) != 0) ||
+        ((status & NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL) == 0))
     {
         sensor->markFunctional(false);
         return;

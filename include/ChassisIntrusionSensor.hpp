@@ -54,7 +54,7 @@ class ChassisIntrusionSensor
     bool mInitialized = false;
 
     void updateValue(const std::string& newValue);
-    int i2cReadFromPch(int busId, int slaveAddr);
+    static int i2cReadFromPch(int busId, int slaveAddr);
     void pollSensorStatusByPch();
     void readGpio();
     void pollSensorStatusByGpio();

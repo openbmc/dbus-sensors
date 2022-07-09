@@ -207,8 +207,9 @@ static void getNicNameInfo(
             if (findEthIndex != baseConfiguration->second.end() &&
                 findName != baseConfiguration->second.end())
             {
-                auto* pEthIndex = std::get_if<uint64_t>(&findEthIndex->second);
-                auto* pName = std::get_if<std::string>(&findName->second);
+                const auto* pEthIndex =
+                    std::get_if<uint64_t>(&findEthIndex->second);
+                const auto* pName = std::get_if<std::string>(&findName->second);
                 if (pEthIndex != nullptr && pName != nullptr)
                 {
                     lanInfoMap[*pEthIndex] = *pName;
@@ -221,7 +222,7 @@ static void getNicNameInfo(
             }
         }
 
-        if (lanInfoMap.size() == 0)
+        if (lanInfoMap.empty())
         {
             std::cerr << "can't find matched NIC name. \n";
         }
@@ -281,8 +282,8 @@ static void processLanStatusChange(sdbusplus::message::message& message)
     bool oldLanConnected = findLanStatus->second;
 
     // get lan info from map
-    std::string lanInfo = "";
-    if (lanInfoMap.size() > 0)
+    std::string lanInfo;
+    if (!lanInfoMap.empty())
     {
         auto findLanInfo = lanInfoMap.find(ethNum);
         if (findLanInfo == lanInfoMap.end())
@@ -307,8 +308,8 @@ static void processLanStatusChange(sdbusplus::message::message& message)
     if (oldLanConnected != newLanConnected)
     {
         std::string strEthNum = "eth" + std::to_string(ethNum) + lanInfo;
-        auto strState = newLanConnected ? "connected" : "lost";
-        auto strMsgId =
+        const auto* strState = newLanConnected ? "connected" : "lost";
+        const auto* strMsgId =
             newLanConnected ? "OpenBMC.0.1.LanRegained" : "OpenBMC.0.1.LanLost";
 
         lg2::info("{ETHDEV} LAN leash {STATE}", "ETHDEV", strEthNum, "STATE",

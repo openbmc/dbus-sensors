@@ -50,7 +50,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         pwmMax = sysPwmMax;
     }
 
-    if (!pwmValue)
+    if (pwmValue == 0U)
     {
         // default pwm to non 0
         pwmValue = static_cast<uint32_t>(pwmMax * (defaultPwm / 100.0));

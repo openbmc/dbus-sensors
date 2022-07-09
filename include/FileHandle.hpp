@@ -13,8 +13,8 @@ class FileHandle
     FileHandle() = delete;
     FileHandle(const FileHandle&) = delete;
     FileHandle& operator=(const FileHandle&) = delete;
-    FileHandle(FileHandle&&) noexcept;
-    FileHandle& operator=(FileHandle&&) noexcept;
+    FileHandle(FileHandle&& /*in*/) noexcept;
+    FileHandle& operator=(FileHandle&& /*in*/) noexcept;
 
     explicit FileHandle(const std::filesystem::path& name,
                         std::ios_base::openmode mode = std::ios_base::in |
@@ -23,5 +23,5 @@ class FileHandle
     explicit FileHandle(int fd);
 
     ~FileHandle();
-    int handle();
+    int handle() const;
 };

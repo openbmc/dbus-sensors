@@ -199,8 +199,8 @@ static SensorConfigMap
                 continue;
             }
 
-            if ((!std::get_if<uint64_t>(&busCfg->second)) ||
-                (!std::get_if<uint64_t>(&addrCfg->second)))
+            if ((std::get_if<uint64_t>(&busCfg->second) == nullptr) ||
+                (std::get_if<uint64_t>(&addrCfg->second) == nullptr))
             {
                 std::cerr << sensor.first.str << " Bus or Address invalid\n";
                 continue;
@@ -310,7 +310,7 @@ void createSensors(
 
             uint64_t bus = 0;
             uint64_t addr = 0;
-            std::from_chars_result res;
+            std::from_chars_result res{};
             res = std::from_chars(busStr.data(), busStr.data() + busStr.size(),
                                   bus);
             if (res.ec != std::errc{})
@@ -394,7 +394,7 @@ void createSensors(
             {
                 pollRate =
                     std::visit(VariantToFloatVisitor(), findPollRate->second);
-                if (pollRate <= 0.0f)
+                if (pollRate <= 0.0F)
                 {
                     pollRate = pollRateDefault; // polling time too short
                 }

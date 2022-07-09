@@ -236,7 +236,7 @@ void createSensors(
                 scaleFactor = std::visit(VariantToFloatVisitor(),
                                          findScaleFactor->second);
                 // scaleFactor is used in division
-                if (scaleFactor == 0.0f)
+                if (scaleFactor == 0.0F)
                 {
                     scaleFactor = 1.0;
                 }
@@ -248,7 +248,7 @@ void createSensors(
             {
                 pollRate =
                     std::visit(VariantToFloatVisitor(), findPollRate->second);
-                if (pollRate <= 0.0f)
+                if (pollRate <= 0.0F)
                 {
                     pollRate = pollRateDefault; // polling time too short
                 }
