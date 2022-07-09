@@ -140,6 +140,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7eb0bc23_b7175032",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-09T18:26:46Z",
+      "side": 1,
+      "message": "+1\nMultiple devices are expected, here\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/52160/21/src/IpmbSensor.cpp#59",
+      "parentUuid": "f70e074c_c318322e",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 0
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d21f3d3_bfc9cecc",
         "filename": "src/IpmbSDRSensor.cpp",
         "patchSetId": 20
@@ -197,6 +221,29 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "?  You\u0027re using bind_front, then immediately calling the callback?  Just call it directly?\n\nAlso, in the way you\u0027ve abstracted this, you\u0027re completely ignoring error responses here, and continuing even if the call has returned an error",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 32
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e826baac_a15ecfc7",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-09T18:26:46Z",
+      "side": 1,
+      "message": "+1\nMake validateStatus return pass/fail, If it failed, not continue",
       "range": {
         "startLine": 45,
         "startChar": 0,
@@ -376,6 +423,24 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "I\u0027ve read the above code block several times over the course of a number of patches.  I don\u0027t understand what it\u0027s doing, can you add some comments to make it more clear.  So far as I can tell, the first branch is checking if we\u0027re in the middle of a record, and adds 1 to iCnt.  This doesn\u0027t track for me, as it assumes that you will only ever get type 1 records, and you can rely on count.  Shouldn\u0027t this rely on bytes received?",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94cf6673_4228f7fe",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-09T18:26:46Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c1293214_89bb9e82",
       "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
