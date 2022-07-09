@@ -17,13 +17,13 @@
 class PresenceSensor
 {
   public:
-    PresenceSensor(const std::string& pinName, bool inverted,
+    PresenceSensor(const std::string& gpioName, bool inverted,
                    boost::asio::io_service& io, const std::string& name);
     ~PresenceSensor();
 
     void monitorPresence(void);
     void read(void);
-    bool getValue(void);
+    bool getValue(void) const;
 
   private:
     bool status = true;
@@ -93,26 +93,26 @@ class TachSensor : public Sensor
 
 inline void logFanInserted(const std::string& device)
 {
-    auto msg = "OpenBMC.0.1.FanInserted";
+    const auto* msg = "OpenBMC.0.1.FanInserted";
     lg2::error("Fan Inserted", "REDFISH_MESSAGE_ID", msg,
                "REDFISH_MESSAGE_ARGS", device);
 }
 
 inline void logFanRemoved(const std::string& device)
 {
-    auto msg = "OpenBMC.0.1.FanRemoved";
+    const auto* msg = "OpenBMC.0.1.FanRemoved";
     lg2::error("Fan Removed", "REDFISH_MESSAGE_ID", msg, "REDFISH_MESSAGE_ARGS",
                device);
 }
 
 inline void logFanRedundancyLost(void)
 {
-    auto msg = "OpenBMC.0.1.FanRedundancyLost";
+    const auto* msg = "OpenBMC.0.1.FanRedundancyLost";
     lg2::error("Fan Inserted", "REDFISH_MESSAGE_ID", msg);
 }
 
 inline void logFanRedundancyRestored(void)
 {
-    auto msg = "OpenBMC.0.1.FanRedundancyRegained";
+    const auto* msg = "OpenBMC.0.1.FanRedundancyRegained";
     lg2::error("Fan Removed", "REDFISH_MESSAGE_ID", msg);
 }

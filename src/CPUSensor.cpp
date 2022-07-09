@@ -25,6 +25,7 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cstddef>
 #include <iostream>
 #include <istream>
 #include <limits>
@@ -42,8 +43,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      bool show, double dtsOffset) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, 0, 0, conn, PowerState::on),
-    std::enable_shared_from_this<CPUSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io),
+    objServer(objectServer), inputDev(io), waitTimer(io),
     nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs)
@@ -56,7 +56,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
             auto& [type, nr, item] = *fileParts;
             std::string interfacePath;
             const char* units = nullptr;
-            if (type.compare("power") == 0)
+            if (type == "power")
             {
                 interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
                 units = sensor_paths::unitWatts;
@@ -189,7 +189,7 @@ void CPUSensor::updateMinMaxValues(void)
         {
             for (const auto& vectorItem : mapIt->second)
             {
-                auto& [suffix, oldValue, dbusName] = vectorItem;
+                const auto& [suffix, oldValue, dbusName] = vectorItem;
                 auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
                 if (auto newVal =
                         readFile(attrPath, CPUSensor::sensorScaleFactor))
@@ -231,7 +231,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                 std::cerr << name << " interface down!\n";
                 loggedInterfaceDown = true;
             }
-            pollTime = CPUSensor::sensorPollMs * 10u;
+            pollTime = static_cast<size_t>(CPUSensor::sensorPollMs) * 10U;
             markFunctional(false);
         }
         return;

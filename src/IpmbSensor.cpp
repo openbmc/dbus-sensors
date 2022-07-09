@@ -96,7 +96,7 @@ IpmbSensor::~IpmbSensor()
     objectServer.remove_interface(association);
 }
 
-std::string IpmbSensor::getSubTypeUnits(void)
+std::string IpmbSensor::getSubTypeUnits(void) const
 {
     switch (subType)
     {
@@ -135,7 +135,7 @@ void IpmbSensor::runInitCmd()
                    const IpmbMethodType& response) {
             const int& status = std::get<0>(response);
 
-            if (ec || status)
+            if (ec || (status != 0))
             {
                 std::cerr << "Error setting init command for device: " << name
                           << "\n";
@@ -270,7 +270,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
         {
             if (data.size() < 4)
             {
-                if (!errCount)
+                if (errCount == 0U)
                 {
                     std::cerr << "Invalid data length returned for " << name
                               << "\n";
@@ -284,7 +284,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
         {
             if (data.size() < 5)
             {
-                if (!errCount)
+                if (errCount == 0U)
                 {
                     std::cerr << "Invalid data length returned for " << name
                               << "\n";
@@ -300,7 +300,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
         {
             if (data.size() < 5)
             {
-                if (!errCount)
+                if (errCount == 0U)
                 {
                     std::cerr << "Invalid data length returned for " << name
                               << "\n";
@@ -315,7 +315,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
         {
             if (data.size() < 5)
             {
-                if (!errCount)
+                if (errCount == 0U)
                 {
                     std::cerr << "Invalid data length returned for " << name
                               << "\n";
@@ -353,7 +353,7 @@ void IpmbSensor::read(void)
             [this](boost::system::error_code ec,
                    const IpmbMethodType& response) {
             const int& status = std::get<0>(response);
-            if (ec || status)
+            if (ec || (status != 0))
             {
                 incrementError();
                 read();
@@ -391,6 +391,7 @@ void IpmbSensor::read(void)
             uint64_t rawData = 0;
             for (size_t i = 0; i < end; i++)
             {
+                // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
                 reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
             }
             rawValue = static_cast<double>(rawData);
@@ -541,7 +542,7 @@ void createSensors(
                 {
                     pollRate = std::visit(VariantToFloatVisitor(),
                                           findPollRate->second);
-                    if (pollRate <= 0.0f)
+                    if (pollRate <= 0.0F)
                     {
                         pollRate = pollRateDefault;
                     }

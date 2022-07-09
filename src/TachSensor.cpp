@@ -192,7 +192,7 @@ void TachSensor::checkThresholds(void)
 {
     bool status = thresholds::checkThresholds(this);
 
-    if (redundancy && *redundancy)
+    if ((redundancy != nullptr) && *redundancy)
     {
         (*redundancy)
             ->update("/xyz/openbmc_project/sensors/fan_tach/" + name, !status);
@@ -223,7 +223,7 @@ PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
     {
         gpioLine.request({"FanSensor", gpiod::line_request::EVENT_BOTH_EDGES,
                           inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
-        status = gpioLine.get_value();
+        status = (gpioLine.get_value() != 0);
 
         int gpioLineFd = gpioLine.event_get_fd();
         if (gpioLineFd < 0)
@@ -274,7 +274,7 @@ void PresenceSensor::monitorPresence(void)
 void PresenceSensor::read(void)
 {
     gpioLine.event_read();
-    status = gpioLine.get_value();
+    status = (gpioLine.get_value() != 0);
     // Read is invoked when an edge event is detected by monitorPresence
     if (status)
     {
@@ -286,7 +286,7 @@ void PresenceSensor::read(void)
     }
 }
 
-bool PresenceSensor::getValue(void)
+bool PresenceSensor::getValue(void) const
 {
     return status;
 }
@@ -332,7 +332,7 @@ void RedundancySensor::update(const std::string& name, bool failed)
             newState = redundancy::failed;
             break;
         }
-        if (failedCount)
+        if (failedCount != 0U)
         {
             newState = redundancy::degraded;
         }

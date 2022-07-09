@@ -67,7 +67,7 @@ using TimerPair = std::pair<struct TimerUsed, boost::asio::deadline_timer>;
 struct ThresholdTimer
 {
 
-    ThresholdTimer(boost::asio::io_service& ioService) : io(ioService)
+    explicit ThresholdTimer(boost::asio::io_service& ioService) : io(ioService)
     {}
 
     bool hasActiveTimer(const Threshold& threshold, bool assert)
@@ -118,10 +118,10 @@ bool parseThresholdsFromConfig(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr);
 
-bool parseThresholdsFromAttr(std::vector<thresholds::Threshold>& thresholds,
-                             const std::string& inputPath,
-                             const double& scaleFactor,
-                             const double& offset = 0);
+bool parseThresholdsFromAttr(
+    std::vector<thresholds::Threshold>& thresholdVector,
+    const std::string& inputPath, const double& scaleFactor,
+    const double& offset = 0);
 
 struct ThresholdDefinition
 {
@@ -137,9 +137,9 @@ constexpr static std::array<thresholds::ThresholdDefinition, 5> thresProp = {
      {Level::SOFTSHUTDOWN, 3, "SoftShutdown"},
      {Level::HARDSHUTDOWN, 4, "HardShutdown"}}};
 
-std::string getInterface(const Level level);
+std::string getInterface(Level level);
 
-void persistThreshold(const std::string& baseInterface, const std::string& path,
+void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
                       size_t thresholdCount, const std::string& label);

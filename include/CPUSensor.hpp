@@ -46,7 +46,7 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
     size_t pollTime;
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter{0};
-    int fd;
+    int fd{};
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
@@ -100,7 +100,7 @@ inline bool cpuIsPresent(
     {
         line.request({"cpusensor", gpiod::line_request::DIRECTION_INPUT,
                       activeHigh ? 0 : gpiod::line_request::FLAG_ACTIVE_LOW});
-        resp = line.get_value();
+        resp = (line.get_value() != 0);
     }
     catch (const std::system_error&)
     {

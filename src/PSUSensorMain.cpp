@@ -553,7 +553,7 @@ static void createSensorsCallback(
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
-            std::string sensorNameSubStr{""};
+            std::string sensorNameSubStr;
             if (std::regex_search(sensorNameStr, matches, sensorNameRegEx))
             {
                 // hwmon *_input filename without number:
@@ -575,7 +575,7 @@ static void createSensorsCallback(
             {
 
                 std::string sensorPathStrMax = sensorPathStr.substr(pos);
-                if (sensorPathStrMax.compare("_max") == 0)
+                if (sensorPathStrMax == "_max")
                 {
                     labelPath =
                         boost::replace_all_copy(sensorPathStr, "max", "label");
@@ -941,8 +941,7 @@ static void createSensorsCallback(
     {
         std::cerr << "Created total of " << numCreated << " sensors\n";
     }
-    return;
-}
+    }
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,

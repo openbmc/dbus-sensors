@@ -386,7 +386,7 @@ void createSensors(
                 {
                     bool inverted =
                         std::get<std::string>(findPolarity->second) == "Low";
-                    if (auto pinName =
+                    if (const auto* pinName =
                             std::get_if<std::string>(&findPinName->second))
                     {
                         presenceSensor = std::make_unique<PresenceSensor>(
@@ -409,8 +409,9 @@ void createSensors(
             auto findPower = baseConfiguration->second.find("PowerState");
             if (findPower != baseConfiguration->second.end())
             {
-                auto ptrPower = std::get_if<std::string>(&(findPower->second));
-                if (ptrPower)
+                const auto* ptrPower =
+                    std::get_if<std::string>(&(findPower->second));
+                if (ptrPower != nullptr)
                 {
                     setReadState(*ptrPower, powerState);
                 }
@@ -466,9 +467,9 @@ void createSensors(
                     auto findMutable = connector->second.find("Mutable");
                     if (findMutable != connector->second.end())
                     {
-                        auto ptrMutable =
+                        const auto* ptrMutable =
                             std::get_if<bool>(&(findMutable->second));
-                        if (ptrMutable)
+                        if (ptrMutable != nullptr)
                         {
                             isValueMutable = *ptrMutable;
                         }
@@ -483,7 +484,8 @@ void createSensors(
                 auto findLED = connector->second.find("LED");
                 if (findLED != connector->second.end())
                 {
-                    auto ledName = std::get_if<std::string>(&(findLED->second));
+                    const auto* ledName =
+                        std::get_if<std::string>(&(findLED->second));
                     if (ledName == nullptr)
                     {
                         std::cerr << "Wrong format for LED of " << sensorName
@@ -504,7 +506,7 @@ void createSensors(
                 led);
 
             if (!pwmPath.empty() && fs::exists(pwmPath) &&
-                !pwmSensors.count(pwmPath))
+                (pwmSensors.count(pwmPath) == 0U))
             {
                 pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
                     pwmName, pwmPath, dbusConnection, objectServer,

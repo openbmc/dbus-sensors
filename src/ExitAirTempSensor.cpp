@@ -129,7 +129,7 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                     std::cerr << "Error getting pid class\n";
                     return;
                 }
-                auto classStr = std::get_if<std::string>(&classType);
+                const auto* classStr = std::get_if<std::string>(&classType);
                 if (classStr == nullptr || *classStr != "fan")
                 {
                     return;
@@ -163,8 +163,7 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            false, false, cfmMaxReading, cfmMinReading, conn, PowerState::on),
-    std::enable_shared_from_this<CFMSensor>(), parent(parent),
-    objServer(objectServer)
+    parent(parent), objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/airflow/" + name,
@@ -228,7 +227,7 @@ void CFMSensor::setupMatches()
         if (!ec)
         {
 
-            auto cfm = std::get_if<double>(&cfmVariant);
+            const auto* cfm = std::get_if<double>(&cfmVariant);
             if (cfm != nullptr && *cfm >= minSystemCfm)
             {
                 maxRpm = self->getMaxRpm(*cfm);
@@ -261,7 +260,7 @@ void CFMSensor::setupMatches()
         {
             return;
         }
-        const auto reading = std::get_if<double>(&(findValue->second));
+        auto* const reading = std::get_if<double>(&(findValue->second));
         if (reading == nullptr)
         {
             std::cerr << "Got CFM Limit of wrong type\n";
@@ -346,7 +345,7 @@ void CFMSensor::updateReading(void)
     }
 }
 
-uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting)
+uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting) const
 {
     uint64_t pwmPercent = 100;
     double totalCFM = std::numeric_limits<double>::max();
@@ -505,7 +504,7 @@ ExitAirTempSensor::ExitAirTempSensor(
            sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
            false, false, exitAirMaxReading, exitAirMinReading, conn,
            PowerState::on),
-    std::enable_shared_from_this<ExitAirTempSensor>(), objServer(objectServer)
+    objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -600,7 +599,7 @@ void ExitAirTempSensor::setupMatches(void)
         {
             size_t lastSlash = item.first.rfind("/");
             if (lastSlash == std::string::npos ||
-                lastSlash == item.first.size() || !item.second.size())
+                lastSlash == item.first.size() || item.second.empty())
             {
                 continue;
             }

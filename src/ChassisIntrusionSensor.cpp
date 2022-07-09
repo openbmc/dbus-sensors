@@ -106,7 +106,7 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
         return -1;
     }
 
-    if (!(funcs & I2C_FUNC_SMBUS_READ_BYTE_DATA))
+    if ((funcs & I2C_FUNC_SMBUS_READ_BYTE_DATA) == 0U)
     {
         std::cerr << "not support I2C_FUNC_SMBUS_READ_BYTE_DATA \n";
         close(fd);
@@ -154,7 +154,8 @@ void ChassisIntrusionSensor::pollSensorStatusByPch()
         if (!ec)
         {
             int statusValue = i2cReadFromPch(mBusId, mSlaveAddr);
-            std::string newValue = statusValue ? "HardwareIntrusion" : "Normal";
+            std::string newValue =
+                statusValue != 0 ? "HardwareIntrusion" : "Normal";
 
             if (newValue != "unknown" && mValue != newValue)
             {
@@ -181,7 +182,7 @@ void ChassisIntrusionSensor::readGpio()
     auto value = mGpioLine.get_value();
 
     // set string defined in chassis redfish schema
-    std::string newValue = value ? "HardwareIntrusion" : "Normal";
+    std::string newValue = value != 0 ? "HardwareIntrusion" : "Normal";
 
     if (debug)
     {
@@ -236,7 +237,7 @@ void ChassisIntrusionSensor::initGpioDeviceFile()
 
         // set string defined in chassis redfish schema
         auto value = mGpioLine.get_value();
-        std::string newValue = value ? "HardwareIntrusion" : "Normal";
+        std::string newValue = value != 0 ? "HardwareIntrusion" : "Normal";
         updateValue(newValue);
 
         auto gpioLineFd = mGpioLine.event_get_fd();

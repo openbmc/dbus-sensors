@@ -337,7 +337,7 @@ static void
                         const std::variant<std::string>& state) {
         if (ec)
         {
-            if (retries)
+            if (retries != 0U)
             {
                 auto timer = std::make_shared<boost::asio::steady_timer>(
                     conn->get_io_context());
@@ -370,7 +370,7 @@ static void
                         const std::variant<std::string>& state) {
         if (ec)
         {
-            if (retries)
+            if (retries != 0U)
             {
                 auto timer = std::make_shared<boost::asio::steady_timer>(
                     conn->get_io_context());
@@ -386,7 +386,7 @@ static void
             std::cerr << "error getting post status " << ec.message() << "\n";
             return;
         }
-        auto& value = std::get<std::string>(state);
+        const auto& value = std::get<std::string>(state);
         biosHasPost = (value != "Inactive") &&
                       (value != "xyz.openbmc_project.State.OperatingSystem."
                                 "Status.OSStatus.Inactive");
@@ -471,7 +471,7 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data)
 {
-    if (!data)
+    if (data == nullptr)
     {
         return;
     }
@@ -648,7 +648,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
                       << "\n";
             return;
         }
-        auto manufacturingModeStatus = std::get_if<std::string>(&itr->second);
+        auto* manufacturingModeStatus = std::get_if<std::string>(&itr->second);
         handleSpecialModeChange(*manufacturingModeStatus);
             });
 
@@ -670,7 +670,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         {
             return;
         }
-        auto manufacturingModeStatus = std::get_if<std::string>(&itr->second);
+        auto* manufacturingModeStatus = std::get_if<std::string>(&itr->second);
         handleSpecialModeChange(*manufacturingModeStatus);
             });
 
@@ -683,7 +683,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
                       << "\n";
             return;
         }
-        auto manufacturingModeStatus =
+        const auto* manufacturingModeStatus =
             std::get_if<std::string>(&getManufactMode);
         handleSpecialModeChange(*manufacturingModeStatus);
         },

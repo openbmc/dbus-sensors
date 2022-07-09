@@ -53,8 +53,8 @@ ADCSensor::ADCSensor(const std::string& path,
            "xyz.openbmc_project.Configuration.ADC", false, false,
            maxVoltageReading / scaleFactor, minVoltageReading / scaleFactor,
            conn, readState),
-    std::enable_shared_from_this<ADCSensor>(), objServer(objectServer),
-    inputDev(io), waitTimer(io), path(path), scaleFactor(scaleFactor),
+    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
+    scaleFactor(scaleFactor),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
     bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io)
 {

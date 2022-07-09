@@ -15,7 +15,7 @@ struct MCUTempSensor : public Sensor
                   boost::asio::io_service& io, const std::string& name,
                   const std::string& sensorConfiguration,
                   sdbusplus::asio::object_server& objectServer,
-                  std::vector<thresholds::Threshold>&& thresholds,
+                  std::vector<thresholds::Threshold>&& thresholdData,
                   uint8_t busId, uint8_t mcuAddress, uint8_t tempReg);
     ~MCUTempSensor() override;
 
@@ -28,7 +28,7 @@ struct MCUTempSensor : public Sensor
     uint8_t tempReg;
 
   private:
-    int getMCURegsInfoWord(uint8_t regs, int16_t* pu16data);
+    int getMCURegsInfoWord(uint8_t regs, int16_t* pu16data) const;
     sdbusplus::asio::object_server& objectServer;
     boost::asio::deadline_timer waitTimer;
 };
