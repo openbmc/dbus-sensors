@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd5086bd_b3ed08dd",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-10T17:14:42Z",
+      "side": 1,
+      "message": "nit: sensorType?",
+      "range": {
+        "startLine": 122,
+        "startChar": 45,
+        "endLine": 122,
+        "endChar": 56
+      },
+      "revId": "9d227b9a50a62df437804645ff65715c79cb4749",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

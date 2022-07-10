@@ -93,6 +93,30 @@
       },
       "revId": "44f9c8917c2e7f070cb36abc9bae322797b972b8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93cc32df_8e8f629c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-10T17:14:42Z",
+      "side": 1,
+      "message": "After reading through the code couple times, I think I understand your logic here now. But I think using this \"fake\" entry in the sensorRecord and offset of ipmbBusIndex is hard to understand and maintain. \nPlus, I am not sure line625-629 is needed for the SDRSensor type.\n\nIt would be better to keep the logic simple:\n1. SDR config, create SDR sensor based on the map\n2. IpmbSensor config, keep the code unchanged",
+      "parentUuid": "0aa5b864_960cdce9",
+      "range": {
+        "startLine": 594,
+        "startChar": 0,
+        "endLine": 598,
+        "endChar": 17
+      },
+      "revId": "44f9c8917c2e7f070cb36abc9bae322797b972b8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
