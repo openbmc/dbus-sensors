@@ -117,6 +117,30 @@
       },
       "revId": "44f9c8917c2e7f070cb36abc9bae322797b972b8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaee255e_d56e967c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-10T22:17:21Z",
+      "side": 1,
+      "message": "Additional question:\nHow are these SDRSensor value being updated? Does the read function and periodic polling from IpmbSesnor base class work for these sensor?",
+      "parentUuid": "93cc32df_8e8f629c",
+      "range": {
+        "startLine": 594,
+        "startChar": 0,
+        "endLine": 598,
+        "endChar": 17
+      },
+      "revId": "44f9c8917c2e7f070cb36abc9bae322797b972b8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

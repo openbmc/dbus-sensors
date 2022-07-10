@@ -22,6 +22,23 @@
       },
       "revId": "9d227b9a50a62df437804645ff65715c79cb4749",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3daa773a_d9f8f986",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-10T22:17:21Z",
+      "side": 1,
+      "message": "related to question for patch\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/52160/21/src/IpmbSensor.cpp#615\nimplies that there is an object of IpmbSDRDevice for one ipmbBus. \n\nIt would be a cleaner design if each IpmbSDRDevice holds sensorRecord for its own bus.",
+      "revId": "9d227b9a50a62df437804645ff65715c79cb4749",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
