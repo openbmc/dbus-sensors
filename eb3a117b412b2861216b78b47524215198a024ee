@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7662f9af_3628de85",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "SDR record count is 70.\nIf the validRecordCount starts from 0, after reading all the sensor, it will be 69.\nIt will not match the SDR count, Therefore, it starts from 1 to match the SDR count.",
+      "parentUuid": "2aa2b91c_85ebaa00",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "eb3a117b412b2861216b78b47524215198a024ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41016beb_22169c2b",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-07-07T04:01:55Z",
       "side": 1,
       "message": "Please do this in one line\n\nsdrData.insert(sdrData.end(), data.begin(), data.end());",
+      "revId": "eb3a117b412b2861216b78b47524215198a024ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f73fcb_555c2f1e",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "41016beb_22169c2b",
       "revId": "eb3a117b412b2861216b78b47524215198a024ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -87,6 +129,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ed88a94_02aa6bea",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d7211b6_1f9cf9ec",
+      "range": {
+        "startLine": 178,
+        "startChar": 33,
+        "endLine": 178,
+        "endChar": 58
+      },
+      "revId": "eb3a117b412b2861216b78b47524215198a024ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "848cc9ec_46d05f32",
@@ -100,6 +166,30 @@
       "writtenOn": "2022-07-09T18:26:46Z",
       "side": 1,
       "message": "1. Don\u0027t understand the comments for this function is for threshold value\n2. It is not using any class member, can just be an inline function",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 0
+      },
+      "revId": "eb3a117b412b2861216b78b47524215198a024ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59a58986_aaf8c75e",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "This calculation is used in 3 places, therefore, Ed suggested to make this as common instead of duplicating this calculation.",
+      "parentUuid": "848cc9ec_46d05f32",
       "range": {
         "startLine": 316,
         "startChar": 0,

@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27963081_f1d30adf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Yes, now working on the recent comments gave by Ed and Zhikui.",
+      "parentUuid": "628d567e_d2133376",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b80ac42d_43d5a154",
@@ -65,6 +83,24 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "This struct looks like it had endian issues, that you\u0027ve resolved by just declaring any non-trivial structure as std::array.  We shouldn\u0027t mix parsing types.  Either:\n\n1. This struct needs to use pragma packed, and handle endian issues properly.\n2. We shouldn\u0027t rely on reinterpret_cast.  from cppcoreguidelines: \"Don’t use reinterpret_cast; A strict version of Avoid casts and prefer named casts.\"\n\nas a general rule, and because we need to parse this structure into something this code can reasonably process anyway, I suspect this structure needs to just use the base, typesafe versions.",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e99fee5_c96d3a24",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack\n\nAs a named cast, can I use static_cast instead of reinterpret_cast ?",
+      "parentUuid": "b80ac42d_43d5a154",
       "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -92,6 +128,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9ef86b6_0c5ee891",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b0b4cf01_c4690d55",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 41
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2af1d707_26bee8e0",
@@ -105,6 +165,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "These are only used in one place.  Please inline to make the code more clear.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 31
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f96cf3_5f162317",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2af1d707_26bee8e0",
       "range": {
         "startLine": 111,
         "startChar": 0,
@@ -164,6 +248,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72a85573_2eaa25ab",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "To avoid the issue, can this be declared in IpmbSDRSensor.cpp file ?",
+      "parentUuid": "7eb0bc23_b7175032",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 0
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d21f3d3_bfc9cecc",
         "filename": "src/IpmbSDRSensor.cpp",
         "patchSetId": 20
@@ -175,6 +283,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "this same variable is declared in two places with the same name.  I suspect it can just be inlined into IpmbSDRDevice.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76a67c36_3b2afadf",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d21f3d3_bfc9cecc",
       "range": {
         "startLine": 7,
         "startChar": 0,
@@ -198,6 +330,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "You\u0027\u0027re shifting to the right by a variable called \"leftShift\" I suspect we need some naming reconciliation here.",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "027f50db_72beb495",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a14fa90b_73cedb8f",
       "range": {
         "startLine": 14,
         "startChar": 23,
@@ -254,6 +410,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb54a993_67adeb09",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e826baac_a15ecfc7",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 32
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ad44ffe_e8c4399a",
@@ -267,6 +447,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "unintentional copy.",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 34
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d5fa6e5_de1e5dcc",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ad44ffe_e8c4399a",
       "range": {
         "startLine": 48,
         "startChar": 8,
@@ -300,6 +504,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "229a06aa_d3ca658b",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3a2e7274_9ed35e94",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 32
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbb6d152_eefb2e27",
@@ -317,6 +545,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2af9e031_2e6969c5",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dbb6d152_eefb2e27",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f719a83_35c665ac",
@@ -330,6 +576,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "Please declare variables like this in the scope they\u0027re used, in this case, on line 127  There\u0027s no need to declare it here, then copy it into the lambda.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 40
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65ee7ca0_750a30bd",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7f719a83_35c665ac",
       "range": {
         "startLine": 107,
         "startChar": 0,
@@ -410,6 +680,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa9c9905_b6d1ca0b",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6c284c3c_138a6742",
+      "range": {
+        "startLine": 150,
+        "startChar": 68,
+        "endLine": 150,
+        "endChar": 74
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1293214_89bb9e82",
@@ -445,6 +739,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ff19ede_da72f076",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack\n\nI will add comments and change this func based on the data received.",
+      "parentUuid": "94cf6673_4228f7fe",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28e8106d_5a884301",
@@ -468,6 +780,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "479c49fe_02e692b6",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "28e8106d_5a884301",
+      "range": {
+        "startLine": 180,
+        "startChar": 38,
+        "endLine": 180,
+        "endChar": 48
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be584efe_a8b52057",
@@ -481,6 +817,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "This is not an error.  IPMB hosts are allowed in the spec to have non type1 records.",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 26
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b08f9db_4f28ca7a",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "be584efe_a8b52057",
       "range": {
         "startLine": 182,
         "startChar": 0,
@@ -516,6 +876,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d77cc17e_1903df24",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "As a named cast, can I use static_cast instead of reinterpret_cast ?",
+      "parentUuid": "27b73f92_7938b0ef",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 75
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a5a5957_916a3220",
         "filename": "src/IpmbSDRSensor.cpp",
         "patchSetId": 20
@@ -527,6 +911,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "nit, please call this sdrType.  \"sensor type\" is a different field.",
+      "range": {
+        "startLine": 190,
+        "startChar": 12,
+        "endLine": 190,
+        "endChar": 22
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09dd7847_03c2a73e",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5a5a5957_916a3220",
       "range": {
         "startLine": 190,
         "startChar": 12,
@@ -560,6 +968,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5050ff95_66d9bd1a",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d550e986_91c15edd",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 0
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6073357_0df17ce9",
@@ -577,6 +1009,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3bfb563_61f79ce9",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d6073357_0df17ce9",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eff18269_40e5bf20",
@@ -590,6 +1040,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "This is also not an error.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 60
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "897f91a3_6f70ad95",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eff18269_40e5bf20",
       "range": {
         "startLine": 227,
         "startChar": 0,
@@ -623,6 +1097,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81122e9_ac4048a7",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4f860380_1ed2ed5e",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 48
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb2e8b87_f4875e59",
@@ -636,6 +1134,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "This can be seen by reading the code, no need to comment.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 59
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0f3d0ef_03ba8ac4",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb2e8b87_f4875e59",
       "range": {
         "startLine": 239,
         "startChar": 0,
@@ -669,6 +1191,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7b0c482_62c41e4e",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "mTolDataByte - 2 bits MSB [7-6]\n(0xC0 \u0026 resp-\u003emTolDataByte) \u003c\u003c 2\n\nMasked with 0xC0, since it is last 2 bits and shifted by 2 to the left.",
+      "parentUuid": "5de004c4_5c5ffa76",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 243,
+        "endChar": 67
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "135f2ebb_1839219b",
@@ -682,6 +1228,24 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "same as above.",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d66153_040f6ebd",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "bAcuDataByte - 2 bits MSB [7-6]\n(0xC0 \u0026 resp-\u003ebAcuDataByte) \u003c\u003c 2\n\nMasked with 0xC0, since it is last 2 bits and shifted by 2 to the left.",
+      "parentUuid": "135f2ebb_1839219b",
       "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -709,6 +1273,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4cd32ce_318ee409",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f34efb74_97c7673a",
+      "range": {
+        "startLine": 304,
+        "startChar": 41,
+        "endLine": 304,
+        "endChar": 42
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd87fb45_49f8be31",
@@ -722,6 +1310,30 @@
       "writtenOn": "2022-07-07T03:46:22Z",
       "side": 1,
       "message": "If you want to construct values this way, please use named construction\n\nSensorValConversion val {\n  .mValue \u003d mdata;\n  .bVlalue \u003d bDataVal;\n\n}\n\nect.",
+      "range": {
+        "startLine": 306,
+        "startChar": 0,
+        "endLine": 311,
+        "endChar": 37
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fc7deb7_6ae8e358",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fd87fb45_49f8be31",
       "range": {
         "startLine": 306,
         "startChar": 0,

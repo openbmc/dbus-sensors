@@ -1583,6 +1583,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed8ec4c9_a9d38fda",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "57f02aba_c885d1bf",
+      "range": {
+        "startLine": 137,
+        "startChar": 16,
+        "endLine": 138,
+        "endChar": 62
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ce08172_e4fdf11e",
@@ -1715,6 +1739,30 @@
       "side": 1,
       "message": "Some things to realize:\n1. Not all SDRs are type 1 SDRs (although they might be on your system).\n2. I believe the IPMI command is allowed to return fewer bytes than requested.\n3. SDR type 1 size is variable, dependent on the string at the end.",
       "parentUuid": "1a1ce209_1c56d6fb",
+      "range": {
+        "startLine": 145,
+        "startChar": 21,
+        "endLine": 146,
+        "endChar": 67
+      },
+      "revId": "9eabe8ba8fd0a7ce779b7450b075e62059c06e57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "063ce2bd_f123ee75",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-10T13:47:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6fda9f7c_69e0833c",
       "range": {
         "startLine": 145,
         "startChar": 21,
