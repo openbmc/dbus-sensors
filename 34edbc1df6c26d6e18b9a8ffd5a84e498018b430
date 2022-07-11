@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48ead4bf_8eb8ee60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-11T20:45:43Z",
+      "side": 1,
+      "message": "Downloaded and run on my system, no issue observed.",
+      "revId": "34edbc1df6c26d6e18b9a8ffd5a84e498018b430",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
