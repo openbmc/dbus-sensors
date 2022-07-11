@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea9e1659_6042eb50",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-11T01:23:21Z",
+      "side": 1,
+      "message": "Keep busIndex commandAddress and sensorNum command translation in one place, ie in IpmbSensor. IpmbSDRdevice only know about busIndex and sensorNum",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 338,
+        "endChar": 32
+      },
+      "revId": "d8b610722a8e275ce3e76fab0d1ec040fd826f40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a5139bd_0b22a18e",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-11T01:23:21Z",
+      "side": 1,
+      "message": "What if it is other sdr type?",
+      "revId": "d8b610722a8e275ce3e76fab0d1ec040fd826f40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
