@@ -46,6 +46,30 @@
       },
       "revId": "2711f9694c5e516cfc2626ac8967373a430a0ea4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd393e00_6f6b378b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-11T19:45:53Z",
+      "side": 1,
+      "message": "There is no _max and _crit sysfs for the core temp.\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/CPUSensorMain.cpp#L374 returns empty thresholds for core temps",
+      "parentUuid": "1b0e1807_31c7619b",
+      "range": {
+        "startLine": 12,
+        "startChar": 54,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "2711f9694c5e516cfc2626ac8967373a430a0ea4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
