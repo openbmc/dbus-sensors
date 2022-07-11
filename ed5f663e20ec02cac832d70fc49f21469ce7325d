@@ -133,6 +133,24 @@
       "parentUuid": "2a7d1039_cbb05513",
       "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db6b144a_35b68ab8",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-11T20:41:57Z",
+      "side": 1,
+      "message": "It is used here https://github.com/openbmc/dbus-sensors/blob/master/src/PwmSensor.cpp#L46 \nFor Pwm 100%, kernel driver pwm sysfs reads 100000",
+      "parentUuid": "5981ad61_5def5692",
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
