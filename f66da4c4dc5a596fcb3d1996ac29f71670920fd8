@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc9e3602_b27aa13c",
+        "filename": "meson.build",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-11T16:13:39Z",
+      "side": 1,
+      "message": "ACK. I will test with CPUSensor running in epoll",
+      "parentUuid": "b0194866_def0359d",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fbcf5104_0bdf724c",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 10
