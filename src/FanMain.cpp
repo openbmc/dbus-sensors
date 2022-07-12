@@ -542,8 +542,10 @@ int main()
 {
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
+    sdbusplus::asio::object_server objectServer(systemBus, true);
+
+    objectServer.add_manager("/xyz/openbmc_project/sensors");
     systemBus->request_name("xyz.openbmc_project.FanSensor");
-    sdbusplus::asio::object_server objectServer(systemBus);
     boost::container::flat_map<std::string, std::shared_ptr<TachSensor>>
         tachSensors;
     boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>

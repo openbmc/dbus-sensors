@@ -708,7 +708,8 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     boost::container::flat_set<CPUConfig> cpuConfigs;
 
-    sdbusplus::asio::object_server objectServer(systemBus);
+    sdbusplus::asio::object_server objectServer(systemBus, true);
+    objectServer.add_manager("/xyz/openbmc_project/sensors");
     boost::asio::steady_timer pingTimer(io);
     boost::asio::steady_timer creationTimer(io);
     boost::asio::steady_timer filterTimer(io);
