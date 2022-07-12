@@ -16,6 +16,24 @@
       "message": "Downloaded and run on my system, no issue observed.",
       "revId": "34edbc1df6c26d6e18b9a8ffd5a84e498018b430",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ff0ebc_6f5747af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-12T04:18:15Z",
+      "side": 1,
+      "message": "Thanks for testing.",
+      "parentUuid": "48ead4bf_8eb8ee60",
+      "revId": "34edbc1df6c26d6e18b9a8ffd5a84e498018b430",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
