@@ -8,7 +8,7 @@
 #include <memory>
 #include <stdexcept>
 
-class NVMeContext : public std::enable_shared_from_this<NVMeContext>
+class NVMeContext
 {
   public:
     NVMeContext(boost::asio::io_service& io, int rootBus) :
@@ -23,7 +23,7 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 
     virtual ~NVMeContext()
     {
-        close();
+        scanTimer.cancel();
     }
 
     void addSensor(const std::shared_ptr<NVMeSensor>& sensor)
@@ -85,11 +85,6 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
         pollCursor = sensors.erase(found);
     }
 
-    virtual void close()
-    {
-        scanTimer.cancel();
-    }
-
     virtual void pollNVMeDevices() = 0;
 
     virtual void readAndProcessNVMeSensor() = 0;
@@ -104,6 +99,6 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
     std::list<std::shared_ptr<NVMeSensor>>::iterator pollCursor;
 };
 
-using NVMEMap = boost::container::flat_map<int, std::shared_ptr<NVMeContext>>;
+using NVMEMap = boost::container::flat_map<int, std::unique_ptr<NVMeContext>>;
 
 NVMEMap& getNVMEMap(void);
