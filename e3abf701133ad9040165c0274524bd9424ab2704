@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "875b441e_8d9a8a3b",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-14T15:03:04Z",
+      "side": 1,
+      "message": "Static cast would not solve the endian issues.  If it were me, I would make this struct use the c++ types, and do the unpacking in code.",
+      "parentUuid": "3e99fee5_c96d3a24",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0b4cf01_c4690d55",
         "filename": "include/IpmbSDRSensor.hpp",
         "patchSetId": 20
@@ -260,6 +278,30 @@
       "side": 1,
       "message": "To avoid the issue, can this be declared in IpmbSDRSensor.cpp file ?",
       "parentUuid": "7eb0bc23_b7175032",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 0
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "312e5ce1_8a664408",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-14T15:03:04Z",
+      "side": 1,
+      "message": "No, that does not resolve the bug, as a global has the same problem (state is shared between controller).  These need to be made non-static.",
+      "parentUuid": "72a85573_2eaa25ab",
       "range": {
         "startLine": 114,
         "startChar": 0,
