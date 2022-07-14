@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cde96c03_7884aef2",
+        "filename": "meson.build",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-14T15:46:42Z",
+      "side": 1,
+      "message": "created https://github.com/openbmc/dbus-sensors/issues/19",
+      "parentUuid": "ff8bc5e6_2c257e7d",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "f66da4c4dc5a596fcb3d1996ac29f71670920fd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fbcf5104_0bdf724c",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 10
