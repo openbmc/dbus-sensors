@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "628c9f61_d2f90f59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ee7e6b23_dc62f246",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4be4428_e5c8bbed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 29
@@ -31,6 +49,30 @@
       "writtenOn": "2022-07-09T06:14:34Z",
       "side": 1,
       "message": "This is still the wrong path for this, and still mentions \"gpio\" on dbus.",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 65
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16adfde9_fd3d8527",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e4be4428_e5c8bbed",
       "range": {
         "startLine": 32,
         "startChar": 1,
@@ -83,6 +125,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a4ab5eb_b99c9ac6",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d036db5_4a15d652",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 54
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12a3fbee_46b3b7d3",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 29
@@ -94,6 +160,30 @@
       "writtenOn": "2022-07-09T06:14:34Z",
       "side": 1,
       "message": "Why do this conversion?  Ideally we should be using a std::chrono type here, but I know that\u0027s not common, but there\u0027s no reason to be using another thing.",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81f540b1_12a296bb",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "12a3fbee_46b3b7d3",
       "range": {
         "startLine": 20,
         "startChar": 15,
@@ -129,6 +219,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "941ac493_f4364256",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Even using the sdbusplus::message::object_path type also wants to concatenate the variable to make the bus path, can you please help me in getting clarity on it?",
+      "parentUuid": "62c5b7b4_7efd2b99",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 77
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86f9fc17_839e4607",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 29
@@ -140,6 +254,30 @@
       "writtenOn": "2022-07-09T06:14:34Z",
       "side": 1,
       "message": "You do this lookup 3 times in 3 lines.  Please rearrange so you\u0027re only doing the lookup once.",
+      "range": {
+        "startLine": 33,
+        "startChar": 28,
+        "endLine": 33,
+        "endChar": 39
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee22054_83dc82ef",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86f9fc17_839e4607",
       "range": {
         "startLine": 33,
         "startChar": 28,
@@ -175,6 +313,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c415f78e_be3c217b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86311f2d_57d8c6a4",
+      "range": {
+        "startLine": 36,
+        "startChar": 58,
+        "endLine": 36,
+        "endChar": 64
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "110df191_6319d570",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 29
@@ -186,6 +348,30 @@
       "writtenOn": "2022-07-09T06:14:34Z",
       "side": 1,
       "message": "?  Why are we catching the exception here and not propogating it up?  Surely if the devices fail to initialize this object needs destroyed?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d2b896a_21283748",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "110df191_6319d570",
       "range": {
         "startLine": 44,
         "startChar": 0,
@@ -221,6 +407,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc07b6b6_050563c2",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "19c86214_529a3947",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 21
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b37df9cf_4276ba41",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 29
@@ -232,6 +442,30 @@
       "writtenOn": "2022-07-09T06:14:34Z",
       "side": 1,
       "message": "missing range check.  Also, it\u0027s not clear why this is being done.  I suspect it\u0027s another case where it should be using sdbusplus::message::object_path, but it\u0027s hard to know based on the code.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 64
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "290be54a_3888f7c2",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b37df9cf_4276ba41",
       "range": {
         "startLine": 69,
         "startChar": 0,
@@ -267,6 +501,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2c31a9e_b169489f",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "this twinlakIpmbgpioMap is platform specific to twinlake, for antother paltform additonal conditon check needs to be added along with their own gpio map.",
+      "parentUuid": "5b1240df_da2c1251",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 45
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "924c72ed_c37a4b36",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 29
@@ -278,6 +536,30 @@
       "writtenOn": "2022-07-09T06:14:34Z",
       "side": 1,
       "message": "memory safety issue.  Please look at the other examples of how we caputure using weak_from_this() to avoid lifetime issues.",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "766b0294_43aee05c",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "924c72ed_c37a4b36",
       "range": {
         "startLine": 81,
         "startChar": 24,
@@ -313,6 +595,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2cf73cf_2ed29e27",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "646c838e_603fe91b",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 56
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a680389_fc4c4e7b",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 29
@@ -336,6 +642,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b73139c0_ca30285d",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3a680389_fc4c4e7b",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86e1e136_ac87beb0",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 29
@@ -347,6 +677,30 @@
       "writtenOn": "2022-07-09T06:14:34Z",
       "side": 1,
       "message": "This can be const I beleive.",
+      "range": {
+        "startLine": 121,
+        "startChar": 17,
+        "endLine": 121,
+        "endChar": 21
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "749dedd7_9d1bdad2",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86e1e136_ac87beb0",
       "range": {
         "startLine": 121,
         "startChar": 17,
@@ -405,6 +759,30 @@
       "writtenOn": "2022-07-09T06:14:34Z",
       "side": 1,
       "message": "This is still searching on ipmbGpioState as a config file name.  We\u0027ve discussed before, GPIO is not a high level type, the component you\u0027re adapting to is the twinlake controller, that is the type.",
+      "range": {
+        "startLine": 575,
+        "startChar": 39,
+        "endLine": 575,
+        "endChar": 52
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9b20ac3_66d6beaa",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4b65030d_d767402c",
       "range": {
         "startLine": 575,
         "startChar": 39,
@@ -516,6 +894,42 @@
       "side": 1,
       "message": "The old code that existed was more correct.  We can always add more names that call the same code, as we have in many other places.  This has now changes to be much more generic, to the point that the config file isn\u0027t self-describing,",
       "parentUuid": "8068b005_5c872d35",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f8c266_7845c57a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "969ede7e_d89947e8",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c280e604_f5625ba7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "20f1fcbb_0ecf5d16",
       "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

@@ -119,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4482b7f_0537cadf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03720164_34a89632",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 14
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca7e440f_16ddf87a",
@@ -227,6 +251,30 @@
       "side": 1,
       "message": "\u003e the main idea here is to make it available for all the gpio state\n\nWe don\u0027t make gpio state directly available on dbus.  This has been discussed many times.  If you\u0027d like to have another conversation about it, feel free to push a review to phosphor-dbus-interfaces.",
       "parentUuid": "bc578256_1231c6da",
+      "range": {
+        "startLine": 48,
+        "startChar": 22,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "388d985c_584c280a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0f209ce6_532a0266",
       "range": {
         "startLine": 48,
         "startChar": 22,
@@ -421,6 +469,30 @@
       "side": 1,
       "message": "Was this moved?",
       "parentUuid": "b93e316b_86c5fb0e",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ad6a2b2_8fcba3f7",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "yes, Done.",
+      "parentUuid": "81795083_827d06de",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -645,6 +717,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de0bfbbb_22c2a24b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "working on this",
+      "parentUuid": "25c8b907_518c6232",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d97ca5c_80922c27",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 13
@@ -704,6 +800,30 @@
       "side": 1,
       "message": "Was this fixed?",
       "parentUuid": "e9f0333d_ae694fbc",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f30f625_f861d244",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "yes, Done.",
+      "parentUuid": "0d1b688a_315eb9c7",
       "range": {
         "startLine": 31,
         "startChar": 0,
@@ -834,6 +954,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea2022c1_7efeb97b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "\u003e Was this fixed?\n\nthis has been changed to this pointer and working on the review comments to make weak_from_this().",
+      "parentUuid": "3c7877ce_79ea0e3a",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d7746e6b_a300dd2b",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 13
@@ -940,6 +1084,30 @@
       "side": 1,
       "message": "Was this fixed?",
       "parentUuid": "d36aecb3_d69d1986",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52bf8b66_4c31ef24",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "working on this to make more specific.",
+      "parentUuid": "13e8b541_b1a9fdf5",
       "range": {
         "startLine": 98,
         "startChar": 0,
@@ -1117,6 +1285,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4c919ef_ec61cc0f",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "our understanding in this issue is more over related to the impb dbus service call rather than device response.\nAny how we have resolved in the latest patch as we check for the valid ipmi response length before proceeding.",
+      "parentUuid": "4fd90772_c70c5291",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 21
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7dc9e59_d0fd01c1",
         "filename": "src/GpioStateSensor.cpp",
         "patchSetId": 13
@@ -1164,6 +1356,24 @@
       "side": 1,
       "message": "Was this done?",
       "parentUuid": "4135c371_b0f41279",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e01316e4_50b6c233",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Yes, Done.",
+      "parentUuid": "44c9ff87_1fb81740",
       "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1323,6 +1533,30 @@
       "side": 1,
       "message": "Given that each of those thing require different dbus interfaces, no they can\u0027t",
       "parentUuid": "e1caaff8_6322d224",
+      "range": {
+        "startLine": 59,
+        "startChar": 56,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c264f5cf_63d2c30e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Our idea is to have a single dbus interface with the property Gpiostate, all other such ipmb gpio\u0027s part of the host controller will have this property but with different dbus object paths to differentiate.\nRight now we keeping it for pgood so keep it as IpmbGpioStateMonitor, but it can be extended for all other ipmb gpio\u0027s but only by adding EM config.",
+      "parentUuid": "409b28d7_c7024648",
       "range": {
         "startLine": 59,
         "startChar": 56,

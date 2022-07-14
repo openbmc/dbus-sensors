@@ -35,6 +35,41 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c83130_f29ad2ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "`",
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fded07f1_b721c2f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a39d883_c409f18a",
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d000aa1_8ef93b7f",
@@ -54,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b1b409a_d970884b",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "This is a platform specific config, this is better moved to EM config is best.",
+      "parentUuid": "3d000aa1_8ef93b7f",
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0b095cf_330342ff",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 30
@@ -65,6 +118,30 @@
       "writtenOn": "2022-07-09T06:16:53Z",
       "side": 1,
       "message": "This needs a better name.  \"HostController\" could mean any one of a number of things.  This is targetting OpenBIC, correct?  Maybe OpenBIC might be an ok name?",
+      "range": {
+        "startLine": 44,
+        "startChar": 39,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df10bc9_acb81738",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-14T15:20:26Z",
+      "side": 1,
+      "message": "is this change need to be done in the EM inventory interface as openBic or dbus object path also need to be changed as OpenBIC.\nfor ex, our current dbus path based on the dbus comments (/xyz/openbmc_project/Hostcontrollers/1_Twinlake/1_CPU_Good) here also do need to change as openBIC?",
+      "parentUuid": "d0b095cf_330342ff",
       "range": {
         "startLine": 44,
         "startChar": 39,
