@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f963761_e9b0d7d3",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-14T16:20:25Z",
+      "side": 1,
+      "message": "nit: bytesRead - same as the change in next file",
+      "range": {
+        "startLine": 206,
+        "startChar": 53,
+        "endLine": 206,
+        "endChar": 71
+      },
+      "revId": "cf76ea28bdd9fc40ec5537a8ee1947335532fed5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "514fdeb6_cbe18959",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-14T16:20:25Z",
+      "side": 1,
+      "message": "Should line 174 be moved to else {}",
+      "range": {
+        "startLine": 175,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 5
+      },
+      "revId": "cf76ea28bdd9fc40ec5537a8ee1947335532fed5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
