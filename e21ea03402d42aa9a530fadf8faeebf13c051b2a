@@ -117,6 +117,30 @@
       },
       "revId": "e21ea03402d42aa9a530fadf8faeebf13c051b2a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5103b381_f1f0824f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T04:26:49Z",
+      "side": 1,
+      "message": "\"If no PwmName is found,\nuse the current Pwm name as default to maintain backwards compatibility.\"\n\nWhat Zhikui and I described was not done that I can see.  I\u0027m fine leaving backward compatibility, but I would like new files to be relying on the explicit naming.",
+      "parentUuid": "0fe3f2e0_9e1c44ba",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 71
+      },
+      "revId": "e21ea03402d42aa9a530fadf8faeebf13c051b2a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
