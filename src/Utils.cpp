@@ -708,3 +708,98 @@ bool getManufacturingMode()
 {
     return manufacturingMode;
 }
+
+void getMgmtParams(const SensorBaseConfigMap& cfg,
+                   std::optional<MgmtParams>& params)
+{
+    params = std::nullopt;
+
+    auto clientManaged = cfg.find("ClientManaged");
+    auto ctorPath = cfg.find("ConstructorPath");
+    auto ctorData = cfg.find("ConstructorData");
+    auto dtorPath = cfg.find("DestructorPath");
+    auto dtorData = cfg.find("DestructorData");
+    auto presentPath = cfg.find("PresentPath");
+
+    if (clientManaged == cfg.end() || ctorPath == cfg.end() ||
+        ctorData == cfg.end() || dtorPath == cfg.end() ||
+        dtorData == cfg.end() || presentPath == cfg.end())
+    {
+        return;
+    }
+
+    try
+    {
+        if (std::get<bool>(clientManaged->second))
+        {
+            MgmtParams::MgmtOp construct{
+                std::get<std::string>(ctorPath->second),
+                std::get<std::string>(ctorData->second)};
+            MgmtParams::MgmtOp destroy{std::get<std::string>(dtorPath->second),
+                                       std::get<std::string>(dtorData->second)};
+            params = MgmtParams{construct, destroy,
+                                std::get<std::string>(presentPath->second)};
+        }
+    }
+    catch (const std::bad_variant_access&)
+    {
+        // leave params set to std::nullopt
+    }
+}
+
+bool MgmtParams::present(void) const
+{
+    std::error_code ec;
+    // 'false' on error is fine; don't throw an exception
+    return std::filesystem::exists(presentPath, ec);
+}
+
+int MgmtParams::MgmtOp::op(void) const
+{
+    std::ofstream file(path);
+    if (!file.good())
+    {
+        std::cerr << "Failed to open " << path << "\n";
+        return -1;
+    }
+    file << data;
+    file.close();
+    return file.fail() ? -1 : 0;
+}
+
+int MgmtParams::construct(void)
+{
+    if (present())
+    {
+        return 0;
+    }
+
+    int status = ctor.op();
+    if (status != 0)
+    {
+        return status;
+    }
+
+    // Some constructor operations may report success even if they don't
+    // entirely take effect (e.g. if an i2c client device is successfully
+    // created but the driver doesn't bind to it cleanly), so double-check to
+    // make sure it's really there and try to clean up if not.
+    if (!present())
+    {
+        dtor.op();
+        return -1;
+    }
+
+    return 0;
+}
+
+int MgmtParams::destroy(void)
+{
+    // We don't do a !present() check here, because while hopefully the logic
+    // in ::construct() should avoid this, it's possible for a sensor device
+    // to be in a sort of half-constructed state, e.g. if an i2c client device
+    // has been created but a driver hasn't bound to it successfully, in which
+    // case present() would return false but we still need to destroy it to
+    // clean up the "stub" device.
+    return dtor.op();
+}
