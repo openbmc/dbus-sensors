@@ -22,6 +22,30 @@
       },
       "revId": "bce0f038383c54dc3da515610893abeefe3be045",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbc6f988_83d0ef78",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-18T04:59:53Z",
+      "side": 0,
+      "message": "Yeah okay. TBH I kinda just slashed my way through the problem in the way that made the most sense to me in the most explicit way I could reason about. I\u0027ll rework it to not swim against the current :)",
+      "parentUuid": "6e33e578_820ccda4",
+      "range": {
+        "startLine": 328,
+        "startChar": 14,
+        "endLine": 328,
+        "endChar": 30
+      },
+      "revId": "bce0f038383c54dc3da515610893abeefe3be045",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
