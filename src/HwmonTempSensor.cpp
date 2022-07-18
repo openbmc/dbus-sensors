@@ -79,11 +79,18 @@ HwmonTempSensor::HwmonTempSensor(
     setInitialProperties(thisSensorParameters.units);
 }
 
-HwmonTempSensor::~HwmonTempSensor()
+void HwmonTempSensor::deactivate(void)
 {
+    markAvailable(false);
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
+}
+
+HwmonTempSensor::~HwmonTempSensor()
+{
+    deactivate();
+
     for (const auto& iface : thresholdInterfaces)
     {
         objServer.remove_interface(iface);
