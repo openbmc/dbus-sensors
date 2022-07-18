@@ -68,8 +68,7 @@ static bool getIntrusionSensorConfig(
     }
 
     const SensorData* sensorData = nullptr;
-    const std::pair<std::string,
-                    boost::container::flat_map<std::string, BasicVariantType>>*
+    const std::pair<std::string, SensorBaseConfigMap>*
         baseConfiguration = nullptr;
 
     // Get bus and addr of matched configuration
@@ -189,8 +188,7 @@ static void getNicNameInfo(
         for (const std::pair<sdbusplus::message::object_path, SensorData>&
                  sensor : sensorConfigurations)
         {
-            const std::pair<std::string, boost::container::flat_map<
-                                             std::string, BasicVariantType>>*
+            const std::pair<std::string, SensorBaseConfigMap>*
                 baseConfiguration = nullptr;
 
             // find base configuration
@@ -236,7 +234,7 @@ static void processLanStatusChange(sdbusplus::message::message& message)
 {
     const std::string& pathName = message.get_path();
     std::string interfaceName;
-    boost::container::flat_map<std::string, BasicVariantType> properties;
+    SensorBaseConfigMap properties;
     message.read(interfaceName, properties);
 
     auto findStateProperty = properties.find("OperationalState");
