@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "74b933c4_8d8be37c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:29:07Z",
+      "side": 1,
+      "message": "Isn\u0027t there more needed here?  you can\u0027t just expose a PWM sensor (0-100%) in RPM units, right?  That would mess up both the units and the control loops on dbus.",
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "80140cb9_1da367d7",
@@ -31,6 +48,109 @@
       "writtenOn": "2022-07-11T20:13:39Z",
       "side": 1,
       "message": "Maybe I\u0027m missing the reference to that variable.",
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a03c5f8_59980c64",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:29:07Z",
+      "side": 1,
+      "message": "You use this in a couple spots in this file.  Can you please do the calculation once and put it into a descriptive variable name?",
+      "range": {
+        "startLine": 269,
+        "startChar": 41,
+        "endLine": 269,
+        "endChar": 60
+      },
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3cb2083_62c7ad90",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:29:07Z",
+      "side": 1,
+      "message": "Per the coding standard, please prefer the std::equivalent of this, std::replace, over the boost version.\n\nAlso, it will cause this construction to be broken up a little bit, which I think will help the readability.  As is, it\u0027s a little tough to discern what\u0027s going on (although it looks correct).",
+      "range": {
+        "startLine": 284,
+        "startChar": 20,
+        "endLine": 284,
+        "endChar": 43
+      },
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81fdc9b_aedfa819",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:29:07Z",
+      "side": 1,
+      "message": "Looks like this was a bug before, but do we need to do the \n\npwmSensors[psuName + labelHead] \u003d nullptr; first like we do with the other sensors,\n\n\nOr do the new thing with insert_or_assign?\n\n\nDoesn\u0027t need one in this patchset, just fyi.",
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1391e017_d804b0c2",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:29:07Z",
+      "side": 1,
+      "message": "Although this works, please remove the \u0026 to make it more clear this is a captured value.  Please do the same thing on the next line as well.",
+      "range": {
+        "startLine": 294,
+        "startChar": 25,
+        "endLine": 294,
+        "endChar": 26
+      },
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a0d3f2_dbdfe6da",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:29:07Z",
+      "side": 1,
+      "message": "Can this be combined with the same call on line 288?",
       "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -108,6 +228,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "437d40b9_31b3a75f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:29:07Z",
+      "side": 1,
+      "message": "In terms of ordering, should we merge https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/51901 first then?",
+      "parentUuid": "b0848621_e143694d",
+      "range": {
+        "startLine": 301,
+        "startChar": 16,
+        "endLine": 301,
+        "endChar": 22
+      },
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "367ea42f_ece48fc3",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 5
@@ -173,6 +317,24 @@
       "side": 1,
       "message": "It is used here https://github.com/openbmc/dbus-sensors/blob/master/src/PwmSensor.cpp#L46 \nFor Pwm 100%, kernel driver pwm sysfs reads 100000",
       "parentUuid": "5981ad61_5def5692",
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2caa6033_dd5bd811",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:29:07Z",
+      "side": 1,
+      "message": "Isn\u0027t this going to break all the existing pwm sensors, making them report a Sensor.MaxValue of 100000 instead of 100?",
+      "parentUuid": "db6b144a_35b68ab8",
       "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
