@@ -27,6 +27,7 @@
 #include <limits>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 // Temperatures are read in milli degrees Celsius, we need degrees Celsius.
@@ -45,12 +46,13 @@ HwmonTempSensor::HwmonTempSensor(
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const struct SensorParams& thisSensorParameters, const float pollRate,
-    const std::string& sensorConfiguration, const PowerState powerState) :
+    const std::string& sensorConfiguration, const PowerState powerState,
+    const std::shared_ptr<I2CDevice>& i2cDevice) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
            conn, powerState),
-    objServer(objectServer),
+    i2cDevice(i2cDevice), objServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), offsetValue(thisSensorParameters.offsetValue),
     scaleValue(thisSensorParameters.scaleValue),
@@ -77,11 +79,35 @@ HwmonTempSensor::HwmonTempSensor(
     setInitialProperties(thisSensorParameters.units);
 }
 
-HwmonTempSensor::~HwmonTempSensor()
+bool HwmonTempSensor::isActive()
 {
+    return inputDev.is_open();
+}
+
+void HwmonTempSensor::activate(const std::string& newPath,
+                               const std::shared_ptr<I2CDevice>& newI2CDevice)
+{
+    path = newPath;
+    i2cDevice = newI2CDevice;
+    inputDev.open(path, boost::asio::random_access_file::read_only);
+    markAvailable(true);
+    setupRead();
+}
+
+void HwmonTempSensor::deactivate()
+{
+    markAvailable(false);
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
+    i2cDevice = nullptr;
+    path = "";
+}
+
+HwmonTempSensor::~HwmonTempSensor()
+{
+    deactivate();
+
     for (const auto& iface : thresholdInterfaces)
     {
         objServer.remove_interface(iface);
