@@ -1,5 +1,6 @@
 #pragma once
 
+#include <DeviceMgmt.hpp>
 #include <Thresholds.hpp>
 #include <boost/asio/random_access_file.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -30,14 +31,20 @@ class HwmonTempSensor :
                     std::vector<thresholds::Threshold>&& thresholds,
                     const struct SensorParams& thisSensorParameters,
                     float pollRate, const std::string& sensorConfiguration,
-                    PowerState powerState);
+                    PowerState powerState,
+                    const std::shared_ptr<I2CDevice>& i2cDevice);
     ~HwmonTempSensor() override;
     void setupRead(void);
+    void activate(const std::string& newPath,
+                  const std::shared_ptr<I2CDevice>& newI2CDevice);
+    void deactivate(void);
+    bool isActive(void);
 
   private:
     // Ordering is important here; readBuf is first so that it's not destroyed
     // while async operations from other member fields might still be using it.
     std::array<char, 128> readBuf{};
+    std::shared_ptr<I2CDevice> i2cDevice;
     sdbusplus::asio::object_server& objServer;
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
