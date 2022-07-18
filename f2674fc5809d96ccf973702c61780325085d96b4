@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee08f16_df8132bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-18T02:48:01Z",
+      "side": 1,
+      "message": "This patch is interesting to me because we did something similar that might be useful as a reference (albeit in a way that deals with our Frankenstein\u0027s monster of a PIM/EM mashup): https://github.com/ibm-openbmc/dbus-sensors/commit/890992a37d0fa97a24ba7ea3cf660ed81acd32a5",
+      "revId": "f2674fc5809d96ccf973702c61780325085d96b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebbffb36_2cdd5472",
