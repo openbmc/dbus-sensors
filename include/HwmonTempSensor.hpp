@@ -33,6 +33,7 @@ class HwmonTempSensor :
                     PowerState powerState);
     ~HwmonTempSensor() override;
     void setupRead(void);
+    void deactivate(void);
 
   private:
     // Ordering is important here; readBuf is first so that it's not destroyed
