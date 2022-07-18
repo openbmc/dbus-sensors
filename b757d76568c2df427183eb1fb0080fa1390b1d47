@@ -22,6 +22,30 @@
       },
       "revId": "b757d76568c2df427183eb1fb0080fa1390b1d47",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c69fa192_537a0f63",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:47:46Z",
+      "side": 1,
+      "message": "+1 to both the typo and runtime selection.  Can we just fall back to polling when we get an error code opening the char device?",
+      "parentUuid": "c73c7365_b4d9d75f",
+      "range": {
+        "startLine": 215,
+        "startChar": 12,
+        "endLine": 215,
+        "endChar": 17
+      },
+      "revId": "b757d76568c2df427183eb1fb0080fa1390b1d47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

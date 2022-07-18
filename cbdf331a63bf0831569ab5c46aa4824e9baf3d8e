@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd9ea78_938e8829",
+        "filename": "meson_options.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:47:46Z",
+      "side": 1,
+      "message": "Please don\u0027t make this a configure option.  We should be able to runtime determine if the gpio in question supports interrupts.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 186
+      },
+      "revId": "cbdf331a63bf0831569ab5c46aa4824e9baf3d8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
