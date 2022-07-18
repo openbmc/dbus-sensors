@@ -338,3 +338,27 @@ std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);
 bool getManufacturingMode();
+
+struct MgmtParams
+{
+    // Represents an operation performed by writing 'data' to 'path'
+    struct MgmtOp
+    {
+        std::filesystem::path path;
+        std::string data;
+        int op(void);
+    };
+
+    MgmtOp ctor;
+    MgmtOp dtor;
+
+    // If this path exists the sensor device has been successfully instantiated
+    std::filesystem::path presentPath;
+
+    bool present(void);
+    int construct(void);
+    int destroy(void);
+};
+
+void getMgmtParams(const SensorBaseConfigMap& cfg,
+                   std::optional<MgmtParams>& params);
