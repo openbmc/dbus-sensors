@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a449e0_bb11eab7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T03:27:14Z",
+      "side": 1,
+      "message": "We generally solve this by capturing by weak_ptr, then calling lock in the callback.",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "61048b0b562b8315e5628ab63681d28d0e27ea58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a1a2298_ca8cf8c3",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T03:27:14Z",
+      "side": 1,
+      "message": "Just use std::jthread if you want an raii thread?",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 18
+      },
+      "revId": "61048b0b562b8315e5628ab63681d28d0e27ea58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffbad615_299928e6",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T03:27:14Z",
+      "side": 1,
+      "message": "yeah, capturing by \"this\" is super error prone dependent on how you order your method members (You have to declare all asio members last to make sure their destruction are called first before any resources the callback might use are destroyed).  FWIW, the weak_ptr/lock() pattern is a lot easier get right, and doesn\u0027t seem to add much overhead.\n\n\n(note, I haven\u0027t looked if this class gets the order right, it might)",
+      "range": {
+        "startLine": 378,
+        "startChar": 26,
+        "endLine": 378,
+        "endChar": 30
+      },
+      "revId": "61048b0b562b8315e5628ab63681d28d0e27ea58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

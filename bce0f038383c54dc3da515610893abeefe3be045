@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e33e578_820ccda4",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T03:27:14Z",
+      "side": 0,
+      "message": "make this weakSelf{weak_from_this(){\n\nthen within the handler do\n\nstd::shared_ptr\u003cNvmeContext\u003e self \u003d weakSelf.lock();\nif (self \u003d\u003d nullptr){\n   return;\n}\n\n\nand I think your ownership problem goes away;  I\u0027ve been slowly going through and trying to audit these, and other sensors have run into this too;  Clearly I haven\u0027t gotten to nvme yet.",
+      "range": {
+        "startLine": 328,
+        "startChar": 14,
+        "endLine": 328,
+        "endChar": 30
+      },
+      "revId": "bce0f038383c54dc3da515610893abeefe3be045",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
