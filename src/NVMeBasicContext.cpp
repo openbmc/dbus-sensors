@@ -15,7 +15,6 @@
 #include <cstdio>
 #include <cstring>
 #include <system_error>
-#include <thread>
 
 extern "C"
 {
@@ -214,8 +213,8 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
     FileHandle streamOut(responsePipe[1]);
     respStream.assign(responsePipe[0]);
 
-    std::thread thread([streamIn{std::move(streamIn)},
-                        streamOut{std::move(streamOut)}]() mutable {
+    thread = std::jthread([streamIn{std::move(streamIn)},
+                           streamOut{std::move(streamOut)}]() mutable {
         ssize_t rc = 0;
 
         if ((rc = processBasicQueryStream(streamIn, streamOut)) < 0)
@@ -226,7 +225,6 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
 
         std::cerr << "Terminating basic query thread\n";
     });
-    thread.detach();
 }
 
 void NVMeBasicContext::readAndProcessNVMeSensor()
@@ -308,7 +306,7 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         response->prepare(len);
         return len;
         },
-        [self{shared_from_this()}, sensor, response](
+        [weakSelf{weak_from_this()}, sensor, response](
             const boost::system::error_code& ec, std::size_t length) mutable {
         if (ec)
         {
@@ -322,17 +320,20 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
             return;
         }
 
-        /* Deserialise the response */
-        response->consume(1); /* Drop the length byte */
-        std::istream is(response.get());
-        std::vector<char> data(response->size());
-        is.read(data.data(), response->size());
+        if (auto self = weakSelf.lock())
+        {
+            /* Deserialise the response */
+            response->consume(1); /* Drop the length byte */
+            std::istream is(response.get());
+            std::vector<char> data(response->size());
+            is.read(data.data(), response->size());
 
-        /* Update the sensor */
-        self->processResponse(sensor, data.data(), data.size());
+            /* Update the sensor */
+            self->processResponse(sensor, data.data(), data.size());
 
-        /* Enqueue processing of the next sensor */
-        self->readAndProcessNVMeSensor();
+            /* Enqueue processing of the next sensor */
+            self->readAndProcessNVMeSensor();
+        }
     });
 }
 
@@ -341,8 +342,8 @@ void NVMeBasicContext::pollNVMeDevices()
     pollCursor = sensors.begin();
 
     scanTimer.expires_from_now(boost::posix_time::seconds(1));
-    scanTimer.async_wait(
-        [self{shared_from_this()}](const boost::system::error_code errorCode) {
+    scanTimer.async_wait([weakSelf{weak_from_this()}](
+                             const boost::system::error_code errorCode) {
         if (errorCode == boost::asio::error::operation_aborted)
         {
             return;
@@ -354,7 +355,10 @@ void NVMeBasicContext::pollNVMeDevices()
             return;
         }
 
-        self->readAndProcessNVMeSensor();
+        if (auto self = weakSelf.lock())
+        {
+            self->readAndProcessNVMeSensor();
+        }
     });
 }
 
