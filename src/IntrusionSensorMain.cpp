@@ -68,9 +68,8 @@ static bool getIntrusionSensorConfig(
     }
 
     const SensorData* sensorData = nullptr;
-    const std::pair<std::string,
-                    boost::container::flat_map<std::string, BasicVariantType>>*
-        baseConfiguration = nullptr;
+    const std::pair<std::string, SensorBaseConfigMap>* baseConfiguration =
+        nullptr;
 
     // Get bus and addr of matched configuration
     for (const std::pair<sdbusplus::message::object_path, SensorData>& sensor :
@@ -182,50 +181,49 @@ static void getNicNameInfo(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        [](const ManagedObjectType& sensorConfigurations) {
-        // Get NIC name and save to map
-        lanInfoMap.clear();
-        for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigurations)
-        {
-            const std::pair<std::string, boost::container::flat_map<
-                                             std::string, BasicVariantType>>*
-                baseConfiguration = nullptr;
-
-            // find base configuration
-            auto sensorBase = sensor.second.find(nicType);
-            if (sensorBase == sensor.second.end())
+        dbusConnection, [](const ManagedObjectType& sensorConfigurations) {
+            // Get NIC name and save to map
+            lanInfoMap.clear();
+            for (const std::pair<sdbusplus::message::object_path, SensorData>&
+                     sensor : sensorConfigurations)
             {
-                continue;
-            }
-            baseConfiguration = &(*sensorBase);
+                const std::pair<std::string, SensorBaseConfigMap>*
+                    baseConfiguration = nullptr;
 
-            auto findEthIndex = baseConfiguration->second.find("EthIndex");
-            auto findName = baseConfiguration->second.find("Name");
-
-            if (findEthIndex != baseConfiguration->second.end() &&
-                findName != baseConfiguration->second.end())
-            {
-                const auto* pEthIndex =
-                    std::get_if<uint64_t>(&findEthIndex->second);
-                const auto* pName = std::get_if<std::string>(&findName->second);
-                if (pEthIndex != nullptr && pName != nullptr)
+                // find base configuration
+                auto sensorBase = sensor.second.find(nicType);
+                if (sensorBase == sensor.second.end())
                 {
-                    lanInfoMap[*pEthIndex] = *pName;
-                    if (debugLanLeash)
+                    continue;
+                }
+                baseConfiguration = &(*sensorBase);
+
+                auto findEthIndex = baseConfiguration->second.find("EthIndex");
+                auto findName = baseConfiguration->second.find("Name");
+
+                if (findEthIndex != baseConfiguration->second.end() &&
+                    findName != baseConfiguration->second.end())
+                {
+                    const auto* pEthIndex =
+                        std::get_if<uint64_t>(&findEthIndex->second);
+                    const auto* pName =
+                        std::get_if<std::string>(&findName->second);
+                    if (pEthIndex != nullptr && pName != nullptr)
                     {
-                        std::cout << "find name of eth" << *pEthIndex << " is "
-                                  << *pName << "\n";
+                        lanInfoMap[*pEthIndex] = *pName;
+                        if (debugLanLeash)
+                        {
+                            std::cout << "find name of eth" << *pEthIndex
+                                      << " is " << *pName << "\n";
+                        }
                     }
                 }
             }
-        }
 
-        if (lanInfoMap.empty())
-        {
-            std::cerr << "can't find matched NIC name. \n";
-        }
+            if (lanInfoMap.empty())
+            {
+                std::cerr << "can't find matched NIC name. \n";
+            }
         });
 
     getter->getConfiguration(
@@ -236,7 +234,7 @@ static void processLanStatusChange(sdbusplus::message::message& message)
 {
     const std::string& pathName = message.get_path();
     std::string interfaceName;
-    boost::container::flat_map<std::string, BasicVariantType> properties;
+    SensorBaseConfigMap properties;
     message.read(interfaceName, properties);
 
     auto findStateProperty = properties.find("OperationalState");

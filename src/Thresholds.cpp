@@ -136,10 +136,9 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
-            [&, path, threshold, thresholdInterface, labelMatch](
-                const boost::system::error_code& ec,
-                const boost::container::flat_map<std::string, BasicVariantType>&
-                    result) {
+            [&, path, threshold, thresholdInterface,
+             labelMatch](const boost::system::error_code& ec,
+                         const SensorBaseConfigMap& result) {
             if (ec)
             {
                 return; // threshold not supported
