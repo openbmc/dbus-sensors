@@ -58,8 +58,7 @@ extern boost::container::flat_map<std::string, std::shared_ptr<CPUSensor>>
 
 // this is added to cpusensor.hpp to avoid having every sensor have to link
 // against libgpiod, if another sensor needs it we may move it to utils
-inline bool cpuIsPresent(
-    const boost::container::flat_map<std::string, BasicVariantType>& gpioConfig)
+inline bool cpuIsPresent(const SensorBaseConfigMap& gpioConfig)
 {
     static boost::container::flat_map<std::string, bool> cpuPresence;
 

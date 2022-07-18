@@ -127,9 +127,7 @@ const static constexpr char* interface =
 } // namespace association
 
 template <typename T>
-inline T loadVariant(
-    const boost::container::flat_map<std::string, BasicVariantType>& data,
-    const std::string& key)
+inline T loadVariant(const SensorBaseConfigMap& data, const std::string& key)
 {
     auto it = data.find(key);
     if (it == data.end())
@@ -213,10 +211,8 @@ struct GetSensorConfiguration :
         std::shared_ptr<GetSensorConfiguration> self = shared_from_this();
 
         self->dbusConnection->async_method_call(
-            [self, path, interface, owner,
-             retries](const boost::system::error_code ec,
-                      boost::container::flat_map<std::string, BasicVariantType>&
-                          data) {
+            [self, path, interface, owner, retries](
+                const boost::system::error_code ec, SensorBaseConfigMap& data) {
             if (ec)
             {
                 std::cerr << "Error getting " << path << ": retries left"

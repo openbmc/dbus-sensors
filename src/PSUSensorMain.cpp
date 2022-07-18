@@ -377,8 +377,7 @@ static void createSensorsCallback(
             continue;
         }
 
-        const std::pair<std::string, boost::container::flat_map<
-                                         std::string, BasicVariantType>>*
+        const std::pair<std::string, SensorBaseConfigMap>*
             baseConfig = nullptr;
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;

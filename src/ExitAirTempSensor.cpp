@@ -300,10 +300,8 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
 {
     std::weak_ptr<CFMSensor> weakRef = weak_from_this();
     dbusConnection->async_method_call(
-        [weakRef,
-         path](const boost::system::error_code ec,
-               const boost::container::flat_map<std::string, BasicVariantType>&
-                   data) {
+        [weakRef, path](const boost::system::error_code ec,
+                        const SensorBaseConfigMap& data) {
         if (ec)
         {
             std::cerr << "Error getting properties from " << path << "\n";
@@ -838,9 +836,9 @@ void ExitAirTempSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
-static void loadVariantPathArray(
-    const boost::container::flat_map<std::string, BasicVariantType>& data,
-    const std::string& key, std::vector<std::string>& resp)
+static void loadVariantPathArray(const SensorBaseConfigMap& data,
+                                 const std::string& key,
+                                 std::vector<std::string>& resp)
 {
     auto it = data.find(key);
     if (it == data.end())
