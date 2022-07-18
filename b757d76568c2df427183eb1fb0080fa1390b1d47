@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c73c7365_b4d9d75f",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-18T02:43:48Z",
+      "side": 1,
+      "message": "NOUSE?\n\nAlso ifdef\u0027ing this feels a bit antiquated and requires multiple builds with different build flags to ensure the code still behaves as required. Please split this out into two different PresenceSensor implementations that can *both* be compiled into the one binary, and select them some other way.",
+      "range": {
+        "startLine": 215,
+        "startChar": 12,
+        "endLine": 215,
+        "endChar": 17
+      },
+      "revId": "b757d76568c2df427183eb1fb0080fa1390b1d47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
