@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12a0a012_c1d52218",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-18T15:18:52Z",
+      "side": 1,
+      "message": "This has been in review for a long time, been tested on several systems, and seems to be working.  Messages have been sent to discord asking about how best to roll this out, and most of the suggestions have been followed.  Merging.\n\nPlease make us aware of any issues.",
+      "revId": "862d0dabb5c3857e9fe7dc499086ccf6d9c58fed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
