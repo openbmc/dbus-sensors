@@ -484,14 +484,7 @@ static void createSensorsCallback(
         checkGroupEvent(directory.string(), groupEventMatch,
                         groupEventPathList);
 
-        PowerState readState = PowerState::always;
-        auto findPowerOn = baseConfig->second.find("PowerState");
-        if (findPowerOn != baseConfig->second.end())
-        {
-            std::string powerState =
-                std::visit(VariantToStringVisitor(), findPowerOn->second);
-            setReadState(powerState, readState);
-        }
+        PowerState readState = getPowerState(baseConfig->second);
 
         /* Check if there are more sensors in the same interface */
         int i = 1;
