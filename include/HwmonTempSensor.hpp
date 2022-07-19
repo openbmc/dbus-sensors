@@ -1,5 +1,6 @@
 #pragma once
 
+#include <DeviceMgmt.hpp>
 #include <Thresholds.hpp>
 #include <boost/asio/random_access_file.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -34,6 +35,8 @@ class HwmonTempSensor :
     ~HwmonTempSensor() override;
     void setupRead(void);
     void deactivate(void);
+
+    std::optional<I2CDevice> i2cDevice;
 
   private:
     // Ordering is important here; readBuf is first so that it's not destroyed

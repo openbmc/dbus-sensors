@@ -82,6 +82,7 @@ if get_option('hwmon-temp').enabled()
         'HwmonTempSensor.cpp',
         dependencies: [
             default_deps,
+            devicemgmt_dep,
             thresholds_dep,
             utils_dep,
         ],
