@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d23c6c7e_c1f39011",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-19T14:38:17Z",
+      "side": 1,
+      "message": "I don\u0027t think std::bit_cast works around endian issues.",
+      "parentUuid": "6d962685_eec6a790",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0b4cf01_c4690d55",
         "filename": "include/IpmbSDRSensor.hpp",
         "patchSetId": 20
@@ -392,6 +410,30 @@
       "side": 1,
       "message": "Done\n\nThe below maps are used in IpmbSensor class, therefore, declared in IpmbSDRSensor.hpp file as non-static.\n\n    inline std::map\u003cint, std::vector\u003cSensorInfo\u003e\u003e sensorRecord;\n    inline std::map\u003cint, std::map\u003cuint8_t, SensorValConversion\u003e\u003e\n        sensorValRecord;",
       "parentUuid": "312e5ce1_8a664408",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 0
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "301faba6_5f8acbb2",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-19T14:38:17Z",
+      "side": 1,
+      "message": "Just making them a global (if I\u0027m understanding properly what you did) still has the same problem.",
+      "parentUuid": "52ef4a15_597302c6",
       "range": {
         "startLine": 114,
         "startChar": 0,
@@ -2157,6 +2199,30 @@
       "side": 1,
       "message": "I thought unique_ptr will not make copy, since this will be called from the entity-manager dbus signal.\n\nPlease provide your suggestion on this.",
       "parentUuid": "bf2a3a5b_409f2833",
+      "range": {
+        "startLine": 706,
+        "startChar": 9,
+        "endLine": 706,
+        "endChar": 19
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ced2b3b1_0677af52",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-19T14:38:17Z",
+      "side": 1,
+      "message": "it\u0027s a variable on stack, it won\u0027t be a copy either way.",
+      "parentUuid": "19e0f77f_c3d29931",
       "range": {
         "startLine": 706,
         "startChar": 9,
