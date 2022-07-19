@@ -35,6 +35,8 @@ class HwmonTempSensor :
     void setupRead(void);
     void deactivate(void);
 
+    std::optional<MgmtParams> mgmt;
+
   private:
     // Ordering is important here; readBuf is first so that it's not destroyed
     // while async operations from other member fields might still be using it.
