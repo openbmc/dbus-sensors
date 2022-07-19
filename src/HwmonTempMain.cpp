@@ -243,6 +243,40 @@ static SensorConfigMap
     return configMap;
 }
 
+void instantiateDevices(const ManagedObjectType& sensorConfigs)
+{
+    for (const std::pair<sdbusplus::message::object_path, SensorData>& sensor :
+         sensorConfigs)
+    {
+        for (const std::pair<std::string, SensorBaseConfigMap>& cfgmap :
+             sensor.second)
+        {
+            std::optional<MgmtParams> mgmt;
+            getMgmtParams(cfgmap.second, mgmt);
+            if (!mgmt.has_value())
+            {
+                continue;
+            }
+
+            PowerState powerState = getPowerState(cfgmap.second);
+
+            bool shouldExist = powerState == PowerState::always ||
+                               (powerState == PowerState::on && isPowerOn()) ||
+                               (powerState == PowerState::biosPost &&
+                                isPowerOn() && hasBiosPost());
+
+            if (shouldExist && !mgmt->present())
+            {
+                if (mgmt->construct())
+                {
+                    std::cerr << "Failed to instantiate " << cfgmap.first
+                              << " for " << sensor.first.str << "\n";
+                }
+            }
+        }
+    }
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
@@ -258,6 +292,8 @@ void createSensors(
         bool firstScan = sensorsChanged == nullptr;
 
         SensorConfigMap configMap = buildSensorConfigMap(sensorConfigurations);
+
+        instantiateDevices(sensorConfigurations);
 
         // IIO _raw devices look like this on sysfs:
         //     /sys/bus/iio/devices/iio:device0/in_temp_raw
@@ -375,6 +411,7 @@ void createSensors(
                 }
                 if (!found)
                 {
+                    std::cerr << path << " not found in sensors map\n";
                     continue;
                 }
             }
@@ -417,6 +454,7 @@ void createSensors(
                     *hwmonFile, sensorType, objectServer, dbusConnection, io,
                     sensorName, std::move(sensorThresholds),
                     thisSensorParameters, pollRate, interfacePath, readState);
+                getMgmtParams(baseConfigMap, sensor->mgmt);
                 sensor->setupRead();
             }
             hwmonName.erase(
@@ -516,6 +554,46 @@ void interfaceRemoved(
     }
 }
 
+static void powerStateChanged(
+    PowerState type, bool newState,
+    boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
+        sensors,
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    if (newState)
+    {
+        createSensors(io, objectServer, sensors, dbusConnection, nullptr);
+    }
+    else
+    {
+        // Some sensors share a common management entity (e.g. temp1 and temp2
+        // of a single hwmon device), so do one pass to deactivate everything
+        // first so that we don't destroy the device out from under sensors
+        // that still have open file descriptors referring to it.
+        for (auto& [path, sensor] : sensors)
+        {
+            if (sensor->readState == type)
+            {
+                sensor->deactivate();
+            }
+        }
+
+        // Okay, now that deactivation's all done go ahead and remove any
+        // device instances
+        for (auto& [path, sensor] : sensors)
+        {
+            if (sensor->readState == type && sensor->mgmt.has_value())
+            {
+                if (sensor->mgmt.value().destroy())
+                {
+                    std::cerr << path << " destructor failed\n";
+                }
+            }
+        }
+    }
+}
+
 int main()
 {
     boost::asio::io_service io;
@@ -527,6 +605,16 @@ int main()
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
+
+    auto powerCallBack = [&](bool power) {
+        powerStateChanged(PowerState::on, power, sensors, io, objectServer,
+                          systemBus);
+    };
+    auto postCallBack = [&](bool post) {
+        powerStateChanged(PowerState::biosPost, post, sensors, io, objectServer,
+                          systemBus);
+    };
+    setupPowerMatchCallbacks(systemBus, powerCallBack, postCallBack);
 
     io.post([&]() {
         createSensors(io, objectServer, sensors, systemBus, nullptr);
