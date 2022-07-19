@@ -85,6 +85,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4c044a1a_ccbe935a",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-19T11:15:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73f73fcb_555c2f1e",
+      "revId": "eb3a117b412b2861216b78b47524215198a024ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b54f16ba_ea36f183",
         "filename": "src/IpmbSDRSensor.cpp",
         "patchSetId": 21
@@ -96,6 +114,30 @@
       "writtenOn": "2022-07-07T04:01:55Z",
       "side": 1,
       "message": "nitpick, ++ is simpler.",
+      "range": {
+        "startLine": 167,
+        "startChar": 23,
+        "endLine": 167,
+        "endChar": 30
+      },
+      "revId": "eb3a117b412b2861216b78b47524215198a024ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29d8dbb9_6fef2cbc",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-19T11:15:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b54f16ba_ea36f183",
       "range": {
         "startLine": 167,
         "startChar": 23,
@@ -143,6 +185,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "3d7211b6_1f9cf9ec",
+      "range": {
+        "startLine": 178,
+        "startChar": 33,
+        "endLine": 178,
+        "endChar": 58
+      },
+      "revId": "eb3a117b412b2861216b78b47524215198a024ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "791dc382_c8e153fd",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-19T11:15:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ed88a94_02aa6bea",
       "range": {
         "startLine": 178,
         "startChar": 33,
@@ -214,6 +280,30 @@
       "side": 1,
       "message": "I think it can still be an inline function.",
       "parentUuid": "59a58986_aaf8c75e",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 0
+      },
+      "revId": "eb3a117b412b2861216b78b47524215198a024ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9245ba24_fa4a4573",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-19T11:15:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5bb796f_5ad0b899",
       "range": {
         "startLine": 316,
         "startChar": 0,
