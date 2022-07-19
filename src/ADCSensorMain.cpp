@@ -253,14 +253,7 @@ void createSensors(
                 }
             }
 
-            auto findPowerOn = baseConfiguration->second.find("PowerState");
-            PowerState readState = PowerState::always;
-            if (findPowerOn != baseConfiguration->second.end())
-            {
-                std::string powerState =
-                    std::visit(VariantToStringVisitor(), findPowerOn->second);
-                setReadState(powerState, readState);
-            }
+            PowerState readState = getPowerState(baseConfiguration->second);
 
             auto& sensor = sensors[sensorName];
             sensor = nullptr;

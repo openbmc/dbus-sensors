@@ -475,15 +475,7 @@ void IpmbSensor::parseConfigValues(const SensorBaseConfigMap& entry)
         offsetVal = std::visit(VariantToDoubleVisitor(), findOffsetVal->second);
     }
 
-    auto findPowerState = entry.find("PowerState");
-
-    if (findPowerState != entry.end())
-    {
-        std::string powerState =
-            std::visit(VariantToStringVisitor(), findPowerState->second);
-
-        setReadState(powerState, readState);
-    }
+    readState = getPowerState(entry);
 }
 
 void createSensors(
