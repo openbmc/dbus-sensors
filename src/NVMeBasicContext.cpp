@@ -59,8 +59,8 @@ static void decodeBasicQuery(const std::array<uint8_t, 6>& req, int& bus,
     offset = req[sizeof(busle) + 1];
 }
 
-static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
-                              std::vector<uint8_t>& resp)
+static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
+                           std::vector<uint8_t>& resp)
 {
     int32_t size = 0;
     std::filesystem::path devpath = "/dev/i2c-" + std::to_string(bus);
@@ -73,8 +73,7 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         std::cerr << "Failed to configure device address 0x" << std::hex
                   << (int)addr << " for bus " << std::dec << bus << ": "
                   << strerror(errno) << "\n";
-
-        return -errno;
+        return;
     }
 
     resp.resize(UINT8_MAX + 1);
@@ -86,19 +85,19 @@ static ssize_t execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         std::cerr << "Failed to read block data from device 0x" << std::hex
                   << (int)addr << " on bus " << std::dec << bus << ": "
                   << strerror(errno) << "\n";
-        return size;
+        resp.resize(0);
     }
-    if (size > UINT8_MAX + 1)
+    else if (size > UINT8_MAX + 1)
     {
         std::cerr << "Unexpected message length from device 0x" << std::hex
                   << (int)addr << " on bus " << std::dec << bus << ": " << size
                   << " (" << UINT8_MAX << ")\n";
-        return -EBADMSG;
+        resp.resize(0);
     }
-
-    resp.resize(size);
-
-    return size;
+    else
+    {
+        resp.resize(size);
+    }
 }
 
 static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
@@ -132,26 +131,10 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
         decodeBasicQuery(req, bus, device, offset);
 
         /* Execute the query */
-        rc = execBasicQuery(bus, device, offset, resp);
-
-        /* Bounds check the response */
-        if (rc < 0)
-        {
-            len = 0;
-        }
-        else if (rc > UINT8_MAX)
-        {
-            assert(rc == UINT8_MAX + 1);
-
-            /* YOLO: Lop off the PEC */
-            len = UINT8_MAX;
-        }
-        else
-        {
-            len = rc;
-        }
+        execBasicQuery(bus, device, offset, resp);
 
         /* Write out the response length */
+        len = resp.size();
         rc = ::write(out.handle(), &len, sizeof(len));
         if (rc != sizeof(len))
         {
