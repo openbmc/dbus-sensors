@@ -27,6 +27,7 @@
 #include <limits>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 // Temperatures are read in milli degrees Celsius, we need degrees Celsius.
@@ -45,12 +46,13 @@ HwmonTempSensor::HwmonTempSensor(
     boost::asio::io_service& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const struct SensorParams& thisSensorParameters, const float pollRate,
-    const std::string& sensorConfiguration, const PowerState powerState) :
+    const std::string& sensorConfiguration, const PowerState powerState,
+    const std::shared_ptr<I2CDevice> i2cDevice) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
            conn, powerState),
-    objServer(objectServer),
+    i2cDevice(i2cDevice), objServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), offsetValue(thisSensorParameters.offsetValue),
     scaleValue(thisSensorParameters.scaleValue),
