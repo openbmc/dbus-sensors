@@ -170,6 +170,19 @@ inline void setReadState(const std::string& str, PowerState& val)
     }
 }
 
+inline PowerState getPowerState(const SensorBaseConfigMap& cfg)
+{
+    PowerState state = PowerState::always;
+    auto findPowerState = cfg.find("PowerState");
+    if (findPowerState != cfg.end())
+    {
+        std::string powerState = std::visit(VariantToStringVisitor(),
+                                            findPowerState->second);
+        setReadState(powerState, state);
+    }
+    return state;
+}
+
 inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                    const std::string& name, bool on)
 {

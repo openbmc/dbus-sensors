@@ -405,17 +405,7 @@ void createSensors(
                 redundancy = &systemRedundancy;
             }
 
-            PowerState powerState = PowerState::on;
-            auto findPower = baseConfiguration->second.find("PowerState");
-            if (findPower != baseConfiguration->second.end())
-            {
-                const auto* ptrPower =
-                    std::get_if<std::string>(&(findPower->second));
-                if (ptrPower != nullptr)
-                {
-                    setReadState(*ptrPower, powerState);
-                }
-            }
+            PowerState powerState = getPowerState(baseConfiguration);
 
             constexpr double defaultMaxReading = 25000;
             constexpr double defaultMinReading = 0;
