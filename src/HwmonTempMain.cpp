@@ -240,21 +240,60 @@ static SensorConfigMap
     return configMap;
 }
 
+boost::container::flat_set<std::string>
+    instantiateDevices(const ManagedObjectType& sensorConfigs)
+{
+    boost::container::flat_set<std::string> newSensors;
+    for (const auto& [path, sensor] : sensorConfigs)
+    {
+        for (const auto& [name, cfg] : sensor)
+        {
+            PowerState powerState = getPowerState(cfg);
+            if (!readingStateGood(powerState))
+            {
+                continue;
+            }
+
+            std::optional<I2CDevice> i2cDevice = getI2CDevice(sensorTypes, cfg);
+            if (i2cDevice.has_value() && !i2cDevice->present())
+            {
+                if (i2cDevice->create() < 0)
+                {
+                    std::cerr << "Failed to instantiate " << name << " for "
+                              << path.str << "\n";
+                }
+                else
+                {
+                    newSensors.insert(path.str);
+                }
+            }
+        }
+    }
+    return newSensors;
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged,
+    bool newOnly)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        [&io, &objectServer, &sensors, &dbusConnection,
-         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
+         newOnly](const ManagedObjectType& sensorConfigurations) {
         bool firstScan = sensorsChanged == nullptr;
 
         SensorConfigMap configMap = buildSensorConfigMap(sensorConfigurations);
+
+        boost::container::flat_set<std::string> newSensors;
+        if (newOnly)
+        {
+            newSensors = instantiateDevices(sensorConfigurations);
+        }
 
         // IIO _raw devices look like this on sysfs:
         //     /sys/bus/iio/devices/iio:device0/in_temp_raw
@@ -329,6 +368,11 @@ void createSensors(
             }
 
             const std::string& interfacePath = findSensorCfg->second.sensorPath;
+            if (newOnly && !newSensors.contains(interfacePath))
+            {
+                continue;
+            }
+
             const SensorData& sensorData = findSensorCfg->second.sensorData;
             const std::string& sensorType = findSensorCfg->second.interface;
             const SensorBaseConfigMap& baseConfigMap =
@@ -414,6 +458,7 @@ void createSensors(
                     *hwmonFile, sensorType, objectServer, dbusConnection, io,
                     sensorName, std::move(sensorThresholds),
                     thisSensorParameters, pollRate, interfacePath, readState);
+                sensor->i2cDevice = getI2CDevice(sensorTypes, baseConfigMap);
                 sensor->setupRead();
             }
             hwmonName.erase(
@@ -517,6 +562,32 @@ void interfaceRemoved(
     }
 }
 
+static void powerStateChanged(
+    PowerState type, bool newState,
+    boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
+        sensors,
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    if (newState)
+    {
+        createSensors(io, objectServer, sensors, dbusConnection, nullptr, true);
+    }
+    else
+    {
+        for (auto& [path, sensor] : sensors)
+        {
+            if (sensor->readState == type && sensor->i2cDevice.has_value())
+            {
+                if (sensor->i2cDevice->destroy() != 0)
+                {
+                    std::cerr << path << " destructor failed\n";
+                }
+            }
+        }
+    }
+}
+
 int main()
 {
     boost::asio::io_service io;
@@ -528,8 +599,13 @@ int main()
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
+    auto powerCallBack = [&](PowerState type, bool state) {
+        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+    };
+    setupPowerMatchCallback(systemBus, powerCallBack);
+
     io.post([&]() {
-        createSensors(io, objectServer, sensors, systemBus, nullptr);
+        createSensors(io, objectServer, sensors, systemBus, nullptr, false);
     });
 
     boost::asio::deadline_timer filterTimer(io);
@@ -555,7 +631,8 @@ int main()
                 std::cerr << "timer error\n";
                 return;
             }
-            createSensors(io, objectServer, sensors, systemBus, sensorsChanged);
+            createSensors(io, objectServer, sensors, systemBus, sensorsChanged,
+                          false);
         });
     };
 
