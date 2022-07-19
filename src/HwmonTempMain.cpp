@@ -400,14 +400,7 @@ void createSensors(
                 }
             }
 
-            auto findPowerOn = baseConfigMap.find("PowerState");
-            PowerState readState = PowerState::always;
-            if (findPowerOn != baseConfigMap.end())
-            {
-                std::string powerState =
-                    std::visit(VariantToStringVisitor(), findPowerOn->second);
-                setReadState(powerState, readState);
-            }
+            PowerState readState = getPowerState(baseConfigMap);
 
             auto permitSet = getPermitSet(baseConfigMap);
             auto& sensor = sensors[sensorName];
