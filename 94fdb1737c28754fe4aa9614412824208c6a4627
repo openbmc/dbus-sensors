@@ -178,6 +178,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b32a585_9c161922",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-19T11:42:15Z",
+      "side": 1,
+      "message": "Logic is simplified by creating if condition for SDR sensor. IpmbSensor code remains unchanged.",
+      "parentUuid": "b0baee85_3548a288",
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64588f6d_a4569abb",
@@ -215,6 +233,30 @@
       "side": 1,
       "message": "Since the old and new code shares the below logic and to avoid duplication, I have modified the code instead of using if condition. Could you please share your thoughts on this.\n\n auto\u0026 sensor \u003d sensors[name];\n sensor \u003d std::make_unique\u003cIpmbSensor\u003e(\n          dbusConnection, io, name, pathPair.first,\n          objectServer, std::move(sensorThresholds),\n          deviceAddress, hostSMbusIndex, pollRate,\n          sensorTypeName);\n\n          sensor-\u003eparseConfigValues(entry.second);\n          if (!(sensor-\u003esensorClassType(sensorClass)))\n          {\n             continue;\n          }\n          sensor-\u003esensorSubType(sensorTypeName);\n          sensor-\u003einit();",
       "parentUuid": "64588f6d_a4569abb",
+      "range": {
+        "startLine": 594,
+        "startChar": 1,
+        "endLine": 624,
+        "endChar": 44
+      },
+      "revId": "94fdb1737c28754fe4aa9614412824208c6a4627",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f5fc36a_a411423a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-19T11:42:15Z",
+      "side": 1,
+      "message": "Done\n\nLogic is simplified by creating if condition for SDR sensor.",
+      "parentUuid": "cba409e5_993332a7",
       "range": {
         "startLine": 594,
         "startChar": 1,
