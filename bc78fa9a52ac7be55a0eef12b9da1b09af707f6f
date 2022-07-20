@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f71046f7_e1786979",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-07-20T08:31:41Z",
+      "side": 1,
+      "message": "It works fine on our system for the hot-plug case.",
+      "revId": "bc78fa9a52ac7be55a0eef12b9da1b09af707f6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
