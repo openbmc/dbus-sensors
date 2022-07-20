@@ -214,6 +214,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35a6cb08_0bc242a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-20T19:15:43Z",
+      "side": 1,
+      "message": "\u003e One more case, in 2P system, when the host boots up with only 1 CPU, the second CPU is failed to boot. Only one sensor path is created. In this case only one driver is binded. At the next boot, 2 CPU boot normally, then there are 2 Altra drivers, one for CPU1 and one for CPU2.\n\nWith one global flag, createdSensor, set to true of there is any sensor is created. Can there be race condition where CPU1 is booted but CPU2 is not yet, and only CPU1 sensors are created.",
+      "parentUuid": "f6cbbed3_7288932a",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd8454a7_70e56f7e",
