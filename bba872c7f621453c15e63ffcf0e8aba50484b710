@@ -16,6 +16,24 @@
       "message": "FYI, since you wrote this, the asio folks came up with boost::asio::concurrent_channel\n\nhttps://www.boost.org/doc/libs/master/doc/html/boost_asio/reference/experimental__basic_concurrent_channel.html\n\nFor passing event messages between threads.  Probably not worth looking at over just porting to io_uring, but something for the toolbox for sure.",
       "revId": "bba872c7f621453c15e63ffcf0e8aba50484b710",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f32174_51693ab4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-20T22:03:34Z",
+      "side": 1,
+      "message": "Bah. But yeah, io_uring all the way.",
+      "parentUuid": "9d1417dd_d338b03d",
+      "revId": "bba872c7f621453c15e63ffcf0e8aba50484b710",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
