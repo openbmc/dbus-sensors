@@ -869,6 +869,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4127a047_774ecefd",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-20T19:57:01Z",
+      "side": 1,
+      "message": "I don\u0027t see this fixed.  Generally the convention for this is non-const reference, as the reviewer noted.  Otherwise all pointers need to be checked for validity, which adds quite a bit of boilerplate.",
+      "parentUuid": "c59ddd1d_7e5d765e",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 76
+      },
+      "revId": "73f9aabd47637c771f5c497f1d8a284dd9560328",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f725b4f0_7830ae0c",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 19
