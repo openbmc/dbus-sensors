@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d274995d_8492127f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-20T04:49:07Z",
+      "side": 1,
+      "message": "Sorry. I didn\u0027t see your comment when submitting PS7.\n\nNow I am confused how to implement your comment.\nThe main thing is \u0027how to determine\u0027 whether to switch the gpio usage.",
+      "parentUuid": "e55174e8_6a84154e",
+      "revId": "cbdf331a63bf0831569ab5c46aa4824e9baf3d8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bd9ea78_938e8829",
