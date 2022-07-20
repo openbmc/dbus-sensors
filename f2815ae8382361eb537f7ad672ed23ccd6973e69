@@ -16,6 +16,24 @@
       "message": "For reasons known only to the LLVM gods clang-format decided that the simple one-line change this started out as necessitated a 40-line reformatting in src/IntrusionSensorMain.cpp, so there\u0027s a bunch of noise in the diff.  If there\u0027s a better way of handling this I\u0027m all ears, but this at least gets CI to pass.",
       "revId": "f2815ae8382361eb537f7ad672ed23ccd6973e69",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68be0958_a0a153d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-20T14:37:17Z",
+      "side": 1,
+      "message": "It\u0027s not you, it\u0027s a well known issue with clang-format and lambdas.  It\u0027s ok, I can still review it.",
+      "parentUuid": "df6ebb77_efe047b5",
+      "revId": "f2815ae8382361eb537f7ad672ed23ccd6973e69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
