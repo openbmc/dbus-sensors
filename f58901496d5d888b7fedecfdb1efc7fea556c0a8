@@ -16,6 +16,75 @@
       "message": "Resolved the remaining comments.",
       "revId": "f58901496d5d888b7fedecfdb1efc7fea556c0a8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72c3c9b3_532dd3c1",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-20T16:32:43Z",
+      "side": 1,
+      "message": "\"No PresenceGpio Name setting\\n\";\n\nsame below",
+      "range": {
+        "startLine": 102,
+        "startChar": 21,
+        "endLine": 102,
+        "endChar": 66
+      },
+      "revId": "f58901496d5d888b7fedecfdb1efc7fea556c0a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e271e0_692c75a4",
+        "filename": "include/AmpereCPU.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-20T16:32:43Z",
+      "side": 1,
+      "message": "these can be moved inside loop, something like:\nif (findName \u003d\u003d suppConfig,end())\n{\n   std::cerr \u003c\u003c \"No name defined\\n\";\n   return false\n}\ngpioName \u003d std::visit....",
+      "range": {
+        "startLine": 99,
+        "startChar": 1,
+        "endLine": 111,
+        "endChar": 5
+      },
+      "revId": "f58901496d5d888b7fedecfdb1efc7fea556c0a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae8552a_4970cbd1",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-20T16:32:43Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 6
+      },
+      "revId": "f58901496d5d888b7fedecfdb1efc7fea556c0a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
