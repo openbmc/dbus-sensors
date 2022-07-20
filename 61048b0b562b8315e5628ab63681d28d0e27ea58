@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "259628b5_9238d6a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-20T20:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f36becb2_39f2f15a",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "61048b0b562b8315e5628ab63681d28d0e27ea58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a1a2298_ca8cf8c3",
@@ -143,6 +167,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c96ee7c6_783dd186",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-20T20:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0fcd522_f01ccdcf",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 18
+      },
+      "revId": "61048b0b562b8315e5628ab63681d28d0e27ea58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffbad615_299928e6",
@@ -180,6 +228,30 @@
       "side": 1,
       "message": "Yeah, I realise that, but the destructor implementation is explicit and should handle the ordering correctly.",
       "parentUuid": "ffbad615_299928e6",
+      "range": {
+        "startLine": 378,
+        "startChar": 26,
+        "endLine": 378,
+        "endChar": 30
+      },
+      "revId": "61048b0b562b8315e5628ab63681d28d0e27ea58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "562f10dc_60350d83",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-20T20:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fcbd591_f3341ca8",
       "range": {
         "startLine": 378,
         "startChar": 26,
