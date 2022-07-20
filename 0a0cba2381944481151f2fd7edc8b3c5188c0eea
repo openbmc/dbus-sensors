@@ -257,6 +257,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f9ac14b_f9b3270b",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-20T03:46:41Z",
+      "side": 1,
+      "message": "The answer is \"It depends\", but it\u0027s not possible for weak_ptr to be incorrect.",
+      "parentUuid": "0776ace0_06211ef9",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
