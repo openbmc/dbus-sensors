@@ -63,39 +63,62 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
 {
     int32_t size = 0;
     std::filesystem::path devpath = "/dev/i2c-" + std::to_string(bus);
-    FileHandle fileHandle(devpath);
+    std::optional<std::unique_ptr<FileHandle>> fileHandle = std::nullopt;
 
-    /* Select the target device */
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    if (::ioctl(fileHandle.handle(), I2C_SLAVE, addr) == -1)
+    try
     {
-        std::cerr << "Failed to configure device address 0x" << std::hex
-                  << (int)addr << " for bus " << std::dec << bus << ": "
-                  << strerror(errno) << "\n";
+        fileHandle = std::make_unique<FileHandle>(devpath);
+    }
+    catch (const std::out_of_range& e)
+    {
+        std::cerr << "Failed to create file handle for bus " << std::dec << bus
+                  << " : " << e.what() << "\n";
+        resp.resize(0);
         return;
     }
 
-    resp.resize(UINT8_MAX + 1);
+    if (fileHandle)
+    {
+        /* Select the target device */
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+        if (::ioctl(fileHandle.value()->handle(), I2C_SLAVE, addr) == -1)
+        {
+            std::cerr << "Failed to configure device address 0x" << std::hex
+                      << (int)addr << " for bus " << std::dec << bus << ": "
+                      << strerror(errno) << "\n";
+            resp.resize(0);
+            return;
+        }
 
-    /* Issue the NVMe MI basic command */
-    size = i2c_smbus_read_block_data(fileHandle.handle(), cmd, resp.data());
-    if (size < 0)
-    {
-        std::cerr << "Failed to read block data from device 0x" << std::hex
-                  << (int)addr << " on bus " << std::dec << bus << ": "
-                  << strerror(errno) << "\n";
-        resp.resize(0);
-    }
-    else if (size > UINT8_MAX + 1)
-    {
-        std::cerr << "Unexpected message length from device 0x" << std::hex
-                  << (int)addr << " on bus " << std::dec << bus << ": " << size
-                  << " (" << UINT8_MAX << ")\n";
-        resp.resize(0);
+        resp.resize(UINT8_MAX + 1);
+
+        /* Issue the NVMe MI basic command */
+        size = i2c_smbus_read_block_data(fileHandle.value()->handle(), cmd,
+                                         resp.data());
+        if (size < 0)
+        {
+            std::cerr << "Failed to read block data from device 0x" << std::hex
+                      << (int)addr << " on bus " << std::dec << bus << ": "
+                      << strerror(errno) << "\n";
+            resp.resize(0);
+        }
+        else if (size > UINT8_MAX + 1)
+        {
+            std::cerr << "Unexpected message length from device 0x" << std::hex
+                      << (int)addr << " on bus " << std::dec << bus << ": "
+                      << size << " (" << UINT8_MAX << ")\n";
+            resp.resize(0);
+        }
+        else
+        {
+            resp.resize(size);
+        }
     }
     else
     {
-        resp.resize(size);
+        std::cerr << "Failed to create file handle at path /dev/i2c-"
+                  << std::dec << bus << " : " << strerror(errno) << "\n";
+        resp.resize(0);
     }
 }
 
