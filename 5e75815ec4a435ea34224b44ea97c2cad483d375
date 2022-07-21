@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceabe80e_fda8ba80",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-21T15:39:07Z",
+      "side": 1,
+      "message": "Can we do this in the constructor for the class?  If the i2c bus disappears while we\u0027re running, that probably should be a fatal error.\n\n\nAlso, generally in these cases we\u0027d use std::optional to we don\u0027t have to malloc.\n\n\n\n@arj, do you recall why we\u0027re opening the i2c handle every time here?  Can\u0027t we just open it once and leave it open?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
