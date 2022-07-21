@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f13edccb_10cdaf62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-21T16:08:11Z",
+      "side": 1,
+      "message": "\u003e One way is to have the build switch dictate which implementation gets instantiated rather than which implementation gets compiled. Another way might be to pass an option on the command line or in the environment.\n\u003e \n\u003e A fancier option would be to request GPIO events, and if that fails, perform the request again but without requiring a line event and fall back to polling.\n The request should fail if the gpiochip does not implement an irqchip. With this I think you could get away with a single implementation.\n\nThe last option would be my preference, and given how we\u0027ve handled other situations like this in the past (like hwmon device creation), would be the general answer especially given that including the polling code has no unintended side effects.",
+      "parentUuid": "7e3983e6_2337b746",
+      "revId": "cbdf331a63bf0831569ab5c46aa4824e9baf3d8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2bd9ea78_938e8829",
         "filename": "meson_options.txt",
         "patchSetId": 7
