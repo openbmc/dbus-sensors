@@ -63,11 +63,24 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
 {
     int32_t size = 0;
     std::filesystem::path devpath = "/dev/i2c-" + std::to_string(bus);
-    FileHandle fileHandle(devpath);
+
+    std::unique_ptr<FileHandle> fileHandle = nullptr;
+
+    try
+    {
+        fileHandle = std::make_unique<FileHandle>(devpath);
+    }
+    catch (const std::out_of_range& oor)
+    {
+        std::cerr << "Failed to handle path /dev/i2c-" << std::dec << bus
+                  << " : " << strerror(errno) << "\n";
+
+        return;
+    }
 
     /* Select the target device */
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    if (::ioctl(fileHandle.handle(), I2C_SLAVE, addr) == -1)
+    if (::ioctl(fileHandle->handle(), I2C_SLAVE, addr) == -1)
     {
         std::cerr << "Failed to configure device address 0x" << std::hex
                   << (int)addr << " for bus " << std::dec << bus << ": "
@@ -78,7 +91,7 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
     resp.resize(UINT8_MAX + 1);
 
     /* Issue the NVMe MI basic command */
-    size = i2c_smbus_read_block_data(fileHandle.handle(), cmd, resp.data());
+    size = i2c_smbus_read_block_data(fileHandle->handle(), cmd, resp.data());
     if (size < 0)
     {
         std::cerr << "Failed to read block data from device 0x" << std::hex
