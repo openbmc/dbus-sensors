@@ -535,6 +535,10 @@ struct Sensor
 
     bool requiresUpdate(const double& lVal, const double& rVal) const
     {
+        if (std::isnan(lVal) && std::isnan(rVal))
+        {
+            return false;
+        }
         if (std::isnan(lVal) || std::isnan(rVal))
         {
             return true;
