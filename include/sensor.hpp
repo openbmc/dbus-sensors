@@ -535,12 +535,13 @@ struct Sensor
 
     bool requiresUpdate(const double& lVal, const double& rVal) const
     {
-        if (std::isnan(lVal) || std::isnan(rVal))
+        const auto lNan = std::isnan(lVal);
+        const auto rNan = std::isnan(rVal);
+        if (lNan || rNan)
         {
-            return true;
+            return !(lNan && rNan);
         }
-        double diff = std::abs(lVal - rVal);
-        return diff > hysteresisPublish;
+        return std::abs(lVal - rVal) > hysteresisPublish;
     }
 
   private:
