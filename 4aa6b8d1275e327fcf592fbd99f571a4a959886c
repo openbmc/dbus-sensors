@@ -189,6 +189,30 @@
       },
       "revId": "4aa6b8d1275e327fcf592fbd99f571a4a959886c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9448887_594ea17f",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-22T23:04:05Z",
+      "side": 1,
+      "message": "Thanks for the discussion. The performance gain is trivial with BMC chip and some compiler maybe smart enough so the two are the same. My preference mostly is because of the readability (to people like me). But it is not a strong opinion. Chau, up to you to decide.",
+      "parentUuid": "688ad649_1d2fa373",
+      "range": {
+        "startLine": 542,
+        "startChar": 0,
+        "endLine": 542,
+        "endChar": 35
+      },
+      "revId": "4aa6b8d1275e327fcf592fbd99f571a4a959886c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
