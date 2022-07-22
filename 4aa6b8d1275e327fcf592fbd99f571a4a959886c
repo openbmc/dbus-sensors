@@ -141,6 +141,30 @@
       },
       "revId": "4aa6b8d1275e327fcf592fbd99f571a4a959886c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccbab234_baf8bfa9",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-22T21:54:36Z",
+      "side": 1,
+      "message": "I don\u0027t mind either way. I\u0027m surprised the optimiser can\u0027t figure out how to reduce my suggestion. The two key things I wanted were to minimise the if statements and to derive the return value from an expression of the variables. Whichever we choose here doesn\u0027t impact the fact that the code now achieves this.",
+      "parentUuid": "1f63b6a9_93082ef9",
+      "range": {
+        "startLine": 542,
+        "startChar": 0,
+        "endLine": 542,
+        "endChar": 35
+      },
+      "revId": "4aa6b8d1275e327fcf592fbd99f571a4a959886c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
