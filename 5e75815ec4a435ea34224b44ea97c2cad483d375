@@ -94,6 +94,30 @@
       },
       "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8abc5a3_0a54f659",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-07-22T08:31:22Z",
+      "side": 1,
+      "message": "Yes, thanks a lot for helpful info @arj. So with the scope of the issue mentioned in this patch, a catching is an inevitable action since there is a possibility the exception will be thrown anyway. Or should I simply check if the /dev/* path exists before doing any file handling? Please gimme some advice on how I should go further with this patch.",
+      "parentUuid": "53d0b1ad_bf079229",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
