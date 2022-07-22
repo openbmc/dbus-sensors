@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "171ea8be_1d64a46e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "628c9f61_d2f90f59",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4be4428_e5c8bbed",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "e4be4428_e5c8bbed",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 65
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be428886_c620be74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16adfde9_fd3d8527",
       "range": {
         "startLine": 32,
         "startChar": 1,
@@ -147,6 +189,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2b8b6ac_9dd9c337",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a4ab5eb_b99c9ac6",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 54
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12a3fbee_46b3b7d3",
@@ -184,6 +250,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "12a3fbee_46b3b7d3",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b193e5d2_0f436a1f",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "therefore, pollRate is float here so static_cast\u003cint\u003e is done as other sensors used.\nsuggestion, even changes need?",
+      "parentUuid": "81f540b1_12a296bb",
       "range": {
         "startLine": 20,
         "startChar": 15,
@@ -288,6 +378,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36bed8a7_2b026f49",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ee22054_83dc82ef",
+      "range": {
+        "startLine": 33,
+        "startChar": 28,
+        "endLine": 33,
+        "endChar": 39
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86311f2d_57d8c6a4",
@@ -325,6 +439,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "86311f2d_57d8c6a4",
+      "range": {
+        "startLine": 36,
+        "startChar": 58,
+        "endLine": 36,
+        "endChar": 64
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e3f8c5_bd645a1d",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c415f78e_be3c217b",
       "range": {
         "startLine": 36,
         "startChar": 58,
@@ -382,6 +520,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "853b00ae_41f92229",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d2b896a_21283748",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19c86214_529a3947",
@@ -419,6 +581,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "19c86214_529a3947",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 21
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99b1defb_985b36ca",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc07b6b6_050563c2",
       "range": {
         "startLine": 54,
         "startChar": 4,
@@ -523,6 +709,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f907fb8b_201ae8b6",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2c31a9e_b169489f",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 45
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "924c72ed_c37a4b36",
@@ -570,6 +780,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b494f1f_760464f0",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "766b0294_43aee05c",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "646c838e_603fe91b",
@@ -607,6 +841,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "646c838e_603fe91b",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 56
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e23ec171_394b28cb",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2cf73cf_2ed29e27",
       "range": {
         "startLine": 82,
         "startChar": 0,
@@ -711,6 +969,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbdbce8b_637ca4fc",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "749dedd7_9d1bdad2",
+      "range": {
+        "startLine": 121,
+        "startChar": 17,
+        "endLine": 121,
+        "endChar": 21
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "463c5583_c8387763",
@@ -783,6 +1065,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "4b65030d_d767402c",
+      "range": {
+        "startLine": 575,
+        "startChar": 39,
+        "endLine": 575,
+        "endChar": 52
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0558909d_2d77e60c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9b20ac3_66d6beaa",
       "range": {
         "startLine": 575,
         "startChar": 39,
@@ -930,6 +1236,42 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "20f1fcbb_0ecf5d16",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "134f5515_2453bcaa",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c280e604_f5625ba7",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff26ff4_278288a0",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25f8c266_7845c57a",
       "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

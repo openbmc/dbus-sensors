@@ -285,6 +285,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38696f1e_c726a488",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "388d985c_584c280a",
+      "range": {
+        "startLine": 48,
+        "startChar": 22,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ac5510c_1eed9ef0",
@@ -404,6 +428,24 @@
       "side": 1,
       "message": "I\u0027ve left many multitudes of comments, many of which are coding style or code safety violations that I would expect most reviewers to be able to find.  There are plenty of patches that need reviewed, and maintainers don\u0027t have lots of time to spend on every single one.\n\nThere\u0027s obvious dbus-interface violations, not just in not following the existing interfaces, but in core principals like \"don\u0027t put GPIO on dbus\" that have been discussed many times.  Those kind of themes are things that just about any maintainer or developer can teach.\n\nI\u0027m sorry it\u0027s taking so long.  I really am.  Hopefully we can get things wrapped up soon.",
       "parentUuid": "8285b89d_3e865841",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "427d1f85_724abb66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "looking on to wrapping up as soon as possible.",
+      "parentUuid": "4e7a862c_3e0363b7",
       "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -739,6 +781,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92017041_163dd404",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de0bfbbb_22c2a24b",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d97ca5c_80922c27",
@@ -966,6 +1032,30 @@
       "side": 1,
       "message": "\u003e Was this fixed?\n\nthis has been changed to this pointer and working on the review comments to make weak_from_this().",
       "parentUuid": "3c7877ce_79ea0e3a",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e741671_9bf8de9b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-22T15:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2022c1_7efeb97b",
       "range": {
         "startLine": 90,
         "startChar": 24,
