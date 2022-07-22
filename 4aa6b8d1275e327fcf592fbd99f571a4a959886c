@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ee46251_bf493e56",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-22T16:41:17Z",
+      "side": 1,
+      "message": "bool is the same number of characters as auto, please just use bool in the future.\n\nI\u0027ve made this edit directly, so nothing to fix here.",
+      "range": {
+        "startLine": 538,
+        "startChar": 14,
+        "endLine": 538,
+        "endChar": 18
+      },
+      "revId": "4aa6b8d1275e327fcf592fbd99f571a4a959886c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a04c2c79_daaca49b",
@@ -14,6 +37,30 @@
       "writtenOn": "2022-07-22T16:04:58Z",
       "side": 1,
       "message": "return lNan !\u003d rNan;\nWill this be slightly more efficient or the compiled code would be the same?",
+      "range": {
+        "startLine": 542,
+        "startChar": 0,
+        "endLine": 542,
+        "endChar": 35
+      },
+      "revId": "4aa6b8d1275e327fcf592fbd99f571a4a959886c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec4996af_f05a55e0",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-22T16:41:17Z",
+      "side": 1,
+      "message": "It\u0027s all dependent on what the optimizer can do with isnan(), which, without going into the generated assembly, we can only really speculate about.",
+      "parentUuid": "a04c2c79_daaca49b",
       "range": {
         "startLine": 542,
         "startChar": 0,
