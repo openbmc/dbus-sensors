@@ -50,6 +50,24 @@
       "message": "I think this start to become a little messy to maintain, and we can better describe our intent another way. By the following truth table:\n\n +------------------+------------------+------------------+\n | std::isNan(lVal) | std::isNan(rVal) | requiresUpdate() |\n +------------------+------------------+------------------+\n |        0         |        0         |         x        |\n |        0         |        1         |         1        |\n |        1         |        0         |         1        |\n |        1         |        1         |         0        |\n +------------------+------------------+------------------+\n\nThe behaviour can be implemented by:\n\n bool requiresUpdate(const double\u0026 lVal, const double\u0026 rVal) const\n {\n     const auto lNan \u003d std::isNan(lVal), rNan \u003d std::isNan(rVal);\n     if (lNan || rNan)\n     {\n         return !(lNan \u0026\u0026 rNan)\n     }\n \n     return std::abs(lVal - rVal) \u003e hysteresisPublish;\n }\n\nIMO this is much less brittle as the return value is described in terms of the value expression, and the number of conditionals is compressed.",
       "revId": "715e815183576d697595e1fb926e2949c3392a55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "040730e9_e8fb6ac3",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-07-22T05:53:20Z",
+      "side": 1,
+      "message": "You\u0027re right, I changed the code, thank you Andrew.",
+      "parentUuid": "8e574ed1_4f38bba0",
+      "revId": "715e815183576d697595e1fb926e2949c3392a55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
