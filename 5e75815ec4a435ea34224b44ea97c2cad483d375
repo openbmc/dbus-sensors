@@ -70,6 +70,30 @@
       },
       "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53d0b1ad_bf079229",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-22T03:57:54Z",
+      "side": 1,
+      "message": "\u003e About i2c handle open all the time, will it cause the bus to be busy and not be able to be used by others?\n\nNo. You can see how open() is implemented here: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/i2c/i2c-dev.c?h\u003dv5.19-rc7\n\nIn particular, it doesn\u0027t prevent multiple-open.\n\nThe only time you\u0027re using the bus is when you issue a command to the endpoint, and any other fds open for the device will block until your command is complete. Once it completes any other commands on other fds are processed immediately by the i2c subsystem.\n\nThe behaviour is described in more depth here: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/i2c/dev-interface.rst?h\u003dv5.19-rc7",
+      "parentUuid": "5e93a79e_4761b153",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
