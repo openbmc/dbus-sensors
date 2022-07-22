@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a04c2c79_daaca49b",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-22T16:04:58Z",
+      "side": 1,
+      "message": "return lNan !\u003d rNan;\nWill this be slightly more efficient or the compiled code would be the same?",
+      "range": {
+        "startLine": 542,
+        "startChar": 0,
+        "endLine": 542,
+        "endChar": 35
+      },
+      "revId": "4aa6b8d1275e327fcf592fbd99f571a4a959886c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
