@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4761065_af7528f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-23T15:33:15Z",
+      "side": 1,
+      "message": "We\u0027ve said many times, gpio doesn\u0027t belong on dbus.  There\u0027s a mailing list thread about this if you\u0027re interested, and I believe we wrote it up in the docs.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 65
+      },
+      "revId": "5922585ce3c712aa588ec4b9dabdb9ea8dab09a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
