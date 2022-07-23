@@ -456,14 +456,14 @@ void assertThresholds(Sensor* sensor, double assertValue,
         try
         {
             // msg.get_path() is interface->get_object_path()
-            sdbusplus::message::message msg =
+            sdbusplus::message_t msg =
                 interface->new_signal("ThresholdAsserted");
 
             msg.append(sensor->name, interface->get_interface_name(), property,
                        assert, assertValue);
             msg.signal_send();
         }
-        catch (const sdbusplus::exception::exception& e)
+        catch (const sdbusplus::exception_t& e)
         {
             std::cerr
                 << "Failed to send thresholdAsserted signal with assertValue\n";

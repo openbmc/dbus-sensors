@@ -10,8 +10,7 @@
 TEST(TachSensor, TestTachSensor)
 {
     boost::asio::io_service io;
-    auto system_bus =
-        std::make_shared<dbus::connection>(io, dbus::bus::session);
+    auto system_bus = std::make_shared<dbus::connection>(io, dbus_t::session);
     dbus::DbusObjectServer object_server(system_bus);
 
     std::vector<thresholds::Threshold> sensor_thresholds;

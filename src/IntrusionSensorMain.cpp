@@ -230,7 +230,7 @@ static void getNicNameInfo(
         std::vector<std::string>{nicTypes.begin(), nicTypes.end()});
 }
 
-static void processLanStatusChange(sdbusplus::message::message& message)
+static void processLanStatusChange(sdbusplus::message_t& message)
 {
     const std::string& pathName = message.get_path();
     std::string interfaceName;
@@ -442,8 +442,8 @@ int main()
     }
 
     // callback to handle configuration change
-    std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message& message) {
+    std::function<void(sdbusplus::message_t&)> eventHandler =
+        [&](sdbusplus::message_t& message) {
         if (message.is_method_error())
         {
             std::cerr << "callback method error\n";
@@ -458,8 +458,8 @@ int main()
         }
     };
 
-    auto eventMatch = std::make_unique<sdbusplus::bus::match::match>(
-        static_cast<sdbusplus::bus::bus&>(*systemBus),
+    auto eventMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" + sensorType + "'",
         eventHandler);
@@ -467,22 +467,20 @@ int main()
     if (initializeLanStatus(systemBus))
     {
         // add match to monitor lan status change
-        sdbusplus::bus::match::match lanStatusMatch(
-            static_cast<sdbusplus::bus::bus&>(*systemBus),
+        sdbusplus::bus::match_t lanStatusMatch(
+            static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal', member='PropertiesChanged',"
             "arg0namespace='org.freedesktop.network1.Link'",
-            [](sdbusplus::message::message& msg) {
-            processLanStatusChange(msg);
-            });
+            [](sdbusplus::message_t& msg) { processLanStatusChange(msg); });
 
         // add match to monitor entity manager signal about nic name config
         // change
-        sdbusplus::bus::match::match lanConfigMatch(
-            static_cast<sdbusplus::bus::bus&>(*systemBus),
+        sdbusplus::bus::match_t lanConfigMatch(
+            static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal', member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" + nicType +
                 "'",
-            [&systemBus](sdbusplus::message::message& msg) {
+            [&systemBus](sdbusplus::message_t& msg) {
             if (msg.is_method_error())
             {
                 std::cerr << "callback method error\n";

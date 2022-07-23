@@ -190,8 +190,7 @@ void createSensors(boost::asio::io_service& io,
     getter->getConfiguration(std::vector<std::string>{NVMeSensor::configType});
 }
 
-static void interfaceRemoved(sdbusplus::message::message& message,
-                             NVMEMap& contexts)
+static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
 {
     if (message.is_method_error())
     {
@@ -234,9 +233,8 @@ int main()
     io.post([&]() { createSensors(io, objectServer, systemBus); });
 
     boost::asio::deadline_timer filterTimer(io);
-    std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&filterTimer, &io, &objectServer,
-         &systemBus](sdbusplus::message::message&) {
+    std::function<void(sdbusplus::message_t&)> eventHandler =
+        [&filterTimer, &io, &objectServer, &systemBus](sdbusplus::message_t&) {
         // this implicitly cancels the timer
         filterTimer.expires_from_now(boost::posix_time::seconds(1));
 
@@ -256,8 +254,8 @@ int main()
         });
     };
 
-    sdbusplus::bus::match::match configMatch(
-        static_cast<sdbusplus::bus::bus&>(*systemBus),
+    sdbusplus::bus::match_t configMatch(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" +
             std::string(NVMeSensor::configType) + "'",
@@ -265,11 +263,11 @@ int main()
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match::match>(
-        static_cast<sdbusplus::bus::bus&>(*systemBus),
+    auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
-        [](sdbusplus::message::message& msg) {
+        [](sdbusplus::message_t& msg) {
         interfaceRemoved(msg, nvmeDeviceMap);
         });
 
