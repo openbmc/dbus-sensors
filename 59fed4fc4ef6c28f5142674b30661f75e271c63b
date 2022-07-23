@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6499af2_ad375699",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-23T16:34:50Z",
+      "side": 1,
+      "message": "Still not done.   /xyz/openbmc_project/ipmbgpio/1_TwinlakeipmbGpiostate/1_CPU_Good\nis still present in your commit message, which has the word \"gpio\" in it.",
+      "parentUuid": "171ea8be_1d64a46e",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4be4428_e5c8bbed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 29
@@ -321,6 +339,30 @@
       "side": 1,
       "message": "Even using the sdbusplus::message::object_path type also wants to concatenate the variable to make the bus path, can you please help me in getting clarity on it?",
       "parentUuid": "62c5b7b4_7efd2b99",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 77
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3cc8106_ee74299d",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-23T16:34:50Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand your question.\n\nsdbusplus::message::object_path has operator/ and operator /\u003d which allow for concatenating dbus paths.  Yes, for each individual portion of the path, string concat is fine, but when concatenating dbus path segments, use the aformentioned functions.",
+      "parentUuid": "941ac493_f4364256",
       "range": {
         "startLine": 30,
         "startChar": 0,

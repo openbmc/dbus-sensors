@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00bca539_447e1e53",
+        "filename": "include/GpioStateSensor.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-23T16:34:50Z",
+      "side": 1,
+      "message": "\u003e This is a platform specific config, this is better moved to EM config is best.\n\nIndividual commands should not be moved to EM config.  That opens up too many possibilities for compatibility problems.  I have no problem with the twinlake-specific commands being here.  We do the same thing already for other oem-specific commands.",
+      "parentUuid": "7b1b409a_d970884b",
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0b095cf_330342ff",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 30
