@@ -715,7 +715,7 @@ int main()
     boost::container::flat_set<CPUConfig> cpuConfigs;
 
     sdbusplus::asio::object_server objectServer(systemBus);
-    std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
     boost::asio::deadline_timer pingTimer(io);
     boost::asio::deadline_timer creationTimer(io);
     boost::asio::deadline_timer filterTimer(io);
@@ -735,8 +735,8 @@ int main()
         }
     });
 
-    std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message& message) {
+    std::function<void(sdbusplus::message_t&)> eventHandler =
+        [&](sdbusplus::message_t& message) {
         if (message.is_method_error())
         {
             std::cerr << "callback method error\n";
@@ -767,8 +767,8 @@ int main()
 
     for (const char* type : sensorTypes)
     {
-        auto match = std::make_unique<sdbusplus::bus::match::match>(
-            static_cast<sdbusplus::bus::bus&>(*systemBus),
+        auto match = std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" +
                 configPrefix + type + "'",

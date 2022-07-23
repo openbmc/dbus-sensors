@@ -483,7 +483,7 @@ void createSensors(
 }
 
 void interfaceRemoved(
-    sdbusplus::message::message& message,
+    sdbusplus::message_t& message,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
         sensors)
 {
@@ -524,7 +524,7 @@ int main()
     sdbusplus::asio::object_server objectServer(systemBus);
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>
         sensors;
-    std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
@@ -533,8 +533,8 @@ int main()
     });
 
     boost::asio::deadline_timer filterTimer(io);
-    std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message& message) {
+    std::function<void(sdbusplus::message_t&)> eventHandler =
+        [&](sdbusplus::message_t& message) {
         if (message.is_method_error())
         {
             std::cerr << "callback method error\n";
@@ -561,8 +561,8 @@ int main()
 
     for (const char* type : sensorTypes)
     {
-        auto match = std::make_unique<sdbusplus::bus::match::match>(
-            static_cast<sdbusplus::bus::bus&>(*systemBus),
+        auto match = std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" + type + "'",
             eventHandler);
@@ -573,11 +573,11 @@ int main()
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match::match>(
-        static_cast<sdbusplus::bus::bus&>(*systemBus),
+    auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
-        [&sensors](sdbusplus::message::message& msg) {
+        [&sensors](sdbusplus::message_t& msg) {
         interfaceRemoved(msg, sensors);
         });
 

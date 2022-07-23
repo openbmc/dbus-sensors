@@ -63,13 +63,13 @@ constexpr const auto monitorIfaces{
 static std::vector<std::shared_ptr<CFMSensor>> cfmSensors;
 
 static void setupSensorMatch(
-    std::vector<sdbusplus::bus::match::match>& matches,
-    sdbusplus::bus::bus& connection, const std::string& type,
-    std::function<void(const double&, sdbusplus::message::message&)>&& callback)
+    std::vector<sdbusplus::bus::match_t>& matches, sdbusplus::bus_t& connection,
+    const std::string& type,
+    std::function<void(const double&, sdbusplus::message_t&)>&& callback)
 {
 
-    std::function<void(sdbusplus::message::message & message)> eventHandler =
-        [callback{std::move(callback)}](sdbusplus::message::message& message) {
+    std::function<void(sdbusplus::message_t & message)> eventHandler =
+        [callback{std::move(callback)}](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<double, int64_t>>
             values;
@@ -196,7 +196,7 @@ void CFMSensor::setupMatches()
     std::weak_ptr<CFMSensor> weakRef = weak_from_this();
     setupSensorMatch(
         matches, *dbusConnection, "fan_tach",
-        [weakRef](const double& value, sdbusplus::message::message& message) {
+        [weakRef](const double& value, sdbusplus::message_t& message) {
         auto self = weakRef.lock();
         if (!self)
         {
@@ -246,7 +246,7 @@ void CFMSensor::setupMatches()
                          "freedesktop.DBus.Properties',path='" +
                              std::string(cfmSettingPath) + "',arg0='" +
                              std::string(cfmSettingIface) + "'",
-                         [weakRef](sdbusplus::message::message& message) {
+                         [weakRef](sdbusplus::message_t& message) {
         auto self = weakRef.lock();
         if (!self)
         {
@@ -541,7 +541,7 @@ void ExitAirTempSensor::setupMatches(void)
     {
         setupSensorMatch(matches, *dbusConnection, type,
                          [weakRef, type](const double& value,
-                                         sdbusplus::message::message& message) {
+                                         sdbusplus::message_t& message) {
             auto self = weakRef.lock();
             if (!self)
             {
@@ -947,14 +947,14 @@ int main()
     sdbusplus::asio::object_server objectServer(systemBus);
     std::shared_ptr<ExitAirTempSensor> sensor =
         nullptr; // wait until we find the config
-    std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
 
     io.post([&]() { createSensor(objectServer, sensor, systemBus); });
 
     boost::asio::deadline_timer configTimer(io);
 
-    std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message&) {
+    std::function<void(sdbusplus::message_t&)> eventHandler =
+        [&](sdbusplus::message_t&) {
         configTimer.expires_from_now(boost::posix_time::seconds(1));
         // create a timer because normally multiple properties change
         configTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -971,8 +971,8 @@ int main()
     };
     for (const char* type : monitorIfaces)
     {
-        auto match = std::make_unique<sdbusplus::bus::match::match>(
-            static_cast<sdbusplus::bus::bus&>(*systemBus),
+        auto match = std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" + type + "'",
             eventHandler);

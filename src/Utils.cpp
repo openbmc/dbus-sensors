@@ -39,8 +39,8 @@ static bool powerStatusOn = false;
 static bool biosHasPost = false;
 static bool manufacturingMode = false;
 
-static std::unique_ptr<sdbusplus::bus::match::match> powerMatch = nullptr;
-static std::unique_ptr<sdbusplus::bus::match::match> postMatch = nullptr;
+static std::unique_ptr<sdbusplus::bus::match_t> powerMatch = nullptr;
+static std::unique_ptr<sdbusplus::bus::match_t> postMatch = nullptr;
 
 /**
  * return the contents of a file
@@ -147,18 +147,18 @@ bool getSensorConfiguration(
     if (!useCache)
     {
         managedObj.clear();
-        sdbusplus::message::message getManagedObjects =
+        sdbusplus::message_t getManagedObjects =
             dbusConnection->new_method_call(
                 entityManagerName, "/", "org.freedesktop.DBus.ObjectManager",
                 "GetManagedObjects");
         bool err = false;
         try
         {
-            sdbusplus::message::message reply =
+            sdbusplus::message_t reply =
                 dbusConnection->call(getManagedObjects);
             reply.read(managedObj);
         }
-        catch (const sdbusplus::exception::exception& e)
+        catch (const sdbusplus::exception_t& e)
         {
             std::cerr << "While calling GetManagedObjects on service:"
                       << entityManagerName << " exception name:" << e.name()
@@ -405,12 +405,12 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         return;
     }
 
-    powerMatch = std::make_unique<sdbusplus::bus::match::match>(
-        static_cast<sdbusplus::bus::bus&>(*conn),
+    powerMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(power::path) + "',arg0='" +
             std::string(power::interface) + "'",
-        [](sdbusplus::message::message& message) {
+        [](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             values;
@@ -443,12 +443,12 @@ void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
         }
         });
 
-    postMatch = std::make_unique<sdbusplus::bus::match::match>(
-        static_cast<sdbusplus::bus::bus&>(*conn),
+    postMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(post::path) + "',arg0='" +
             std::string(post::interface) + "'",
-        [](sdbusplus::message::message& message) {
+        [](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             values;
@@ -626,10 +626,10 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
     const std::string filterSpecialModeIntfAdd =
         rules::interfacesAdded() +
         rules::argNpath(0, "/xyz/openbmc_project/security/special_mode");
-    static std::unique_ptr<sdbusplus::bus::match::match> specialModeIntfMatch =
-        std::make_unique<sdbusplus::bus::match::match>(
-            conn, filterSpecialModeIntfAdd,
-            [](sdbusplus::message::message& m) {
+    static std::unique_ptr<sdbusplus::bus::match_t> specialModeIntfMatch =
+        std::make_unique<sdbusplus::bus::match_t>(conn,
+                                                  filterSpecialModeIntfAdd,
+                                                  [](sdbusplus::message_t& m) {
         sdbusplus::message::object_path path;
         using PropertyMap =
             boost::container::flat_map<std::string, std::variant<std::string>>;
@@ -650,16 +650,15 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         }
         auto* manufacturingModeStatus = std::get_if<std::string>(&itr->second);
         handleSpecialModeChange(*manufacturingModeStatus);
-            });
+        });
 
     const std::string filterSpecialModeChange =
         rules::type::signal() + rules::member("PropertiesChanged") +
         rules::interface("org.freedesktop.DBus.Properties") +
         rules::argN(0, specialModeInterface);
-    static std::unique_ptr<sdbusplus::bus::match::match>
-        specialModeChangeMatch = std::make_unique<sdbusplus::bus::match::match>(
-            conn, filterSpecialModeChange,
-            [](sdbusplus::message::message& m) {
+    static std::unique_ptr<sdbusplus::bus::match_t> specialModeChangeMatch =
+        std::make_unique<sdbusplus::bus::match_t>(conn, filterSpecialModeChange,
+                                                  [](sdbusplus::message_t& m) {
         std::string interfaceName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             propertiesChanged;
@@ -672,7 +671,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         }
         auto* manufacturingModeStatus = std::get_if<std::string>(&itr->second);
         handleSpecialModeChange(*manufacturingModeStatus);
-            });
+        });
 
     conn.async_method_call(
         [](const boost::system::error_code ec,
