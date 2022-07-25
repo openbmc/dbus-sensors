@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa3894ab_fb7c2fe8",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-25T00:12:41Z",
+      "side": 1,
+      "message": "This is an error path so you\u0027ll need to add `resp.resize(0);` before returning.",
+      "revId": "d8bde55002b0e21fde03996d4bd1b833798d7563",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fece6eb9_5c1853a4",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-25T00:12:41Z",
+      "side": 1,
+      "message": "I guess we should fix this one too (add `resp.resize(0);` before the return).",
+      "revId": "d8bde55002b0e21fde03996d4bd1b833798d7563",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

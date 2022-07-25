@@ -118,6 +118,30 @@
       },
       "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7fcb371_3c14c6be",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-25T00:12:41Z",
+      "side": 1,
+      "message": "\u003e Which class\u0027s constructor were you mentioning? If it\u0027s FileHandle, is that a normal thing that the user of this class should be the one catching the exception before further processing?\n\nI think Ed meant in the NVMeBasicContext constructor.\n\n\u003e So with the scope of the issue mentioned in this patch, a catching is an inevitable action since there is a possibility the exception will be thrown anyway.\n\nNot if we already have a file descriptor embedded in the NVMeBasicContext instance. If you try to access a file descriptor associated with a device that\u0027s been removed you\u0027ll get something like EBADF. Please test this and confirm.\n\n\u003e Or should I simply check if the /dev/* path exists before doing any file handling?\n\nNo, that\u0027s racy. The device could disappear between the stat() and the open(), so you have to handle the open() error anyway.",
+      "parentUuid": "c8abc5a3_0a54f659",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
