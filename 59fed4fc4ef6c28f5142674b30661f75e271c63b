@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18300bfb_3efad00c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-25T17:09:41Z",
+      "side": 1,
+      "message": "In the latest patch, it will be resolved.",
+      "parentUuid": "c6499af2_ad375699",
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4be4428_e5c8bbed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 29
@@ -363,6 +381,30 @@
       "side": 1,
       "message": "I don\u0027t quite understand your question.\n\nsdbusplus::message::object_path has operator/ and operator /\u003d which allow for concatenating dbus paths.  Yes, for each individual portion of the path, string concat is fine, but when concatenating dbus path segments, use the aformentioned functions.",
       "parentUuid": "941ac493_f4364256",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 77
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63111dac_4a9f8f6d",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-25T17:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3cc8106_ee74299d",
       "range": {
         "startLine": 30,
         "startChar": 0,
@@ -694,6 +736,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "b37df9cf_4276ba41",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 64
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6fbcddf_b9cb13cf",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-25T17:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290be54a_3888f7c2",
       "range": {
         "startLine": 69,
         "startChar": 0,

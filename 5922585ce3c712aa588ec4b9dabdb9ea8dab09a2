@@ -22,6 +22,30 @@
       },
       "revId": "5922585ce3c712aa588ec4b9dabdb9ea8dab09a2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fe48a12_6aa211e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-25T17:09:41Z",
+      "side": 1,
+      "message": "Sorry ED, I have missed changing the commit message.\nIn the following patch, this will be resolved.",
+      "parentUuid": "f4761065_af7528f6",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 65
+      },
+      "revId": "5922585ce3c712aa588ec4b9dabdb9ea8dab09a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
