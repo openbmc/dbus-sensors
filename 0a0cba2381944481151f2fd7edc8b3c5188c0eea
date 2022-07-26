@@ -281,6 +281,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f42afc8f_11fe365f",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1001000
+      },
+      "writtenOn": "2022-07-26T04:08:50Z",
+      "side": 1,
+      "message": "I am unable to understand why the pointer is valid that depends. However, some codes using \"class TachSensor: public enable_shared_from_this\u003cTachSensor\u003e\" to resolve the issue.",
+      "parentUuid": "4f9ac14b_f9b3270b",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
