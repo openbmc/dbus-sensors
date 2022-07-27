@@ -44,10 +44,27 @@ Direction findThresholdDirection(const std::string& direct)
     return Direction::ERROR;
 }
 
+static std::optional<double>
+    parseThresholdFromSysfs(const std::string& inputPath,
+                            const std::string& thresholdLabelSuffix,
+                            const double& scaleFactor)
+{
+    auto fileParts = splitFileName(inputPath);
+    if (!fileParts.has_value())
+    {
+        return false;
+    }
+    auto& [type, nr, item] = fileParts.value();
+    auto attrPath =
+        boost::replace_all_copy(inputPath, item, thresholdLabelSuffix);
+    return readFile(attrPath, (1.0 / scaleFactor));
+}
+
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
-    const std::string* matchLabel, const int* sensorIndex)
+    const std::string* matchLabel, const int* sensorIndex,
+    const std::string* sensorPathStr)
 {
     for (const auto& item : sensorData)
     {
@@ -97,9 +114,7 @@ bool parseThresholdsFromConfig(
 
         auto directionFind = item.second.find("Direction");
         auto severityFind = item.second.find("Severity");
-        auto valueFind = item.second.find("Value");
-        if (valueFind == item.second.end() ||
-            severityFind == item.second.end() ||
+        if (severityFind == item.second.end() ||
             directionFind == item.second.end())
         {
             std::cerr << "Malformed threshold on configuration interface "
@@ -119,7 +134,46 @@ bool parseThresholdsFromConfig(
         {
             continue;
         }
-        double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
+        double val = 0;
+        auto valueFind = item.second.find("Value");
+        if (valueFind != item.second.end())
+        {
+            val = std::visit(VariantToDoubleVisitor(), valueFind->second);
+        }
+        else
+        {
+            if (sensorPathStr == nullptr)
+            {
+                std::cerr << "Bad sensor path for configuration interface "
+                          << item.first << "\n";
+                return false;
+            }
+            auto thresholdLabelFind = item.second.find("ThresholdLabelSuffix");
+            auto scaleFactorFind = item.second.find("ScaleFactor");
+            if (thresholdLabelFind == item.second.end() ||
+                scaleFactorFind == item.second.end())
+            {
+                std::cerr << "Malformed threshold on configuration interface "
+                          << item.first << "\n";
+                return false;
+            }
+            auto valueOption = parseThresholdFromSysfs(
+                *sensorPathStr,
+                std::visit(VariantToStringVisitor(),
+                           thresholdLabelFind->second),
+                std::visit(VariantToDoubleVisitor(), scaleFactorFind->second));
+            if (valueOption.has_value())
+            {
+                val = valueOption.value();
+            }
+            else
+            {
+                std::cerr
+                    << "Failed to parse threshold configuration for interface "
+                    << item.first << "\n";
+                return false;
+            }
+        }
 
         thresholdVector.emplace_back(level, direction, val, hysteresis);
     }
