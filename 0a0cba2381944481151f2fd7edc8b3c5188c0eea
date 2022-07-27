@@ -353,6 +353,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19678e2_6460ff5b",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-27T12:55:11Z",
+      "side": 1,
+      "message": "It didn\u0027t even give an error... just silently stopped working. I don\u0027t understand why it returns a nullptr after weakptr.lock()...",
+      "parentUuid": "3a162b8f_f99d8aad",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

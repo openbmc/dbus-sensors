@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9efe1363_aaa75a98",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-27T12:55:11Z",
+      "side": 1,
+      "message": "There is no direct interaction. Only sync changes where all \u0027status\u0027 changes.\n\nBecause of multiple confirmations in the \u0027monitorPre..\u0027 method, such a map is needed to record the current status of all fans.\nWith the current code, it is indeed possible to remove this map.Please give me some time to test it.",
+      "parentUuid": "90be7b0a_1cce0c8b",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a8a69e7_688a7a0a",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 14
@@ -48,6 +66,30 @@
       "writtenOn": "2022-07-27T00:29:41Z",
       "side": 1,
       "message": "Why not merge this code into initGpio()? I don\u0027t see a reason to have this indirection through the eventListenSupport class member as a means to determine which of these methods we should invoke.\n\ni.e. let\u0027s delete eventListenSupport.",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 1
+      },
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9666188_5708756f",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-27T12:55:11Z",
+      "side": 1,
+      "message": "got it. I will fix it.",
+      "parentUuid": "4a8a69e7_688a7a0a",
       "range": {
         "startLine": 283,
         "startChar": 0,
@@ -77,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4135fc4_fb94c9ed",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-27T12:55:11Z",
+      "side": 1,
+      "message": "Modified with gpioPresValueMap.",
+      "parentUuid": "dc9ee1df_e40e0e98",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24700a7b_a25a88ee",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 14
@@ -94,6 +154,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46e095ec_c91f4837",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-27T12:55:11Z",
+      "side": 1,
+      "message": "Modified with gpioPresValueMap.",
+      "parentUuid": "24700a7b_a25a88ee",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8078d7f7_4c702cc5",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 14
@@ -105,6 +183,24 @@
       "writtenOn": "2022-07-27T00:29:41Z",
       "side": 1,
       "message": "This method really is a mash of highly coupled variables. I don\u0027t like it at all. Can we discuss how to pare this down so we maintain the minimum amount of state necessary to get the job done?",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c85ac53_90eb9436",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-27T12:55:11Z",
+      "side": 1,
+      "message": "I also think this nesting is a bit complicated. The original purpose was to avoid adding new variables.\nSo, maybe add a variable sensorName to the PresenceSensor to identify it?",
+      "parentUuid": "8078d7f7_4c702cc5",
       "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
