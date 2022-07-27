@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c7c781c_9f2670ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-27T00:29:41Z",
+      "side": 1,
+      "message": "This is the approach I was looking for, thanks! With that out of the way though, I have some concerns about the implementation details.",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90be7b0a_1cce0c8b",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-27T00:29:41Z",
+      "side": 1,
+      "message": "How does this interact with the `status` class member?",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a8a69e7_688a7a0a",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-27T00:29:41Z",
+      "side": 1,
+      "message": "Why not merge this code into initGpio()? I don\u0027t see a reason to have this indirection through the eventListenSupport class member as a means to determine which of these methods we should invoke.\n\ni.e. let\u0027s delete eventListenSupport.",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 1
+      },
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc9ee1df_e40e0e98",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-27T00:29:41Z",
+      "side": 1,
+      "message": "Can we swap this with line 301, and then use assign into gpioPresValueMap in terms of `status`?",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24700a7b_a25a88ee",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-27T00:29:41Z",
+      "side": 1,
+      "message": "This becomes\n\n if (status)\n \nright?\n\nBut what does that even mean? According to the code below, if `status` evaluates true then you do logFanInserted(), in which case `status` should be renamed to `fanInserted`.",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8078d7f7_4c702cc5",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-27T00:29:41Z",
+      "side": 1,
+      "message": "This method really is a mash of highly coupled variables. I don\u0027t like it at all. Can we discuss how to pare this down so we maintain the minimum amount of state necessary to get the job done?",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
