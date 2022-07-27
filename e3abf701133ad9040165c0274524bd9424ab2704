@@ -159,6 +159,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f60e607_d8d9b00a",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-27T08:36:23Z",
+      "side": 1,
+      "message": "Removed structure and assigned values from vector to variables directly.",
+      "parentUuid": "d23c6c7e_c1f39011",
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0b4cf01_c4690d55",
@@ -2162,6 +2180,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1103f5b_8848e603",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-27T08:36:23Z",
+      "side": 1,
+      "message": "It cannot be passed from constructor, since weakRef object is getting out of scope.",
+      "parentUuid": "b7fe4ae2_281de81c",
+      "range": {
+        "startLine": 616,
+        "startChar": 12,
+        "endLine": 616,
+        "endChar": 32
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf2a3a5b_409f2833",
@@ -2223,6 +2265,30 @@
       "side": 1,
       "message": "it\u0027s a variable on stack, it won\u0027t be a copy either way.",
       "parentUuid": "19e0f77f_c3d29931",
+      "range": {
+        "startLine": 706,
+        "startChar": 9,
+        "endLine": 706,
+        "endChar": 19
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d65e13cb_d2ba9bd4",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-27T08:36:23Z",
+      "side": 1,
+      "message": "I changed this to shared_ptr. Is that acceptable ?",
+      "parentUuid": "ced2b3b1_0677af52",
       "range": {
         "startLine": 706,
         "startChar": 9,
