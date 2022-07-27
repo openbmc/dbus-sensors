@@ -859,7 +859,7 @@ static void createSensorsCallback(
 
             std::vector<thresholds::Threshold> sensorThresholds;
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                           &labelHead))
+                                           &labelHead ,nullptr, &sensorPathStr))
             {
                 std::cerr << "error populating thresholds for "
                           << sensorNameSubStr << "\n";
