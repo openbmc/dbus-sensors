@@ -166,6 +166,30 @@
       },
       "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6f6ca25_cff6abe2",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-07-27T08:21:24Z",
+      "side": 1,
+      "message": "I got your points, thank you, an i2c bus disappearing during runtime is fatal and rare. About the set of file descriptors used along the process, can I define it as a static map in NVMeBasicContext class, so that it can also be shared between the class and those global functions? I think there won\u0027t be any bus number conflict between context objects, so it needn\u0027t be separate for each NVMeBasicContext object. Or should I use rootBus to separate them in the static map? Otherwise, I\u0027m currently not able to think of another.\n\nFor the first implementation, I\u0027ll save those filehandle objects and busnumber to the map everytime we do addSensor() to the context, which is not in the NVMeBasicContext\u0027s constructor because we construct the object before having a complete set of buses. Please leave some advice. It goes something like this:\n\nIn NVMeContext class:\nvoid addSensor(const std::shared_ptr\u003cNVMeSensor\u003e\u0026 sensor)\n    {\n        sensors.emplace_back(sensor);\n        addSensorBusHandler(sensor-\u003ebus);\n    }   \n....\n\nIn NVMeBasicContext class:\n\nprivate: static std::map\u003cint, std::optional\u003cstd::shared_ptr\u003cFileHandle\u003e\u003e\u003e busHandleM;\n\nvoid NVMeBasicContext::addSensorBusHandler(int bus) //override\n{\n    //create a FileHandle object for bus and do try-catch\n    //save bus and std::optional object pointer to busHandleM viaa static setter\n}\n\n....\nIn execBasicQuery:\n{\n  //get optional object pointer fileHandle from NVMeBasicContext::busHandleM[bus] \n                                                        via a static getter\n  if (!fileHandle) \n  {resp.resize(0); return;}\n  ...\n  further process\n}",
+      "parentUuid": "472c1ff4_ab3fbcf0",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
