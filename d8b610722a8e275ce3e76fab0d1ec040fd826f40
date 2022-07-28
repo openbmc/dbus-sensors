@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbb6c148_8c014c2d",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-28T08:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea9e1659_6042eb50",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 338,
+        "endChar": 32
+      },
+      "revId": "d8b610722a8e275ce3e76fab0d1ec040fd826f40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c70258a_cba0c554",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-11T03:17:48Z",
       "side": 1,
       "message": "check busIndex and sensorNum are valid?",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 0
+      },
+      "revId": "d8b610722a8e275ce3e76fab0d1ec040fd826f40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "542384bd_307685cd",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-28T08:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c70258a_cba0c554",
       "range": {
         "startLine": 339,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb1046df_b362b962",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-28T08:45:56Z",
+      "side": 1,
+      "message": "This patch currently supports SDR Type 1 and this type only supports threshold based sensor. Therefore, other SDR type doesn\u0027t need this.",
+      "parentUuid": "4a5139bd_0b22a18e",
+      "revId": "d8b610722a8e275ce3e76fab0d1ec040fd826f40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d73a49ac_baa10066",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-07-11T03:17:48Z",
       "side": 1,
       "message": "should there be else { return error;}",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 9
+      },
+      "revId": "d8b610722a8e275ce3e76fab0d1ec040fd826f40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b057d22_2f401440",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-07-28T08:45:56Z",
+      "side": 1,
+      "message": "It does not need else part, since, only few sensor will handle negative reading. Other sensors can return the dataVal.",
+      "parentUuid": "d73a49ac_baa10066",
       "range": {
         "startLine": 351,
         "startChar": 0,
