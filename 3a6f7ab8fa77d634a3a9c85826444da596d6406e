@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6434aac_52d24f78",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-28T23:12:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9efe1363_aaa75a98",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a8a69e7_688a7a0a",
@@ -170,6 +188,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46373a4_4dea10e0",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-28T23:12:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "46e095ec_c91f4837",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8078d7f7_4c702cc5",
@@ -201,6 +237,24 @@
       "side": 1,
       "message": "I also think this nesting is a bit complicated. The original purpose was to avoid adding new variables.\nSo, maybe add a variable sensorName to the PresenceSensor to identify it?",
       "parentUuid": "8078d7f7_4c702cc5",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8f96b8c_658f462a",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-28T23:12:24Z",
+      "side": 1,
+      "message": "Let\u0027s discuss this after you\u0027ve posted your rework in accordance with the comments above.",
+      "parentUuid": "6c85ac53_90eb9436",
       "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

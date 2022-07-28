@@ -377,6 +377,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d46b8f6_d15d8eb8",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-28T23:12:24Z",
+      "side": 1,
+      "message": "if weakptr.lock() returns nullptr then your object has been destructed.",
+      "parentUuid": "b19678e2_6460ff5b",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
