@@ -190,6 +190,30 @@
       },
       "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eda0fd0_80a5c6d8",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-28T23:15:19Z",
+      "side": 1,
+      "message": "There\u0027s one NVMeBasicContext per root bus, so we should only need a single file descriptor per instance. That might not be clear from the code, but I think it removes the need for any static maps.",
+      "parentUuid": "c6f6ca25_cff6abe2",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
