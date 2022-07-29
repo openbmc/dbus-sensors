@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "444678aa_bd398162",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-29T18:27:13Z",
+      "side": 1,
+      "message": "this is not a namespace that the project uses or recognizes.  I would expect this to be a host.State interface, or at least use the host or chassis naming convention.",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "0d682b5a29f5fd7e0533dc408e139774356f9b66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aeeb71f_6c3fb1bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-29T18:27:13Z",
+      "side": 1,
+      "message": "Missing properties for this interface, namely forcePowerOff\n\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Chassis/Control/Power.interface.yaml",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 82
+      },
+      "revId": "0d682b5a29f5fd7e0533dc408e139774356f9b66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
