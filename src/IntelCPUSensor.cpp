@@ -16,7 +16,7 @@
 
 #include <unistd.h>
 
-#include <CPUSensor.hpp>
+#include <IntelCPUSensor.hpp>
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -34,19 +34,20 @@
 #include <string>
 #include <vector>
 
-CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
-                     sdbusplus::asio::object_server& objectServer,
-                     std::shared_ptr<sdbusplus::asio::connection>& conn,
-                     boost::asio::io_service& io, const std::string& sensorName,
-                     std::vector<thresholds::Threshold>&& thresholdsIn,
-                     const std::string& sensorConfiguration, int cpuId,
-                     bool show, double dtsOffset) :
+IntelCPUSensor::IntelCPUSensor(
+    const std::string& path, const std::string& objectType,
+    sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    boost::asio::io_service& io, const std::string& sensorName,
+    std::vector<thresholds::Threshold>&& thresholdsIn,
+    const std::string& sensorConfiguration, int cpuId, bool show,
+    double dtsOffset) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, 0, 0, conn, PowerState::on),
     objServer(objectServer), inputDev(io), waitTimer(io),
     nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
-    dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs)
+    dtsOffset(dtsOffset), show(show), pollTime(IntelCPUSensor::sensorPollMs)
 
 {
     if (show)
@@ -92,7 +93,7 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
     setupPowerMatch(conn);
 }
 
-CPUSensor::~CPUSensor()
+IntelCPUSensor::~IntelCPUSensor()
 {
     // close the input dev to cancel async operations
     inputDev.close();
@@ -110,9 +111,9 @@ CPUSensor::~CPUSensor()
     }
 }
 
-void CPUSensor::restartRead(void)
+void IntelCPUSensor::restartRead(void)
 {
-    std::weak_ptr<CPUSensor> weakRef = weak_from_this();
+    std::weak_ptr<IntelCPUSensor> weakRef = weak_from_this();
     waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
@@ -120,7 +121,7 @@ void CPUSensor::restartRead(void)
             std::cerr << "Failed to reschedule\n";
             return;
         }
-        std::shared_ptr<CPUSensor> self = weakRef.lock();
+        std::shared_ptr<IntelCPUSensor> self = weakRef.lock();
 
         if (self)
         {
@@ -129,7 +130,7 @@ void CPUSensor::restartRead(void)
     });
 }
 
-void CPUSensor::setupRead(void)
+void IntelCPUSensor::setupRead(void)
 {
     if (readingStateGood())
     {
@@ -153,10 +154,10 @@ void CPUSensor::setupRead(void)
         return;
     }
 
-    std::weak_ptr<CPUSensor> weakRef = weak_from_this();
+    std::weak_ptr<IntelCPUSensor> weakRef = weak_from_this();
     inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
                         [weakRef](const boost::system::error_code& ec) {
-        std::shared_ptr<CPUSensor> self = weakRef.lock();
+        std::shared_ptr<IntelCPUSensor> self = weakRef.lock();
 
         if (self)
         {
@@ -165,7 +166,7 @@ void CPUSensor::setupRead(void)
     });
 }
 
-void CPUSensor::updateMinMaxValues(void)
+void IntelCPUSensor::updateMinMaxValues(void)
 {
     const boost::container::flat_map<
         std::string,
@@ -192,7 +193,7 @@ void CPUSensor::updateMinMaxValues(void)
                 const auto& [suffix, oldValue, dbusName] = vectorItem;
                 auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
                 if (auto newVal =
-                        readFile(attrPath, CPUSensor::sensorScaleFactor))
+                        readFile(attrPath, IntelCPUSensor::sensorScaleFactor))
                 {
                     updateProperty(sensorInterface, oldValue, *newVal,
                                    dbusName);
@@ -215,7 +216,7 @@ void CPUSensor::updateMinMaxValues(void)
     }
 }
 
-void CPUSensor::handleResponse(const boost::system::error_code& err)
+void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
 {
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
@@ -231,7 +232,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                 std::cerr << name << " interface down!\n";
                 loggedInterfaceDown = true;
             }
-            pollTime = static_cast<size_t>(CPUSensor::sensorPollMs) * 10U;
+            pollTime = static_cast<size_t>(IntelCPUSensor::sensorPollMs) * 10U;
             markFunctional(false);
         }
         return;
@@ -261,7 +262,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             rawValue = std::stod(response);
-            double nvalue = rawValue / CPUSensor::sensorScaleFactor;
+            double nvalue = rawValue / IntelCPUSensor::sensorScaleFactor;
 
             if (show)
             {
@@ -286,9 +287,9 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
                 if (!thresholds.empty())
                 {
                     std::vector<thresholds::Threshold> newThresholds;
-                    if (parseThresholdsFromAttr(newThresholds, path,
-                                                CPUSensor::sensorScaleFactor,
-                                                dtsOffset))
+                    if (parseThresholdsFromAttr(
+                            newThresholds, path,
+                            IntelCPUSensor::sensorScaleFactor, dtsOffset))
                     {
                         if (!std::equal(thresholds.begin(), thresholds.end(),
                                         newThresholds.begin(),
@@ -322,7 +323,7 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     restartRead();
 }
 
-void CPUSensor::checkThresholds(void)
+void IntelCPUSensor::checkThresholds(void)
 {
     if (show)
     {
