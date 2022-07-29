@@ -16,7 +16,7 @@
 
 #include <fcntl.h>
 
-#include <CPUSensor.hpp>
+#include <IntelCPUSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
 #include <boost/algorithm/string/predicate.hpp>
@@ -53,7 +53,8 @@ extern "C" {
 
 static constexpr bool debug = false;
 
-boost::container::flat_map<std::string, std::shared_ptr<CPUSensor>> gCpuSensors;
+boost::container::flat_map<std::string, std::shared_ptr<IntelCPUSensor>>
+    gCpuSensors;
 boost::container::flat_map<std::string,
                            std::shared_ptr<sdbusplus::asio::dbus_interface>>
     inventoryIfaces;
@@ -93,7 +94,7 @@ static constexpr const char* configPrefix =
     "xyz.openbmc_project.Configuration.";
 static constexpr auto sensorTypes{std::to_array<const char*>({"XeonCPU"})};
 static constexpr auto hiddenProps{std::to_array<const char*>(
-    {CPUSensor::labelTcontrol, "Tthrottle", "Tjmax"})};
+    {IntelCPUSensor::labelTcontrol, "Tthrottle", "Tjmax"})};
 
 void detectCpuAsync(
     boost::asio::deadline_timer& pingTimer,
@@ -372,7 +373,7 @@ bool createSensors(boost::asio::io_service& io,
             if (sensorThresholds.empty())
             {
                 if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
-                                             CPUSensor::sensorScaleFactor,
+                                             IntelCPUSensor::sensorScaleFactor,
                                              dtsOffset))
                 {
                     std::cerr << "error populating thresholds for "
@@ -382,7 +383,7 @@ bool createSensors(boost::asio::io_service& io,
             auto& sensorPtr = gCpuSensors[sensorName];
             // make sure destructor fires before creating a new one
             sensorPtr = nullptr;
-            sensorPtr = std::make_shared<CPUSensor>(
+            sensorPtr = std::make_shared<IntelCPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
                 show, dtsOffset);
@@ -776,7 +777,7 @@ int main()
         matches.emplace_back(std::move(match));
     }
 
-    systemBus->request_name("xyz.openbmc_project.CPUSensor");
+    systemBus->request_name("xyz.openbmc_project.IntelCPUSensor");
 
     setupManufacturingModeMatch(*systemBus);
     io.run();

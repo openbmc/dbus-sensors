@@ -16,17 +16,19 @@
 #include <variant>
 #include <vector>
 
-class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
+class IntelCPUSensor :
+    public Sensor,
+    public std::enable_shared_from_this<IntelCPUSensor>
 {
   public:
-    CPUSensor(const std::string& path, const std::string& objectType,
-              sdbusplus::asio::object_server& objectServer,
-              std::shared_ptr<sdbusplus::asio::connection>& conn,
-              boost::asio::io_service& io, const std::string& sensorName,
-              std::vector<thresholds::Threshold>&& thresholds,
-              const std::string& configuration, int cpuId, bool show,
-              double dtsOffset);
-    ~CPUSensor() override;
+    IntelCPUSensor(const std::string& path, const std::string& objectType,
+                   sdbusplus::asio::object_server& objectServer,
+                   std::shared_ptr<sdbusplus::asio::connection>& conn,
+                   boost::asio::io_service& io, const std::string& sensorName,
+                   std::vector<thresholds::Threshold>&& thresholds,
+                   const std::string& configuration, int cpuId, bool show,
+                   double dtsOffset);
+    ~IntelCPUSensor() override;
     static constexpr unsigned int sensorScaleFactor = 1000;
     static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
@@ -53,10 +55,10 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
     void restartRead(void);
 };
 
-extern boost::container::flat_map<std::string, std::shared_ptr<CPUSensor>>
+extern boost::container::flat_map<std::string, std::shared_ptr<IntelCPUSensor>>
     gCpuSensors;
 
-// this is added to cpusensor.hpp to avoid having every sensor have to link
+// this is added to intelcpusensor.hpp to avoid having every sensor have to link
 // against libgpiod, if another sensor needs it we may move it to utils
 inline bool cpuIsPresent(const SensorBaseConfigMap& gpioConfig)
 {

@@ -1,5 +1,5 @@
 [Unit]
-Description=CPU Sensor
+Description=Intel CPU Sensor
 StopWhenUnneeded=false
 Requires=xyz.openbmc_project.EntityManager.service
 After=xyz.openbmc_project.EntityManager.service
@@ -8,7 +8,7 @@ After=xyz.openbmc_project.EntityManager.service
 Restart=always
 RestartSec=5
 StartLimitBurst=10
-ExecStart=/usr/bin/cpusensor
+ExecStart=/usr/bin/intelcpusensor
 
 [Install]
 WantedBy=multi-user.target
