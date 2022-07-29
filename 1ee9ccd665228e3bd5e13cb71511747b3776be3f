@@ -52,6 +52,24 @@
       "parentUuid": "2fa967dc_061fedf0",
       "revId": "1ee9ccd665228e3bd5e13cb71511747b3776be3f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22f6e1f_5dc2c7e9",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-29T11:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d72c5c_f22651ee",
+      "revId": "1ee9ccd665228e3bd5e13cb71511747b3776be3f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

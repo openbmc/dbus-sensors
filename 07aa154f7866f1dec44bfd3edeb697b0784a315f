@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d40e10c8_165aea89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-29T11:38:51Z",
+      "side": 1,
+      "message": "After some testing, I think it is indeed better to use two different PresenceSensors. So it changed to what it looks like now. The test has passed.",
+      "revId": "07aa154f7866f1dec44bfd3edeb697b0784a315f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

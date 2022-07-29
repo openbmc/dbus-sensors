@@ -153,6 +153,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d254524_10f9aff5",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-29T11:38:51Z",
+      "side": 1,
+      "message": "Removed gpioPresValueMap.",
+      "parentUuid": "a4135fc4_fb94c9ed",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24700a7b_a25a88ee",
@@ -255,6 +273,24 @@
       "side": 1,
       "message": "Let\u0027s discuss this after you\u0027ve posted your rework in accordance with the comments above.",
       "parentUuid": "6c85ac53_90eb9436",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecb6360d_0f224b88",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-07-29T11:38:51Z",
+      "side": 1,
+      "message": "Removed gpioPresValueMap and getGpioPresLabel.",
+      "parentUuid": "f8f96b8c_658f462a",
       "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
