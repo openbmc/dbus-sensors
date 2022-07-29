@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Thresholds.hpp>
-#include <boost/asio/streambuf.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
@@ -35,16 +35,18 @@ class HwmonTempSensor :
     void setupRead(void);
 
   private:
+    // Ordering is important here; readBuf is first so that it's not destroyed
+    // while async operations from other member fields might still be using it.
+    std::array<char, 128> readBuf;
     sdbusplus::asio::object_server& objServer;
-    boost::asio::posix::stream_descriptor inputDev;
+    boost::asio::random_access_file inputDev;
     boost::asio::deadline_timer waitTimer;
-    boost::asio::streambuf readBuf;
     std::string path;
     double offsetValue;
     double scaleValue;
     unsigned int sensorPollMs;
 
-    void handleResponse(const boost::system::error_code& err);
+    void handleResponse(const boost::system::error_code& err, size_t bytesTransferred);
     void restartRead();
     void checkThresholds(void) override;
 };
