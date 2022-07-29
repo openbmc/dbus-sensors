@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d44302b4_37a31071",
+        "filename": "src/CPUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-07-29T21:45:16Z",
+      "side": 1,
+      "message": "On looking at it more carefully, the function you mentioned is only used in a couple of places, so I have modified it to work with this use case as well.",
+      "parentUuid": "b75d7e7e_a6500667",
+      "revId": "f2674fc5809d96ccf973702c61780325085d96b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6942b1a6_8142d68e",
