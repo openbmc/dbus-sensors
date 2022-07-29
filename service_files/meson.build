@@ -1,6 +1,6 @@
 unit_files = [
     ['adc', 'xyz.openbmc_project.adcsensor.service'],
-    ['cpu', 'xyz.openbmc_project.cpusensor.service'],
+    ['intel-cpu', 'xyz.openbmc_project.intelcpusensor.service'],
     ['exit-air', 'xyz.openbmc_project.exitairsensor.service'],
     ['fan', 'xyz.openbmc_project.fansensor.service'],
     ['hwmon-temp', 'xyz.openbmc_project.hwmontempsensor.service'],
