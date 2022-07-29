@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a50fb61_6f1c9414",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0f19877_629d1ef6",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 77
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dd5ca00_ae277ec3",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-26T20:13:08Z",
       "side": 1,
       "message": "this can be moved to earlier and used by line25 also.",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 57
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "440b5971_ec9bcb75",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dd5ca00_ae277ec3",
       "range": {
         "startLine": 34,
         "startChar": 13,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad3a1ed4_7eefdff0",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "the expected pathName is 1_CPU_Good and it is used in ipmbPowerState as CPU_Good \nthe first two character are the host instance used in the em config.\n\nThis Token is removed in the em config, so this is not needed here.",
+      "parentUuid": "65922e97_c90cd559",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 77
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7b605af_ca36facd",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-07-26T20:13:08Z",
       "side": 1,
       "message": "what does reset it to 0 do? One would expect retryCount is cleared when read is successful",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 24
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2de55d99_e6442365",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b7b605af_ca36facd",
       "range": {
         "startLine": 59,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b301de61_71ff8ce6",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6a17978_a6a31a7a",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 30
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d167805d_38544427",
@@ -139,6 +259,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ac8253d_70b50fb9",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d167805d_38544427",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 42
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8459617d_248bcf85",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-07-26T20:13:08Z",
       "side": 1,
       "message": "1. store escaped and parsed ipmbStateName array in the class during construction. original ipmbStateNames are not used during run time anymore.\n2. Verify ipmbStateName is one of the supported names during construction to prevent exception later here.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 73
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11618c93_797e450b",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8459617d_248bcf85",
       "range": {
         "startLine": 100,
         "startChar": 0,
@@ -208,6 +376,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c674b98e_7aa660aa",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cfca089_5b39d4a3",
+      "range": {
+        "startLine": 114,
+        "startChar": 28,
+        "endLine": 114,
+        "endChar": 41
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6946d704_62d6774d",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12649205_d38c8d0b",
+      "range": {
+        "startLine": 114,
+        "startChar": 11,
+        "endLine": 114,
+        "endChar": 70
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2935565b_0de787da",
@@ -221,6 +437,30 @@
       "writtenOn": "2022-07-26T20:13:08Z",
       "side": 1,
       "message": "move before use",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 136,
+        "endChar": 53
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46482700_54f83607",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2935565b_0de787da",
       "range": {
         "startLine": 136,
         "startChar": 12,
@@ -254,6 +494,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75709374_8990aad4",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "yes, all the fields above except hostSMbusIndex and sensorTypeName are used in this too.",
+      "parentUuid": "8a0f6aa1_aca87366",
+      "range": {
+        "startLine": 571,
+        "startChar": 16,
+        "endLine": 571,
+        "endChar": 59
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24ca0b50_eda8a286",
@@ -267,6 +531,30 @@
       "writtenOn": "2022-07-26T20:13:08Z",
       "side": 1,
       "message": "This will skip sensor-\u003einit(), any init should apply here?",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 29
+      },
+      "revId": "85fd85c31d82332d7554e3fda7a094598da6f202",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83fcca9f_3c216cd9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-07-29T12:14:44Z",
+      "side": 1,
+      "message": "yes sensor-\u003einit() is being skipped, this is a different class initialized in the ipmbPowerState constructor itself.",
+      "parentUuid": "24ca0b50_eda8a286",
       "range": {
         "startLine": 589,
         "startChar": 0,
