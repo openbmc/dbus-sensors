@@ -21,11 +21,11 @@ if get_option('adc').enabled()
     )
 endif
 
-if get_option('cpu').enabled()
+if get_option('intel-cpu').enabled()
     executable(
-        'cpusensor',
-        'CPUSensorMain.cpp',
-        'CPUSensor.cpp',
+        'intelcpusensor',
+        'IntelCPUSensorMain.cpp',
+        'IntelCPUSensor.cpp',
         dependencies: [
             default_deps,
             gpiodcxx,

@@ -1,5 +1,5 @@
 option('adc', type: 'feature', value: 'enabled', description: 'Enable ADC sensor.',)
-option('cpu', type: 'feature', value: 'enabled', description: 'Enable CPU sensor.',)
+option('intel-cpu', type: 'feature', value: 'enabled', description: 'Enable CPU sensor.',)
 option('exit-air', type: 'feature', value: 'enabled', description: 'Enable exit air sensor.',)
 option('fan', type: 'feature', value: 'enabled', description: 'Enable fan sensor.',)
 option('hwmon-temp', type: 'feature', value: 'enabled', description: 'Enable HWMON temperature sensor.',)
