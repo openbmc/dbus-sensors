@@ -45,6 +45,29 @@
       },
       "revId": "0d682b5a29f5fd7e0533dc408e139774356f9b66",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "766708ff_e39c7c63",
+        "filename": "include/IpmbPowerState.hpp",
+        "patchSetId": 38
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-29T18:31:06Z",
+      "side": 1,
+      "message": "This enum is just \"Bit 0-7\" which equals int values of int 0-7.  These are not masks as the type claims.  I suspect we can just use int anywhere this enum is used.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 2
+      },
+      "revId": "0d682b5a29f5fd7e0533dc408e139774356f9b66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

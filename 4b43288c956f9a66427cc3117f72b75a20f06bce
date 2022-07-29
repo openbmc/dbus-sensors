@@ -1725,6 +1725,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24c274b0_f58d7322",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-29T18:31:06Z",
+      "side": 1,
+      "message": "\u003e Our idea is to have a single dbus interface with the property Gpiostate\n\nThis has been presented to the project and rejected many times.  Please search the mailing list, there was even a discussion about this recently.\n\n\n\u003e but it can be extended for all other ipmb gpio\u0027s but only by adding EM config.\n\nNo.  GPIO numbers should not go on dbus, regardless of whether they come from an EM config or not.",
+      "parentUuid": "c264f5cf_63d2c30e",
+      "range": {
+        "startLine": 59,
+        "startChar": 56,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "698b2f98_cfd22bb7",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 13

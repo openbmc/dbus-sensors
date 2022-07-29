@@ -168,6 +168,30 @@
       },
       "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7b4a1b6_c42af988",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-07-29T18:31:06Z",
+      "side": 1,
+      "message": "That path doesn\u0027t match the other systems.  Please put it under the path that PDI recommends.",
+      "parentUuid": "7df10bc9_acb81738",
+      "range": {
+        "startLine": 44,
+        "startChar": 39,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
