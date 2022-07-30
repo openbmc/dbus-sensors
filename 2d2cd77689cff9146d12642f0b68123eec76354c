@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "716f5a5d_3b95e285",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-30T01:20:11Z",
+      "side": 1,
+      "message": "Put sensorPathStr before labelHead can avoid adding nullptr in this call",
+      "range": {
+        "startLine": 857,
+        "startChar": 55,
+        "endLine": 857,
+        "endChar": 78
+      },
+      "revId": "2d2cd77689cff9146d12642f0b68123eec76354c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65866b09_a2d7f1c0",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-30T01:20:11Z",
+      "side": 1,
+      "message": "duplicating part of function at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/55956/1/src/Thresholds.cpp#524\n\nConsider refactor to avoid duplication",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "2d2cd77689cff9146d12642f0b68123eec76354c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e73342d7_7f41009c",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-30T01:20:11Z",
+      "side": 1,
+      "message": "move before use",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 51
+      },
+      "revId": "2d2cd77689cff9146d12642f0b68123eec76354c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de802068_194c7f1e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-30T01:20:11Z",
+      "side": 1,
+      "message": "nit: switch if and else for easier diff and review",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 43
+      },
+      "revId": "2d2cd77689cff9146d12642f0b68123eec76354c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e58e8f1e_f70dcd8f",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-07-30T01:20:11Z",
+      "side": 1,
+      "message": "this can be checked before line 141",
+      "range": {
+        "startLine": 145,
+        "startChar": 16,
+        "endLine": 145,
+        "endChar": 40
+      },
+      "revId": "2d2cd77689cff9146d12642f0b68123eec76354c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
