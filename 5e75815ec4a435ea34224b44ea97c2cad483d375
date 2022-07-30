@@ -238,6 +238,30 @@
       },
       "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65873b9b_cf101688",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-07-30T00:27:54Z",
+      "side": 1,
+      "message": "\u003e But I wonder how we can use a single fd for the rootBus to read all the channel buses behind it along the process?\n\nWe can but we shouldn\u0027t, see my next comment:\n\n\u003e We are opening fd for each channel bus every loop in execBasicQuery function,\n\nYes, sorry, we seem to have sent you off on the wrong track here.\n\nThe whole basic management command thing isn\u0027t optimal to begin with. Previously nvmesensor also supported MCTP for NVMe-MI, but it was a bunch of out-of-tree patches against libmctp and the kernel and wasn\u0027t maintainable. We\u0027ve since moved MCTP into the kernel ( https://codeconstruct.com.au/docs/mctp-on-linux-introduction/ ) and added MI support to libnvme ( https://codeconstruct.com.au/docs/nvme-mi-with-libnvme/ ). With these two pieces we have a much better architecture in place to add MCTP support back to nvmesensor. Further discussion of doing so is over here:\n\nhttps://gerrit.openbmc.org/c/openbmc/docs/+/53809\n\nWe could refactor things to get rid of NVMeBasicContext entirely, and just have a list of NVMeSensors that we monitor, each with their own thread for performing the ioctl(). However, that\u0027s a bunch of work that could be better spent reintegrating MCTP support through the solutions outlined above.\n\nI feel like we add a comment along these lines and take the patch as it is now.\n\nWhat do you think about that Ed?",
+      "parentUuid": "e4531483_de94aa85",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
