@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbaeaaa3_a09cfa04",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-01T14:25:29Z",
+      "side": 1,
+      "message": "We want to catch all exceptions here?",
+      "range": {
+        "startLine": 398,
+        "startChar": 31,
+        "endLine": 398,
+        "endChar": 54
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b5a81da_1d0e98b1",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-01T14:25:29Z",
+      "side": 1,
+      "message": "Please don\u0027t log this.  THis is expected on systems that need to poll.",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 46
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6449b25_c753ebec",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-01T14:25:29Z",
+      "side": 1,
+      "message": "Please don\u0027t make this a global.\n\nhttps://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Ri-global\n\nPlease find a way to structure your code such that global variables like this are not required.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7db5d07c_4ef6ab44",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-01T14:25:29Z",
+      "side": 1,
+      "message": "Why is this anything other than 1?  Are the lines not debounced?",
+      "range": {
+        "startLine": 43,
+        "startChar": 21,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6af68603_d39d5861",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-01T14:25:29Z",
+      "side": 1,
+      "message": "this is the equivalent of find(), but is duplicating the lookup.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 46
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed0eef2a_d6c7e70a",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-01T14:25:29Z",
+      "side": 1,
+      "message": "?  If the GPIO fails to read, the fan isn\u0027t inserted?  That doesn\u0027t seem right.",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 28
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
