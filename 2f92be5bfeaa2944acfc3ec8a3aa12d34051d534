@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a77192d_0521c8fc",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-08-02T18:06:02Z",
+      "side": 1,
+      "message": "Do we want to rename \"bytesTransferred\" to \"bytesRead\" to match the usage in 55041 patch?",
+      "revId": "2f92be5bfeaa2944acfc3ec8a3aa12d34051d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47ccc7e3_55fbdcaf",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 3
