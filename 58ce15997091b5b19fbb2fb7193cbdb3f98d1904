@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bddd986b_94a77f52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-02T21:34:14Z",
+      "side": 1,
+      "message": "Addressed the comments, please review again.",
+      "revId": "58ce15997091b5b19fbb2fb7193cbdb3f98d1904",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71fbc034_0a93bdd7",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-02T21:34:14Z",
+      "side": 1,
+      "message": "To be backwards compatible (no PwmName is defined in config file), \nWith fan index appended (line 286), this will match old code:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/51901/9/src/PSUSensorMain.cpp#b292",
+      "revId": "58ce15997091b5b19fbb2fb7193cbdb3f98d1904",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
