@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed58d4e_625031fc",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-02T23:14:21Z",
+      "side": 1,
+      "message": "Changed the name in latest patchset.",
+      "parentUuid": "9a89a614_5da5ce61",
+      "revId": "2f92be5bfeaa2944acfc3ec8a3aa12d34051d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47ccc7e3_55fbdcaf",
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "Yep, it looks like that can be removed.",
       "parentUuid": "47ccc7e3_55fbdcaf",
+      "range": {
+        "startLine": 166,
+        "startChar": 1,
+        "endLine": 169,
+        "endChar": 42
+      },
+      "revId": "2f92be5bfeaa2944acfc3ec8a3aa12d34051d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba75aef6_99cff1ae",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-02T23:14:21Z",
+      "side": 1,
+      "message": "Removed in latest patchset.",
+      "parentUuid": "9065caaa_59ec0674",
       "range": {
         "startLine": 166,
         "startChar": 1,
