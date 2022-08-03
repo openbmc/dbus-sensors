@@ -118,6 +118,21 @@ utils_dep = declare_dependency(
     dependencies: [ sdbusplus ],
 )
 
+devicemgmt_a = static_library(
+    'devicemgmt_a',
+    [
+        'src/DeviceMgmt.cpp',
+    ],
+    dependencies: default_deps,
+    implicit_include_directories: false,
+    include_directories: 'include',
+)
+
+devicemgmt_dep = declare_dependency(
+    link_with: [ devicemgmt_a ],
+    dependencies: default_deps,
+)
+
 pwmsensor_a = static_library(
     'pwmsensor_a',
     'src/PwmSensor.cpp',
