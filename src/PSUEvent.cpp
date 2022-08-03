@@ -284,7 +284,6 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
         updateValue(0);
         errCount++;
     }
-    lseek(fd, 0, SEEK_SET);
     restartRead();
 }
 
