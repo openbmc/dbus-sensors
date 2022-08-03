@@ -193,7 +193,6 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
         incrementError();
     }
 
-    lseek(fd, 0, SEEK_SET);
     restartRead();
 }
 

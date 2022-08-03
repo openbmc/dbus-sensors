@@ -43,7 +43,6 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     void checkThresholds(void) override;
     unsigned int sensorPollMs = defaultSensorPollMs;
 
-    int fd{};
     static constexpr size_t warnAfterErrorCount = 10;
 
   public:
