@@ -22,6 +22,23 @@
       },
       "revId": "31d4a31796d269c62b767a394a2b28b03a19ecaa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f21d06bf_cf113953",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-03T22:39:54Z",
+      "side": 1,
+      "message": "Intel folks, is this ok with you?",
+      "revId": "31d4a31796d269c62b767a394a2b28b03a19ecaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
