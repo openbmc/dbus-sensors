@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b453821_55e9b9fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-03T19:58:09Z",
+      "side": 1,
+      "message": "This is a new property, and arguably shouldn\u0027t be in the EM config files.  This puts sysfs specific interfaces in the config files, which should be avoided.",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "337fa46212d46b278f40388a188701abb8088c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "296ca3cb_e31591c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-03T19:58:09Z",
+      "side": 1,
+      "message": "Please answer why this is desired.  Also, please mention the last time we tried to add this feature, and had to revert it (the history should be in the git log), and why this time it\u0027s different.",
+      "revId": "337fa46212d46b278f40388a188701abb8088c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
