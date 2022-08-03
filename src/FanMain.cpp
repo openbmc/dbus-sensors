@@ -154,7 +154,7 @@ bool findPwmPath(const fs::path& directory, unsigned int pwm, fs::path& pwmPath)
     return true;
 }
 void createRedundancySensor(
-    const boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
+    const boost::container::flat_map<std::string, std::shared_ptr<TachSensor>>&
         sensors,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     sdbusplus::asio::object_server& objectServer)
@@ -206,7 +206,7 @@ void createRedundancySensor(
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>&
+    boost::container::flat_map<std::string, std::shared_ptr<TachSensor>>&
         tachSensors,
     boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>&
         pwmSensors,
@@ -489,11 +489,15 @@ void createSensors(
             }
 
             findLimits(limits, baseConfiguration);
-            tachSensors[sensorName] = std::make_unique<TachSensor>(
+
+            auto& tachSensor = tachSensors[sensorName];
+            tachSensor = nullptr;
+            tachSensor = std::make_shared<TachSensor>(
                 path.string(), baseType, objectServer, dbusConnection,
                 std::move(presenceSensor), redundancy, io, sensorName,
                 std::move(sensorThresholds), *interfacePath, limits, powerState,
                 led);
+            tachSensor->setupRead();
 
             if (!pwmPath.empty() && fs::exists(pwmPath) &&
                 (pwmSensors.count(pwmPath) == 0U))
@@ -517,7 +521,7 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.FanSensor");
     sdbusplus::asio::object_server objectServer(systemBus);
-    boost::container::flat_map<std::string, std::unique_ptr<TachSensor>>
+    boost::container::flat_map<std::string, std::shared_ptr<TachSensor>>
         tachSensors;
     boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
         pwmSensors;
