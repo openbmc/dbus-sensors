@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aa36d44_220f6128",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-03T00:18:58Z",
+      "side": 1,
+      "message": "what are those times?  Please be more specific.\n\nThere are some concept of being able to disable an interface on entity-manager (for while hwmontempsensor will react).  But I\u0027d like to understand the use cases.",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "77c72c6d488242a29ca4ab9e7f93ad14777d9bf0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
