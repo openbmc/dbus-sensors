@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbf8b532_e3ebbc25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-08-03T22:55:38Z",
+      "side": 1,
+      "message": "This fixes TachSensor similar to what was recently done for HwmonTempSensor.\n",
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
