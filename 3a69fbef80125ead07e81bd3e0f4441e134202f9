@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b195fb4_b66beced",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-03T23:52:06Z",
+      "side": 1,
+      "message": "Sigh...CI doesn\u0027t like the `I2CDevice()` macro, but from some brief research the only alternatives I\u0027ve been able to find for compile-time string concatenation are giant gobs of incomprehensible template crap...is there a way to achieve this that\u0027s both (a) reasonable for a human to read and (b) appeases the robot gods?",
+      "revId": "3a69fbef80125ead07e81bd3e0f4441e134202f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
