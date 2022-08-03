@@ -708,3 +708,138 @@ bool getManufacturingMode()
 {
     return manufacturingMode;
 }
+
+constexpr const char* templateChar = "$";
+
+static std::string deviceDirName(uint64_t bus, uint64_t address)
+{
+    std::ostringstream name;
+    name << bus << "-" << std::hex << std::setw(4) << std::setfill('0')
+         << address;
+    return name.str();
+}
+
+static int deleteDevice(const std::string& busPath, uint64_t address,
+                        const std::string& destructor)
+{
+    std::filesystem::path deviceDestructor(busPath);
+    deviceDestructor /= destructor;
+    std::ofstream deviceFile(deviceDestructor);
+    if (!deviceFile.good())
+    {
+        std::cerr << "Error writing " << deviceDestructor << "\n";
+        return -1;
+    }
+    deviceFile << std::to_string(address);
+    deviceFile.close();
+    return 0;
+}
+
+static int createDevice(const std::string& busPath,
+                        const std::string& parameters,
+                        const std::string& constructor)
+{
+    std::filesystem::path deviceConstructor(busPath);
+    deviceConstructor /= constructor;
+    std::ofstream deviceFile(deviceConstructor);
+    if (!deviceFile.good())
+    {
+        std::cerr << "Error writing " << deviceConstructor << "\n";
+        return -1;
+    }
+    deviceFile << parameters;
+    deviceFile.close();
+
+    return 0;
+}
+
+static bool deviceIsCreated(const std::string& busPath, uint64_t bus,
+                            uint64_t address, const bool createsHWMon)
+{
+    std::filesystem::path dirPath = busPath;
+    dirPath /= deviceDirName(bus, address);
+    if (createsHWMon)
+    {
+        dirPath /= "hwmon";
+    }
+
+    std::error_code ec;
+    // Ignore errors; anything but a clean 'true' is just fine as 'false'
+    return std::filesystem::exists(dirPath, ec);
+}
+
+static int buildDevice(const std::string& busPath,
+                       const std::string& parameters, uint64_t bus,
+                       uint64_t address, const std::string& constructor,
+                       const std::string& destructor, const bool createsHWMon)
+{
+    // If it's already instantiated, there's nothing we need to do.
+    if (deviceIsCreated(busPath, bus, address, createsHWMon))
+    {
+        return 0;
+    }
+
+    // Try to create the device
+    createDevice(busPath, parameters, constructor);
+
+    if (!deviceIsCreated(busPath, bus, address, createsHWMon))
+    {
+        deleteDevice(busPath, address, destructor);
+        return -1;
+    }
+
+    return 0;
+}
+
+void getDeviceMgmt(const DeviceTemplateMap& dtmap,
+                   const SensorBaseConfigMap& cfg,
+                   std::optional<DeviceMgmt>& mgmt)
+{
+    mgmt = std::nullopt;
+
+    if (!cfg.contains("Type") || !cfg.contains("Bus") ||
+        !cfg.contains("Address"))
+    {
+        return;
+    }
+
+    const std::string* type = std::get_if<std::string>(&cfg.at("Type"));
+    const uint64_t* bus = std::get_if<uint64_t>(&cfg.at("Bus"));
+    const uint64_t* addr = std::get_if<uint64_t>(&cfg.at("Address"));
+
+    if (type == nullptr || bus == nullptr || addr == nullptr)
+    {
+        return;
+    }
+
+    if (!dtmap.contains(type->c_str()))
+    {
+        return;
+    }
+
+    mgmt = DeviceMgmt(dtmap.at(type->c_str()), *bus, *addr);
+}
+
+int DeviceMgmt::create(void) const
+{
+    std::string parameters = deviceTemplate->parameters;
+    std::string busPath = deviceTemplate->busPath;
+
+    boost::replace_all(busPath, templateChar + std::string("Bus"),
+                       std::to_string(bus));
+    boost::replace_all(parameters, templateChar + std::string("Address"),
+                       std::to_string(address));
+
+    return buildDevice(busPath, parameters, bus, address, deviceTemplate->add,
+                       deviceTemplate->remove, deviceTemplate->createsHWMon);
+}
+
+int DeviceMgmt::destroy(void) const
+{
+    std::string busPath = deviceTemplate->busPath;
+
+    boost::replace_all(busPath, templateChar + std::string("Bus"),
+                       std::to_string(bus));
+
+    return deleteDevice(busPath, address, deviceTemplate->remove);
+}
