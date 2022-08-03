@@ -25,6 +25,7 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <charconv>
 #include <fstream>
 #include <iostream>
 #include <istream>
@@ -53,17 +54,10 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
            objectType, false, false, limits.second, limits.first, conn,
            powerState),
     objServer(objectServer), redundancy(redundancy),
-    presence(std::move(presenceSensor)), inputDev(io), waitTimer(io),
-    path(path), led(ledIn)
+    presence(std::move(presenceSensor)),
+    inputDev(io, path, boost::asio::random_access_file::read_only),
+    waitTimer(io), path(path), led(ledIn)
 {
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd < 0)
-    {
-        std::cerr << "Tach sensor failed to open file\n";
-    }
-    inputDev.assign(fd);
-
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         "xyz.openbmc_project.Sensor.Value");
@@ -98,7 +92,6 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
         itemAssoc->initialize();
     }
     setInitialProperties(sensor_paths::unitRPMs);
-    setupRead();
 }
 
 TachSensor::~TachSensor()
@@ -118,17 +111,43 @@ TachSensor::~TachSensor()
 
 void TachSensor::setupRead(void)
 {
-    boost::asio::async_read_until(inputDev, readBuf, '\n',
-                                  [&](const boost::system::error_code& ec,
-                                      std::size_t /*bytes_transfered*/) {
-        handleResponse(ec);
+    std::weak_ptr<TachSensor> weakRef = weak_from_this();
+    inputDev.async_read_some_at(
+        0, boost::asio::buffer(readBuf),
+        [weakRef](const boost::system::error_code& ec, std::size_t bytesRead) {
+        std::shared_ptr<TachSensor> self = weakRef.lock();
+        if (self)
+        {
+            self->handleResponse(ec, bytesRead);
+        }
+        });
+}
+
+void TachSensor::restartRead(size_t pollTime)
+{
+    std::weak_ptr<TachSensor> weakRef = weak_from_this();
+    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return; // we're being canceled
+        }
+        std::shared_ptr<TachSensor> self = weakRef.lock();
+        if (!self)
+        {
+            return;
+        }
+        self->setupRead();
     });
 }
 
-void TachSensor::handleResponse(const boost::system::error_code& err)
+void TachSensor::handleResponse(const boost::system::error_code& err,
+                                size_t bytesRead)
 {
-    if (err == boost::system::errc::bad_file_descriptor)
+    if ((err == boost::system::errc::bad_file_descriptor) ||
+        (err == boost::asio::error::misc_errors::not_found))
     {
+        std::cerr << "TachSensor " << name << " removed " << path << "\n";
         return; // we're being destroyed
     }
     bool missing = false;
@@ -143,23 +162,23 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
         }
         itemIface->set_property("Present", !missing);
     }
-    std::istream responseStream(&readBuf);
+
     if (!missing)
     {
         if (!err)
         {
-            std::string response;
-            try
-            {
-                std::getline(responseStream, response);
-                rawValue = std::stod(response);
-                responseStream.clear();
-                updateValue(rawValue);
-            }
-            catch (const std::invalid_argument&)
+            const char* bufEnd = readBuf.data() + bytesRead;
+            int nvalue = 0;
+            std::from_chars_result ret =
+                std::from_chars(readBuf.data(), bufEnd, nvalue);
+            if (ret.ec != std::errc())
             {
                 incrementError();
                 pollTime = sensorFailedPollTimeMs;
+            }
+            else
+            {
+                updateValue(nvalue);
             }
         }
         else
@@ -168,24 +187,8 @@ void TachSensor::handleResponse(const boost::system::error_code& err)
             pollTime = sensorFailedPollTimeMs;
         }
     }
-    responseStream.clear();
-    inputDev.close();
 
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd < 0)
-    {
-        return; // we're no longer valid
-    }
-    inputDev.assign(fd);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
-    waitTimer.async_wait([&](const boost::system::error_code& ec) {
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            return; // we're being canceled
-        }
-        setupRead();
-    });
+    restartRead(pollTime);
 }
 
 void TachSensor::checkThresholds(void)

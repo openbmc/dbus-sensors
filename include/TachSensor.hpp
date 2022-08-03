@@ -1,6 +1,6 @@
 #pragma once
 #include <Thresholds.hpp>
-#include <boost/asio/streambuf.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <gpiod.hpp>
@@ -58,7 +58,9 @@ class RedundancySensor
     boost::container::flat_map<std::string, bool> statuses;
 };
 
-class TachSensor : public Sensor
+class TachSensor :
+    public Sensor,
+    public std::enable_shared_from_this<TachSensor>
 {
   public:
     TachSensor(const std::string& path, const std::string& objectType,
@@ -73,21 +75,25 @@ class TachSensor : public Sensor
                const PowerState& powerState,
                const std::optional<std::string>& led);
     ~TachSensor() override;
+    void setupRead(void);
 
   private:
+    // Ordering is important here; readBuf is first so that it's not destroyed
+    // while async operations from other member fields might still be using it.
+    std::array<char, 128> readBuf{};
     sdbusplus::asio::object_server& objServer;
     std::optional<RedundancySensor>* redundancy;
     std::unique_ptr<PresenceSensor> presence;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemAssoc;
-    boost::asio::streambuf readBuf;
-    boost::asio::posix::stream_descriptor inputDev;
+    boost::asio::random_access_file inputDev;
     boost::asio::deadline_timer waitTimer;
     std::string path;
     std::optional<std::string> led;
     bool ledState = false;
-    void setupRead(void);
-    void handleResponse(const boost::system::error_code& err);
+
+    void handleResponse(const boost::system::error_code& err, size_t bytesRead);
+    void restartRead(size_t pollTime);
     void checkThresholds(void) override;
 };
 
