@@ -16,6 +16,7 @@
 
 #include "dbus-sensor_config.h"
 
+#include <DeviceMgmt.hpp>
 #include <Utils.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -712,4 +713,18 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
         matches.emplace_back(std::move(match));
     }
     return matches;
+}
+
+std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
+    setupPropertiesChangedMatches(
+        sdbusplus::asio::connection& bus, const I2CDeviceTypeMap& typeMap,
+        const std::function<void(sdbusplus::message_t&)>& handler)
+{
+    std::vector<const char*> types;
+    types.reserve(typeMap.size());
+    for (const auto& [type, dt] : typeMap)
+    {
+        types.push_back(type.data());
+    }
+    return setupPropertiesChangedMatches(bus, {types}, handler);
 }
