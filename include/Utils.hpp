@@ -338,3 +338,51 @@ std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);
 bool getManufacturingMode();
+
+struct CmpStr
+{
+    bool operator()(const char* a, const char* b) const
+    {
+        return std::strcmp(a, b) < 0;
+    }
+};
+
+struct DeviceTemplate
+{
+    DeviceTemplate(const char* params, const char* bus, const char* constructor,
+                   const char* destructor, bool createsHWMon) :
+        parameters(params),
+        busPath(bus), add(constructor), remove(destructor),
+        createsHWMon(createsHWMon){};
+    const char* parameters;
+    const char* busPath;
+    const char* add;
+    const char* remove;
+    bool createsHWMon;
+};
+
+// Shorthand for declaring a DeviceTemplate for a typical i2c device
+#define I2CDevice(devname, hwmon)                                              \
+    DeviceTemplate(devname " $Address", "/sys/bus/i2c/devices/i2c-$Bus",       \
+                   "new_device", "delete_device", hwmon)
+
+using DeviceTemplateMap =
+    boost::container::flat_map<const char*, DeviceTemplate, CmpStr>;
+
+struct DeviceMgmt
+{
+    DeviceMgmt(const DeviceTemplate& deviceTemplate, uint64_t bus,
+               uint64_t address) :
+        deviceTemplate(&deviceTemplate),
+        bus(bus), address(address){};
+    const DeviceTemplate* deviceTemplate;
+    uint64_t bus;
+    uint64_t address;
+
+    int create(void);
+    int destroy(void);
+};
+
+void getDeviceMgmt(const DeviceTemplateMap& dtmap,
+                   const SensorBaseConfigMap& cfg,
+                   std::optional<DeviceMgmt>& mgmt);
