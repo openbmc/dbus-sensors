@@ -73,6 +73,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "248dbe40_df94491c",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-08-03T01:02:15Z",
+      "side": 1,
+      "message": "There was a previous attempt to optimize this: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/43455\n\nIt was never submitted, but the comments there have more background. Yes, it was for speedup, and also for error handling.\n\nWhen conditions are good, simply rewinding the file is sufficient. However, when conditions are bad, closing and reopening the file is necessary. This helps deal with devices that occasionally go missing for various reasons.",
+      "revId": "2f92be5bfeaa2944acfc3ec8a3aa12d34051d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47ccc7e3_55fbdcaf",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 3
