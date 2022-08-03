@@ -140,6 +140,30 @@
       },
       "revId": "2f92be5bfeaa2944acfc3ec8a3aa12d34051d534",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c9f213_e9284daf",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-03T00:03:45Z",
+      "side": 1,
+      "message": "Yeah, it looked like this was basically just acting as an expensive/roundabout way of achieving `lseek(fd, 0, SEEK_SET)` with the old non-random-access code, but I wasn\u0027t entirely certain if it had some other more subtle purpose w.r.t., I dunno, error-handling or something...but yeah, as far as I can see removing it seems fine.",
+      "parentUuid": "ba75aef6_99cff1ae",
+      "range": {
+        "startLine": 166,
+        "startChar": 1,
+        "endLine": 169,
+        "endChar": 42
+      },
+      "revId": "2f92be5bfeaa2944acfc3ec8a3aa12d34051d534",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
