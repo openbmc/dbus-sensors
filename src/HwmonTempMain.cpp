@@ -49,29 +49,31 @@ static constexpr double maxValueTemperature = 127;  // DegreesC
 static constexpr double minValueTemperature = -128; // DegreesC
 
 namespace fs = std::filesystem;
-static auto sensorTypes{
-    std::to_array<const char*>({"xyz.openbmc_project.Configuration.DPS310",
-                                "xyz.openbmc_project.Configuration.EMC1412",
-                                "xyz.openbmc_project.Configuration.EMC1413",
-                                "xyz.openbmc_project.Configuration.EMC1414",
-                                "xyz.openbmc_project.Configuration.HDC1080",
-                                "xyz.openbmc_project.Configuration.JC42",
-                                "xyz.openbmc_project.Configuration.LM75A",
-                                "xyz.openbmc_project.Configuration.LM95234",
-                                "xyz.openbmc_project.Configuration.MAX31725",
-                                "xyz.openbmc_project.Configuration.MAX31730",
-                                "xyz.openbmc_project.Configuration.MAX6581",
-                                "xyz.openbmc_project.Configuration.MAX6654",
-                                "xyz.openbmc_project.Configuration.NCT7802",
-                                "xyz.openbmc_project.Configuration.NCT6779",
-                                "xyz.openbmc_project.Configuration.SBTSI",
-                                "xyz.openbmc_project.Configuration.SI7020",
-                                "xyz.openbmc_project.Configuration.TMP112",
-                                "xyz.openbmc_project.Configuration.TMP175",
-                                "xyz.openbmc_project.Configuration.TMP421",
-                                "xyz.openbmc_project.Configuration.TMP441",
-                                "xyz.openbmc_project.Configuration.TMP75",
-                                "xyz.openbmc_project.Configuration.W83773G"})};
+
+static const DeviceTemplateMap sensorTypes{
+    {"DPS310", I2CDevice("dps310", false)},
+    {"EMC1412", I2CDevice("emc1412", true)},
+    {"EMC1413", I2CDevice("emc1413", true)},
+    {"EMC1414", I2CDevice("emc1414", true)},
+    {"HDC1080", I2CDevice("hdc1080", false)},
+    {"JC42", I2CDevice("jc42", true)},
+    {"LM75A", I2CDevice("lm75a", true)},
+    {"LM95234", I2CDevice("lm95234", true)},
+    {"MAX31725", I2CDevice("max31725", true)},
+    {"MAX31730", I2CDevice("max31730", true)},
+    {"MAX6581", I2CDevice("max6581", true)},
+    {"MAX6654", I2CDevice("max6654", true)},
+    {"NCT6779", I2CDevice("nct6779", true)},
+    {"NCT7802", I2CDevice("nct7802", true)},
+    {"SBTSI", I2CDevice("sbtsi", true)},
+    {"SI7020", I2CDevice("si7020", false)},
+    {"TMP112", I2CDevice("tmp112", true)},
+    {"TMP175", I2CDevice("tmp175", true)},
+    {"TMP421", I2CDevice("tmp421", true)},
+    {"TMP441", I2CDevice("tmp441", true)},
+    {"TMP75", I2CDevice("tmp75", true)},
+    {"W83773G", I2CDevice("w83773g", true)},
+};
 
 static struct SensorParams
     getSensorParameters(const std::filesystem::path& path)
@@ -478,8 +480,13 @@ void createSensors(
             }
         }
         });
-    getter->getConfiguration(
-        std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
+    std::vector<std::string> types(sensorTypes.size());
+    for (const auto& [type, dt] : sensorTypes)
+    {
+        types.push_back(std::string("xyz.openbmc_project.Configuration.") +
+                        type);
+    }
+    getter->getConfiguration(types);
 }
 
 void interfaceRemoved(
@@ -559,12 +566,14 @@ int main()
         });
     };
 
-    for (const char* type : sensorTypes)
+    for (const auto& [type, dt] : sensorTypes)
     {
         auto match = std::make_unique<sdbusplus::bus::match_t>(
             static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
+                std::string(inventoryPath) +
+                "',arg0namespace='xyz.openbmc_project.Configuration." + type +
+                "'",
             eventHandler);
         matches.emplace_back(std::move(match));
     }
