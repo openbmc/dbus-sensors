@@ -16,6 +16,24 @@
       "message": "How does this differ from the PowerState parameter?",
       "revId": "bf55edad5350dfab15554273cc6c24478a2d8cb1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fe26929_79b51a15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-04T20:52:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the question -- one\u0027s an immutable parameter of the sensor device and one\u0027s a mutable \"right now\" bit of state?\n\nThis is basically just to provide an answer to the question of what do with sensors that go offline when the host powers down -- I don\u0027t want them to disappear off of dbus entirely, because swampd (for example) wouldn\u0027t like that, so I added this to have them hang around but in the available\u003dfalse state so that clients can still see them but also know that they\u0027re not producing meaningful readings.",
+      "parentUuid": "eefa4337_122b8daa",
+      "revId": "bf55edad5350dfab15554273cc6c24478a2d8cb1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
