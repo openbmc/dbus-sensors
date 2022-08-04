@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cdf4feaf_ec1812e2",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-04T12:23:42Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "24831973_a77be81d",
+      "range": {
+        "startLine": 606,
+        "startChar": 0,
+        "endLine": 608,
+        "endChar": 23
+      },
+      "revId": "d5e6bc1040875b7acf953059dce1e5ca20ae71f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b570b292_cc177d5f",
         "filename": "src/AmpereCPUMain.cpp",
         "patchSetId": 21
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-20T19:15:43Z",
       "side": 1,
       "message": "With current design, this match can be destroyed if createdSensor is true",
+      "range": {
+        "startLine": 631,
+        "startChar": 2,
+        "endLine": 637,
+        "endChar": 52
+      },
+      "revId": "d5e6bc1040875b7acf953059dce1e5ca20ae71f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be83a1ca_450623d3",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-04T12:23:42Z",
+      "side": 1,
+      "message": "I updated the code to skip calling createSensorsCallback when createdSensors is True. This eliminates destroying matchHostState.",
+      "parentUuid": "b570b292_cc177d5f",
       "range": {
         "startLine": 631,
         "startChar": 2,

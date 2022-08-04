@@ -238,6 +238,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80d664bf_006eae9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-04T12:23:42Z",
+      "side": 1,
+      "message": "There are some changing in the design from last year. Currently, AmpereCPUSensor service only scans and creates the SoCs sensors one time after it starts.The variable createdSensors is true mean the host sensors is created, no need to scan them again.",
+      "parentUuid": "35a6cb08_0bc242a4",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd8454a7_70e56f7e",
