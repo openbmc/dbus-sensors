@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3149856_b1c208d1",
+        "filename": "include/TachSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-08-04T03:14:47Z",
+      "side": 1,
+      "message": "I copied this from HwmonTempSensor and wanted to maintain the consistent style. (And I prefer using \"void\" to indicate a function that takes no arguments.)",
+      "parentUuid": "c08939a3_54d35764",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11bc82b5_199e42ac",
@@ -64,6 +88,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6094e647_543cb2d0",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-08-04T03:14:47Z",
+      "side": 1,
+      "message": "Same, I copied this from HwmonTempSensor and wanted to maintain the consistent style. Also, I think including \"std::\" is clearer.",
+      "parentUuid": "11bc82b5_199e42ac",
+      "range": {
+        "startLine": 117,
+        "startChar": 55,
+        "endLine": 117,
+        "endChar": 60
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0d289dc_eb94e9c3",
@@ -77,6 +125,30 @@
       "writtenOn": "2022-08-04T00:31:04Z",
       "side": 1,
       "message": "do we have to check the data length?",
+      "range": {
+        "startLine": 170,
+        "startChar": 33,
+        "endLine": 170,
+        "endChar": 59
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e5f7fa_d429d473",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-08-04T03:14:47Z",
+      "side": 1,
+      "message": "I don\u0027t believe so. readBuf is std::array\u003cchar, 128\u003e and std::array is smart enough to know its own size (I think), unlike classic C arrays. The buffer is a boost::asio::buffer which is a view that also knows its own size, and it is passed into boost::asio::random_access_file::async_read_some_at() which fills in the buffer. The original code in HwmonTempSensor did not do this, so if it\u0027s a bug, it is a bug in both places.",
+      "parentUuid": "f0d289dc_eb94e9c3",
       "range": {
         "startLine": 170,
         "startChar": 33,
