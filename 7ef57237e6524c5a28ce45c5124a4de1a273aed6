@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "098c005d_37910db3",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-04T23:29:05Z",
+      "side": 1,
+      "message": "I think now that we\u0027re just moving the functionality over, I don\u0027t think the generic class is all that useful.\n\n\nI had kind of imagined a class like:\n\n\nclass HwMonSysfsDevice(){\n\n   HwMonSysfsDevice(string name){\n      // call new_device\n   }\n   \n   ~HwmonSysfsDevice(){\n      // call remove_device\n   }\n}\n\n\nThen HwMonTempSensor would just init that class member it ints constructor with the relevant data (probably bus and address).",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 68
+      },
+      "revId": "7ef57237e6524c5a28ce45c5124a4de1a273aed6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
