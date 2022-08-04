@@ -123,6 +123,29 @@
       "parentUuid": "429a816c_684b5f19",
       "revId": "337fa46212d46b278f40388a188701abb8088c51",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6900fa2b_637b8e19",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000418
+      },
+      "writtenOn": "2022-08-04T18:16:29Z",
+      "side": 1,
+      "message": "Please refer my comment in other review for this logic:\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/55957/3/configurations/solum_pssf162202_psu.json#142",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 51
+      },
+      "revId": "337fa46212d46b278f40388a188701abb8088c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
