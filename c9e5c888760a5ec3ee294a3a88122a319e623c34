@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "570149a7_b82bd8a0",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-04T18:21:16Z",
+      "side": 1,
+      "message": "Hmm, yeah, that would probably be a cleaner approach, and removes the possibility of mixing up which one\u0027s which...I\u0027ll rearrange it that way.",
+      "parentUuid": "5c2619f5_ec759298",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 50
+      },
+      "revId": "c9e5c888760a5ec3ee294a3a88122a319e623c34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46b454dc_3ab84697",
         "filename": "src/Utils.cpp",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2022-08-04T17:25:48Z",
       "side": 1,
       "message": "As written, doesn\u0027t this break everything?",
+      "revId": "c9e5c888760a5ec3ee294a3a88122a319e623c34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "116802aa_fa6e6f23",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-04T18:21:16Z",
+      "side": 1,
+      "message": "How so?  It\u0027s just plugging in no-op callbacks for callers that weren\u0027t using them to start with -- or at least that\u0027s the intent, unless I screwed up the implementation in some subtle way I\u0027m not seeing?",
+      "parentUuid": "46b454dc_3ab84697",
       "revId": "c9e5c888760a5ec3ee294a3a88122a319e623c34",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
