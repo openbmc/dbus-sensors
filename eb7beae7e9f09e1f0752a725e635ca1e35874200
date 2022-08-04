@@ -16,6 +16,75 @@
       "message": "This fixes TachSensor similar to what was recently done for HwmonTempSensor.\n",
       "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c08939a3_54d35764",
+        "filename": "include/TachSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-08-04T00:31:04Z",
+      "side": 1,
+      "message": "rm void",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11bc82b5_199e42ac",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-08-04T00:31:04Z",
+      "side": 1,
+      "message": "rm for consistency",
+      "range": {
+        "startLine": 117,
+        "startChar": 55,
+        "endLine": 117,
+        "endChar": 60
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0d289dc_eb94e9c3",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-08-04T00:31:04Z",
+      "side": 1,
+      "message": "do we have to check the data length?",
+      "range": {
+        "startLine": 170,
+        "startChar": 33,
+        "endLine": 170,
+        "endChar": 59
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
