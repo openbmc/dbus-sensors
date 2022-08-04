@@ -262,6 +262,30 @@
       },
       "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a0b0435_1adf24fa",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2022-08-04T04:03:52Z",
+      "side": 1,
+      "message": "It seems that we have to refactor the NVMesensor. It maybe takes more time to complete, therefore I think we can merge this patch to fix the current issue (the constructor throws an exception).\nWe should make another patch to refactor NVMesensor in the future.",
+      "parentUuid": "65873b9b_cf101688",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
