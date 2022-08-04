@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5239400b_d25c8c9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-04T17:14:08Z",
+      "side": 1,
+      "message": "\u003e My thought around keeping it EM config file was to let code be driven by data in configuration file so if some other daemon wants to get their thresholds set with some other suffix then that can be handled commonly.\n\nThe above is fine, but you need to define a well formed and testable enum for it.  it can MAP to sysfs in naming if you want, but it shouldn\u0027t be used directly as a sysfs path.\n\n\n\u003e This also allows thresholds to be set in PSU specific manner. Say PSU of type1 wants warning to be 0.8 times max and PSU of type2 wants it to be 1.2 times rated_max then this can be done with PSU specific configuration file.\n\nSure, the ScaleFactor stuff is reasonable.\n\n\u003e Do you think it\u0027s good idea to continue with this ? Or we should approach by using separate code path for current thresholds ?\n\nI think it\u0027s fine to continue it, just please don\u0027t directly use sysfs strings in the config files.  Make an enum, or parameter that has a schema for it.",
+      "parentUuid": "7dfd3ba1_721dc1ee",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "337fa46212d46b278f40388a188701abb8088c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "296ca3cb_e31591c4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "This change is desired because PSU will not be able to deliver same amount of current in low line as it can deliver on high line. 1600W PSU and easily deliver 133A for extended period of time without any hiccup in high line and but not on low line. Please have a look at em changes. I have added more context there.\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/55957\n\nIn git logs I see one attempt to do similar change(484b9b37530a52f10a606abff23b345a4ec6ab2a) for \"MaxValue\" and \"MinValue\" which was later reverted. I think this is the one you are pointing. power\u003c\u003e_rated_max was power\u003c\u003e_rated_min were used in this change for setting min and max values. rated_max/rated_min gives rated power capacities. PSU can serve more power than it\u0027s rated values. This was probably reason for later revert(in 3fed6742dcfe30fe2fa5182dd37c3e1a0e337a43).\n\nThis change is different because here we will work with max values, for example on 1600W PSU at 220V input curr2_max is 180A and rated_max is 133A. Hence problem that was applicable in above mentioned change is not applicable here. and also previously change was to set max/min power value but this time current threshold.",
       "parentUuid": "296ca3cb_e31591c4",
+      "revId": "337fa46212d46b278f40388a188701abb8088c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c02745b_612af854",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-04T17:14:08Z",
+      "side": 1,
+      "message": "I will read the above when it\u0027s put into the commit message, as the comment asks.",
+      "parentUuid": "429a816c_684b5f19",
       "revId": "337fa46212d46b278f40388a188701abb8088c51",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
