@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7dfd3ba1_721dc1ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-08-04T12:44:33Z",
+      "side": 1,
+      "message": "My thought around keeping it EM config file was to let code be driven by data in configuration file so if some other daemon wants to get their thresholds set with some other suffix then that can be handled commonly. This also allows thresholds to be set in PSU specific manner. Say PSU of type1 wants warning to be 0.8 times max and PSU of type2 wants it to be 1.2 times rated_max then this can be done with PSU specific configuration file.\nDo you think it\u0027s good idea to continue with this ? Or we should approach by using separate code path for current thresholds ?",
+      "parentUuid": "4b453821_55e9b9fb",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "337fa46212d46b278f40388a188701abb8088c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "296ca3cb_e31591c4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -37,6 +61,24 @@
       "writtenOn": "2022-08-03T19:58:09Z",
       "side": 1,
       "message": "Please answer why this is desired.  Also, please mention the last time we tried to add this feature, and had to revert it (the history should be in the git log), and why this time it\u0027s different.",
+      "revId": "337fa46212d46b278f40388a188701abb8088c51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "429a816c_684b5f19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-08-04T12:44:33Z",
+      "side": 1,
+      "message": "This change is desired because PSU will not be able to deliver same amount of current in low line as it can deliver on high line. 1600W PSU and easily deliver 133A for extended period of time without any hiccup in high line and but not on low line. Please have a look at em changes. I have added more context there.\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/55957\n\nIn git logs I see one attempt to do similar change(484b9b37530a52f10a606abff23b345a4ec6ab2a) for \"MaxValue\" and \"MinValue\" which was later reverted. I think this is the one you are pointing. power\u003c\u003e_rated_max was power\u003c\u003e_rated_min were used in this change for setting min and max values. rated_max/rated_min gives rated power capacities. PSU can serve more power than it\u0027s rated values. This was probably reason for later revert(in 3fed6742dcfe30fe2fa5182dd37c3e1a0e337a43).\n\nThis change is different because here we will work with max values, for example on 1600W PSU at 220V input curr2_max is 180A and rated_max is 133A. Hence problem that was applicable in above mentioned change is not applicable here. and also previously change was to set max/min power value but this time current threshold.",
+      "parentUuid": "296ca3cb_e31591c4",
       "revId": "337fa46212d46b278f40388a188701abb8088c51",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
