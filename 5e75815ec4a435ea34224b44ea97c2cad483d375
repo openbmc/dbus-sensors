@@ -310,6 +310,30 @@
       },
       "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b95a76a_3451b5ce",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-05T03:23:47Z",
+      "side": 1,
+      "message": "I don\u0027t understand much reading the proposed design and the comment section, but I got Arj\u0027s point about the idea of refactoring and I think I should leave this here as you said until I can put it somewhere along the refactoring process. Thank you.",
+      "parentUuid": "8bbe9acc_dd960b09",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "5e75815ec4a435ea34224b44ea97c2cad483d375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
