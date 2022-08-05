@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a46e52_6abfbc2c",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-05T13:30:03Z",
+      "side": 1,
+      "message": "Will the sensor value also be NaN here?  I think there is code that expects that too.",
+      "revId": "09f2226ddbd3a2c63e355540258f7974d8ddf8b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
