@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "03f3935d_b225a3d9",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T19:39:52Z",
+      "side": 1,
+      "message": "Obviated by alternate approach.",
+      "parentUuid": "5b39b45e_40ef2e2d",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 80
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "57d75c58_ed8b6959",
         "filename": "include/Utils.hpp",
         "patchSetId": 6
@@ -165,6 +189,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfa377a9_300f07fc",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T19:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fee13974_144e48aa",
+      "range": {
+        "startLine": 795,
+        "startChar": 19,
+        "endLine": 795,
+        "endChar": 50
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d92f07f0_cade901d",
@@ -272,6 +320,24 @@
       "writtenOn": "2022-08-05T01:21:43Z",
       "side": 1,
       "message": "same as above.",
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc55d802_ae6f5e95",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T19:39:52Z",
+      "side": 1,
+      "message": "Likewise here.",
+      "parentUuid": "0b0e7907_c6742f54",
       "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
