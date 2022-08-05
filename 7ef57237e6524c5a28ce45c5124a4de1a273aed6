@@ -22,6 +22,30 @@
       },
       "revId": "7ef57237e6524c5a28ce45c5124a4de1a273aed6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffccffb0_7922c797",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T01:36:24Z",
+      "side": 1,
+      "message": "Sorry, this commit was obsoleted by the switch to the new series with all the logic in dbus-sensor, I forgot to mark it as abandoned (though there\u0027s a somewhat analogous commit in the new series that I think you\u0027ve also reviewed now).",
+      "parentUuid": "098c005d_37910db3",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 68
+      },
+      "revId": "7ef57237e6524c5a28ce45c5124a4de1a273aed6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
