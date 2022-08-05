@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b39b45e_40ef2e2d",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T01:21:43Z",
+      "side": 1,
+      "message": "Technically in the coding standard macros aren\u0027t allowed.  We would generally rely on extra constructors for providing default parameters like this in the DeviceTemplate class.",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 80
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57d75c58_ed8b6959",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T01:21:43Z",
+      "side": 1,
+      "message": "FWIW, these days now that we have c++20, we would declare this as boost::container::flat_map\u003cstd::string_view, DeviceTemplate, std::less\u003c\u003e\u003e\n\n\nWith that said, I realize you just copied this from EM, so up to you if you want to change.",
+      "range": {
+        "startLine": 369,
+        "startChar": 60,
+        "endLine": 369,
+        "endChar": 66
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d31ea385_a7523e0f",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T01:21:43Z",
+      "side": 1,
+      "message": "Up to you if you want to change it, but this can probably just be inlined in the 3 places it\u0027s used.",
+      "range": {
+        "startLine": 711,
+        "startChar": 0,
+        "endLine": 711,
+        "endChar": 41
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f6b830e_1474fc87",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T01:21:43Z",
+      "side": 1,
+      "message": "Why not just return a DeviceMgmt object?  or return a std::optional to denote failures?",
+      "range": {
+        "startLine": 795,
+        "startChar": 19,
+        "endLine": 795,
+        "endChar": 50
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d92f07f0_cade901d",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T01:21:43Z",
+      "side": 1,
+      "message": "Pretty sure you copied this, so find if you don\u0027t want to fix, but this is duplicating a lookup\n\ncfg.find(\"Type\") will do a single lookup.  contains() followed by at() will do 2.",
+      "range": {
+        "startLine": 799,
+        "startChar": 0,
+        "endLine": 803,
+        "endChar": 5
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb547ca4_a3de38b6",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T01:21:43Z",
+      "side": 1,
+      "message": "Could we just do this operation in the constructor, and omit the bus and address members from the structure itself?",
+      "range": {
+        "startLine": 827,
+        "startChar": 0,
+        "endLine": 831,
+        "endChar": 0
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b0e7907_c6742f54",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T01:21:43Z",
+      "side": 1,
+      "message": "same as above.",
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
