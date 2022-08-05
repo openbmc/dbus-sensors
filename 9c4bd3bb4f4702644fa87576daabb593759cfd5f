@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f28a54fa_15c2ae4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T21:57:32Z",
+      "side": 1,
+      "message": "Only one pretty minor naming/convention thing.  Other than that, looks good to me.",
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "750f534d_71144469",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T21:57:32Z",
+      "side": 1,
+      "message": "Not for this patchset, but in a perfect world, this would be a constexpr sorted array, so we don\u0027t take up memory all the time to host it.\n\nProblem for another patchset though.",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 22
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b65a33b_2a6dc518",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-05T21:57:32Z",
+      "side": 1,
+      "message": "should this just be the destructor?",
+      "range": {
+        "startLine": 360,
+        "startChar": 8,
+        "endLine": 360,
+        "endChar": 15
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
