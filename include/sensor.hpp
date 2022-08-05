@@ -423,20 +423,7 @@ struct Sensor
 
     bool readingStateGood() const
     {
-        if (readState == PowerState::on && !isPowerOn())
-        {
-            return false;
-        }
-        if (readState == PowerState::biosPost &&
-            (!hasBiosPost() || !isPowerOn()))
-        {
-            return false;
-        }
-        if (readState == PowerState::chassisOn && !isChassisOn())
-        {
-            return false;
-        }
-        return true;
+        return ::readingStateGood(readState);
     }
 
     void markFunctional(bool isFunctional)
