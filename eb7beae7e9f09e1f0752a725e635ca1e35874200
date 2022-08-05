@@ -186,6 +186,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61401151_b93d309c",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-08-05T18:47:13Z",
+      "side": 1,
+      "message": "got it. Thanks.",
+      "parentUuid": "dd59e427_41bd2a06",
+      "range": {
+        "startLine": 493,
+        "startChar": 12,
+        "endLine": 495,
+        "endChar": 24
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "11bc82b5_199e42ac",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 1
