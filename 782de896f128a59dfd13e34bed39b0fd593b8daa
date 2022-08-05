@@ -47,6 +47,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6d33b2f_856a7edc",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T02:49:55Z",
+      "side": 1,
+      "message": "Ah, thanks for the tip -- might as well tidy it up while I\u0027m messing with it...",
+      "parentUuid": "57d75c58_ed8b6959",
+      "range": {
+        "startLine": 369,
+        "startChar": 60,
+        "endLine": 369,
+        "endChar": 66
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d31ea385_a7523e0f",
@@ -60,6 +84,30 @@
       "writtenOn": "2022-08-05T01:21:43Z",
       "side": 1,
       "message": "Up to you if you want to change it, but this can probably just be inlined in the 3 places it\u0027s used.",
+      "range": {
+        "startLine": 711,
+        "startChar": 0,
+        "endLine": 711,
+        "endChar": 41
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b83595d_8d8a033a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T02:49:55Z",
+      "side": 1,
+      "message": "Yeah, might as well -- done.",
+      "parentUuid": "d31ea385_a7523e0f",
       "range": {
         "startLine": 711,
         "startChar": 0,
@@ -95,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fee13974_144e48aa",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T02:49:55Z",
+      "side": 1,
+      "message": "This was carried over from the previous version, and I now no longer remember exactly why I did it that way...possibly just a habit of avoiding passing/returning non-trivial structs by value?  But yeah, returning it might make more sense...",
+      "parentUuid": "1f6b830e_1474fc87",
+      "range": {
+        "startLine": 795,
+        "startChar": 19,
+        "endLine": 795,
+        "endChar": 50
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d92f07f0_cade901d",
         "filename": "src/Utils.cpp",
         "patchSetId": 6
@@ -106,6 +178,30 @@
       "writtenOn": "2022-08-05T01:21:43Z",
       "side": 1,
       "message": "Pretty sure you copied this, so find if you don\u0027t want to fix, but this is duplicating a lookup\n\ncfg.find(\"Type\") will do a single lookup.  contains() followed by at() will do 2.",
+      "range": {
+        "startLine": 799,
+        "startChar": 0,
+        "endLine": 803,
+        "endChar": 5
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52a57d21_5629829a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T02:49:55Z",
+      "side": 1,
+      "message": "\u003e cfg.find(\"Type\") will do a single lookup\n\nAh, _that\u0027s_ the API I can never remember the name of, thanks.  (Looked for it a bit in the docs but gave up trudging through the mountain of overloads and such...)",
+      "parentUuid": "d92f07f0_cade901d",
       "range": {
         "startLine": 799,
         "startChar": 0,
@@ -129,6 +225,30 @@
       "writtenOn": "2022-08-05T01:21:43Z",
       "side": 1,
       "message": "Could we just do this operation in the constructor, and omit the bus and address members from the structure itself?",
+      "range": {
+        "startLine": 827,
+        "startChar": 0,
+        "endLine": 831,
+        "endChar": 0
+      },
+      "revId": "782de896f128a59dfd13e34bed39b0fd593b8daa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "303069b1_caa556f2",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T02:49:55Z",
+      "side": 1,
+      "message": "I considered doing it that way; going this route was a semi-arbitrary choice I made on the space-time tradeoff spectrum.  This way does the template-substitution on each create/destroy call (time cost); doing it once in the constructor means every object allocates and carries around its own set of per-device paths (space cost).  In practice the frequency of creation/deletion and the number of objects are I suspect both plenty small enough that it\u0027s not a big deal either way; if you\u0027d prefer the other way I\u0027m fine doing that instead.",
+      "parentUuid": "fb547ca4_a3de38b6",
       "range": {
         "startLine": 827,
         "startChar": 0,
