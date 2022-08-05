@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c19d6b8_bf35093b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-08-05T13:11:52Z",
+      "side": 1,
+      "message": "This will require change in HwmonTempMain.cpp:384 and HwmonTempMain.cpp:461. An extra nullptr will have to be inserted for fourth argument for both calls.",
+      "parentUuid": "21d47da3_60e7f5ce",
+      "range": {
+        "startLine": 857,
+        "startChar": 55,
+        "endLine": 857,
+        "endChar": 78
+      },
+      "revId": "2d2cd77689cff9146d12642f0b68123eec76354c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "65866b09_a2d7f1c0",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 1
