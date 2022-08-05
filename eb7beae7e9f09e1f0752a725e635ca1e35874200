@@ -138,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b27b783d_e819bd68",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-05T17:25:16Z",
+      "side": 1,
+      "message": "This ensures the order - old sensor destructs before creating new one.\nOtherwise, old sensor destructs after new sensor is created and there will be two objects with same name on the dbus, which can cause undefined behavior.",
+      "parentUuid": "1ddeaf2c_f580af22",
+      "range": {
+        "startLine": 493,
+        "startChar": 12,
+        "endLine": 495,
+        "endChar": 24
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "11bc82b5_199e42ac",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 1
