@@ -70,6 +70,24 @@
       "parentUuid": "97256de3_4d0b245e",
       "revId": "3a69fbef80125ead07e81bd3e0f4441e134202f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f3fe416_16792525",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T05:02:54Z",
+      "side": 1,
+      "message": "Ah, I take it (partially) back -- I see there is a lone exception in the E-M list for GPIOs, but considering that\u0027s now a deprecated interface I figure we probably want to move away from it anyway (and even so, a single exception like that seems like something that might be simpler to handle with a little special-case conditional logic instead of introducing a whole generalized mechanism just to accommodate it).",
+      "parentUuid": "4b4ddf45_51759460",
+      "revId": "3a69fbef80125ead07e81bd3e0f4441e134202f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
