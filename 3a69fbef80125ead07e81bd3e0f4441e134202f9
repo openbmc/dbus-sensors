@@ -52,6 +52,24 @@
       "parentUuid": "4d4b4fbc_6d34f30e",
       "revId": "3a69fbef80125ead07e81bd3e0f4441e134202f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b4ddf45_51759460",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-05T03:54:15Z",
+      "side": 1,
+      "message": "Hmm, after some searching I haven\u0027t found anything that seems like it would be applicable to this -- happen to have a link or a sketch/pseudocode of what that would look like?\n\nThe tricky part is the `devname \" $Address\"` bit...which I guess also sort of makes me wonder if it\u0027s really worth trying to maintain the generality of the current approach as used in E-M (where every single existing instance fits the same pattern, because they\u0027re all i2c devices).  In practical terms, is there much real chance of us wanting to support device types that both (a) aren\u0027t i2c and (b) also happen to work via a similar-enough sysfs interface that the E-M approach could support it?  (I don\u0027t know of any such subsystems in the kernel offhand.)  So basically I\u0027m thinking it might make sense to just have it be something like:\n\n```\nstruct I2CDeviceMgmt\n{\n  const char* driverName;\n  uint64_t bus, addr;\n}\n```\n\nand just have methods that have the i2c-specific sysfs logic hardcoded into them.  Thoughts?",
+      "parentUuid": "97256de3_4d0b245e",
+      "revId": "3a69fbef80125ead07e81bd3e0f4441e134202f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
