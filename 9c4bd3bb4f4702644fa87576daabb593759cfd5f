@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4089704b_200ba44d",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T01:37:55Z",
+      "side": 1,
+      "message": "\u003e Do you mean like something that would allow it to be in the executable .rodata section instead of heap space that\u0027s initialized by pre-main() code?\n\nYep\n\n\u003e  If so, yeah, that\u0027d be neat, though I don\u0027t know the necessary C++ magic offhand to make it happen...\n\nIf you want an example somewhere else we do this:\n\nhttps://github.com/openbmc/bmcweb/blob/5907571df69a5e1a6f3e0633ad42f2dc7fa6ba25/redfish-core/include/registries/openbmc_message_registry.hpp#L73\n\nThen doing a lookup on the structure:\n\nhttps://github.com/openbmc/bmcweb/blob/80f595e7c00dc5b82e1aba8828c3a8205f9a4332/redfish-core/include/event_service_manager.hpp#L99\n\nArguably we could\u0027ve used std::binary_search to make it faster, because it\u0027s sorted, but you get the idea.\n\nAgain, doesn\u0027t need to be this patch.",
+      "parentUuid": "34e34aa7_d4a539d4",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 22
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b65a33b_2a6dc518",
         "filename": "include/Utils.hpp",
         "patchSetId": 8
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "It\u0027s called explicitly from an error-handling path in the ::create() method (to handle the scenario where the new_device write succeeds but the driver initialization fails and doesn\u0027t set up the hwmon stuff), which AFAIK necessitates it remaining a regular method.",
       "parentUuid": "3b65a33b_2a6dc518",
+      "range": {
+        "startLine": 360,
+        "startChar": 8,
+        "endLine": 360,
+        "endChar": 15
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47988dd9_f906288c",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T01:37:55Z",
+      "side": 1,
+      "message": "I\u0027m not quite following, if create() fails, won\u0027t the object go out of scope almost immediately and get the same behavior?",
+      "parentUuid": "20200263_330b5827",
       "range": {
         "startLine": 360,
         "startChar": 8,
