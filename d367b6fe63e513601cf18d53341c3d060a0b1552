@@ -22,6 +22,30 @@
       },
       "revId": "d367b6fe63e513601cf18d53341c3d060a0b1552",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf9a2b1d_97ab5d1e",
+        "filename": "include/TachSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-08-06T22:40:10Z",
+      "side": 1,
+      "message": "Yep, I followed the existing model from HwmonTempSensor.",
+      "parentUuid": "c07802dd_70edf143",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 51
+      },
+      "revId": "d367b6fe63e513601cf18d53341c3d060a0b1552",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
