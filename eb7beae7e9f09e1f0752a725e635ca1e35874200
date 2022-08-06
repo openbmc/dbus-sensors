@@ -137,6 +137,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b0c649d_6ee561f7",
+        "filename": "include/TachSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T16:25:52Z",
+      "side": 1,
+      "message": "Feel free to push a patch so we can be more consistent, or I can add it to my list of things to clean up.",
+      "parentUuid": "fa9841f5_e975f05d",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ddeaf2c_f580af22",
@@ -436,6 +460,30 @@
       "side": 1,
       "message": "OK, I will leave it unchanged, for now. (If we put in error-catching here, and we do encounter something that\u0027s over 128 bytes, how should it be handled? Immediately abort?) If we make a change here, we will need to change it in HwmonTempSensor also (and perhaps other places that have the same usage) to be consistent.",
       "parentUuid": "39c8d413_0ba383ac",
+      "range": {
+        "startLine": 170,
+        "startChar": 33,
+        "endLine": 170,
+        "endChar": 59
+      },
+      "revId": "eb7beae7e9f09e1f0752a725e635ca1e35874200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7368aee2_e5a7dfb5",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T16:25:52Z",
+      "side": 1,
+      "message": "\u003e OK, I will leave it unchanged, for now. (If we put in error-catching here, and we do encounter something that\u0027s over 128 bytes, how should it be handled?\n\nMy suggestion was to not do length checking here, move it to the calling scope, by changing the argument to a std::span, which, in the calling scope, doesn\u0027t need length checked, because we know the buffer we passed in.\n\n\u003e Immediately abort?) If we make a change here, we will need to change it in HwmonTempSensor also (and perhaps other places that have the same usage) to be consistent.\n\nACK.",
+      "parentUuid": "518ddfbf_aff7f940",
       "range": {
         "startLine": 170,
         "startChar": 33,
