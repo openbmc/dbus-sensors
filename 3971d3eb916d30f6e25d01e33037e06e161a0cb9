@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d95f6285_ded5ca4d",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-06T03:59:07Z",
+      "side": 1,
+      "message": "Good point, will do.",
+      "parentUuid": "00aa9abc_48189de2",
+      "range": {
+        "startLine": 255,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 62
+      },
+      "revId": "3971d3eb916d30f6e25d01e33037e06e161a0cb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31469b38_32be0658",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 12
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-06T01:41:37Z",
       "side": 1,
       "message": "this means all the sensors will be recreated regardless of readState when power state changes to on and postComplete. Should only create the missing ones ie readState \u003d\u003d type",
+      "range": {
+        "startLine": 565,
+        "startChar": 8,
+        "endLine": 565,
+        "endChar": 74
+      },
+      "revId": "3971d3eb916d30f6e25d01e33037e06e161a0cb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e576600_e3dc911b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-06T03:59:07Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s a bit heavy-handed at the moment...I\u0027ll see if I can find a simple way of making it more fine-grained.",
+      "parentUuid": "31469b38_32be0658",
       "range": {
         "startLine": 565,
         "startChar": 8,
