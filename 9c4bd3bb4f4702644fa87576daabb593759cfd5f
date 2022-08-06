@@ -18,6 +18,46 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e3619b4_1cbc7aa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T16:35:22Z",
+      "side": 1,
+      "message": "Some RAII best practices, but looking pretty good.",
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc18cc44_78b58e83",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T16:35:22Z",
+      "side": 1,
+      "message": "As written, this has lifetime issues (I think).  I suspect this needs to be a std::string, so you\u0027re not relying on a pointer to the rvalue type on line 738.",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 21
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "750f534d_71144469",
@@ -155,6 +195,75 @@
         "startChar": 8,
         "endLine": 360,
         "endChar": 15
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99a7b80b_036f7ddd",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T16:35:22Z",
+      "side": 1,
+      "message": "Nit, rather than explicitly call close, please just rely on raii, and wrap line 779-786 in a scope with braces so that ctor is closed when leaving the scope.",
+      "range": {
+        "startLine": 787,
+        "startChar": 0,
+        "endLine": 787,
+        "endChar": 17
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "348e54a0_cf617ffa",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T16:35:22Z",
+      "side": 1,
+      "message": "This is what you were talking about, right?  in theory when this returns -1, the calling code is going to destroy it, and run the destructor, right?",
+      "range": {
+        "startLine": 792,
+        "startChar": 0,
+        "endLine": 792,
+        "endChar": 18
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd51c78_13e4c068",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-06T16:35:22Z",
+      "side": 1,
+      "message": "Don\u0027t need an explicit close here.  RAII will give you the same behavior without it.",
+      "range": {
+        "startLine": 810,
+        "startChar": 0,
+        "endLine": 810,
+        "endChar": 17
       },
       "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
