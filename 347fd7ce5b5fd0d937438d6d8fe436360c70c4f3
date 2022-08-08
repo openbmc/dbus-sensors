@@ -262,6 +262,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a5abe83_928dc51a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T16:58:37Z",
+      "side": 1,
+      "message": "This does not answer whether a race condition can happen on your system, where the first scan only discovers sensors partially. For example if only CPU2 booted a little later than CPU1, only CPU1 sensors will be created.",
+      "parentUuid": "80d664bf_006eae9e",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "347fd7ce5b5fd0d937438d6d8fe436360c70c4f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd8454a7_70e56f7e",
