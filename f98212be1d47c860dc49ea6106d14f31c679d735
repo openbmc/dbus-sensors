@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0779db10_6817a29d",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T16:04:45Z",
+      "side": 1,
+      "message": "skip this is ec is not 0?",
+      "revId": "f98212be1d47c860dc49ea6106d14f31c679d735",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fa34dc4_781b16ee",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T16:04:45Z",
+      "side": 1,
+      "message": "reverse the logic? true is GOOD, false is BAD",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "f98212be1d47c860dc49ea6106d14f31c679d735",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7d584cf_f259d7a7",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T16:04:45Z",
+      "side": 1,
+      "message": "constexpr",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 35
+      },
+      "revId": "f98212be1d47c860dc49ea6106d14f31c679d735",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "119f1c72_63a58855",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T16:04:45Z",
+      "side": 1,
+      "message": "const and move before use",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 29
+      },
+      "revId": "f98212be1d47c860dc49ea6106d14f31c679d735",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1abff18_127b9aae",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T16:04:45Z",
+      "side": 1,
+      "message": "return if the sdrType !\u003d sdrType01 - I assume it is not supported in current implementation and can be added later",
+      "revId": "f98212be1d47c860dc49ea6106d14f31c679d735",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b785be_51aa5799",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T16:04:45Z",
+      "side": 1,
+      "message": "this only supports Type01 now, make that obvious. Either change func name to checkSDRType01Threshold or make or add a SDR type parameter and check for supported type.",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 73
+      },
+      "revId": "f98212be1d47c860dc49ea6106d14f31c679d735",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09cf7a49_e19d5a2b",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T16:04:45Z",
+      "side": 1,
+      "message": "const",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 34
+      },
+      "revId": "f98212be1d47c860dc49ea6106d14f31c679d735",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
