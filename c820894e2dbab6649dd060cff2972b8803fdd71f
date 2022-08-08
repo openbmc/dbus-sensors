@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb4ed25c_63af0b55",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-08-08T09:14:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eb7f82d3_8d337b63",
+      "range": {
+        "startLine": 46,
+        "startChar": 65,
+        "endLine": 46,
+        "endChar": 66
+      },
+      "revId": "c820894e2dbab6649dd060cff2972b8803fdd71f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6dc9e6bf_d2b4f936",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-05T15:43:27Z",
       "side": 1,
       "message": "nit: value configuration",
+      "range": {
+        "startLine": 172,
+        "startChar": 46,
+        "endLine": 172,
+        "endChar": 60
+      },
+      "revId": "c820894e2dbab6649dd060cff2972b8803fdd71f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d1353e3_a72ba1b9",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-08-08T09:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dc9e6bf_d2b4f936",
       "range": {
         "startLine": 172,
         "startChar": 46,

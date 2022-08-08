@@ -193,6 +193,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5cfcf271_b7a70a0a",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-08-08T09:14:33Z",
+      "side": 1,
+      "message": "I think this still doesn\u0027t solve the problem of setting all threshold in one call. If we resuse 550 to 572 then it will need all thresholds in one go(currently done with map). parseThresholdFromAttr gives all thresholds in one call whereas current use case needs one threshdold value at a time. Also parseThresholdsFromConfig needs single double value but parseThresholdFromAttr is giving threshold object(Even after we break up parseThresholdsFromAttr).",
+      "parentUuid": "0c73267b_3f9f6f99",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "2d2cd77689cff9146d12642f0b68123eec76354c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e73342d7_7f41009c",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 1
