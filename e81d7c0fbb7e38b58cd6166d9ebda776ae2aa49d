@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d8dbfe2_92815a82",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T20:22:51Z",
+      "side": 1,
+      "message": "please add comment on why this is done.",
+      "range": {
+        "startLine": 602,
+        "startChar": 19,
+        "endLine": 602,
+        "endChar": 53
+      },
+      "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8552764d_2f4ee189",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T20:22:51Z",
+      "side": 1,
+      "message": "Any rational behind this magic number?",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 677,
+        "endChar": 28
+      },
+      "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84f99d8a_bceb8d2f",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-08T20:22:51Z",
+      "side": 1,
+      "message": "Where is this global flag unset? I assume intend is to have createSensors (line686) run with ipmbSDREnable \u003d true. createS4ensors at Line760 should run with ipmbSDREnable \u003d false",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 684,
+        "endChar": 29
+      },
+      "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
