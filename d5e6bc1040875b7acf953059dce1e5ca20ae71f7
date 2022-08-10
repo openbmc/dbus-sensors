@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ced153ad_1b0bde15",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-10T22:34:07Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "cdf4feaf_ec1812e2",
+      "range": {
+        "startLine": 606,
+        "startChar": 0,
+        "endLine": 608,
+        "endChar": 23
+      },
+      "revId": "d5e6bc1040875b7acf953059dce1e5ca20ae71f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b570b292_cc177d5f",
