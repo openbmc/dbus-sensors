@@ -117,6 +117,30 @@
       },
       "revId": "d5e6bc1040875b7acf953059dce1e5ca20ae71f7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1f74d10_ea19b5a6",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-10T22:33:32Z",
+      "side": 1,
+      "message": "Ok. I got that.",
+      "parentUuid": "0cd1a1d5_0ca85e6f",
+      "range": {
+        "startLine": 631,
+        "startChar": 2,
+        "endLine": 637,
+        "endChar": 52
+      },
+      "revId": "d5e6bc1040875b7acf953059dce1e5ca20ae71f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
