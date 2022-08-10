@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29adb571_64de354f",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-10T10:59:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d8dbfe2_92815a82",
+      "range": {
+        "startLine": 602,
+        "startChar": 19,
+        "endLine": 602,
+        "endChar": 53
+      },
+      "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8552764d_2f4ee189",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7661b7e5_c2fc2bd2",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-10T10:59:34Z",
+      "side": 1,
+      "message": "No, this is to wait until all the sensors are retrieved from IPMB Device.",
+      "parentUuid": "8552764d_2f4ee189",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 677,
+        "endChar": 28
+      },
+      "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84f99d8a_bceb8d2f",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-08-08T20:22:51Z",
       "side": 1,
       "message": "Where is this global flag unset? I assume intend is to have createSensors (line686) run with ipmbSDREnable \u003d true. createS4ensors at Line760 should run with ipmbSDREnable \u003d false",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 684,
+        "endChar": 29
+      },
+      "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ea90061_fcca33f5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-10T10:59:34Z",
+      "side": 1,
+      "message": "yes, in default it will be set as false, if SDR is present, then it will be true before calling create sensors function.\n\nIf both IpmbSensor and SDRSensor interface is created, then SDR sensor will not have all sensor information at first, therefore, this flag can be used to ensure when the sensor information is complete. IpmbSensor can be read by ignoring SDR sensor when line760 called.",
+      "parentUuid": "84f99d8a_bceb8d2f",
       "range": {
         "startLine": 684,
         "startChar": 0,
