@@ -464,6 +464,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "963dc22d_9a187428",
+        "filename": "include/IpmbSDRSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-10T10:32:27Z",
+      "side": 1,
+      "message": "sensorRecord Map is used in createSensor function to populate the sensor dbus path, therefore, it is declared globally.\nIf we declare the map inside IpmbSDRDevice class, then we need to access the map using static in createSensors function.\n\nBefore, it was used in the IpmbSDRDevice member function to read the entity objects separately for SDR and calling the IpmbSensor constructor. Since the code is somewhat similar to existing createSensors function, you have suggested to merge the code with existing createSensors function.\n\nTherefore, to access the map which is in non-class member function, I have declared the map globally.\n\n Could you please provide your suggestion on this global declaration ?",
+      "parentUuid": "301faba6_5f8acbb2",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 0
+      },
+      "revId": "e3abf701133ad9040165c0274524bd9424ab2704",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d21f3d3_bfc9cecc",
         "filename": "src/IpmbSDRSensor.cpp",
         "patchSetId": 20
