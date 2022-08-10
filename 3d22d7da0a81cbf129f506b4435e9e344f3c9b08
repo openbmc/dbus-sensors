@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15b4444c_b2b3c9b8",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-10T11:30:18Z",
+      "side": 1,
+      "message": "As per my understanding from IPMI spec, this only supports type 1 SDR. Other SDR types may not be support this maxPosReadingMargin.\n\nVariables which are supported only for SDR type 1 will comes under sdrtype01 namespace.",
+      "parentUuid": "f76ad444_521cb3e6",
+      "range": {
+        "startLine": 363,
+        "startChar": 18,
+        "endLine": 363,
+        "endChar": 48
+      },
+      "revId": "3d22d7da0a81cbf129f506b4435e9e344f3c9b08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "243e2589_2c57c24d",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-08-08T18:34:33Z",
       "side": 1,
       "message": "why +1?",
+      "range": {
+        "startLine": 415,
+        "startChar": 61,
+        "endLine": 415,
+        "endChar": 77
+      },
+      "revId": "3d22d7da0a81cbf129f506b4435e9e344f3c9b08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b54d36_2b5484e3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-10T11:30:18Z",
+      "side": 1,
+      "message": "In previous patch, ipmbBusIndex value is incremented and stored in structure at the start, therefore, it is incremented here. Now changed in both places and removed +1.",
+      "parentUuid": "243e2589_2c57c24d",
       "range": {
         "startLine": 415,
         "startChar": 61,
