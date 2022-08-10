@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8763a84c_b48181b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-10T14:53:30Z",
+      "side": 1,
+      "message": "Please look at the other power control daemons as an example",
+      "parentUuid": "b0de46f2_a95305fd",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "0d682b5a29f5fd7e0533dc408e139774356f9b66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0aeeb71f_6c3fb1bb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 38
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "The use case here is only to monitor the pgood state so other use cases such as forcepoweroff are not adopted as part of this code.",
       "parentUuid": "0aeeb71f_6c3fb1bb",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 82
+      },
+      "revId": "0d682b5a29f5fd7e0533dc408e139774356f9b66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c78844_508ff717",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-10T14:53:30Z",
+      "side": 1,
+      "message": "Then you need to go submit changes to phosphor-dbus-interfaces for either a different interface or a way to make forcepoweroff optional.  Patrick (the pdi maintainer) can discuss with you further when you open the review.",
+      "parentUuid": "6510ebb6_96ae3cbe",
       "range": {
         "startLine": 45,
         "startChar": 0,
