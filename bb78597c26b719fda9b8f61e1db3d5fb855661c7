@@ -56,6 +56,24 @@
       "message": "Perhaps put this in the try block? And if we do that can we can get rid of the std::optional as well?",
       "revId": "bb78597c26b719fda9b8f61e1db3d5fb855661c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe650f95_e9f1adf2",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-08-10T05:04:39Z",
+      "side": 1,
+      "message": "What I mean by that is put the body of the `if (fileHandle)` conditional in the try block and get rid of the `if (fileHandle)` condition, as you\u0027ll bail out with an exception if we can\u0027t create the FileHandle (AIUI).",
+      "parentUuid": "cb956ac2_854cc532",
+      "revId": "bb78597c26b719fda9b8f61e1db3d5fb855661c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
