@@ -2,6 +2,7 @@
 
 #include <Thresholds.hpp>
 #include <Utils.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <gpiod.hpp>
@@ -11,6 +12,7 @@
 #include <filesystem>
 #include <fstream>
 #include <memory>
+#include <span>
 #include <stdexcept>
 #include <string>
 #include <variant>
@@ -37,8 +39,8 @@ class IntelCPUSensor :
 
   private:
     sdbusplus::asio::object_server& objServer;
-    boost::asio::streambuf readBuf;
-    boost::asio::posix::stream_descriptor inputDev;
+    std::array<char, 128> buffer{};
+    boost::asio::random_access_file inputDev;
     boost::asio::deadline_timer waitTimer;
     std::string nameTcontrol;
     std::string path;
@@ -48,8 +50,8 @@ class IntelCPUSensor :
     size_t pollTime;
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter{0};
-    int fd{};
-    void handleResponse(const boost::system::error_code& err);
+    void handleResponse(const boost::system::error_code& err,
+                        std::span<char> incomingData);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
     void restartRead(void);
