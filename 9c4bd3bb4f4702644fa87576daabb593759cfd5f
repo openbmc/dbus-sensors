@@ -84,6 +84,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "409a4abe_3c919124",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-11T04:52:08Z",
+      "side": 1,
+      "message": "\u003e The only I2CDevice objects that should ever exist should be statically allocated with a string-literal name (values in a static I2CDeviceTypeMap), so I\u0027m fairly confident it should be safe as-is.\n\u003e  That said, if that seems too subtle or an assumption that\u0027s likely to break I can change it to allocate \u0026 copy.  (Yearning for `\u0026\u0027static str` to have that compiler-enforced...)\n\nI guess I kind of buy that.  I could see the argument a lot better if \nI2CDeviceTypeMap were a constexpr std::array, so there\u0027s no question there about lifetime.  In theory the main I2CDeviceTypeMap could go out of scope which would invalidate any I2CDeviceType classes in a subtle way.\n\nI\u0027m on the fence here.  Do whatever is in your best judgement.",
+      "parentUuid": "34f47f02_5e3d7f83",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 21
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "750f534d_71144469",
         "filename": "include/Utils.hpp",
         "patchSetId": 8
@@ -297,6 +321,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a6920c23_e612ebf1",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-11T04:52:08Z",
+      "side": 1,
+      "message": "doesn\u0027t the ifstream flush on close?  Are you seeing actual functional issues?",
+      "parentUuid": "6dd0854a_5d5bf92b",
+      "range": {
+        "startLine": 787,
+        "startChar": 0,
+        "endLine": 787,
+        "endChar": 17
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "348e54a0_cf617ffa",
         "filename": "src/Utils.cpp",
         "patchSetId": 8
@@ -379,6 +427,30 @@
       "side": 1,
       "message": "Ack, though changed to the same .flush()/.good() pattern here as well.",
       "parentUuid": "dcd51c78_13e4c068",
+      "range": {
+        "startLine": 810,
+        "startChar": 0,
+        "endLine": 810,
+        "endChar": 17
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0b14a16_3bb4e31d",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-11T04:52:08Z",
+      "side": 1,
+      "message": "Done.  Lets follow up in the other comment.",
+      "parentUuid": "90a6326a_3bb98819",
       "range": {
         "startLine": 810,
         "startChar": 0,
