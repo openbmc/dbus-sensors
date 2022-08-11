@@ -2,6 +2,7 @@
 
 #include <Thresholds.hpp>
 #include <Utils.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <gpiod.hpp>
@@ -11,6 +12,7 @@
 #include <filesystem>
 #include <fstream>
 #include <memory>
+#include <span>
 #include <stdexcept>
 #include <string>
 #include <variant>
@@ -35,8 +37,11 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
 
   private:
     sdbusplus::asio::object_server& objServer;
-    boost::asio::streambuf readBuf;
-    boost::asio::posix::stream_descriptor inputDev;
+    // Note, this buffer is a shared_ptr because during a read, its lifetime
+    // might have to outlive the PSUSensor class if the object gets destroyed
+    // while in the middle of a read operation
+    std::array<char, 128> buffer{};
+    boost::asio::random_access_file inputDev;
     boost::asio::deadline_timer waitTimer;
     std::string nameTcontrol;
     std::string path;
@@ -46,8 +51,8 @@ class CPUSensor : public Sensor, public std::enable_shared_from_this<CPUSensor>
     size_t pollTime;
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter{0};
-    int fd{};
-    void handleResponse(const boost::system::error_code& err);
+    void handleResponse(const boost::system::error_code& err,
+                        std::span<char> incomingData);
     void checkThresholds(void) override;
     void updateMinMaxValues(void);
     void restartRead(void);
