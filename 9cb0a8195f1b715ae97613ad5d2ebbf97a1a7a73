@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed45bd29_a63f597c",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-08-11T04:58:24Z",
+      "side": 1,
+      "message": "The final piece of the puzzle is that with the change in exception handling we don\u0027t actually need the std::optional any more, as the exception skips over the code that requires fileHandle be properly initialised in the event of a failure. We can just use\n\n FileHandle fileHandle(devpath);\n\nSorry that my waffle about std::optional behaviour and performance distracted from the changes I was asking you to make. And apologies ongoing back-and-forth.\n\nI think with this last adjustment we can get it merged.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 9
+      },
+      "revId": "9cb0a8195f1b715ae97613ad5d2ebbf97a1a7a73",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
