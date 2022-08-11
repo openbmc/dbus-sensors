@@ -201,6 +201,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cbddfd0_ea806169",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-11T04:55:25Z",
+      "side": 1,
+      "message": "Nope..... Just a comment that \"Please keep this list alphabetized\" seems to do the trick.  Also, if we\u0027re that worried, a linear search on startup isn\u0027t the end of the world.",
+      "parentUuid": "b13bb248_756bdf89",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 22
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b65a33b_2a6dc518",
@@ -380,6 +404,30 @@
       "side": 1,
       "message": "Yeah, this is the call I was referring to previously -- the lifetime of the I2CDevice object isn\u0027t really tied to the instantiation and removal of the underlying kernel hwmon device though, it\u0027s created and destroyed as part of the HwmonTempSensor object.  We might close our file descriptors and remove the device without destroying the sensor object, e.g. so that we can maintain the sensor\u0027s presence on dbus with its Available property set to false when it goes offline.\n\n...and actually, I see now it\u0027s not even just that -- at least in the current implementation (https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56023/12), the instantiateDevices() function creates temporary local I2CDevice instances that aren\u0027t even a part of a sensor object, which would break entirely if the destructor ran and removed the hwmon device.",
       "parentUuid": "348e54a0_cf617ffa",
+      "range": {
+        "startLine": 792,
+        "startChar": 0,
+        "endLine": 792,
+        "endChar": 18
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76368572_37e7ddd3",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-11T04:55:25Z",
+      "side": 1,
+      "message": "\u003e We might close our file descriptors and remove the device without destroying the sensor object\n\nBut..... if we want that we can still do that, right?  Just do something like\n\nstd::optional\u003cMyI2cDevice\u003e\n\nif you want to create one, use emplace, if you want to destroy one, call reset().  The advantages of this pattern are that if we throw an exception, the device gets removed appropriately.",
+      "parentUuid": "6d5bf6ad_f8f219da",
       "range": {
         "startLine": 792,
         "startChar": 0,
