@@ -11,19 +11,12 @@ project(
     meson_version: '>=0.57.0',
 )
 
-# Note, there is currently an issue with CPUSensor when used in conjunction
-# with io_uring.  For the moment, we enable uring for all other daemons, but
-# we'd like to enable it for all daemons.
-# https://github.com/openbmc/dbus-sensors/issues/19
-uring_args = [
-    '-DBOOST_ASIO_HAS_IO_URING',
-    '-DBOOST_ASIO_DISABLE_EPOLL',
-    '-DBOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT',
-]
-
 add_project_arguments(
     '-Wno-psabi',
     '-Wuninitialized',
+    '-DBOOST_ASIO_HAS_IO_URING',
+    '-DBOOST_ASIO_DISABLE_EPOLL',
+    '-DBOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT',
     '-DBOOST_SYSTEM_NO_DEPRECATED',
     '-DBOOST_ERROR_CODE_HEADER_ONLY',
     '-DBOOST_NO_RTTI',

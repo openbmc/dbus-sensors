@@ -20,11 +20,12 @@
 #include <Utils.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/asio/read_until.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <charconv>
 #include <cstddef>
 #include <iostream>
 #include <istream>
@@ -43,9 +44,10 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
                      bool show, double dtsOffset) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, 0, 0, conn, PowerState::on),
-    objServer(objectServer), inputDev(io), waitTimer(io),
-    nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
-    privTcontrol(std::numeric_limits<double>::quiet_NaN()),
+    objServer(objectServer),
+    inputDev(io, path, boost::asio::random_access_file::read_only),
+    waitTimer(io), nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)),
+    path(path), privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(CPUSensor::sensorPollMs)
 
 {
@@ -94,8 +96,6 @@ CPUSensor::CPUSensor(const std::string& path, const std::string& objectType,
 
 CPUSensor::~CPUSensor()
 {
-    // close the input dev to cancel async operations
-    inputDev.close();
     waitTimer.cancel();
     if (show)
     {
@@ -131,21 +131,7 @@ void CPUSensor::restartRead(void)
 
 void CPUSensor::setupRead(void)
 {
-    if (readingStateGood())
-    {
-        inputDev.close();
-
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-        fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
-        if (fd < 0)
-        {
-            std::cerr << name << " unable to open fd!\n";
-            return;
-        }
-
-        inputDev.assign(fd);
-    }
-    else
+    if (!readingStateGood())
     {
         markAvailable(false);
         updateValue(std::numeric_limits<double>::quiet_NaN());
@@ -154,15 +140,17 @@ void CPUSensor::setupRead(void)
     }
 
     std::weak_ptr<CPUSensor> weakRef = weak_from_this();
-    inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
-                        [weakRef](const boost::system::error_code& ec) {
+    inputDev.async_read_some_at(
+        0, boost::asio::buffer(buffer),
+        [weakRef](const boost::system::error_code& ec, size_t bytesRead) {
         std::shared_ptr<CPUSensor> self = weakRef.lock();
 
         if (self)
         {
-            self->handleResponse(ec);
+            self->handleResponse(
+                ec, std::span<char>(self->buffer.data(), bytesRead));
         }
-    });
+        });
 }
 
 void CPUSensor::updateMinMaxValues(void)
@@ -215,7 +203,8 @@ void CPUSensor::updateMinMaxValues(void)
     }
 }
 
-void CPUSensor::handleResponse(const boost::system::error_code& err)
+void CPUSensor::handleResponse(const boost::system::error_code& err,
+                               std::span<char> incomingData)
 {
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
@@ -238,86 +227,66 @@ void CPUSensor::handleResponse(const boost::system::error_code& err)
     }
     loggedInterfaceDown = false;
 
-    if (err)
+    if (err || incomingData.empty())
     {
         pollTime = sensorFailedPollTimeMs;
         incrementError();
         return;
     }
 
-    static constexpr uint32_t bufLen = 128;
-    std::string response;
-    response.resize(bufLen);
-    int rdLen = 0;
-
-    if (fd >= 0)
+    std::from_chars_result res =
+        std::from_chars(incomingData.data(),
+                        incomingData.data() + incomingData.size(), rawValue);
+    if (res.ec != std::errc())
     {
-        rdLen = pread(fd, response.data(), bufLen, 0);
+        incrementError();
+        return;
     }
+    double nvalue = rawValue / CPUSensor::sensorScaleFactor;
 
-    if (rdLen > 0)
+    if (show)
     {
-
-        try
-        {
-            rawValue = std::stod(response);
-            double nvalue = rawValue / CPUSensor::sensorScaleFactor;
-
-            if (show)
-            {
-                updateValue(nvalue);
-            }
-            else
-            {
-                value = nvalue;
-            }
-            if (minMaxReadCounter++ % 8 == 0)
-            {
-                updateMinMaxValues();
-            }
-
-            double gTcontrol = gCpuSensors[nameTcontrol]
-                                   ? gCpuSensors[nameTcontrol]->value
-                                   : std::numeric_limits<double>::quiet_NaN();
-            if (gTcontrol != privTcontrol)
-            {
-                privTcontrol = gTcontrol;
-
-                if (!thresholds.empty())
-                {
-                    std::vector<thresholds::Threshold> newThresholds;
-                    if (parseThresholdsFromAttr(newThresholds, path,
-                                                CPUSensor::sensorScaleFactor,
-                                                dtsOffset))
-                    {
-                        if (!std::equal(thresholds.begin(), thresholds.end(),
-                                        newThresholds.begin(),
-                                        newThresholds.end()))
-                        {
-                            thresholds = newThresholds;
-                            if (show)
-                            {
-                                thresholds::updateThresholds(this);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        std::cerr << "Failure to update thresholds for " << name
-                                  << "\n";
-                    }
-                }
-            }
-        }
-        catch (const std::invalid_argument&)
-        {
-            incrementError();
-        }
+        updateValue(nvalue);
     }
     else
     {
-        pollTime = sensorFailedPollTimeMs;
-        incrementError();
+        value = nvalue;
+    }
+    if (minMaxReadCounter++ % 8 == 0)
+    {
+        updateMinMaxValues();
+    }
+
+    double gTcontrol = gCpuSensors[nameTcontrol]
+                           ? gCpuSensors[nameTcontrol]->value
+                           : std::numeric_limits<double>::quiet_NaN();
+    if (gTcontrol != privTcontrol)
+    {
+        privTcontrol = gTcontrol;
+
+        if (!thresholds.empty())
+        {
+            std::vector<thresholds::Threshold> newThresholds;
+            if (parseThresholdsFromAttr(newThresholds, path,
+                                        CPUSensor::sensorScaleFactor,
+                                        dtsOffset))
+            {
+                if (!std::equal(thresholds.begin(), thresholds.end(),
+                                newThresholds.begin(), newThresholds.end()))
+                {
+                    thresholds = newThresholds;
+                    if (show)
+                    {
+                        thresholds::updateThresholds(this);
+                    }
+                }
+            }
+            else
+            {
+                std::cerr << "Failure to update thresholds for " << name
+                          << "\n";
+            }
+        }
     }
     restartRead();
 }
