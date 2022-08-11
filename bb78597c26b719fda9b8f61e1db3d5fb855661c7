@@ -92,6 +92,24 @@
       "parentUuid": "fe650f95_e9f1adf2",
       "revId": "bb78597c26b719fda9b8f61e1db3d5fb855661c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "396c3876_5236bd74",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-08-11T01:19:46Z",
+      "side": 1,
+      "message": "\u003e Is out-of-range exception enough to cover all fail cases of constructing FileHandle object\n\nIt appears so, see:\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/FileHandle.cpp#L12-L17\n\n\u003e if so, we can remove the if(fileHandle) condition and directly process further when it passes the try.\n\nYep, so let\u0027s remove the condition now that we\u0027ve verified the exception behaviour\n\n\u003e And I think we should only try-catch where the exception may happen, and should not put all the below processing inside try, do you think so? \n\nGenerally no. But in this case we\u0027re returning from the exception clause which prevents the rest of the code from executing in an invalid state even though it\u0027s outside the try-block, so in this case it\u0027s fine.\n\nBut without the reasoning above about the behaviour of the FileHandle constructor, you eliminate the condition by moving this code inside the try-block, as an exception would then cause execution to jump over it. That is, in general, the code should be structured as follows:\n\n try {\n  auto foo \u003d might_throw_bar();\n  compute_something(foo);\n } catch (const bar\u0026 ex) {\n  handle_bar(bar);\n }\n\n\u003e About std::optional, do we necessarily have to use it instead of just a normal object for this case. I think the object being null here is an error, not an option, so can we just use a normal unique pointer for it? I don\u0027t get it much about the allocation advantage of an optional pointer, can you please give some advice?\n\nJust to clarify, no-one was suggesting using an \"optional pointer\". What we were suggesting was an _optional object_ via std::optional, so std::optional\u003cFileHandle\u003e.\n\nWith that out of the way, I think there might be some confusion about objects, storage location, pointers and the general behaviour of std::optional here.\n\nSome documentation for std::optional is here:\n\nhttps://en.cppreference.com/w/cpp/utility/optional/optional\n\nGenerally, objects live in one of two storage locations, the heap or the stack. Using std::unique_ptr forces object allocation on the heap and returns us a pointer. As we have a pointer, we have the ability for the pointer to not point to anything, which we can exploit to indicate a failure state as you\u0027ve done in the patch.\n\nBy contrast, by allocating an object directly on the stack (e.g. via a function temporary) the lack of a pointer means there\u0027s no opportunity to express the state of the object being invalid (instead the code would fail to compile or an exception would be thrown).\n\nstd::optional is the solution for this latter case. Along with the object it contains it can be allocated on the stack, and gives us the property of the contained object being valid or not. It doesn\u0027t require the storage for a pointer as it instantiates the contained object in place, which eliminates the heap allocation.\n\nWe want to avoid unnecessary heap allocations like those required by std::unique_ptr because they are expensive. Here\u0027s a benchmark which demonstrates that std::unique_ptr is 44x worse in terms of performance than std::optional:\n\nhttps://quick-bench.com/q/MMBhm0YvYtH22ak_XTeJlO7dlfQ",
+      "parentUuid": "d703179b_2b30c7c9",
+      "revId": "bb78597c26b719fda9b8f61e1db3d5fb855661c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
