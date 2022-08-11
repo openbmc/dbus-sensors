@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0de1fe68_346930b4",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-08-11T12:40:45Z",
+      "side": 1,
+      "message": "This all looks coherent enough to be in a header that isn\u0027t called \u0027Utils.hpp\u0027 IMO. Can we start trying to organise things so we don\u0027t grow the junkyard?",
+      "revId": "25fd66c23f25be9435297dd7e14c3b07482c97cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
