@@ -22,6 +22,30 @@
       },
       "revId": "043417a93b76b74f63db4e77414a23ee60bc3d7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "838b40d4_19faab93",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-12T19:23:17Z",
+      "side": 1,
+      "message": "Agreed, it\u0027s not pretty at the moment...I was sorta trying to avoid things that would require mucking around with other sensor daemons, but I guess making that change to the getConfiguration API probably shouldn\u0027t be too bad, maybe I\u0027ll slip in a patch before this to do that first.",
+      "parentUuid": "88781eab_54bd6c83",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 489,
+        "endChar": 5
+      },
+      "revId": "043417a93b76b74f63db4e77414a23ee60bc3d7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
