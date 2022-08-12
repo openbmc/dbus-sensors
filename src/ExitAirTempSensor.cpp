@@ -969,15 +969,8 @@ int main()
             }
         });
     };
-    for (const char* type : monitorIfaces)
-    {
-        auto match = std::make_unique<sdbusplus::bus::match_t>(
-            static_cast<sdbusplus::bus_t&>(*systemBus),
-            "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
-            eventHandler);
-        matches.emplace_back(std::move(match));
-    }
+    setupPropertiesChangedMatches(*systemBus, monitorIfaces, eventHandler,
+                                  matches);
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
