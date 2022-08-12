@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88781eab_54bd6c83",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-12T15:42:25Z",
+      "side": 1,
+      "message": "I\u0027m not in love with this kind of code, changing a parameter just to meet a data interface, but because this patchset is overall better, I guess I\u0027m ok with it.\n\nI\u0027d much prefer (and can be done in a later patch if you want) to just pass the struct into getConfiguration, and have it assemble the strings itself to avoid all the string allocations.\n\nWith that said, this happens at startup, so it\u0027s not the biggest deal.",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 489,
+        "endChar": 5
+      },
+      "revId": "043417a93b76b74f63db4e77414a23ee60bc3d7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
