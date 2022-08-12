@@ -377,8 +377,7 @@ static void createSensorsCallback(
             continue;
         }
 
-        const std::pair<std::string, SensorBaseConfigMap>*
-            baseConfig = nullptr;
+        const SensorBaseConfigMap* baseConfig = nullptr;
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;
         const char* sensorType = nullptr;
@@ -393,7 +392,7 @@ static void createSensorsCallback(
                 auto sensorBase = sensorData->find(type);
                 if (sensorBase != sensorData->end())
                 {
-                    baseConfig = &(*sensorBase);
+                    baseConfig = &sensorBase->second;
                     sensorType = type;
                     break;
                 }
@@ -405,11 +404,11 @@ static void createSensorsCallback(
                 continue;
             }
 
-            auto configBus = baseConfig->second.find("Bus");
-            auto configAddress = baseConfig->second.find("Address");
+            auto configBus = baseConfig->find("Bus");
+            auto configAddress = baseConfig->find("Address");
 
-            if (configBus == baseConfig->second.end() ||
-                configAddress == baseConfig->second.end())
+            if (configBus == baseConfig->end() ||
+                configAddress == baseConfig->end())
             {
                 std::cerr << "error finding necessary entry in configuration\n";
                 continue;
@@ -450,8 +449,8 @@ static void createSensorsCallback(
             continue;
         }
 
-        auto findPSUName = baseConfig->second.find("Name");
-        if (findPSUName == baseConfig->second.end())
+        auto findPSUName = baseConfig->find("Name");
+        if (findPSUName == baseConfig->end())
         {
             std::cerr << "could not determine configuration name for "
                       << deviceName << "\n";
@@ -484,7 +483,7 @@ static void createSensorsCallback(
         checkGroupEvent(directory.string(), groupEventMatch,
                         groupEventPathList);
 
-        PowerState readState = getPowerState(baseConfig->second);
+        PowerState readState = getPowerState(*baseConfig);
 
         /* Check if there are more sensors in the same interface */
         int i = 1;
@@ -494,8 +493,8 @@ static void createSensorsCallback(
             // Individual string fields: Name, Name1, Name2, Name3, ...
             psuNames.push_back(
                 escapeName(std::get<std::string>(findPSUName->second)));
-            findPSUName = baseConfig->second.find("Name" + std::to_string(i++));
-        } while (findPSUName != baseConfig->second.end());
+            findPSUName = baseConfig->find("Name" + std::to_string(i++));
+        } while (findPSUName != baseConfig->end());
 
         std::vector<fs::path> sensorPaths;
         if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
@@ -515,9 +514,9 @@ static void createSensorsCallback(
 
         /* The poll rate for the sensors */
         double pollRate = 0.0;
-        auto pollRateObj = baseConfig->second.find("PollRate");
+        auto pollRateObj = baseConfig->find("PollRate");
 
-        if (pollRateObj != baseConfig->second.end())
+        if (pollRateObj != baseConfig->end())
         {
             pollRate =
                 std::visit(VariantToDoubleVisitor(), pollRateObj->second);
@@ -529,8 +528,8 @@ static void createSensorsCallback(
 
         /* Find array of labels to be exposed if it is defined in config */
         std::vector<std::string> findLabels;
-        auto findLabelObj = baseConfig->second.find("Labels");
-        if (findLabelObj != baseConfig->second.end())
+        auto findLabelObj = baseConfig->find("Labels");
+        if (findLabelObj != baseConfig->end())
         {
             findLabels =
                 std::get<std::vector<std::string>>(findLabelObj->second);
@@ -671,8 +670,8 @@ static void createSensorsCallback(
             std::string keyPowerState = labelHead + "_PowerState";
 
             bool customizedName = false;
-            auto findCustomName = baseConfig->second.find(keyName);
-            if (findCustomName != baseConfig->second.end())
+            auto findCustomName = baseConfig->find(keyName);
+            if (findCustomName != baseConfig->end())
             {
                 try
                 {
@@ -690,8 +689,8 @@ static void createSensorsCallback(
             }
 
             bool customizedScale = false;
-            auto findCustomScale = baseConfig->second.find(keyScale);
-            if (findCustomScale != baseConfig->second.end())
+            auto findCustomScale = baseConfig->find(keyScale);
+            if (findCustomScale != baseConfig->end())
             {
                 try
                 {
@@ -716,8 +715,8 @@ static void createSensorsCallback(
                 }
             }
 
-            auto findCustomMin = baseConfig->second.find(keyMin);
-            if (findCustomMin != baseConfig->second.end())
+            auto findCustomMin = baseConfig->find(keyMin);
+            if (findCustomMin != baseConfig->end())
             {
                 try
                 {
@@ -731,8 +730,8 @@ static void createSensorsCallback(
                 }
             }
 
-            auto findCustomMax = baseConfig->second.find(keyMax);
-            if (findCustomMax != baseConfig->second.end())
+            auto findCustomMax = baseConfig->find(keyMax);
+            if (findCustomMax != baseConfig->end())
             {
                 try
                 {
@@ -746,8 +745,8 @@ static void createSensorsCallback(
                 }
             }
 
-            auto findCustomOffset = baseConfig->second.find(keyOffset);
-            if (findCustomOffset != baseConfig->second.end())
+            auto findCustomOffset = baseConfig->find(keyOffset);
+            if (findCustomOffset != baseConfig->end())
             {
                 try
                 {
@@ -762,8 +761,8 @@ static void createSensorsCallback(
             }
 
             // if we find label head power state set ，override the powerstate.
-            auto findPowerState = baseConfig->second.find(keyPowerState);
-            if (findPowerState != baseConfig->second.end())
+            auto findPowerState = baseConfig->find(keyPowerState);
+            if (findPowerState != baseConfig->end())
             {
                 std::string powerState = std::visit(VariantToStringVisitor(),
                                                     findPowerState->second);
@@ -838,8 +837,8 @@ static void createSensorsCallback(
 
                 // Preserve existing configs by accepting earlier syntax,
                 // example CurrScaleFactor, PowerScaleFactor, ...
-                auto findScaleFactor = baseConfig->second.find(strScaleFactor);
-                if (findScaleFactor != baseConfig->second.end())
+                auto findScaleFactor = baseConfig->find(strScaleFactor);
+                if (findScaleFactor != baseConfig->end())
                 {
                     factor = std::visit(VariantToIntVisitor(),
                                         findScaleFactor->second);
