@@ -14,6 +14,7 @@
 #include <memory>
 #include <optional>
 #include <regex>
+#include <span>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -337,3 +338,7 @@ std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);
 bool getManufacturingMode();
+std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
+    setupPropertiesChangedMatches(
+        sdbusplus::asio::connection& bus, std::span<const char* const> types,
+        const std::function<void(sdbusplus::message_t&)>& handler);

@@ -296,16 +296,10 @@ int main()
         });
     };
 
-    sdbusplus::bus::match_t configMatch(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',member='PropertiesChanged',"
-        "path_namespace='" +
-            std::string(inventoryPath) +
-            "',"
-            "arg0namespace='" +
-            configInterface + "'",
-        eventHandler);
-
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+        setupPropertiesChangedMatches(
+            *systemBus, std::to_array<const char*>({configInterface}),
+            eventHandler);
     setupManufacturingModeMatch(*systemBus);
     io.run();
     return 0;
