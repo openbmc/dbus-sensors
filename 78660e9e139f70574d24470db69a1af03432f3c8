@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13a3fd96_3b348c6c",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-12T12:56:31Z",
+      "side": 1,
+      "message": "Remove the header which are already declared in hpp file.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2418f859_1a5102d5",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-12T12:56:31Z",
+      "side": 1,
+      "message": "This can be initialized before line 160.",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 62
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0943bf6d_564a94e3",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-12T12:56:31Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
