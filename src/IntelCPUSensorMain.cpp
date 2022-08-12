@@ -716,7 +716,6 @@ int main()
     boost::container::flat_set<CPUConfig> cpuConfigs;
 
     sdbusplus::asio::object_server objectServer(systemBus);
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
     boost::asio::deadline_timer pingTimer(io);
     boost::asio::deadline_timer creationTimer(io);
     boost::asio::deadline_timer filterTimer(io);
@@ -766,16 +765,8 @@ int main()
         });
     };
 
-    for (const char* type : sensorTypes)
-    {
-        auto match = std::make_unique<sdbusplus::bus::match_t>(
-            static_cast<sdbusplus::bus_t&>(*systemBus),
-            "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" +
-                configPrefix + type + "'",
-            eventHandler);
-        matches.emplace_back(std::move(match));
-    }
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
     systemBus->request_name("xyz.openbmc_project.IntelCPUSensor");
 

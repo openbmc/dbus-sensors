@@ -947,7 +947,6 @@ int main()
     sdbusplus::asio::object_server objectServer(systemBus);
     std::shared_ptr<ExitAirTempSensor> sensor =
         nullptr; // wait until we find the config
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
 
     io.post([&]() { createSensor(objectServer, sensor, systemBus); });
 
@@ -969,15 +968,8 @@ int main()
             }
         });
     };
-    for (const char* type : monitorIfaces)
-    {
-        auto match = std::make_unique<sdbusplus::bus::match_t>(
-            static_cast<sdbusplus::bus_t&>(*systemBus),
-            "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
-            eventHandler);
-        matches.emplace_back(std::move(match));
-    }
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+        setupPropertiesChangedMatches(*systemBus, monitorIfaces, eventHandler);
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
