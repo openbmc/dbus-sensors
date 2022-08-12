@@ -254,12 +254,10 @@ int main()
         });
     };
 
-    sdbusplus::bus::match_t configMatch(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',member='PropertiesChanged',path_namespace='" +
-            std::string(inventoryPath) + "',arg0namespace='" +
-            std::string(NVMeSensor::configType) + "'",
-        eventHandler);
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+        setupPropertiesChangedMatches(
+            *systemBus, std::to_array<const char*>({NVMeSensor::configType}),
+            eventHandler);
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.

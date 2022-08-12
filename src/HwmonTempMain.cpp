@@ -524,7 +524,6 @@ int main()
     sdbusplus::asio::object_server objectServer(systemBus);
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>
         sensors;
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
@@ -559,16 +558,8 @@ int main()
         });
     };
 
-    for (const char* type : sensorTypes)
-    {
-        auto match = std::make_unique<sdbusplus::bus::match_t>(
-            static_cast<sdbusplus::bus_t&>(*systemBus),
-            "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
-            eventHandler);
-        matches.emplace_back(std::move(match));
-    }
-
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
     setupManufacturingModeMatch(*systemBus);
 
     // Watch for entity-manager to remove configuration interfaces
