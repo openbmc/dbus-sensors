@@ -26,6 +26,139 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "080461dd_c96c6bae",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-12T23:15:52Z",
+      "side": 1,
+      "message": "That\u0027s not generally how we do that.",
+      "parentUuid": "13a3fd96_3b348c6c",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7dcae8e_c8141cb4",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-12T23:15:52Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 1
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d97629_bba6be1a",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-12T23:15:52Z",
+      "side": 1,
+      "message": "Why is this neccesary?  An ampere cpu is going to produce a set of known sensor types.  This doesn\u0027t need to be configurable, right?",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 73
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f7ee105_bbad284d",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-12T23:15:52Z",
+      "side": 1,
+      "message": "Missing return.",
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc92daad_96d5c982",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-12T23:15:52Z",
+      "side": 1,
+      "message": "Please use sdbusplus::message::object_path::operator/ to construct this.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 68
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62541e6d_51c24db8",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-12T23:15:52Z",
+      "side": 1,
+      "message": "FYI, while this has been in review, most of dbus-sensors has moved to io_uring, I suspect you\u0027ll want to do the same here.  Let me know if you need help with that.",
+      "range": {
+        "startLine": 108,
+        "startChar": 17,
+        "endLine": 108,
+        "endChar": 33
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2418f859_1a5102d5",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 25
@@ -42,6 +175,29 @@
         "startChar": 4,
         "endLine": 123,
         "endChar": 62
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed17623_9ac85a5d",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-12T23:15:52Z",
+      "side": 1,
+      "message": "This can be removed.  operation_aborted is expected on shutdown.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 50
       },
       "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
