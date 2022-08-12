@@ -458,11 +458,10 @@ int main()
         }
     };
 
-    auto eventMatch = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',member='PropertiesChanged',path_namespace='" +
-            std::string(inventoryPath) + "',arg0namespace='" + sensorType + "'",
-        eventHandler);
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
+    setupPropertiesChangedMatches(*systemBus,
+                                  std::to_array<const char*>({sensorType}),
+                                  eventHandler, matches);
 
     if (initializeLanStatus(systemBus))
     {

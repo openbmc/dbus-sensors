@@ -707,3 +707,19 @@ bool getManufacturingMode()
 {
     return manufacturingMode;
 }
+
+void setupPropertiesChangedMatches(
+    sdbusplus::asio::connection& bus, std::span<const char* const> types,
+    std::function<void(sdbusplus::message_t&)> handler,
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>>& matches)
+{
+    for (const char* type : types)
+    {
+        auto match = std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(bus),
+            "type='signal',member='PropertiesChanged',path_namespace='" +
+                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
+            handler);
+        matches.emplace_back(std::move(match));
+    }
+}
