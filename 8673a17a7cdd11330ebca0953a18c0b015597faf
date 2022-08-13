@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93adc7db_38cfdfbe",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-13T00:11:21Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s sorta what I\u0027m aiming to work towards -- this grew out of https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56127/comments/88781eab_54bd6c83 (as you might be able to guess), though it\u0027s snowballing a bit...",
+      "parentUuid": "1a211e86_785999b7",
+      "range": {
+        "startLine": 342,
+        "startChar": 67,
+        "endLine": 342,
+        "endChar": 72
+      },
+      "revId": "8673a17a7cdd11330ebca0953a18c0b015597faf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aeb05057_2dd0bcf4",
@@ -65,6 +89,30 @@
         "startChar": 21,
         "endLine": 344,
         "endChar": 31
+      },
+      "revId": "8673a17a7cdd11330ebca0953a18c0b015597faf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21d1ba0d_288d8b91",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-13T00:11:21Z",
+      "side": 1,
+      "message": "Yeah, that\u0027d probably make more sense...there are one or to that stuff some other entries into the vector, but that could be done on the returned one just as well.",
+      "parentUuid": "aeb05057_2dd0bcf4",
+      "range": {
+        "startLine": 344,
+        "startChar": 59,
+        "endLine": 344,
+        "endChar": 66
       },
       "revId": "8673a17a7cdd11330ebca0953a18c0b015597faf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
