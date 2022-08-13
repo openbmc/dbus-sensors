@@ -176,9 +176,9 @@ bool getSensorConfiguration(
     for (const auto& pathPair : managedObj)
     {
         bool correctType = false;
-        for (const auto& entry : pathPair.second)
+        for (const auto& [intf, cfg] : pathPair.second)
         {
-            if (boost::starts_with(entry.first, type))
+            if (boost::starts_with(intf, type))
             {
                 correctType = true;
                 break;
