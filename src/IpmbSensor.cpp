@@ -496,41 +496,38 @@ void createSensors(
             std::cerr << "Error contacting entity manager\n";
             return;
         }
-        for (const auto& pathPair : resp)
+        for (const auto& [path, interfaces] : resp)
         {
-            for (const auto& entry : pathPair.second)
+            for (const auto& [intf, cfg] : interfaces)
             {
-                if (entry.first != configInterface)
+                if (intf != configInterface)
                 {
                     continue;
                 }
-                std::string name =
-                    loadVariant<std::string>(entry.second, "Name");
+                std::string name = loadVariant<std::string>(cfg, "Name");
 
                 std::vector<thresholds::Threshold> sensorThresholds;
-                if (!parseThresholdsFromConfig(pathPair.second,
-                                               sensorThresholds))
+                if (!parseThresholdsFromConfig(interfaces, sensorThresholds))
                 {
                     std::cerr << "error populating thresholds for " << name
                               << "\n";
                 }
-                uint8_t deviceAddress =
-                    loadVariant<uint8_t>(entry.second, "Address");
+                uint8_t deviceAddress = loadVariant<uint8_t>(cfg, "Address");
 
                 std::string sensorClass =
-                    loadVariant<std::string>(entry.second, "Class");
+                    loadVariant<std::string>(cfg, "Class");
 
                 uint8_t hostSMbusIndex = hostSMbusIndexDefault;
-                auto findSmType = entry.second.find("HostSMbusIndex");
-                if (findSmType != entry.second.end())
+                auto findSmType = cfg.find("HostSMbusIndex");
+                if (findSmType != cfg.end())
                 {
                     hostSMbusIndex = std::visit(VariantToUnsignedIntVisitor(),
                                                 findSmType->second);
                 }
 
                 float pollRate = pollRateDefault;
-                auto findPollRate = entry.second.find("PollRate");
-                if (findPollRate != entry.second.end())
+                auto findPollRate = cfg.find("PollRate");
+                if (findPollRate != cfg.end())
                 {
                     pollRate = std::visit(VariantToFloatVisitor(),
                                           findPollRate->second);
@@ -542,8 +539,8 @@ void createSensors(
 
                 /* Default sensor type is "temperature" */
                 std::string sensorTypeName = "temperature";
-                auto findType = entry.second.find("SensorType");
-                if (findType != entry.second.end())
+                auto findType = cfg.find("SensorType");
+                if (findType != cfg.end())
                 {
                     sensorTypeName =
                         std::visit(VariantToStringVisitor(), findType->second);
@@ -551,11 +548,11 @@ void createSensors(
 
                 auto& sensor = sensors[name];
                 sensor = std::make_unique<IpmbSensor>(
-                    dbusConnection, io, name, pathPair.first, objectServer,
+                    dbusConnection, io, name, path, objectServer,
                     std::move(sensorThresholds), deviceAddress, hostSMbusIndex,
                     pollRate, sensorTypeName);
 
-                sensor->parseConfigValues(entry.second);
+                sensor->parseConfigValues(cfg);
                 if (!(sensor->sensorClassType(sensorClass)))
                 {
                     continue;
@@ -599,11 +596,11 @@ void reinitSensors(sdbusplus::message_t& message)
                     return; // we're being canceled
                 }
 
-                for (const auto& sensor : sensors)
+                for (const auto& [name, sensor] : sensors)
                 {
-                    if (sensor.second)
+                    if (sensor)
                     {
-                        sensor.second->runInitCmd();
+                        sensor->runInitCmd();
                     }
                 }
             });
