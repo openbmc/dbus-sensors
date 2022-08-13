@@ -61,22 +61,22 @@ void updateReaper(boost::container::flat_map<
                   const std::chrono::steady_clock::time_point& now)
 {
     // First pass, reap all stale sensors
-    for (auto& sensor : sensors)
+    for (const auto& [name, sensor] : sensors)
     {
-        if (!sensor.second)
+        if (!sensor)
         {
             continue;
         }
 
-        if (!sensor.second->isAliveAndPerishable())
+        if (!sensor->isAliveAndPerishable())
         {
             continue;
         }
 
-        if (!sensor.second->isAliveAndFresh(now))
+        if (!sensor->isAliveAndFresh(now))
         {
             // Mark sensor as dead, no longer alive
-            sensor.second->writeInvalidate();
+            sensor->writeInvalidate();
         }
     }
 
@@ -84,19 +84,19 @@ void updateReaper(boost::container::flat_map<
     bool needCheck = false;
 
     // Second pass, determine timer interval to next check
-    for (auto& sensor : sensors)
+    for (const auto& [name, sensor] : sensors)
     {
-        if (!sensor.second)
+        if (!sensor)
         {
             continue;
         }
 
-        if (!sensor.second->isAliveAndPerishable())
+        if (!sensor->isAliveAndPerishable())
         {
             continue;
         }
 
-        auto expiration = sensor.second->ageRemaining(now);
+        auto expiration = sensor->ageRemaining(now);
 
         if (needCheck)
         {
