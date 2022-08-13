@@ -185,13 +185,10 @@ static SensorConfigMap
     buildSensorConfigMap(const ManagedObjectType& sensorConfigs)
 {
     SensorConfigMap configMap;
-    for (const std::pair<sdbusplus::message::object_path, SensorData>& sensor :
-         sensorConfigs)
+    for (const auto& [path, cfgData] : sensorConfigs)
     {
-        for (const std::pair<std::string, SensorBaseConfigMap>& cfgmap :
-             sensor.second)
+        for (const auto& [intf, cfg] : cfgData)
         {
-            const SensorBaseConfigMap& cfg = cfgmap.second;
             auto busCfg = cfg.find("Bus");
             auto addrCfg = cfg.find("Address");
             if ((busCfg == cfg.end()) || (addrCfg == cfg.end()))
@@ -202,7 +199,7 @@ static SensorConfigMap
             if ((std::get_if<uint64_t>(&busCfg->second) == nullptr) ||
                 (std::get_if<uint64_t>(&addrCfg->second) == nullptr))
             {
-                std::cerr << sensor.first.str << " Bus or Address invalid\n";
+                std::cerr << path.str << " Bus or Address invalid\n";
                 continue;
             }
 
@@ -227,16 +224,14 @@ static SensorConfigMap
 
             SensorConfigKey key = {std::get<uint64_t>(busCfg->second),
                                    std::get<uint64_t>(addrCfg->second)};
-            SensorConfig val = {sensor.first.str, sensor.second, cfgmap.first,
-                                cfg, hwmonNames};
+            SensorConfig val = {path.str, cfgData, intf, cfg, hwmonNames};
 
             auto [it, inserted] = configMap.emplace(key, std::move(val));
             if (!inserted)
             {
-                std::cerr << sensor.first.str
-                          << ": ignoring duplicate entry for {" << key.bus
-                          << ", 0x" << std::hex << key.addr << std::dec
-                          << "}\n";
+                std::cerr << path.str << ": ignoring duplicate entry for {"
+                          << key.bus << ", 0x" << std::hex << key.addr
+                          << std::dec << "}\n";
             }
         }
     }
