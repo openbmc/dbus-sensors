@@ -266,9 +266,9 @@ static void
                    sdbusplus::asio::object_server& objectServer,
                    const std::string& psuName)
 {
-    for (const auto& pwmName : pwmTable)
+    for (const auto& [label, name] : pwmTable)
     {
-        if (pwmName.first != labelHead)
+        if (label != labelHead)
         {
             continue;
         }
@@ -289,8 +289,8 @@ static void
         }
 
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
-            objectServer, interfacePath + "_" + pwmName.second, "PSU");
+            "Pwm_" + psuName + "_" + name, pwmPathStr, dbusConnection,
+            objectServer, interfacePath + "_" + name, "PSU");
     }
 }
 
@@ -383,10 +383,9 @@ static void createSensorsCallback(
         const char* sensorType = nullptr;
         size_t thresholdConfSize = 0;
 
-        for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigs)
+        for (const auto& [path, cfgData] : sensorConfigs)
         {
-            sensorData = &(sensor.second);
+            sensorData = &cfgData;
             for (const char* type : sensorTypes)
             {
                 auto sensorBase = sensorData->find(type);
@@ -438,7 +437,7 @@ static void createSensorsCallback(
             }
             thresholdConfSize = confThresholds.size();
 
-            interfacePath = &(sensor.first.str);
+            interfacePath = &path.str;
             break;
         }
         if (interfacePath == nullptr)
