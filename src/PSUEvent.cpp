@@ -59,15 +59,14 @@ PSUCombineEvent::PSUCombineEvent(
 
     std::shared_ptr<std::set<std::string>> combineEvent =
         std::make_shared<std::set<std::string>>();
-    for (const auto& pathList : eventPathList)
+    for (const auto& [eventName, paths] : eventPathList)
     {
         std::shared_ptr<std::set<std::string>> assert =
             std::make_shared<std::set<std::string>>();
         std::shared_ptr<bool> state = std::make_shared<bool>(false);
 
-        const std::string& eventName = pathList.first;
         std::string eventPSUName = eventName + psuName;
-        for (const auto& path : pathList.second)
+        for (const auto& path : paths)
         {
             auto p = std::make_shared<PSUSubEvent>(
                 eventInterface, path, conn, io, powerState, eventName,
@@ -80,22 +79,20 @@ PSUCombineEvent::PSUCombineEvent(
         }
     }
 
-    for (const auto& groupPathList : groupEventPathList)
+    for (const auto& [eventName, groupEvents] : groupEventPathList)
     {
-        for (const auto& pathList : groupPathList.second)
+        for (const auto& [groupEventName, paths] : groupEvents)
         {
             std::shared_ptr<std::set<std::string>> assert =
                 std::make_shared<std::set<std::string>>();
             std::shared_ptr<bool> state = std::make_shared<bool>(false);
 
-            const std::string& groupEventName = pathList.first;
             std::string eventPSUName = groupEventName + psuName;
-            for (const auto& path : pathList.second)
+            for (const auto& path : paths)
             {
                 auto p = std::make_shared<PSUSubEvent>(
                     eventInterface, path, conn, io, powerState, groupEventName,
-                    groupPathList.first, assert, combineEvent, state, psuName,
-                    pollRate);
+                    eventName, assert, combineEvent, state, psuName, pollRate);
                 p->setupRead();
                 events[eventPSUName].emplace_back(p);
 
@@ -109,9 +106,9 @@ PSUCombineEvent::PSUCombineEvent(
 PSUCombineEvent::~PSUCombineEvent()
 {
     // Clear unique_ptr first
-    for (auto& event : events)
+    for (auto& [psuName, subEvents] : events)
     {
-        for (auto& subEventPtr : event.second)
+        for (auto& subEventPtr : subEvents)
         {
             subEventPtr.reset();
         }
