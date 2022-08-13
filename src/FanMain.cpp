@@ -168,32 +168,31 @@ void createRedundancySensor(
             std::cerr << "Error calling entity manager \n";
             return;
         }
-        for (const auto& pathPair : managedObj)
+        for (const auto& [path, interfaces] : managedObj)
         {
-            for (const auto& interfacePair : pathPair.second)
+            for (const auto& [intf, cfg] : interfaces)
             {
-                if (interfacePair.first == redundancyConfiguration)
+                if (intf == redundancyConfiguration)
                 {
                     // currently only support one
-                    auto findCount =
-                        interfacePair.second.find("AllowedFailures");
-                    if (findCount == interfacePair.second.end())
+                    auto findCount = cfg.find("AllowedFailures");
+                    if (findCount == cfg.end())
                     {
                         std::cerr << "Malformed redundancy record \n";
                         return;
                     }
                     std::vector<std::string> sensorList;
 
-                    for (const auto& sensor : sensors)
+                    for (const auto& [name, sensor] : sensors)
                     {
                         sensorList.push_back(
                             "/xyz/openbmc_project/sensors/fan_tach/" +
-                            sensor.second->name);
+                            sensor->name);
                     }
                     systemRedundancy.reset();
-                    systemRedundancy.emplace(RedundancySensor(
-                        std::get<uint64_t>(findCount->second), sensorList,
-                        objectServer, pathPair.first));
+                    systemRedundancy.emplace(
+                        RedundancySensor(std::get<uint64_t>(findCount->second),
+                                         sensorList, objectServer, path));
 
                     return;
                 }
@@ -247,19 +246,18 @@ void createSensors(
             const SensorData* sensorData = nullptr;
             const std::string* interfacePath = nullptr;
             const SensorBaseConfiguration* baseConfiguration = nullptr;
-            for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                     sensor : sensorConfigurations)
+            for (const auto& [path, cfgData] : sensorConfigurations)
             {
                 // find the base of the configuration to see if indexes
                 // match
-                auto sensorBaseFind = sensor.second.find(sensorTypes[fanType]);
-                if (sensorBaseFind == sensor.second.end())
+                auto sensorBaseFind = cfgData.find(sensorTypes[fanType]);
+                if (sensorBaseFind == cfgData.end())
                 {
                     continue;
                 }
 
                 baseConfiguration = &(*sensorBaseFind);
-                interfacePath = &(sensor.first.str);
+                interfacePath = &path.str;
                 baseType = sensorTypes[fanType];
 
                 auto findIndex = baseConfiguration->second.find("Index");
@@ -278,7 +276,7 @@ void createSensors(
                 {
                     // there will be only 1 aspeed or nuvoton sensor object
                     // in sysfs, we found the fan
-                    sensorData = &(sensor.second);
+                    sensorData = &cfgData;
                     break;
                 }
                 if (fanType == FanTypes::i2c)
@@ -315,7 +313,7 @@ void createSensors(
 
                     if (configBus == bus && configAddress == address)
                     {
-                        sensorData = &(sensor.second);
+                        sensorData = &cfgData;
                         break;
                     }
                 }
