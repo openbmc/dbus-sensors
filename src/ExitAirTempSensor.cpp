@@ -593,19 +593,18 @@ void ExitAirTempSensor::setupMatches(void)
         {
             return;
         }
-        for (const auto& item : subtree)
+        for (const auto& [path, matches] : subtree)
         {
-            size_t lastSlash = item.first.rfind("/");
-            if (lastSlash == std::string::npos ||
-                lastSlash == item.first.size() || item.second.empty())
+            size_t lastSlash = path.rfind('/');
+            if (lastSlash == std::string::npos || lastSlash == path.size() ||
+                matches.empty())
             {
                 continue;
             }
-            std::string sensorName = item.first.substr(lastSlash + 1);
+            std::string sensorName = path.substr(lastSlash + 1);
             if (boost::starts_with(sensorName, "PS") &&
                 boost::ends_with(sensorName, "Input_Power"))
             {
-                const std::string& path = item.first;
                 self->dbusConnection->async_method_call(
                     [weakRef, path](boost::system::error_code ec,
                                     const std::variant<double>& value) {
@@ -627,7 +626,7 @@ void ExitAirTempSensor::setupMatches(void)
                     }
                     self->powerReadings[path] = reading;
                     },
-                    item.second[0].first, item.first, properties::interface,
+                    matches[0].first, path, properties::interface,
                     properties::get, sensorValueInterface, "Value");
             }
         }
@@ -718,13 +717,13 @@ bool ExitAirTempSensor::calculate(double& val)
     }
 
     double totalPower = 0;
-    for (const auto& reading : powerReadings)
+    for (const auto& [path, reading] : powerReadings)
     {
-        if (std::isnan(reading.second))
+        if (std::isnan(reading))
         {
             continue;
         }
-        totalPower += reading.second;
+        totalPower += reading;
     }
 
     // Calculate power correction factor
@@ -869,58 +868,48 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         [&objectServer, &dbusConnection,
          &exitAirSensor](const ManagedObjectType& resp) {
         cfmSensors.clear();
-        for (const auto& pathPair : resp)
+        for (const auto& [path, interfaces] : resp)
         {
-            for (const auto& entry : pathPair.second)
+            for (const auto& [intf, cfg] : interfaces)
             {
-                if (entry.first == exitAirIface)
+                if (intf == exitAirIface)
                 {
                     // thresholds should be under the same path
                     std::vector<thresholds::Threshold> sensorThresholds;
-                    parseThresholdsFromConfig(pathPair.second,
-                                              sensorThresholds);
+                    parseThresholdsFromConfig(interfaces, sensorThresholds);
 
-                    std::string name =
-                        loadVariant<std::string>(entry.second, "Name");
+                    std::string name = loadVariant<std::string>(cfg, "Name");
                     exitAirSensor = std::make_shared<ExitAirTempSensor>(
-                        dbusConnection, name, pathPair.first.str, objectServer,
+                        dbusConnection, name, path.str, objectServer,
                         std::move(sensorThresholds));
                     exitAirSensor->powerFactorMin =
-                        loadVariant<double>(entry.second, "PowerFactorMin");
+                        loadVariant<double>(cfg, "PowerFactorMin");
                     exitAirSensor->powerFactorMax =
-                        loadVariant<double>(entry.second, "PowerFactorMax");
-                    exitAirSensor->qMin =
-                        loadVariant<double>(entry.second, "QMin");
-                    exitAirSensor->qMax =
-                        loadVariant<double>(entry.second, "QMax");
-                    exitAirSensor->alphaS =
-                        loadVariant<double>(entry.second, "AlphaS");
-                    exitAirSensor->alphaF =
-                        loadVariant<double>(entry.second, "AlphaF");
+                        loadVariant<double>(cfg, "PowerFactorMax");
+                    exitAirSensor->qMin = loadVariant<double>(cfg, "QMin");
+                    exitAirSensor->qMax = loadVariant<double>(cfg, "QMax");
+                    exitAirSensor->alphaS = loadVariant<double>(cfg, "AlphaS");
+                    exitAirSensor->alphaF = loadVariant<double>(cfg, "AlphaF");
                 }
-                else if (entry.first == cfmIface)
-
+                else if (intf == cfmIface)
                 {
                     // thresholds should be under the same path
                     std::vector<thresholds::Threshold> sensorThresholds;
-                    parseThresholdsFromConfig(pathPair.second,
-                                              sensorThresholds);
-                    std::string name =
-                        loadVariant<std::string>(entry.second, "Name");
+                    parseThresholdsFromConfig(interfaces, sensorThresholds);
+                    std::string name = loadVariant<std::string>(cfg, "Name");
                     auto sensor = std::make_shared<CFMSensor>(
-                        dbusConnection, name, pathPair.first.str, objectServer,
+                        dbusConnection, name, path.str, objectServer,
                         std::move(sensorThresholds), exitAirSensor);
-                    loadVariantPathArray(entry.second, "Tachs", sensor->tachs);
-                    sensor->maxCFM =
-                        loadVariant<double>(entry.second, "MaxCFM");
+                    loadVariantPathArray(cfg, "Tachs", sensor->tachs);
+                    sensor->maxCFM = loadVariant<double>(cfg, "MaxCFM");
 
                     // change these into percent upon getting the data
-                    sensor->c1 = loadVariant<double>(entry.second, "C1") / 100;
-                    sensor->c2 = loadVariant<double>(entry.second, "C2") / 100;
+                    sensor->c1 = loadVariant<double>(cfg, "C1") / 100;
+                    sensor->c2 = loadVariant<double>(cfg, "C2") / 100;
                     sensor->tachMinPercent =
-                        loadVariant<double>(entry.second, "TachMinPercent");
+                        loadVariant<double>(cfg, "TachMinPercent");
                     sensor->tachMaxPercent =
-                        loadVariant<double>(entry.second, "TachMaxPercent");
+                        loadVariant<double>(cfg, "TachMaxPercent");
                     sensor->createMaxCFMIface();
                     sensor->setupMatches();
 
