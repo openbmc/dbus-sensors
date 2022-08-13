@@ -206,39 +206,33 @@ void createSensors(
             std::cerr << "Error contacting entity manager\n";
             return;
         }
-        for (const auto& pathPair : resp)
+        for (const auto& [path, interfaces] : resp)
         {
-            for (const auto& entry : pathPair.second)
+            for (const auto& [intf, cfg] : interfaces)
             {
-                if (entry.first != configInterface)
+                if (intf != configInterface)
                 {
                     continue;
                 }
-                std::string name =
-                    loadVariant<std::string>(entry.second, "Name");
+                std::string name = loadVariant<std::string>(cfg, "Name");
 
                 std::vector<thresholds::Threshold> sensorThresholds;
-                if (!parseThresholdsFromConfig(pathPair.second,
-                                               sensorThresholds))
+                if (!parseThresholdsFromConfig(interfaces, sensorThresholds))
                 {
                     std::cerr << "error populating thresholds for " << name
                               << "\n";
                 }
 
-                uint8_t busId = loadVariant<uint8_t>(entry.second, "Bus");
-
-                uint8_t mcuAddress =
-                    loadVariant<uint8_t>(entry.second, "Address");
-
-                uint8_t tempReg = loadVariant<uint8_t>(entry.second, "Reg");
+                uint8_t busId = loadVariant<uint8_t>(cfg, "Bus");
+                uint8_t mcuAddress = loadVariant<uint8_t>(cfg, "Address");
+                uint8_t tempReg = loadVariant<uint8_t>(cfg, "Reg");
 
                 std::string sensorClass =
-                    loadVariant<std::string>(entry.second, "Class");
+                    loadVariant<std::string>(cfg, "Class");
 
                 if constexpr (debug)
                 {
-                    std::cerr << "Configuration parsed for \n\t" << entry.first
-                              << "\n"
+                    std::cerr << "Configuration parsed for \n\t" << intf << "\n"
                               << "with\n"
                               << "\tName: " << name << "\n"
                               << "\tBus: " << static_cast<int>(busId) << "\n"
@@ -251,7 +245,7 @@ void createSensors(
                 auto& sensor = sensors[name];
 
                 sensor = std::make_unique<MCUTempSensor>(
-                    dbusConnection, io, name, pathPair.first, objectServer,
+                    dbusConnection, io, name, path, objectServer,
                     std::move(sensorThresholds), busId, mcuAddress, tempReg);
 
                 sensor->init();
