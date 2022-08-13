@@ -49,16 +49,16 @@ bool parseThresholdsFromConfig(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string* matchLabel, const int* sensorIndex)
 {
-    for (const auto& item : sensorData)
+    for (const auto& [intf, cfg] : sensorData)
     {
-        if (item.first.find("Thresholds") == std::string::npos)
+        if (intf.find("Thresholds") == std::string::npos)
         {
             continue;
         }
         if (matchLabel != nullptr)
         {
-            auto labelFind = item.second.find("Label");
-            if (labelFind == item.second.end())
+            auto labelFind = cfg.find("Label");
+            if (labelFind == cfg.end())
             {
                 continue;
             }
@@ -71,15 +71,15 @@ bool parseThresholdsFromConfig(
 
         if (sensorIndex != nullptr)
         {
-            auto indexFind = item.second.find("Index");
+            auto indexFind = cfg.find("Index");
 
             // If we're checking for index 1, a missing Index is OK.
-            if ((indexFind == item.second.end()) && (*sensorIndex != 1))
+            if ((indexFind == cfg.end()) && (*sensorIndex != 1))
             {
                 continue;
             }
 
-            if ((indexFind != item.second.end()) &&
+            if ((indexFind != cfg.end()) &&
                 (std::visit(VariantToIntVisitor(), indexFind->second) !=
                  *sensorIndex))
             {
@@ -88,22 +88,21 @@ bool parseThresholdsFromConfig(
         }
 
         double hysteresis = std::numeric_limits<double>::quiet_NaN();
-        auto hysteresisFind = item.second.find("Hysteresis");
-        if (hysteresisFind != item.second.end())
+        auto hysteresisFind = cfg.find("Hysteresis");
+        if (hysteresisFind != cfg.end())
         {
             hysteresis =
                 std::visit(VariantToDoubleVisitor(), hysteresisFind->second);
         }
 
-        auto directionFind = item.second.find("Direction");
-        auto severityFind = item.second.find("Severity");
-        auto valueFind = item.second.find("Value");
-        if (valueFind == item.second.end() ||
-            severityFind == item.second.end() ||
-            directionFind == item.second.end())
+        auto directionFind = cfg.find("Direction");
+        auto severityFind = cfg.find("Severity");
+        auto valueFind = cfg.find("Value");
+        if (valueFind == cfg.end() || severityFind == cfg.end() ||
+            directionFind == cfg.end())
         {
             std::cerr << "Malformed threshold on configuration interface "
-                      << item.first << "\n";
+                      << intf << "\n";
             return false;
         }
         unsigned int severity =
