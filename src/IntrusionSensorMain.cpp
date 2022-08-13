@@ -72,11 +72,10 @@ static bool getIntrusionSensorConfig(
         nullptr;
 
     // Get bus and addr of matched configuration
-    for (const std::pair<sdbusplus::message::object_path, SensorData>& sensor :
-         sensorConfigurations)
+    for (const auto& [path, cfgData] : sensorConfigurations)
     {
         baseConfiguration = nullptr;
-        sensorData = &(sensor.second);
+        sensorData = &cfgData;
 
         // match sensor type
         auto sensorBase = sensorData->find(sensorType);
@@ -184,15 +183,14 @@ static void getNicNameInfo(
         dbusConnection, [](const ManagedObjectType& sensorConfigurations) {
             // Get NIC name and save to map
             lanInfoMap.clear();
-            for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                     sensor : sensorConfigurations)
+            for (const auto& [path, cfgData] : sensorConfigurations)
             {
                 const std::pair<std::string, SensorBaseConfigMap>*
                     baseConfiguration = nullptr;
 
                 // find base configuration
-                auto sensorBase = sensor.second.find(nicType);
-                if (sensorBase == sensor.second.end())
+                auto sensorBase = cfgData.find(nicType);
+                if (sensorBase == cfgData.end())
                 {
                     continue;
                 }
