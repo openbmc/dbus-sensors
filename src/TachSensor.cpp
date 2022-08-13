@@ -324,9 +324,9 @@ void RedundancySensor::update(const std::string& name, bool failed)
     size_t failedCount = 0;
 
     std::string newState = redundancy::full;
-    for (const auto& status : statuses)
+    for (const auto& [name, status] : statuses)
     {
-        if (status.second)
+        if (status)
         {
             failedCount++;
         }
