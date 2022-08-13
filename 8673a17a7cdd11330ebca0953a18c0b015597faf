@@ -116,6 +116,30 @@
       },
       "revId": "8673a17a7cdd11330ebca0953a18c0b015597faf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e644ca77_03b45b98",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-13T03:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d1ba0d_288d8b91",
+      "range": {
+        "startLine": 344,
+        "startChar": 59,
+        "endLine": 344,
+        "endChar": 66
+      },
+      "revId": "8673a17a7cdd11330ebca0953a18c0b015597faf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
