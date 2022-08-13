@@ -113,8 +113,7 @@ void createSensors(
             const std::string* interfacePath = nullptr;
             const std::pair<std::string, SensorBaseConfigMap>*
                 baseConfiguration = nullptr;
-            for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                     sensor : sensorConfigurations)
+            for (const auto& [path, cfgData] : sensorConfigurations)
             {
                 // clear it out each loop
                 baseConfiguration = nullptr;
@@ -122,8 +121,8 @@ void createSensors(
                 // find base configuration
                 for (const char* type : sensorTypes)
                 {
-                    auto sensorBase = sensor.second.find(type);
-                    if (sensorBase != sensor.second.end())
+                    auto sensorBase = cfgData.find(type);
+                    if (sensorBase != cfgData.end())
                     {
                         baseConfiguration = &(*sensorBase);
                         break;
@@ -149,8 +148,8 @@ void createSensors(
                     continue;
                 }
 
-                sensorData = &(sensor.second);
-                interfacePath = &(sensor.first.str);
+                sensorData = &cfgData;
+                interfacePath = &path.str;
                 break;
             }
             if (sensorData == nullptr)
@@ -259,19 +258,19 @@ void createSensors(
             sensor = nullptr;
 
             std::optional<BridgeGpio> bridgeGpio;
-            for (const SensorBaseConfiguration& suppConfig : *sensorData)
+            for (const auto& [key, cfgMap] : *sensorData)
             {
-                if (suppConfig.first.find("BridgeGpio") != std::string::npos)
+                if (key.find("BridgeGpio") != std::string::npos)
                 {
-                    auto findName = suppConfig.second.find("Name");
-                    if (findName != suppConfig.second.end())
+                    auto findName = cfgMap.find("Name");
+                    if (findName != cfgMap.end())
                     {
                         std::string gpioName = std::visit(
                             VariantToStringVisitor(), findName->second);
 
                         int polarity = gpiod::line::ACTIVE_HIGH;
-                        auto findPolarity = suppConfig.second.find("Polarity");
-                        if (findPolarity != suppConfig.second.end())
+                        auto findPolarity = cfgMap.find("Polarity");
+                        if (findPolarity != cfgMap.end())
                         {
                             if (std::string("Low") ==
                                 std::visit(VariantToStringVisitor(),
@@ -282,9 +281,8 @@ void createSensors(
                         }
 
                         float setupTime = gpioBridgeSetupTimeDefault;
-                        auto findSetupTime =
-                            suppConfig.second.find("SetupTime");
-                        if (findSetupTime != suppConfig.second.end())
+                        auto findSetupTime = cfgMap.find("SetupTime");
+                        if (findSetupTime != cfgMap.end())
                         {
                             setupTime = std::visit(VariantToFloatVisitor(),
                                                    findSetupTime->second);
