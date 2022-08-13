@@ -240,10 +240,9 @@ bool createSensors(boost::asio::io_service& io,
         const std::string* interfacePath = nullptr;
         const SensorBaseConfiguration* baseConfiguration = nullptr;
 
-        for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigs)
+        for (const auto& [path, cfgData] : sensorConfigs)
         {
-            sensorData = &(sensor.second);
+            sensorData = &cfgData;
             for (const char* type : sensorTypes)
             {
                 sensorType = configPrefix + std::string(type);
@@ -277,7 +276,7 @@ bool createSensors(boost::asio::io_service& io,
                 continue;
             }
 
-            interfacePath = &(sensor.first.str);
+            interfacePath = &path.str;
             break;
         }
         if (interfacePath == nullptr)
@@ -623,18 +622,17 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
     // before starting ping operation
     for (const char* type : sensorTypes)
     {
-        for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                 sensor : sensorConfigs)
+        for (const auto& [path, cfgData] : sensorConfigs)
         {
-            for (const SensorBaseConfiguration& config : sensor.second)
+            for (const auto& [intf, cfg] : cfgData)
             {
-                if ((configPrefix + std::string(type)) != config.first)
+                if ((configPrefix + std::string(type)) != intf)
                 {
                     continue;
                 }
 
-                auto findName = config.second.find("Name");
-                if (findName == config.second.end())
+                auto findName = cfg.find("Name");
+                if (findName == cfg.end())
                 {
                     continue;
                 }
@@ -645,12 +643,11 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
 
                 auto present = std::optional<bool>();
                 // if we can't detect it via gpio, we set presence later
-                for (const SensorBaseConfiguration& suppConfig : sensor.second)
+                for (const auto& [suppIntf, suppCfg] : cfgData)
                 {
-                    if (suppConfig.first.find("PresenceGpio") !=
-                        std::string::npos)
+                    if (suppIntf.find("PresenceGpio") != std::string::npos)
                     {
-                        present = cpuIsPresent(suppConfig.second);
+                        present = cpuIsPresent(suppCfg);
                         break;
                     }
                 }
@@ -667,8 +664,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                     inventoryIfaces[name] = std::move(iface);
                 }
 
-                auto findBus = config.second.find("Bus");
-                if (findBus == config.second.end())
+                auto findBus = cfg.find("Bus");
+                if (findBus == cfg.end())
                 {
                     std::cerr << "Can't find 'Bus' setting in " << name << "\n";
                     continue;
@@ -676,8 +673,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 uint64_t bus =
                     std::visit(VariantToUnsignedIntVisitor(), findBus->second);
 
-                auto findAddress = config.second.find("Address");
-                if (findAddress == config.second.end())
+                auto findAddress = cfg.find("Address");
+                if (findAddress == cfg.end())
                 {
                     std::cerr << "Can't find 'Address' setting in " << name
                               << "\n";
