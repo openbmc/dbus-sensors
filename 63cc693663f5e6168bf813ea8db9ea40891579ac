@@ -167,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10cb7f6b_4166bbaa",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-15T14:22:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the delay time cover that?",
+      "parentUuid": "66e6ee39_3f0d47dd",
+      "range": {
+        "startLine": 43,
+        "startChar": 21,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6af68603_d39d5861",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 18
@@ -249,6 +273,30 @@
       "side": 1,
       "message": "The default property is true. Can\u0027t keep the default property doing nothing, right? At least modify its status to let users know that this fan is having problems.",
       "parentUuid": "ed0eef2a_d6c7e70a",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 28
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2525420_c30ef49a",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-15T14:22:59Z",
+      "side": 1,
+      "message": "This isn\u0027t modifying the status though, it\u0027s saying the fan got unplugged.  I would expect this to be a shutdown.",
+      "parentUuid": "6e6a3b74_34fa8082",
       "range": {
         "startLine": 322,
         "startChar": 0,
