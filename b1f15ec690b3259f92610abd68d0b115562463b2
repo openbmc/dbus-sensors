@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d3006ba_e02854fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-15T15:19:05Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "5c7231d3_525edff7",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "b1f15ec690b3259f92610abd68d0b115562463b2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a0be553a_9fde1507",
@@ -85,6 +109,23 @@
       "writtenOn": "2022-05-07T11:28:25Z",
       "side": 1,
       "message": "Looks like a useful change to me. \nAnd I have provided a suggestion, but I am also giving +1 to this PR in case maintainer is okay with the current changes. ",
+      "revId": "b1f15ec690b3259f92610abd68d0b115562463b2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ef1f33_32c5104c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-15T15:19:05Z",
+      "side": 1,
+      "message": "Is this still being worked?",
       "revId": "b1f15ec690b3259f92610abd68d0b115562463b2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
