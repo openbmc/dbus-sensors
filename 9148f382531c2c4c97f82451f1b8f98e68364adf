@@ -52,6 +52,24 @@
       "parentUuid": "7c3dc78b_7183f187",
       "revId": "9148f382531c2c4c97f82451f1b8f98e68364adf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bab821b5_1878f597",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-15T22:06:55Z",
+      "side": 1,
+      "message": "...and glancing through the remaining patches in the series, I see that in the significant majority of the cases the existing code is just `const auto\u0026 x` anyway, so `const auto\u0026 [y, z]` is IMO a clear improvement -- I\u0027ll post those shortly.",
+      "parentUuid": "9bfa3380_d0df8df7",
+      "revId": "9148f382531c2c4c97f82451f1b8f98e68364adf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
