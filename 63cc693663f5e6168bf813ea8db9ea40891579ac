@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f61f066c_465a7d0f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-08-15T08:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbaeaaa3_a09cfa04",
+      "range": {
+        "startLine": 398,
+        "startChar": 31,
+        "endLine": 398,
+        "endChar": 54
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b5a81da_1d0e98b1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-01T14:25:29Z",
       "side": 1,
       "message": "Please don\u0027t log this.  THis is expected on systems that need to poll.",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 46
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d82f610b_9507f1a6",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-08-15T08:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b5a81da_1d0e98b1",
       "range": {
         "startLine": 400,
         "startChar": 0,
@@ -95,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66e6ee39_3f0d47dd",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-08-15T08:12:40Z",
+      "side": 1,
+      "message": "The original intention of adding this is to reduce the impact of frequent manual  plugging and unplugging in a short period of time.",
+      "parentUuid": "7db5d07c_4ef6ab44",
+      "range": {
+        "startLine": 43,
+        "startChar": 21,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6af68603_d39d5861",
         "filename": "src/TachSensor.cpp",
         "patchSetId": 18
@@ -106,6 +178,30 @@
       "writtenOn": "2022-08-01T14:25:29Z",
       "side": 1,
       "message": "this is the equivalent of find(), but is duplicating the lookup.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 46
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f1c3979_da4ab2cc",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-08-15T08:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6af68603_d39d5861",
       "range": {
         "startLine": 299,
         "startChar": 0,
@@ -129,6 +225,30 @@
       "writtenOn": "2022-08-01T14:25:29Z",
       "side": 1,
       "message": "?  If the GPIO fails to read, the fan isn\u0027t inserted?  That doesn\u0027t seem right.",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 28
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e6a3b74_34fa8082",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-08-15T08:12:40Z",
+      "side": 1,
+      "message": "The default property is true. Can\u0027t keep the default property doing nothing, right? At least modify its status to let users know that this fan is having problems.",
+      "parentUuid": "ed0eef2a_d6c7e70a",
       "range": {
         "startLine": 322,
         "startChar": 0,

@@ -118,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fba6480_a90666f8",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-08-15T08:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9666188_5708756f",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 1
+      },
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc9ee1df_e40e0e98",
@@ -291,6 +315,24 @@
       "side": 1,
       "message": "Removed gpioPresValueMap and getGpioPresLabel.",
       "parentUuid": "f8f96b8c_658f462a",
+      "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac97224d_a580d2df",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000444
+      },
+      "writtenOn": "2022-08-15T08:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecb6360d_0f224b88",
       "revId": "3a6f7ab8fa77d634a3a9c85826444da596d6406e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
