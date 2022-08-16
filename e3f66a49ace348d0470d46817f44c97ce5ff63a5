@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5b1050d_b7d300cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-08-16T00:11:47Z",
+      "side": 1,
+      "message": "Looks like a bunch of the code I wrote in platform-fru-detect 😊 e.g.\n\nhttps://github.com/ibm-openbmc/platform-fru-detect/blob/main/src/sysfs/i2c/bus.cpp",
+      "revId": "e3f66a49ace348d0470d46817f44c97ce5ff63a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
