@@ -71,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d5d642f_91949835",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-16T16:25:44Z",
+      "side": 1,
+      "message": "Removed and update position of #include \u003cunistd",
+      "parentUuid": "b7dcae8e_c8141cb4",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 1
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14d97629_bba6be1a",
@@ -96,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "51594ced_8ea20161",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-16T16:25:44Z",
+      "side": 1,
+      "message": "It is required. Because Ampere CPUs report temperature, voltage, current of components in CPUs. So unitPath will be difference between sensors,",
+      "parentUuid": "14d97629_bba6be1a",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 73
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f7ee105_bbad284d",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 25
@@ -107,6 +155,24 @@
       "writtenOn": "2022-08-12T23:15:52Z",
       "side": 1,
       "message": "Missing return.",
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "039ce741_12d59255",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-16T16:25:44Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "2f7ee105_bbad284d",
       "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -136,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "296eb77d_ab4beaf0",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-16T16:25:44Z",
+      "side": 1,
+      "message": "add_interface() expects one std::string. I\u0027m not sure why we change it to sdbusplus::message::object_path.",
+      "parentUuid": "dc92daad_96d5c982",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 68
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62541e6d_51c24db8",
         "filename": "src/AmpereCPU.cpp",
         "patchSetId": 25
@@ -147,6 +237,30 @@
       "writtenOn": "2022-08-12T23:15:52Z",
       "side": 1,
       "message": "FYI, while this has been in review, most of dbus-sensors has moved to io_uring, I suspect you\u0027ll want to do the same here.  Let me know if you need help with that.",
+      "range": {
+        "startLine": 108,
+        "startChar": 17,
+        "endLine": 108,
+        "endChar": 33
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6770b59e_0470711e",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-16T16:25:44Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "62541e6d_51c24db8",
       "range": {
         "startLine": 108,
         "startChar": 17,
@@ -193,6 +307,30 @@
       "writtenOn": "2022-08-12T23:15:52Z",
       "side": 1,
       "message": "This can be removed.  operation_aborted is expected on shutdown.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 50
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09ed3d61_87ea1b21",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-08-16T16:25:44Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "bed17623_9ac85a5d",
       "range": {
         "startLine": 166,
         "startChar": 0,
