@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e594059e_fb86f351",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-08-16T00:21:59Z",
+      "side": 1,
+      "message": "This feels like a work-around for a failure in the current design in that it misses an explicit representation of a device instance. It seems unfortunate that we have to go through the dance below to get correct behaviour.\n\nI don\u0027t have a good picture in my head of the impact on the current code of fixing it. Any feelings on that front?\n\nEssentially we\u0027d need sensors to be aggregated in a device, and then to call destroy() on the device. From there run this loop moves internal to the device implementation to tear down its sensors and the logic becomes self-contained.",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 586,
+        "endChar": 65
+      },
+      "revId": "4054d5665584d1a3de21e153141e186864a02656",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
