@@ -595,7 +595,7 @@ void ExitAirTempSensor::setupMatches(void)
         }
         for (const auto& item : subtree)
         {
-            size_t lastSlash = item.first.rfind("/");
+            size_t lastSlash = item.first.rfind('/');
             if (lastSlash == std::string::npos ||
                 lastSlash == item.first.size() || item.second.empty())
             {
