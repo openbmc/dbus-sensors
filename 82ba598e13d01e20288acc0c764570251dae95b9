@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2aefa17_deb37df6",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-08-16T02:07:03Z",
+      "side": 1,
+      "message": "Slightly preference for\n\nstd::string name \u003d \"Pwm_\";\nname +\u003d psuName;\nname +\u003d \"_\";\nname +\u003d pwnName.second;\n\njust to avoid the stringstream, but it\u0027s not a big deal.",
+      "revId": "82ba598e13d01e20288acc0c764570251dae95b9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
