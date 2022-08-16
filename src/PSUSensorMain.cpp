@@ -288,9 +288,15 @@ static void
             continue;
         }
 
+        std::ostringstream name;
+        name << "Pwm_" << psuName << "_" << pwmName.second;
+
+        std::ostringstream objPath;
+        objPath << interfacePath << "_" << pwmName.second;
+
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            "Pwm_" + psuName + "_" + pwmName.second, pwmPathStr, dbusConnection,
-            objectServer, interfacePath + "_" + pwmName.second, "PSU");
+            name.str(), pwmPathStr, dbusConnection, objectServer, objPath.str(),
+            "PSU");
     }
 }
 
