@@ -126,48 +126,50 @@ static void handleSensorConfigurations(
     {
         // find base configuration
         auto sensorBase = sensorData.find(NVMeSensor::configType);
-        if (sensorBase != sensorData.end())
+        if (sensorBase == sensorData.end())
         {
-            const SensorBaseConfigMap& sensorConfig = sensorBase->second;
-            std::optional<int> busNumber =
-                extractBusNumber(interfacePath, sensorConfig);
-            std::optional<std::string> sensorName =
-                extractSensorName(interfacePath, sensorConfig);
-            std::optional<int> rootBus = deriveRootBus(busNumber);
+            continue;
+        }
 
-            if (!(busNumber && sensorName && rootBus))
-            {
-                continue;
-            }
+        const SensorBaseConfigMap& sensorConfig = sensorBase->second;
+        std::optional<int> busNumber =
+            extractBusNumber(interfacePath, sensorConfig);
+        std::optional<std::string> sensorName =
+            extractSensorName(interfacePath, sensorConfig);
+        std::optional<int> rootBus = deriveRootBus(busNumber);
 
-            std::vector<thresholds::Threshold> sensorThresholds;
-            if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
-            {
-                std::cerr << "error populating thresholds for " << *sensorName
-                          << "\n";
-            }
+        if (!(busNumber && sensorName && rootBus))
+        {
+            continue;
+        }
 
-            try
-            {
-                // May throw for an invalid rootBus
-                std::shared_ptr<NVMeContext> context =
-                    provideRootBusContext(io, nvmeDeviceMap, *rootBus);
+        std::vector<thresholds::Threshold> sensorThresholds;
+        if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
+        {
+            std::cerr << "error populating thresholds for " << *sensorName
+                      << "\n";
+        }
 
-                // Construct the sensor after grabbing the context so we don't
-                // glitch D-Bus May throw for an invalid busNumber
-                std::shared_ptr<NVMeSensor> sensorPtr =
-                    std::make_shared<NVMeSensor>(
-                        objectServer, io, dbusConnection, *sensorName,
-                        std::move(sensorThresholds), interfacePath, *busNumber);
+        try
+        {
+            // May throw for an invalid rootBus
+            std::shared_ptr<NVMeContext> context =
+                provideRootBusContext(io, nvmeDeviceMap, *rootBus);
 
-                context->addSensor(sensorPtr);
-            }
-            catch (const std::invalid_argument& ex)
-            {
-                std::cerr << "Failed to add sensor for "
-                          << std::string(interfacePath) << ": " << ex.what()
-                          << "\n";
-            }
+            // Construct the sensor after grabbing the context so we don't
+            // glitch D-Bus May throw for an invalid busNumber
+            std::shared_ptr<NVMeSensor> sensorPtr =
+                std::make_shared<NVMeSensor>(
+                    objectServer, io, dbusConnection, *sensorName,
+                    std::move(sensorThresholds), interfacePath, *busNumber);
+
+            context->addSensor(sensorPtr);
+        }
+        catch (const std::invalid_argument& ex)
+        {
+            std::cerr << "Failed to add sensor for "
+                      << std::string(interfacePath) << ": " << ex.what()
+                      << "\n";
         }
     }
     for (const auto& [_, context] : nvmeDeviceMap)
