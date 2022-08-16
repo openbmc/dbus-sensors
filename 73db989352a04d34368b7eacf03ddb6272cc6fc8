@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a1e6859_56ce32c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001162
+      },
+      "writtenOn": "2022-08-16T16:55:59Z",
+      "side": 1,
+      "message": "So we found that Entity-Manager doesn\u0027t provide the delete interface. It is only created if the object\u0027s interface is in this list: https://github.com/openbmc/entity-manager/blob/2af39224b50c1b5a367b1bc9171fa53d71a179a1/src/entity_manager.cpp#L63, which means all of these interfaces would need to be added: https://github.com/openbmc/dbus-sensors/blob/master/src/PSUSensorMain.cpp#L43\n\nAn alternative we were thinking about is for PSUSensor to provide \"pause/resume\" methods, so that telemetry can be paused/resumed for an entire device. This would give us the fine-grained control desired. Any objection to this?",
+      "parentUuid": "fce16718_dad91c2a",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "73db989352a04d34368b7eacf03ddb6272cc6fc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10ace64e_8a86d60b",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 9
