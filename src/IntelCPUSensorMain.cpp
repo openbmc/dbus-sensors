@@ -90,9 +90,8 @@ static constexpr const unsigned int rankNumMax = 8;
 
 namespace fs = std::filesystem;
 
-static constexpr const char* configPrefix =
-    "xyz.openbmc_project.Configuration.";
-static constexpr auto sensorTypes{std::to_array<const char*>({"XeonCPU"})};
+static constexpr auto sensorTypes{
+    std::to_array<const char*>({"xyz.openbmc_project.Configuration.XeonCPU"})};
 static constexpr auto hiddenProps{std::to_array<const char*>(
     {IntelCPUSensor::labelTcontrol, "Tthrottle", "Tjmax"})};
 
@@ -245,7 +244,7 @@ bool createSensors(boost::asio::io_service& io,
             sensorData = &cfgData;
             for (const char* type : sensorTypes)
             {
-                sensorType = configPrefix + std::string(type);
+                sensorType = type;
                 auto sensorBase = sensorData->find(sensorType);
                 if (sensorBase != sensorData->end())
                 {
@@ -610,8 +609,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
     // use new data the first time, then refresh
     for (const char* type : sensorTypes)
     {
-        if (!getSensorConfiguration(configPrefix + std::string(type), systemBus,
-                                    sensorConfigs, useCache))
+        if (!getSensorConfiguration(type, systemBus, sensorConfigs, useCache))
         {
             return false;
         }
@@ -626,7 +624,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
         {
             for (const auto& [intf, cfg] : cfgData)
             {
-                if ((configPrefix + std::string(type)) != intf)
+                if (intf != type)
                 {
                     continue;
                 }
