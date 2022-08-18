@@ -89,8 +89,7 @@ static constexpr const unsigned int rankNumMax = 8;
 
 namespace fs = std::filesystem;
 
-static constexpr auto sensorTypes{
-    std::to_array<const char*>({"xyz.openbmc_project.Configuration.XeonCPU"})};
+static constexpr auto sensorTypes{std::to_array<const char*>({"XeonCPU"})};
 static constexpr auto hiddenProps{std::to_array<const char*>(
     {IntelCPUSensor::labelTcontrol, "Tthrottle", "Tjmax"})};
 
@@ -244,7 +243,8 @@ bool createSensors(boost::asio::io_service& io,
             for (const char* type : sensorTypes)
             {
                 sensorType = type;
-                auto sensorBase = sensorData->find(sensorType);
+                auto sensorBase =
+                    sensorData->find(configInterfaceName(sensorType));
                 if (sensorBase != sensorData->end())
                 {
                     baseConfiguration = &(*sensorBase);
@@ -623,7 +623,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
         {
             for (const auto& [intf, cfg] : cfgData)
             {
-                if (intf != type)
+                if (intf != configInterfaceName(type))
                 {
                     continue;
                 }

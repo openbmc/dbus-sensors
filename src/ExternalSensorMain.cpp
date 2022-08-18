@@ -51,8 +51,7 @@
 
 static constexpr bool debug = false;
 
-static const char* sensorType =
-    "xyz.openbmc_project.Configuration.ExternalSensor";
+static const char* sensorType = "ExternalSensor";
 
 void updateReaper(boost::container::flat_map<
                       std::string, std::shared_ptr<ExternalSensor>>& sensors,
@@ -172,7 +171,7 @@ void createSensors(
             const std::string& interfacePath = sensor.first.str;
             const SensorData& sensorData = sensor.second;
 
-            auto sensorBase = sensorData.find(sensorType);
+            auto sensorBase = sensorData.find(configInterfaceName(sensorType));
             if (sensorBase == sensorData.end())
             {
                 std::cerr << "Base configuration not found for "

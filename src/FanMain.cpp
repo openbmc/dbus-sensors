@@ -40,10 +40,8 @@
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
-static auto sensorTypes{std::to_array<const char*>(
-    {"xyz.openbmc_project.Configuration.AspeedFan",
-     "xyz.openbmc_project.Configuration.I2CFan",
-     "xyz.openbmc_project.Configuration.NuvotonFan"})};
+static auto sensorTypes{
+    std::to_array<const char*>({"AspeedFan", "I2CFan", "NuvotonFan"})};
 
 enum FanTypes
 {
@@ -237,6 +235,7 @@ void createSensors(
 
             fs::path directory = path.parent_path();
             FanTypes fanType = getFanType(directory);
+            std::string cfgIntf = configInterfaceName(sensorTypes[fanType]);
 
             // convert to 0 based
             size_t index = std::stoul(indexStr) - 1;
@@ -249,7 +248,7 @@ void createSensors(
             {
                 // find the base of the configuration to see if indexes
                 // match
-                auto sensorBaseFind = cfgData.find(sensorTypes[fanType]);
+                auto sensorBaseFind = cfgData.find(cfgIntf);
                 if (sensorBaseFind == cfgData.end())
                 {
                     continue;
@@ -364,7 +363,7 @@ void createSensors(
             }
 
             auto presenceConfig =
-                sensorData->find(baseType + std::string(".Presence"));
+                sensorData->find(cfgIntf + std::string(".Presence"));
 
             std::unique_ptr<PresenceSensor> presenceSensor(nullptr);
 
@@ -410,7 +409,7 @@ void createSensors(
                 std::make_pair(defaultMinReading, defaultMaxReading);
 
             auto connector =
-                sensorData->find(baseType + std::string(".Connector"));
+                sensorData->find(cfgIntf + std::string(".Connector"));
 
             std::optional<std::string> led;
             std::string pwmName;

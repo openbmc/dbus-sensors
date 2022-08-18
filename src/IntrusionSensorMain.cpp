@@ -43,9 +43,8 @@
 
 static constexpr bool debug = false;
 
-static constexpr const char* sensorType =
-    "xyz.openbmc_project.Configuration.ChassisIntrusionSensor";
-static constexpr const char* nicType = "xyz.openbmc_project.Configuration.NIC";
+static constexpr const char* sensorType = "ChassisIntrusionSensor";
+static constexpr const char* nicType = "NIC";
 static constexpr auto nicTypes{std::to_array<const char*>({nicType})};
 
 namespace fs = std::filesystem;
@@ -77,7 +76,7 @@ static bool getIntrusionSensorConfig(
         sensorData = &cfgData;
 
         // match sensor type
-        auto sensorBase = sensorData->find(sensorType);
+        auto sensorBase = sensorData->find(configInterfaceName(sensorType));
         if (sensorBase == sensorData->end())
         {
             std::cerr << "error finding base configuration \n";
@@ -188,7 +187,7 @@ static void getNicNameInfo(
                     baseConfiguration = nullptr;
 
                 // find base configuration
-                auto sensorBase = cfgData.find(nicType);
+                auto sensorBase = cfgData.find(configInterfaceName(nicType));
                 if (sensorBase == cfgData.end())
                 {
                     continue;
@@ -473,8 +472,8 @@ int main()
         sdbusplus::bus::match_t lanConfigMatch(
             static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal', member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" + nicType +
-                "'",
+                std::string(inventoryPath) + "',arg0namespace='" +
+                configInterfaceName(nicType) + "'",
             [&systemBus](sdbusplus::message_t& msg) {
             if (msg.is_method_error())
             {
