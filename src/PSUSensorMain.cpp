@@ -17,7 +17,6 @@
 #include <PSUEvent.hpp>
 #include <PSUSensor.hpp>
 #include <Utils.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -477,7 +476,7 @@ static void createSensorsCallback(
             auto it =
                 std::find_if(sensorsChanged->begin(), sensorsChanged->end(),
                              [psuNameStr](std::string& s) {
-                                 return boost::ends_with(s, psuNameStr);
+                                 return s.ends_with(psuNameStr);
                              });
 
             if (it == sensorsChanged->end())

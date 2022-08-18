@@ -1,6 +1,5 @@
 #pragma once
 #include <VariantVisitors.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
@@ -307,7 +306,7 @@ struct GetSensorConfiguration :
                     // is good
                     if (std::find_if(interfaces.begin(), interfaces.end(),
                                      [interface](const std::string& possible) {
-                        return boost::starts_with(interface, possible);
+                        return interface.starts_with(possible);
                         }) == interfaces.end())
                     {
                         continue;

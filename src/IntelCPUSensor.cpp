@@ -18,7 +18,6 @@
 
 #include <IntelCPUSensor.hpp>
 #include <Utils.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>

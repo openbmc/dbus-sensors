@@ -18,7 +18,6 @@
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_set.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -185,7 +184,7 @@ void createSensors(
                      it != sensorsChanged->end(); it++)
                 {
                     if (findSensor->second &&
-                        boost::ends_with(*it, findSensor->second->name))
+                        it->ends_with(findSensor->second->name))
                     {
                         sensorsChanged->erase(it);
                         findSensor->second = nullptr;

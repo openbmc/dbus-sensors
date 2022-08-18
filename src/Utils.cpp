@@ -17,7 +17,6 @@
 #include "dbus-sensor_config.h"
 
 #include <Utils.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -178,7 +177,7 @@ bool getSensorConfiguration(
         bool correctType = false;
         for (const auto& [intf, cfg] : pathPair.second)
         {
-            if (boost::starts_with(intf, type))
+            if (intf.starts_with(type))
             {
                 correctType = true;
                 break;
@@ -354,8 +353,7 @@ static void
             std::cerr << "error getting power status " << ec.message() << "\n";
             return;
         }
-        powerStatusOn =
-            boost::ends_with(std::get<std::string>(state), ".Running");
+        powerStatusOn = std::get<std::string>(state).ends_with(".Running");
         },
         power::busname, power::path, properties::interface, properties::get,
         power::interface, power::property);
@@ -420,8 +418,8 @@ void setupPowerMatchCallback(
         auto findState = values.find(power::property);
         if (findState != values.end())
         {
-            bool on = boost::ends_with(std::get<std::string>(findState->second),
-                                       ".Running");
+            bool on =
+                std::get<std::string>(findState->second).ends_with(".Running");
             if (!on)
             {
                 timer.cancel();

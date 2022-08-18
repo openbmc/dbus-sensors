@@ -17,7 +17,6 @@
 #include <ExitAirTempSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -406,12 +405,11 @@ bool CFMSensor::calculate(double& value)
     {
 
         auto findReading = std::find_if(
-            tachReadings.begin(), tachReadings.end(), [&](const auto& item) {
-                return boost::ends_with(item.first, tachName);
-            });
+            tachReadings.begin(), tachReadings.end(),
+            [&](const auto& item) { return item.first.ends_with(tachName); });
         auto findRange = std::find_if(tachRanges.begin(), tachRanges.end(),
                                       [&](const auto& item) {
-            return boost::ends_with(item.first, tachName);
+            return item.first.ends_with(tachName);
         });
         if (findReading == tachReadings.end())
         {
@@ -551,7 +549,7 @@ void ExitAirTempSensor::setupMatches(void)
             {
                 std::string path = message.get_path();
                 if (path.find("PS") != std::string::npos &&
-                    boost::ends_with(path, "Input_Power"))
+                    path.ends_with("Input_Power"))
                 {
                     self->powerReadings[message.get_path()] = value;
                 }
@@ -602,8 +600,8 @@ void ExitAirTempSensor::setupMatches(void)
                 continue;
             }
             std::string sensorName = path.substr(lastSlash + 1);
-            if (boost::starts_with(sensorName, "PS") &&
-                boost::ends_with(sensorName, "Input_Power"))
+            if (sensorName.starts_with("PS") &&
+                sensorName.ends_with("Input_Power"))
             {
                 // lambda capture requires a proper variable (not a structured
                 // binding)

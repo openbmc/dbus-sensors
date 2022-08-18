@@ -18,7 +18,6 @@
 #include <TachSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -68,12 +67,12 @@ FanTypes getFanType(const fs::path& parentPath)
 {
     fs::path linkPath = parentPath / "device";
     std::string canonical = fs::read_symlink(linkPath);
-    if (boost::ends_with(canonical, "pwm-tacho-controller") ||
-        boost::ends_with(canonical, "pwm_tach:tach"))
+    if (canonical.ends_with("pwm-tacho-controller") ||
+        canonical.ends_with("pwm_tach:tach"))
     {
         return FanTypes::aspeed;
     }
-    if (boost::ends_with(canonical, "pwm-fan-controller"))
+    if (canonical.ends_with("pwm-fan-controller"))
     {
         return FanTypes::nuvoton;
     }
@@ -344,7 +343,7 @@ void createSensors(
                 for (auto it = sensorsChanged->begin();
                      it != sensorsChanged->end(); it++)
                 {
-                    if (boost::ends_with(*it, findSensor->second->name))
+                    if (it->ends_with(findSensor->second->name))
                     {
                         sensorsChanged->erase(it);
                         findSensor->second = nullptr;

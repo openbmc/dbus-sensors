@@ -16,7 +16,6 @@
 
 #include <ChassisIntrusionSensor.hpp>
 #include <Utils.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>

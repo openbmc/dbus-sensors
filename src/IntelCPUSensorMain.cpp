@@ -19,7 +19,6 @@
 #include <IntelCPUSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -424,8 +423,8 @@ void exportDevice(const CPUConfig& config)
         }
 
         const std::string& directoryName = path.path().filename();
-        if (boost::starts_with(directoryName, busStr) &&
-            boost::ends_with(directoryName, addrHexStr))
+        if (directoryName.starts_with(busStr) &&
+            directoryName.ends_with(addrHexStr))
         {
             if (debug)
             {

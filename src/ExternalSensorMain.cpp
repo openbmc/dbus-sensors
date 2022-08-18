@@ -2,7 +2,6 @@
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
 
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -281,7 +280,7 @@ void createSensors(
                 {
                     std::string suffixIt = "/";
                     suffixIt += *it;
-                    if (boost::ends_with(suffixIt, suffixName))
+                    if (suffixIt.ends_with(suffixName))
                     {
                         sensorsChanged->erase(it);
                         findSensor->second = nullptr;

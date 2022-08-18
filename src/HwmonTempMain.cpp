@@ -16,7 +16,6 @@
 
 #include <HwmonTempSensor.hpp>
 #include <Utils.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -359,7 +358,7 @@ void createSensors(
                 auto it = sensorsChanged->begin();
                 while (it != sensorsChanged->end())
                 {
-                    if (boost::ends_with(*it, findSensor->second->name))
+                    if (it->ends_with(findSensor->second->name))
                     {
                         it = sensorsChanged->erase(it);
                         findSensor->second = nullptr;

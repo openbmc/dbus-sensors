@@ -17,7 +17,6 @@
 #include <IpmbSensor.hpp>
 #include <Utils.hpp>
 #include <VariantVisitors.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -576,8 +575,8 @@ void reinitSensors(sdbusplus::message_t& message)
     auto findStatus = values.find(power::property);
     if (findStatus != values.end())
     {
-        bool powerStatus = boost::ends_with(
-            std::get<std::string>(findStatus->second), ".Running");
+        bool powerStatus =
+            std::get<std::string>(findStatus->second).ends_with(".Running");
         if (powerStatus)
         {
             if (!initCmdTimer)
