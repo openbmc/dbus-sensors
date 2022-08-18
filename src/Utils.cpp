@@ -150,7 +150,6 @@ bool getSensorConfiguration(
             dbusConnection->new_method_call(
                 entityManagerName, "/", "org.freedesktop.DBus.ObjectManager",
                 "GetManagedObjects");
-        bool err = false;
         try
         {
             sdbusplus::message_t reply =
@@ -163,29 +162,18 @@ bool getSensorConfiguration(
                       << entityManagerName << " exception name:" << e.name()
                       << "and description:" << e.description()
                       << " was thrown\n";
-            err = true;
-        }
-
-        if (err)
-        {
-            std::cerr << "Error communicating to entity manager\n";
             return false;
         }
     }
     for (const auto& pathPair : managedObj)
     {
-        bool correctType = false;
         for (const auto& [intf, cfg] : pathPair.second)
         {
             if (intf.starts_with(type))
             {
-                correctType = true;
+                resp.emplace(pathPair);
                 break;
             }
-        }
-        if (correctType)
-        {
-            resp.emplace(pathPair);
         }
     }
     return true;
