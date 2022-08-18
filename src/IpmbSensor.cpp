@@ -65,7 +65,7 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        uint8_t deviceAddress, uint8_t hostSMbusIndex,
                        const float pollRate, std::string& sensorTypeName) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
+           sensorConfiguration, "xyz.openbmc_project.Configuration.IpmbSensor",
            false, false, ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
     sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
