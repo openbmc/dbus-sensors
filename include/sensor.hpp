@@ -63,7 +63,8 @@ struct Sensor
            std::shared_ptr<sdbusplus::asio::connection>& conn,
            PowerState readState = PowerState::always) :
         name(sensor_paths::escapePathForDbus(name)),
-        configurationPath(configurationPath), objectType(objectType),
+        configurationPath(configurationPath),
+        objectType(configInterfaceName(objectType)),
         isSensorSettable(isSettable), isValueMutable(isMutable), maxValue(max),
         minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),

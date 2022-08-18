@@ -37,9 +37,8 @@
 #include <vector>
 
 constexpr const double altitudeFactor = 1.14;
-constexpr const char* exitAirIface =
-    "xyz.openbmc_project.Configuration.ExitAirTempSensor";
-constexpr const char* cfmIface = "xyz.openbmc_project.Configuration.CFMSensor";
+constexpr const char* exitAirType = "ExitAirTempSensor";
+constexpr const char* cfmType = "CFMSensor";
 
 // todo: this *might* need to be configurable
 constexpr const char* inletTemperatureSensor = "temperature/Front_Panel_Temp";
@@ -56,8 +55,8 @@ static constexpr double cfmMinReading = 0;
 
 static constexpr size_t minSystemCfm = 50;
 
-constexpr const auto monitorIfaces{
-    std::to_array<const char*>({exitAirIface, cfmIface})};
+constexpr const auto monitorTypes{
+    std::to_array<const char*>({exitAirType, cfmType})};
 
 static std::vector<std::shared_ptr<CFMSensor>> cfmSensors;
 
@@ -160,8 +159,8 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                      std::vector<thresholds::Threshold>&& thresholdData,
                      std::shared_ptr<ExitAirTempSensor>& parent) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, "xyz.openbmc_project.Configuration.CFMSensor",
-           false, false, cfmMaxReading, cfmMinReading, conn, PowerState::on),
+           sensorConfiguration, "CFMSensor", false, false, cfmMaxReading,
+           cfmMinReading, conn, PowerState::on),
     parent(parent), objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
@@ -497,9 +496,8 @@ ExitAirTempSensor::ExitAirTempSensor(
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, "xyz.openbmc_project.Configuration.ExitAirTemp",
-           false, false, exitAirMaxReading, exitAirMinReading, conn,
-           PowerState::on),
+           sensorConfiguration, "ExitAirTemp", false, false, exitAirMaxReading,
+           exitAirMinReading, conn, PowerState::on),
     objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
@@ -873,7 +871,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         {
             for (const auto& [intf, cfg] : interfaces)
             {
-                if (intf == exitAirIface)
+                if (intf == configInterfaceName(exitAirType))
                 {
                     // thresholds should be under the same path
                     std::vector<thresholds::Threshold> sensorThresholds;
@@ -892,7 +890,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                     exitAirSensor->alphaS = loadVariant<double>(cfg, "AlphaS");
                     exitAirSensor->alphaF = loadVariant<double>(cfg, "AlphaF");
                 }
-                else if (intf == cfmIface)
+                else if (intf == configInterfaceName(cfmType))
                 {
                     // thresholds should be under the same path
                     std::vector<thresholds::Threshold> sensorThresholds;
@@ -925,7 +923,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         }
         });
     getter->getConfiguration(
-        std::vector<std::string>(monitorIfaces.begin(), monitorIfaces.end()));
+        std::vector<std::string>(monitorTypes.begin(), monitorTypes.end()));
 }
 
 int main()
@@ -959,7 +957,7 @@ int main()
         });
     };
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, monitorIfaces, eventHandler);
+        setupPropertiesChangedMatches(*systemBus, monitorTypes, eventHandler);
 
     setupManufacturingModeMatch(*systemBus);
     io.run();

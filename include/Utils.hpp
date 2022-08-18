@@ -91,6 +91,14 @@ void findLimits(std::pair<double, double>& limits,
 
 bool readingStateGood(const PowerState& powerState);
 
+constexpr const char* configInterfacePrefix =
+    "xyz.openbmc_project.Configuration.";
+
+inline std::string configInterfaceName(const std::string& type)
+{
+    return std::string(configInterfacePrefix) + type;
+}
+
 namespace mapper
 {
 constexpr const char* busName = "xyz.openbmc_project.ObjectMapper";
@@ -258,12 +266,18 @@ struct GetSensorConfiguration :
             interface);
     }
 
-    void getConfiguration(const std::vector<std::string>& interfaces,
+    void getConfiguration(const std::vector<std::string>& types,
                           size_t retries = 0)
     {
         if (retries > 5)
         {
             retries = 5;
+        }
+
+        std::vector<std::string> interfaces(types.size());
+        for (const auto& type : types)
+        {
+            interfaces.push_back(configInterfaceName(type));
         }
 
         std::shared_ptr<GetSensorConfiguration> self = shared_from_this();

@@ -39,8 +39,7 @@ static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
 namespace fs = std::filesystem;
 
-static constexpr auto sensorTypes{
-    std::to_array<const char*>({"xyz.openbmc_project.Configuration.ADC"})};
+static constexpr auto sensorTypes{std::to_array<const char*>({"ADC"})};
 static std::regex inputRegex(R"(in(\d+)_input)");
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
@@ -120,7 +119,7 @@ void createSensors(
                 // find base configuration
                 for (const char* type : sensorTypes)
                 {
-                    auto sensorBase = cfgData.find(type);
+                    auto sensorBase = cfgData.find(configInterfaceName(type));
                     if (sensorBase != cfgData.end())
                     {
                         baseConfiguration = &(*sensorBase);

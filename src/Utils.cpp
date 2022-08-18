@@ -142,6 +142,7 @@ bool getSensorConfiguration(
     ManagedObjectType& resp, bool useCache)
 {
     static ManagedObjectType managedObj;
+    std::string typeIntf = configInterfaceName(type);
 
     if (!useCache)
     {
@@ -169,7 +170,7 @@ bool getSensorConfiguration(
     {
         for (const auto& [intf, cfg] : pathPair.second)
         {
-            if (intf.starts_with(type))
+            if (intf.starts_with(typeIntf))
             {
                 resp.emplace(pathPair);
                 break;
@@ -705,7 +706,8 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
         auto match = std::make_unique<sdbusplus::bus::match_t>(
             static_cast<sdbusplus::bus_t&>(bus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
-                std::string(inventoryPath) + "',arg0namespace='" + type + "'",
+                std::string(inventoryPath) + "',arg0namespace='" +
+                configInterfaceName(type) + "'",
             handler);
         matches.emplace_back(std::move(match));
     }

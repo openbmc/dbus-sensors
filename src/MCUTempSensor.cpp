@@ -39,8 +39,7 @@ extern "C"
 
 constexpr const bool debug = false;
 
-constexpr const char* configInterface =
-    "xyz.openbmc_project.Configuration.MCUTempSensor";
+constexpr const char* sensorType = "MCUTempSensor";
 static constexpr double mcuTempMaxReading = 0xFF;
 static constexpr double mcuTempMinReading = 0;
 
@@ -55,8 +54,7 @@ MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                              uint8_t busId, uint8_t mcuAddress,
                              uint8_t tempReg) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration,
-           "xyz.openbmc_project.Configuration.MCUTempSensor", false, false,
+           sensorConfiguration, "MCUTempSensor", false, false,
            mcuTempMaxReading, mcuTempMinReading, conn),
     busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
     objectServer(objectServer), waitTimer(io)
@@ -210,7 +208,7 @@ void createSensors(
         {
             for (const auto& [intf, cfg] : interfaces)
             {
-                if (intf != configInterface)
+                if (intf != configInterfaceName(sensorType))
                 {
                     continue;
                 }
@@ -292,8 +290,7 @@ int main()
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({configInterface}),
-            eventHandler);
+            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
     setupManufacturingModeMatch(*systemBus);
     io.run();
     return 0;

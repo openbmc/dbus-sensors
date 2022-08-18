@@ -36,8 +36,7 @@
 
 constexpr const bool debug = false;
 
-constexpr const char* configInterface =
-    "xyz.openbmc_project.Configuration.IpmbSensor";
+constexpr const char* sensorType = "IpmbSensor";
 static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
 
@@ -64,8 +63,8 @@ IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        uint8_t deviceAddress, uint8_t hostSMbusIndex,
                        const float pollRate, std::string& sensorTypeName) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, "xyz.openbmc_project.Configuration.IpmbSensor",
-           false, false, ipmbMaxReading, ipmbMinReading, conn, PowerState::on),
+           sensorConfiguration, "IpmbSensor", false, false, ipmbMaxReading,
+           ipmbMinReading, conn, PowerState::on),
     deviceAddress(deviceAddress), hostSMbusIndex(hostSMbusIndex),
     sensorPollMs(static_cast<int>(pollRate * 1000)), objectServer(objectServer),
     waitTimer(io)
@@ -499,7 +498,7 @@ void createSensors(
         {
             for (const auto& [intf, cfg] : interfaces)
             {
-                if (intf != configInterface)
+                if (intf != configInterfaceName(sensorType))
                 {
                     continue;
                 }
@@ -640,8 +639,7 @@ int main()
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({configInterface}),
-            eventHandler);
+            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
 
     sdbusplus::bus::match_t powerChangeMatch(
         static_cast<sdbusplus::bus_t&>(*systemBus),
