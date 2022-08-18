@@ -16,6 +16,24 @@
       "message": "Is there a tie back to an EM sensor type schema that we should link here?",
       "revId": "34d7b97f6368b5a403dfbe3165b0708efed14e33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3b063fb_df8f0244",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-18T03:22:05Z",
+      "side": 1,
+      "message": "I don\u0027t see a `Configuration` directory in https://github.com/openbmc/phosphor-dbus-interfaces/tree/master/yaml/xyz/openbmc_project, so I don\u0027t think one currently exists; I just made them match up with:\n\n - https://github.com/openbmc/dbus-sensors/blob/fd3d5f7ee3964157b46d1e83d04618dfe1be7a32/src/ExitAirTempSensor.cpp#L43\n - https://github.com/openbmc/dbus-sensors/blob/fd3d5f7ee3964157b46d1e83d04618dfe1be7a32/src/IpmbSensor.cpp#L40-L41\n - https://github.com/openbmc/dbus-sensors/blob/fd3d5f7ee3964157b46d1e83d04618dfe1be7a32/src/MCUTempSensor.cpp#L43-L44",
+      "parentUuid": "f0e33ba9_e2725b39",
+      "revId": "34d7b97f6368b5a403dfbe3165b0708efed14e33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
