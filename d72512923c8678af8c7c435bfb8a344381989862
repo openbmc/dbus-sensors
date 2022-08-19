@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d54e6da5_a42c79af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-08-19T01:29:00Z",
+      "side": 1,
+      "message": "I half wonder if these aren\u0027t something we should have an enumeration for now that the names are valid C-ish identifiers (and then translate the enumeration member into a string as required).",
+      "revId": "d72512923c8678af8c7c435bfb8a344381989862",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
