@@ -70,6 +70,30 @@
       },
       "revId": "8a9e160fa74bfc891bc1585f8e2ee6d056cbb95b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f6189ca_1c724545",
+        "filename": "include/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-19T00:19:53Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "f190fc2a_6cc35afe",
+      "range": {
+        "startLine": 422,
+        "startChar": 4,
+        "endLine": 424,
+        "endChar": 45
+      },
+      "revId": "8a9e160fa74bfc891bc1585f8e2ee6d056cbb95b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
