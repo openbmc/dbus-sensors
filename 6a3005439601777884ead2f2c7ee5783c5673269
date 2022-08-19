@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88606a6d_1ad42aac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 41
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-19T00:26:57Z",
+      "side": 1,
+      "message": "I don\u0027t have any additional comments that have already been discussed. Merge conflict need to be resolved.",
+      "revId": "6a3005439601777884ead2f2c7ee5783c5673269",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
