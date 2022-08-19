@@ -16,6 +16,24 @@
       "message": "I feel like we\u0027re doing a lot of ad-hoc parser crimes here :S",
       "revId": "6c106d66e390352a6914e8dc5ddad20943eceaa6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15f69439_cda1cd4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-19T00:10:35Z",
+      "side": 1,
+      "message": "Given the amount of config parsing and re-parsing this codebase does, arguably the whole thing is one big ad-hoc (lack-of-a-proper-)parser crime -- maybe one day we\u0027ll have some real purpose-built data structures instead of endlessly-nested maps of strings and variants...",
+      "parentUuid": "7207fb22_ce3bb244",
+      "revId": "6c106d66e390352a6914e8dc5ddad20943eceaa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
