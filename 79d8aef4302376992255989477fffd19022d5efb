@@ -33,6 +33,24 @@
       "message": "Do we have test cases that validate we\u0027re not changing behaviour?",
       "revId": "79d8aef4302376992255989477fffd19022d5efb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10b71973_0bc014e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-08-19T00:52:55Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like it; the test/ directory is fairly lightly populated, and `getSensorConfiguration()` is only called from IntelCPUSensorMain.cpp and IntrusionSensorMain.cpp, neither of which appears to have any coverage there.",
+      "parentUuid": "34748e21_376fd5b2",
+      "revId": "79d8aef4302376992255989477fffd19022d5efb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
