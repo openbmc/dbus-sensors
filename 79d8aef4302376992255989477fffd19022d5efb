@@ -51,6 +51,24 @@
       "parentUuid": "34748e21_376fd5b2",
       "revId": "79d8aef4302376992255989477fffd19022d5efb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bd88fc8_49bff8ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-08-19T01:31:56Z",
+      "side": 1,
+      "message": "I asked on the basis that setting a bool in a loop and then doing something outside the loop based on the bool means the something outside the loop can only happen either 0 or 1 times, whereas hoisting the something outside the loop into the loop (?? weird phrase perhaps) might make it execute multiple times. I\u0027m unsure of whether the types and preconditions prevent this, hence asking about tests :)",
+      "parentUuid": "10b71973_0bc014e1",
+      "revId": "79d8aef4302376992255989477fffd19022d5efb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
