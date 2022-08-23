@@ -105,6 +105,30 @@
       },
       "revId": "4f354961ebfac0d92fee87ec354f98e6614f93c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8f87a02_279eb7d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-08-23T05:13:11Z",
+      "side": 1,
+      "message": "gentle reminder for review. Is current approach acceptable ? If not then how can current problem can be solved ?",
+      "parentUuid": "6036fa01_97343f1e",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "4f354961ebfac0d92fee87ec354f98e6614f93c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
