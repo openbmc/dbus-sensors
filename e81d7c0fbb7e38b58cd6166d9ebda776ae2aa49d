@@ -164,6 +164,30 @@
       },
       "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37e3e910_1d50c26d",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-08-24T10:31:49Z",
+      "side": 1,
+      "message": "It is passed as an argument to createSensors function, therefore, whenever IpmbSensor type is present, the flag will be false.",
+      "parentUuid": "d40e127b_83007177",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 684,
+        "endChar": 29
+      },
+      "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
