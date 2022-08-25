@@ -87,13 +87,7 @@ void enablePwm(const fs::path& filePath)
         std::cerr << "Error read/write " << filePath << "\n";
         return;
     }
-
-    std::string regulateMode;
-    std::getline(enableFile, regulateMode);
-    if (regulateMode == "0")
-    {
-        enableFile << 1;
-    }
+    enableFile << 1;
 }
 bool findPwmfanPath(unsigned int configPwmfanIndex, fs::path& pwmPath)
 {
