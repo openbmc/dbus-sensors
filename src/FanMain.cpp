@@ -150,6 +150,31 @@ bool findPwmPath(const fs::path& directory, unsigned int pwm, fs::path& pwmPath)
     pwmPath = path;
     return true;
 }
+
+// The argument to this function should be the fanN_input file that we want to
+// enable. The function will locate the corresponding fanN_enable file if it
+// exists. Note that some drivers don't provide this file if the sensors are
+// always enabled.
+void enableFanInput(const fs::path& fanInputPath)
+{
+    std::error_code ec;
+    std::string path(fanInputPath.string());
+    boost::replace_last(path, "input", "enable");
+
+    bool exists = fs::exists(path, ec);
+    if (ec || !exists)
+    {
+        return;
+    }
+
+    std::fstream enableFile(path, std::ios::out);
+    if (!enableFile.good())
+    {
+        return;
+    }
+    enableFile << 1;
+}
+
 void createRedundancySensor(
     const boost::container::flat_map<std::string, std::shared_ptr<TachSensor>>&
         sensors,
@@ -485,6 +510,8 @@ void createSensors(
             }
 
             findLimits(limits, baseConfiguration);
+
+            enableFanInput(path);
 
             auto& tachSensor = tachSensors[sensorName];
             tachSensor = nullptr;
