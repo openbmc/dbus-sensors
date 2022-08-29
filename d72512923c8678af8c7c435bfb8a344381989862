@@ -39,6 +39,109 @@
       "message": "I half wonder if these aren\u0027t something we should have an enumeration for now that the names are valid C-ish identifiers (and then translate the enumeration member into a string as required).",
       "revId": "d72512923c8678af8c7c435bfb8a344381989862",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8fdeecc_f661fd9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-29T19:43:08Z",
+      "side": 1,
+      "message": "Nice improvement.",
+      "revId": "d72512923c8678af8c7c435bfb8a344381989862",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6823eb1_c51a1a9b",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-29T19:43:08Z",
+      "side": 1,
+      "message": "is this needed? interfaces already has the prefix line 280",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 59
+      },
+      "revId": "d72512923c8678af8c7c435bfb8a344381989862",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50fe1924_bdb9a8cd",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-29T19:43:08Z",
+      "side": 1,
+      "message": "not part of this patch, but a simpler way is:\nif (std::any_of()) { continue; }",
+      "range": {
+        "startLine": 321,
+        "startChar": 24,
+        "endLine": 325,
+        "endChar": 46
+      },
+      "revId": "d72512923c8678af8c7c435bfb8a344381989862",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9edc641c_599edbb9",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-29T19:43:08Z",
+      "side": 1,
+      "message": "nit:Types",
+      "range": {
+        "startLine": 58,
+        "startChar": 28,
+        "endLine": 58,
+        "endChar": 34
+      },
+      "revId": "d72512923c8678af8c7c435bfb8a344381989862",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cdfd397_4e53b713",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-29T19:43:08Z",
+      "side": 1,
+      "message": "nit: to be consistent with other service in this patch, \nRemove line 874 - 882 and use this check: \nif ( intf \u003d\u003d configInterfaceName(exitAirType)) \n\nline 903 also",
+      "revId": "d72512923c8678af8c7c435bfb8a344381989862",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
