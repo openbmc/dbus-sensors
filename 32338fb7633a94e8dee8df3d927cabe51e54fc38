@@ -63,6 +63,30 @@
       },
       "revId": "32338fb7633a94e8dee8df3d927cabe51e54fc38",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6273048f_43e0c24b",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-08-29T23:16:42Z",
+      "side": 1,
+      "message": "I like how it is now. The only case in which the write is skipped, will be when the read confirms the file to already be set to the value we want it to be.\n\nIf there\u0027s a problem reading/parsing the file, \"enabled\" will stay unchanged from its initialization of false, so the subsequent write will be done, which is what is wanted here.",
+      "parentUuid": "c05f88d6_d1d740eb",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 5
+      },
+      "revId": "32338fb7633a94e8dee8df3d927cabe51e54fc38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
