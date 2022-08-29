@@ -1,0 +1,42 @@
+#include "NVMeBasic.hpp"
+#include "NVMeSensor.hpp"
+#include "Utils.hpp"
+
+class NVMeSubsys : public std::enable_shared_from_this<NVMeSubsys>
+{
+  public:
+    static constexpr const char* configType =
+        "xyz.openbmc_project.Configuration.NVME1000";
+
+    NVMeSubsys(boost::asio::io_context& io,
+               sdbusplus::asio::object_server& objServer,
+               std::shared_ptr<sdbusplus::asio::connection> conn,
+               std::string path, std::string name, const SensorData& configData,
+               const std::shared_ptr<NVMeIntf>& intf);
+
+    void close()
+    {
+        ctempTimer.cancel();
+    }
+
+  private:
+    boost::asio::io_context& io;
+    sdbusplus::asio::object_server& objServer;
+    std::shared_ptr<sdbusplus::asio::connection> conn;
+    std::string path;
+    std::string name;
+
+    std::shared_ptr<NVMeIntf> nvmeIntf;
+
+    // thermal sensor via ctemp
+    std::optional<NVMeSensor> ctemp;
+    boost::asio::deadline_timer ctempTimer;
+
+    template <class T>
+    void pollCtemp(
+        const std::function<void(
+            std::function<void(const std::error_code&, T)>&&)>& dataFetcher,
+        const std::function<std::optional<double>(T Data)>& dataParser);
+    // std::map<int, NVMeController> controllers;
+    // std::map<int, NVMeNamespace> namespaces;
+};
