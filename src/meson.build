@@ -145,14 +145,18 @@ if get_option('mcu').enabled()
 endif
 
 if get_option('nvme').enabled()
-    nvme_srcs = files('NVMeSensorMain.cpp', 'NVMeSensor.cpp')
-    nvme_srcs += files('NVMeBasicContext.cpp')
-
+    nvme_srcs = [
+        'NVMeSensorMain.cpp',
+        'NVMeSensor.cpp',
+        'NVMeBasic.cpp',
+        'NVMeSubsys.cpp'
+    ]
     nvme_deps = [ default_deps, i2c, thresholds_dep, utils_dep, threads ]
 
     executable(
         'nvmesensor',
         sources: nvme_srcs,
+        cpp_args: '-frtti',
         dependencies: nvme_deps,
         cpp_args: uring_args,
         implicit_include_directories: false,
