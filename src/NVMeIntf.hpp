@@ -1,109 +1,88 @@
 #pragma once
-
-#include "NVMeSensor.hpp"
-
-#include <boost/asio/io_context.hpp>
-#include <boost/asio/steady_timer.hpp>
-
+#include <functional>
 #include <memory>
-#include <stdexcept>
+#include <variant>
 
-class NVMeContext : public std::enable_shared_from_this<NVMeContext>
+class NVMeBasicIntf;
+/**
+ * @brief a container class to hold smart ptr to NVMe Basic or NVMe MI
+ * implementation instance
+ */
+class NVMeIntf
 {
   public:
-    NVMeContext(boost::asio::io_context& io, int rootBus) :
-        scanTimer(io), rootBus(rootBus), pollCursor(sensors.end())
+    enum class Protocol
     {
-        if (rootBus < 0)
+        NVMeBasic,
+        NVMeMI,
+    };
+
+    NVMeIntf() = default;
+
+    template <class IntfImpl, class... Args>
+    static NVMeIntf create(Args&&... args)
+    {
+        NVMeIntf nvmeIntf;
+        if constexpr (std::is_base_of_v<NVMeBasicIntf, IntfImpl>)
         {
-            throw std::invalid_argument(
-                "Invalid root bus: Bus ID must not be negative");
+            nvmeIntf.interface =
+                std::make_shared<IntfImpl>(std::forward<Args>(args)...);
+            return nvmeIntf;
         }
+        throw std::runtime_error("Unsupported NVMe interface");
     }
 
-    virtual ~NVMeContext()
+    auto getInferface()
     {
-        scanTimer.cancel();
+        return interface;
     }
 
-    void addSensor(const std::shared_ptr<NVMeSensor>& sensor)
+    Protocol getProtocol()
     {
-        sensors.emplace_back(sensor);
-    }
-
-    std::optional<std::shared_ptr<NVMeSensor>>
-        getSensorAtPath(const std::string& path)
-    {
-        for (auto& sensor : sensors)
+        if (std::holds_alternative<std::shared_ptr<NVMeBasicIntf>>(interface))
         {
-            if (sensor->configurationPath == path)
-            {
-                return sensor;
-            }
+            return Protocol::NVMeBasic;
         }
-
-        return std::nullopt;
+        throw std::runtime_error("uninitiated NVMeIntf");
     }
 
-    // Post-condition: The sensor list does not contain the provided sensor
-    // Post-condition: pollCursor is a valid iterator for the sensor list
-    void removeSensor(const std::shared_ptr<NVMeSensor>& sensor)
-    {
-        // Locate the sensor that we're removing in the sensor list
-        auto found = std::find(sensors.begin(), sensors.end(), sensor);
-
-        // If we failed to find the sensor in the list the post-condition is
-        // already satisfied
-        if (found == sensors.end())
-        {
-            return;
-        }
-
-        // We've found the sensor in the list
-
-        // If we're not actively polling the sensor list, then remove the sensor
-        if (pollCursor == sensors.end())
-        {
-            sensors.erase(found);
-            return;
-        }
-
-        // We're actively polling the sensor list
-
-        // If we're not polling the specific sensor that has been removed, then
-        // remove the sensor
-        if (*pollCursor != *found)
-        {
-            sensors.erase(found);
-            return;
-        }
-
-        // We're polling the sensor that is being removed
-
-        // Remove the sensor and update the poll cursor so the cursor remains
-        // valid
-        pollCursor = sensors.erase(found);
-    }
-
-    virtual void close()
-    {
-        scanTimer.cancel();
-    }
-
-    virtual void pollNVMeDevices() = 0;
-
-    virtual void readAndProcessNVMeSensor() = 0;
-
-    virtual void processResponse(std::shared_ptr<NVMeSensor>& sensor, void* msg,
-                                 size_t len) = 0;
-
-  protected:
-    boost::asio::steady_timer scanTimer;
-    int rootBus; // Root bus for this drive
-    std::list<std::shared_ptr<NVMeSensor>> sensors;
-    std::list<std::shared_ptr<NVMeSensor>>::iterator pollCursor;
+  private:
+    std::variant<std::shared_ptr<NVMeBasicIntf>> interface;
 };
 
-using NVMEMap = boost::container::flat_map<int, std::shared_ptr<NVMeContext>>;
+/**
+ * @brief Interface to get information via NVMe MI Basic CMD protocol.
+ *
+ * Can be used for implementation or mockup
+ */
+class NVMeBasicIntf
+{
+  public:
+    struct DriveStatus
+    {
+        uint8_t SmartWarnings;
+        uint8_t Temp;
+        uint8_t DriveLifeUsed;
+        uint8_t WarningTemp;
+        uint8_t PowerState;
+    };
 
-NVMEMap& getNVMEMap(void);
+    enum StatusFlags : uint8_t
+    {
+        NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY = 0x40,
+        NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL = 0x20,
+    };
+
+    NVMeBasicIntf() = default;
+
+    // The i2c bus number
+    virtual int getBus() const = 0;
+    // The i2c address for NVMe Basic
+    virtual int getAddress() const = 0;
+
+    // Get NVMe drive status, data address is from 00h~07h
+    virtual void getStatus(
+        std::function<void(const std::error_code&, DriveStatus*)>&& cb) = 0;
+
+    virtual ~NVMeBasicIntf() = default;
+};
