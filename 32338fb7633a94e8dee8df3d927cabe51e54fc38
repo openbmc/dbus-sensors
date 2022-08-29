@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de055000_7778a38b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-29T18:45:04Z",
+      "side": 1,
+      "message": "lgtm",
+      "revId": "32338fb7633a94e8dee8df3d927cabe51e54fc38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dd1ec9e_3dac2e1f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-08-29T18:45:04Z",
+      "side": 1,
+      "message": "nit: I am wondering if it can always write 1 to enable it without checking the current state. Will there be an unwanted side affect if it is already enabled?",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 5
+      },
+      "revId": "32338fb7633a94e8dee8df3d927cabe51e54fc38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
