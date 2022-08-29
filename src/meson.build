@@ -189,16 +189,16 @@ if get_option('nvme').enabled()
     nvme_srcs = [
         'NVMeSensorMain.cpp',
         'NVMeSensor.cpp',
-        'NVMeBasic.cpp'
+        'NVMeBasic.cpp',
+        'NVMeSubsys.cpp'
     ]
-
     nvme_deps = [ default_deps, i2c, thresholds_dep, utils_dep, threads ]
 
     executable(
         'nvmesensor',
         sources: nvme_srcs,
         dependencies: nvme_deps,
-        cpp_args: uring_args,
+        cpp_args: [uring_args, '-UBOOST_ASIO_NO_DEPRECATED'], 
         install: true,
     )
 endif
