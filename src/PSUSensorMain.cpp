@@ -79,6 +79,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"PLI1209BC", I2CDeviceType{"pli1209bc", true}},
     {"pmbus", I2CDeviceType{"pmbus", true}},
     {"PXE1610", I2CDeviceType{"pxe1610", true}},
+    {"Q50SN12072", I2CDeviceType{"q50sn12072", true}},
     {"RAA228000", I2CDeviceType{"raa228000", true}},
     {"RAA228228", I2CDeviceType{"raa228228", true}},
     {"RAA228620", I2CDeviceType{"raa228620", true}},
