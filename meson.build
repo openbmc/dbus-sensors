@@ -138,3 +138,4 @@ subdir('src')
 if not build_tests.disabled()
     subdir('tests')
 endif
+
