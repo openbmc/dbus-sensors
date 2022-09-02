@@ -75,6 +75,8 @@ static constexpr auto sensorTypes{std::to_array<const char*>(
      "xyz.openbmc_project.Configuration.RAA229001",
      "xyz.openbmc_project.Configuration.RAA229004",
      "xyz.openbmc_project.Configuration.RAA229126",
+     "xyz.openbmc_project.Configuration.RAA229620",
+     "xyz.openbmc_project.Configuration.RAA229621",
      "xyz.openbmc_project.Configuration.TPS546D24",
      "xyz.openbmc_project.Configuration.XDPE12284"})};
 
@@ -115,6 +117,8 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "raa229001",
     "raa229004",
     "raa229126",
+    "raa229620",
+    "raa229621",
     "tps546d24",
     "xdpe12284"
 })};
