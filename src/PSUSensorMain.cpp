@@ -46,9 +46,9 @@ static constexpr auto sensorTypes{std::to_array<const char*>(
      "ISL68137",  "ISL68220",    "ISL68223",  "ISL69225",  "ISL69243",
      "ISL69260",  "LM25066",     "MAX16601",  "MAX20710",  "MAX20730",
      "MAX20734",  "MAX20796",    "MAX34451",  "MP2971",    "MP2973",
-     "MP5023",    "PLI1209BC",   "pmbus",     "PXE1610",   "RAA228000",
-     "RAA228228", "RAA228620",   "RAA229001", "RAA229004", "RAA229126",
-     "TPS53679",  "TPS546D24",   "XDPE11280", "XDPE12284"})};
+     "MP5023",    "PLI1209BC",   "pmbus",     "PXE1610",   "Q50SN12072",
+     "RAA228000", "RAA228228", "RAA228620",   "RAA229001", "RAA229004",
+     "RAA229126", "TPS53679",  "TPS546D24",   "XDPE11280", "XDPE12284"})};
 
 // clang-format off
 static constexpr auto pmbusNames{std::to_array<const char*>({
@@ -86,6 +86,7 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "pli1209bc",
     "pmbus",
     "pxe1610",
+    "q50sn12072",
     "raa228000",
     "raa228228",
     "raa228620",
