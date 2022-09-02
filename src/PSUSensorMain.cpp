@@ -40,6 +40,46 @@
 static constexpr bool debug = false;
 
 static constexpr auto sensorTypes{std::to_array<const char*>(
+<<<<<<< PATCH SET (4b903c PSUSensor: Add device type SIC450)
+    {"xyz.openbmc_project.Configuration.ADM1266",
+     "xyz.openbmc_project.Configuration.ADM1272",
+     "xyz.openbmc_project.Configuration.ADM1275",
+     "xyz.openbmc_project.Configuration.ADM1278",
+     "xyz.openbmc_project.Configuration.ADM1293",
+     "xyz.openbmc_project.Configuration.ADS7830",
+     "xyz.openbmc_project.Configuration.BMR490",
+     "xyz.openbmc_project.Configuration.DPS800",
+     "xyz.openbmc_project.Configuration.INA219",
+     "xyz.openbmc_project.Configuration.INA230",
+     "xyz.openbmc_project.Configuration.IPSPS",
+     "xyz.openbmc_project.Configuration.ISL68137",
+     "xyz.openbmc_project.Configuration.ISL68220",
+     "xyz.openbmc_project.Configuration.ISL68223",
+     "xyz.openbmc_project.Configuration.ISL69225",
+     "xyz.openbmc_project.Configuration.ISL69243",
+     "xyz.openbmc_project.Configuration.ISL69260",
+     "xyz.openbmc_project.Configuration.LM25066",
+     "xyz.openbmc_project.Configuration.MAX16601",
+     "xyz.openbmc_project.Configuration.MAX20710",
+     "xyz.openbmc_project.Configuration.MAX20730",
+     "xyz.openbmc_project.Configuration.MAX20734",
+     "xyz.openbmc_project.Configuration.MAX20796",
+     "xyz.openbmc_project.Configuration.MAX34451",
+     "xyz.openbmc_project.Configuration.MP2971",
+     "xyz.openbmc_project.Configuration.MP2973",
+     "xyz.openbmc_project.Configuration.MP5023",
+     "xyz.openbmc_project.Configuration.pmbus",
+     "xyz.openbmc_project.Configuration.PXE1610",
+     "xyz.openbmc_project.Configuration.RAA228000",
+     "xyz.openbmc_project.Configuration.RAA228228",
+     "xyz.openbmc_project.Configuration.RAA228620",
+     "xyz.openbmc_project.Configuration.RAA229001",
+     "xyz.openbmc_project.Configuration.RAA229004",
+     "xyz.openbmc_project.Configuration.RAA229126",
+     "xyz.openbmc_project.Configuration.SIC450",
+     "xyz.openbmc_project.Configuration.TPS546D24",
+     "xyz.openbmc_project.Configuration.XDPE12284"})};
+=======
     {"ADM1266",   "ADM1272",     "ADM1275",   "ADM1278",   "ADM1293",
      "ADS7830",   "AHE50DC_FAN", "BMR490",    "DPS800",    "INA219",
      "INA230",    "IPSPS",       "IR38060",   "IR38164",   "IR38263",
@@ -49,6 +89,7 @@ static constexpr auto sensorTypes{std::to_array<const char*>(
      "MP5023",    "PLI1209BC",   "pmbus",     "PXE1610",   "RAA228000",
      "RAA228228", "RAA228620",   "RAA229001", "RAA229004", "RAA229126",
      "TPS53679",  "TPS546D24",   "XDPE11280", "XDPE12284"})};
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
 
 // clang-format off
 static constexpr auto pmbusNames{std::to_array<const char*>({
@@ -92,7 +133,11 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "raa229001",
     "raa229004",
     "raa229126",
+<<<<<<< PATCH SET (4b903c PSUSensor: Add device type SIC450)
+    "sic450",
+=======
     "tps53679",
+>>>>>>> BASE      (ead7e9 pwmsensor: Correct the type of MaxValue/MinValue)
     "tps546d24",
     "xdpe11280",
     "xdpe12284"
