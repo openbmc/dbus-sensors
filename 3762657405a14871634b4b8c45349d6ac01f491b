@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4958b271_e89f30da",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-02T00:43:18Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed anymore.\n\nDone",
+      "range": {
+        "startLine": 172,
+        "startChar": 34,
+        "endLine": 172,
+        "endChar": 46
+      },
+      "revId": "3762657405a14871634b4b8c45349d6ac01f491b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
