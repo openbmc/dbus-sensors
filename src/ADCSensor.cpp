@@ -18,7 +18,6 @@
 
 #include <ADCSensor.hpp>
 #include <boost/asio/read_until.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -109,7 +108,7 @@ void ADCSensor::setupRead(void)
         // value. Guarantee that the HW signal can be stable, the HW signal
         // could be instability.
         waitTimer.expires_from_now(
-            boost::posix_time::milliseconds(bridgeGpio->setupTimeMs));
+            std::chrono::milliseconds(bridgeGpio->setupTimeMs));
         waitTimer.async_wait(
             [weakRef, buffer](const boost::system::error_code& ec) {
             std::shared_ptr<ADCSensor> self = weakRef.lock();
@@ -198,7 +197,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         return; // we're no longer valid
     }
     inputDev.assign(fd);
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+    waitTimer.expires_from_now(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         std::shared_ptr<ADCSensor> self = weakRef.lock();
         if (ec == boost::asio::error::operation_aborted)

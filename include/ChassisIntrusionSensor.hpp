@@ -1,7 +1,7 @@
 #pragma once
 
-#include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -39,7 +39,7 @@ class ChassisIntrusionSensor
     // valid if it is PCH register via i2c
     int mBusId{-1};
     int mSlaveAddr{-1};
-    boost::asio::deadline_timer mPollTimer;
+    boost::asio::steady_timer mPollTimer;
 
     // valid if it is via GPIO
     bool mGpioInverted{false};

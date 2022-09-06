@@ -352,7 +352,7 @@ void NVMeBasicContext::pollNVMeDevices()
 {
     pollCursor = sensors.begin();
 
-    scanTimer.expires_from_now(boost::posix_time::seconds(1));
+    scanTimer.expires_from_now(std::chrono::seconds(1));
     scanTimer.async_wait([weakSelf{weak_from_this()}](
                              const boost::system::error_code errorCode) {
         if (errorCode == boost::asio::error::operation_aborted)

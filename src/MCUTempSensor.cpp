@@ -151,7 +151,7 @@ void MCUTempSensor::read(void)
 {
     static constexpr size_t pollTime = 1; // in seconds
 
-    waitTimer.expires_from_now(boost::posix_time::seconds(pollTime));
+    waitTimer.expires_from_now(std::chrono::seconds(pollTime));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -263,11 +263,11 @@ int main()
 
     io.post([&]() { createSensors(io, objectServer, sensors, systemBus); });
 
-    boost::asio::deadline_timer configTimer(io);
+    boost::asio::steady_timer configTimer(io);
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t&) {
-        configTimer.expires_from_now(boost::posix_time::seconds(1));
+        configTimer.expires_from_now(std::chrono::seconds(1));
         // create a timer because normally multiple properties change
         configTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)

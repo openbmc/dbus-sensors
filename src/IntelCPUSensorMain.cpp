@@ -22,7 +22,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus/match.hpp>
@@ -94,8 +93,8 @@ static constexpr auto hiddenProps{std::to_array<const char*>(
     {IntelCPUSensor::labelTcontrol, "Tthrottle", "Tjmax"})};
 
 void detectCpuAsync(
-    boost::asio::deadline_timer& pingTimer,
-    boost::asio::deadline_timer& creationTimer, boost::asio::io_service& io,
+    boost::asio::steady_timer& pingTimer,
+    boost::asio::steady_timer& creationTimer, boost::asio::io_service& io,
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_set<CPUConfig>& cpuConfigs,
@@ -447,8 +446,8 @@ void exportDevice(const CPUConfig& config)
     std::cout << parameters << " on bus " << busStr << " is exported\n";
 }
 
-void detectCpu(boost::asio::deadline_timer& pingTimer,
-               boost::asio::deadline_timer& creationTimer,
+void detectCpu(boost::asio::steady_timer& pingTimer,
+               boost::asio::steady_timer& creationTimer,
                boost::asio::io_service& io,
                sdbusplus::asio::object_server& objectServer,
                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -555,7 +554,7 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
     if (rescanDelaySeconds != 0U)
     {
         creationTimer.expires_from_now(
-            boost::posix_time::seconds(rescanDelaySeconds));
+            std::chrono::seconds(rescanDelaySeconds));
         creationTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)
             {
@@ -579,14 +578,14 @@ void detectCpu(boost::asio::deadline_timer& pingTimer,
 }
 
 void detectCpuAsync(
-    boost::asio::deadline_timer& pingTimer,
-    boost::asio::deadline_timer& creationTimer, boost::asio::io_service& io,
+    boost::asio::steady_timer& pingTimer,
+    boost::asio::steady_timer& creationTimer, boost::asio::io_service& io,
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_set<CPUConfig>& cpuConfigs,
     ManagedObjectType& sensorConfigs)
 {
-    pingTimer.expires_from_now(boost::posix_time::seconds(1));
+    pingTimer.expires_from_now(std::chrono::seconds(1));
     pingTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -710,12 +709,12 @@ int main()
     boost::container::flat_set<CPUConfig> cpuConfigs;
 
     sdbusplus::asio::object_server objectServer(systemBus);
-    boost::asio::deadline_timer pingTimer(io);
-    boost::asio::deadline_timer creationTimer(io);
-    boost::asio::deadline_timer filterTimer(io);
+    boost::asio::steady_timer pingTimer(io);
+    boost::asio::steady_timer creationTimer(io);
+    boost::asio::steady_timer filterTimer(io);
     ManagedObjectType sensorConfigs;
 
-    filterTimer.expires_from_now(boost::posix_time::seconds(1));
+    filterTimer.expires_from_now(std::chrono::seconds(1));
     filterTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -743,7 +742,7 @@ int main()
         }
 
         // this implicitly cancels the timer
-        filterTimer.expires_from_now(boost::posix_time::seconds(1));
+        filterTimer.expires_from_now(std::chrono::seconds(1));
         filterTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)
             {
