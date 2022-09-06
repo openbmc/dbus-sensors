@@ -34,7 +34,7 @@ FileHandle& FileHandle::operator=(FileHandle&& in) noexcept
 
 FileHandle::~FileHandle()
 {
-    if (fd != 0)
+    if (fd >= 0)
     {
         int r = close(fd);
         if (r < 0)
