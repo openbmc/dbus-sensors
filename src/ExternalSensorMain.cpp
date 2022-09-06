@@ -352,7 +352,7 @@ int main()
         createSensors(objectServer, sensors, systemBus, nullptr, reaperTimer);
     });
 
-    boost::asio::deadline_timer filterTimer(io);
+    boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&objectServer, &sensors, &systemBus, &sensorsChanged, &filterTimer,
          &reaperTimer](sdbusplus::message_t& message) mutable {
@@ -371,7 +371,7 @@ int main()
         }
 
         // this implicitly cancels the timer
-        filterTimer.expires_from_now(boost::posix_time::seconds(1));
+        filterTimer.expires_from_now(std::chrono::seconds(1));
 
         filterTimer.async_wait(
             [&objectServer, &sensors, &systemBus, &sensorsChanged,

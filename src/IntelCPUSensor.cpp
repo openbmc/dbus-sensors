@@ -20,7 +20,6 @@
 #include <Utils.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -113,7 +112,7 @@ IntelCPUSensor::~IntelCPUSensor()
 void IntelCPUSensor::restartRead(void)
 {
     std::weak_ptr<IntelCPUSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
+    waitTimer.expires_from_now(std::chrono::milliseconds(pollTime));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

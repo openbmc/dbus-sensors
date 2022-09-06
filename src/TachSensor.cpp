@@ -19,7 +19,6 @@
 #include <TachSensor.hpp>
 #include <Utils.hpp>
 #include <boost/asio/read_until.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -125,7 +124,7 @@ void TachSensor::setupRead()
 void TachSensor::restartRead(size_t pollTime)
 {
     std::weak_ptr<TachSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(pollTime));
+    waitTimer.expires_from_now(std::chrono::milliseconds(pollTime));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
