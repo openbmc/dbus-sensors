@@ -22,6 +22,30 @@
       },
       "revId": "81241ee19734befca7d7926a08de456148bf2736",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be26d8c9_ba0a0571",
+        "filename": "src/IntelCPUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-09-06T20:11:34Z",
+      "side": 1,
+      "message": "Yes. setInitialProperies configures the associations interface with just the chassis if the interface object already exists. IIRC this same pattern is used in a number of other places in dbus-sensors where we need additional associations.",
+      "parentUuid": "50789121_f39bf2dc",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 51
+      },
+      "revId": "81241ee19734befca7d7926a08de456148bf2736",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

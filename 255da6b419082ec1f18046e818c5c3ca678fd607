@@ -22,6 +22,30 @@
       },
       "revId": "255da6b419082ec1f18046e818c5c3ca678fd607",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "540fdf2b_d7d75524",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1000998
+      },
+      "writtenOn": "2022-09-06T20:11:34Z",
+      "side": 0,
+      "message": "I added a definition to the header file, so the default value is there now.",
+      "parentUuid": "9620fad0_85e9d0d0",
+      "range": {
+        "startLine": 521,
+        "startChar": 36,
+        "endLine": 521,
+        "endChar": 77
+      },
+      "revId": "255da6b419082ec1f18046e818c5c3ca678fd607",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
