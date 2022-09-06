@@ -2,8 +2,8 @@
 
 #include "NVMeSensor.hpp"
 
-#include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
+#include <boost/asio/steady_timer.hpp>
 
 #include <memory>
 #include <stdexcept>
@@ -98,7 +98,7 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
                                  size_t len) = 0;
 
   protected:
-    boost::asio::deadline_timer scanTimer;
+    boost::asio::steady_timer scanTimer;
     int rootBus; // Root bus for this drive
     std::list<std::shared_ptr<NVMeSensor>> sensors;
     std::list<std::shared_ptr<NVMeSensor>>::iterator pollCursor;

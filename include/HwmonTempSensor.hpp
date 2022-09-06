@@ -40,7 +40,7 @@ class HwmonTempSensor :
     std::array<char, 128> readBuf{};
     sdbusplus::asio::object_server& objServer;
     boost::asio::random_access_file inputDev;
-    boost::asio::deadline_timer waitTimer;
+    boost::asio::steady_timer waitTimer;
     std::string path;
     double offsetValue;
     double scaleValue;

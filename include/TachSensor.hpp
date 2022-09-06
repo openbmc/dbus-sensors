@@ -87,7 +87,7 @@ class TachSensor :
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemAssoc;
     boost::asio::random_access_file inputDev;
-    boost::asio::deadline_timer waitTimer;
+    boost::asio::steady_timer waitTimer;
     std::string path;
     std::optional<std::string> led;
     bool ledState = false;

@@ -1,5 +1,5 @@
 #pragma once
-#include <boost/asio/deadline_timer.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sensor.hpp>
 
@@ -30,5 +30,5 @@ struct MCUTempSensor : public Sensor
   private:
     int getMCURegsInfoWord(uint8_t regs, int16_t* pu16data) const;
     sdbusplus::asio::object_server& objectServer;
-    boost::asio::deadline_timer waitTimer;
+    boost::asio::steady_timer waitTimer;
 };
