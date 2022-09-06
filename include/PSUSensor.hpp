@@ -33,7 +33,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     std::shared_ptr<std::array<char, 128>> buffer;
     sdbusplus::asio::object_server& objServer;
     boost::asio::random_access_file inputDev;
-    boost::asio::deadline_timer waitTimer;
+    boost::asio::steady_timer waitTimer;
     std::string path;
     unsigned int sensorFactor;
     double sensorOffset;

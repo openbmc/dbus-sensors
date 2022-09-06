@@ -1,5 +1,5 @@
 #pragma once
-#include <boost/asio/deadline_timer.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sensor.hpp>
 
@@ -116,5 +116,5 @@ struct IpmbSensor : public Sensor
 
   private:
     sdbusplus::asio::object_server& objectServer;
-    boost::asio::deadline_timer waitTimer;
+    boost::asio::steady_timer waitTimer;
 };

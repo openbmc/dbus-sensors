@@ -19,7 +19,6 @@
 #include <PSUSensor.hpp>
 #include <boost/asio/random_access_file.hpp>
 #include <boost/asio/read_until.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -146,7 +145,7 @@ void PSUSensor::setupRead(void)
 void PSUSensor::restartRead(void)
 {
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(boost::posix_time::milliseconds(sensorPollMs));
+    waitTimer.expires_from_now(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

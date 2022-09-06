@@ -1,7 +1,7 @@
 #pragma once
 #include <Utils.hpp>
-#include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <nlohmann/json.hpp>
 
 #include <list>
@@ -62,7 +62,7 @@ struct TimerUsed
     bool assert;
 };
 
-using TimerPair = std::pair<struct TimerUsed, boost::asio::deadline_timer>;
+using TimerPair = std::pair<struct TimerUsed, boost::asio::steady_timer>;
 
 struct ThresholdTimer
 {
