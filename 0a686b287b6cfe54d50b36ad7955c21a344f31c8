@@ -16,6 +16,24 @@
       "message": "Why?",
       "revId": "0a686b287b6cfe54d50b36ad7955c21a344f31c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d5983ef_59374c90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T15:37:04Z",
+      "side": 1,
+      "message": "WIP, that\u0027s why 😊\n\nUpdated commit message with a lot more details on why.",
+      "parentUuid": "50015eac_fb6df26e",
+      "revId": "0a686b287b6cfe54d50b36ad7955c21a344f31c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
