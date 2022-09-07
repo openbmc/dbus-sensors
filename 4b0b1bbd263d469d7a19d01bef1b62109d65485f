@@ -46,6 +46,30 @@
       },
       "revId": "4b0b1bbd263d469d7a19d01bef1b62109d65485f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "301528d8_88ef45b7",
+        "filename": "src/FileHandle.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T18:18:07Z",
+      "side": 1,
+      "message": "0 is a valid fd.  From the posix standard:\n\"the value of a newly-created file descriptor is from zero to {OPEN_MAX}-1\"\n\nhttps://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_166\n\n\nGranted, it\u0027s pretty unlikely to happen in this context, but if we\u0027re going to this level, we should be correct.",
+      "parentUuid": "20ab240d_76e46a4d",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "4b0b1bbd263d469d7a19d01bef1b62109d65485f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
