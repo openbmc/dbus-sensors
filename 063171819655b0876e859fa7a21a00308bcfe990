@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23c5ba59_faca70b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T02:40:58Z",
+      "side": 1,
+      "message": ".............   Can you give this a little more description of \"why\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff45a88f_80522fca",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T02:40:58Z",
+      "side": 1,
+      "message": "Looking at the only use of this, can we just return \"newSensors\".\n\nAlso, I don\u0027t think there\u0027s any reason it needs to be a flat_set, right?  Could we just return std::vector\u003cstd::string\u003e?",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 63
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c311d095_8392c596",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T02:40:58Z",
+      "side": 1,
+      "message": "Do we need to check this?  Can we do the python thing of look before you leap, and handle the error where the device already exists?",
+      "range": {
+        "startLine": 257,
+        "startChar": 38,
+        "endLine": 257,
+        "endChar": 62
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5956bad_fb306ffa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T02:40:58Z",
+      "side": 1,
+      "message": "This is the kind of logic I\u0027d really like contained in each sensor instance.  Ideally hwmontempsensor, or maybe Sensor would have something like\n\n\"onPowerStateChange\"  for which we can do all this logic, and ideally do\n\n\nif (power \u003d\u003d \"power state I care about\"){\n   if (!i2cDevice){\n      i2cDevice.emplace(....);\n   }\n} else{\n  i2cDevice.reset()\n}\n\nThat keeps us RAII safe in all cases.",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 9
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
