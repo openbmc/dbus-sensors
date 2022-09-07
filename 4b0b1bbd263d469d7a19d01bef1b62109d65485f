@@ -22,6 +22,30 @@
       },
       "revId": "4b0b1bbd263d469d7a19d01bef1b62109d65485f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20ab240d_76e46a4d",
+        "filename": "src/FileHandle.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-07T17:12:14Z",
+      "side": 1,
+      "message": "fd \u003d\u003d 0 is still invalid fd.",
+      "parentUuid": "803c2054_bba9085b",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "4b0b1bbd263d469d7a19d01bef1b62109d65485f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
