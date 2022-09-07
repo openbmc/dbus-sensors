@@ -417,6 +417,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2ac94f7_ab7b0706",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T02:29:40Z",
+      "side": 1,
+      "message": "Not sure.",
+      "parentUuid": "de30299c_874cf8c8",
+      "range": {
+        "startLine": 787,
+        "startChar": 0,
+        "endLine": 787,
+        "endChar": 17
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "348e54a0_cf617ffa",
         "filename": "src/Utils.cpp",
         "patchSetId": 8
@@ -500,6 +524,30 @@
       "side": 1,
       "message": "Possibly my understanding of destructors and std::optional\u003c\u003e is off, but I had thought that in a situation like:\n\n```\nfor (...)\n{\n  std::optional\u003cI2CDevice\u003e dev \u003d getI2CDevice(...);\n  ...\n}\n```\n\nthat at the end of each iteration of the loop the dtor for `dev` would be run, which would in turn run the dtor for the contained I2CDevice (if it\u0027s not nullopt), and hence close the device?  If so that would completely break `instantiateDevices()` in the later patch.\n\nI guess maybe I should clarify that as I\u0027ve implemented things thus far, the I2CDevice struct is really more just a structured representation of the device\u0027s i2c config parameters than a representation of the instantiated device itself.  It\u0027s basically just acting as a cache of the tedious work of taking a SensorBaseConfigMap (a {string:variant} dict, essentially), verifying that it has all the right keys and that they\u0027re of the right types, and then pulling the corresponding values out into an easily-accessible form.  (Possibly its name could be changed to better reflect that...)",
       "parentUuid": "76368572_37e7ddd3",
+      "range": {
+        "startLine": 792,
+        "startChar": 0,
+        "endLine": 792,
+        "endChar": 18
+      },
+      "revId": "9c4bd3bb4f4702644fa87576daabb593759cfd5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "728f8995_7e65b737",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T02:29:40Z",
+      "side": 1,
+      "message": "\u003e Possibly my understanding of destructors and std::optional\u003c\u003e is off, but I had thought that in a situation like:\n\u003e \n\u003e ```\n\u003e for (...)\n\u003e {\n\u003e   std::optional\u003cI2CDevice\u003e dev \u003d getI2CDevice(...);\n\u003e   ...\n\u003e }\n\u003e ```\n\u003e \n\u003e that at the end of each iteration of the loop the dtor for `dev` would be run, which would in turn run the dtor for the contained I2CDevice (if it\u0027s not nullopt), and hence close the device?\n\nYep.\n\n\u003e  If so that would completely break `instantiateDevices()` in the later patch.\n\nMaybe as it exists, but in the ideal, if the I2CDevice object was owned by the class in question, and had appropriate move semantics, it would have an identical lifetime, and would ALWAYS be cleaned up on the sensor destroying, which I think makes it less complex.\n\n\u003e \n\u003e I guess maybe I should clarify that as I\u0027ve implemented things thus far, the I2CDevice struct is really more just a structured representation of the device\u0027s i2c config parameters than a representation of the instantiated device itself.  It\u0027s basically just acting as a cache of the tedious work of taking a SensorBaseConfigMap (a {string:variant} dict, essentially), verifying that it has all the right keys and that they\u0027re of the right types, and then pulling the corresponding values out into an easily-accessible form.  (Possibly its name could be changed to better reflect that...)\n\nYeah.  I guess I had hoped that it would be a little more than that, actually representing an RAII instantiation of a kernel device.  Oh well.",
+      "parentUuid": "b78dad11_a048f8b4",
       "range": {
         "startLine": 792,
         "startChar": 0,
