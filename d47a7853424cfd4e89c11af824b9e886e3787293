@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79224fe3_eaaae0f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-07T17:33:02Z",
+      "side": 1,
+      "message": "Tested in the recent patch.",
+      "parentUuid": "ae1e8a55_68b99569",
+      "revId": "d47a7853424cfd4e89c11af824b9e886e3787293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab6f48c5_fa3e1ef8",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-09-01T16:21:19Z",
       "side": 1,
       "message": "explicitly declare the enum type.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 8
+      },
+      "revId": "d47a7853424cfd4e89c11af824b9e886e3787293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec413a2b_87d79466",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-07T17:33:02Z",
+      "side": 1,
+      "message": "Any reason?",
+      "parentUuid": "ab6f48c5_fa3e1ef8",
       "range": {
         "startLine": 43,
         "startChar": 4,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b748f73b_9dfc828b",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-07T17:33:02Z",
+      "side": 1,
+      "message": "What is the benefit? The software will do more search than modification and sort for int will be fairly quick.",
+      "parentUuid": "ef1d1743_ae291c0b",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "d47a7853424cfd4e89c11af824b9e886e3787293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "efe48199_40396cbb",
         "filename": "src/NVMeSubsys.cpp",
         "patchSetId": 5
@@ -77,6 +143,30 @@
       "writtenOn": "2022-09-01T16:21:19Z",
       "side": 1,
       "message": "no need the {}?",
+      "range": {
+        "startLine": 54,
+        "startChar": 11,
+        "endLine": 54,
+        "endChar": 17
+      },
+      "revId": "d47a7853424cfd4e89c11af824b9e886e3787293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04a2ebe5_37bac229",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-07T17:33:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "efe48199_40396cbb",
       "range": {
         "startLine": 54,
         "startChar": 11,
@@ -104,6 +194,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e72ffc68_fe85cc14",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-07T17:33:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3de5e354_4d211b0b",
+      "revId": "d47a7853424cfd4e89c11af824b9e886e3787293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba0167a6_20181b14",
@@ -117,6 +225,30 @@
       "writtenOn": "2022-09-01T16:21:19Z",
       "side": 1,
       "message": "just combine into an array?",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 57
+      },
+      "revId": "d47a7853424cfd4e89c11af824b9e886e3787293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5edda3a0_31b85a50",
+        "filename": "src/meson.build",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-07T17:33:02Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "ba0167a6_20181b14",
       "range": {
         "startLine": 147,
         "startChar": 0,
