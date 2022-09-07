@@ -82,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "caaaed83_5c330407",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T02:24:12Z",
+      "side": 1,
+      "message": "Yep, you\u0027re probably right.",
+      "parentUuid": "d54e6da5_a42c79af",
+      "revId": "d72512923c8678af8c7c435bfb8a344381989862",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6823eb1_c51a1a9b",
@@ -142,6 +160,30 @@
       "writtenOn": "2022-08-29T19:43:08Z",
       "side": 1,
       "message": "not part of this patch, but a simpler way is:\nif (std::any_of()) { continue; }",
+      "range": {
+        "startLine": 321,
+        "startChar": 24,
+        "endLine": 325,
+        "endChar": 46
+      },
+      "revId": "d72512923c8678af8c7c435bfb8a344381989862",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a72fd398_c3ba440c",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-07T02:24:12Z",
+      "side": 1,
+      "message": "Done.  Can follow up in another patch if we like.",
+      "parentUuid": "50fe1924_bdb9a8cd",
       "range": {
         "startLine": 321,
         "startChar": 24,
