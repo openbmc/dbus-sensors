@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fe8bc3d_ccc030ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-08T23:42:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c891b68_2ae25fb9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff45a88f_80522fca",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "There\u0027s a `newSensors.contains()` check inside the loop over the discovered sysfs paths in createSensors(), so an O(1) membership check keeps that from going unnecessarily quadratic.  But yeah, I suppose it might as well return it directly instead of via an out param.",
       "parentUuid": "ff45a88f_80522fca",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 63
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2ac7607_a4c15eb6",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-08T23:42:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fc70f61_96a51f69",
       "range": {
         "startLine": 243,
         "startChar": 0,
