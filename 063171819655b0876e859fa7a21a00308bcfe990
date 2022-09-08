@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c891b68_2ae25fb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-08T01:02:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "23c5ba59_faca70b5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff45a88f_80522fca",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 18
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-07T02:40:58Z",
       "side": 1,
       "message": "Looking at the only use of this, can we just return \"newSensors\".\n\nAlso, I don\u0027t think there\u0027s any reason it needs to be a flat_set, right?  Could we just return std::vector\u003cstd::string\u003e?",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 63
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fc70f61_96a51f69",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-08T01:02:06Z",
+      "side": 1,
+      "message": "There\u0027s a `newSensors.contains()` check inside the loop over the discovered sysfs paths in createSensors(), so an O(1) membership check keeps that from going unnecessarily quadratic.  But yeah, I suppose it might as well return it directly instead of via an out param.",
+      "parentUuid": "ff45a88f_80522fca",
       "range": {
         "startLine": 243,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c66d4469_cba786de",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-08T01:02:06Z",
+      "side": 1,
+      "message": "Well, for one thing doing it that way would result in a lot of kernel log spam of things like\n\n```\ni2c i2c-5: Failed to register i2c client w83773g at 0x4c (-16)\n```\n\nwhich I think it\u0027d definitely be preferable to avoid (in addition to just being noise, it\u0027s confusing and likely to lead people down wild goose chases of trying to figure out what\u0027s wrong only to eventually discover that it\u0027s hwmontempsensor \"misbehaving as designed\").",
+      "parentUuid": "c311d095_8392c596",
+      "range": {
+        "startLine": 257,
+        "startChar": 38,
+        "endLine": 257,
+        "endChar": 62
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5956bad_fb306ffa",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-09-07T02:40:58Z",
       "side": 1,
       "message": "This is the kind of logic I\u0027d really like contained in each sensor instance.  Ideally hwmontempsensor, or maybe Sensor would have something like\n\n\"onPowerStateChange\"  for which we can do all this logic, and ideally do\n\n\nif (power \u003d\u003d \"power state I care about\"){\n   if (!i2cDevice){\n      i2cDevice.emplace(....);\n   }\n} else{\n  i2cDevice.reset()\n}\n\nThat keeps us RAII safe in all cases.",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 9
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c5684f_89cc2044",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-08T01:02:06Z",
+      "side": 1,
+      "message": "The problem there is that we run into the issue Andrew mentioned earlier (https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56023/comment/e594059e_fb86f351/), i.e. that the sensor class represents a single sensor, whereas one i2c device may be shared by multiple sensors, and we don\u0027t have any representation of that in the existing class/data model.  Do you think we should restructure things to address that shortcoming before going further with this?  (I haven\u0027t looked into how much work that would be likely to take.)",
+      "parentUuid": "c5956bad_fb306ffa",
       "range": {
         "startLine": 576,
         "startChar": 0,
