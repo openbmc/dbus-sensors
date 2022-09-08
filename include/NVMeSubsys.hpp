@@ -1,7 +1,8 @@
 #include "NVMeBasic.hpp"
+#include "NVMeDrive.hpp"
 #include "NVMeSensor.hpp"
+#include "NVMeStorage.hpp"
 #include "Utils.hpp"
-
 class NVMeSubsys : public std::enable_shared_from_this<NVMeSubsys>
 {
   public:
@@ -39,6 +40,16 @@ class NVMeSubsys : public std::enable_shared_from_this<NVMeSubsys>
         const std::function<void(
             std::function<void(const std::error_code&, T)>&&)>& dataFetcher,
         const std::function<std::optional<double>(T Data)>& dataParser);
+
+    /*
+    Storage interface: xyz.openbmc_project.Inventory.Item.Storage
+    */
+    NVMeStorage storage;
+
+    /*
+    Drive interface: xyz.openbmc_project.Inventory.Item.Drive
+    */
+    NVMeDrive drive;
 
     // TODO: std::map<int, NVMeController> controllers;
     // TODO: std::map<int, NVMeNamespace> namespaces;
