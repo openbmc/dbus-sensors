@@ -151,7 +151,12 @@ if get_option('nvme').enabled()
         'NVMeBasic.cpp',
         'NVMeSubsys.cpp'
     ]
-    nvme_deps = [ default_deps, i2c, thresholds_dep, utils_dep, threads ]
+
+    pdi_deps = dependency ('phosphor-dbus-interfaces')
+    nvme_deps = [ 
+        default_deps, i2c, thresholds_dep, 
+        utils_dep, threads, pdi_deps
+    ]
 
     executable(
         'nvmesensor',

@@ -2,6 +2,8 @@
 
 #include "Thresholds.hpp"
 
+#include <filesystem>
+
 std::optional<std::string>
     extractOneFromTail(std::string::const_reverse_iterator& rbegin,
                        const std::string::const_reverse_iterator& rend)
@@ -56,6 +58,22 @@ std::optional<std::string> createSensorNameFromPath(const std::string& path)
     return name;
 }
 
+void createStorageAssociation(
+    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path)
+{
+    if (association)
+    {
+        std::filesystem::path p(path);
+
+        std::vector<Association> associations;
+        associations.emplace_back("chassis", "storage",
+                                  p.parent_path().string());
+        association->register_property("Associations", associations);
+        association->initialize();
+    }
+}
+
 // get temporature from a NVMe Basic reading.
 static double getTemperatureReading(int8_t reading)
 {
@@ -77,7 +95,9 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
                              const SensorData& configData, NVMeIntf intf) :
     io(io),
     objServer(objServer), conn(conn), path(path), name(name), nvmeIntf(intf),
-    ctempTimer(io)
+    ctempTimer(io),
+    storage(*dynamic_cast<sdbusplus::bus_t*>(conn.get()), path.c_str()),
+    drive(*dynamic_cast<sdbusplus::bus_t*>(conn.get()), path.c_str())
 {
     NVMeIntf::Protocol protocol;
     try
@@ -89,6 +109,8 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
         throw std::runtime_error("NVMe interface is null");
     }
 
+    
+    // initiate the common interfaces (thermal sensor, Drive and Storage)
     if (protocol == NVMeIntf::Protocol::NVMeBasic)
     {
         std::optional<std::string> sensorName = createSensorNameFromPath(path);
@@ -109,6 +131,17 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
 
         ctemp.emplace(objServer, io, conn, *sensorName,
                       std::move(sensorThresholds), path);
+
+        /* xyz.openbmc_project.Inventory.Item.Drive */
+        drive.protocol(NVMeDrive::DriveProtocol::NVMe);
+        drive.type(NVMeDrive::DriveType::SSD);
+        // TODO: update capacity
+
+        /* xyz.openbmc_project.Inventory.Item.Storage */
+        // make association to chassis
+        auto storageAssociation =
+            objServer.add_interface(path, association::interface);
+        createStorageAssociation(storageAssociation, path);
     }
     else
     {
@@ -139,6 +172,8 @@ void NVMeSubsystem::start()
         };
         pollCtemp(dataFether, dataParser);
     }
+
+    // TODO: start to poll Drive status.
 }
 
 template <class T>
