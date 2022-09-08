@@ -205,6 +205,7 @@ int main()
     systemBus->request_name("xyz.openbmc_project.NVMe");
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");
+    objectServer.add_manager("/xyz/openbmc_project/inventory");
 
     io.post([&]() { createNVMeSubsystems(io, objectServer, systemBus); });
 
