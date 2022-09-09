@@ -70,6 +70,30 @@
       },
       "revId": "4b0b1bbd263d469d7a19d01bef1b62109d65485f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f012be60_aff08d89",
+        "filename": "src/FileHandle.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-09T16:34:02Z",
+      "side": 1,
+      "message": "Thanks for the explanation. It looks like the previous condition check ( fd !\u003d 0) is not only insufficient, but indeed incorrect. \n\nAs you said, it is unlikely to happen, but I will change to \"\u003e\u003d0\".",
+      "parentUuid": "301528d8_88ef45b7",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "4b0b1bbd263d469d7a19d01bef1b62109d65485f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
