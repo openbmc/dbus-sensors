@@ -89,6 +89,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a006ca12_7b3ce9bd",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-09-09T14:40:16Z",
+      "side": 1,
+      "message": "\u003e This check should not be done for other SDR types that do not support maxPosReadingMargin?\n\u003e \n\nyes\n\n\n\u003e My point is also that sdrtype01 is assumed in multiple places. Extending this to accept other sdr type is hard and can be error prone.\n\nCurrently, sdr type 1 is supported, therefore, it is named as sdrtype01. Also, function which supports sdr type 1 only has sdrtype01 namespace. If the common code shares for other sdr types, it will be changed in other sdr types patches, which will be submitted after getting sdr type 1 patches approved.",
+      "parentUuid": "17ce0adc_fe3b6773",
+      "range": {
+        "startLine": 363,
+        "startChar": 18,
+        "endLine": 363,
+        "endChar": 48
+      },
+      "revId": "3d22d7da0a81cbf129f506b4435e9e344f3c9b08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "243e2589_2c57c24d",
