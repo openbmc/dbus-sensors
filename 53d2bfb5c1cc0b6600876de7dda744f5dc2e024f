@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7a7f311_34b06f5c",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "uint32_t? since won\u0027t be negative?\n\num... seems like it was int before the chanage.",
+      "range": {
+        "startLine": 30,
+        "startChar": 43,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1463aa7_51b1eec2",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "nit: newline.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 2
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4be0982_9927a6c0",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "Is there a change for adding this to `phosphor-dbus-interface`.",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8f178bd_d7f642b1",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "const string?\n\nsince I guess we don\u0027t expect to update it after the constructor?",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12db1a7c_9d2d37b5",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "rm?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b864fe3_47ff98e6",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "Is there a better way to determine the root bus?",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b29be9b5_b49a50e3",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "http://en.cppreference.com/w/cpp/utility/from_chars instead?",
+      "range": {
+        "startLine": 268,
+        "startChar": 11,
+        "endLine": 268,
+        "endChar": 46
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8110e19f_8240b5c4",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "add error message",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 37
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae245422_011b9234",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "cleanup?",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 9
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e5a67f8_d83be5d7",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "flip the logic\n\n```\nif (!dynamic_cast\u003cNVMeBasicIntf*\u003e(nvmeIntf.get())){\n  throw std::runtime_error(\"Unsupported NVMe interface\");\n}\n...\n```",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcbf3c1c_0bdf1533",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "same here. flip the logic to save horizontal space.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51f00fb7_3c3f855b",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "make this into a separate function",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e315fc7_e78de9ec",
+        "filename": "src/meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-09T21:58:13Z",
+      "side": 1,
+      "message": "nit: rm.",
+      "range": {
+        "startLine": 148,
+        "startChar": 29,
+        "endLine": 148,
+        "endChar": 30
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
