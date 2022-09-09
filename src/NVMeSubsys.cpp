@@ -2,6 +2,8 @@
 
 #include "Thresholds.hpp"
 
+#include <stdplus/raw.hpp>
+
 #include <filesystem>
 
 std::optional<std::string>
@@ -103,7 +105,8 @@ NVMeSubsys::NVMeSubsys(boost::asio::io_context& io,
     }
 
     // initiate the common interfaces (thermal sensor, Drive and Storage)
-    if (dynamic_cast<NVMeBasicIntf*>(nvmeIntf.get()))
+    if (dynamic_cast<NVMeBasicIntf*>(nvmeIntf.get()) ||
+        dynamic_cast<NVMeMiIntf*>(nvmeIntf.get()))
     {
         std::optional<std::string> sensorName = createSensorNameFromPath(path);
         if (!sensorName)
@@ -143,6 +146,66 @@ NVMeSubsys::NVMeSubsys(boost::asio::io_context& io,
 
 void NVMeSubsys::start()
 {
+    // add controllers for the subsystem
+    if (auto nvme = std::dynamic_pointer_cast<NVMeMiIntf>(nvmeIntf))
+    {
+        nvme->miScanCtrl(
+            [self{shared_from_this()},
+             nvme](const std::error_code& ec,
+                   const std::vector<nvme_mi_ctrl_t>& ctrlList) mutable {
+            if (ec || ctrlList.size() == 0)
+            {
+                // TODO: mark the subsystem invalid and reschedule refresh
+            }
+
+            // TODO: use ctrlid instead of index
+            uint16_t index = 0;
+            for (auto c : ctrlList)
+            {
+                std::filesystem::path path = std::filesystem::path(self->path) /
+                                             "controllers" /
+                                             std::to_string(index);
+                auto [ctrl, _] = self->controllers.insert(
+                    {index, std::make_shared<NVMeController>(
+                                self->io, self->objServer, self->conn,
+                                path.string(), nvme, c)});
+                ctrl->second->start();
+
+                index++;
+            }
+
+            /* find primary controller and make association */
+            auto ctrl = ctrlList[0];
+            nvme->adminIdentify(
+                ctrl, nvme_identify_cns::NVME_IDENTIFY_CNS_SECONDARY_CTRL_LIST,
+                0, 0,
+                [](const std::error_code& ec, std::span<uint8_t> data) {
+                if (ec || data.size() < sizeof(nvme_secondary_ctrl_list))
+                {
+                    std::cerr << "fail to identify secondary controller list"
+                              << std::endl;
+                    return;
+                }
+                nvme_secondary_ctrl_list& listHdr =
+                    *reinterpret_cast<nvme_secondary_ctrl_list*>(data.data());
+
+                if (listHdr.num == 0)
+                {
+                    std::cerr << "empty identify secondary controller list"
+                              << std::endl;
+                    return;
+                }
+
+                for (int i = 0; i < listHdr.num; i++)
+                {
+                    std::cerr << "primary controller id: "
+                              << static_cast<int>(listHdr.sc_entry[i].pcid)
+                              << std::endl;
+                }
+                });
+        });
+    }
+
     // start to poll value for CTEMP sensor.
     if (dynamic_cast<NVMeBasicIntf*>(nvmeIntf.get()))
     {
