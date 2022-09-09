@@ -16,6 +16,24 @@
       "message": "Can we please get the parent refactoring patch out of WIP before we build on it further? One thing at a time :)",
       "revId": "5ccffbe7fd2f2bd75c36052f68fd3f03307d53d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b93194a0_1ea14a9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-09T16:21:24Z",
+      "side": 1,
+      "message": "Sure. I think the former patch is ready to review, given it passes the intiatial test. I will remove the mark.",
+      "parentUuid": "23097964_14308d2e",
+      "revId": "5ccffbe7fd2f2bd75c36052f68fd3f03307d53d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
