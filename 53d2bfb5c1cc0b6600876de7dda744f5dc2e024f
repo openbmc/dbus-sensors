@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8cd7b2eb_43ef5820",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Just so you\u0027re aware, as a general rule, these kinds of abstractions tend to conflict directly with the OpenBMC core principals, namely:\n- Code should be clear and concise.\n- Code should be performant.\n\nWith that said, I\u0027m happy and open to have a discussion if this MVC pattern can meet those requirements when compared to a simpler approach.  Keep in mind, in the cases where we\u0027ve tried this pattern before, binary size became a problem given the compilers inability to optimize across virtualized boundaries, but again.... happy to have a discussion and find something that meets the requirements.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9d74ede_a20d5e18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "An excellent start.  Keep up the good work!",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7a7f311_34b06f5c",
         "filename": "include/NVMeBasic.hpp",
         "patchSetId": 9
@@ -14,6 +54,30 @@
       "writtenOn": "2022-09-09T21:58:13Z",
       "side": 1,
       "message": "uint32_t? since won\u0027t be negative?\n\num... seems like it was int before the chanage.",
+      "range": {
+        "startLine": 30,
+        "startChar": 43,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b44250b_04b9345c",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "\"wont be negative\" isn\u0027t always the best way to determine uint versus int.  in certain cases, the native type can be transformed to processor specific code more easily and with less code, because it essentially represents the processors native type.  When compared to uint, the compiler has more freedom on what to do in overflow behavior, so generally the rule is \"use int as a default, unless you have a good reason not to\" of which there are numerous reasons not to, STL container usage (which many have argued should\u0027ve used int as size_t for performance reasons, but obviously can\u0027t be changed now)\n\nIn this case, because bus is an arbitrary index, we use what the kernel uses, which is int, which is why this code uses int.\n\nhttps://gitlab.brokenpipe.de/bricolage/libi2c/-/blob/master/libsmbus.h#L29",
+      "parentUuid": "c7a7f311_34b06f5c",
       "range": {
         "startLine": 30,
         "startChar": 43,
@@ -47,6 +111,139 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f29292a9_81b5712f",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "More specific advice..... just use clang-format.  If clang-format decides there needs to be a newline here or not, it is the right answer.",
+      "parentUuid": "c1463aa7_51b1eec2",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 2
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f06a341_74d869fb",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "I\u0027m a little confused why this is necessary.  This is a virtual interface with only a constructor and a destructor?  Maybe this will make more sense in later patches in the series, but as written, it\u0027s not clear why it\u0027s needed.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8702e7a3_e43c0e9b",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Should this class be final?",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "954359c4_bcc60f6f",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "nit on naming, the term \"Interface\" (which ideally we should spell out instead of abbreviating) is overloaded here.  There\u0027s the virtual class interface, then the physical nvme interface (mctp/basic).  I think we should just call this class NVMeBasic to avoid the confusion.",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ba6a682_fc34adf5",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "+1 to \"this should be an enum class\".  Also, please ensure that when you do that, the underlying type of the enum class matches the field for which this object enum is being compared (I think uint8_t)",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "430761d8_69d37da0",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Again, probably another place where we shouldn\u0027t abbreviate.",
+      "range": {
+        "startLine": 5,
+        "startChar": 6,
+        "endLine": 5,
+        "endChar": 16
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4be0982_9927a6c0",
@@ -60,6 +257,30 @@
       "writtenOn": "2022-09-09T21:58:13Z",
       "side": 1,
       "message": "Is there a change for adding this to `phosphor-dbus-interface`.",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "386ca554_0d3de02f",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Entity-manager configuration interfaces are not stored in phosphor-dbus-interfaces, and while that\u0027s non-ideal, there\u0027s complications with doing it that I don\u0027t want to impose on this patchset, as it\u0027s a greater question \"how do reactor interface contracts work?\"",
+      "parentUuid": "b4be0982_9927a6c0",
       "range": {
         "startLine": 9,
         "startChar": 9,
@@ -111,6 +332,110 @@
         "startChar": 0,
         "endLine": 44,
         "endChar": 53
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e8f9630_5e9ff185",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "12db1a7c_9d2d37b5",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a108247_3a9e713c",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Given that the \"int\" type of the key here is relatively ambiguous, can you add a comment about what the mapping represents?",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52a6a758_c2fa135a",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Why shared_ptr here?  I don\u0027t see any shared ownership.  Can this just be a value?  Also, technically breaks the coding standard \n\nhttps://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Ri-global",
+      "range": {
+        "startLine": 20,
+        "startChar": 14,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "843aa5d6_8dc51c7f",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Just so you\u0027re aware, now that we have uring turned on, this whole class can probably cease to exist.  uring gives us the ability to async read/write from file handles that wouldn\u0027t normally be that way, so\n\n- NVMe Basic doesn\u0027t need this class for non-blocking IO.\n- MCTP in the kernel uses the sockets API, which never needed this class, as we can already do non-blocking IO on sockets.",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c9a132e_6a98a5bd",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Single character variable names are rarely descriptive enough.",
+      "range": {
+        "startLine": 185,
+        "startChar": 62,
+        "endLine": 185,
+        "endChar": 63
       },
       "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
@@ -185,6 +510,29 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcab9dc0_f48ef5f3",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Note, this is exactly the kind of comment we\u0027d like to see on the other map.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 45
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae245422_011b9234",
@@ -203,6 +551,29 @@
         "startChar": 0,
         "endLine": 155,
         "endChar": 9
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0052d4c5_42c2d47e",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "The fact that we\u0027re needing to call dynamic_cast so much makes me feel like virtualization isn\u0027t the right approach here long term, as it\u0027s basically creating an abstraction, then breaking it to the point where we might be better off with no abstraction at all, aka\n\nif (type \u003d\u003d Nvme::Basic){\n   // call basic routine\n} else {\n   // call mctp routine\n}",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 53
       },
       "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
@@ -233,6 +604,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b954b196_521bd741",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "This is probably why you needed to enable RTTI?  Generally this is the kind of thing that would be encapsulated as part of the virtualized class, to prevent needing to do a dynamic cast at this level.  It might require adding some methods onto NVMeBasic that do nothing.  That is fine.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 53
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fcbf3c1c_0bdf1533",
         "filename": "src/NVMeSubsys.cpp",
         "patchSetId": 9
@@ -250,6 +644,115 @@
         "endLine": 116,
         "endChar": 5
       },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8963250_54787b0d",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "This kind of code is exactly why we disable rtti.  I\u0027m pretty ok at c++, and I\u0027m having trouble reviewing this code block for both correctness and exception safety.  Lets see if we can get this following cpp core guidelines a little close, and I\"ll bet this will get cleaned up a lot.",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 10
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e0d7851_da1ac50b",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "This is currently the only place where we set up a data parser, and there\u0027s only one behavior at the moment.  There\u0027s no need to pass in a callback if there\u0027s only one type of callback.  Just make this routine a method, and have pollCtemp call it directly.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 10
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5610771e_d0c8e5a9",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Another one letter template variable name.",
+      "range": {
+        "startLine": 139,
+        "startChar": 16,
+        "endLine": 139,
+        "endChar": 17
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87a86117_c2e1f075",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "This method is far too long to be an inline lambda.  Please break it out into it\u0027s own method with std::bind_front.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 33
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68fe505d_ff1784b6",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "We are now 2 lambda scopes deep here, which makes the readability of this stuff very difficult.  The same as the higher scoped lambda, please roll this into a method.",
       "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -279,6 +782,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df9da249_18dc2d88",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "51f00fb7_3c3f855b",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e315fc7_e78de9ec",
         "filename": "src/meson.build",
         "patchSetId": 9
@@ -295,6 +822,53 @@
         "startChar": 29,
         "endLine": 148,
         "endChar": 30
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e338e2e_37ab7feb",
+        "filename": "src/meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "+1\n\nAlso please keep your lists like this alphabetical.\n\nAlso, while we\u0027re making this a list anyway, \"files\" isn\u0027t really appropriate here, we should be making an array of paths, similar to the below\n\nhttps://github.com/openbmc/bmcweb/blob/188cb6294105a045a445619415d01843de8c3732/meson.build#L372",
+      "parentUuid": "8e315fc7_e78de9ec",
+      "range": {
+        "startLine": 148,
+        "startChar": 29,
+        "endLine": 148,
+        "endChar": 30
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9093ad61_38fa90f3",
+        "filename": "src/meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "Patchsets can\u0027t just override compiler flags for a single target like this, especially for things that are explicit design patterns to avoid misuse of virtualization.  Please remove, and lets talk through the pattern that necessitated this compiler flag.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 27
       },
       "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"

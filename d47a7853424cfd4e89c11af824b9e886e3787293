@@ -107,6 +107,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "027ee5db_f7457c2a",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T16:08:48Z",
+      "side": 1,
+      "message": "\"Because the coding standard says to\" is the easy answer here, which namespaces enums in enum class to avoid conflicts and type safety issues between enum values.",
+      "parentUuid": "45ae9e47_bb56b73d",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 8
+      },
+      "revId": "d47a7853424cfd4e89c11af824b9e886e3787293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef1d1743_ae291c0b",
