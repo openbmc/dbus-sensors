@@ -22,6 +22,30 @@
       },
       "revId": "344b77fbaf751de7a1594dc4f5e9b70c01e2ba9c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd7e02d3_4e76a25f",
+        "filename": "src/FileHandle.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-11T15:23:45Z",
+      "side": 1,
+      "message": "the existing logic was incorrect, which we discussed in the other thread.  If you think the conclusion we reached there is incorrect, please reopen that thread.",
+      "parentUuid": "aaf5ff65_53620d3c",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 13
+      },
+      "revId": "344b77fbaf751de7a1594dc4f5e9b70c01e2ba9c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
