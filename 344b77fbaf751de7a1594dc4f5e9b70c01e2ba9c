@@ -46,6 +46,30 @@
       },
       "revId": "344b77fbaf751de7a1594dc4f5e9b70c01e2ba9c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3247008f_3325425c",
+        "filename": "src/FileHandle.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-11T16:28:18Z",
+      "side": 1,
+      "message": "oops. Ack. Missed it.\n\nBut yeah, I also thought that we can close fd\u003d0 (stdout). But didn\u0027t want to change it if it was right before. 👍",
+      "parentUuid": "bd7e02d3_4e76a25f",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 13
+      },
+      "revId": "344b77fbaf751de7a1594dc4f5e9b70c01e2ba9c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
