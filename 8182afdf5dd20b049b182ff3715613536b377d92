@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6b4d6d9_931f86b4",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-09-13T03:54:52Z",
+      "side": 1,
+      "message": "why not just int?",
+      "range": {
+        "startLine": 346,
+        "startChar": 51,
+        "endLine": 346,
+        "endChar": 61
+      },
+      "revId": "8182afdf5dd20b049b182ff3715613536b377d92",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
