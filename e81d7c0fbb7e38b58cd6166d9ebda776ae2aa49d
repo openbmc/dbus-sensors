@@ -188,6 +188,30 @@
       },
       "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64809f5_7261500a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-09-13T04:12:28Z",
+      "side": 1,
+      "message": "You are right. I see how it is working now. I somehow was looking at an older version where the flag was a global variable.",
+      "parentUuid": "37e3e910_1d50c26d",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 684,
+        "endChar": 29
+      },
+      "revId": "e81d7c0fbb7e38b58cd6166d9ebda776ae2aa49d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
