@@ -137,6 +137,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af219831_edac0402",
+        "filename": "src/IpmbSDRSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-09-15T09:05:36Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/52164/16/src/IpmbSensor.cpp#409\n\nIpmbType will differ for other SDR types, therefore, only SDR type 1 will call dataConversion function.",
+      "parentUuid": "a857061b_59884f4c",
+      "range": {
+        "startLine": 363,
+        "startChar": 18,
+        "endLine": 363,
+        "endChar": 48
+      },
+      "revId": "3d22d7da0a81cbf129f506b4435e9e344f3c9b08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "243e2589_2c57c24d",
