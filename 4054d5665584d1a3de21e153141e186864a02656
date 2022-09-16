@@ -46,6 +46,30 @@
       },
       "revId": "4054d5665584d1a3de21e153141e186864a02656",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24ccdc89_ab886fec",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-16T17:39:26Z",
+      "side": 1,
+      "message": "\u003e \u003e This feels like a work-around for a failure in the current design in that it misses an explicit representation of a device instance.\n\u003e \n\u003e Agreed.  However...\n\u003e \n\u003e \u003e It seems unfortunate that we have to go through the dance below to get correct behaviour.\n\u003e \n\u003e I discovered after some experimentation that it actually behaves okay without the `deactivate()` step.\n\n.... How....?\n\n\u003e   We do end up with the sensor still holding open FDs for the removed hwmon device, but it doesn\u0027t (I think...) actually try to do anything with them, so while perhaps inelegant, it doesn\u0027t lead to any observable misbehavior as far as I can tell.\n\nAs a design pattern,this makes me cringe,but I guess it works?\n\n\u003e \n\u003e \u003e I don\u0027t have a good picture in my head of the impact on the current code of fixing it. Any feelings on that front?\n\u003e \n\u003e Not sure offhand, but given the above my (lazy) inclination is to leave that particular worm-can sealed for the time being...\n\n\nIsn\u0027t this as written going to mess with other sensors on any kind of change to any sensor?  One key learning we had early on was that we couldnt\u0027 just rebuild the whole sensor subsystem on every sensor config change.  Users didn\u0027t like it, and it resulted in slow APIs, and weird errors.  (ie changing a threshold on one sensor might cause another sensor to forget its power state.)",
+      "parentUuid": "cab932ab_dedee386",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 586,
+        "endChar": 65
+      },
+      "revId": "4054d5665584d1a3de21e153141e186864a02656",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

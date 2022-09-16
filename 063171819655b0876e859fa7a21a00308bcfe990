@@ -235,6 +235,30 @@
       },
       "revId": "063171819655b0876e859fa7a21a00308bcfe990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e8f7078_84a140b6",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-16T17:39:26Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this code has a similar problem.  A couple design patterns I can think of that would solve it.\n\n1. Construct the i2cDevice object at a higher scope, then pass it into each sensor by shared_ptr (because the sensor instances share ownership).  When the last sensor is destroyed, the object will be destroyed, and the device removed.\n\n2. what you suggested, abstract the classes such that we\u0027re constructing ONE class per device, and each class has one or more sensors.  This is my preference, but would require https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/37313 as a pre-req, which seems nuts to require for this kind of change.\n\n3. Keep a singleton object for \"constructed devices\" that tracks the kernel devices and handles reference counting, and lookup for finding if said sensor is already contstructed.\n\n\n\nFWIW, now that I understand the problem, this patchset as written is probably fine.  I\u0027d still like to see one of the above patterns, but we can increment there over time.",
+      "parentUuid": "22c5684f_89cc2044",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 9
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
