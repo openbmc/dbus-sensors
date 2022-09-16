@@ -105,6 +105,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95af9a31_1629a6da",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-16T17:37:40Z",
+      "side": 1,
+      "message": "oh interesting. Thanks for the info.",
+      "parentUuid": "5b44250b_04b9345c",
+      "range": {
+        "startLine": 30,
+        "startChar": 43,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1463aa7_51b1eec2",
@@ -298,6 +322,30 @@
       "side": 1,
       "message": "Entity-manager configuration interfaces are not stored in phosphor-dbus-interfaces, and while that\u0027s non-ideal, there\u0027s complications with doing it that I don\u0027t want to impose on this patchset, as it\u0027s a greater question \"how do reactor interface contracts work?\"",
       "parentUuid": "b4be0982_9927a6c0",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e71a029_f8aa7dc8",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-16T17:37:40Z",
+      "side": 1,
+      "message": "ACK.\n\nOh right. that make sense.",
+      "parentUuid": "386ca554_0d3de02f",
       "range": {
         "startLine": 9,
         "startChar": 9,
