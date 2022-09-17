@@ -145,11 +145,12 @@ endif
 
 if get_option('nvme').enabled()
     nvme_srcs = files(
-        'NVMeSensorMain.cpp', 
-        'NVMeSensor.cpp', 
-        'NVMeBasic.cpp', 
-        'NVMeSubsys.cpp', 
-        'NVMeMi.cpp'
+        'NVMeSensorMain.cpp',
+        'NVMeSensor.cpp',
+        'NVMeBasic.cpp',
+        'NVMeSubsys.cpp',
+        'NVMeMi.cpp',
+        'NVMeController.cpp'
     )
 
     pdi_dep = dependency ('phosphor-dbus-interfaces')

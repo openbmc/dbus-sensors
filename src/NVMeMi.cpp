@@ -210,3 +210,89 @@ void NVMeMi::miScanCtrl(std::function<void(const std::error_code&,
         return;
     }
 }
+
+void NVMeMi::adminIdentify(
+    nvme_mi_ctrl_t ctrl, nvme_identify_cns cns, uint32_t nsid, uint16_t cntid,
+    std::function<void(const std::error_code&, std::span<uint8_t>)>&& cb)
+{
+    if (!nvmeEP)
+    {
+
+        std::cerr << "nvme endpoint is invalid" << std::endl;
+        io.post([cb{std::move(cb)}]() {
+            cb(std::make_error_code(std::errc::no_such_device), {});
+        });
+        return;
+    }
+    try
+    {
+        post([ctrl, cns, nsid, cntid, self{shared_from_this()},
+              cb{std::move(cb)}]() {
+            int rc = 0;
+            std::vector<uint8_t> data;
+            switch (cns)
+            {
+                case NVME_IDENTIFY_CNS_SECONDARY_CTRL_LIST:
+                {
+                    data.resize(sizeof(nvme_secondary_ctrl_list));
+                    nvme_identify_args args{};
+                    memset(&args, 0, sizeof(args));
+                    args.result = nullptr;
+                    args.data = data.data();
+                    args.args_size = sizeof(args);
+                    args.cns = cns;
+                    args.csi = NVME_CSI_NVM;
+                    args.nsid = nsid;
+                    args.cntid = cntid;
+                    args.cns_specific_id = NVME_CNSSPECID_NONE;
+                    args.uuidx = NVME_UUID_NONE,
+
+                    rc = nvme_mi_admin_identify_partial(ctrl, &args, 0,
+                                                        data.size());
+
+                    break;
+                }
+
+                default:
+                {
+                    data.resize(NVME_IDENTIFY_DATA_SIZE);
+                    nvme_identify_args args{};
+                    memset(&args, 0, sizeof(args));
+                    args.result = nullptr;
+                    args.data = data.data();
+                    args.args_size = sizeof(args);
+                    args.cns = cns;
+                    args.csi = NVME_CSI_NVM;
+                    args.nsid = nsid;
+                    args.cntid = cntid;
+                    args.cns_specific_id = NVME_CNSSPECID_NONE;
+                    args.uuidx = NVME_UUID_NONE,
+
+                    rc = nvme_mi_admin_identify(ctrl, &args);
+                }
+            }
+            if (rc)
+            {
+                std::cerr << "fail to do nvme identify: "
+                          << std::strerror(errno) << std::endl;
+                self->io.post([cb{std::move(cb)}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(errno)), {});
+                });
+                return;
+            }
+
+            self->io.post([cb{std::move(cb)}, data{std::move(data)}]() mutable {
+                std::span<uint8_t> span{data.data(), data.size()};
+                cb({}, span);
+            });
+        });
+    }
+    catch (const std::runtime_error& e)
+    {
+        std::cerr << e.what() << std::endl;
+        io.post([cb{std::move(cb)}]() {
+            cb(std::make_error_code(std::errc::no_such_device), {});
+        });
+        return;
+    }
+}
