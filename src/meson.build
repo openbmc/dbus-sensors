@@ -144,13 +144,14 @@ if get_option('mcu').enabled()
 endif
 
 if get_option('nvme').enabled()
-    nvme_srcs = [
+    nvme_srcs = files(
         'NVMeSensorMain.cpp',
         'NVMeSensor.cpp',
         'NVMeBasic.cpp',
-        'NVMeSubsys.cpp', 
-        'NVMeMi.cpp'
-    ]
+        'NVMeSubsys.cpp',
+        'NVMeMi.cpp',
+        'NVMeController.cpp'
+    )
 
     pdi_dep = dependency ('phosphor-dbus-interfaces')
     libnvme_dep = dependency('libnvme-mi')
