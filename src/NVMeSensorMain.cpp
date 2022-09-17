@@ -14,8 +14,10 @@
 // limitations under the License.
 */
 
-#include <NVMeBasic.hpp>
-#include <NVMeSubsys.hpp>
+#include "NVMeBasic.hpp"
+#include "NVMeMi.hpp"
+#include "NVMeSubsys.hpp"
+
 #include <boost/asio/steady_timer.hpp>
 
 #include <optional>
@@ -139,6 +141,33 @@ static void handleConfigurations(
                 auto nvmeSubsys = std::make_shared<NVMeSubsystem>(
                     io, objectServer, dbusConnection, interfacePath,
                     *sensorName, configData, std::move(nvmeBasic));
+                nvmeSubsysMap.emplace(interfacePath, nvmeSubsys);
+                nvmeSubsys->start();
+            }
+            catch (std::exception& ex)
+            {
+                std::cerr << "Failed to add subsystem for "
+                          << std::string(interfacePath) << ": " << ex.what()
+                          << "\n";
+                continue;
+            }
+        }
+        else if (*nvmeProtocol == "mi_i2c")
+        {
+            // defualt i2c nvme-mi port is 0x1d
+            if (!address)
+            {
+                address.emplace(0x1d);
+            }
+            try
+            {
+                NVMeIntf nvmeMi = NVMeIntf::create<NVMeMi>(
+                    io, dynamic_cast<sdbusplus::bus_t&>(*dbusConnection),
+                    *busNumber, *address);
+
+                auto nvmeSubsys = std::make_shared<NVMeSubsystem>(
+                    io, objectServer, dbusConnection, interfacePath,
+                    *sensorName, configData, std::move(nvmeMi));
                 nvmeSubsysMap.emplace(interfacePath, nvmeSubsys);
                 nvmeSubsys->start();
             }

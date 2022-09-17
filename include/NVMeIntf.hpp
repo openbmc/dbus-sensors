@@ -1,9 +1,12 @@
 #pragma once
+#include <libnvme-mi.h>
+
 #include <functional>
 #include <memory>
 #include <variant>
 
 class NVMeBasicIntf;
+class NVMeMiIntf;
 /**
  * @brief a container class to hold smart ptr to NVMe Basic or NVMe MI
  * implementation instance
@@ -29,6 +32,14 @@ class NVMeIntf
                 std::make_shared<IntfImpl>(std::forward<Args>(args)...);
             return nvmeIntf;
         }
+
+        if constexpr (std::is_base_of_v<NVMeMiIntf, IntfImpl>)
+        {
+            nvmeIntf.interface =
+                std::make_shared<IntfImpl>(std::forward<Args>(args)...);
+            return nvmeIntf;
+        }
+
         throw std::runtime_error("Unsupported NVMe interface");
     }
 
@@ -44,11 +55,17 @@ class NVMeIntf
         {
             return Protocol::NVMeBasic;
         }
+        else if (std::holds_alternative<std::shared_ptr<NVMeMiIntf>>(interface))
+        {
+            return Protocol::NVMeMI;
+        }
+
         throw std::runtime_error("uninitiated NVMeIntf");
     }
 
   private:
-    std::variant<std::shared_ptr<NVMeBasicIntf>> interface;
+    std::variant<std::shared_ptr<NVMeBasicIntf>, std::shared_ptr<NVMeMiIntf>>
+        interface;
 };
 
 /**
@@ -86,4 +103,20 @@ class NVMeBasicIntf
         std::function<void(const std::error_code&, DriveStatus*)>&& cb) = 0;
 
     virtual ~NVMeBasicIntf() = default;
+};
+
+class NVMeMiIntf
+{
+  public:
+    virtual int getNID() const = 0;
+    virtual int getEID() const = 0;
+    virtual void miSubsystemHealthStatusPoll(
+        std::function<void(const std::error_code&,
+                           nvme_mi_nvm_ss_health_status*)>&& cb) = 0;
+    virtual void
+        miScanCtrl(std::function<void(const std::error_code&,
+                                      const std::vector<nvme_mi_ctrl_t>&)>
+                       cb) = 0;
+
+    virtual ~NVMeMiIntf() = default;
 };
