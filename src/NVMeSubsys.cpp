@@ -168,21 +168,94 @@ void NVMeSubsystem::start()
                 return;
             }
 
-            // TODO: use ctrlid instead of index
-            uint16_t index = 0;
+            // TODO: manually open nvme_mi_ctrl_t from cntrl id, instead hacking
+            // into structure of nvme_mi_ctrl
             for (auto c : ctrlList)
             {
+                /* calucate the cntrl id from nvme_mi_ctrl:
+                struct nvme_mi_ctrl
+                {
+                    struct nvme_mi_ep* ep;
+                    __u16 id;
+                    struct list_node ep_entry;
+                };
+                */
+                uint16_t* index = reinterpret_cast<uint16_t*>(
+                    (reinterpret_cast<uint8_t*>(c) +
+                     std::max(sizeof(uint16_t), sizeof(void*))));
                 std::filesystem::path path = std::filesystem::path(self->path) /
                                              "controllers" /
-                                             std::to_string(index);
+                                             std::to_string(*index);
                 auto [ctrl, _] = self->controllers.insert(
-                    {index, std::make_shared<NVMeController>(
-                                self->io, self->objServer, self->conn,
-                                path.string(), nvme, c)});
+                    {*index, std::make_shared<NVMeController>(
+                                 self->io, self->objServer, self->conn,
+                                 path.string(), nvme, c)});
                 ctrl->second->start();
 
                 index++;
             }
+
+            /*
+            find primary controller and make association
+            The controller is SR-IOV, meaning all controllers (within a
+            subsystem) are pointing to a single primary controller. So we
+            only need to do identify on an arbatary controller.
+            */
+            auto ctrl = ctrlList.back();
+            nvme->adminIdentify(
+                ctrl, nvme_identify_cns::NVME_IDENTIFY_CNS_SECONDARY_CTRL_LIST,
+                0, 0,
+                [self{self->shared_from_this()}](const std::error_code& ec,
+                                                 std::span<uint8_t> data) {
+                if (ec || data.size() < sizeof(nvme_secondary_ctrl_list))
+                {
+                    std::cerr << "fail to identify secondary controller list"
+                              << std::endl;
+                    return;
+                }
+                nvme_secondary_ctrl_list& listHdr =
+                    *reinterpret_cast<nvme_secondary_ctrl_list*>(data.data());
+
+                // Remove all associations
+                for (const auto& [_, cntrl] : self->controllers)
+                {
+                    cntrl->setSecAssoc();
+                }
+
+                if (listHdr.num == 0)
+                {
+                    std::cerr << "empty identify secondary controller list"
+                              << std::endl;
+                    return;
+                }
+
+                // all sc_entry pointing to a single pcid, so we only check
+                // the first entry.
+                auto findPrimary =
+                    self->controllers.find(listHdr.sc_entry[0].pcid);
+                if (findPrimary == self->controllers.end())
+                {
+                    std::cerr << "fail to match primary controller from "
+                                 "identify sencondary cntrl list"
+                              << std::endl;
+                    return;
+                }
+                std::vector<std::shared_ptr<NVMeController>> secCntrls;
+                for (int i = 0; i < listHdr.num; i++)
+                {
+                    auto findSecondary =
+                        self->controllers.find(listHdr.sc_entry[i].scid);
+                    if (findSecondary == self->controllers.end())
+                    {
+                        std::cerr << "fail to match secondary controller from "
+                                     "identify sencondary cntrl list"
+                                  << std::endl;
+                        break;
+                    }
+                    secCntrls.push_back(findSecondary->second);
+                }
+                findPrimary->second->setSecAssoc(secCntrls);
+                });
         });
     }
 

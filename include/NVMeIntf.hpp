@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <memory>
+#include <span>
 #include <variant>
 
 class NVMeBasicIntf;
@@ -28,7 +29,7 @@ class NVMeIntf
         NVMeIntf nvmeIntf;
         if constexpr (std::is_base_of_v<NVMeBasicIntf, IntfImpl>)
         {
-            nvmeIntf.interface = 
+            nvmeIntf.interface =
                 std::make_shared<IntfImpl>(std::forward<Args>(args)...);
             return nvmeIntf;
         }
@@ -50,8 +51,7 @@ class NVMeIntf
 
     Protocol getProtocol()
     {
-        if (std::holds_alternative<std::shared_ptr<NVMeBasicIntf>>(
-                          interface))
+        if (std::holds_alternative<std::shared_ptr<NVMeBasicIntf>>(interface))
         {
             return Protocol::NVMeBasic;
         }
@@ -73,7 +73,7 @@ class NVMeIntf
  *
  * Can be used for implementation or mockup
  */
-class NVMeBasicIntf 
+class NVMeBasicIntf
 {
   public:
     struct DriveStatus
@@ -119,4 +119,10 @@ class NVMeMiIntf
                        cb) = 0;
 
     virtual ~NVMeMiIntf() = default;
+
+    virtual void adminIdentify(
+        nvme_mi_ctrl_t ctrl, nvme_identify_cns cns, uint32_t nsid,
+        uint16_t cntid,
+        std::function<void(const std::error_code&, std::span<uint8_t>)>&&
+            cb) = 0;
 };
