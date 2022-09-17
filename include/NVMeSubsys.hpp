@@ -1,4 +1,5 @@
 #include "NVMeBasic.hpp"
+#include "NVMeController.hpp"
 #include "NVMeDrive.hpp"
 #include "NVMeSensor.hpp"
 #include "NVMeStorage.hpp"
@@ -51,6 +52,7 @@ class NVMeSubsys : public std::enable_shared_from_this<NVMeSubsys>
     */
     NVMeDrive drive;
 
-    // TODO: std::map<int, NVMeController> controllers;
+    // map from cntrlid to controller instances
+    std::map<uint16_t, std::shared_ptr<NVMeController>> controllers;
     // TODO: std::map<int, NVMeNamespace> namespaces;
 };
