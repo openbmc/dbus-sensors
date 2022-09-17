@@ -31,6 +31,16 @@ class NVMeController :
     }
     void start(){};
 
+    // setup association to the secondary controllers. Clear the Association if
+    // empty.
+    void setSecAssoc(
+        const std::vector<std::shared_ptr<NVMeController>> secCntrls);
+
+    inline void setSecAssoc()
+    {
+        setSecAssoc({});
+    }
+
     ~NVMeController() override
     {
         emit_removed();
@@ -44,4 +54,8 @@ class NVMeController :
 
     std::shared_ptr<NVMeMiIntf> nvmeIntf;
     nvme_mi_ctrl_t nvmeCtrl;
+
+    // The Association interface to secondary controllers from a primary
+    // controller
+    std::shared_ptr<sdbusplus::asio::dbus_interface> secAssoc;
 };
