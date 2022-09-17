@@ -150,13 +150,25 @@ if get_option('nvme').enabled()
         'NVMeSensorMain.cpp',
         'NVMeSensor.cpp',
         'NVMeBasic.cpp',
-        'NVMeSubsys.cpp'
+        'NVMeSubsys.cpp', 
+        'NVMeMi.cpp'
     ]
 
-    pdi_deps = dependency ('phosphor-dbus-interfaces')
+    pdi_dep = dependency ('phosphor-dbus-interfaces')
+    libnvme = dependency('libnvme', 
+        required : true,
+        fallback : ['libnvme', 'libnvme_dep'],
+        include_type: 'system'
+    )
+    libnvme_mi = dependency('libnvme-mi', 
+        required : true,
+        fallback : ['libnvme', 'libnvme_mi_dep'],
+        include_type: 'system'
+    )
+
     nvme_deps = [ 
-        default_deps, i2c, thresholds_dep, 
-        utils_dep, threads, pdi_deps
+        default_deps, i2c, thresholds_dep, utils_dep, 
+        threads, pdi_dep, libnvme, libnvme_mi
     ]
 
     executable(

@@ -109,9 +109,9 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
         throw std::runtime_error("NVMe interface is null");
     }
 
-    
     // initiate the common interfaces (thermal sensor, Drive and Storage)
-    if (protocol == NVMeIntf::Protocol::NVMeBasic)
+    if (protocol == NVMeIntf::Protocol::NVMeBasic ||
+        protocol == NVMeIntf::Protocol::NVMeMI)
     {
         std::optional<std::string> sensorName = createSensorNameFromPath(path);
         if (!sensorName)
@@ -151,6 +151,41 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
 
 void NVMeSubsystem::start()
 {
+    // add controllers for the subsystem
+    if (nvmeIntf.getProtocol() == NVMeIntf::Protocol::NVMeMI)
+    {
+        auto nvme =
+            std::get<std::shared_ptr<NVMeMiIntf>>(nvmeIntf.getInferface());
+        nvme->miScanCtrl(
+            [self{shared_from_this()},
+             nvme](const std::error_code& ec,
+                   const std::vector<nvme_mi_ctrl_t>& ctrlList) mutable {
+            if (ec || ctrlList.size() == 0)
+            {
+                // TODO: mark the subsystem invalid and reschedule refresh
+                std::cerr << "fail to scan controllers for the nvme subsystem"
+                          << (ec ? ": " + ec.message() : "") << std::endl;
+                return;
+            }
+
+            // TODO: use ctrlid instead of index
+            uint16_t index = 0;
+            for (auto c : ctrlList)
+            {
+                std::filesystem::path path = std::filesystem::path(self->path) /
+                                             "controllers" /
+                                             std::to_string(index);
+                auto [ctrl, _] = self->controllers.insert(
+                    {index, std::make_shared<NVMeController>(
+                                self->io, self->objServer, self->conn,
+                                path.string(), nvme, c)});
+                ctrl->second->start();
+
+                index++;
+            }
+        });
+    }
+
     // start to poll value for CTEMP sensor.
     if (nvmeIntf.getProtocol() == NVMeIntf::Protocol::NVMeBasic)
 
