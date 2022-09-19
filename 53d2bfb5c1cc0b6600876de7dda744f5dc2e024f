@@ -75,6 +75,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef82f586_a6f5b377",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-19T16:58:03Z",
+      "side": 1,
+      "message": "Hi Andrew, \n\nSure I will fix the the minor issues. Suggestion are welcome. Thanks in advance.",
+      "parentUuid": "f8f1dd55_d3c2c156",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7a7f311_34b06f5c",
