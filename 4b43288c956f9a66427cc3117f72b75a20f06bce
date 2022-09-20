@@ -516,6 +516,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1be36a0_a20ba5e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-20T13:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "995487b5_5bd06b6a",
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b69acd9_188cf687",
@@ -1274,6 +1292,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24bf6f9a_33fef46a",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-20T13:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52bf8b66_4c31ef24",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7950eaac_a463ccc5",
@@ -1761,6 +1803,30 @@
       "side": 1,
       "message": "Understood, Right now implementation is only done to update pgood power state.",
       "parentUuid": "24c274b0_f58d7322",
+      "range": {
+        "startLine": 59,
+        "startChar": 56,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "4b43288c956f9a66427cc3117f72b75a20f06bce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6839f40_3ca5e4e1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-20T13:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9f002d4_d0aa6b02",
       "range": {
         "startLine": 59,
         "startChar": 56,

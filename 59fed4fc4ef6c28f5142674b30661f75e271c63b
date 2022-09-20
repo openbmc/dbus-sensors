@@ -338,6 +338,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17908c46_76a2da8b",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-20T13:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b193e5d2_0f436a1f",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62c5b7b4_7efd2b99",
@@ -1038,6 +1062,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "3a680389_fc4c4e7b",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "59fed4fc4ef6c28f5142674b30661f75e271c63b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac55810e_d6ab9ea7",
+        "filename": "src/GpioStateSensor.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-20T13:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b73139c0_ca30285d",
       "range": {
         "startLine": 90,
         "startChar": 22,
