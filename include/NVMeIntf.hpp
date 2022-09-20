@@ -125,4 +125,9 @@ class NVMeMiIntf
         uint16_t cntid,
         std::function<void(const std::error_code&, std::span<uint8_t>)>&&
             cb) = 0;
+    virtual void adminGetLogPage(
+        nvme_mi_ctrl_t ctrl, nvme_cmd_get_log_lid lid, uint32_t nsid,
+        uint8_t lsp, uint16_t lsi,
+        std::function<void(const std::error_code&, std::span<uint8_t>)>&&
+            cb) = 0;
 };

@@ -1,5 +1,7 @@
 #include "NVMeMi.hpp"
 
+#include <boost/endian.hpp>
+
 #include <cerrno>
 #include <iostream>
 
@@ -217,7 +219,6 @@ void NVMeMi::adminIdentify(
 {
     if (!nvmeEP)
     {
-
         std::cerr << "nvme endpoint is invalid" << std::endl;
         io.post([cb{std::move(cb)}]() {
             cb(std::make_error_code(std::errc::no_such_device), {});
@@ -290,6 +291,124 @@ void NVMeMi::adminIdentify(
     catch (const std::runtime_error& e)
     {
         std::cerr << e.what() << std::endl;
+        io.post([cb{std::move(cb)}]() {
+            cb(std::make_error_code(std::errc::no_such_device), {});
+        });
+        return;
+    }
+}
+
+// Get Temetery Log header and return the size for hdr + data area (Area 1, 2,
+// 3, or maybe 4)
+void getTelemetryLogHost(nvme_mi_ctrl_t ctrl, bool create,
+                         std::vector<uint8_t>& data)
+{
+    int rc = 0;
+    data.resize(sizeof(nvme_telemetry_log));
+    nvme_telemetry_log& log =
+        *reinterpret_cast<nvme_telemetry_log*>(data.data());
+    if (create)
+    {
+        rc = nvme_mi_admin_get_log_create_telemetry_host(ctrl, &log);
+        if (rc)
+        {
+            std::cerr << "failed to create telemetry host log" << std::endl;
+            throw std::system_error(errno, std::generic_category());
+        }
+        return;
+    }
+    else
+    {
+        rc = nvme_mi_admin_get_log_telemetry_host(ctrl, 0, sizeof(log), &log);
+    }
+    if (rc)
+    {
+        std::cerr << "failed to retain telemetry host log" << std::endl;
+        throw std::system_error(errno, std::generic_category());
+    }
+
+    long size =
+        static_cast<long>((boost::endian::little_to_native(log.dalb3) + 1)) *
+        NVME_LOG_TELEM_BLOCK_SIZE;
+
+    data.resize(size);
+    rc =
+        nvme_mi_admin_get_log_telemetry_host(ctrl, 0, data.size(), data.data());
+    if (rc)
+    {
+        std::cerr << "failed to get full telemetry host log" << std::endl;
+        throw std::system_error(errno, std::generic_category());
+    }
+}
+
+void NVMeMi::adminGetLogPage(
+    nvme_mi_ctrl_t ctrl, nvme_cmd_get_log_lid lid, uint32_t nsid, uint8_t lsp,
+    uint16_t lsi,
+    std::function<void(const std::error_code&, std::span<uint8_t>)>&& cb)
+{
+    if (!nvmeEP)
+    {
+        std::cerr << "nvme endpoint is invalid" << std::endl;
+        io.post([cb{std::move(cb)}]() {
+            cb(std::make_error_code(std::errc::no_such_device), {});
+        });
+        return;
+    }
+
+    try
+    {
+        post([ctrl, nsid, lid, lsp, lsi, self{shared_from_this()},
+              cb{std::move(cb)}]() {
+            std::vector<uint8_t> data;
+            try
+            {
+                switch (lid)
+                {
+                    case NVME_LOG_LID_TELEMETRY_HOST:
+                    {
+                        bool create;
+                        if (lsp == NVME_LOG_TELEM_HOST_LSP_CREATE)
+                        {
+                            create = true;
+                        }
+                        else if (lsp == NVME_LOG_TELEM_HOST_LSP_RETAIN)
+                        {
+                            create = false;
+                        }
+                        else
+                        {
+                            std::cerr << "invalid lsp for telemetry host log"
+                                      << std::endl;
+                            throw std::system_error(std::make_error_code(
+                                std::errc::invalid_argument));
+                        }
+                        getTelemetryLogHost(ctrl, create, data);
+                        break;
+                        default:
+                        {
+                            std::cerr << "unknown lid for GetLogPage"
+                                      << std::endl;
+                            throw std::system_error(std::make_error_code(
+                                std::errc::invalid_argument));
+                        }
+                    }
+                }
+            }
+            catch (const std::system_error& e)
+            {
+                self->io.post(
+                    [cb{std::move(cb)}, ec = e.code()]() { cb(ec, {}); });
+                return;
+            }
+            self->io.post([cb{std::move(cb)}, data{std::move(data)}]() mutable {
+                std::span<uint8_t> span{data.data(), data.size()};
+                cb({}, span);
+            });
+        });
+    }
+    catch (const std::runtime_error& e)
+    {
+        std::cerr << "NVMeMi adminGetLogPage throws: " << e.what() << std::endl;
         io.post([cb{std::move(cb)}]() {
             cb(std::make_error_code(std::errc::no_such_device), {});
         });
