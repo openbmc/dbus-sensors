@@ -22,13 +22,10 @@ class NVMeController :
                    sdbusplus::asio::object_server& objServer,
                    std::shared_ptr<sdbusplus::asio::connection> conn,
                    std::string path, std::shared_ptr<NVMeMiIntf> nvmeIntf,
-                   nvme_mi_ctrl_t ctrl) :
-        ControllerBase(dynamic_cast<sdbusplus::bus_t&>(*conn), path.c_str()),
-        io(io), objServer(objServer), conn(conn), path(path),
-        nvmeIntf(nvmeIntf), nvmeCtrl(ctrl)
-    {
-        emit_added();
-    }
+                   nvme_mi_ctrl_t ctrl);
+
+    ~NVMeController() override;
+
     void start(){};
 
     // setup association to the secondary controllers. Clear the Association if
@@ -39,11 +36,6 @@ class NVMeController :
     inline void setSecAssoc()
     {
         setSecAssoc({});
-    }
-
-    ~NVMeController() override
-    {
-        emit_removed();
     }
 
   private:
@@ -58,4 +50,10 @@ class NVMeController :
     // The Association interface to secondary controllers from a primary
     // controller
     std::shared_ptr<sdbusplus::asio::dbus_interface> secAssoc;
+
+    // NVMe Admin interface: xyz.openbmc_project.Nvme.NVMeAdmin
+    static constexpr char adminIntfName[] =
+        "xyz.openbmc_project.Nvme.NVMeAdmin";
+    static constexpr char adminDataPath[] = "/run/initramfs";
+    std::shared_ptr<sdbusplus::asio::dbus_interface> adminIntf;
 };
