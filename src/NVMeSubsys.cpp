@@ -198,6 +198,28 @@ void NVMeSubsystem::start()
         };
         pollCtemp(dataFether, dataParser);
     }
+    else if (auto intf = std::dynamic_pointer_cast<NVMeMiIntf>(nvmeIntf))
+    {
+        ctemp_fetcher_t<nvme_mi_nvm_ss_health_status*>
+            dataFether =
+                [intf](
+                    std::function<void(const std::error_code&,
+                                       nvme_mi_nvm_ss_health_status*)>&& cb) {
+            intf->miSubsystemHealthStatusPoll(std::move(cb));
+        };
+       ctemp_parser_t<nvme_mi_nvm_ss_health_status*>
+            dataParser = [](nvme_mi_nvm_ss_health_status* status)
+            -> std::optional<double> {
+            // Drive Functional
+            bool df = status->nss & 0x20;
+            if (!df)
+            {
+                return std::nullopt;
+            }
+            return {getTemperatureReading(status->ctemp)};
+        };
+        pollCtemp(dataFether, dataParser);
+    }
 
     // TODO: start to poll Drive status.
 }
