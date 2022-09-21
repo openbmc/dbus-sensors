@@ -179,15 +179,14 @@ void NVMeSubsys::start()
     }
 
     // start to poll value for CTEMP sensor.
-    if (dynamic_cast<NVMeBasicIntf*>(nvmeIntf.get()))
+    if (auto nvme = std::dynamic_pointer_cast<NVMeBasicIntf>(nvmeIntf))
     {
         std::function<void(std::function<void(const std::error_code&,
                                               NVMeBasicIntf::DriveStatus*)> &&)>
             dataFether =
-                [nvmeIntf{this->nvmeIntf}](
+                [intf{nvme}](
                     std::function<void(const std::error_code&,
                                        NVMeBasicIntf::DriveStatus*)>&& cb) {
-            auto intf = dynamic_cast<NVMeBasicIntf*>(nvmeIntf.get());
             intf->getStatus(std::move(cb));
         };
         std::function<std::optional<double>(NVMeBasicIntf::DriveStatus*)>
@@ -198,6 +197,30 @@ void NVMeSubsys::start()
                 return std::nullopt;
             }
             return {getTemperatureReading(status->Temp)};
+        };
+        pollCtemp(dataFether, dataParser);
+    }
+    else if (auto nvme = std::dynamic_pointer_cast<NVMeMiIntf>(nvmeIntf))
+    {
+        std::function<void(
+            std::function<void(const std::error_code&,
+                               nvme_mi_nvm_ss_health_status*)> &&)>
+            dataFether =
+                [intf{nvme}](
+                    std::function<void(const std::error_code&,
+                                       nvme_mi_nvm_ss_health_status*)>&& cb) {
+            intf->miSubsystemHealthStatusPoll(std::move(cb));
+        };
+        std::function<std::optional<double>(nvme_mi_nvm_ss_health_status*)>
+            dataParser = [](nvme_mi_nvm_ss_health_status* status)
+            -> std::optional<double> {
+            // Drive Functional
+            bool df = status->nss & 0x20;
+            if (!df)
+            {
+                return std::nullopt;
+            }
+            return {getTemperatureReading(status->ctemp)};
         };
         pollCtemp(dataFether, dataParser);
     }
