@@ -188,7 +188,6 @@ void NVMeSubsystem::start()
 
     // start to poll value for CTEMP sensor.
     if (nvmeIntf.getProtocol() == NVMeIntf::Protocol::NVMeBasic)
-
     {
         auto intf =
             std::get<std::shared_ptr<NVMeBasicIntf>>(nvmeIntf.getInferface());
@@ -204,6 +203,31 @@ void NVMeSubsystem::start()
                 return std::nullopt;
             }
             return {getTemperatureReading(status->Temp)};
+        };
+        pollCtemp(dataFether, dataParser);
+    }
+    else if (nvmeIntf.getProtocol() == NVMeIntf::Protocol::NVMeMI)
+    {
+        auto intf =
+            std::get<std::shared_ptr<NVMeMiIntf>>(nvmeIntf.getInferface());
+
+        ctemp_fetcher_t<nvme_mi_nvm_ss_health_status*>
+            dataFether =
+                [intf](
+                    std::function<void(const std::error_code&,
+                                       nvme_mi_nvm_ss_health_status*)>&& cb) {
+            intf->miSubsystemHealthStatusPoll(std::move(cb));
+        };
+       ctemp_parser_t<nvme_mi_nvm_ss_health_status*>
+            dataParser = [](nvme_mi_nvm_ss_health_status* status)
+            -> std::optional<double> {
+            // Drive Functional
+            bool df = status->nss & 0x20;
+            if (!df)
+            {
+                return std::nullopt;
+            }
+            return {getTemperatureReading(status->ctemp)};
         };
         pollCtemp(dataFether, dataParser);
     }
