@@ -25,6 +25,7 @@ struct I2CDeviceParams
     uint64_t address;
 
     bool devicePresent(void) const;
+    bool deviceStatic(void) const;
 };
 
 std::optional<I2CDeviceParams>
