@@ -16,6 +16,24 @@
       "message": "nit: losing",
       "revId": "66e29f0b40b3a59b948e3b037b13e128d2e652c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfff46ae_49b128c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-22T05:12:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73925b03_1487330d",
+      "revId": "66e29f0b40b3a59b948e3b037b13e128d2e652c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
