@@ -617,6 +617,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11fc4691_d3edbecc",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:30:59Z",
+      "side": 1,
+      "message": "Double click 😮",
+      "parentUuid": "92373c79_d6709fda",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12db1a7c_9d2d37b5",
