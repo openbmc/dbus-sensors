@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "107905b0_5ed1c5e9",
+        "filename": "include/HwmonTempSensor.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-22T19:07:40Z",
+      "side": 1,
+      "message": "My thinking was that we\u0027d need it to be ordered so that it gets destructed after `inputDev` to avoid the kinds of problems we had with https://github.com/openbmc/dbus-sensors/issues/20#issuecomment-1193004331 (i.e. to ensure that the I2CDevice continues to exist until after all I/O operations have stopped).",
+      "parentUuid": "55a7547f_85f1efde",
+      "revId": "d0aab6b54dd7e3d7fb10c522c6abf7105b238d5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fffdc43f_b6290ef3",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a0568b4_3cfe8933",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-22T19:07:40Z",
+      "side": 1,
+      "message": "\u003e What driver doesn\u0027t recover if host power is restored?\n\nHmmm...after experimenting it looks like in the cases I\u0027m currently dealing with (w83773g and nct6775) it does in fact come back to life when I power the host back on (which in retrospect I suppose isn\u0027t surprising, for those two drivers anyway).\n\n\u003e Isn\u0027t it a driver bug if it doesn\u0027t?\n\nThis I don\u0027t think I\u0027d agree with in the general case -- for a very simple device/driver it might often work, but if there\u0027s some non-trivial initialization of the device the driver does (e.g. writing a value into some register to set some particular operating mode) and that state gets reset on a power cut/restore I\u0027d expect things could quite easily go pretty haywire.",
+      "parentUuid": "fffdc43f_b6290ef3",
+      "revId": "d0aab6b54dd7e3d7fb10c522c6abf7105b238d5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aae9af68_530952cf",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 21
@@ -48,6 +84,24 @@
       "writtenOn": "2022-09-22T12:19:31Z",
       "side": 1,
       "message": "feels like something that could maybe exploit std::bind_back (https://en.cppreference.com/w/cpp/utility/functional/bind_back)?",
+      "revId": "d0aab6b54dd7e3d7fb10c522c6abf7105b238d5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50bb8571_825ffd19",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-22T19:07:40Z",
+      "side": 1,
+      "message": "Ah, neat, didn\u0027t know that existed, and yes, it does look like that\u0027d work here -- unfortunately it also appears to require C++23, while we\u0027re still on C++20.",
+      "parentUuid": "aae9af68_530952cf",
       "revId": "d0aab6b54dd7e3d7fb10c522c6abf7105b238d5e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
