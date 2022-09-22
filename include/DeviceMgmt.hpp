@@ -26,6 +26,7 @@ struct I2CDeviceParams
 };
 
 bool i2cDevicePresent(const I2CDeviceParams& params);
+bool i2cDeviceStatic(const I2CDeviceParams& params);
 
 std::optional<I2CDeviceParams>
     getI2CDeviceParams(const I2CDeviceTypeMap& dtmap,
