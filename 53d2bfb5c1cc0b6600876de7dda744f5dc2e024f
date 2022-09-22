@@ -93,6 +93,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7d03c5f_34f8189c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T00:43:56Z",
+      "side": 1,
+      "message": "There are couple of questions related to using rtti for NVMeIntf. I am trying to explain it in a concentrated place. We can continue the chat in this thread or via the concord. \n\nLet\u0027s started with the MVC model. So NVMeIntf is the Model(M) here and the NVMeSubsys is the Control(C). \n\nM and C are independent components in this model and C should not be the factory class of M. which means we should not do inside of NVMeSubsys smt like: \n\n```\nNVMeSubsys{\n  if (NVMe_Basic)\n    create M1_NVMeBasicIntf\n  else \n    create M2_NVMeMiIntf\n}\n```\n\nThus we need a unified way to describe M to C. There are couple of ways I thought about: \n1. A data coupling model, such as SQL query, XML layout, data sequentializer(like protobuf/rpc).\n2. C++ vtable/runtime type info\n3. C++ template / compile time type info \n\nI went to (2) because: \n* (1) is over killing for the light weight program of openbmc daemon. \n* (3) Makes the readability issue of template-everywhere and code size expansion.\n\nI am not sure how much rtti will impact the performance or stability. I assume dynamic_cast and smart ptr cast will be secure enough from exception? ",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7a7f311_34b06f5c",
@@ -451,6 +468,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "12db1a7c_9d2d37b5",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1890ef2_bd4102c2",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T00:43:56Z",
+      "side": 1,
+      "message": "Oh sure. was Marking for future job",
+      "parentUuid": "5e8f9630_5e9ff185",
       "range": {
         "startLine": 43,
         "startChar": 0,
@@ -840,6 +881,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c98b3a68_5a4ffd23",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T00:43:56Z",
+      "side": 1,
+      "message": "Ok, I created a nested class for these implementation helpers. \n\nIt works the similar way as a \u0027detail\u0027 namespace inside the source file. Since the function need to access to the private field, we need to declare them in the header for accessibility.",
+      "parentUuid": "87a86117_c2e1f075",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 33
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68fe505d_ff1784b6",
@@ -853,6 +918,24 @@
       "writtenOn": "2022-09-11T16:08:48Z",
       "side": 1,
       "message": "We are now 2 lambda scopes deep here, which makes the readability of this stuff very difficult.  The same as the higher scoped lambda, please roll this into a method.",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dbbd677_578cfd46",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T00:43:56Z",
+      "side": 1,
+      "message": "Abstract the lambda to a detail method as well.",
+      "parentUuid": "68fe505d_ff1784b6",
       "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -904,6 +987,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef06a8ed_45d1b67e",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T00:43:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9da249_18dc2d88",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e315fc7_e78de9ec",
@@ -941,6 +1048,30 @@
       "side": 1,
       "message": "+1\n\nAlso please keep your lists like this alphabetical.\n\nAlso, while we\u0027re making this a list anyway, \"files\" isn\u0027t really appropriate here, we should be making an array of paths, similar to the below\n\nhttps://github.com/openbmc/bmcweb/blob/188cb6294105a045a445619415d01843de8c3732/meson.build#L372",
       "parentUuid": "8e315fc7_e78de9ec",
+      "range": {
+        "startLine": 148,
+        "startChar": 29,
+        "endLine": 148,
+        "endChar": 30
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6da8e4aa_d8acd248",
+        "filename": "src/meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T00:43:56Z",
+      "side": 1,
+      "message": "Sure I am glad to make the change.\n\nBTW, I know each module built individually, but do you thing chronological order make more sense? Given we are actively adding more files to the project.",
+      "parentUuid": "5e338e2e_37ab7feb",
       "range": {
         "startLine": 148,
         "startChar": 29,

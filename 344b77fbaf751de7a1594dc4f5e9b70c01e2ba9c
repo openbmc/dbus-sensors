@@ -22,6 +22,30 @@
       },
       "revId": "344b77fbaf751de7a1594dc4f5e9b70c01e2ba9c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abb17833_0ff4edaa",
+        "filename": "include/NVMeSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T00:43:56Z",
+      "side": 0,
+      "message": "Let start with the MVC model. \n\nThe NVMeSensor is the View(V), it is just the dbus representation. It doesn\u0027t have any physical connection to where the data retrieved from, whether it is a i2c device or pcie, a NVMe basic protocol or NVMe MI. \n\nThe NVMeIntf is the Model(M). All data comes from Model and it is the abrastration of the physical transportation. \n\nNVMesubsys is the Controller(C). It routes the data from M to V and schedules when M should update V. \n\nThat is how I decoupled the daemon to its protocol. And given i2c is the physical layer, it belongs to M instead of V.",
+      "parentUuid": "ebb56821_8a3befb8",
+      "range": {
+        "startLine": 17,
+        "startChar": 59,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "344b77fbaf751de7a1594dc4f5e9b70c01e2ba9c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
