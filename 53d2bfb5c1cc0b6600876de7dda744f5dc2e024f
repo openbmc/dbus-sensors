@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "356c06c4_cdd08a5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Sound good. It will pleasure to chat about the design pattern. I am available on discord (Haoj#1417) at pacific times.",
+      "parentUuid": "8cd7b2eb_43ef5820",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f9d74ede_a20d5e18",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -251,6 +275,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6673f067_f7b6490f",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "This is the entry point for the vtable. So inheritance and virtualization converge to this base interface. \n\nPlease redirect to the thread of the NVMeIntf design. We can continue the topic there. \n\n\u003e Maybe this will make more sense in later patches in the series, but as written, it\u0027s not clear why it\u0027s needed.\n\nThe refactor is all targeting at extensibility to multiple protocol. I have done the NVMeMi part so you can use as a reference. \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57056/2/include/NVMeIntf.hpp#47",
+      "parentUuid": "7f06a341_74d869fb",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8702e7a3_e43c0e9b",
@@ -291,6 +339,48 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0324b85d_1677fe17",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "No. This is interface class, not the implementation.",
+      "parentUuid": "8702e7a3_e43c0e9b",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f35aa62b_6a103355",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "No, this is the interface class. The inherence rationale is: \n\nNVMeIntf (base class for NVMe Model) \n  |-NVMeBasicIntf (interface for NVMe basic protocol)\n  |  |-NVMeBasic (implementation for NVMe basic over I2C)\n  |  |-NVMeBasicMock (Mockup for NVMe basic)\n  |-NVMeMiIntf (interface for NVMe Mi protocol)\n  |  |-NVMeMi (implementation for NVMe Mi over I2C)\n  |  |-NVMeMiVdm (implementation for NVMe Mi over VDM)\n  |  |-NVMeMiMock (Mockup for NVMe Mi)\n  \n The NVMeMi is available at: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57056/2/include/NVMeMi.hpp#8",
+      "parentUuid": "954359c4_bcc60f6f",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ba6a682_fc34adf5",
@@ -316,6 +406,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96256cf3_e36bbc66",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Thanks for the advise. \n\nThe enum class adds a force scope and removes the implicit type conversion (even with defining underlayer type). It is kind of against the usage for flags? since the flags is used to mask the flag bit",
+      "parentUuid": "0ba6a682_fc34adf5",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "430761d8_69d37da0",
         "filename": "include/NVMeSubsys.hpp",
         "patchSetId": 9
@@ -327,6 +441,30 @@
       "writtenOn": "2022-09-11T16:08:48Z",
       "side": 1,
       "message": "Again, probably another place where we shouldn\u0027t abbreviate.",
+      "range": {
+        "startLine": 5,
+        "startChar": 6,
+        "endLine": 5,
+        "endChar": 16
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9ffbd72_35c598c1",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "430761d8_69d37da0",
       "range": {
         "startLine": 5,
         "startChar": 6,
@@ -421,6 +559,54 @@
       "writtenOn": "2022-09-09T21:58:13Z",
       "side": 1,
       "message": "const string?\n\nsince I guess we don\u0027t expect to update it after the constructor?",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c9a9526_afac81f4",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "I would like not to use const member variables, given it will be really bothersome for move constructor/assignment if I need them",
+      "parentUuid": "f8f178bd_d7f642b1",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92373c79_d6709fda",
+        "filename": "include/NVMeSubsys.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "I would like not to use const member variables, given it will be really bothersome for move constructor/assignment if I need them.",
+      "parentUuid": "f8f178bd_d7f642b1",
       "range": {
         "startLine": 28,
         "startChar": 3,
@@ -544,6 +730,48 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c0487f2b_b211c148",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "\u003e Why shared_ptr here?  I don\u0027t see any shared ownership.  Can this just be a value?  \n\nBecause a NVMeBasicIO is shared by multiple NVMeBasic instances which are on the same i2c bus. \n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56851/9/include/NVMeBasic.hpp#48\n\nthe smart ptr is used to release the IO resource after the last device on the i2c bus is closed. \n\n\u003e Also, technically breaks the coding standard \n\u003e \n\u003e https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Ri-global\n\nI saw a couple of examples using the same style (e.g. https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56851/9/src/NVMeSensorMain.cpp#b25), though it should be defined as static to make it constrained in this modular. \n\nI can make it static private member variable but I was thinking it was not necessary. \n\nPlease feel free to reopen if you have further concern about it.",
+      "parentUuid": "52a6a758_c2fa135a",
+      "range": {
+        "startLine": 20,
+        "startChar": 14,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4d4c137_90ba7f75",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "The map is \u003crootBusNumber, NVMeBasicIO\u003e. It makes sure all i2c devices behind the mux will share the same IO and no concurrent transaction happens across these devices. \n\nAdded a comment for the map.",
+      "parentUuid": "0a108247_3a9e713c",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "843aa5d6_8dc51c7f",
         "filename": "src/NVMeBasic.cpp",
         "patchSetId": 9
@@ -582,6 +810,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa9e676b_bf6742cb",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3c9a132e_6a98a5bd",
+      "range": {
+        "startLine": 185,
+        "startChar": 62,
+        "endLine": 185,
+        "endChar": 63
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b864fe3_47ff98e6",
@@ -595,6 +847,30 @@
       "writtenOn": "2022-09-09T21:58:13Z",
       "side": 1,
       "message": "Is there a better way to determine the root bus?",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "597404bc_449a6095",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Since this is a refactor and this part of code is part of previous implementation, I don\u0027t want to touch the logic here. Maybe we can have a fix patch individually.",
+      "parentUuid": "7b864fe3_47ff98e6",
       "range": {
         "startLine": 261,
         "startChar": 4,
@@ -628,6 +904,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cb3ce45_5778a847",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "I would like not to change the logic from previous implementation, given this is a refactor patch.",
+      "parentUuid": "b29be9b5_b49a50e3",
+      "range": {
+        "startLine": 268,
+        "startChar": 11,
+        "endLine": 268,
+        "endChar": 46
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8110e19f_8240b5c4",
@@ -641,6 +941,30 @@
       "writtenOn": "2022-09-09T21:58:13Z",
       "side": 1,
       "message": "add error message",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 37
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12a0e9d9_f1390060",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8110e19f_8240b5c4",
       "range": {
         "startLine": 278,
         "startChar": 0,
@@ -697,6 +1021,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4a0b952_e585ae46",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Woops, forgot to delete the debug code. Thanks.",
+      "parentUuid": "ae245422_011b9234",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 9
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0052d4c5_42c2d47e",
@@ -720,6 +1068,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75b75717_e95528d8",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Created a separate thread for this topic. We can continue the talk there. But the short answer is: \n\nWe need a unified entry for the different routines. The vtable of the virtualization helps to converge to that entry.",
+      "parentUuid": "0052d4c5_42c2d47e",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 53
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e5a67f8_d83be5d7",
@@ -733,6 +1105,30 @@
       "writtenOn": "2022-09-09T21:58:13Z",
       "side": 1,
       "message": "flip the logic\n\n```\nif (!dynamic_cast\u003cNVMeBasicIntf*\u003e(nvmeIntf.get())){\n  throw std::runtime_error(\"Unsupported NVMe interface\");\n}\n...\n```",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "795db26c_6f83a451",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "this is a pattern of: \n```\nif (NVMeBasic)\n  ...\nelse if (NVMeMi)\n  ...\nelse \n  wrong! \n```\n\nReserve for future usage 😊",
+      "parentUuid": "6e5a67f8_d83be5d7",
       "range": {
         "startLine": 85,
         "startChar": 0,
@@ -768,6 +1164,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "663d0d2c_8cc18696",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "\u003e This is probably why you needed to enable RTTI?  \n\nYes. It is. \n\n\u003e Generally this is the kind of thing that would be encapsulated as part of the virtualized class, to prevent needing to do a dynamic cast at this level.  It might require adding some methods onto NVMeBasic that do nothing.  That is fine.\n\nCan you be more specific what and how to encapsulate?",
+      "parentUuid": "b954b196_521bd741",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 53
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fcbf3c1c_0bdf1533",
         "filename": "src/NVMeSubsys.cpp",
         "patchSetId": 9
@@ -779,6 +1199,30 @@
       "writtenOn": "2022-09-09T21:58:13Z",
       "side": 1,
       "message": "same here. flip the logic to save horizontal space.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 5
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "746daa27_397398ab",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Same as previous answer.",
+      "parentUuid": "fcbf3c1c_0bdf1533",
       "range": {
         "startLine": 114,
         "startChar": 0,
@@ -814,6 +1258,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "197c6374_66e7e625",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "I have to admit it is a bit messy to review since the nested template and definitions. And it seems I was trying to replicate what the std lib did here (https://en.cppreference.com/w/cpp/memory/shared_ptr/pointer_cast, Second version)\n\nLet me clean it up a bit. Let\u0027s see if you are still worry about this part.",
+      "parentUuid": "b8963250_54787b0d",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 10
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e0d7851_da1ac50b",
         "filename": "src/NVMeSubsys.cpp",
         "patchSetId": 9
@@ -825,6 +1293,30 @@
       "writtenOn": "2022-09-11T16:08:48Z",
       "side": 1,
       "message": "This is currently the only place where we set up a data parser, and there\u0027s only one behavior at the moment.  There\u0027s no need to pass in a callback if there\u0027s only one type of callback.  Just make this routine a method, and have pollCtemp call it directly.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 10
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b323863_e5cd1a76",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Going to reuse the templated pollCtemp for NVMeMi. \n\nRefer to https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57322/1/src/NVMeSubsys.cpp#205",
+      "parentUuid": "7e0d7851_da1ac50b",
       "range": {
         "startLine": 126,
         "startChar": 0,
@@ -848,6 +1340,30 @@
       "writtenOn": "2022-09-11T16:08:48Z",
       "side": 1,
       "message": "Another one letter template variable name.",
+      "range": {
+        "startLine": 139,
+        "startChar": 16,
+        "endLine": 139,
+        "endChar": 17
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64a52771_769cd605",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "I was always used to use a single `T` for Template. Saw other files use the same convention. e.g. https://github.com/openbmc/dbus-sensors/blob/53d2bfb5c1cc0b6600876de7dda744f5dc2e024f/include/Utils.hpp#L132\n\nAny suggestions of name convention? like Ttype, template_type_t, or so?",
+      "parentUuid": "5610771e_d0c8e5a9",
       "range": {
         "startLine": 139,
         "startChar": 16,
@@ -1095,6 +1611,30 @@
       "writtenOn": "2022-09-11T16:08:48Z",
       "side": 1,
       "message": "Patchsets can\u0027t just override compiler flags for a single target like this, especially for things that are explicit design patterns to avoid misuse of virtualization.  Please remove, and lets talk through the pattern that necessitated this compiler flag.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 27
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0553fbb_a8d8648c",
+        "filename": "src/meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-22T06:29:45Z",
+      "side": 1,
+      "message": "Sure. Let\u0027s talk in the single thread of the interface design.",
+      "parentUuid": "9093ad61_38fa90f3",
       "range": {
         "startLine": 158,
         "startChar": 0,
