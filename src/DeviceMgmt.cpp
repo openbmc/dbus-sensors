@@ -64,6 +64,22 @@ bool i2cDevicePresent(const I2CDeviceParams& params)
     return fs::exists(path, ec);
 }
 
+bool i2cDeviceStatic(const I2CDeviceParams& params)
+{
+    if (!i2cDevicePresent(params))
+    {
+        return false;
+    }
+
+    fs::path ofNode = i2cBusPath(params.bus) /
+                      deviceDirName(params.bus, params.address) / "of_node";
+
+    // Ignore errors -- if of_node is present the device is a static DT node;
+    // otherwise we can assume we created it from userspace.
+    std::error_code ec;
+    return fs::exists(ofNode, ec);
+}
+
 I2CDevice::I2CDevice(I2CDeviceParams params) : params(params)
 {
     if (create() != 0)
