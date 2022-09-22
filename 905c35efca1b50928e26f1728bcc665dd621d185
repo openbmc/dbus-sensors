@@ -16,6 +16,24 @@
       "message": "Maybe it could be a static method instead so it\u0027s not at the global scope?",
       "revId": "905c35efca1b50928e26f1728bcc665dd621d185",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8962498d_3e5fd18d",
+        "filename": "include/DeviceMgmt.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-22T18:16:53Z",
+      "side": 1,
+      "message": "As of this patch that would work, but in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56023 it also gets used in HwmonTempMain.cpp.  I thought about making it a method like I2CDeviceParams::present(), but that seemed confusing in terms of nomenclature (it\u0027s querying the presence of a device with those parameters, not the parameters themselves, and given the sort of \"dynamically-typed\" nature of the config info the latter is also sort of a potentially reasonable thing to want to check).  I guess it could be I2CDeviceParams::devicePresent() or something to make that a bit clearer...thoughts?  (I don\u0027t presently have a strong opinion here.)",
+      "parentUuid": "2b35a9aa_ae8740f4",
+      "revId": "905c35efca1b50928e26f1728bcc665dd621d185",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
