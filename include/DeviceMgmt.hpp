@@ -15,22 +15,34 @@ struct I2CDeviceType
 using I2CDeviceTypeMap =
     boost::container::flat_map<std::string, I2CDeviceType, std::less<>>;
 
-struct I2CDevice
+struct I2CDeviceParams
 {
-    I2CDevice(const I2CDeviceType& type, uint64_t bus, uint64_t address) :
+    I2CDeviceParams(const I2CDeviceType& type, uint64_t bus, uint64_t address) :
         type(&type), bus(bus), address(address){};
 
     const I2CDeviceType* type;
     uint64_t bus;
     uint64_t address;
+};
 
-    bool present(void) const;
+bool i2cDevicePresent(const I2CDeviceParams& params);
+
+std::optional<I2CDeviceParams>
+    getI2CDeviceParams(const I2CDeviceTypeMap& dtmap,
+                       const SensorBaseConfigMap& cfg);
+
+class I2CDevice
+{
+  public:
+    I2CDevice(I2CDeviceParams params);
+    ~I2CDevice();
+
+  private:
+    I2CDeviceParams params;
+
     int create(void) const;
     int destroy(void) const;
 };
-
-std::optional<I2CDevice> getI2CDevice(const I2CDeviceTypeMap& dtmap,
-                                      const SensorBaseConfigMap& cfg);
 
 // HACK: this declaration "should" live in Utils.hpp, but that leads to a
 // tangle of header-dependency hell because each header needs types declared
