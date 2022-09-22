@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "610f2de6_40913118",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-22T20:08:48Z",
+      "side": 1,
+      "message": "LGTM.  Will leave in review for a bit to make sure arj is ok with it.",
+      "revId": "3ee959ad5e8691e352f1a8424a0dafe0d8ceaff0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3930bc2d_c45e5736",
+        "filename": "include/DeviceMgmt.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-22T20:08:48Z",
+      "side": 1,
+      "message": "nit, the coding standard says that we don\u0027t include void as an argument in our method calls.  Clearly you\u0027re just trying to be consistent here, but this is more of an FYI more than anythign.",
+      "range": {
+        "startLine": 27,
+        "startChar": 23,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "3ee959ad5e8691e352f1a8424a0dafe0d8ceaff0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d514b44_3c8dda89",
+        "filename": "include/DeviceMgmt.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-22T20:08:48Z",
+      "side": 1,
+      "message": "BTW, I like how you structured these classes.  Without even reading the implementation, it makes them very clear what the delineation of them are.",
+      "revId": "3ee959ad5e8691e352f1a8424a0dafe0d8ceaff0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
