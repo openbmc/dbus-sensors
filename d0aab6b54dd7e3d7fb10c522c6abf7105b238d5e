@@ -89,6 +89,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "448cdb1e_3ded64ae",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-22T23:09:51Z",
+      "side": 1,
+      "message": "\u003e Shouldn\u0027t the operation to write the register fail, and whatever higher-level operation that caused the write try to deal with it again at some later point?\n\nI meant if it does some mode-setting (or whatever) register write during initialization, that write succeeds, and then the device later loses power -- the driver doesn\u0027t have any good way of knowing that the write it did previously has been silently un-done.  I think it\u0027s essentially just a matter of luck that the two devices I\u0027m working with at the moment don\u0027t really *do* anything to the device to initialize it (or at least nothing critical -- the w83773g driver sets a 2Hz conversion rate, but if that gets whacked back to its 16Hz hardware default I don\u0027t think the driver really cares).",
+      "parentUuid": "5b5c9162_bdd5fffa",
+      "revId": "d0aab6b54dd7e3d7fb10c522c6abf7105b238d5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aae9af68_530952cf",
