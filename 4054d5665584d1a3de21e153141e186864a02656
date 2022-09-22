@@ -94,6 +94,30 @@
       },
       "revId": "4054d5665584d1a3de21e153141e186864a02656",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18254e01_b675c6c7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-22T10:00:02Z",
+      "side": 1,
+      "message": "...and with the above change the holding-stale-FDs-open problem also conveniently goes away.",
+      "parentUuid": "774b517e_23be986a",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 586,
+        "endChar": 65
+      },
+      "revId": "4054d5665584d1a3de21e153141e186864a02656",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

@@ -259,6 +259,30 @@
       },
       "revId": "063171819655b0876e859fa7a21a00308bcfe990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "862b065b_618f3b11",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-22T10:00:02Z",
+      "side": 1,
+      "message": "\u003e 1. Construct the i2cDevice object at a higher scope, then pass it into each sensor by shared_ptr\n\nI had been sorta thinking about doing this, but ran aground for reasons I don\u0027t quite recall at this point.  However, after rearranging the device-management code to split out the representation of the i2c parameters as distinct from the instantiated device itself (and using an `of_node` check to distinguish static vs. dynamic devices) it ended up being fairly tractable, so that\u0027s now implemented in the current patchset (with two new infrastructure prep patches shoehorned in before it).",
+      "parentUuid": "4e8f7078_84a140b6",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 9
+      },
+      "revId": "063171819655b0876e859fa7a21a00308bcfe990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
