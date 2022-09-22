@@ -5,8 +5,9 @@
 
 namespace fs = std::filesystem;
 
-std::optional<I2CDevice> getI2CDevice(const I2CDeviceTypeMap& dtmap,
-                                      const SensorBaseConfigMap& cfg)
+std::optional<I2CDeviceParams>
+    getI2CDeviceParams(const I2CDeviceTypeMap& dtmap,
+                       const SensorBaseConfigMap& cfg)
 {
     auto findType = cfg.find("Type");
     auto findBus = cfg.find("Bus");
@@ -32,7 +33,7 @@ std::optional<I2CDevice> getI2CDevice(const I2CDeviceTypeMap& dtmap,
         return std::nullopt;
     }
 
-    return I2CDevice(findDevType->second, *bus, *addr);
+    return I2CDeviceParams(findDevType->second, *bus, *addr);
 }
 
 static fs::path i2cBusPath(uint64_t bus)
@@ -48,11 +49,12 @@ static std::string deviceDirName(uint64_t bus, uint64_t address)
     return name.str();
 }
 
-bool I2CDevice::present(void) const
+bool i2cDevicePresent(const I2CDeviceParams& params)
 {
-    fs::path path = i2cBusPath(bus) / deviceDirName(bus, address);
+    fs::path path =
+        i2cBusPath(params.bus) / deviceDirName(params.bus, params.address);
 
-    if (type->createsHWMon)
+    if (params.type->createsHWMon)
     {
         path /= "hwmon";
     }
@@ -62,16 +64,29 @@ bool I2CDevice::present(void) const
     return fs::exists(path, ec);
 }
 
+I2CDevice::I2CDevice(I2CDeviceParams params) : params(params)
+{
+    if (create() != 0)
+    {
+        throw std::runtime_error("failed to instantiate i2c device");
+    }
+}
+
+I2CDevice::~I2CDevice()
+{
+    destroy();
+}
+
 int I2CDevice::create(void) const
 {
     // If it's already instantiated, there's nothing we need to do.
-    if (present())
+    if (i2cDevicePresent(params))
     {
         return 0;
     }
 
     // Try to create it: 'echo $devtype $addr > .../i2c-$bus/new_device'
-    fs::path ctorPath = i2cBusPath(bus) / "new_device";
+    fs::path ctorPath = i2cBusPath(params.bus) / "new_device";
     std::ofstream ctor(ctorPath);
     if (!ctor.good())
     {
@@ -79,7 +94,7 @@ int I2CDevice::create(void) const
         return -1;
     }
 
-    ctor << type->name << " " << address << "\n";
+    ctor << params.type->name << " " << params.address << "\n";
     ctor.flush();
     if (!ctor.good())
     {
@@ -88,7 +103,7 @@ int I2CDevice::create(void) const
     }
 
     // Check if that created the requisite sysfs directory
-    if (!present())
+    if (!i2cDevicePresent(params))
     {
         destroy();
         return -1;
@@ -99,12 +114,12 @@ int I2CDevice::create(void) const
 
 int I2CDevice::destroy(void) const
 {
-    // No present() check on this like in create(), since it might be used to
-    // clean up after a device instantiation that was only partially
-    // successful (i.e. when present() would return false but there's still a
-    // dummy i2c client device to remove)
+    // No i2cDevicePresent() check on this like in create(), since it might be
+    // used to clean up after a device instantiation that was only partially
+    // successful (i.e. when i2cDevicePresent() would return false but there's
+    // still a dummy i2c client device to remove)
 
-    fs::path dtorPath = i2cBusPath(bus) / "delete_device";
+    fs::path dtorPath = i2cBusPath(params.bus) / "delete_device";
     std::ofstream dtor(dtorPath);
     if (!dtor.good())
     {
@@ -112,7 +127,7 @@ int I2CDevice::destroy(void) const
         return -1;
     }
 
-    dtor << address << "\n";
+    dtor << params.address << "\n";
     dtor.flush();
     if (!dtor.good())
     {
