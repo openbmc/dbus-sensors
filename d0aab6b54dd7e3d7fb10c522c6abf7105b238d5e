@@ -71,6 +71,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b5c9162_bdd5fffa",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-09-22T22:17:27Z",
+      "side": 1,
+      "message": "Maybe? Shouldn\u0027t the operation to write the register fail, and whatever higher-level operation that caused the write try to deal with it again at some later point?\n\nBut regardless, that take is probably too deep into speculation and idealism. What you have can\u0027t not work.",
+      "parentUuid": "0a0568b4_3cfe8933",
+      "revId": "d0aab6b54dd7e3d7fb10c522c6abf7105b238d5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aae9af68_530952cf",
