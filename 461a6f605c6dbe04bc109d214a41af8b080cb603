@@ -118,6 +118,30 @@
       },
       "revId": "461a6f605c6dbe04bc109d214a41af8b080cb603",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a1642a7_25d94ea0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-09-22T00:53:22Z",
+      "side": 1,
+      "message": "oh yeah, needs to get back to this at some point.\n\num.. lets see.\n\nCan we just not decode the dbus path when populating the Bmcweb URI for sensors. And only decode for the \"Name\" field and such?",
+      "parentUuid": "1a5098f9_69679f63",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 65
+      },
+      "revId": "461a6f605c6dbe04bc109d214a41af8b080cb603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
