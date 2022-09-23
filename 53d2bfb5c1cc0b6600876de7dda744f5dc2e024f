@@ -811,6 +811,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18285ad6_77832663",
+        "filename": "src/NVMeBasic.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-09-23T04:51:08Z",
+      "side": 1,
+      "message": "\u003e NVMe Basic doesn\u0027t need this class for non-blocking IO.\nYes. We can use uring in the future patches. We may still need the schedule the io of concurrent transfer to devices on the same i2c bus? The kernel will not do the scheduling for us, I believe. \n\n\u003e MCTP in the kernel uses the sockets API, which never needed this class, as we can already do non-blocking IO on sockets.\n\nNVMe daemon will not directly talk to mctp socket. instead the libnvme-mi will. And all libnvme/libnvme-mi functions will do blocking reading/write on IO.",
+      "parentUuid": "843aa5d6_8dc51c7f",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c9a132e_6a98a5bd",
