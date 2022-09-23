@@ -85,6 +85,98 @@
       "message": "@Ed, what do you think about the latest patch and reply to your question. Have you concerns been addressed?",
       "revId": "51d459c3e18fc438eaa3a8f0aaf5fc3d9ec83e26",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "164d9400_d0d63aa5",
+        "filename": "include/Thresholds.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-23T18:18:38Z",
+      "side": 1,
+      "message": "This is the wrong place to be putting this logic.  Lots of sensors have no path string, so adding it here is breaking the abstraction.  What needs to happen here is for the thresholds::Threshold object to be updated with the new params being supported in this case, and then have the individual implementations inside PSUSensor read and fill those thresholds in when that config comes.\n\nThat also prevents us from having to declare an intentionally default parameter in every call site, as you\u0027ve done.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 46
+      },
+      "revId": "51d459c3e18fc438eaa3a8f0aaf5fc3d9ec83e26",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "754828cf_c97291e3",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-23T18:18:38Z",
+      "side": 1,
+      "message": "I\u0027m a little surprised this passed CI.  the spacing is wrong.",
+      "range": {
+        "startLine": 862,
+        "startChar": 52,
+        "endLine": 862,
+        "endChar": 55
+      },
+      "revId": "51d459c3e18fc438eaa3a8f0aaf5fc3d9ec83e26",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7392b373_d245d405",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-23T18:18:38Z",
+      "side": 1,
+      "message": "Please don\u0027t construct static maps like this.  They use memory at all times, are slower, and increase startup times.  In this case, I\u0027m pretty sure you want\n\nconstexpr std::array\u003cstd::string_view, 2\u003e",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 57
+      },
+      "revId": "51d459c3e18fc438eaa3a8f0aaf5fc3d9ec83e26",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "977d10b0_0f7aecaf",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-23T18:18:38Z",
+      "side": 1,
+      "message": "Secure coding violation.  ScaleFactor: 0.0 will make this code seg-fault.  If we go to percentages, I think this problem gets solved.",
+      "range": {
+        "startLine": 79,
+        "startChar": 37,
+        "endLine": 80,
+        "endChar": 72
+      },
+      "revId": "51d459c3e18fc438eaa3a8f0aaf5fc3d9ec83e26",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
