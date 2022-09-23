@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c5317f_2fd35284",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-23T18:10:23Z",
+      "side": 1,
+      "message": "So this is more of a percentage than a scale factor.  In this case, should these be made a percentage, with a parameter like:\n\nThresholdPercentageOfMax: 80.0\n\nI think that\u0027s a lot more clear what\u0027s going on in the calculation than a scale factor.",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "51d459c3e18fc438eaa3a8f0aaf5fc3d9ec83e26",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b547ff4e_c3a779c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-23T18:10:23Z",
+      "side": 1,
+      "message": "Is there any other use case of determining this from anything other than max?  I can\u0027t really think of one, so I wonder if we can make this more explicit.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 6
+      },
+      "revId": "51d459c3e18fc438eaa3a8f0aaf5fc3d9ec83e26",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cfefc1d_fde5e8ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-23T18:10:23Z",
+      "side": 1,
+      "message": "What does \"high\" and \"low\" mean?  220V versus 120V?",
+      "range": {
+        "startLine": 28,
+        "startChar": 28,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "51d459c3e18fc438eaa3a8f0aaf5fc3d9ec83e26",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c59d08de_e6fe3ac1",
