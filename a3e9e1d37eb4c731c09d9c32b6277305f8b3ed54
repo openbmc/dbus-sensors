@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5ae3bb1_b8ffa212",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 46
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-23T05:53:37Z",
+      "side": 1,
+      "message": "Hai all,\nGentle remainder, Please review on this patch if possible.",
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
