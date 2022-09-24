@@ -16,6 +16,92 @@
       "message": "Updated to fix a bug wherein it would fail to instantiate devices when already in the correct power state at daemon startup.",
       "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f22870_5b4475a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-24T17:20:29Z",
+      "side": 1,
+      "message": "Couple nitpicky things;  All are really up to you if you want to fix them or not.",
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1c64569_dd8a2d91",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-24T17:20:29Z",
+      "side": 1,
+      "message": "Kinda nitpicky, but I would\u0027ve preferred something like\n\nstd::shared_ptr\u003cI2cDevice\u003e i2cDev;\nif (findI2CDev !\u003d newSensors.end()){\n   i2cDev \u003d findI2cDev-\u003esecond;\n}\n\nJust a little bit clearer, and avoids the ternary and having to explicitly declare nullptr.",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 411,
+        "endChar": 78
+      },
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb078830_17ea8b1c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-24T17:20:29Z",
+      "side": 1,
+      "message": "One thing in the project we\u0027ve been doing is to try to avoid these wildcard reference captures, as they can lead to problems.  I fully realize that you were just following what was done for io.post, and that\u0027s fine, but can we explicitly call out all the captures here, ie\n\n[\u0026io, \u0026objectServer, \u0026systemBus]",
+      "range": {
+        "startLine": 635,
+        "startChar": 26,
+        "endLine": 635,
+        "endChar": 27
+      },
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31060b8e_de598ece",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-24T17:20:29Z",
+      "side": 1,
+      "message": "I\u0027m a little surprised that clang-tidy let you pass this by copy.  Normally we would do\n\n\nconst std::shared_ptr\u003cI2cDevice\u003e i2cDevice\n\ni2cDevice(i2cDevice).\n\n\nwhat you have works, and shared_ptr is about the cheapest copy you can make, so up to you if you want to fix it.",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 30
+      },
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
