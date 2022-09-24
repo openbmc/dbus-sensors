@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "529d377f_d6d96285",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-24T02:13:10Z",
+      "side": 1,
+      "message": "Updated to fix a bug wherein it would fail to instantiate devices when already in the correct power state at daemon startup.",
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
