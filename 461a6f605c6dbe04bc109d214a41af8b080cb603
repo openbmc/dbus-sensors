@@ -142,6 +142,30 @@
       },
       "revId": "461a6f605c6dbe04bc109d214a41af8b080cb603",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52cfb708_68c8bb77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-24T17:56:43Z",
+      "side": 1,
+      "message": "\u003e oh yeah, needs to get back to this at some point.\n\u003e \n\u003e um.. lets see.\n\u003e \n\u003e Can we just not decode the dbus path when populating the Bmcweb URI for sensors. And only decode for the \"Name\" field and such?\n\nYep, you\u0027re on the right track.  Keep in mind, in implementation it\u0027s not that simple because we need to go free-form string -\u003e dbus path -\u003e http uri -\u003e dbus path in a way that round trips properly, and encodes each step properly in a all cases.\n\n\n\u003e And only decode for the \"Name\" field and such?\n\n\"Name\" is actually the easy one, it\u0027s the URI that is odd, because we need to both form a well-specified Redfish URI (and redfish has recommendations about URI semantics that we need to follow) as well as be able to convert that back into a dbus path on the other side.\n\nIt\u0027s all doable, just tricky to get right.  Getting boost::urls integrated and stable was a pre-req for this work.",
+      "parentUuid": "5a1642a7_25d94ea0",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 65
+      },
+      "revId": "461a6f605c6dbe04bc109d214a41af8b080cb603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
