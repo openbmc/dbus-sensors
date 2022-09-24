@@ -58,6 +58,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "937b4325_7c8c64d0",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-24T20:56:43Z",
+      "side": 1,
+      "message": "Ah, didn\u0027t realize shared_ptr would default to nullptr...done.",
+      "parentUuid": "c1c64569_dd8a2d91",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 411,
+        "endChar": 78
+      },
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb078830_17ea8b1c",
@@ -81,6 +105,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2811799c_e6b7cc06",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-24T20:56:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb078830_17ea8b1c",
+      "range": {
+        "startLine": 635,
+        "startChar": 26,
+        "endLine": 635,
+        "endChar": 27
+      },
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31060b8e_de598ece",
@@ -94,6 +142,30 @@
       "writtenOn": "2022-09-24T17:20:29Z",
       "side": 1,
       "message": "I\u0027m a little surprised that clang-tidy let you pass this by copy.  Normally we would do\n\n\nconst std::shared_ptr\u003cI2cDevice\u003e i2cDevice\n\ni2cDevice(i2cDevice).\n\n\nwhat you have works, and shared_ptr is about the cheapest copy you can make, so up to you if you want to fix it.",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 30
+      },
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dec97a0f_db1ac6d3",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-24T20:56:43Z",
+      "side": 1,
+      "message": "clang-tidy suggested the std::move(), which I didn\u0027t have initially...looks like you probably meant to include a \u0027\u0026\u0027 there though?  (At least, that\u0027s what clang-tidy then pointed me to.)",
+      "parentUuid": "31060b8e_de598ece",
       "range": {
         "startLine": 50,
         "startChar": 4,
