@@ -16,6 +16,24 @@
       "message": "Josh, did you mean to +1 this?  As written, I\u0027m pretty sure it breaks things;  It\u0027s hard to tell if you don\u0027t think those concerns are valid or not from just a +1.",
       "revId": "9668469aaf14efee19846a22ebf8e4d9c1c93cec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fecd98bc_744a9ffc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2022-09-25T09:33:13Z",
+      "side": 1,
+      "message": "Hmm. I like the idea, but as you said, there are other concerns that you mentioned later that should also be taken into account.\n\nI also have these old patches:\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/41453\nhttps://gerrit.openbmc.org/c/openbmc/intel-ipmi-oem/+/41524\n\nThese were along the same idea, and they worked as a set, but they didn\u0027t get polished enough to be accepted.\n\nYou mentioned freeform string, D-Bus path, and HTTP URL. Is there a doc that has the recommended escaping for preventing data loss throughout all of these conversion paths?",
+      "parentUuid": "013518b3_2636b27a",
+      "revId": "9668469aaf14efee19846a22ebf8e4d9c1c93cec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
