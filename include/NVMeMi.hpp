@@ -36,6 +36,10 @@ class NVMeMi : public NVMeMiIntf, public std::enable_shared_from_this<NVMeMi>
                                             std::span<uint8_t>)>&& cb) override;
 
   private:
+    // the transfer size for nvme mi messages.
+    // define in github.com/linux-nvme/libnvme/blob/master/src/nvme/mi.c
+    static constexpr int nvme_mi_xfer_size = 4096;
+
     static nvme_root_t nvmeRoot;
 
     boost::asio::io_context& io;
