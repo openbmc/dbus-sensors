@@ -581,3 +581,76 @@ void NVMeMi::adminGetLogPage(
         return;
     }
 }
+
+void NVMeMi::adminXfer(
+    nvme_mi_ctrl_t ctrl, const nvme_mi_admin_req_hdr& admin_req,
+    std::span<uint8_t> data,
+    std::function<void(const std::error_code&, const nvme_mi_admin_resp_hdr&,
+                       std::span<uint8_t>)>&& cb)
+{
+    if (!nvmeEP)
+    {
+        std::cerr << "nvme endpoint is invalid" << std::endl;
+        io.post([cb{std::move(cb)}]() {
+            cb(std::make_error_code(std::errc::no_such_device), {}, {});
+        });
+        return;
+    }
+    try
+    {
+        std::vector<uint8_t> req(sizeof(nvme_mi_admin_req_hdr) + data.size());
+        memcpy(req.data(), &admin_req, sizeof(nvme_mi_admin_req_hdr));
+        memcpy(req.data() + sizeof(nvme_mi_admin_req_hdr), data.data(),
+               data.size());
+        post([ctrl, req{std::move(req)}, self{shared_from_this()},
+              cb{std::move(cb)}]() mutable {
+            int rc = 0;
+
+            nvme_mi_admin_req_hdr* reqHeader =
+                reinterpret_cast<nvme_mi_admin_req_hdr*>(req.data());
+
+            size_t respDataSize =
+                boost::endian::little_to_native<size_t>(reqHeader->dlen);
+            off_t respDataOffset =
+                boost::endian::little_to_native<off_t>(reqHeader->doff);
+            size_t bufSize = sizeof(nvme_mi_admin_resp_hdr) + respDataSize;
+            std::vector<uint8_t> buf(bufSize);
+            nvme_mi_admin_resp_hdr* respHeader =
+                reinterpret_cast<nvme_mi_admin_resp_hdr*>(buf.data());
+
+            rc = nvme_mi_admin_xfer(ctrl, reqHeader,
+                                    req.size() - sizeof(nvme_mi_admin_req_hdr),
+                                    respHeader, respDataOffset, &respDataSize);
+
+            if (rc)
+            {
+                std::cerr << "failed to nvme_mi_admin_xfer" << std::endl;
+                self->io.post([cb{std::move(cb)}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(errno)), {},
+                       {});
+                });
+                return;
+            }
+            // the MI interface will only consume protocol/io errors
+            // The client will take the reponsibility to deal with nvme-mi
+            // status flag and nvme status field(cwd3). cmd specific return
+            // value (cdw0) is also client's job.
+
+            buf.resize(sizeof(nvme_mi_admin_resp_hdr) + respDataSize);
+            self->io.post([cb{std::move(cb)}, data{std::move(buf)}]() mutable {
+                std::span<uint8_t> span(
+                    data.begin() + sizeof(nvme_mi_admin_resp_hdr), data.end());
+                cb({}, *reinterpret_cast<nvme_mi_admin_resp_hdr*>(data.data()),
+                   span);
+            });
+        });
+    }
+    catch (const std::runtime_error& e)
+    {
+        std::cerr << e.what() << std::endl;
+        io.post([cb{std::move(cb)}]() {
+            cb(std::make_error_code(std::errc::no_such_device), {}, {});
+        });
+        return;
+    }
+}
