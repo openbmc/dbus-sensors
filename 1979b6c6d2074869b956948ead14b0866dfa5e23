@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8ed61e6_74a64e67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-09-27T00:47:16Z",
+      "side": 1,
+      "message": "Oh, and https://gerrit.openbmc.org/c/openbmc/entity-manager/+/56128 should probably also get merged in the same SRCREV bump as this to avoid having hwmontempsensor and E-M fighting over who\u0027s in charge.",
+      "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
