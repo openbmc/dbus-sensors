@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1a24fa1_cbc51240",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-09-27T00:36:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "080461dd_c96c6bae",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7dcae8e_c8141cb4",
@@ -294,6 +318,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da11d01e_171f4bfc",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-09-27T00:36:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2418f859_1a5102d5",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 62
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bed17623_9ac85a5d",
@@ -354,6 +402,30 @@
       "writtenOn": "2022-08-12T12:56:31Z",
       "side": 1,
       "message": "same here.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "316ed1bd_4cfb3068",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-09-27T00:36:34Z",
+      "side": 1,
+      "message": "As Ed Tanous said, this is not what we do.",
+      "parentUuid": "0943bf6d_564a94e3",
       "range": {
         "startLine": 33,
         "startChar": 0,
