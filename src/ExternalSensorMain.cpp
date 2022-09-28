@@ -224,7 +224,7 @@ void createSensors(
                 timeoutSecs =
                     std::visit(VariantToDoubleVisitor(), timeoutFound->second);
             }
-            if (!(std::isfinite(timeoutSecs) && (timeoutSecs >= 0.0)))
+            if (!std::isfinite(timeoutSecs) || (timeoutSecs < 0.0))
             {
                 std::cerr << "Timeout parameter not parsed for "
                           << interfacePath << "\n";
