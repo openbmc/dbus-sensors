@@ -47,10 +47,7 @@ static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
-using IpmbMethodType =
-    std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;
-
-boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>> sensors;
+boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>> sensors;
 
 std::unique_ptr<boost::asio::steady_timer> initCmdTimer;
 
@@ -124,25 +121,36 @@ void IpmbSensor::init(void)
     read();
 }
 
+static void initCmdCb(std::weak_ptr<IpmbSensor> weakRef,
+                      const boost::system::error_code& ec,
+                      const IpmbMethodType& response)
+{
+    std::shared_ptr<IpmbSensor> self = weakRef.lock();
+    if (!self)
+    {
+        return;
+    }
+    const int& status = std::get<0>(response);
+    if (ec || status)
+    {
+        std::cerr << "Error setting init command for device: " << self->name
+                  << "\n";
+    }
+}
+
 void IpmbSensor::runInitCmd()
 {
-    if (initCommand)
+    if (!initCommand)
     {
-        dbusConnection->async_method_call(
-            [this](boost::system::error_code ec,
-                   const IpmbMethodType& response) {
-            const int& status = std::get<0>(response);
-
-            if (ec || (status != 0))
-            {
-                std::cerr << "Error setting init command for device: " << name
-                          << "\n";
-            }
-            },
-            "xyz.openbmc_project.Ipmi.Channel.Ipmb",
-            "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
-            "sendRequest", commandAddress, netfn, lun, *initCommand, initData);
+        return;
     }
+    std::function<void(const boost::system::error_code&, const IpmbMethodType&)>
+        cb = std::bind(initCmdCb, weak_from_this(), std::placeholders::_1,
+                       std::placeholders::_2);
+    dbusConnection->async_method_call(
+        cb, "xyz.openbmc_project.Ipmi.Channel.Ipmb",
+        "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
+        "sendRequest", commandAddress, netfn, lun, *initCommand, initData);
 }
 
 void IpmbSensor::loadDefaults()
@@ -333,75 +341,93 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
     }
 }
 
+void IpmbSensor::IpmbRequestCompletionCb(const boost::system::error_code& ec,
+                                         const IpmbMethodType& response)
+{
+    const int& status = std::get<0>(response);
+    if (ec || (status != 0))
+    {
+        incrementError();
+        read();
+        return;
+    }
+    const std::vector<uint8_t>& data = std::get<5>(response);
+    if constexpr (debug)
+    {
+        std::cout << name << ": ";
+        for (size_t d : data)
+        {
+            std::cout << d << " ";
+        }
+        std::cout << "\n";
+    }
+    if (data.empty())
+    {
+        incrementError();
+        read();
+        return;
+    }
+
+    double value = 0;
+
+    if (!processReading(data, value))
+    {
+        incrementError();
+        read();
+        return;
+    }
+
+    // rawValue only used in debug logging
+    // up to 5th byte in data are used to derive value
+    size_t end = std::min(sizeof(uint64_t), data.size());
+    uint64_t rawData = 0;
+    for (size_t i = 0; i < end; i++)
+    {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
+    }
+    rawValue = static_cast<double>(rawData);
+
+    /* Adjust value as per scale and offset */
+    value = (value * scaleVal) + offsetVal;
+    updateValue(value);
+    read();
+}
+
 void IpmbSensor::read(void)
 {
     waitTimer.expires_from_now(std::chrono::milliseconds(sensorPollMs));
-    waitTimer.async_wait([this](const boost::system::error_code& ec) {
+    waitTimer.async_wait(
+        [weakRef{weak_from_this()}](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
-        if (!readingStateGood())
+        std::shared_ptr<IpmbSensor> self = weakRef.lock();
+        if (!self)
         {
-            updateValue(std::numeric_limits<double>::quiet_NaN());
-            read();
             return;
         }
-        dbusConnection->async_method_call(
-            [this](boost::system::error_code ec,
-                   const IpmbMethodType& response) {
-            const int& status = std::get<0>(response);
-            if (ec || (status != 0))
+        if (!self->readingStateGood())
+        {
+            self->updateValue(std::numeric_limits<double>::quiet_NaN());
+            self->read();
+            return;
+        }
+        self->dbusConnection->async_method_call(
+            [weakRef](boost::system::error_code ec,
+                      const IpmbMethodType& response) {
+            std::shared_ptr<IpmbSensor> self = weakRef.lock();
+            if (!self)
             {
-                incrementError();
-                read();
                 return;
             }
-            const std::vector<uint8_t>& data = std::get<5>(response);
-            if constexpr (debug)
-            {
-                std::cout << name << ": ";
-                for (size_t d : data)
-                {
-                    std::cout << d << " ";
-                }
-                std::cout << "\n";
-            }
-            if (data.empty())
-            {
-                incrementError();
-                read();
-                return;
-            }
-
-            double value = 0;
-
-            if (!processReading(data, value))
-            {
-                incrementError();
-                read();
-                return;
-            }
-
-            // rawValue only used in debug logging
-            // up to 5th byte in data are used to derive value
-            size_t end = std::min(sizeof(uint64_t), data.size());
-            uint64_t rawData = 0;
-            for (size_t i = 0; i < end; i++)
-            {
-                // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-                reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
-            }
-            rawValue = static_cast<double>(rawData);
-
-            /* Adjust value as per scale and offset */
-            value = (value * scaleVal) + offsetVal;
-            updateValue(value);
-            read();
+            self->IpmbRequestCompletionCb(ec, response);
             },
             "xyz.openbmc_project.Ipmi.Channel.Ipmb",
             "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
-            "sendRequest", commandAddress, netfn, lun, command, commandData);
+            "sendRequest", self->commandAddress, self->netfn, lun,
+            self->command, self->commandData);
     });
 }
 
@@ -478,7 +504,7 @@ void IpmbSensor::parseConfigValues(const SensorBaseConfigMap& entry)
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::unique_ptr<IpmbSensor>>&
+    boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
@@ -545,7 +571,8 @@ void createSensors(
                 }
 
                 auto& sensor = sensors[name];
-                sensor = std::make_unique<IpmbSensor>(
+                sensor = nullptr;
+                sensor = std::make_shared<IpmbSensor>(
                     dbusConnection, io, name, path, objectServer,
                     std::move(sensorThresholds), deviceAddress, hostSMbusIndex,
                     pollRate, sensorTypeName);
