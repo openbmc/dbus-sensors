@@ -80,7 +80,6 @@ NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
                     break;
                 }
             }
-            
         }
     });
 }
@@ -139,7 +138,7 @@ void NVMeMi::miSubsystemHealthStatusPoll(
             nvme_mi_nvm_ss_health_status ss_health;
             auto rc = nvme_mi_mi_subsystem_health_status_poll(self->nvmeEP,
                                                               true, &ss_health);
-            if (rc)
+            if (rc < 0)
             {
 
                 std::cerr << "fail to subsystem_health_status_poll: "
@@ -150,6 +149,18 @@ void NVMeMi::miSubsystemHealthStatusPoll(
                 });
                 return;
             }
+            else if (rc > 0)
+            {
+                std::string_view errMsg =
+                    statusToString(static_cast<nvme_mi_resp_status>(rc));
+                std::cerr << "fail to subsystem_health_status_poll: " << errMsg
+                          << std::endl;
+                self->io.post([cb{std::move(cb)}]() {
+                    cb(std::make_error_code(std::errc::bad_message), nullptr);
+                });
+                return;
+            }
+
             self->io.post(
                 [cb{std::move(cb)}, ss_health{std::move(ss_health)}]() mutable {
                 cb({}, &ss_health);
@@ -184,9 +195,21 @@ void NVMeMi::miScanCtrl(std::function<void(const std::error_code&,
     {
         post([self{shared_from_this()}, cb{std::move(cb)}]() {
             int rc = nvme_mi_scan_ep(self->nvmeEP, true);
-            if (rc)
+            if (rc < 0)
             {
-                std::cerr << "fail to scan controllers" << std::endl;
+                std::cerr << "fail to scan controllers: "
+                          << std::strerror(errno) << std::endl;
+                self->io.post([cb{std::move(cb)}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(errno)), {});
+                });
+                return;
+            }
+            else if (rc > 0)
+            {
+                std::string_view errMsg =
+                    statusToString(static_cast<nvme_mi_resp_status>(rc));
+                std::cerr << "fail to scan controllers: " << errMsg
+                          << std::endl;
                 self->io.post([cb{std::move(cb)}]() {
                     cb(std::make_error_code(std::errc::bad_message), {});
                 });
@@ -272,12 +295,23 @@ void NVMeMi::adminIdentify(
                     rc = nvme_mi_admin_identify(ctrl, &args);
                 }
             }
-            if (rc)
+            if (rc < 0)
             {
                 std::cerr << "fail to do nvme identify: "
                           << std::strerror(errno) << std::endl;
                 self->io.post([cb{std::move(cb)}]() {
                     cb(std::make_error_code(static_cast<std::errc>(errno)), {});
+                });
+                return;
+            }
+            else if (rc > 0)
+            {
+                std::string_view errMsg =
+                    statusToString(static_cast<nvme_mi_resp_status>(rc));
+                std::cerr << "fail to do nvme identify: " << errMsg
+                          << std::endl;
+                self->io.post([cb{std::move(cb)}]() {
+                    cb(std::make_error_code(std::errc::bad_message), {});
                 });
                 return;
             }
@@ -307,8 +341,8 @@ static int nvme_mi_admin_get_log_telemetry_host_rae(nvme_mi_ctrl_t ctrl,
 
 // Get Temetery Log header and return the size for hdr + data area (Area 1, 2,
 // 3, or maybe 4)
-void getTelemetryLog(nvme_mi_ctrl_t ctrl, bool host, bool create,
-                     std::vector<uint8_t>& data)
+int getTelemetryLog(nvme_mi_ctrl_t ctrl, bool host, bool create,
+                    std::vector<uint8_t>& data)
 {
     int rc = 0;
     data.resize(sizeof(nvme_telemetry_log));
@@ -324,19 +358,18 @@ void getTelemetryLog(nvme_mi_ctrl_t ctrl, bool host, bool create,
         if (rc)
         {
             std::cerr << "failed to create telemetry host log" << std::endl;
-            throw std::system_error(errno, std::generic_category());
+            return rc;
         }
-        return;
+        return 0;
     }
-    else
-    {
-        rc = func(ctrl, false, 0, sizeof(log), &log);
-    }
+
+    rc = func(ctrl, false, 0, sizeof(log), &log);
+
     if (rc)
     {
         std::cerr << "failed to retain telemetry log for "
                   << (host ? "host" : "ctrl") << std::endl;
-        throw std::system_error(errno, std::generic_category());
+        return rc;
     }
 
     long size =
@@ -349,8 +382,9 @@ void getTelemetryLog(nvme_mi_ctrl_t ctrl, bool host, bool create,
     {
         std::cerr << "failed to get full telemetry log for "
                   << (host ? "host" : "ctrl") << std::endl;
-        throw std::system_error(errno, std::generic_category());
+        return rc;
     }
+    return 0;
 }
 
 void NVMeMi::adminGetLogPage(
@@ -372,200 +406,197 @@ void NVMeMi::adminGetLogPage(
         post([ctrl, nsid, lid, lsp, lsi, self{shared_from_this()},
               cb{std::move(cb)}]() {
             std::vector<uint8_t> data;
-            try
+
+            int rc = 0;
+            switch (lid)
             {
-                switch (lid)
+                case NVME_LOG_LID_ERROR:
                 {
-                    case NVME_LOG_LID_ERROR:
-                    {
-                        data.resize(nvme_mi_xfer_size);
-                        // The number of entries for most recent error logs.
-                        // Currently we only do one nvme mi transfer for the
-                        // error log to avoid blocking other tasks
-                        static constexpr int num =
-                            nvme_mi_xfer_size / sizeof(nvme_error_log_page);
-                        nvme_error_log_page* log =
-                            reinterpret_cast<nvme_error_log_page*>(data.data());
+                    data.resize(nvme_mi_xfer_size);
+                    // The number of entries for most recent error logs.
+                    // Currently we only do one nvme mi transfer for the
+                    // error log to avoid blocking other tasks
+                    static constexpr int num =
+                        nvme_mi_xfer_size / sizeof(nvme_error_log_page);
+                    nvme_error_log_page* log =
+                        reinterpret_cast<nvme_error_log_page*>(data.data());
 
-                        int rc =
-                            nvme_mi_admin_get_log_error(ctrl, num, false, log);
-                        if (rc)
-                        {
-                            std::cerr << "fail to get error log" << std::endl;
-                            throw std::system_error(std::make_error_code(
-                                std::errc::invalid_argument));
-                        }
-                    }
-                    break;
-                    case NVME_LOG_LID_SMART:
+                    rc = nvme_mi_admin_get_log_error(ctrl, num, false, log);
+                    if (rc)
                     {
-                        data.resize(sizeof(nvme_smart_log));
-                        nvme_smart_log* log =
-                            reinterpret_cast<nvme_smart_log*>(data.data());
-                        int rc =
-                            nvme_mi_admin_get_log_smart(ctrl, nsid, false, log);
-                        if (rc)
-                        {
-                            std::cerr << "fail to get smart log" << std::endl;
-                            throw std::system_error(std::make_error_code(
-                                std::errc::invalid_argument));
-                        }
+                        std::cerr << "fail to get error log" << std::endl;
+                        break;
                     }
-                    break;
-                    case NVME_LOG_LID_FW_SLOT:
+                }
+                break;
+                case NVME_LOG_LID_SMART:
+                {
+                    data.resize(sizeof(nvme_smart_log));
+                    nvme_smart_log* log =
+                        reinterpret_cast<nvme_smart_log*>(data.data());
+                    rc = nvme_mi_admin_get_log_smart(ctrl, nsid, false, log);
+                    if (rc)
                     {
-                        data.resize(sizeof(nvme_firmware_slot));
-                        nvme_firmware_slot* log =
-                            reinterpret_cast<nvme_firmware_slot*>(data.data());
-                        int rc =
-                            nvme_mi_admin_get_log_fw_slot(ctrl, false, log);
-                        if (rc)
-                        {
-                            std::cerr << "fail to get firmware slot"
-                                      << std::endl;
-                            throw std::system_error(std::make_error_code(
-                                std::errc::invalid_argument));
-                        }
+                        std::cerr << "fail to get smart log" << std::endl;
+                        break;
                     }
-                    break;
-                    case NVME_LOG_LID_CMD_EFFECTS:
+                }
+                break;
+                case NVME_LOG_LID_FW_SLOT:
+                {
+                    data.resize(sizeof(nvme_firmware_slot));
+                    nvme_firmware_slot* log =
+                        reinterpret_cast<nvme_firmware_slot*>(data.data());
+                    rc = nvme_mi_admin_get_log_fw_slot(ctrl, false, log);
+                    if (rc)
                     {
-                        data.resize(sizeof(nvme_cmd_effects_log));
-                        nvme_cmd_effects_log* log =
-                            reinterpret_cast<nvme_cmd_effects_log*>(
-                                data.data());
+                        std::cerr << "fail to get firmware slot" << std::endl;
+                        break;
+                    }
+                }
+                break;
+                case NVME_LOG_LID_CMD_EFFECTS:
+                {
+                    data.resize(sizeof(nvme_cmd_effects_log));
+                    nvme_cmd_effects_log* log =
+                        reinterpret_cast<nvme_cmd_effects_log*>(data.data());
 
-                        // nvme rev 1.3 doesn't support csi,
-                        // set to default csi = NVME_CSI_NVM
-                        int rc = nvme_mi_admin_get_log_cmd_effects(
-                            ctrl, NVME_CSI_NVM, log);
-                        if (rc)
-                        {
-                            std::cerr
-                                << "fail to get cmd supported and effects log"
-                                << std::endl;
-                            throw std::system_error(std::make_error_code(
-                                std::errc::invalid_argument));
-                        }
-                    }
-                    break;
-                    case NVME_LOG_LID_DEVICE_SELF_TEST:
+                    // nvme rev 1.3 doesn't support csi,
+                    // set to default csi = NVME_CSI_NVM
+                    rc = nvme_mi_admin_get_log_cmd_effects(ctrl, NVME_CSI_NVM,
+                                                           log);
+                    if (rc)
                     {
-                        data.resize(sizeof(nvme_self_test_log));
-                        nvme_self_test_log* log =
-                            reinterpret_cast<nvme_self_test_log*>(data.data());
-                        int rc =
-                            nvme_mi_admin_get_log_device_self_test(ctrl, log);
-                        if (rc)
-                        {
-                            std::cerr << "fail to get device self test log"
-                                      << std::endl;
-                            throw std::system_error(std::make_error_code(
-                                std::errc::invalid_argument));
-                        }
+                        std::cerr << "fail to get cmd supported and effects log"
+                                  << std::endl;
+                        break;
                     }
-                    break;
-                    case NVME_LOG_LID_CHANGED_NS:
+                }
+                break;
+                case NVME_LOG_LID_DEVICE_SELF_TEST:
+                {
+                    data.resize(sizeof(nvme_self_test_log));
+                    nvme_self_test_log* log =
+                        reinterpret_cast<nvme_self_test_log*>(data.data());
+                    rc = nvme_mi_admin_get_log_device_self_test(ctrl, log);
+                    if (rc)
                     {
-                        data.resize(sizeof(nvme_ns_list));
-                        nvme_ns_list* log =
-                            reinterpret_cast<nvme_ns_list*>(data.data());
-                        int rc = nvme_mi_admin_get_log_changed_ns_list(
-                            ctrl, false, log);
-                        if (rc)
-                        {
-                            std::cerr << "fail to get changed namespace list"
-                                      << std::endl;
-                            throw std::system_error(std::make_error_code(
-                                std::errc::invalid_argument));
-                        }
+                        std::cerr << "fail to get device self test log"
+                                  << std::endl;
+                        break;
                     }
-                    break;
-                    case NVME_LOG_LID_TELEMETRY_HOST:
-                    // fall through to NVME_LOG_LID_TELEMETRY_CTRL
-                    case NVME_LOG_LID_TELEMETRY_CTRL:
+                }
+                break;
+                case NVME_LOG_LID_CHANGED_NS:
+                {
+                    data.resize(sizeof(nvme_ns_list));
+                    nvme_ns_list* log =
+                        reinterpret_cast<nvme_ns_list*>(data.data());
+                    rc =
+                        nvme_mi_admin_get_log_changed_ns_list(ctrl, false, log);
+                    if (rc)
                     {
-                        bool host = false;
-                        bool create = false;
-                        if (lid == NVME_LOG_LID_TELEMETRY_HOST)
+                        std::cerr << "fail to get changed namespace list"
+                                  << std::endl;
+                        break;
+                    }
+                }
+                break;
+                case NVME_LOG_LID_TELEMETRY_HOST:
+                // fall through to NVME_LOG_LID_TELEMETRY_CTRL
+                case NVME_LOG_LID_TELEMETRY_CTRL:
+                {
+                    bool host = false;
+                    bool create = false;
+                    if (lid == NVME_LOG_LID_TELEMETRY_HOST)
+                    {
+                        host = true;
+                        if (lsp == NVME_LOG_TELEM_HOST_LSP_CREATE)
                         {
-                            host = true;
-                            if (lsp == NVME_LOG_TELEM_HOST_LSP_CREATE)
-                            {
-                                create = true;
-                            }
-                            else if (lsp == NVME_LOG_TELEM_HOST_LSP_RETAIN)
-                            {
-                                create = false;
-                            }
-                            else
-                            {
-                                std::cerr
-                                    << "invalid lsp for telemetry host log"
-                                    << std::endl;
-                                throw std::system_error(std::make_error_code(
-                                    std::errc::invalid_argument));
-                            }
+                            create = true;
+                        }
+                        else if (lsp == NVME_LOG_TELEM_HOST_LSP_RETAIN)
+                        {
+                            create = false;
                         }
                         else
                         {
-                            host = false;
-                        }
-
-                        getTelemetryLog(ctrl, host, create, data);
-                    }
-                    break;
-                    case NVME_LOG_LID_RESERVATION:
-                    {
-                        data.resize(sizeof(nvme_resv_notification_log));
-                        nvme_resv_notification_log* log =
-                            reinterpret_cast<nvme_resv_notification_log*>(
-                                data.data());
-
-                        int rc =
-                            nvme_mi_admin_get_log_reservation(ctrl, false, log);
-                        if (rc)
-                        {
-                            std::cerr << "fail to get reservation "
-                                         "notification log"
+                            std::cerr << "invalid lsp for telemetry host log"
                                       << std::endl;
-                            throw std::system_error(std::make_error_code(
-                                std::errc::invalid_argument));
+                            rc = -1;
+                            errno = EINVAL;
+                            break;
                         }
                     }
-                    break;
-                    case NVME_LOG_LID_SANITIZE:
+                    else
                     {
-                        data.resize(sizeof(nvme_sanitize_log_page));
-                        nvme_sanitize_log_page* log =
-                            reinterpret_cast<nvme_sanitize_log_page*>(
-                                data.data());
+                        host = false;
+                    }
 
-                        int rc =
-                            nvme_mi_admin_get_log_sanitize(ctrl, false, log);
-                        if (rc)
-                        {
-                            std::cerr << "fail to get sanitize status log"
-                                      << std::endl;
-                            throw std::system_error(std::make_error_code(
-                                std::errc::invalid_argument));
-                        }
-                    }
-                    break;
-                    default:
+                    rc = getTelemetryLog(ctrl, host, create, data);
+                }
+                break;
+                case NVME_LOG_LID_RESERVATION:
+                {
+                    data.resize(sizeof(nvme_resv_notification_log));
+                    nvme_resv_notification_log* log =
+                        reinterpret_cast<nvme_resv_notification_log*>(
+                            data.data());
+
+                    int rc =
+                        nvme_mi_admin_get_log_reservation(ctrl, false, log);
+                    if (rc)
                     {
-                        std::cerr << "unknown lid for GetLogPage" << std::endl;
-                        throw std::system_error(
-                            std::make_error_code(std::errc::invalid_argument));
+                        std::cerr << "fail to get reservation "
+                                     "notification log"
+                                  << std::endl;
+                        break;
                     }
                 }
+                break;
+                case NVME_LOG_LID_SANITIZE:
+                {
+                    data.resize(sizeof(nvme_sanitize_log_page));
+                    nvme_sanitize_log_page* log =
+                        reinterpret_cast<nvme_sanitize_log_page*>(data.data());
+
+                    int rc = nvme_mi_admin_get_log_sanitize(ctrl, false, log);
+                    if (rc)
+                    {
+                        std::cerr << "fail to get sanitize status log"
+                                  << std::endl;
+                        break;
+                    }
+                }
+                break;
+                default:
+                {
+                    std::cerr << "unknown lid for GetLogPage" << std::endl;
+                    rc = -1;
+                    errno = EINVAL;
+                }
             }
-            catch (const std::system_error& e)
+
+            if (rc < 0)
             {
-                self->io.post(
-                    [cb{std::move(cb)}, ec = e.code()]() { cb(ec, {}); });
+                std::cerr << "fail to get log page: " << std::strerror(errno)
+                          << std::endl;
+                self->io.post([cb{std::move(cb)}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(errno)), {});
+                });
                 return;
             }
+            else if (rc > 0)
+            {
+                std::string_view errMsg =
+                    statusToString(static_cast<nvme_mi_resp_status>(rc));
+                std::cerr << "fail to get log pag: " << errMsg << std::endl;
+                self->io.post([cb{std::move(cb)}]() {
+                    cb(std::make_error_code(std::errc::bad_message), {});
+                    return;
+                });
+            }
+
             self->io.post([cb{std::move(cb)}, data{std::move(data)}]() mutable {
                 std::span<uint8_t> span{data.data(), data.size()};
                 cb({}, span);
@@ -622,7 +653,7 @@ void NVMeMi::adminXfer(
                                     req.size() - sizeof(nvme_mi_admin_req_hdr),
                                     respHeader, respDataOffset, &respDataSize);
 
-            if (rc)
+            if (rc < 0)
             {
                 std::cerr << "failed to nvme_mi_admin_xfer" << std::endl;
                 self->io.post([cb{std::move(cb)}]() {
