@@ -108,6 +108,54 @@ class NVMeBasicIntf
 class NVMeMiIntf
 {
   public:
+    constexpr static std::string_view statusToString(nvme_mi_resp_status status)
+    {
+        switch (status)
+        {
+            case NVME_MI_RESP_SUCCESS:
+                return "success";
+            case NVME_MI_RESP_MPR:
+                return "More Processing Required";
+            case NVME_MI_RESP_INTERNAL_ERR:
+                return "Internal Error";
+            case NVME_MI_RESP_INVALID_OPCODE:
+                return "Invalid command opcode";
+            case NVME_MI_RESP_INVALID_PARAM:
+                return "Invalid command parameter";
+            case NVME_MI_RESP_INVALID_CMD_SIZE:
+                return "Invalid command size";
+            case NVME_MI_RESP_INVALID_INPUT_SIZE:
+                return "Invalid command input data size";
+            case NVME_MI_RESP_ACCESS_DENIED:
+                return "Access Denied";
+            case NVME_MI_RESP_VPD_UPDATES_EXCEEDED:
+                return "More VPD updates than allowed";
+            case NVME_MI_RESP_PCIE_INACCESSIBLE:
+                return "PCIe functionality currently unavailable";
+            case NVME_MI_RESP_MEB_SANITIZED:
+                return "MEB has been cleared due to sanitize";
+            case NVME_MI_RESP_ENC_SERV_FAILURE:
+                return "Enclosure services process failed";
+            case NVME_MI_RESP_ENC_SERV_XFER_FAILURE:
+                return "Transfer with enclosure services failed";
+            case NVME_MI_RESP_ENC_FAILURE:
+                return "Unreoverable enclosure failure";
+            case NVME_MI_RESP_ENC_XFER_REFUSED:
+                return "Enclosure services transfer refused";
+            case NVME_MI_RESP_ENC_FUNC_UNSUP:
+                return "Unsupported enclosure services function";
+            case NVME_MI_RESP_ENC_SERV_UNAVAIL:
+                return "Enclosure services unavailable";
+            case NVME_MI_RESP_ENC_DEGRADED:
+                return "Noncritical failure detected by enc. services";
+            case NVME_MI_RESP_SANITIZE_IN_PROGRESS:
+                return "Command prohibited during sanitize";
+            default:
+                return "";
+        }
+        return "";
+    }
+
     virtual int getNID() const = 0;
     virtual int getEID() const = 0;
     virtual void miSubsystemHealthStatusPoll(
