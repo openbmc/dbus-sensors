@@ -75,7 +75,9 @@ constexpr uint8_t sendRawPmbus = 0xd9;
 } // namespace me_bridge
 } // namespace ipmi
 
-struct IpmbSensor : public Sensor
+struct IpmbSensor :
+    public Sensor,
+    public std::enable_shared_from_this<IpmbSensor>
 {
     IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                boost::asio::io_service& io, const std::string& name,
