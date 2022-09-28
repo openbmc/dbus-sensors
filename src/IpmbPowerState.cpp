@@ -16,21 +16,24 @@ IpmbPowerMonitor::IpmbPowerMonitor(
     const char* ipmbPowerPathPrefix = "/xyz/openbmc_project/hostcontroller/";
     try
     {
-        sdbusplus::message::object_path dbusPath =
-            static_cast<std::string>(ipmbPowerPathPrefix);
-        dbusPath /= hostName;
-        dbusPath /= prop.IpmbState;
-        std::shared_ptr<sdbusplus::asio::dbus_interface> tmpDbusIface =
-            objectServer.add_interface(
-                dbusPath, "xyz.openbmc_project.Chassis.Control.Power");
-        tmpDbusIface->register_property("PGood", false);
-        if (!tmpDbusIface->initialize())
+        for (const auto& pathNames : twinlakeIpmbStateProp)
         {
-            std::cerr << "error initializing value interface\n";
-            return;
-        }
+            sdbusplus::message::object_path dbusPath =
+                static_cast<std::string>(ipmbPowerPathPrefix);
+            dbusPath /= hostName;
+            dbusPath /= pathNames.ipmbState;
 
-        ipmbPowerInterfaceMap[prop.IpmbState] = tmpDbusIface;
+            std::shared_ptr<sdbusplus::asio::dbus_interface> tmpDbusIface =
+                objectServer.add_interface(dbusPath, pathNames.intfName);
+            tmpDbusIface->register_property(pathNames.ipmbState, false);
+
+            if (!tmpDbusIface->initialize())
+            {
+                std::cerr << "error initializing value interface\n";
+                return;
+            }
+            ipmbPowerInterfaceMap[pathNames.ipmbState] = tmpDbusIface;
+        }
     }
     catch (std::exception& e)
     {
@@ -58,6 +61,18 @@ void IpmbPowerMonitor::incrementError()
     retryCount++;
 }
 
+IpmbStateInfo IpmbPowerMonitor::getHostCtrlProp(std::string propName)
+{
+    for (IpmbStateInfo& prop : twinlakeIpmbStateProp)
+    {
+        if (prop.ipmbState == propName)
+        {
+            return prop;
+        }
+    }
+    throw std::runtime_error("Invalid config");
+}
+
 void IpmbPowerMonitor::setIpmbPowerState(std::vector<uint8_t> ipmbResp)
 {
     if (ipmbResp.size() != ipmbRspLength)
@@ -70,19 +85,25 @@ void IpmbPowerMonitor::setIpmbPowerState(std::vector<uint8_t> ipmbResp)
     uint8_t stateByteMask = 0;
     uint8_t stateBitMask = 0;
 
-    stateByteMask = static_cast<uint8_t>(prop.byte);
-    stateBitMask = static_cast<uint8_t>(prop.bit);
-    /* First 3 bytes of index is IANA, so it has been ignored
-     * we are reading from a register which holds the pgood gpio
-     * state register value is read and stored in ipmbgpiodata
-     * variable
-     * using the bit mask(stateBitMask) the pgood state is read. */
-    if (prop.byte > ByteMask::BYTE_8)
+    for (const auto& pathNames : twinlakeIpmbStateProp)
     {
-        return;
+        IpmbStateInfo hostCtrolPropName = getHostCtrlProp(pathNames.ipmbState);
+        stateByteMask = static_cast<uint8_t>(hostCtrolPropName.byte);
+        stateBitMask = static_cast<uint8_t>(hostCtrolPropName.bit);
+        /* First 3 bytes of index is IANA, so it has been ignored
+         * we are reading from a register which holds the pgood gpio
+         * state register value is read and stored in ipmbgpiodata
+         * variable
+         * using the bit mask(stateBitMask) the pgood state is read. */
+        if (hostCtrolPropName.byte > ByteMask::BYTE_8)
+        {
+            std::cerr << "return byte is less than requied\n";
+            return;
+        }
+        bool ipmbState = ((ipmbResp[stateByteMask]) & stateBitMask) != 0;
+        ipmbPowerInterfaceMap[hostCtrolPropName.ipmbState]->set_property(
+            hostCtrolPropName.ipmbState, ipmbState);
     }
-    bool ipmbState = ((ipmbResp[stateByteMask]) & stateBitMask) != 0;
-    ipmbPowerInterfaceMap[prop.IpmbState]->set_property("PGood", ipmbState);
 }
 
 void IpmbPowerMonitor::read()

@@ -34,10 +34,17 @@ constexpr std::uint8_t bit7{0x80}; // hex for 1000 0000
 
 struct IpmbStateInfo
 {
-    std::string IpmbState;
+    std::string ipmbState;
     ByteMask byte;
     std::uint8_t bit;
+    std::string intfName;
 };
+
+static std::array<IpmbStateInfo, 2> twinlakeIpmbStateProp = {
+    {{"PGood", ByteMask::BYTE_3, bit0,
+      "xyz.openbmc_project.Chassis.Control.Power"},
+     {"PostComplete", ByteMask::BYTE_5, bit5,
+      "xyz.openbmc_project.State.Boot.Raw"}}};
 
 static constexpr uint8_t ipmbHostBit = 2;
 static constexpr uint8_t lun = 0;
@@ -57,6 +64,7 @@ class IpmbPowerMonitor : public std::enable_shared_from_this<IpmbPowerMonitor>
 
     void read();
     void incrementError();
+    static IpmbStateInfo getHostCtrlProp(std::string propName);
     void setIpmbPowerState(std::vector<uint8_t> ipmbResp);
 
     int ipmbPollMs;
@@ -68,7 +76,6 @@ class IpmbPowerMonitor : public std::enable_shared_from_this<IpmbPowerMonitor>
     uint8_t netfn = oem::twinlake::netFn;
     uint8_t retryCount = 0;
     const std::string ipmbHostClass;
-    IpmbStateInfo prop = {"CPU_Good", ByteMask::BYTE_3, bit0};
 
   private:
     std::map<std::string, std::shared_ptr<sdbusplus::asio::dbus_interface>>
