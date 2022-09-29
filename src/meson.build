@@ -171,6 +171,7 @@ if get_option('psu').enabled()
             pwmsensor_dep,
             thresholds_dep,
             utils_dep,
+            devicemgmt_dep,
         ],
         cpp_args: uring_args,
         implicit_include_directories: false,
