@@ -5,6 +5,7 @@
 #include <boost/asio/random_access_file.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
+#include <DeviceMgmt.hpp>
 
 #include <array>
 #include <memory>
@@ -25,6 +26,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const std::string& label, size_t tSize, double pollRate);
     ~PSUSensor() override;
     void setupRead(void);
+    std::optional<I2CDevice> i2cDevice;
 
   private:
     // Note, this buffer is a shared_ptr because during a read, its lifetime
