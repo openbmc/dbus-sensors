@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ff887a7_f4f70021",
+        "filename": "include/IpmbPowerState.hpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-30T11:06:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc2ca22_47e4e980",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 55
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "425ecadd_d2db1a22",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-09-28T13:29:45Z",
       "side": 1,
       "message": "This looks to be error in object construction. Throw will be better way to handle it.\nhttps://isocpp.org/wiki/faq/exceptions#ctors-can-throw",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 9
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "067860b4_a7dd525d",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-30T11:06:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "425ecadd_d2db1a22",
       "range": {
         "startLine": 27,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ae41dc_d9b019a9",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-30T11:06:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba4b1444_b37be2de",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "867e476e_bbeceffd",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-09-28T13:29:45Z",
       "side": 1,
       "message": "There can be double call to self-\u003eread here one from self-\u003esetIpmbPowerState method and other here. Second call will happen before first ones ioTimer is expiered. Is this ok ?\nI think results will be similar even if read call is dropped from setIpmbPowerState.",
+      "range": {
+        "startLine": 119,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 25
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6724044_e88ea26a",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-09-30T11:06:30Z",
+      "side": 1,
+      "message": "It\u0027s okay to handle the Second call happens before the first expiered.",
+      "parentUuid": "867e476e_bbeceffd",
       "range": {
         "startLine": 119,
         "startChar": 1,
