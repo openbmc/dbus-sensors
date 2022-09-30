@@ -383,6 +383,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad069b50_3e25dd6a",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-30T17:57:09Z",
+      "side": 1,
+      "message": "3 levels of inheritance seems quite complex for something that will likely only have two available transports, but I\u0027m open to the possibility it\u0027s better.\n\nMy preference would\u0027ve been for some simple flags\n\nif (type \u003d\u003d NVMEBasic){\n   do_nvme_basic_transport()\n} else {\n   do_mctp_transport();\n}",
+      "parentUuid": "0324b85d_1677fe17",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ba6a682_fc34adf5",
         "filename": "include/NVMeIntf.hpp",
         "patchSetId": 9
@@ -418,6 +436,30 @@
       "side": 1,
       "message": "Thanks for the advise. \n\nThe enum class adds a force scope and removes the implicit type conversion (even with defining underlayer type). It is kind of against the usage for flags? since the flags is used to mask the flag bit",
       "parentUuid": "0ba6a682_fc34adf5",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd855d9a_c3f368fd",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-30T17:57:09Z",
+      "side": 1,
+      "message": "Both of those behaviors are intentional in the coding standard.  Implicit conversions can cause bugs.",
+      "parentUuid": "96256cf3_e36bbc66",
       "range": {
         "startLine": 25,
         "startChar": 4,
@@ -1630,6 +1672,30 @@
       "side": 1,
       "message": "Sure I am glad to make the change.\n\nBTW, I know each module built individually, but do you thing chronological order make more sense? Given we are actively adding more files to the project.",
       "parentUuid": "5e338e2e_37ab7feb",
+      "range": {
+        "startLine": 148,
+        "startChar": 29,
+        "endLine": 148,
+        "endChar": 30
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2594ff0b_dbb54296",
+        "filename": "src/meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-09-30T17:57:09Z",
+      "side": 1,
+      "message": "\u003e do you thing chronological order make more sense?\n\nAs a general rule we rely on alphabetical over chronological because:\nA. It has fewer merge conflicts when multiple people add items to the list.\nB. The chronological order is captured in git if it\u0027s needed.\nC. The chronological order files were added to the repo is far less important than being able to look up files quickly.",
+      "parentUuid": "6da8e4aa_d8acd248",
       "range": {
         "startLine": 148,
         "startChar": 29,
