@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30648f8b_daf8e962",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-09-30T09:09:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f34a6fc7_499056db",
+      "range": {
+        "startLine": 135,
+        "startChar": 9,
+        "endLine": 135,
+        "endChar": 16
+      },
+      "revId": "4fb90a9a6ae68e62dff2aaebd60fae42362cf578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a663766_2837ce7f",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5377c1fc_13f20389",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-09-30T09:09:55Z",
+      "side": 1,
+      "message": "Done, added static method initCmdCb in place of lambda.",
+      "parentUuid": "8a663766_2837ce7f",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 9
+      },
+      "revId": "4fb90a9a6ae68e62dff2aaebd60fae42362cf578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dda042b0_e7136851",
@@ -60,6 +108,24 @@
       "writtenOn": "2022-09-28T18:16:57Z",
       "side": 1,
       "message": "Same here.  This is adding complexity to a lambda that is already more complex than it should be.  Ideally the contents of this lambda should be rolled into a class member, then on line 373, we should call\n\nself-\u003ehandleIbmDone() or whatever we call it to keep this lambda small and readable.",
+      "revId": "4fb90a9a6ae68e62dff2aaebd60fae42362cf578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad65f058_d2530fb3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-09-30T09:09:55Z",
+      "side": 1,
+      "message": "Done, Added object method for callback.",
+      "parentUuid": "dda042b0_e7136851",
       "revId": "4fb90a9a6ae68e62dff2aaebd60fae42362cf578",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
