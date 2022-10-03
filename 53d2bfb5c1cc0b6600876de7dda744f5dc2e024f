@@ -401,6 +401,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0254761_898de2dd",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-10-03T23:30:02Z",
+      "side": 1,
+      "message": "NVMe basic and NVMe MI (mctp) have the different functionalities so they abstract to different interfaces. The interface is an abstraction of NVMe functionality, not the physical transportation. \n\n* the daemon will not directly talk to mctp socket or i2c fd, libnvme/libmctp will do the message construction on protocol level. \n* It is how NVMe controller aggregate the data on their internal storage. \n* It will be much easier for the daemon to optimize the performance, e.g. data, aggregation, priority scheduling, etc.",
+      "parentUuid": "ad069b50_3e25dd6a",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ba6a682_fc34adf5",
         "filename": "include/NVMeIntf.hpp",
         "patchSetId": 9
@@ -460,6 +478,30 @@
       "side": 1,
       "message": "Both of those behaviors are intentional in the coding standard.  Implicit conversions can cause bugs.",
       "parentUuid": "96256cf3_e36bbc66",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14ea9647_e299a005",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-10-03T23:30:02Z",
+      "side": 1,
+      "message": "The goal of enum class of forbidding the implicit conversion is not to cast its **index** to the underlying type, which could be buggy. As it is argued in the article(https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0138r2.pdf): \" For all practical purposes, Index acts like a \"strong typedef\" in C++11\". \n\nI agree if the enum is used as an index for `switch`, or a template type. However, in my case, we are using the actual **value** of the flags, instead of the index/type. e.g. \n\n```\nbool notRdy \u003d message \u0026 NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY;\n```\n\nIf we insist on forcing enum class in the above use case, we need either: \n* static_cast to the underlying type, which is also semantically wrong. \n* use a operator overload, which over-complex the code\n\nThe real question is, if we know the usage of the enum is to use it underlying type. And every type cast is the correct way to use it, why should we forbid the implicit cast at the very beginning? \n\nMaybe I can use a nested class as the namespace: \n\n```\nclass\n{\nstatic constexpr unit8_t NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY \u003d 0x40;\nstatic constexpr unit8_t NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL \u003d 0x20;\n}\n```\nBut it is basically the same thing as a non-class enum.",
+      "parentUuid": "dd855d9a_c3f368fd",
       "range": {
         "startLine": 25,
         "startChar": 4,
@@ -1696,6 +1738,30 @@
       "side": 1,
       "message": "\u003e do you thing chronological order make more sense?\n\nAs a general rule we rely on alphabetical over chronological because:\nA. It has fewer merge conflicts when multiple people add items to the list.\nB. The chronological order is captured in git if it\u0027s needed.\nC. The chronological order files were added to the repo is far less important than being able to look up files quickly.",
       "parentUuid": "6da8e4aa_d8acd248",
+      "range": {
+        "startLine": 148,
+        "startChar": 29,
+        "endLine": 148,
+        "endChar": 30
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccaebb9c_c63cc226",
+        "filename": "src/meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2022-10-03T23:30:02Z",
+      "side": 1,
+      "message": "Make sense. Will modify. Thanks for the explanation.",
+      "parentUuid": "2594ff0b_dbb54296",
       "range": {
         "startLine": 148,
         "startChar": 29,
