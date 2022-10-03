@@ -161,6 +161,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9d015b1_70317288",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-10-03T12:08:58Z",
+      "side": 1,
+      "message": "I think it\u0027s better to log a message and move on rather than throwing and catching within same function. That will serve exact same purpose here. Using exception doesn\u0027t seem to be bringing any value here. Just increasing lines of code.\nAlso catching std::exception is not good since it will catch everything(all childs of std::exception) even the once that should bubble up.",
+      "parentUuid": "46ae41dc_d9b019a9",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "867e476e_bbeceffd",
         "filename": "src/IpmbPowerState.cpp",
         "patchSetId": 46
@@ -196,6 +220,30 @@
       "side": 1,
       "message": "It\u0027s okay to handle the Second call happens before the first expiered.",
       "parentUuid": "867e476e_bbeceffd",
+      "range": {
+        "startLine": 119,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 25
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1634639_71664ed8",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-10-03T12:08:58Z",
+      "side": 1,
+      "message": "First call is *always* redundant. After return from setIpmbPowerState read is always going to be called. So isn\u0027t it better to remove something that is completely redundant ?",
+      "parentUuid": "a6724044_e88ea26a",
       "range": {
         "startLine": 119,
         "startChar": 1,
