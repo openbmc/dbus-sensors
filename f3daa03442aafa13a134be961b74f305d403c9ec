@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83847cfd_117fc9a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2022-10-04T12:47:53Z",
+      "side": 1,
+      "message": "Verified on Mt.Jade platform",
+      "revId": "f3daa03442aafa13a134be961b74f305d403c9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
