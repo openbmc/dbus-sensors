@@ -38,9 +38,11 @@ namespace fs = std::filesystem;
 static bool powerStatusOn = false;
 static bool biosHasPost = false;
 static bool manufacturingMode = false;
+static bool chassisStatusOn = false;
 
 static std::unique_ptr<sdbusplus::bus::match_t> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> postMatch = nullptr;
+static std::unique_ptr<sdbusplus::bus::match_t> chassisMatch = nullptr;
 
 /**
  * return the contents of a file
@@ -303,6 +305,15 @@ bool hasBiosPost(void)
     return biosHasPost;
 }
 
+bool isChassisOn(void)
+{
+    if (!chassisMatch)
+    {
+        throw std::runtime_error("Chassis On Match Not Created");
+    }
+    return chassisStatusOn;
+}
+
 bool readingStateGood(const PowerState& powerState)
 {
     if (powerState == PowerState::on && !isPowerOn())
@@ -310,6 +321,10 @@ bool readingStateGood(const PowerState& powerState)
         return false;
     }
     if (powerState == PowerState::biosPost && (!hasBiosPost() || !isPowerOn()))
+    {
+        return false;
+    }
+    if (powerState == PowerState::chassisOn && !isChassisOn())
     {
         return false;
     }
@@ -381,6 +396,39 @@ static void
         },
         post::busname, post::path, properties::interface, properties::get,
         post::interface, post::property);
+}
+
+static void
+    getChassisStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                     size_t retries = 2)
+{
+    conn->async_method_call(
+        [conn, retries](boost::system::error_code ec,
+                        const std::variant<std::string>& state) {
+        if (ec)
+        {
+            if (retries != 0U)
+            {
+                auto timer = std::make_shared<boost::asio::steady_timer>(
+                    conn->get_io_context());
+                timer->expires_after(std::chrono::seconds(15));
+                timer->async_wait(
+                    [timer, conn, retries](boost::system::error_code) {
+                    getChassisStatus(conn, retries - 1);
+                });
+                return;
+            }
+
+            // we commonly come up before power control, we'll capture the
+            // property change later
+            std::cerr << "error getting chassis power status " << ec.message()
+                      << "\n";
+            return;
+        }
+        chassisStatusOn = std::get<std::string>(state).ends_with(chassis::sOn);
+        },
+        chassis::busname, chassis::path, properties::interface, properties::get,
+        chassis::interface, chassis::property);
 }
 
 void setupPowerMatchCallback(
@@ -457,8 +505,49 @@ void setupPowerMatchCallback(
         }
         });
 
+    chassisMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*conn),
+        "type='signal',interface='" + std::string(properties::interface) +
+            "',path='" + std::string(chassis::path) + "',arg0='" +
+            std::string(chassis::interface) + "'",
+        [hostStatusCallback](sdbusplus::message_t& message) {
+        std::string objectName;
+        boost::container::flat_map<std::string, std::variant<std::string>>
+            values;
+        message.read(objectName, values);
+        auto findState = values.find(chassis::property);
+        if (findState != values.end())
+        {
+            bool on = std::get<std::string>(findState->second)
+                          .ends_with(chassis::sOn);
+            if (!on)
+            {
+                timer.cancel();
+                chassisStatusOn = false;
+                hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
+                return;
+            }
+            // on comes too quickly
+            timer.expires_after(std::chrono::seconds(10));
+            timer.async_wait(
+                [hostStatusCallback](boost::system::error_code ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return;
+                }
+                if (ec)
+                {
+                    std::cerr << "Timer error " << ec.message() << "\n";
+                    return;
+                }
+                chassisStatusOn = true;
+                hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
+            });
+        }
+        });
     getPowerStatus(conn);
     getPostStatus(conn);
+    getChassisStatus(conn);
 }
 
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
