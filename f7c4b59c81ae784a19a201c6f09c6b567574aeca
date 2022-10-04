@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71cbcbbd_9316f83a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2022-10-04T12:47:28Z",
+      "side": 1,
+      "message": "just minor comment. This change is tested on Mt.Jade platform",
+      "revId": "f7c4b59c81ae784a19a201c6f09c6b567574aeca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4495fb1_9931dc8e",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2022-10-04T12:47:28Z",
+      "side": 1,
+      "message": "Please change to 2022",
+      "revId": "f7c4b59c81ae784a19a201c6f09c6b567574aeca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
