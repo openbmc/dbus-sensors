@@ -52,7 +52,8 @@ enum class PowerState
 {
     on,
     biosPost,
-    always
+    always,
+    chassisOn
 };
 
 std::optional<std::string> openAndRead(const std::string& hwmonFile);
@@ -67,6 +68,7 @@ bool findFiles(const std::filesystem::path& dirPath,
                int symlinkDepth = 1);
 bool isPowerOn(void);
 bool hasBiosPost(void);
+bool isChassisOn(void);
 void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::function<void(PowerState type, bool state)>&& callback);
@@ -121,6 +123,16 @@ const static constexpr char* interface = "xyz.openbmc_project.State.Host";
 const static constexpr char* path = "/xyz/openbmc_project/state/host0";
 const static constexpr char* property = "CurrentHostState";
 } // namespace power
+
+namespace chassis
+{
+const static constexpr char* busname = "xyz.openbmc_project.State.Chassis";
+const static constexpr char* interface = "xyz.openbmc_project.State.Chassis";
+const static constexpr char* path = "/xyz/openbmc_project/state/chassis0";
+const static constexpr char* property = "CurrentPowerState";
+const static constexpr char* sOn = "On";
+} // namespace chassis
+
 namespace post
 {
 const static constexpr char* busname =
@@ -178,6 +190,10 @@ inline void setReadState(const std::string& str, PowerState& val)
     else if (str == "Always")
     {
         val = PowerState::always;
+    }
+    else if (str == "ChassisOn")
+    {
+        val = PowerState::chassisOn;
     }
 }
 
