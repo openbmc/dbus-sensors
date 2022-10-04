@@ -252,7 +252,8 @@ struct Sensor
                               const std::string& label = std::string(),
                               size_t thresholdSize = 0)
     {
-        if (readState == PowerState::on || readState == PowerState::biosPost)
+        if (readState == PowerState::on || readState == PowerState::biosPost ||
+            readState == PowerState::chassisOn)
         {
             setupPowerMatch(dbusConnection);
         }
@@ -431,7 +432,10 @@ struct Sensor
         {
             return false;
         }
-
+        if (readState == PowerState::chassisOn && !isChassisOn())
+        {
+            return false;
+        }
         return true;
     }
 
