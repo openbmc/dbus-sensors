@@ -150,7 +150,8 @@ bool getSensorConfiguration(
         managedObj.clear();
         sdbusplus::message_t getManagedObjects =
             dbusConnection->new_method_call(
-                entityManagerName, "/", "org.freedesktop.DBus.ObjectManager",
+                entityManagerName, "/xyz/openbmc_project/inventory",
+                "org.freedesktop.DBus.ObjectManager",
                 "GetManagedObjects");
         try
         {

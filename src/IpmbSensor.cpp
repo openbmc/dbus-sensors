@@ -560,8 +560,8 @@ void createSensors(
             }
         }
         },
-        entityManagerName, "/", "org.freedesktop.DBus.ObjectManager",
-        "GetManagedObjects");
+        entityManagerName, "/xyz/openbmc_project/inventory",
+        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
 void reinitSensors(sdbusplus::message_t& message)
