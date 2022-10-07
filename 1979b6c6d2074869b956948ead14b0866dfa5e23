@@ -56,6 +56,30 @@
       },
       "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10be3a3a_f63a4185",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-10-07T21:10:10Z",
+      "side": 1,
+      "message": "Yes, as it is now sensors whose power state isn\u0027t matched get removed entirely.  I had initially set out to merely deactivate them but leave them in place because I thought that having them disappear would cause problems for phosphor-pid-control (see discussion on https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56022), but (a) I later discovered that removing them didn\u0027t actually cause the swampd problems I had been thinking it would, and (b) it aligned nicely with the object-lifetime-based device-management approach Ed suggested.\n\nAre there other (non-swampd) current consumers of the dbus interface that would be broken by this approach?\n\nThere\u0027s also the slight edge case of its behavior when the service starts while the host is powered off.  With this approach it\u0027s consistent (the dbus object\u0027s presence is purely a function of whether or not the host is powered on), but in the \"leave present but disabled\" model we end up with an inconsistency in that the dbus objects are absent until the host is first powered on and then remain present from that point forward across arbitrary power state changes, leaving \"host hasn\u0027t powered on yet\" as sort of a weird special-case state (and one that it seems would also break any clients that would be broken by this approach when the host shuts down).\n\nI guess I don\u0027t have any real strongly-held opinions on which way to go here, so I\u0027d be curious to hear any other thoughts on this.  (Ed, Andrew?)",
+      "parentUuid": "8b9a78b7_8e54ab89",
+      "range": {
+        "startLine": 622,
+        "startChar": 16,
+        "endLine": 622,
+        "endChar": 33
+      },
+      "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
