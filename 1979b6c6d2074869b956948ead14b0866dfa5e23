@@ -33,6 +33,29 @@
       "message": "Ping Ed?",
       "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b9a78b7_8e54ab89",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-10-07T13:21:30Z",
+      "side": 1,
+      "message": "Just to be sure I\u0027m reading this right, you\u0027re removing the sensor from D-Bus when the power is off?  That\u0027s different than the current power state checking, which just sets the sensors to NaN.  Why did you choose to go this way?",
+      "range": {
+        "startLine": 622,
+        "startChar": 16,
+        "endLine": 622,
+        "endChar": 33
+      },
+      "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
