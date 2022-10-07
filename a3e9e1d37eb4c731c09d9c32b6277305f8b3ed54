@@ -185,6 +185,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36e1d7bf_6c047cbb",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-10-07T05:12:29Z",
+      "side": 1,
+      "message": "But logging will cause a flood in logs in case of this function executes, I have already got comments to remove the logs from this line.",
+      "parentUuid": "a9d015b1_70317288",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "867e476e_bbeceffd",
         "filename": "src/IpmbPowerState.cpp",
         "patchSetId": 46
@@ -244,6 +268,30 @@
       "side": 1,
       "message": "First call is *always* redundant. After return from setIpmbPowerState read is always going to be called. So isn\u0027t it better to remove something that is completely redundant ?",
       "parentUuid": "a6724044_e88ea26a",
+      "range": {
+        "startLine": 119,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 25
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f85238b_47b13a5e",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-10-07T05:12:29Z",
+      "side": 1,
+      "message": "can specify the line which your suggesting about,\nI can see the duplicate read cases only on the error cases, it will not happening unless the error occurs.",
+      "parentUuid": "e1634639_71664ed8",
       "range": {
         "startLine": 119,
         "startChar": 1,

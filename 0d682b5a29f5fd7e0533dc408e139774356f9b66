@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40c99ed7_4136795a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-10-07T05:12:29Z",
+      "side": 1,
+      "message": "As per the PDI documentation, ForPGood property,the following is the relavent namespace.\n \nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Chassis/Control/Power.interface.yaml\nBased on this the following might be the resonable dbuspath.\nxyz/openbmc_project/Chassis1/Control/Power \nxyz/openbmc_project/Chassis2/Control/Power\nxyz/openbmc_project/Chassis3/Control/Power\nxyz/openbmc_project/Chassis4/Control/Power",
+      "parentUuid": "c3a19187_c3193bb6",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "0d682b5a29f5fd7e0533dc408e139774356f9b66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0aeeb71f_6c3fb1bb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 38
