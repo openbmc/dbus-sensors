@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad0f46b_e0ee3c5c",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-10-08T01:21:48Z",
+      "side": 1,
+      "message": "should this have true also?",
+      "range": {
+        "startLine": 711,
+        "startChar": 57,
+        "endLine": 711,
+        "endChar": 59
+      },
+      "revId": "ed750066126e6a19fcfc6c1c106ecb8bbb5aa649",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
