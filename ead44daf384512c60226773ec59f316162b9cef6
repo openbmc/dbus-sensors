@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca41e83_3863cf49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2022-10-08T14:56:26Z",
+      "side": 1,
+      "message": "Always is the default attribute in which sensors always have valid values. A sensor with PowerState: On means the sensor has valid value after Host state is Running.\n\nPowerState: ChassisOn is supported for the case of the Chassis state is Running (but Host state might be Running or not). After powering ON the Host, in case of Host boot fail for any reason, we still need to have sensor values for some ADC sensors (power rails, for example) but these sensors should be invalid to avoid threshold violation events when power off.",
+      "parentUuid": "80bcef6e_5c6530ac",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "ead44daf384512c60226773ec59f316162b9cef6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cfc87b25_2e5a95c2",
