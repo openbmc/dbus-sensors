@@ -174,6 +174,30 @@
       },
       "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8441806d_65a61cd8",
+        "filename": "src/HwmonTempSensor.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-10-08T17:09:04Z",
+      "side": 1,
+      "message": "Yes, I meant to include a \u0026",
+      "parentUuid": "dec97a0f_db1ac6d3",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 30
+      },
+      "revId": "2a2f8ff45a0a072b117bf8124b38753db4c219a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
