@@ -22,6 +22,30 @@
       },
       "revId": "ed750066126e6a19fcfc6c1c106ecb8bbb5aa649",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a272b59_73c11c63",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-10-08T16:30:30Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand the question.",
+      "parentUuid": "dad0f46b_e0ee3c5c",
+      "range": {
+        "startLine": 711,
+        "startChar": 57,
+        "endLine": 711,
+        "endChar": 59
+      },
+      "revId": "ed750066126e6a19fcfc6c1c106ecb8bbb5aa649",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
