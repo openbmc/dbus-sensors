@@ -104,6 +104,30 @@
       },
       "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d91e0a5a_a9aaa93b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-10-10T22:32:23Z",
+      "side": 1,
+      "message": "Okay, so in that case I guess I should look into having the dbus objects get instantiated unconditionally as well (in addition to not deleting them), to address the host-hasn\u0027t-booted-yet problem...",
+      "parentUuid": "37e25e3a_9a288bf3",
+      "range": {
+        "startLine": 622,
+        "startChar": 16,
+        "endLine": 622,
+        "endChar": 33
+      },
+      "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
