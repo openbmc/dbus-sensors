@@ -194,6 +194,22 @@ inline PowerState getPowerState(const SensorBaseConfigMap& cfg)
     return state;
 }
 
+inline float getPollRate(const SensorBaseConfigMap& cfg, float dflt)
+{
+    float pollRate = dflt;
+    auto findPollRate = cfg.find("PollRate");
+    if (findPollRate != cfg.end())
+    {
+        pollRate = std::visit(VariantToFloatVisitor(), findPollRate->second);
+        if (pollRate <= 0.0F || !std::isfinite(pollRate) ||
+            std::isnan(pollRate))
+        {
+            pollRate = dflt; // poll time invalid, fall back to default
+        }
+    }
+    return pollRate;
+}
+
 inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                    const std::string& name, bool on)
 {
