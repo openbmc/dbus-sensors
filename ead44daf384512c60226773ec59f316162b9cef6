@@ -63,6 +63,23 @@
       "message": "Verified on Ampere Mt.Jade with FAN and ADC sensors which have valid value after powering ON, don\u0027t need to have Host running.",
       "revId": "ead44daf384512c60226773ec59f316162b9cef6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "755122fa_36b162b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-10-11T20:38:13Z",
+      "side": 1,
+      "message": "This is what our system family would need too, since our host can have all sorts of states even when the chassis is on.\n\nI\u0027m not that familiar with x86-power-control, but I vaguely remember hearing that chassisState\u003d\u003dhostState with that code.  If that is indeed the case, I wonder if it would be possible to just replace the host state On check with your chassis state On check.",
+      "revId": "ead44daf384512c60226773ec59f316162b9cef6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
