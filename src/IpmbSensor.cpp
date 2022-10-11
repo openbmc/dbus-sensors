@@ -523,17 +523,7 @@ void createSensors(
                                                 findSmType->second);
                 }
 
-                float pollRate = pollRateDefault;
-                auto findPollRate = cfg.find("PollRate");
-                if (findPollRate != cfg.end())
-                {
-                    pollRate = std::visit(VariantToFloatVisitor(),
-                                          findPollRate->second);
-                    if (pollRate <= 0.0F)
-                    {
-                        pollRate = pollRateDefault;
-                    }
-                }
+                float pollRate = getPollRate(cfg, pollRateDefault);
 
                 /* Default sensor type is "temperature" */
                 std::string sensorTypeName = "temperature";
