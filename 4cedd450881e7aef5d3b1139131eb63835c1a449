@@ -22,6 +22,30 @@
       },
       "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ba82803_047da5f5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-10-11T07:38:17Z",
+      "side": 1,
+      "message": "This code section is spans less than 20 lines and there are no line wrap because of length increase introduced by self. I think we can continue with this for now. This section can be moved in to another function as it grows and becomes more than what can fit in a screen height.",
+      "parentUuid": "80aae108_9b8e87ac",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 46
+      },
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
