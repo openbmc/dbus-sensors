@@ -489,19 +489,7 @@ static void createSensorsCallback(
             }
         }
 
-        /* The poll rate for the sensors */
-        double pollRate = 0.0;
-        auto pollRateObj = baseConfig->find("PollRate");
-
-        if (pollRateObj != baseConfig->end())
-        {
-            pollRate =
-                std::visit(VariantToDoubleVisitor(), pollRateObj->second);
-            if (pollRate <= 0.0)
-            {
-                pollRate = PSUSensor::defaultSensorPoll;
-            }
-        }
+        float pollRate = getPollRate(*baseConfig, PSUSensor::defaultSensorPoll);
 
         /* Find array of labels to be exposed if it is defined in config */
         std::vector<std::string> findLabels;

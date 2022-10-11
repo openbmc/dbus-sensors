@@ -238,18 +238,8 @@ void createSensors(
                 }
             }
 
-            auto findPollRate = baseConfiguration->second.find("PollRate");
-            float pollRate = pollRateDefault;
-            if (findPollRate != baseConfiguration->second.end())
-            {
-                pollRate =
-                    std::visit(VariantToFloatVisitor(), findPollRate->second);
-                if (pollRate <= 0.0F)
-                {
-                    pollRate = pollRateDefault; // polling time too short
-                }
-            }
-
+            float pollRate =
+                getPollRate(baseConfiguration->second, pollRateDefault);
             PowerState readState = getPowerState(baseConfiguration->second);
 
             auto& sensor = sensors[sensorName];

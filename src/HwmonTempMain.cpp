@@ -385,18 +385,7 @@ void createSensors(
                           << " index " << index << "\n";
             }
 
-            auto findPollRate = baseConfigMap.find("PollRate");
-            float pollRate = pollRateDefault;
-            if (findPollRate != baseConfigMap.end())
-            {
-                pollRate =
-                    std::visit(VariantToFloatVisitor(), findPollRate->second);
-                if (pollRate <= 0.0F)
-                {
-                    pollRate = pollRateDefault; // polling time too short
-                }
-            }
-
+            float pollRate = getPollRate(baseConfigMap, pollRateDefault);
             PowerState readState = getPowerState(baseConfigMap);
 
             auto permitSet = getPermitSet(baseConfigMap);
