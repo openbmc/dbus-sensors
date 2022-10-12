@@ -29,8 +29,9 @@ constexpr const char* cpuInventoryPath =
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
 
 using BasicVariantType =
-    std::variant<std::vector<std::string>, std::string, int64_t, uint64_t,
-                 double, int32_t, uint32_t, int16_t, uint16_t, uint8_t, bool>;
+    std::variant<std::vector<std::string>, std::vector<uint64_t>, std::string,
+                 int64_t, uint64_t, double, int32_t, uint32_t, int16_t,
+                 uint16_t, uint8_t, bool>;
 using SensorBaseConfigMap =
     boost::container::flat_map<std::string, BasicVariantType>;
 using SensorBaseConfiguration = std::pair<std::string, SensorBaseConfigMap>;
