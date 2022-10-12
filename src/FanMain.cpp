@@ -265,6 +265,9 @@ void createSensors(
             // convert to 0 based
             size_t index = std::stoul(indexStr) - 1;
 
+            unsigned int channel;
+            long long unsigned int tachNum;
+            std::vector<long long unsigned int> vctTachs;
             const char* baseType = nullptr;
             const SensorData* sensorData = nullptr;
             const std::string* interfacePath = nullptr;
@@ -286,12 +289,41 @@ void createSensors(
                 auto findIndex = baseConfiguration->second.find("Index");
                 if (findIndex == baseConfiguration->second.end())
                 {
-                    std::cerr << baseConfiguration->first << " missing index\n";
-                    continue;
+                    auto channelToFind =
+                        baseConfiguration->second.find("Channel");
+                    if (channelToFind == baseConfiguration->second.end())
+                    {
+                        std::cerr << baseConfiguration->first
+                                  << " missing Index and Channel\n";
+                        continue;
+                    }
+                    channel = std::visit(VariantToUnsignedIntVisitor(),
+                                         channelToFind->second);
+
+                    auto fanConnector = sensor.second.find(
+                        baseType + std::string(".Connector"));
+                    if (fanConnector == sensor.second.end())
+                    {
+                        continue;
+                    }
+
+                    auto tachs = fanConnector->second.find("Tachs");
+                    if (tachs == fanConnector->second.end())
+                    {
+                        continue;
+                    }
+
+                    vctTachs = std::visit(VariantToVectorUint64Visitor(),
+                                          tachs->second);
+                    tachNum = vctTachs.at(channel);
                 }
-                unsigned int configIndex = std::visit(
-                    VariantToUnsignedIntVisitor(), findIndex->second);
-                if (configIndex != index)
+                else
+                {
+                    tachNum = std::visit(VariantToUnsignedIntVisitor(),
+                                         findIndex->second);
+                }
+
+                if (tachNum != index)
                 {
                     continue;
                 }
