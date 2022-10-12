@@ -22,6 +22,30 @@
       },
       "revId": "261c0225c1b239406a2f55da7f5d238c2eadd049",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b9c1c4_f82a739c",
+        "filename": "include/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-10-12T04:52:53Z",
+      "side": 1,
+      "message": "Sure, seems like as good a time as any...and might as well check for NaN as well I\u0027d think?",
+      "parentUuid": "7bd143bb_8c9da988",
+      "range": {
+        "startLine": 204,
+        "startChar": 24,
+        "endLine": 204,
+        "endChar": 28
+      },
+      "revId": "261c0225c1b239406a2f55da7f5d238c2eadd049",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
