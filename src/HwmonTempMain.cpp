@@ -271,11 +271,6 @@ void createSensors(
         findFiles(root, R"(in_humidityrelative\d*_(input|raw))", paths);
         findFiles(fs::path("/sys/class/hwmon"), R"(temp\d+_input)", paths);
 
-        if (paths.empty())
-        {
-            return;
-        }
-
         // iterate through all found temp and pressure sensors,
         // and try to match them with configuration
         for (auto& path : paths)
