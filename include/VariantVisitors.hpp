@@ -41,6 +41,42 @@ struct VariantToNumericVisitor
     }
 };
 
+template <typename>
+struct isStdVector : public std::false_type
+{};
+
+template <typename Tp>
+struct isStdVector<std::vector<Tp>> : public std::true_type
+{};
+
+template <typename Tp>
+inline constexpr bool isStdVectorV = isStdVector<Tp>::value;
+
+template <typename U>
+struct VariantToVectorVisitor
+{
+    template <typename T>
+    U operator()(const T& t) const
+    {
+        if constexpr (isStdVectorV<T>)
+        {
+            if constexpr (std::is_same_v<T, U>)
+            {
+                return t;
+            }
+            else
+            {
+                throw std::invalid_argument(
+                    "Cannot translate type " +
+                    boost::typeindex::type_id<T>().pretty_name() + " to " +
+                    boost::typeindex::type_id<U>().pretty_name());
+            }
+        }
+
+        throw std::invalid_argument("Parameter isn't an std::vector");
+    }
+};
+
 } // namespace details
 
 using VariantToFloatVisitor = details::VariantToNumericVisitor<float>;
@@ -48,6 +84,10 @@ using VariantToIntVisitor = details::VariantToNumericVisitor<int>;
 using VariantToUnsignedIntVisitor =
     details::VariantToNumericVisitor<unsigned int>;
 using VariantToDoubleVisitor = details::VariantToNumericVisitor<double>;
+using VariantToVectorUint64Visitor =
+    details::VariantToVectorVisitor<std::vector<uint64_t>>;
+using VariantToVectorStringVisitor =
+    details::VariantToVectorVisitor<std::vector<std::string>>;
 
 struct VariantToStringVisitor
 {
