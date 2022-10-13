@@ -128,6 +128,30 @@
       },
       "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d15cd37a_8b722427",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-10-13T21:22:26Z",
+      "side": 1,
+      "message": "...alright, having now started taking a stab at implementing that, I\u0027ve realized a tricky problem:  before a given sensor is actually instantiated, we don\u0027t really know its type/units, and hence can\u0027t easily determine what dbus path to create the object at (e.g. should it be /xyz/openbmc_project/sensors/temperature/foo or /xyz/openbmc_project/sensors/pressure/foo?).\n\nI can see a number of possible paths to take here, but none of them are terribly appealing.  Thinking out loud in no particular order:\n\n  1. We could use some placeholder \"unknown\" type/unit until it\u0027s determined conclusively.  The dbus object would need to get deleted/recreated though (don\u0027t know offhand if dbus has a \"rename\" type of operation); not sure if/how much that would defeat the purpose.  PDI would presumably need updating, possibly some clients might need changes to accommodate it as well?\n  \n  2. In this particular case (hwmontempsensor) we could just assume it\u0027s a temperature sensor and delete/recreate later if that turns out to be wrong.  Downsides are that it might initially be wrong (and of course doesn\u0027t totally eliminate the delete/recreate problem).  It\u0027s also fairly specific to hwmontempsensor; if/when we try to extend this model to other dbus-sensors daemons there might not be an obvious default type.\n  \n  3. We could try to infer the type from the sensor\u0027s name (e.g. substring match on things like \"press\", \"temp\", \"hum\"...).  Kind of nauseating, but from what I can see in E-M it could work for all existing configs I think.\n  \n  4. We could rip out the IIO/non-temperature support and move it to some other dbus-sensors daemon, leaving hwmontempsensor handling only temperature sensors.  Is there another daemon that could reasonably accommodate it though?  Would it become a new daemon unto itself?  Also has the same \"only solves the problem for hwmontempsensor\" problem as #2 above.\n  \n  5. We could delay instantiating the dbus object until the first time the underlying sensor device is instantiated.  It\u0027d be an unfortunate inconsistency, and would create a significant gap in the intent of aligning with IPMI/Redfish requirements.\n  \n  6. We could add explicit type/unit metadata to the E-M config schema.  Maybe the \"cleanest\" option, but also more invasive, and unnecessary in the common case (though perhaps it could be optional).\n  \nSo I dunno...any thoughts on which of those would be the most palatable?  Or other possibilities I missed?",
+      "parentUuid": "d91e0a5a_a9aaa93b",
+      "range": {
+        "startLine": 622,
+        "startChar": 16,
+        "endLine": 622,
+        "endChar": 33
+      },
+      "revId": "1979b6c6d2074869b956948ead14b0866dfa5e23",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
