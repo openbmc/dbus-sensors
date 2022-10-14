@@ -80,6 +80,24 @@
       "message": "This is what our system family would need too, since our host can have all sorts of states even when the chassis is on.\n\nI\u0027m not that familiar with x86-power-control, but I vaguely remember hearing that chassisState\u003d\u003dhostState with that code.  If that is indeed the case, I wonder if it would be possible to just replace the host state On check with your chassis state On check.",
       "revId": "ead44daf384512c60226773ec59f316162b9cef6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "037ebe47_8c80062f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-10-14T10:35:22Z",
+      "side": 1,
+      "message": "As my opinion, ChassisState and HostState is difference. Chassis state will identify the state of the chassis. In chassis can have multiple hosts. The host state will identify the status of one host.\nBecause the role of host state and chassis state is difference so I don\u0027t think we should change host state by chassis state.",
+      "parentUuid": "755122fa_36b162b6",
+      "revId": "ead44daf384512c60226773ec59f316162b9cef6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
