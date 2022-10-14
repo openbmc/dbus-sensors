@@ -24,7 +24,9 @@
 #include <boost/container/flat_set.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 #include <sdbusplus/bus/match.hpp>
+#include <sdbusplus/unpack_properties.hpp>
 
 #include <array>
 #include <filesystem>
@@ -61,6 +63,7 @@ enum State
 {
     OFF,  // host powered down
     ON,   // host powered on
+    CBD,  // host powered on and CBD received
     READY // host powered on and mem test passed - fully ready
 };
 
@@ -84,7 +87,16 @@ struct CPUConfig
 };
 
 static constexpr const char* peciDev = "/dev/peci-";
+static constexpr const char* peciDevPath = "/sys/bus/peci/devices/";
 static constexpr const unsigned int rankNumMax = 8;
+
+static constexpr const char* hostMiscManagerService =
+    "xyz.openbmc_project.Host.Misc.Manager";
+static constexpr const char* platformStatePath =
+    "/xyz/openbmc_project/misc/platform_state";
+static constexpr const char* hostMiscIfce =
+    "xyz.openbmc_project.State.Host.Misc";
+static constexpr const char* biosDoneProperty = "CoreBiosDone";
 
 namespace fs = std::filesystem;
 
@@ -98,7 +110,7 @@ void detectCpuAsync(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_set<CPUConfig>& cpuConfigs,
-    ManagedObjectType& sensorConfigs);
+    ManagedObjectType& sensorConfigs, bool& coreBiosDone);
 
 std::string createSensorName(const std::string& label, const std::string& item,
                              const int& cpuId)
@@ -446,19 +458,71 @@ void exportDevice(const CPUConfig& config)
     std::cout << parameters << " on bus " << busStr << " is exported\n";
 }
 
+int removeDevice(CPUConfig& config)
+{
+    std::ostringstream hex;
+    hex << std::hex << config.addr;
+    const std::string& addrHexStr = hex.str();
+    std::string busStr = std::to_string(config.bus);
+
+    std::string parameters = "peci-client 0x" + addrHexStr;
+    std::string devPath = peciDevPath;
+    std::string delDevice = devPath + "peci-" + busStr + "/delete_device";
+    std::string newClient = devPath + busStr + "-" + addrHexStr + "/driver";
+
+    std::filesystem::path devicePath(delDevice);
+    const std::string& dir = devicePath.parent_path().string();
+    for (const auto& path : std::filesystem::directory_iterator(dir))
+    {
+        if (!std::filesystem::is_directory(path))
+        {
+            continue;
+        }
+
+        const std::string& directoryName = path.path().filename();
+        if (directoryName.starts_with(busStr) &&
+            directoryName.ends_with(addrHexStr))
+        {
+            std::ofstream delDeviceFile(delDevice);
+            if (!delDeviceFile.good())
+            {
+                std::cerr << "Error opening " << delDevice << "\n";
+                return -1;
+            }
+            delDeviceFile << parameters;
+            delDeviceFile.close();
+
+            break;
+        }
+    }
+
+    if (std::filesystem::exists(newClient))
+    {
+        std::cerr << "Error removing " << newClient << "\n";
+        return -1;
+    }
+
+    return 0;
+}
+
 void detectCpu(boost::asio::steady_timer& pingTimer,
                boost::asio::steady_timer& creationTimer,
                boost::asio::io_service& io,
                sdbusplus::asio::object_server& objectServer,
                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
                boost::container::flat_set<CPUConfig>& cpuConfigs,
-               ManagedObjectType& sensorConfigs)
+               ManagedObjectType& sensorConfigs, bool& coreBiosDone)
 {
     size_t rescanDelaySeconds = 0;
     static bool keepPinging = false;
 
     for (CPUConfig& config : cpuConfigs)
     {
+        if (config.state == State::READY && coreBiosDone)
+        {
+            continue;
+        }
+
         std::string peciDevPath = peciDev + std::to_string(config.bus);
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
@@ -477,39 +541,35 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
         if (ioctl(file, PECI_IOC_PING, &msg) == 0)
         {
-            bool dimmReady = false;
-            for (unsigned int rank = 0; rank < rankNumMax; rank++)
+            newState = State::ON;
+            if (coreBiosDone)
             {
-                struct peci_rd_pkg_cfg_msg msg
-                {};
-                msg.addr = config.addr;
-                msg.index = PECI_MBX_INDEX_DDR_DIMM_TEMP;
-                msg.param = rank;
-                msg.rx_len = 4;
-
-                // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-                if (ioctl(file, PECI_IOC_RD_PKG_CFG, &msg) == 0)
+                newState = State::CBD;
+                for (unsigned int rank = 0; rank < rankNumMax; rank++)
                 {
-                    if ((msg.pkg_config[0] != 0U) ||
-                        (msg.pkg_config[1] != 0U) || (msg.pkg_config[2] != 0U))
+                    struct peci_rd_pkg_cfg_msg msg
+                    {};
+                    msg.addr = config.addr;
+                    msg.index = PECI_MBX_INDEX_DDR_DIMM_TEMP;
+                    msg.param = rank;
+                    msg.rx_len = 4;
+
+                    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+                    if (ioctl(file, PECI_IOC_RD_PKG_CFG, &msg) == 0)
                     {
-                        dimmReady = true;
+                        if ((msg.pkg_config[0] != 0U) ||
+                            (msg.pkg_config[1] != 0U) ||
+                            (msg.pkg_config[2] != 0U))
+                        {
+                            newState = State::READY;
+                            break;
+                        }
+                    }
+                    else
+                    {
                         break;
                     }
                 }
-                else
-                {
-                    break;
-                }
-            }
-
-            if (dimmReady)
-            {
-                newState = State::READY;
-            }
-            else
-            {
-                newState = State::ON;
             }
         }
 
@@ -517,15 +577,15 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
         if (config.state != newState)
         {
-            if (newState != State::OFF)
+            if (newState == State::CBD || newState == State::READY)
             {
-                if (config.state == State::OFF)
+                if (config.state != State::CBD && config.state != State::READY)
                 {
                     std::cout << config.name << " is detected\n";
                     exportDevice(config);
                 }
 
-                if (newState == State::ON)
+                if (newState == State::CBD)
                 {
                     rescanDelaySeconds = 3;
                 }
@@ -534,6 +594,14 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
                     rescanDelaySeconds = 5;
                     std::cout << "DIMM(s) on " << config.name
                               << " is/are detected\n";
+                }
+            }
+
+            if (newState == State::OFF || newState == State::ON)
+            {
+                if (config.state == State::CBD || config.state == State::READY)
+                {
+                    removeDevice(config);
                 }
             }
 
@@ -566,14 +634,15 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
                 keepPinging)
             {
                 detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                               dbusConnection, cpuConfigs, sensorConfigs);
+                               dbusConnection, cpuConfigs, sensorConfigs,
+                               coreBiosDone);
             }
         });
     }
     else if (keepPinging)
     {
         detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                       dbusConnection, cpuConfigs, sensorConfigs);
+                       dbusConnection, cpuConfigs, sensorConfigs, coreBiosDone);
     }
 }
 
@@ -583,7 +652,7 @@ void detectCpuAsync(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_set<CPUConfig>& cpuConfigs,
-    ManagedObjectType& sensorConfigs)
+    ManagedObjectType& sensorConfigs, bool& coreBiosDone)
 {
     pingTimer.expires_from_now(std::chrono::seconds(1));
     pingTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -593,7 +662,7 @@ void detectCpuAsync(
         }
 
         detectCpu(pingTimer, creationTimer, io, objectServer, dbusConnection,
-                  cpuConfigs, sensorConfigs);
+                  cpuConfigs, sensorConfigs, coreBiosDone);
     });
 }
 
@@ -712,10 +781,13 @@ int main()
     boost::asio::steady_timer pingTimer(io);
     boost::asio::steady_timer creationTimer(io);
     boost::asio::steady_timer filterTimer(io);
+    boost::asio::steady_timer cbdTimer(io);
     ManagedObjectType sensorConfigs;
+    bool coreBiosDone{false};
 
-    filterTimer.expires_from_now(std::chrono::seconds(1));
-    filterTimer.async_wait([&](const boost::system::error_code& ec) {
+    std::function<void(const boost::system::error_code& err)>
+        scheduleCpuDetection =
+            [&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
@@ -724,15 +796,42 @@ int main()
         if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs, objectServer))
         {
             detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                           systemBus, cpuConfigs, sensorConfigs);
+                           systemBus, cpuConfigs, sensorConfigs, coreBiosDone);
         }
-    });
+    };
 
-    std::function<void(sdbusplus::message_t&)> eventHandler =
+    std::function<void(const boost::system::error_code& err, bool value)>
+        getPropertyHandler =
+            [&](const boost::system::error_code& err, bool value) {
+        if (err)
+        {
+            cbdTimer.expires_from_now(std::chrono::seconds(1));
+            cbdTimer.async_wait([&](boost::system::error_code ec) {
+                if (ec)
+                {
+                    return;
+                }
+                sdbusplus::asio::getProperty<bool>(
+                    *systemBus, hostMiscManagerService, platformStatePath,
+                    hostMiscIfce, biosDoneProperty, getPropertyHandler);
+            });
+        }
+        else
+        {
+            coreBiosDone = value;
+            filterTimer.expires_from_now(std::chrono::seconds(1));
+            filterTimer.async_wait(scheduleCpuDetection);
+        }
+    };
+
+    sdbusplus::asio::getProperty<bool>(*systemBus, hostMiscManagerService,
+                                       platformStatePath, hostMiscIfce,
+                                       biosDoneProperty, getPropertyHandler);
+
+    std::function<void(sdbusplus::message_t&)> configEventHandler =
         [&](sdbusplus::message_t& message) {
         if (message.is_method_error())
         {
-            std::cerr << "callback method error\n";
             return;
         }
 
@@ -741,25 +840,52 @@ int main()
             std::cout << message.get_path() << " is changed\n";
         }
 
-        // this implicitly cancels the timer
         filterTimer.expires_from_now(std::chrono::seconds(1));
-        filterTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                return; // we're being canceled
-            }
-
-            if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs,
-                             objectServer))
-            {
-                detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                               systemBus, cpuConfigs, sensorConfigs);
-            }
-        });
+        filterTimer.async_wait(scheduleCpuDetection);
     };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+        setupPropertiesChangedMatches(*systemBus, sensorTypes,
+                                      configEventHandler);
+
+    std::function<void(sdbusplus::message_t&)> biosDoneEventHandler =
+        [&](sdbusplus::message_t& message) {
+        std::string iface;
+        std::vector<std::pair<std::string, std::variant<bool>>>
+            changedProperties;
+        std::vector<std::string> invalidatedProperties;
+
+        if (message.is_method_error())
+        {
+            std::cerr << "callback method error\n";
+            return;
+        }
+
+        message.read(iface, changedProperties, invalidatedProperties);
+        try
+        {
+            sdbusplus::unpackProperties(changedProperties, biosDoneProperty,
+                                        coreBiosDone);
+        }
+        catch (const std::exception& e)
+        {
+            if (debug)
+            {
+                std::cout << e.what() << '\n';
+            }
+        }
+
+        filterTimer.expires_from_now(std::chrono::seconds(1));
+        filterTimer.async_wait(scheduleCpuDetection);
+    };
+
+    matches.push_back(std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        sdbusplus::bus::match::rules::type::signal() +
+            sdbusplus::bus::match::rules::member("PropertiesChanged") +
+            sdbusplus::bus::match::rules::path_namespace(platformStatePath) +
+            sdbusplus::bus::match::rules::arg0namespace(hostMiscIfce),
+        biosDoneEventHandler));
 
     systemBus->request_name("xyz.openbmc_project.IntelCPUSensor");
 
