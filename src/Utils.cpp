@@ -505,26 +505,47 @@ void createAssociation(
 
 void setInventoryAssociation(
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path,
-    const std::vector<std::string>& chassisPaths = std::vector<std::string>())
+    const std::string& inventoryPath, const std::string& chassisPath)
 {
     if (association)
     {
-        fs::path p(path);
         std::vector<Association> associations;
-        std::string objPath(p.parent_path().string());
-
-        associations.emplace_back("inventory", "sensors", objPath);
-        associations.emplace_back("chassis", "all_sensors", objPath);
-
-        for (const std::string& chassisPath : chassisPaths)
-        {
-            associations.emplace_back("chassis", "all_sensors", chassisPath);
-        }
+        associations.emplace_back("inventory", "sensors", inventoryPath);
+        associations.emplace_back("chassis", "all_sensors", chassisPath);
 
         association->register_property("Associations", associations);
         association->initialize();
     }
+}
+
+std::optional<std::string> findContainingChassis(std::string_view configParent,
+                                                 const GetSubTreeType& subtree)
+{
+    // A parent that is a chassis takes precedence
+    for (const auto& [obj, services] : subtree)
+    {
+        if (obj == configParent)
+        {
+            return obj;
+        }
+    }
+
+    // If the parent is not a chassis, the system chassis is used. This does not
+    // work if there is more than one System, but we assume there is only one
+    // today.
+    for (const auto& [obj, services] : subtree)
+    {
+        for (const auto& [service, interfaces] : services)
+        {
+            if (std::find(interfaces.begin(), interfaces.end(),
+                          "xyz.openbmc_project.Inventory.Item.System") !=
+                interfaces.end())
+            {
+                return obj;
+            }
+        }
+    }
+    return std::nullopt;
 }
 
 void createInventoryAssoc(
@@ -537,22 +558,31 @@ void createInventoryAssoc(
         return;
     }
 
+    constexpr auto allInterfaces = std::to_array({
+        "xyz.openbmc_project.Inventory.Item.Board",
+        "xyz.openbmc_project.Inventory.Item.Chassis",
+    });
+
     conn->async_method_call(
         [association, path](const boost::system::error_code ec,
-                            const std::vector<std::string>& invSysObjPaths) {
+                            const GetSubTreeType& subtree) {
+        // The parent of the config is always the inventory object, and may be
+        // the associated chassis. If the parent is not itself a chassis or
+        // board, the sensor is associated with the system chassis.
+        std::string parent = fs::path(path).parent_path().string();
         if (ec)
         {
             // In case of error, set the default associations and
             // initialize the association Interface.
-            setInventoryAssociation(association, path);
+            setInventoryAssociation(association, parent, parent);
             return;
         }
-        setInventoryAssociation(association, path, invSysObjPaths);
+        std::optional<std::string> found =
+            findContainingChassis(parent, subtree);
+        setInventoryAssociation(association, parent, found.value_or(parent));
         },
-        mapper::busName, mapper::path, mapper::interface, "GetSubTreePaths",
-        "/xyz/openbmc_project/inventory/system", 2,
-        std::array<std::string, 1>{
-            "xyz.openbmc_project.Inventory.Item.System"});
+        mapper::busName, mapper::path, mapper::interface, "GetSubTree",
+        "/xyz/openbmc_project/inventory/system", 2, allInterfaces);
 }
 
 std::optional<double> readFile(const std::string& thresholdFile,
