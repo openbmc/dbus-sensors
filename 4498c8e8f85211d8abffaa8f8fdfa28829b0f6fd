@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffc92792_154e47e7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-10-17T01:52:40Z",
+      "side": 1,
+      "message": "Ah -- true, thanks.",
+      "parentUuid": "c5cad81a_0acea73a",
+      "range": {
+        "startLine": 485,
+        "startChar": 20,
+        "endLine": 485,
+        "endChar": 35
+      },
+      "revId": "4498c8e8f85211d8abffaa8f8fdfa28829b0f6fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a6ec68f_95a857e1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-17T01:21:31Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 544,
+        "startChar": 24,
+        "endLine": 544,
+        "endChar": 39
+      },
+      "revId": "4498c8e8f85211d8abffaa8f8fdfa28829b0f6fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "916dc72d_b3ea06e3",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-10-17T01:52:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a6ec68f_95a857e1",
       "range": {
         "startLine": 544,
         "startChar": 24,
