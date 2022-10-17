@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5cad81a_0acea73a",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-10-17T01:21:31Z",
+      "side": 1,
+      "message": "This is not needed because line 473-476",
+      "range": {
+        "startLine": 485,
+        "startChar": 20,
+        "endLine": 485,
+        "endChar": 35
+      },
+      "revId": "4498c8e8f85211d8abffaa8f8fdfa28829b0f6fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a6ec68f_95a857e1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-10-17T01:21:31Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 544,
+        "startChar": 24,
+        "endLine": 544,
+        "endChar": 39
+      },
+      "revId": "4498c8e8f85211d8abffaa8f8fdfa28829b0f6fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
