@@ -505,17 +505,13 @@ void createAssociation(
 
 void setInventoryAssociation(
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path,
+    const std::string& inventoryPath,
     const std::vector<std::string>& chassisPaths = std::vector<std::string>())
 {
     if (association)
     {
-        fs::path p(path);
         std::vector<Association> associations;
-        std::string objPath(p.parent_path().string());
-
-        associations.emplace_back("inventory", "sensors", objPath);
-        associations.emplace_back("chassis", "all_sensors", objPath);
+        associations.emplace_back("inventory", "sensors", inventoryPath);
 
         for (const std::string& chassisPath : chassisPaths)
         {
@@ -525,6 +521,38 @@ void setInventoryAssociation(
         association->register_property("Associations", associations);
         association->initialize();
     }
+}
+
+std::vector<std::string>
+    findContainingChassis(const std::string& configParent,
+                          const GetSubTreeType& subtree)
+{
+    constexpr auto chassisInterfaces = std::to_array({
+        "xyz.openbmc_project.Inventory.Item.Board",
+        "xyz.openbmc_project.Inventory.Item.Chassis",
+    });
+
+    std::vector<std::string> chassis;
+    for (const auto& [obj, services] : subtree)
+    {
+        for (const auto& [service, interfaces] : services)
+        {
+            if (obj == configParent &&
+                std::find_first_of(interfaces.begin(), interfaces.end(),
+                                   chassisInterfaces.begin(),
+                                   chassisInterfaces.end()) != interfaces.end())
+            {
+                return {configParent};
+            }
+            else if (std::find(interfaces.begin(), interfaces.end(),
+                               "xyz.openbmc_project.Inentory.Item.System") !=
+                     interfaces.end())
+            {
+                chassis.push_back(obj);
+            }
+        }
+    }
+    return chassis;
 }
 
 void createInventoryAssoc(
@@ -537,22 +565,28 @@ void createInventoryAssoc(
         return;
     }
 
+    constexpr auto allInterfaces = std::to_array({
+        "xyz.openbmc_project.Inventory.Item.Board",
+        "xyz.openbmc_project.Inventory.Item.Chassis",
+        "xyz.openbmc_project.Inventory.Item.System",
+    });
+
     conn->async_method_call(
         [association, path](const boost::system::error_code ec,
-                            const std::vector<std::string>& invSysObjPaths) {
+                            const GetSubTreeType& subtree) {
+        std::string parent = fs::path(path).parent_path().string();
         if (ec)
         {
             // In case of error, set the default associations and
             // initialize the association Interface.
-            setInventoryAssociation(association, path);
+            setInventoryAssociation(association, parent, {parent});
             return;
         }
-        setInventoryAssociation(association, path, invSysObjPaths);
+        setInventoryAssociation(association, parent,
+                                findContainingChassis(parent, subtree));
         },
-        mapper::busName, mapper::path, mapper::interface, "GetSubTreePaths",
-        "/xyz/openbmc_project/inventory/system", 2,
-        std::array<std::string, 1>{
-            "xyz.openbmc_project.Inventory.Item.System"});
+        mapper::busName, mapper::path, mapper::interface, "GetSubTree",
+        "/xyz/openbmc_project/inventory/system", 2, allInterfaces);
 }
 
 std::optional<double> readFile(const std::string& thresholdFile,
