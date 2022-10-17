@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ae64b9b_ed595ee8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-10-17T00:45:19Z",
+      "side": 1,
+      "message": "PECI command completion code is used to indicate whether the sensor value is valid. Most thermal sensors are available before core bios done. Are there particular registers that misbehave, can you provide more detail?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "7ecacb779df2c92e1fd053fb37fc13c6fa434590",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
