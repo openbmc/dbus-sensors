@@ -63,6 +63,30 @@
       },
       "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4c638f1_6c950960",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-10-18T17:38:53Z",
+      "side": 1,
+      "message": "Zhikui, is the above description acceptable to you?",
+      "parentUuid": "6ba82803_047da5f5",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 46
+      },
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
