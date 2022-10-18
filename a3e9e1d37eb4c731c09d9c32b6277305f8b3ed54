@@ -257,6 +257,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0407ecb6_46966c8c",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-10-18T07:47:50Z",
+      "side": 1,
+      "message": "Frequency of logs in proposed changes and current implementation will be same, right ? In both cases a error log is given if fail count crosses a mark. If that is correct then there is no new additional logs are added.",
+      "parentUuid": "03238356_11f9b92a",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "867e476e_bbeceffd",
         "filename": "src/IpmbPowerState.cpp",
         "patchSetId": 46
