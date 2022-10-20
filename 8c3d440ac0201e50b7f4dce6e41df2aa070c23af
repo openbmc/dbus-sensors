@@ -33,6 +33,23 @@
       "message": "LGTM",
       "revId": "8c3d440ac0201e50b7f4dce6e41df2aa070c23af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc5b4253_0c1a458b",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2022-10-20T02:04:51Z",
+      "side": 1,
+      "message": "I pull PRs in topic \u0027sensor-om\u0027 with newest openbmc version in my machine and found that phosphor-pid-control will core-dump.\n\nError log:\n```\nMar 09 12:44:12 qbmc swampd[4531]: 4 Failed during restartControlLoops, try again: fan PID has invalid number of Outputs\nMar 09 12:44:22 qbmc swampd[4531]: terminate called after throwing an instance of \u0027std::runtime_error\u0027\nMar 09 12:44:22 qbmc swampd[4531]:   what():  fan PID has invalid number of Outputs\nMar 09 12:44:30 qbmc systemd[1]: phosphor-pid-control.service: Main process exited, code\u003ddumped, status\u003d6/ABRT\n```\n\nIt seems it is because pid-control cannot get pwmsensor under /xyz/openbmc_project/control.\nRefs:\nhttps://github.com/openbmc/phosphor-pid-control/blob/master/dbus/dbusconfiguration.cpp#L370\nhttps://github.com/openbmc/phosphor-pid-control/blob/master/dbus/dbusconfiguration.cpp#L694\n\nAfter adding \u0027objectServer.add_manager(\"/xyz/openbmc_project/control\");\u0027, pid-control works correctly as before.",
+      "revId": "8c3d440ac0201e50b7f4dce6e41df2aa070c23af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
