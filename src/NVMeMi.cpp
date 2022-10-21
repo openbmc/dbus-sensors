@@ -685,3 +685,76 @@ void NVMeMi::adminXfer(
         return;
     }
 }
+
+void NVMeMi::adminFwCommit(
+    nvme_mi_ctrl_t ctrl, nvme_fw_commit_ca action, uint8_t slot, bool bpid,
+    std::function<void(const std::error_code&, nvme_status_field)>&& cb)
+{
+    if (!nvmeEP)
+    {
+        std::cerr << "nvme endpoint is invalid" << std::endl;
+        io.post([cb{std::move(cb)}]() {
+            cb(std::make_error_code(std::errc::no_such_device),
+               nvme_status_field::NVME_SC_MASK);
+        });
+        return;
+    }
+    try
+    {
+        nvme_fw_commit_args args;
+        memset(&args, 0, sizeof(args));
+        args.args_size = sizeof(args);
+        args.action = action;
+        args.slot = slot;
+        args.bpid = bpid;
+        io.post([ctrl, args, cb{std::move(cb)},
+                 self{shared_from_this()}]() mutable {
+            int rc = nvme_mi_admin_fw_commit(ctrl, &args);
+            if (rc < 0)
+            {
+
+                std::cerr << "fail to nvme_mi_admin_fw_commit: "
+                          << std::strerror(errno) << std::endl;
+                self->io.post([cb{std::move(cb)}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(errno)),
+                       nvme_status_field::NVME_SC_MASK);
+                });
+                return;
+            }
+            else if (rc >= 0)
+            {
+                switch (rc & 0x7ff)
+                {
+                    case NVME_SC_SUCCESS:
+                    case NVME_SC_FW_NEEDS_CONV_RESET:
+                    case NVME_SC_FW_NEEDS_SUBSYS_RESET:
+                    case NVME_SC_FW_NEEDS_RESET:
+                        self->io.post([rc, cb{std::move(cb)}]() {
+                            cb({}, static_cast<nvme_status_field>(rc));
+                        });
+                        break;
+                    default:
+                        std::string_view errMsg = statusToString(
+                            static_cast<nvme_mi_resp_status>(rc));
+                        std::cerr
+                            << "fail to nvme_mi_admin_fw_commit: " << errMsg
+                            << std::endl;
+                        self->io.post([rc, cb{std::move(cb)}]() {
+                            cb(std::make_error_code(std::errc::bad_message),
+                               static_cast<nvme_status_field>(rc));
+                        });
+                }
+                return;
+            }
+        });
+    }
+    catch (const std::runtime_error& e)
+    {
+        std::cerr << e.what() << std::endl;
+        io.post([cb{std::move(cb)}]() {
+            cb(std::make_error_code(std::errc::no_such_device),
+               nvme_status_field::NVME_SC_MASK);
+        });
+        return;
+    }
+}
