@@ -20,11 +20,13 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+#include <Utils.hpp>
 #include <boost/asio/io_context.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <cerrno>
 #include <chrono>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -46,6 +48,9 @@ const static constexpr size_t pchStatusRegIntrusion = 0x04;
 
 // Status bit field masks
 const static constexpr size_t pchRegMaskIntrusion = 0x01;
+
+// Value to clear intrusion status hwmon file
+const static constexpr size_t intrusionStatusHwmonClearValue = 0;
 
 void ChassisIntrusionSensor::updateValue(const std::string& newValue)
 {
@@ -77,24 +82,24 @@ void ChassisIntrusionSensor::updateValue(const std::string& newValue)
     }
 }
 
-int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
+void ChassisIntrusionSensor::i2cReadFromPch()
 {
-    std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
+    std::string i2cBus = "/dev/i2c-" + std::to_string(mBusId);
 
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(i2cBus.c_str(), O_RDWR | O_CLOEXEC);
     if (fd < 0)
     {
         std::cerr << "unable to open i2c device \n";
-        return -1;
+        return;
     }
 
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    if (ioctl(fd, I2C_SLAVE_FORCE, slaveAddr) < 0)
+    if (ioctl(fd, I2C_SLAVE_FORCE, mSlaveAddr) < 0)
     {
         std::cerr << "unable to set device address\n";
         close(fd);
-        return -1;
+        return;
     }
 
     unsigned long funcs = 0;
@@ -104,23 +109,23 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
     {
         std::cerr << "not support I2C_FUNCS \n";
         close(fd);
-        return -1;
+        return;
     }
 
     if ((funcs & I2C_FUNC_SMBUS_READ_BYTE_DATA) == 0U)
     {
         std::cerr << "not support I2C_FUNC_SMBUS_READ_BYTE_DATA \n";
         close(fd);
-        return -1;
+        return;
     }
 
     int32_t statusMask = pchRegMaskIntrusion;
     int32_t statusReg = pchStatusRegIntrusion;
 
     int32_t statusValue = i2c_smbus_read_byte_data(fd, statusReg);
-    if (debug)
+    if constexpr (debug)
     {
-        std::cout << "\nRead bus " << busId << " addr " << slaveAddr
+        std::cout << "\nRead bus " << mBusId << " addr " << mSlaveAddr
                   << ", value = " << statusValue << "\n";
     }
 
@@ -129,49 +134,51 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
     if (statusValue < 0)
     {
         std::cerr << "i2c_smbus_read_byte_data failed \n";
-        return -1;
+        return;
     }
 
     // Get status value with mask
-    int newValue = statusValue & statusMask;
+    int value = statusValue & statusMask;
 
-    if (debug)
+    if constexpr (debug)
     {
         std::cout << "statusValue is " << statusValue << "\n";
-        std::cout << "Intrusion sensor value is " << newValue << "\n";
+        std::cout << "Intrusion sensor value is " << value << "\n";
     }
 
-    return newValue;
+    std::string newValue = value != 0 ? "HardwareIntrusion" : "Normal";
+
+    if (mValue != newValue)
+    {
+        std::cout << "update value from " << mValue << " to " << newValue
+                  << "\n";
+        updateValue(newValue);
+    }
+    // trigger next polling
+    pollSensorStatusByPch();
 }
 
 void ChassisIntrusionSensor::pollSensorStatusByPch()
 {
+    std::weak_ptr<ChassisIntrusionSensor> weakRef = weak_from_this();
     // setting a new experation implicitly cancels any pending async wait
-    mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
+    mPchPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
 
-    mPollTimer.async_wait([&](const boost::system::error_code& ec) {
-        // case of timer expired
-        if (!ec)
-        {
-            int statusValue = i2cReadFromPch(mBusId, mSlaveAddr);
-            std::string newValue =
-                statusValue != 0 ? "HardwareIntrusion" : "Normal";
-
-            if (newValue != "unknown" && mValue != newValue)
-            {
-                std::cout << "update value from " << mValue << " to "
-                          << newValue << "\n";
-                updateValue(newValue);
-            }
-
-            // trigger next polling
-            pollSensorStatusByPch();
-        }
+    mPchPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<ChassisIntrusionSensor> self = weakRef.lock();
         // case of being canceled
-        else if (ec == boost::asio::error::operation_aborted)
+        if (ec == boost::asio::error::operation_aborted)
         {
             std::cerr << "Timer of intrusion sensor is cancelled. Return \n";
             return;
+        }
+        if (self)
+        {
+            self->i2cReadFromPch();
+        }
+        else
+        {
+            std::cerr << "ChassisIntrusionSensor no self\n";
         }
     });
 }
@@ -184,21 +191,22 @@ void ChassisIntrusionSensor::readGpio()
     // set string defined in chassis redfish schema
     std::string newValue = value != 0 ? "HardwareIntrusion" : "Normal";
 
-    if (debug)
+    if constexpr (debug)
     {
         std::cout << "\nGPIO value is " << value << "\n";
         std::cout << "Intrusion sensor value is " << newValue << "\n";
     }
 
-    if (newValue != "unknown" && mValue != newValue)
+    if (mValue != newValue)
     {
         std::cout << "update value from " << mValue << " to " << newValue
                   << "\n";
         updateValue(newValue);
     }
+    pollSensorStatusByGpio();
 }
 
-void ChassisIntrusionSensor::pollSensorStatusByGpio(void)
+void ChassisIntrusionSensor::pollSensorStatusByGpio()
 {
     mGpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
                        [this](const boost::system::error_code& ec) {
@@ -214,7 +222,6 @@ void ChassisIntrusionSensor::pollSensorStatusByGpio(void)
         {
             readGpio();
         }
-        pollSensorStatusByGpio();
     });
 }
 
@@ -250,11 +257,118 @@ void ChassisIntrusionSensor::initGpioDeviceFile()
 
         mGpioFd.assign(gpioLineFd);
     }
-    catch (const std::system_error&)
+    catch (const std::system_error& e)
     {
-        std::cerr << "ChassisInrtusionSensor error requesting gpio pin name: "
-                  << mPinName << "\n";
+        std::cerr << "ChassisIntrusionSensor error requesting gpio pin name: "
+                  << mPinName << " : " << e.what() << "\n";
         return;
+    }
+}
+
+void ChassisIntrusionSensor::readHwmon()
+{
+    std::ifstream refin(mHwmonPath);
+    if (!refin.good())
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << "\n";
+        return;
+    }
+    std::string line;
+    if (!std::getline(refin, line))
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << "\n";
+        return;
+    }
+    try
+    {
+        size_t value = std::stoi(line);
+
+        // set string defined in chassis redfish schema
+        std::string newValue = value != 0 ? "HardwareIntrusion" : "Normal";
+
+        if constexpr (debug)
+        {
+            std::cout << "Hwmon value is " << std::dec << value << "\n";
+        }
+        if (mValue != newValue)
+        {
+            std::cout << "update value from " << mValue << " to " << newValue
+                      << "\n";
+            updateValue(newValue);
+        }
+    }
+    catch (const std::invalid_argument& e)
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << " : "
+                  << e.what() << "\n";
+    }
+    // Reset chassis intrusion status after every reading
+    std::ofstream refout(mHwmonPath);
+    if (!refout.good())
+    {
+        std::cerr << "Error resetting intrusion status at " << mHwmonPath
+                  << "\n";
+        return;
+    }
+    refout << intrusionStatusHwmonClearValue;
+    pollSensorStatusByHwmon();
+}
+
+void ChassisIntrusionSensor::pollSensorStatusByHwmon()
+{
+    std::weak_ptr<ChassisIntrusionSensor> weakRef = weak_from_this();
+    // setting a new experation implicitly cancels any pending async wait
+    mHwmonPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
+
+    mHwmonPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<ChassisIntrusionSensor> self = weakRef.lock();
+        // timer expired
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Timer of hwmon-based intrusion sensor"
+                      << " is cancelled. Return \n";
+            return;
+        }
+        if (self)
+        {
+            self->readHwmon();
+        }
+        else
+        {
+            std::cerr << "ChassisIntrusionSensor no self\n";
+        }
+    });
+}
+
+void ChassisIntrusionSensor::initHwmonDevicePath()
+{
+    namespace fs = std::filesystem;
+    std::vector<fs::path> paths;
+    if (!findFiles(fs::path("/sys/class/hwmon"), mHwmonName, paths))
+    {
+        std::cerr << "No intrusion status found in system\n";
+        return;
+    }
+
+    if (paths.empty())
+    {
+        std::cerr << "ChassisIntrusionSensor failed to get chassis intrusion "
+                     "status path\n";
+        return;
+    }
+
+    if (paths.size() > 1)
+    {
+        std::cerr << "Found more than 1 hwmon file to read chassis intrusion"
+                  << " status. Taking the first one. \n";
+    }
+
+    mHwmonPath = paths[0].string();
+    if constexpr (debug)
+    {
+        std::cout << "Found " << paths.size()
+                  << " paths for intrusion status \n"
+                  << " The first path is: " << mHwmonPath << "\n";
     }
 }
 
@@ -276,7 +390,7 @@ int ChassisIntrusionSensor::setSensorValue(const std::string& req,
 void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
                                    int slaveAddr, bool gpioInverted)
 {
-    if (debug)
+    if constexpr (debug)
     {
         std::cerr << "enter ChassisIntrusionSensor::start, type = " << type
                   << "\n";
@@ -295,7 +409,8 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
     if ((type == IntrusionSensorType::pch && busId == mBusId &&
          slaveAddr == mSlaveAddr) ||
         (type == IntrusionSensorType::gpio && gpioInverted == mGpioInverted &&
-         mInitialized))
+         mInitialized) ||
+        (type == IntrusionSensorType::hwmon && mInitialized))
     {
         return;
     }
@@ -306,7 +421,8 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
     mGpioInverted = gpioInverted;
 
     if ((mType == IntrusionSensorType::pch && mBusId > 0 && mSlaveAddr > 0) ||
-        (mType == IntrusionSensorType::gpio))
+        (mType == IntrusionSensorType::gpio) ||
+        (mType == IntrusionSensorType::hwmon))
     {
         // initialize first if not initialized before
         if (!mInitialized)
@@ -322,6 +438,10 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
             {
                 initGpioDeviceFile();
             }
+            else if (mType == IntrusionSensorType::hwmon)
+            {
+                initHwmonDevicePath();
+            }
 
             mInitialized = true;
         }
@@ -333,8 +453,13 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
         }
         else if (mType == IntrusionSensorType::gpio && mGpioLine)
         {
-            std::cerr << "Start polling intrusion sensors\n";
+            std::cerr << "Start polling gpio based intrusion sensors\n";
             pollSensorStatusByGpio();
+        }
+        else if (mType == IntrusionSensorType::hwmon && !mHwmonPath.empty())
+        {
+            std::cerr << "Start polling hwmon based intrusion sensors\n";
+            pollSensorStatusByHwmon();
         }
     }
 
@@ -345,7 +470,11 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
         {
             if (mType == IntrusionSensorType::pch)
             {
-                mPollTimer.cancel();
+                mPchPollTimer.cancel();
+            }
+            else if (mType == IntrusionSensorType::hwmon)
+            {
+                mHwmonPollTimer.cancel();
             }
             else if (mType == IntrusionSensorType::gpio)
             {
@@ -364,14 +493,19 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
     boost::asio::io_context& io,
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface) :
     mIface(std::move(iface)),
-    mValue("unknown"), mOldValue("unknown"), mPollTimer(io), mGpioFd(io)
+    mValue("unknown"), mOldValue("unknown"), mPchPollTimer(io), mGpioFd(io),
+    mHwmonPollTimer(io)
 {}
 
 ChassisIntrusionSensor::~ChassisIntrusionSensor()
 {
     if (mType == IntrusionSensorType::pch)
     {
-        mPollTimer.cancel();
+        mPchPollTimer.cancel();
+    }
+    else if (mType == IntrusionSensorType::hwmon)
+    {
+        mHwmonPollTimer.cancel();
     }
     else if (mType == IntrusionSensorType::gpio)
     {
