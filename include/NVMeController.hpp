@@ -18,6 +18,15 @@ class NVMeController :
 
 {
   public:
+    enum class FwCommitStatus : uint8_t
+    {
+        Ready,
+        InProgress,
+        Failed,
+        RequireReset,
+        Success,
+    };
+
     NVMeController(boost::asio::io_context& io,
                    sdbusplus::asio::object_server& objServer,
                    std::shared_ptr<sdbusplus::asio::connection> conn,
@@ -56,4 +65,7 @@ class NVMeController :
         "xyz.openbmc_project.Nvme.NVMeAdmin";
     static constexpr char adminDataPath[] = "/run/initramfs";
     std::shared_ptr<sdbusplus::asio::dbus_interface> adminIntf;
+
+    // FW update status
+    FwCommitStatus commitStatus;
 };
