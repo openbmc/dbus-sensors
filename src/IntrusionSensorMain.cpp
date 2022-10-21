@@ -52,7 +52,7 @@ namespace fs = std::filesystem;
 static bool getIntrusionSensorConfig(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     IntrusionSensorType* pType, int* pBusId, int* pSlaveAddr,
-    bool* pGpioInverted)
+    bool* pGpioInverted, std::string& pHwmonName)
 {
     // find matched configuration according to sensor type
     ManagedObjectType sensorConfigurations;
@@ -92,6 +92,11 @@ static bool getIntrusionSensorConfig(
         {
             *pType = IntrusionSensorType::gpio;
         }
+        else if (findClass != baseConfiguration->second.end() &&
+                 std::get<std::string>(findClass->second) == "Hwmon")
+        {
+            *pType = IntrusionSensorType::hwmon;
+        }
         else
         {
             *pType = IntrusionSensorType::pch;
@@ -130,6 +135,36 @@ static bool getIntrusionSensorConfig(
             return true;
         }
 
+        // case to find Hwmon info
+        if (*pType == IntrusionSensorType::hwmon)
+        {
+            auto findHwmonName = baseConfiguration->second.find("Input");
+
+            if (findHwmonName == baseConfiguration->second.end())
+            {
+                std::cerr << "error finding hwmon name in configuration \n";
+                continue;
+            }
+
+            try
+            {
+                pHwmonName = std::get<std::string>(findHwmonName->second);
+            }
+            catch (const std::bad_variant_access& e)
+            {
+                std::cerr << "invalid value for hwmon name in config. \n";
+                continue;
+            }
+
+            if (debug)
+            {
+                std::cout << "find chassis intrusion hwmon name is "
+                          << pHwmonName << "\n";
+            }
+
+            return true;
+        }
+
         // case to find I2C info
         if (*pType == IntrusionSensorType::pch)
         {
@@ -162,8 +197,9 @@ static bool getIntrusionSensorConfig(
         }
     }
 
-    std::cerr << "can't find matched I2C or GPIO configuration for intrusion "
-                 "sensor. \n";
+    std::cerr
+        << "can't find matched I2C, GPIO or Hwmon configuration for intrusion "
+           "sensor. \n";
     *pBusId = -1;
     *pSlaveAddr = -1;
     return false;
@@ -414,6 +450,7 @@ int main()
     int busId = -1;
     int slaveAddr = -1;
     bool gpioInverted = false;
+    std::string hwmonName;
     IntrusionSensorType type = IntrusionSensorType::gpio;
 
     // setup connection to dbus
@@ -435,9 +472,10 @@ int main()
     ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
 
     if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                 &gpioInverted))
+                                 &gpioInverted, hwmonName))
     {
-        chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+        chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted,
+                                     hwmonName);
     }
 
     // callback to handle configuration change
@@ -451,9 +489,10 @@ int main()
 
         std::cout << "rescan due to configuration change \n";
         if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                     &gpioInverted))
+                                     &gpioInverted, hwmonName))
         {
-            chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+            chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted,
+                                         hwmonName);
         }
     };
 
