@@ -47,13 +47,12 @@ static constexpr const char* sensorType = "ChassisIntrusionSensor";
 static constexpr const char* nicType = "NIC";
 static constexpr auto nicTypes{std::to_array<const char*>({nicType})};
 
-namespace fs = std::filesystem;
-
-static bool getIntrusionSensorConfig(
+static void createSensorsFromConfig(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    IntrusionSensorType* pType, int* pBusId, int* pSlaveAddr,
-    bool* pGpioInverted)
+    std::shared_ptr<ChassisIntrusionSensor>& pSensor)
 {
+    IntrusionSensorType type = IntrusionSensorType::pch;
     // find matched configuration according to sensor type
     ManagedObjectType sensorConfigurations;
     bool useCache = false;
@@ -62,7 +61,7 @@ static bool getIntrusionSensorConfig(
                                 sensorConfigurations, useCache))
     {
         std::cerr << "error communicating to entity manager\n";
-        return false;
+        return;
     }
 
     const SensorData* sensorData = nullptr;
@@ -90,16 +89,7 @@ static bool getIntrusionSensorConfig(
         if (findClass != baseConfiguration->second.end() &&
             std::get<std::string>(findClass->second) == "Gpio")
         {
-            *pType = IntrusionSensorType::gpio;
-        }
-        else
-        {
-            *pType = IntrusionSensorType::pch;
-        }
-
-        // case to find GPIO info
-        if (*pType == IntrusionSensorType::gpio)
-        {
+            type = IntrusionSensorType::gpio;
             auto findGpioPolarity =
                 baseConfiguration->second.find("GpioPolarity");
 
@@ -111,28 +101,47 @@ static bool getIntrusionSensorConfig(
 
             try
             {
-                *pGpioInverted =
+                bool gpioInverted =
                     (std::get<std::string>(findGpioPolarity->second) == "Low");
+                // If the sensor has been constructed before with the same type
+                // and has the same GPIO configs as the new configs, skip
+                // re-initialization
+                if (pSensor && (type == pSensor->getType()))
+                {
+                    auto pSensorCasted =
+                        std::dynamic_pointer_cast<ChassisIntrusionGpioSensor>(
+                            pSensor);
+                    if (gpioInverted == pSensorCasted->getGpioInverted())
+                    {
+                        return;
+                    }
+                }
+                pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
+                    type, io, objServer, gpioInverted);
+                pSensor->start();
+                if (debug)
+                {
+                    std::cout
+                        << "find chassis intrusion sensor polarity inverted "
+                           "flag is "
+                        << gpioInverted << "\n";
+                }
+                return;
             }
             catch (const std::bad_variant_access& e)
             {
                 std::cerr << "invalid value for gpio info in config. \n";
                 continue;
             }
-
-            if (debug)
+            catch (const std::exception& e)
             {
-                std::cout << "find chassis intrusion sensor polarity inverted "
-                             "flag is "
-                          << *pGpioInverted << "\n";
+                std::cerr << e.what() << std::endl;
+                continue;
             }
-
-            return true;
         }
-
-        // case to find I2C info
-        if (*pType == IntrusionSensorType::pch)
+        else
         {
+            type = IntrusionSensorType::pch;
             auto findBus = baseConfiguration->second.find("Bus");
             auto findAddress = baseConfiguration->second.find("Address");
             if (findBus == baseConfiguration->second.end() ||
@@ -141,32 +150,56 @@ static bool getIntrusionSensorConfig(
                 std::cerr << "error finding bus or address in configuration \n";
                 continue;
             }
-
             try
             {
-                *pBusId = std::get<uint64_t>(findBus->second);
-                *pSlaveAddr = std::get<uint64_t>(findAddress->second);
+                int busId = std::get<uint64_t>(findBus->second);
+                int slaveAddr = std::get<uint64_t>(findAddress->second);
+                // If the sensor has been constructed before with the same type
+                // and has the same I2C configs as the new configs, skip
+                // re-initialization
+                if (pSensor && (type == pSensor->getType()))
+                {
+                    auto pSensorCasted =
+                        std::dynamic_pointer_cast<ChassisIntrusionPchSensor>(
+                            pSensor);
+                    if (busId == pSensorCasted->getBusId() &&
+                        slaveAddr == pSensorCasted->getSlaveAddr())
+                    {
+                        return;
+                    }
+                }
+                pSensor = std::make_shared<ChassisIntrusionPchSensor>(
+                    type, io, objServer, busId, slaveAddr);
+                pSensor->start();
+                if (debug)
+                {
+                    std::cout << "find matched bus " << busId
+                              << ", matched slave addr " << slaveAddr << "\n";
+                }
+                return;
             }
             catch (const std::bad_variant_access& e)
             {
                 std::cerr << "invalid value for bus or address in config. \n";
                 continue;
             }
-
-            if (debug)
+            catch (const std::exception& e)
             {
-                std::cout << "find matched bus " << *pBusId
-                          << ", matched slave addr " << *pSlaveAddr << "\n";
+                std::cerr << e.what() << std::endl;
+                continue;
             }
-            return true;
         }
     }
 
-    std::cerr << "can't find matched I2C or GPIO configuration for intrusion "
-                 "sensor. \n";
-    *pBusId = -1;
-    *pSlaveAddr = -1;
-    return false;
+    std::cerr << " Can't find matched I2C, GPIO configuration\n";
+
+    // Make sure nothing runs when there's no configuration for the sensor after
+    // rescan
+    if (pSensor)
+    {
+        std::cerr << " Reset the occupied sensor pointer\n";
+        pSensor = nullptr;
+    }
 }
 
 static constexpr bool debugLanLeash = false;
@@ -411,10 +444,7 @@ static bool initializeLanStatus(
 
 int main()
 {
-    int busId = -1;
-    int slaveAddr = -1;
-    bool gpioInverted = false;
-    IntrusionSensorType type = IntrusionSensorType::gpio;
+    std::shared_ptr<ChassisIntrusionSensor> intrusionSensor;
 
     // setup connection to dbus
     boost::asio::io_context io;
@@ -427,17 +457,7 @@ int main()
 
     objServer.add_manager("/xyz/openbmc_project/Chassis");
 
-    std::shared_ptr<sdbusplus::asio::dbus_interface> ifaceChassis =
-        objServer.add_interface("/xyz/openbmc_project/Chassis/Intrusion",
-                                "xyz.openbmc_project.Chassis.Intrusion");
-
-    ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
-
-    if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                 &gpioInverted))
-    {
-        chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
-    }
+    createSensorsFromConfig(io, objServer, systemBus, intrusionSensor);
 
     // callback to handle configuration change
     std::function<void(sdbusplus::message_t&)> eventHandler =
@@ -449,11 +469,7 @@ int main()
         }
 
         std::cout << "rescan due to configuration change \n";
-        if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                     &gpioInverted))
-        {
-            chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
-        }
+        createSensorsFromConfig(io, objServer, systemBus, intrusionSensor);
     };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
