@@ -92,6 +92,11 @@ static bool getIntrusionSensorConfig(
         {
             *pType = IntrusionSensorType::gpio;
         }
+        else if (findClass != baseConfiguration->second.end() &&
+                 std::get<std::string>(findClass->second) == "Hwmon")
+        {
+            *pType = IntrusionSensorType::hwmon;
+        }
         else
         {
             *pType = IntrusionSensorType::pch;
@@ -130,6 +135,12 @@ static bool getIntrusionSensorConfig(
             return true;
         }
 
+        // case to find Hwmon info
+        if (*pType == IntrusionSensorType::hwmon)
+        {
+            return true;
+        }
+
         // case to find I2C info
         if (*pType == IntrusionSensorType::pch)
         {
@@ -162,8 +173,9 @@ static bool getIntrusionSensorConfig(
         }
     }
 
-    std::cerr << "can't find matched I2C or GPIO configuration for intrusion "
-                 "sensor. \n";
+    std::cerr
+        << "can't find matched I2C, GPIO or Hwmon configuration for intrusion "
+           "sensor. \n";
     *pBusId = -1;
     *pSlaveAddr = -1;
     return false;
