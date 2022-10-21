@@ -34,6 +34,12 @@ class NVMeMi : public NVMeMiIntf, public std::enable_shared_from_this<NVMeMi>
                          uint32_t nsid, uint8_t lsp, uint16_t lsi,
                          std::function<void(const std::error_code&,
                                             std::span<uint8_t>)>&& cb) override;
+
+    void adminFwCommit(
+        nvme_mi_ctrl_t ctrl, nvme_fw_commit_ca action, uint8_t slot, bool bpid,
+        std::function<void(const std::error_code&, nvme_status_field)>&& cb)
+        override;
+
     void adminXfer(nvme_mi_ctrl_t ctrl, const nvme_mi_admin_req_hdr& admin_req,
                    std::span<uint8_t> data,
                    std::function<void(const std::error_code&,

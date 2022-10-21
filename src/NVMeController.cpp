@@ -2,6 +2,7 @@
 
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Common/File/error.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 #include <cstdio>
 #include <filesystem>
@@ -87,6 +88,50 @@ NVMeController::NVMeController(
         return sdbusplus::message::unix_fd{pipe[0]};
         });
 
+    auto& commitStatus = this->commitStatus;
+    commitStatus = FwCommitStatus::Ready;
+    adminIntf->register_property_r("FirmwareCommitStatus", commitStatus,
+                                   sdbusplus::vtable::property_::emits_change,
+                                   [&commitStatus](const auto&) {
+        if (commitStatus != FwCommitStatus::Ready &&
+            commitStatus != FwCommitStatus::InProgress)
+        {
+            auto tmp = commitStatus;
+            commitStatus = FwCommitStatus::Ready;
+            return tmp;
+        }
+        return commitStatus;
+    });
+
+    adminIntf->register_method(
+        "FirmwareCommitAsync",
+        [nvmeIntf, nvmeCtrl{ctrl},
+         &commitStatus](uint8_t commitAction, uint8_t firmwareSlot, bool bpid) {
+        if (commitStatus == FwCommitStatus::InProgress)
+        {
+            throw sdbusplus::xyz::openbmc_project::Common::Error::NotAllowed();
+        }
+        commitStatus = FwCommitStatus::InProgress;
+        nvmeIntf->adminFwCommit(
+            nvmeCtrl, static_cast<nvme_fw_commit_ca>(commitAction & 0b111),
+            firmwareSlot, bpid,
+            [&commitStatus](const std::error_code& ec,
+                            nvme_status_field status) {
+            if (ec)
+            {
+                commitStatus = FwCommitStatus::Failed;
+                return;
+            }
+            if (status != NVME_SC_SUCCESS)
+            {
+                commitStatus = FwCommitStatus::RequireReset;
+                return;
+            }
+
+            commitStatus = FwCommitStatus::Success;
+            });
+        });
+
     adminIntf->initialize();
 }
 
@@ -123,3 +168,51 @@ void NVMeController::setSecAssoc(
     secAssoc->register_property("Associations", associations);
     secAssoc->initialize();
 }
+
+namespace sdbusplus::message::details
+{
+const static std::unordered_map<NVMeController::FwCommitStatus, std::string>
+    mapCommitStatusString{
+        {NVMeController::FwCommitStatus::Ready, "Ready"},
+        {NVMeController::FwCommitStatus::InProgress, "In Progress"},
+        {NVMeController::FwCommitStatus::Failed, "Failed"},
+        {NVMeController::FwCommitStatus::RequireReset, "Request Reset"},
+        {NVMeController::FwCommitStatus::Success, "Success"}};
+const static std::unordered_map<std::string, NVMeController::FwCommitStatus>
+    mapStringCommitStatus{
+        {"Ready", NVMeController::FwCommitStatus::Ready},
+        {"In Progress", NVMeController::FwCommitStatus::InProgress},
+        {"Failed", NVMeController::FwCommitStatus::Failed},
+        {"Request Reset", NVMeController::FwCommitStatus::RequireReset},
+        {"Success", NVMeController::FwCommitStatus::Success}};
+
+template <>
+struct convert_from_string<NVMeController::FwCommitStatus>
+{
+    static std::optional<NVMeController::FwCommitStatus>
+        op(const std::string& string) noexcept
+    {
+        auto find = mapStringCommitStatus.find(string);
+        if (find == mapStringCommitStatus.end())
+        {
+            return {};
+        }
+        return {find->second};
+    }
+};
+
+template <>
+struct convert_to_string<NVMeController::FwCommitStatus>
+{
+    static std::string op(NVMeController::FwCommitStatus status)
+    {
+        auto find = mapCommitStatusString.find(status);
+        if (find == mapCommitStatusString.end())
+        {
+            return {};
+        }
+        return find->second;
+    }
+};
+
+} // namespace sdbusplus::message::details

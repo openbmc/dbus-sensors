@@ -178,6 +178,10 @@ class NVMeMiIntf
         uint8_t lsp, uint16_t lsi,
         std::function<void(const std::error_code&, std::span<uint8_t>)>&&
             cb) = 0;
+    virtual void adminFwCommit(nvme_mi_ctrl_t ctrl, nvme_fw_commit_ca action,
+                               uint8_t slot, bool bpid,
+                               std::function<void(const std::error_code&,
+                                                  nvme_status_field)>&& cb) = 0;
 
     /**
      * adminXfer() -  Raw admin transfer interface.
