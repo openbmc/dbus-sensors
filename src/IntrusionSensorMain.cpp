@@ -86,12 +86,17 @@ static bool getIntrusionSensorConfig(
 
         baseConfiguration = &(*sensorBase);
 
-        // judge class, "Gpio" or "I2C"
+        // judge class, "Gpio", "Hwmon" or "I2C"
         auto findClass = baseConfiguration->second.find("Class");
         if (findClass != baseConfiguration->second.end() &&
             std::get<std::string>(findClass->second) == "Gpio")
         {
             *pType = IntrusionSensorType::gpio;
+        }
+        else if (findClass != baseConfiguration->second.end() &&
+                 std::get<std::string>(findClass->second) == "Hwmon")
+        {
+            *pType = IntrusionSensorType::hwmon;
         }
         else
         {
@@ -121,13 +126,19 @@ static bool getIntrusionSensorConfig(
                 continue;
             }
 
-            if (debug)
+            if constexpr (debug)
             {
                 std::cout << "find chassis intrusion sensor polarity inverted "
                              "flag is "
                           << *pGpioInverted << "\n";
             }
 
+            return true;
+        }
+
+        // case to find Hwmon info
+        if (*pType == IntrusionSensorType::hwmon)
+        {
             return true;
         }
 
@@ -154,7 +165,7 @@ static bool getIntrusionSensorConfig(
                 continue;
             }
 
-            if (debug)
+            if constexpr (debug)
             {
                 std::cout << "find matched bus " << *pBusId
                           << ", matched slave addr " << *pSlaveAddr << "\n";
@@ -163,8 +174,9 @@ static bool getIntrusionSensorConfig(
         }
     }
 
-    std::cerr << "can't find matched I2C or GPIO configuration for intrusion "
-                 "sensor. \n";
+    std::cerr
+        << "can't find matched I2C, GPIO or Hwmon configuration for intrusion "
+           "sensor. \n";
     *pBusId = -1;
     *pSlaveAddr = -1;
     return false;
@@ -433,12 +445,13 @@ int main()
             "/xyz/openbmc_project/Intrusion/Chassis_Intrusion",
             "xyz.openbmc_project.Chassis.Intrusion");
 
-    ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
+    std::shared_ptr<ChassisIntrusionSensor> chassisIntrusionSensor =
+        std::make_shared<ChassisIntrusionSensor>(io, ifaceChassis);
 
     if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
                                  &gpioInverted))
     {
-        chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+        chassisIntrusionSensor->start(type, busId, slaveAddr, gpioInverted);
     }
 
     // callback to handle configuration change
@@ -454,7 +467,7 @@ int main()
         if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
                                      &gpioInverted))
         {
-            chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+            chassisIntrusionSensor->start(type, busId, slaveAddr, gpioInverted);
         }
     };
 
