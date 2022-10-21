@@ -11,7 +11,8 @@
 enum IntrusionSensorType
 {
     pch,
-    gpio
+    gpio,
+    hwmon
 };
 
 class ChassisIntrusionSensor
@@ -24,7 +25,7 @@ class ChassisIntrusionSensor
     ~ChassisIntrusionSensor();
 
     void start(IntrusionSensorType type, int busId, int slaveAddr,
-               bool gpioInverted);
+               bool gpioInverted, const std::string& hwmonName);
 
   private:
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
@@ -39,13 +40,18 @@ class ChassisIntrusionSensor
     // valid if it is PCH register via i2c
     int mBusId{-1};
     int mSlaveAddr{-1};
-    boost::asio::steady_timer mPollTimer;
+    boost::asio::steady_timer mPchPollTimer;
 
     // valid if it is via GPIO
     bool mGpioInverted{false};
     std::string mPinName = "CHASSIS_INTRUSION";
     gpiod::line mGpioLine;
     boost::asio::posix::stream_descriptor mGpioFd;
+
+    // valid if it is via hwmon
+    std::string mHwmonName;
+    std::string mHwmonPath;
+    boost::asio::steady_timer mHwmonPollTimer;
 
     // common members
     bool mOverridenState = false;
@@ -59,5 +65,8 @@ class ChassisIntrusionSensor
     void readGpio();
     void pollSensorStatusByGpio();
     void initGpioDeviceFile();
+    void readHwmon();
+    void pollSensorStatusByHwmon();
+    void initHwmonDevicePath();
     int setSensorValue(const std::string& req, std::string& propertyValue);
 };
