@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70e48f6f_9d65312c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-10-24T20:39:08Z",
+      "side": 1,
+      "message": "Why is this being logged?  This seems like debug data that was a one-off.  None of the other variant parsers add this and it is just going to add clutter to the journal.",
+      "range": {
+        "startLine": 545,
+        "startChar": 0,
+        "endLine": 546,
+        "endChar": 72
+      },
+      "revId": "0f0ff0c7d85f783484cfba8875ce7555122ccefa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
