@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "c2d3830b_bd4dea20",
         "filename": "README.md",
@@ -20,10 +21,10 @@
         "endChar": 21
       },
       "revId": "17a98b11014ceebe9af7d6fceabdc6fb849d8a4e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "cc27dac8_243eb114",
         "filename": "README.md",
@@ -44,8 +45,30 @@
         "endChar": 21
       },
       "revId": "17a98b11014ceebe9af7d6fceabdc6fb849d8a4e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d56eae9d_89f174c3",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2022-10-26T10:33:40Z",
+      "side": 1,
+      "message": "Typo: sets",
+      "range": {
+        "startLine": 66,
+        "startChar": 37,
+        "endLine": 66,
+        "endChar": 42
+      },
+      "revId": "17a98b11014ceebe9af7d6fceabdc6fb849d8a4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
