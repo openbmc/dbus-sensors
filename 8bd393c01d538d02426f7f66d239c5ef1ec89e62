@@ -22,6 +22,98 @@
       },
       "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0de91e8_425bd893",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2022-10-26T11:11:46Z",
+      "side": 1,
+      "message": "Since function has multiple places to fail. Return error or true/false",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 5
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eebe34b_c1f94289",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2022-10-26T11:11:46Z",
+      "side": 1,
+      "message": "gpio is inserted to map even if try on gpioLine.request fails \nIs this expected behavior?",
+      "range": {
+        "startLine": 328,
+        "startChar": 4,
+        "endLine": 328,
+        "endChar": 46
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb12afdd_e19d70cd",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2022-10-26T11:11:46Z",
+      "side": 1,
+      "message": "What is the logic behind confirmTimes ??",
+      "range": {
+        "startLine": 355,
+        "startChar": 14,
+        "endLine": 355,
+        "endChar": 27
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "731227d8_a8cbf7d5",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2022-10-26T11:11:46Z",
+      "side": 1,
+      "message": "Give better function names.",
+      "range": {
+        "startLine": 375,
+        "startChar": 28,
+        "endLine": 375,
+        "endChar": 36
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
