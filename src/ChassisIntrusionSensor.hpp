@@ -13,7 +13,8 @@ namespace fs = std::filesystem;
 class ChassisIntrusionSensor
 {
   public:
-    explicit ChassisIntrusionSensor(sdbusplus::asio::object_server& objServer);
+    explicit ChassisIntrusionSensor(bool autoRearm,
+                                    sdbusplus::asio::object_server& objServer);
 
     virtual ~ChassisIntrusionSensor();
 
@@ -26,12 +27,14 @@ class ChassisIntrusionSensor
 
   private:
     // intrusion status. 0: not intruded, 1: intruded
-    std::string mValue = "unknown";
-    std::string mOldValue = "Normal";
+    std::string mValue = "Normal";
+    // If this sensor uses automatic rearm method. Otherwise, manually rearm it
+    bool mAutoRearm;
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
     sdbusplus::asio::object_server& mObjServer;
     bool mOverridenState = false;
     bool mInternalSet = false;
+    bool mRearmFlag = false;
 
     int setSensorValue(const std::string& req, std::string& propertyValue);
 };
@@ -41,7 +44,7 @@ class ChassisIntrusionPchSensor :
     public std::enable_shared_from_this<ChassisIntrusionPchSensor>
 {
   public:
-    ChassisIntrusionPchSensor(boost::asio::io_context& io,
+    ChassisIntrusionPchSensor(bool autoRearm, boost::asio::io_context& io,
                               sdbusplus::asio::object_server& objServer,
                               int busId, int slaveAddr);
 
@@ -60,7 +63,7 @@ class ChassisIntrusionGpioSensor :
     public std::enable_shared_from_this<ChassisIntrusionGpioSensor>
 {
   public:
-    ChassisIntrusionGpioSensor(boost::asio::io_context& io,
+    ChassisIntrusionGpioSensor(bool autoRearm, boost::asio::io_context& io,
                                sdbusplus::asio::object_server& objServer,
                                bool gpioInverted);
 
@@ -80,7 +83,7 @@ class ChassisIntrusionHwmonSensor :
     public std::enable_shared_from_this<ChassisIntrusionHwmonSensor>
 {
   public:
-    ChassisIntrusionHwmonSensor(boost::asio::io_context& io,
+    ChassisIntrusionHwmonSensor(bool autoRearm, boost::asio::io_context& io,
                                 sdbusplus::asio::object_server& objServer,
                                 std::string hwmonName);
 
