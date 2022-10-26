@@ -89,6 +89,19 @@ static void createSensorsFromConfig(
 
         baseConfiguration = &(*sensorBase);
 
+        // Rearm defaults to "Automatic" mode
+        std::string rearm = "Automatic";
+        auto findRearm = baseConfiguration->second.find("Rearm");
+        if (findRearm != baseConfiguration->second.end())
+        {
+            rearm = std::get<std::string>(findRearm->second);
+            if (rearm != "Automatic" && rearm != "Manual")
+            {
+                std::cerr << "Wrong input for Rearm parameter\n";
+                continue;
+            }
+        }
+
         // judge class, "Gpio", "Hwmon" or "I2C"
         auto findClass = baseConfiguration->second.find("Class");
         if (findClass != baseConfiguration->second.end())
@@ -112,7 +125,7 @@ static void createSensorsFromConfig(
                         (std::get<std::string>(findGpioPolarity->second) ==
                          "Low");
                     pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
-                        io, objServer, gpioInverted);
+                        rearm, io, objServer, gpioInverted);
                     pSensor->start();
                     if (debug)
                     {
@@ -152,7 +165,7 @@ static void createSensorsFromConfig(
                 try
                 {
                     pSensor = std::make_shared<ChassisIntrusionHwmonSensor>(
-                        io, objServer, hwmonName);
+                        rearm, io, objServer, hwmonName);
                     pSensor->start();
                     return;
                 }
@@ -178,7 +191,7 @@ static void createSensorsFromConfig(
                     int busId = std::get<uint64_t>(findBus->second);
                     int slaveAddr = std::get<uint64_t>(findAddress->second);
                     pSensor = std::make_shared<ChassisIntrusionPchSensor>(
-                        io, objServer, busId, slaveAddr);
+                        rearm, io, objServer, busId, slaveAddr);
                     pSensor->start();
                     if (debug)
                     {
