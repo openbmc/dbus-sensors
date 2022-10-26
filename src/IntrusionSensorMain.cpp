@@ -52,7 +52,7 @@ namespace fs = std::filesystem;
 
 static bool getIntrusionSensorConfig(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    IntrusionSensorType* pType, int* pBusId, int* pSlaveAddr,
+    IntrusionSensorType* pType, RearmMode* pRearm, int* pBusId, int* pSlaveAddr,
     bool* pGpioInverted)
 {
     // find matched configuration according to sensor type
@@ -85,6 +85,26 @@ static bool getIntrusionSensorConfig(
         }
 
         baseConfiguration = &(*sensorBase);
+
+        // Rearm defaults to "Automatic" mode
+        *pRearm = RearmMode::Automatic;
+        auto findRearm = baseConfiguration->second.find("Rearm");
+        if (findRearm != baseConfiguration->second.end())
+        {
+            if (std::get<std::string>(findRearm->second) == "Automatic")
+            {
+                *pRearm = RearmMode::Automatic;
+            }
+            else if (std::get<std::string>(findRearm->second) == "Manual")
+            {
+                *pRearm = RearmMode::Manual;
+            }
+            else
+            {
+                std::cerr << "Wrong Rearm input, automatically "
+                          << " set to Automatic \n";
+            }
+        }
 
         // judge class, "Gpio" or "I2C"
         auto findClass = baseConfiguration->second.find("Class");
@@ -416,6 +436,7 @@ int main()
     int slaveAddr = -1;
     bool gpioInverted = false;
     IntrusionSensorType type = IntrusionSensorType::gpio;
+    RearmMode rearm = RearmMode::Automatic;
 
     // setup connection to dbus
     boost::asio::io_service io;
@@ -435,10 +456,11 @@ int main()
 
     ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
 
-    if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
+    if (getIntrusionSensorConfig(systemBus, &type, &rearm, &busId, &slaveAddr,
                                  &gpioInverted))
     {
-        chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+        chassisIntrusionSensor.start(type, rearm, busId, slaveAddr,
+                                     gpioInverted);
     }
 
     // callback to handle configuration change
@@ -451,10 +473,11 @@ int main()
         }
 
         std::cout << "rescan due to configuration change \n";
-        if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                     &gpioInverted))
+        if (getIntrusionSensorConfig(systemBus, &type, &rearm, &busId,
+                                     &slaveAddr, &gpioInverted))
         {
-            chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+            chassisIntrusionSensor.start(type, rearm, busId, slaveAddr,
+                                         gpioInverted);
         }
     };
 

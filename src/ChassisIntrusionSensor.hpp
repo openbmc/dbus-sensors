@@ -4,9 +4,13 @@
 #include <boost/asio/steady_timer.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <xyz/openbmc_project/Chassis/Intrusion/server.hpp>
 
 #include <memory>
 #include <string>
+
+using namespace sdbusplus::xyz::openbmc_project::Chassis::server;
+using RearmMode = Intrusion::RearmMode;
 
 enum IntrusionSensorType
 {
@@ -23,18 +27,19 @@ class ChassisIntrusionSensor
 
     ~ChassisIntrusionSensor();
 
-    void start(IntrusionSensorType type, int busId, int slaveAddr,
-               bool gpioInverted);
+    void start(IntrusionSensorType type, RearmMode rearm, int busId,
+               int slaveAddr, bool gpioInverted);
 
   private:
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
     std::shared_ptr<sdbusplus::asio::connection> mDbusConn;
 
     IntrusionSensorType mType{IntrusionSensorType::gpio};
+    RearmMode mRearm = RearmMode::Automatic;
 
     // intrusion status. 0: not intruded, 1: intruded
     std::string mValue = "unknown";
-    std::string mOldValue = "unknown";
+    bool mRearmFlag = false;
 
     // valid if it is PCH register via i2c
     int mBusId{-1};
