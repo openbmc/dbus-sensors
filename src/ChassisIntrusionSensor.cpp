@@ -50,12 +50,23 @@ void ChassisIntrusionSensor::updateValue(const std::string& newValue)
 {
     // Take no action if value already equal
     // Same semantics as Sensor::updateValue(const double&)
-    if (newValue == mValue)
+    if (newValue == mValue && mDBusValue == mValue)
+    {
+        return;
+    }
+
+    // Automatic Rearm mode allows direct update
+    // Manual Rearm mode requires a reset action to the "Status" property
+    // (set the "Status" property to Normal)
+    // to allow an update after an intrusion event
+    if (mRearm == RearmMode::Manual && mDBusValue == "HardwareIntrusion" &&
+        mValue == "HardwareIntrusion")
     {
         return;
     }
 
     // indicate that it is internal set call
+    mOverridenState = false;
     mInternalSet = true;
     mIface->set_property("Status", newValue);
     mInternalSet = false;
@@ -156,7 +167,8 @@ void ChassisIntrusionSensor::pollSensorStatusByPch()
             std::string newValue =
                 statusValue != 0 ? "HardwareIntrusion" : "Normal";
 
-            if (newValue != "unknown" && mValue != newValue)
+            if (newValue != "unknown" &&
+                (mValue != newValue || mValue != mDBusValue))
             {
                 std::cout << "update value from " << mValue << " to "
                           << newValue << "\n";
@@ -189,7 +201,7 @@ void ChassisIntrusionSensor::readGpio()
         std::cout << "Intrusion sensor value is " << newValue << "\n";
     }
 
-    if (newValue != "unknown" && mValue != newValue)
+    if (newValue != "unknown" && (mValue != newValue || mValue != mDBusValue))
     {
         std::cout << "update value from " << mValue << " to " << newValue
                   << "\n";
@@ -262,18 +274,21 @@ int ChassisIntrusionSensor::setSensorValue(const std::string& req,
 {
     if (!mInternalSet)
     {
+        // Take external set call as a reset action
         propertyValue = req;
+        mDBusValue = req;
         mOverridenState = true;
     }
     else if (!mOverridenState)
     {
         propertyValue = req;
+        mDBusValue = req;
     }
     return 1;
 }
 
-void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
-                                   int slaveAddr, bool gpioInverted)
+void ChassisIntrusionSensor::start(IntrusionSensorType type, RearmMode rearm,
+                                   int busId, int slaveAddr, bool gpioInverted)
 {
     if (debug)
     {
@@ -300,6 +315,7 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
     }
 
     mType = type;
+    mRearm = rearm;
     mBusId = busId;
     mSlaveAddr = slaveAddr;
     mGpioInverted = gpioInverted;
@@ -315,6 +331,7 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
                 [&](const std::string& req, std::string& propertyValue) {
                 return setSensorValue(req, propertyValue);
                 });
+            mIface->register_property("Rearm", convertForMessage(mRearm));
             mIface->initialize();
 
             if (mType == IntrusionSensorType::gpio)
@@ -363,7 +380,8 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
     boost::asio::io_service& io,
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface) :
     mIface(std::move(iface)),
-    mValue("unknown"), mOldValue("unknown"), mPollTimer(io), mGpioFd(io)
+    mValue("unknown"), mOldValue("unknown"), mDBusValue("unknown"),
+    mPollTimer(io), mGpioFd(io)
 {}
 
 ChassisIntrusionSensor::~ChassisIntrusionSensor()
