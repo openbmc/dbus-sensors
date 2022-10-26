@@ -23,18 +23,21 @@ class ChassisIntrusionSensor
 
     ~ChassisIntrusionSensor();
 
-    void start(IntrusionSensorType type, int busId, int slaveAddr,
-               bool gpioInverted);
+    void start(IntrusionSensorType type, const std::string& rearm, int busId,
+               int slaveAddr, bool gpioInverted);
 
   private:
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
     std::shared_ptr<sdbusplus::asio::connection> mDbusConn;
 
     IntrusionSensorType mType{IntrusionSensorType::gpio};
+    std::string mRearm{"Automatic"};
 
     // intrusion status. 0: not intruded, 1: intruded
     std::string mValue = "unknown";
     std::string mOldValue = "unknown";
+    // current value of "Status" property on Dbus
+    std::string mDBusValue = "unknown";
 
     // valid if it is PCH register via i2c
     int mBusId{-1};
