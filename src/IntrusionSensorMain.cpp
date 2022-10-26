@@ -51,8 +51,8 @@ namespace fs = std::filesystem;
 
 static bool getIntrusionSensorConfig(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    IntrusionSensorType* pType, int* pBusId, int* pSlaveAddr,
-    bool* pGpioInverted)
+    IntrusionSensorType* pType, std::string& rearm, int* pBusId,
+    int* pSlaveAddr, bool* pGpioInverted)
 {
     // find matched configuration according to sensor type
     ManagedObjectType sensorConfigurations;
@@ -84,6 +84,19 @@ static bool getIntrusionSensorConfig(
         }
 
         baseConfiguration = &(*sensorBase);
+
+        // Rearm defaults to "Automatic" mode
+        rearm = "Automatic";
+        auto findRearm = baseConfiguration->second.find("Rearm");
+        if (findRearm != baseConfiguration->second.end())
+        {
+            rearm = std::get<std::string>(findRearm->second);
+            if (rearm != "Automatic" && rearm != "Manual")
+            {
+                std::cerr << "Wrong Rearm input\n";
+                continue;
+            }
+        }
 
         // judge class, "Gpio" or "I2C"
         auto findClass = baseConfiguration->second.find("Class");
@@ -415,6 +428,7 @@ int main()
     int slaveAddr = -1;
     bool gpioInverted = false;
     IntrusionSensorType type = IntrusionSensorType::gpio;
+    std::string rearm("Automatic");
 
     // setup connection to dbus
     boost::asio::io_context io;
@@ -433,10 +447,11 @@ int main()
 
     ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
 
-    if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
+    if (getIntrusionSensorConfig(systemBus, &type, rearm, &busId, &slaveAddr,
                                  &gpioInverted))
     {
-        chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+        chassisIntrusionSensor.start(type, rearm, busId, slaveAddr,
+                                     gpioInverted);
     }
 
     // callback to handle configuration change
@@ -449,10 +464,11 @@ int main()
         }
 
         std::cout << "rescan due to configuration change \n";
-        if (getIntrusionSensorConfig(systemBus, &type, &busId, &slaveAddr,
-                                     &gpioInverted))
+        if (getIntrusionSensorConfig(systemBus, &type, rearm, &busId,
+                                     &slaveAddr, &gpioInverted))
         {
-            chassisIntrusionSensor.start(type, busId, slaveAddr, gpioInverted);
+            chassisIntrusionSensor.start(type, rearm, busId, slaveAddr,
+                                         gpioInverted);
         }
     };
 
