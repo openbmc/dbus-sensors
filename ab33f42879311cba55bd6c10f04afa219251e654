@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2343a9c1_f82f5eec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2022-10-26T15:58:49Z",
+      "side": 1,
+      "message": "Can you let me know the value of \"Status\" property in case the Chassis is covered and the \"Rearm\" is \"Manual\", but Redfish/IPMI-OEM set this status to \"HardwareIntrusion\"?",
+      "revId": "ab33f42879311cba55bd6c10f04afa219251e654",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99ff4be9_fa9b4417",
@@ -14,6 +31,29 @@
       "writtenOn": "2022-10-26T13:51:02Z",
       "side": 1,
       "message": "This isn\u0027t how dbus enumerations are named.  They\u0027re not the literal string \"Automatic\".\n\nIs there any reason you can\u0027t use the generated header file to get the C++ enumeration type?  Then you can use them as enumerations in code and let sdbusplus automatically convert them to/from dbus-strings.",
+      "revId": "ab33f42879311cba55bd6c10f04afa219251e654",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4157a782_9d2f6f8a",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2022-10-26T15:58:49Z",
+      "side": 1,
+      "message": "It seems that the \"Status\" property is not updated to \"HardwareIntrusion\" if the chassis is intrusive and \"Rearm\" property is \"Manual\".",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 9
+      },
       "revId": "ab33f42879311cba55bd6c10f04afa219251e654",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
