@@ -47,6 +47,7 @@ static constexpr unsigned int sensorFailedPollSec = 5;
 static unsigned int intrusionSensorPollSec = defaultPollSec;
 static constexpr const char* hwIntrusionValStr = "HardwareIntrusion";
 static constexpr const char* normalValStr = "Normal";
+static constexpr const char* manualRearmStr = "Manual";
 
 // SMLink Status Register
 const static constexpr size_t pchStatusRegIntrusion = 0x04;
@@ -61,7 +62,7 @@ void ChassisIntrusionSensor::updateValue(const size_t& value)
 {
     std::string newValue = value != 0 ? hwIntrusionValStr : normalValStr;
 
-    // Take no action if value already equal
+    // Take no action if the hardware status does not change
     // Same semantics as Sensor::updateValue(const double&)
     if (newValue == mValue)
     {
@@ -74,27 +75,37 @@ void ChassisIntrusionSensor::updateValue(const size_t& value)
                   << "\n";
     }
 
+    // Automatic Rearm mode allows direct update
+    // Manual Rearm mode requires a rearm action to clear the intrusion
+    // status
+    if (mRearm == manualRearmStr && mValue != "unknown")
+    {
+        if (newValue == normalValStr)
+        {
+            // Chassis is first closed from being open. If it has been
+            // rearmed externally, reset the flag, update mValue and
+            // return, without having to write "Normal" to DBus property
+            // (because the rearm action already did).
+            // Otherwise, return with no more action.
+            if (mRearmFlag)
+            {
+                mRearmFlag = false;
+                mValue = newValue;
+            }
+            return;
+        }
+    }
+
+    // Flush the rearm flag everytime it allows an update to Dbus
+    mRearmFlag = false;
+
     // indicate that it is internal set call
+    mOverridenState = false;
     mInternalSet = true;
     mIface->set_property("Status", newValue);
     mInternalSet = false;
 
     mValue = newValue;
-
-    if (mOldValue == normalValStr && mValue != normalValStr)
-    {
-        sd_journal_send("MESSAGE=%s", "Chassis intrusion assert event",
-                        "PRIORITY=%i", LOG_INFO, "REDFISH_MESSAGE_ID=%s",
-                        "OpenBMC.0.1.ChassisIntrusionDetected", NULL);
-        mOldValue = mValue;
-    }
-    else if (mOldValue == hwIntrusionValStr && mValue == normalValStr)
-    {
-        sd_journal_send("MESSAGE=%s", "Chassis intrusion de-assert event",
-                        "PRIORITY=%i", LOG_INFO, "REDFISH_MESSAGE_ID=%s",
-                        "OpenBMC.0.1.ChassisIntrusionReset", NULL);
-        mOldValue = mValue;
-    }
 }
 
 int ChassisIntrusionPchSensor::readSensor()
@@ -281,12 +292,43 @@ int ChassisIntrusionSensor::setSensorValue(const std::string& req,
 {
     if (!mInternalSet)
     {
-        propertyValue = req;
-        mOverridenState = true;
+        /*
+           1. Assuming that setting property in Automatic mode causes
+           no effect but only event logs and propertiesChanged signal
+           (because the property will be updated continuously to the
+           current hardware status anyway), only update Status property
+           and raise rearm flag in Manual rearm mode.
+           2. Only accept Normal value from an external call.
+        */
+        if (mRearm == manualRearmStr && req == normalValStr)
+        {
+            mRearmFlag = true;
+            propertyValue = req;
+            mOverridenState = true;
+        }
     }
     else if (!mOverridenState)
     {
         propertyValue = req;
+    }
+    else
+    {
+        return 1;
+    }
+    // Send intrusion event to Redfish
+    if (mOldValue == normalValStr && mValue != normalValStr)
+    {
+        sd_journal_send("MESSAGE=%s", "Chassis intrusion assert event",
+                        "PRIORITY=%i", LOG_INFO, "REDFISH_MESSAGE_ID=%s",
+                        "OpenBMC.0.1.ChassisIntrusionDetected", NULL);
+        mOldValue = mValue;
+    }
+    else if (mOldValue == hwIntrusionValStr && mValue == normalValStr)
+    {
+        sd_journal_send("MESSAGE=%s", "Chassis intrusion de-assert event",
+                        "PRIORITY=%i", LOG_INFO, "REDFISH_MESSAGE_ID=%s",
+                        "OpenBMC.0.1.ChassisIntrusionReset", NULL);
+        mOldValue = mValue;
     }
     return 1;
 }
@@ -298,12 +340,14 @@ void ChassisIntrusionSensor::start()
         [&](const std::string& req, std::string& propertyValue) {
         return setSensorValue(req, propertyValue);
         });
+    mIface->register_property("Rearm", mRearm);
     mIface->initialize();
     pollSensorStatus();
 }
 
 ChassisIntrusionSensor::ChassisIntrusionSensor(
-    sdbusplus::asio::object_server& objServer) :
+    std::string rearm, sdbusplus::asio::object_server& objServer) :
+    mRearm(std::move(rearm)),
     mObjServer(objServer)
 {
     mIface = mObjServer.add_interface("/xyz/openbmc_project/Chassis/Intrusion",
@@ -311,9 +355,9 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
 }
 
 ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
-    int busId, int slaveAddr) :
-    ChassisIntrusionSensor(objServer),
+    std::string rearm, boost::asio::io_context& io,
+    sdbusplus::asio::object_server& objServer, int busId, int slaveAddr) :
+    ChassisIntrusionSensor(std::move(rearm), objServer),
     mPollTimer(io)
 {
     if (busId < 0 || slaveAddr <= 0)
@@ -355,9 +399,9 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
 }
 
 ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
-    bool gpioInverted) :
-    ChassisIntrusionSensor(objServer),
+    std::string rearm, boost::asio::io_context& io,
+    sdbusplus::asio::object_server& objServer, bool gpioInverted) :
+    ChassisIntrusionSensor(std::move(rearm), objServer),
     mGpioInverted(gpioInverted), mGpioFd(io)
 {
     mGpioLine = gpiod::find_line(mPinName);
@@ -380,9 +424,9 @@ ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
 }
 
 ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
-    std::string hwmonName) :
-    ChassisIntrusionSensor(objServer),
+    std::string rearm, boost::asio::io_context& io,
+    sdbusplus::asio::object_server& objServer, std::string hwmonName) :
+    ChassisIntrusionSensor(std::move(rearm), objServer),
     mHwmonName(std::move(hwmonName)), mPollTimer(io)
 {
     std::vector<fs::path> paths;
