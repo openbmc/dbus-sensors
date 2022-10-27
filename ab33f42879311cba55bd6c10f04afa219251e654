@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6563dc4_7462a0ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-10-27T17:02:01Z",
+      "side": 1,
+      "message": "I missed this case, but I think, whatever outside sets to \"Status\", it should always take it as a clear/reset action and therefore \"Normal\". I think I will update the case of the external set call in the setSensorValue function to set \"Normal\" to mDBusValue and \"Status\" property, whatever it takes as input. Do you think this makes sense?",
+      "parentUuid": "2343a9c1_f82f5eec",
+      "revId": "ab33f42879311cba55bd6c10f04afa219251e654",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99ff4be9_fa9b4417",
         "filename": "include/ChassisIntrusionSensor.hpp",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-26T13:51:02Z",
       "side": 1,
       "message": "This isn\u0027t how dbus enumerations are named.  They\u0027re not the literal string \"Automatic\".\n\nIs there any reason you can\u0027t use the generated header file to get the C++ enumeration type?  Then you can use them as enumerations in code and let sdbusplus automatically convert them to/from dbus-strings.",
+      "revId": "ab33f42879311cba55bd6c10f04afa219251e654",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e28fe40_f6574b2d",
+        "filename": "include/ChassisIntrusionSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-10-27T17:02:01Z",
+      "side": 1,
+      "message": "It\u0027s just because I was not aware of the generated header file. Will modify it.",
+      "parentUuid": "99ff4be9_fa9b4417",
       "revId": "ab33f42879311cba55bd6c10f04afa219251e654",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
