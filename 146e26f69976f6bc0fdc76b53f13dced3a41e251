@@ -258,6 +258,30 @@
       },
       "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6367b794_e9cb5456",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-10-27T14:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3ec2c91_f2b57c36",
+      "range": {
+        "startLine": 44,
+        "startChar": 39,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "146e26f69976f6bc0fdc76b53f13dced3a41e251",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

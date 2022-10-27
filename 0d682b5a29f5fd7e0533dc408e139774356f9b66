@@ -168,6 +168,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8ab24e9_590bfed6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-10-27T14:46:31Z",
+      "side": 1,
+      "message": "As per the PDI documentation,the following dbuspath has been used.\nxyz/openbmc_project/Chassis/Control/Power1\nxyz/openbmc_project/Chassis/Control/Power2\nxyz/openbmc_project/Chassis/Control/Power3\nxyz/openbmc_project/Chassis/Control/Power4",
+      "parentUuid": "40c99ed7_4136795a",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "0d682b5a29f5fd7e0533dc408e139774356f9b66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0aeeb71f_6c3fb1bb",

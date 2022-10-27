@@ -279,6 +279,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "532d9972_de289a90",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-10-27T14:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0407ecb6_46966c8c",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "867e476e_bbeceffd",
@@ -412,6 +436,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "7caf0611_63c3e6fc",
+      "range": {
+        "startLine": 119,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 25
+      },
+      "revId": "a3e9e1d37eb4c731c09d9c32b6277305f8b3ed54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85644d35_d8683814",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2022-10-27T14:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "110fda42_aac2ca5a",
       "range": {
         "startLine": 119,
         "startChar": 1,
