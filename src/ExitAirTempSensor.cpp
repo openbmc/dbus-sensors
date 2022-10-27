@@ -931,8 +931,9 @@ int main()
 
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
+    sdbusplus::asio::object_server objectServer(systemBus, true);
+    objectServer.add_manager("/xyz/openbmc_project/sensors");
     systemBus->request_name("xyz.openbmc_project.ExitAirTempSensor");
-    sdbusplus::asio::object_server objectServer(systemBus);
     std::shared_ptr<ExitAirTempSensor> sensor =
         nullptr; // wait until we find the config
 

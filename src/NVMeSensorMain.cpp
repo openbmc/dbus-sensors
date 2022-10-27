@@ -231,7 +231,8 @@ int main()
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.NVMeSensor");
-    sdbusplus::asio::object_server objectServer(systemBus);
+    sdbusplus::asio::object_server objectServer(systemBus, true);
+    objectServer.add_manager("/xyz/openbmc_project/sensors/");
 
     io.post([&]() { createSensors(io, objectServer, systemBus); });
 
