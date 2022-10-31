@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99ed038c_259dedb2",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-10-31T14:43:05Z",
+      "side": 1,
+      "message": "This timer is to wait until all the sensors are retrieved from IPMB Device.",
+      "parentUuid": "b1992f77_e6554d32",
+      "range": {
+        "startLine": 672,
+        "startChar": 25,
+        "endLine": 672,
+        "endChar": 28
+      },
+      "revId": "9b8aa5a6631eb61d95b46c982c584e720a83e97b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed320a03_4e51823f",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-26T10:54:18Z",
       "side": 1,
       "message": "Instead of passing everything to lambda, only pass those arguments which are required. .",
+      "range": {
+        "startLine": 674,
+        "startChar": 29,
+        "endLine": 674,
+        "endChar": 32
+      },
+      "revId": "9b8aa5a6631eb61d95b46c982c584e720a83e97b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff96e882_68ba0248",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2022-10-31T14:43:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed320a03_4e51823f",
       "range": {
         "startLine": 674,
         "startChar": 29,
