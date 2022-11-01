@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d80c5e98_8d6f9f1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-11-01T21:00:59Z",
+      "side": 1,
+      "message": "Apologies, I\u0027m not sure how I missed these in my search.",
+      "revId": "57751388d78214272568f7875d56fcdd26218a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58186e92_d4104974",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-11-01T21:00:59Z",
+      "side": 1,
+      "message": "Merging quickly to fix regression.",
+      "revId": "57751388d78214272568f7875d56fcdd26218a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
