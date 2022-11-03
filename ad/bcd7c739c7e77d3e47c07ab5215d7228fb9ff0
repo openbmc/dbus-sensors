@@ -1,0 +1,8 @@
+Code-Review+2: Ed Tanous <ed@tanous.net>
+Code-Review+1: Patrick Rudolph <patrick.rudolph@9elements.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Naresh Solanki <naresh.solanki@9elements.com>
+Submitted-at: Thu, 03 Nov 2022 19:28:49 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/58420
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
