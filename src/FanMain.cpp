@@ -40,14 +40,15 @@
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
-static auto sensorTypes{
-    std::to_array<const char*>({"AspeedFan", "I2CFan", "NuvotonFan"})};
+static auto sensorTypes{std::to_array<const char*>(
+    {"AspeedFan", "I2CFan", "NuvotonFan", "GxpFan"})};
 
 enum FanTypes
 {
     aspeed = 0,
     i2c,
     nuvoton,
+    gxp,
     max,
 };
 
@@ -73,6 +74,10 @@ FanTypes getFanType(const fs::path& parentPath)
     if (canonical.ends_with("pwm-fan-controller"))
     {
         return FanTypes::nuvoton;
+    }
+    if (canonical.ends_with("c1000c00.fanctrl"))
+    {
+        return FanTypes::gxp;
     }
     // todo: will we need to support other types?
     return FanTypes::i2c;
@@ -295,10 +300,11 @@ void createSensors(
                 {
                     continue;
                 }
-                if (fanType == FanTypes::aspeed || fanType == FanTypes::nuvoton)
+                if (fanType == FanTypes::aspeed ||
+                    fanType == FanTypes::nuvoton || fanType == FanTypes::gxp)
                 {
-                    // there will be only 1 aspeed or nuvoton sensor object
-                    // in sysfs, we found the fan
+                    // there will be only 1 aspeed or nuvoton or gxp sensor
+                    // object in sysfs, we found the fan
                     sensorData = &cfgData;
                     break;
                 }
