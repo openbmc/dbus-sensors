@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "127c33ef_36d9c80d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-11-07T23:18:26Z",
+      "side": 1,
+      "message": "Okay, so warning, this is entirely a drive-by comment as I haven\u0027t poked at the fan code much. However:\n\nI\u0027d *much* prefer we query compatible attribute through the of_node symlink instead of using arbitrary driver name voodoo. As such it\u0027s not really a comment against this patch specifically as it just follows the pattern of the existing code, but I still think we can do better. I\u0027d prefer we fix the approach first and *then* add support for the GXP fan controller using the fixed approach.\n\nThat said, it\u0027s also concerning that we need to know the type of the fan controller...",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
