@@ -1,0 +1,9 @@
+Code-Review+1: Matt Spinler <spinler@us.ibm.com>
+Code-Review+2: Andrew Jeffery <andrew@aj.id.au>
+Code-Review+1: Thang Q. Nguyen <thang@os.amperecomputing.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Andrew Jeffery <andrew@aj.id.au>
+Submitted-at: Tue, 08 Nov 2022 23:29:36 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57633
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
