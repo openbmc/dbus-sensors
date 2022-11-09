@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e31485f5_0b8d6d7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-11-09T07:11:29Z",
+      "side": 1,
+      "message": "It would at least obviate the need for changes like commit 6db8aae453cbffa33e8fe1b8ad0082629cab5f34 (https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57633/1) to be careful to update both instances of the logic -- fortunately Thu did so in that patch, but it would be very easy to forget...",
+      "parentUuid": "8b0f0523_26c0bb2e",
+      "revId": "8a9e160fa74bfc891bc1585f8e2ee6d056cbb95b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d90f21dc_1066b54d",
