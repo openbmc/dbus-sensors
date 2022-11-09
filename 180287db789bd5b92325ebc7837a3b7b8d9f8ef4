@@ -16,6 +16,24 @@
       "message": "Any particular reason this was abandoned Matt?  I think it\u0027d be a good thing get done...",
       "revId": "180287db789bd5b92325ebc7837a3b7b8d9f8ef4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2404db3b_3a7dff14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2022-11-09T16:00:15Z",
+      "side": 1,
+      "message": "Hi Zev, I still want to make a similar change in the future but a new commit will probably be cleaner.  \n\nI\u0027m trying to port over some of the changes you made in the HwmonTemp sensors, but I think I\u0027ll have to play around with the power state callback.  As-is there\u0027s a lot of noise around creating and destroying the devices on each power state event.",
+      "parentUuid": "ac102366_1e141133",
+      "revId": "180287db789bd5b92325ebc7837a3b7b8d9f8ef4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
