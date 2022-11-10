@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b26627c4_62d29b0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2022-11-10T04:45:28Z",
+      "side": 1,
+      "message": "Just for your information, the smpro-hwmon driver which is needed for AmpereCPU work was approved in upstream. You can check at https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/hwmon/smpro-hwmon.c?id\u003dab477289b90f574c34ca49a210dfe52a078ebf9c ",
+      "revId": "bbd4d4553db7d0deeee4cb62668b7b963173bb88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
