@@ -197,3 +197,21 @@ if get_option('external').enabled()
         install: true,
     )
 endif
+
+if get_option('redfish').enabled()
+    executable(
+        'redfishsensor',
+        'RedfishSensor.cpp',
+        'RedfishSensorMain.cpp',
+        'RedfishSensorQuery.cpp',
+        'RedfishSensorResponse.cpp',
+        dependencies: [
+            default_deps,
+            thresholds_dep,
+            utils_dep,
+        ],
+        implicit_include_directories: false,
+        include_directories: '../include',
+        install: true,
+    )
+endif
