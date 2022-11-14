@@ -44,12 +44,6 @@ static std::regex inputRegex(R"(in(\d+)_input)");
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
 
-enum class UpdateType
-{
-    init,
-    cpuPresenceChange
-};
-
 // filter out adc from any other voltage sensor
 bool isAdc(const fs::path& parentPath)
 {
@@ -74,13 +68,12 @@ void createSensors(
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged,
-    UpdateType updateType)
+        sensorsChanged)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
-         updateType](const ManagedObjectType& sensorConfigurations) {
+        [&io, &objectServer, &sensors, &dbusConnection,
+         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
         bool firstScan = sensorsChanged == nullptr;
         std::vector<fs::path> paths;
         if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)", paths))
@@ -197,26 +190,6 @@ void createSensors(
                 }
             }
 
-            auto findCPU = baseConfiguration->second.find("CPURequired");
-            if (findCPU != baseConfiguration->second.end())
-            {
-                size_t index =
-                    std::visit(VariantToIntVisitor(), findCPU->second);
-                auto presenceFind = cpuPresence.find(index);
-                if (presenceFind == cpuPresence.end())
-                {
-                    continue; // no such cpu
-                }
-                if (!presenceFind->second)
-                {
-                    continue; // cpu not installed
-                }
-            }
-            else if (updateType == UpdateType::cpuPresenceChange)
-            {
-                continue;
-            }
-
             std::vector<thresholds::Threshold> sensorThresholds;
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
             {
@@ -242,8 +215,27 @@ void createSensors(
                 getPollRate(baseConfiguration->second, pollRateDefault);
             PowerState readState = getPowerState(baseConfiguration->second);
 
+            auto findCPU = baseConfiguration->second.find("CPURequired");
+            if (findCPU != baseConfiguration->second.end())
+            {
+                size_t index =
+                    std::visit(VariantToIntVisitor(), findCPU->second);
+                auto presenceFind = cpuPresence.find(index);
+                if (presenceFind == cpuPresence.end())
+                {
+                    continue; // no such cpu
+                }
+                if (!presenceFind->second)
+                {
+                    continue; // cpu not installed
+                }
+            }
+
             auto& sensor = sensors[sensorName];
-            sensor = nullptr;
+            if (sensor)
+            {
+                continue;
+            }
 
             std::optional<BridgeGpio> bridgeGpio;
             for (const auto& [key, cfgMap] : *sensorData)
@@ -308,8 +300,7 @@ int main()
         std::make_shared<boost::container::flat_set<std::string>>();
 
     io.post([&]() {
-        createSensors(io, objectServer, sensors, systemBus, nullptr,
-                      UpdateType::init);
+        createSensors(io, objectServer, sensors, systemBus, nullptr);
     });
 
     boost::asio::steady_timer filterTimer(io);
@@ -335,8 +326,7 @@ int main()
                 std::cerr << "timer error\n";
                 return;
             }
-            createSensors(io, objectServer, sensors, systemBus, sensorsChanged,
-                          UpdateType::init);
+            createSensors(io, objectServer, sensors, systemBus, sensorsChanged);
         });
     };
 
@@ -383,8 +373,7 @@ int main()
                 std::cerr << "timer error\n";
                 return;
             }
-            createSensors(io, objectServer, sensors, systemBus, nullptr,
-                          UpdateType::cpuPresenceChange);
+            createSensors(io, objectServer, sensors, systemBus, nullptr);
         });
     };
 
