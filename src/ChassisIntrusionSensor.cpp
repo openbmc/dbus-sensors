@@ -18,6 +18,7 @@
 
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include <systemd/sd-journal.h>
 #include <unistd.h>
 
 #include <boost/asio/io_context.hpp>
@@ -65,14 +66,16 @@ void ChassisIntrusionSensor::updateValue(const std::string& newValue)
 
     if (mOldValue == "Normal" && mValue != "Normal")
     {
-        std::cerr << "save to SEL for intrusion assert event \n";
-        // TODO: call add SEL log API, depends on patch #13956
+        sd_journal_send("MESSAGE=%s", "Chassis intrusion assert event",
+                        "PRIORITY=%i", LOG_INFO, "REDFISH_MESSAGE_ID=%s",
+                        "OpenBMC.0.1.ChassisIntrusionDetected", NULL);
         mOldValue = mValue;
     }
     else if (mOldValue != "Normal" && mValue == "Normal")
     {
-        std::cerr << "save to SEL for intrusion de-assert event \n";
-        // TODO: call add SEL log API, depends on patch #13956
+        sd_journal_send("MESSAGE=%s", "Chassis intrusion de-assert event",
+                        "PRIORITY=%i", LOG_INFO, "REDFISH_MESSAGE_ID=%s",
+                        "OpenBMC.0.1.ChassisIntrusionReset", NULL);
         mOldValue = mValue;
     }
 }
