@@ -240,14 +240,18 @@ static SensorConfigMap
     return configMap;
 }
 
-boost::container::flat_map<std::string, std::shared_ptr<I2CDevice>>
+// returns a {path: <I2CDevice, is_new>} map.  is_new indicates if the I2CDevice
+// is newly instantiated by this call (true) or was already there (false).
+boost::container::flat_map<std::string,
+                           std::pair<std::shared_ptr<I2CDevice>, bool>>
     instantiateDevices(
         const ManagedObjectType& sensorConfigs,
         const boost::container::flat_map<
             std::string, std::shared_ptr<HwmonTempSensor>>& sensors)
 {
-    boost::container::flat_map<std::string, std::shared_ptr<I2CDevice>>
-        newSensors;
+    boost::container::flat_map<std::string,
+                               std::pair<std::shared_ptr<I2CDevice>, bool>>
+        devices;
     for (const auto& [path, sensor] : sensorConfigs)
     {
         for (const auto& [name, cfg] : sensor)
@@ -270,6 +274,9 @@ boost::container::flat_map<std::string, std::shared_ptr<I2CDevice>>
             if (findSensor != sensors.end() && findSensor->second != nullptr &&
                 findSensor->second->isActive())
             {
+                devices.emplace(
+                    path.str,
+                    std::make_pair(findSensor->second->getI2CDevice(), false));
                 continue;
             }
 
@@ -294,8 +301,10 @@ boost::container::flat_map<std::string, std::shared_ptr<I2CDevice>>
 
                 try
                 {
-                    newSensors.emplace(path.str,
-                                       std::make_shared<I2CDevice>(*params));
+                    devices.emplace(
+                        path.str,
+                        std::make_pair(std::make_shared<I2CDevice>(*params),
+                                       true));
                 }
                 catch (std::runtime_error&)
                 {
@@ -306,7 +315,7 @@ boost::container::flat_map<std::string, std::shared_ptr<I2CDevice>>
             }
         }
     }
-    return newSensors;
+    return devices;
 }
 
 void createSensors(
@@ -326,8 +335,7 @@ void createSensors(
 
         SensorConfigMap configMap = buildSensorConfigMap(sensorConfigurations);
 
-        boost::container::flat_map<std::string, std::shared_ptr<I2CDevice>>
-            newSensors = instantiateDevices(sensorConfigurations, sensors);
+        auto devices = instantiateDevices(sensorConfigurations, sensors);
 
         // IIO _raw devices look like this on sysfs:
         //     /sys/bus/iio/devices/iio:device0/in_temp_raw
@@ -397,16 +405,23 @@ void createSensors(
             }
 
             const std::string& interfacePath = findSensorCfg->second.sensorPath;
-            auto findI2CDev = newSensors.find(interfacePath);
-            if (activateOnly && findI2CDev == newSensors.end())
+            auto findI2CDev = devices.find(interfacePath);
+
+            // If we're only looking to activate newly-instantiated i2c
+            // devices and this sensor's underlying device either (a) wasn't
+            // found (e.g. because it's a static device and not a dynamic one
+            // whose lifetime we're managing) or (b) was already there before
+            // this call, there's nothing more to do here.
+            if (activateOnly &&
+                (findI2CDev == devices.end() || !findI2CDev->second.second))
             {
                 continue;
             }
 
             std::shared_ptr<I2CDevice> i2cDev;
-            if (findI2CDev != newSensors.end())
+            if (findI2CDev != devices.end())
             {
-                i2cDev = findI2CDev->second;
+                i2cDev = findI2CDev->second.first;
             }
 
             const SensorData& sensorData = findSensorCfg->second.sensorData;

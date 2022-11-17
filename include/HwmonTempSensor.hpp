@@ -40,6 +40,11 @@ class HwmonTempSensor :
     void deactivate(void);
     bool isActive(void);
 
+    std::shared_ptr<I2CDevice> getI2CDevice() const
+    {
+        return i2cDevice;
+    }
+
   private:
     // Ordering is important here; readBuf is first so that it's not destroyed
     // while async operations from other member fields might still be using it.
