@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4793e529_0612d067",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-11-17T22:29:27Z",
+      "side": 1,
+      "message": "This is kind of clunky, but in my testing seems to provide appropriate behavior both when powering the host on and off and restarting entity-manager to trigger an `eventHandler()` call.  Lei, Matt, can you test in your environment?",
+      "revId": "d7462738f2cd3b5fdbb4007d7cc7aacec7b75069",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
