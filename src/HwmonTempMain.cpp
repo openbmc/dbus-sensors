@@ -270,6 +270,8 @@ boost::container::flat_map<std::string, std::shared_ptr<I2CDevice>>
             if (findSensor != sensors.end() && findSensor->second != nullptr &&
                 findSensor->second->isActive())
             {
+                newSensors.emplace(path.str,
+                                   findSensor->second->getI2CDevice());
                 continue;
             }
 
