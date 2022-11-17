@@ -340,6 +340,7 @@ int main()
         });
     };
 
+    boost::asio::steady_timer cpuFilterTimer(io);
     std::function<void(sdbusplus::message_t&)> cpuPresenceHandler =
         [&](sdbusplus::message_t& message) {
         std::string path = message.get_path();
@@ -370,9 +371,9 @@ int main()
         }
 
         // this implicitly cancels the timer
-        filterTimer.expires_from_now(std::chrono::seconds(1));
+        cpuFilterTimer.expires_from_now(std::chrono::seconds(1));
 
-        filterTimer.async_wait([&](const boost::system::error_code& ec) {
+        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)
             {
                 /* we were canceled*/
