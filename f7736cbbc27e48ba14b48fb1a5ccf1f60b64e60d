@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e0040ac_021a98bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2022-11-17T20:04:20Z",
+      "side": 1,
+      "message": "looking into implementing a suggested non-HEP-specific change in fan handling...",
+      "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "127c33ef_36d9c80d",
         "filename": "src/FanMain.cpp",
         "patchSetId": 5
@@ -62,6 +79,30 @@
       "side": 1,
       "message": "\u003e Aspeed\" was just a naming poor choice made in EM to differentiate the built-in PWM drivers from say, a MAX3318,  Really we should\u0027ve called it SOC or something.\n\nEven then it doesn\u0027t feel quite right? I suspect what we care about is the controller\u0027s association with specific fans in the cooling zone topology, not whether it\u0027s a controller in the SoC or hanging off some I2C bus?",
       "parentUuid": "064997e2_3738c4cd",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde68d4e_f1640106",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2022-11-17T20:04:20Z",
+      "side": 1,
+      "message": "Thanks for the commentary! I\u0027ve been digging deeper some of the details on sensor handling, and started looking into what it would take to switch to using of_node/comparability checks as suggested.\n\nOne issue I\u0027m running into: I\u0027m not having much luck so far figuring out what \u0027compatible\u0027 string we\u0027d want to check to identify Aspeed and Nuvoton devices.\n\nFor GXP fans, the compatible string is called out with an obviously named \"hpe,gxp-fan-ctrl\" inside a GXP.dts \n\nAny thoughts on where I should be looking to find compatibility info for Aspeed and Nuvoton?",
+      "parentUuid": "f3a2b948_5b002e4b",
       "range": {
         "startLine": 78,
         "startChar": 29,
