@@ -183,6 +183,30 @@
       },
       "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dd84dd4_aa24b7d4",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2022-11-17T23:46:44Z",
+      "side": 1,
+      "message": "That\u0027s very helpful, thanks! (both for the links, and the discussion on the whys or why nots for alternative paths)",
+      "parentUuid": "47e13f54_e257979a",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
