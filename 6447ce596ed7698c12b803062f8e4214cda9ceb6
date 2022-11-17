@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c61296_601a6412",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2022-11-17T08:27:31Z",
+      "side": 1,
+      "message": "The LTC4282 driver is not ready yet. Right now set wip.",
+      "revId": "6447ce596ed7698c12b803062f8e4214cda9ceb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
