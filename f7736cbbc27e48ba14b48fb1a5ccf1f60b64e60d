@@ -111,6 +111,30 @@
       },
       "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b5ce20b_0e1609ea",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2022-11-17T20:36:36Z",
+      "side": 1,
+      "message": "Followup: my current assumption is that anything with \"Aspeed,*\" would be considered Aspeed. \n\nI\u0027m basing this one the usages of \"Aspeed, *\" here;\nhttps://github.com/openbmc/meta-bytedance/blob/master/meta-g220a/recipes-kernel/linux/linux-aspeed/0004-ARM-dts-aspeed-Add-uart-routing-node.patch\n\nWould \"Nuvoton, *\" handle for Nuvoton devices?\n\nbut clearly I\u0027m still missing some pieces re: usage of Aspeed and Nuvoton naming, so any links to more info on the subject are also appreciated!",
+      "parentUuid": "cde68d4e_f1640106",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
