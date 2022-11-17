@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f36f79ec_bcc10777",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-11-17T00:17:58Z",
+      "side": 1,
+      "message": "Was moving this hunk from line 200 to line 218 incidental? I don\u0027t think there\u0027s a reason? The important bit seems to be that you\u0027ve dropped the else-if branch with the continue in the body?",
+      "revId": "3183107e7b8bc768da019e931dbe3d4c1d8f7b13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
