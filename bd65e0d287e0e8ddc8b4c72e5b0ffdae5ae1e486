@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3edc6c5e_61ffb1de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-11-17T12:17:49Z",
+      "side": 1,
+      "message": "I still get the crash issue in one of BMC boots.\n-1 for now.",
+      "revId": "bd65e0d287e0e8ddc8b4c72e5b0ffdae5ae1e486",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
