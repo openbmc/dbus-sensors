@@ -34,6 +34,23 @@
       "parentUuid": "f36f79ec_bcc10777",
       "revId": "3183107e7b8bc768da019e931dbe3d4c1d8f7b13",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b1524d9_c198a20f",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-11-17T16:14:45Z",
+      "side": 1,
+      "message": "Is it possible for EM a threshold value to change on EM for an existing sensor?\nI guess this would cause it to not recreate the sensor object in that case.\n\n\nIf so, maybe I\u0027ll see if I  can just use 2 separate filter timers to ensure regular sensors get a chance to run.",
+      "revId": "3183107e7b8bc768da019e931dbe3d4c1d8f7b13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
