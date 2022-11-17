@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9101b63_57b900cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-11-17T23:34:23Z",
+      "side": 1,
+      "message": "Hopefully someone with more knowledge of the ADCSensor behaviour/implementation than I have can review this patch...",
+      "revId": "a97d60135d3d0db9c6d62607cd33ee10ee57a827",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
