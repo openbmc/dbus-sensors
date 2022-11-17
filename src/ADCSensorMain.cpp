@@ -313,6 +313,7 @@ int main()
     });
 
     boost::asio::steady_timer filterTimer(io);
+    boost::asio::steady_timer cpuFilterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
         if (message.is_method_error())
@@ -370,9 +371,9 @@ int main()
         }
 
         // this implicitly cancels the timer
-        filterTimer.expires_from_now(std::chrono::seconds(1));
+        cpuFilterTimer.expires_from_now(std::chrono::seconds(1));
 
-        filterTimer.async_wait([&](const boost::system::error_code& ec) {
+        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)
             {
                 /* we were canceled*/
