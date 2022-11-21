@@ -16,6 +16,24 @@
       "message": "Lei indicated that (at least initially, haven\u0027t heard further) this fixed the problem he\u0027d been hitting.  It\u0027s still not exactly a thing of beauty, but perhaps tolerable as is?",
       "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5381202_64bef2e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-11-21T22:52:33Z",
+      "side": 1,
+      "message": "Yeah, my immediate feeling is that this is clunky and points to the code having the wrong shape more broadly. Given master is broken we should probably submit it, but I\u0027d prefer this doesn\u0027t stick around for too long. Can you simmer thoughts in the background about how we might refactor to get rid of it?",
+      "parentUuid": "6e32db08_abb5c2d4",
+      "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
