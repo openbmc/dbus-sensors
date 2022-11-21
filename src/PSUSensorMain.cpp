@@ -39,7 +39,6 @@
 #include <vector>
 
 static constexpr bool debug = false;
-
 // clang-format off
 static constexpr auto sensorTypes{std::to_array<const char*>({
     "ADM1266",
@@ -52,8 +51,10 @@ static constexpr auto sensorTypes{std::to_array<const char*>({
     "BMR490",
     "DPS800",
     "INA219",
+    "INA226",
     "INA230",
     "IPSPS",
+    "IPSPS1",
     "IR38060",
     "IR38164",
     "IR38263",
@@ -100,6 +101,7 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "bmr490",
     "dps800",
     "ina219",
+    "ina226",
     "ina230",
     "ipsps1",
     "ir38060",
