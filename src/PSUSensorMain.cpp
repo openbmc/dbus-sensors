@@ -38,17 +38,56 @@
 #include <vector>
 
 static constexpr bool debug = false;
-
-static constexpr auto sensorTypes{std::to_array<const char*>(
-    {"ADM1266",   "ADM1272",   "ADM1275",   "ADM1278",   "ADM1293",
-     "ADS7830",   "BMR490",    "DPS800",    "INA219",    "INA230",
-     "IPSPS",     "IR38060",   "IR38164",   "IR38263",   "ISL68137",
-     "ISL68220",  "ISL68223",  "ISL69225",  "ISL69243",  "ISL69260",
-     "LM25066",   "MAX16601",  "MAX20710",  "MAX20730",  "MAX20734",
-     "MAX20796",  "MAX34451",  "MP2971",    "MP2973",    "MP5023",
-     "PLI1209BC", "pmbus",     "PXE1610",   "RAA228000", "RAA228228",
-     "RAA228620", "RAA229001", "RAA229004", "RAA229126", "TPS53679",
-     "TPS546D24", "XDPE11280", "XDPE12284"})};
+// clang-format off
+static constexpr auto sensorTypes{std::to_array<const char*>({
+    "ADM1266",
+    "ADM1272",
+    "ADM1275",
+    "ADM1278",
+    "ADM1293",
+    "ADS7830",
+    "BMR490",
+    "DPS800",
+    "INA219",
+    "INA226",
+    "INA230",
+    "IPSPS",
+    "IPSPS1",
+    "IR38060",
+    "IR38164",
+    "IR38263",
+    "ISL68137",
+    "ISL68220",
+    "ISL68223",
+    "ISL69225",
+    "ISL69243",
+    "ISL69260",
+    "LM25066",
+    "MAX16601",
+    "MAX20710",
+    "MAX20730",
+    "MAX20734",
+    "MAX20796",
+    "MAX34451",
+    "MP2971",
+    "MP2973",
+    "MP2975",
+    "MP5023",
+    "PLI1209BC",
+    "pmbus",
+    "PXE1610",
+    "RAA228000",
+    "RAA228228",
+    "RAA228620",
+    "RAA229001",
+    "RAA229004",
+    "RAA229126",
+    "TPS53679",
+    "TPS546D24",
+    "XDPE11280",
+    "XDPE12284"
+})};
+//clang-format on
 
 // clang-format off
 static constexpr auto pmbusNames{std::to_array<const char*>({
@@ -61,6 +100,7 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "bmr490",
     "dps800",
     "ina219",
+    "ina226",
     "ina230",
     "ipsps1",
     "ir38060",
@@ -81,6 +121,7 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "max34451",
     "mp2971",
     "mp2973",
+    "mp2975",
     "mp5023",
     "pli1209bc",
     "pmbus",
