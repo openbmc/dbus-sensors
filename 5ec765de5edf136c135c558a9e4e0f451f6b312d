@@ -125,6 +125,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49df1eee_aa5243cc",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-11-22T22:26:32Z",
+      "side": 1,
+      "message": "I don\u0027t personally have a strong opinion either way, but I\u0027ve heard Ed express a preference for avoiding auto, so I tend to do that.  That said, this is a pretty wordy type name, and the rest of the code in this file uses it a fair amount, so sure...",
+      "parentUuid": "3612ee07_3788f095",
+      "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6b596bb_5d257469",
@@ -138,6 +156,24 @@
       "writtenOn": "2022-11-22T03:14:02Z",
       "side": 1,
       "message": "Better to add a comment here to explain the case for `continue`.",
+      "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdb2a1e9_6cf09e6c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-11-22T22:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6b596bb_5d257469",
       "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
