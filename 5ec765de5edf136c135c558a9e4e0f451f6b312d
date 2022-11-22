@@ -34,6 +34,24 @@
       "parentUuid": "6e32db08_abb5c2d4",
       "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be521f8e_99b225c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-11-22T00:11:22Z",
+      "side": 1,
+      "message": "Yeah, I think I\u0027d tend to agree on the \"wrong shape\" thing, but having had similar thoughts while staring at this code over the past few weeks or so and not seeing any obvious great options for small incremental improvements to make I\u0027m not sure offhand...a wholesale reimplementation is kinda tempting, but that would of course drag in all the problems of rewrites (though it would provide an opportunity for switching to a more appealing language...).\n\nThere are a couple recurring, pervasive issues with the codebase as a whole that I keep stumbling over and not really feeling like I have time to dig in and try to address properly (and I fear the potential depth of the rabbit holes)...\n\nOne is the lack of proper purpose-built data structures, leading to everything ending up internally represented with nested `{string: {string: variant}}` maps and such, which (a) throws away a lot of advantages of static typing, and (b) makes the code really awkward and tedious to read/write (feels like writing python with an extra order of magnitude of boilerplate overhead tacked on because it\u0027s manually reimplementing a lot of stuff the interpreter would be doing automatically in a dynamically-typed language).  Readability suffers a lot; I often end up spending inordinate amounts of time tracking down just _what_ a given string somewhere really represents (dbus path?  sysfs path?  sensor name?  dbus interface name?  who knows?).\n\nAnother is the amount of duplication between sensor daemons.  A lot of them have chunks of code that are...say between 50% and 95% percent duplicated with another daemon (e.g. the various createSensors() functions).  Comparing them often turns up small discrepancies that make it hard to see what commonality could potentially be extracted and deduplicated; sometimes it seems like the differences might not actually be semantically significant, but it\u0027s often hard to tell (especially with the general code-readability challenges).\n\nGranted, neither of those are all that directly related to the problem at hand here, but it sorta seems like an attempt to seriously address any one of them would likely end up tangled in the others...",
+      "parentUuid": "b5381202_64bef2e7",
+      "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
