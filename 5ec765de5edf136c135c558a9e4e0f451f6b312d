@@ -52,6 +52,58 @@
       "parentUuid": "b5381202_64bef2e7",
       "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfc3fa81_1014ebeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-11-22T03:14:02Z",
+      "side": 1,
+      "message": "\u003e Another is the amount of duplication between sensor daemons.\n\nI agree. Although there are common code for threshold/sensors/utils, there are still quite a log of duplicated/similar code in different deaemons.\nAnd some different daemons support different configs from json, that\u0027s a another problem.\n\nHopefully these could be addressed in future (if we have better unit test cases).",
+      "parentUuid": "be521f8e_99b225c9",
+      "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3612ee07_3788f095",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-11-22T03:14:02Z",
+      "side": 1,
+      "message": "Probably use `auto devices \u003d xxx` here.",
+      "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6b596bb_5d257469",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-11-22T03:14:02Z",
+      "side": 1,
+      "message": "Better to add a comment here to explain the case for `continue`.",
+      "revId": "5ec765de5edf136c135c558a9e4e0f451f6b312d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
