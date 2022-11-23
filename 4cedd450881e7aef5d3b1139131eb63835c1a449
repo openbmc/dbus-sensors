@@ -70,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "813e60c6_f6720f51",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-11-23T09:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "153ffea4_ed9fead9",
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2288580b_1f1ba829",
@@ -284,6 +302,30 @@
       "side": 1,
       "message": "Handelled by creating new method.\nCan you please tell how self is error prone ?",
       "parentUuid": "93997d03_064837fa",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 46
+      },
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44af60da_c81e447a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-11-23T09:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7b9cbce_60cbfb7e",
       "range": {
         "startLine": 412,
         "startChar": 0,
