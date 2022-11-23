@@ -50,6 +50,24 @@
       "message": "Possibly add clang-format off annotation and make it line-by-line as below `pmbusNames`",
       "revId": "95b913ff0d7fffa2f0cc53439464ffe31b961ff4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83092ccc_174099dd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001613
+      },
+      "writtenOn": "2022-11-23T03:11:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e52945ba_987fed81",
+      "revId": "95b913ff0d7fffa2f0cc53439464ffe31b961ff4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
