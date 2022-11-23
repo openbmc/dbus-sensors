@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d66782c0_afd9b517",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-11-23T09:11:47Z",
+      "side": 1,
+      "message": "It was existing code so I think we should continue the same way.",
+      "parentUuid": "ecc76483_33a7b736",
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "153ffea4_ed9fead9",
@@ -69,6 +87,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fddb822_5cdcae69",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-11-23T09:11:47Z",
+      "side": 1,
+      "message": "No, we don\u0027t want to print error message here. Intention is to log error only when it breaches a limit. That is taken care in inrementError method.",
+      "parentUuid": "2288580b_1f1ba829",
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c7f42ad_1f1604f3",
@@ -86,6 +122,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a9e567_856556da",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-11-23T09:11:47Z",
+      "side": 1,
+      "message": "This part of code gets activated when debug is enabled. So \u0027debug\u0027 fits the purpose better.",
+      "parentUuid": "6c7f42ad_1f1604f3",
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76dc8f58_905f0ed1",
@@ -99,6 +153,24 @@
       "writtenOn": "2022-10-18T20:28:27Z",
       "side": 1,
       "message": "Instead of declaring a generic variable \"i\" can we declare a relevant variable?",
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed8552f8_9ae8d2db",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-11-23T09:11:47Z",
+      "side": 1,
+      "message": "i is used for indexing for iteration here. So it makes most sense. Moreover it\u0027s existing code so I think it\u0027s better to not modify unless it\u0027s an improvement.",
+      "parentUuid": "76dc8f58_905f0ed1",
       "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -188,6 +260,30 @@
       "side": 1,
       "message": "It is not about how many lines in this function, it is about how many \"self-\u003e\" need to be added in this function. It is error prone. Please refer this pattern:  https://github.com/openbmc/dbus-sensors/blob/21e12c34712ef672372a1373d65b1df3414b7563/src/HwmonTempSensor.cpp#L93\nhttps://github.com/openbmc/dbus-sensors/blob/21e12c34712ef672372a1373d65b1df3414b7563/src/HwmonTempSensor.cpp#L129",
       "parentUuid": "e4c638f1_6c950960",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 46
+      },
+      "revId": "4cedd450881e7aef5d3b1139131eb63835c1a449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b9cbce_60cbfb7e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-11-23T09:11:47Z",
+      "side": 1,
+      "message": "Handelled by creating new method.\nCan you please tell how self is error prone ?",
+      "parentUuid": "93997d03_064837fa",
       "range": {
         "startLine": 412,
         "startChar": 0,
