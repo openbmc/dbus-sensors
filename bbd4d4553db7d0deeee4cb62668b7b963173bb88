@@ -16,6 +16,40 @@
       "message": "Just for your information, the smpro-hwmon driver which is needed for AmpereCPU work was approved in upstream. You can check at https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/hwmon/smpro-hwmon.c?id\u003dab477289b90f574c34ca49a210dfe52a078ebf9c ",
       "revId": "bbd4d4553db7d0deeee4cb62668b7b963173bb88",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ac6af16_1b07d633",
+        "filename": "meson_options.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-11-23T23:16:21Z",
+      "side": 1,
+      "message": "This is mostly an independent issue that should probably be addressed separately, but I feel like we should go through these daemons and decide which ones should really be enabled by default.  Everything-and-the-kitchen-sink by default bloats firmware image sizes and makes our already-glacial boot times even slower; I\u0027m pretty sure zero systems that have ever existed will actually need both intelcpu *and* amperecpu, for example (and I\u0027m guessing most systems probably use less than half of them).  Maybe they should all default to disabled and we should have each platform explicitly opt-in to the specific set it actually wants?",
+      "revId": "bbd4d4553db7d0deeee4cb62668b7b963173bb88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e16e8874_f0640562",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-11-23T23:16:21Z",
+      "side": 1,
+      "message": "While I can sort of see why it ended up this way in this particular case, FWIW `!(x \u003c y)` seems like a slightly awkward way to write `x \u003e\u003d y` to me, personally.",
+      "revId": "bbd4d4553db7d0deeee4cb62668b7b963173bb88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
