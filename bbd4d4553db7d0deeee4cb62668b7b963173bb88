@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d71021bf_da4ab0a8",
+        "filename": "meson_options.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-11-24T04:36:58Z",
+      "side": 1,
+      "message": "\u003e The idea of dbus-sensor and entity-manager is dynamic detection whenever the entity is plugged to the system.\n\nSure, but unless we\u0027re actually trying to achieve a single grand unified BMC firmware build that\u0027ll somehow Just Work on any supported platform, there\u0027s always going to be some amount of static compile-time configuration for the desired target platform(s)...and given that, including every single sensor daemon by default seems like a lot of extra (mostly dead) weight to carry around.  But as I said, it\u0027s a pretty tangential topic -- perhaps I\u0027ll post a separate RFC patch or something for further discussion outside of this patch...",
+      "parentUuid": "de61fcce_8ef8ca4b",
+      "revId": "bbd4d4553db7d0deeee4cb62668b7b963173bb88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e16e8874_f0640562",
