@@ -166,6 +166,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e88efad_2e893b18",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-11-24T03:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51594ced_8ea20161",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 73
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f7ee105_bbad284d",
@@ -238,6 +262,30 @@
       "side": 1,
       "message": "add_interface() expects one std::string. I\u0027m not sure why we change it to sdbusplus::message::object_path.",
       "parentUuid": "dc92daad_96d5c982",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 68
+      },
+      "revId": "78660e9e139f70574d24470db69a1af03432f3c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04a16c09_feb5f9c9",
+        "filename": "src/AmpereCPU.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-11-24T03:11:41Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "296eb77d_ab4beaf0",
       "range": {
         "startLine": 66,
         "startChar": 0,
