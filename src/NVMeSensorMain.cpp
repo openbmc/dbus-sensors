@@ -276,5 +276,14 @@ int main()
         });
 
     setupManufacturingModeMatch(*systemBus);
+
+    // The NVMe controller used pipe to transfer raw data. The pipe could be
+    // closed by the client. It should not be considered as an error.
+    boost::asio::signal_set signals(io, SIGPIPE);
+    signals.async_wait(
+        [](const boost::system::error_code& error, int signal_number) {
+        std::cerr << "signal: " << strsignal(signal_number) << ", "
+                  << error.message() << std::endl;
+    });
     io.run();
 }
