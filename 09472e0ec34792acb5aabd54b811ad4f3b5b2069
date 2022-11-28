@@ -16,6 +16,41 @@
       "message": "the commit message says:\n   should end with \"cpuX\" or \"CPUx\"\n   \ndoes filename convert to lowercase?\n\nMaybe this whole check can be removed since you\u0027re already checking that the item is a CPU in the match.",
       "revId": "09472e0ec34792acb5aabd54b811ad4f3b5b2069",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "137bdbea_b1771080",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-11-28T16:43:38Z",
+      "side": 1,
+      "message": "Nevermind, see below. I\u0027m not sure that check will work so this would still be necessary",
+      "parentUuid": "d4368277_f48a5966",
+      "revId": "09472e0ec34792acb5aabd54b811ad4f3b5b2069",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa5ce199_19449ace",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-11-28T16:43:38Z",
+      "side": 1,
+      "message": "Since the Present property that cpuPresenceHandler is looking for isn\u0027t on this interface, I don\u0027t think this match can use it.",
+      "revId": "09472e0ec34792acb5aabd54b811ad4f3b5b2069",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
