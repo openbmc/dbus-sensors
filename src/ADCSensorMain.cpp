@@ -346,7 +346,9 @@ int main()
         std::string path = message.get_path();
         boost::to_lower(path);
 
-        if (path.rfind("cpu") == std::string::npos)
+        sdbusplus::message::object_path cpuPath(path);
+        std::string cpuName = cpuPath.filename();
+        if (!cpuName.starts_with("cpu"))
         {
             return; // not interested
         }
