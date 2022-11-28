@@ -1,5 +1,6 @@
 #include "NVMeSubsys.hpp"
 
+#include "NVMePlugin.hpp"
 #include "Thresholds.hpp"
 
 #include <filesystem>
@@ -186,11 +187,12 @@ void NVMeSubsystem::start()
                 std::filesystem::path path = std::filesystem::path(self->path) /
                                              "controllers" /
                                              std::to_string(*index);
-                auto [ctrl, _] = self->controllers.insert(
-                    {*index, std::make_shared<NVMeController>(
-                                 self->io, self->objServer, self->conn,
-                                 path.string(), nvme, c)});
-                ctrl->second->start();
+                auto nvmeController = std::make_shared<NVMeController>(
+                    self->io, self->objServer, self->conn, path.string(), nvme,
+                    c);
+                std::shared_ptr<NVMePlugin> plugin = {};
+                self->controllers.insert({*index, {nvmeController, plugin}});
+                nvmeController->start(plugin);
 
                 index++;
             }
@@ -217,9 +219,9 @@ void NVMeSubsystem::start()
                     *reinterpret_cast<nvme_secondary_ctrl_list*>(data.data());
 
                 // Remove all associations
-                for (const auto& [_, cntrl] : self->controllers)
+                for (const auto& [_, pair] : self->controllers)
                 {
-                    cntrl->setSecAssoc();
+                    pair.first->setSecAssoc();
                 }
 
                 if (listHdr.num == 0)
@@ -252,9 +254,9 @@ void NVMeSubsystem::start()
                                   << std::endl;
                         break;
                     }
-                    secCntrls.push_back(findSecondary->second);
+                    secCntrls.push_back(findSecondary->second.first);
                 }
-                findPrimary->second->setSecAssoc(secCntrls);
+                findPrimary->second.first->setSecAssoc(secCntrls);
                 });
         });
     }
