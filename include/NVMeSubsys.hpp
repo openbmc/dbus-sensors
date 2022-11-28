@@ -1,6 +1,7 @@
 #include "NVMeBasic.hpp"
 #include "NVMeController.hpp"
 #include "NVMeDrive.hpp"
+#include "NVMePlugin.hpp"
 #include "NVMeSensor.hpp"
 #include "NVMeStorage.hpp"
 #include "Utils.hpp"
@@ -62,8 +63,10 @@ class NVMeSubsystem : public std::enable_shared_from_this<NVMeSubsystem>
     */
     NVMeDrive drive;
 
-    // map from cntrlid to controller instances
-    std::map<uint16_t, std::shared_ptr<NVMeController>> controllers{};
+    // map from cntrlid to a pair of {controller, controller_plugin}
+    std::map<uint16_t, std::pair<std::shared_ptr<NVMeController>,
+                                 std::shared_ptr<NVMePlugin>>>
+        controllers{};
 
     // implemetation details for the class.
     // It should contain only static function and using binding to the
