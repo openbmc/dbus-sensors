@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4368277_f48a5966",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-11-28T16:16:43Z",
+      "side": 1,
+      "message": "the commit message says:\n   should end with \"cpuX\" or \"CPUx\"\n   \ndoes filename convert to lowercase?\n\nMaybe this whole check can be removed since you\u0027re already checking that the item is a CPU in the match.",
+      "revId": "09472e0ec34792acb5aabd54b811ad4f3b5b2069",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
