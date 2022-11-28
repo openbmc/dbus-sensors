@@ -1,5 +1,7 @@
 #include "NVMeController.hpp"
 
+#include "NVMePlugin.hpp"
+
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Common/File/error.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
@@ -26,8 +28,10 @@ NVMeController::NVMeController(
     NVMeAdmin::emit_added();
 }
 
-void NVMeController::start()
-{}
+void NVMeController::start(std::shared_ptr<NVMePlugin> nvmePlugin)
+{
+    plugin = nvmePlugin;
+}
 
 sdbusplus::message::unix_fd NVMeController::getLogPage(uint8_t lid,
                                                        uint32_t nsid,
@@ -69,8 +73,24 @@ sdbusplus::message::unix_fd NVMeController::getLogPage(uint8_t lid,
             });
     }
     // vendor Log IDs
-    else
-    {}
+    else if (!plugin.expired())
+    {
+        auto nvmePlugin = plugin.lock();
+        auto handler = nvmePlugin->getGetLogPageHandler();
+        if (handler)
+        {
+            handler(pipe, lid, nsid, lsp, lsi);
+        }
+        else // No VU LogPage handler
+        {
+            throw sdbusplus::xyz::openbmc_project::Common::Error::
+                InvalidArgument();
+        }
+    }
+    else // No VU plugin
+    {
+        throw sdbusplus::xyz::openbmc_project::Common::Error::InvalidArgument();
+    }
     return sdbusplus::message::unix_fd{pipe[0]};
 }
 
