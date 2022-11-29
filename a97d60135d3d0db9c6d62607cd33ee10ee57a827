@@ -39,6 +39,30 @@
       },
       "revId": "a97d60135d3d0db9c6d62607cd33ee10ee57a827",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a0ccd17_b53dec15",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-11-29T19:10:54Z",
+      "side": 1,
+      "message": "Hmm, not sure I follow.  How so?  It isn\u0027t doing anything different than when it operated on filterTimer defined on the line above.",
+      "parentUuid": "be430980_d76fc921",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 49
+      },
+      "revId": "a97d60135d3d0db9c6d62607cd33ee10ee57a827",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
