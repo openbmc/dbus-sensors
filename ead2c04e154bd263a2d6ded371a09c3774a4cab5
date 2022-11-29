@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56e54d48_0246a9db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-11-29T14:14:16Z",
+      "side": 1,
+      "message": "This seems like an improvement to me, but I guess someone that uses the \u0027CPURequired\u0027 field may want to have a say.",
+      "revId": "ead2c04e154bd263a2d6ded371a09c3774a4cab5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
