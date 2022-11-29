@@ -166,9 +166,16 @@ if get_option('nvme').enabled()
         include_type: 'system'
     )
 
+    libnvme_vu = dependency('libnvme-interface', 
+        required : true,
+        fallback : ['libnvme-vu', 'nvme_intf_dep'],
+        include_type: 'system'
+    )
+
     nvme_deps = [ 
         default_deps, i2c, thresholds_dep, utils_dep, 
-        threads, pdi_dep, libnvme, libnvme_mi
+        threads, pdi_dep, libnvme, libnvme_mi,
+        libnvme_vu
     ]
 
     executable(
