@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a051503_2454248f",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-11-29T02:49:30Z",
+      "side": 1,
+      "message": "\u003e does filename convert to lowercase?\n\nyes, please see line：346",
+      "parentUuid": "137bdbea_b1771080",
+      "revId": "09472e0ec34792acb5aabd54b811ad4f3b5b2069",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa5ce199_19449ace",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 2
@@ -49,6 +67,24 @@
       "writtenOn": "2022-11-28T16:43:38Z",
       "side": 1,
       "message": "Since the Present property that cpuPresenceHandler is looking for isn\u0027t on this interface, I don\u0027t think this match can use it.",
+      "revId": "09472e0ec34792acb5aabd54b811ad4f3b5b2069",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c25d7fe3_b1a1695e",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-11-29T02:49:30Z",
+      "side": 1,
+      "message": "\u003e Since the Present property that cpuPresenceHandler is looking for isn\u0027t on this interface, I don\u0027t think this match can use it.\n\nYes, correct\nRemoved it",
+      "parentUuid": "fa5ce199_19449ace",
       "revId": "09472e0ec34792acb5aabd54b811ad4f3b5b2069",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
