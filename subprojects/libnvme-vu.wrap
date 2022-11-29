@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://github.com/drakedog2008/libnvme-vu
+revision = 6951ed340c8eb76528f8575433dbec1e2b1641f5
+
+[provide]
+dependency_names = nvme_intf_dep
