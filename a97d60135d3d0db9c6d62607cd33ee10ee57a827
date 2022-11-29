@@ -16,6 +16,29 @@
       "message": "Hopefully someone with more knowledge of the ADCSensor behaviour/implementation than I have can review this patch...",
       "revId": "a97d60135d3d0db9c6d62607cd33ee10ee57a827",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be430980_d76fc921",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-11-29T19:00:43Z",
+      "side": 1,
+      "message": "move before use, e.g. line 344",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 49
+      },
+      "revId": "a97d60135d3d0db9c6d62607cd33ee10ee57a827",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
