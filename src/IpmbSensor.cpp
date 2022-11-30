@@ -782,6 +782,40 @@ void reinitSensors(sdbusplus::message_t& message)
     }
 }
 
+void interfaceRemoved(
+    sdbusplus::message_t& message,
+    boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
+        sensors)
+{
+    if (message.is_method_error())
+    {
+        std::cerr << "interfacesRemoved callback method error\n";
+        return;
+    }
+
+    sdbusplus::message::object_path removedPath;
+    std::vector<std::string> interfaces;
+
+    message.read(removedPath, interfaces);
+
+    // If the xyz.openbmc_project.Confguration.X interface was removed
+    // for one or more sensors, delete those sensor objects.
+    auto sensorIt = sensors.begin();
+    while (sensorIt != sensors.end())
+    {
+        if ((sensorIt->second->configurationPath == removedPath) &&
+            (std::find(interfaces.begin(), interfaces.end(),
+                       configInterfaceName(sdrInterface)) != interfaces.end()))
+        {
+            sensorIt = sensors.erase(sensorIt);
+        }
+        else
+        {
+            sensorIt++;
+        }
+    }
+}
+
 int main()
 {
 
@@ -834,6 +868,17 @@ int main()
             configInterfaceName(sdrInterface) + "'",
         [&systemBus, &io, &objectServer](sdbusplus::message_t& msg) {
         sdrHandler(msg, systemBus, io, objectServer, sensors);
+        });
+
+    // Watch for entity-manager to remove configuration interfaces
+    // so the corresponding sensors can be removed.
+    auto ifaceRemovedMatch = std::make_shared<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        "type='signal',member='InterfacesRemoved',arg0path='" +
+            std::string(inventoryPath) + "/'",
+        [](sdbusplus::message_t& msg) {
+        std::cerr << " InterfacesRemoved  called test.." << std::endl;
+        interfaceRemoved(msg, sensors);
         });
 
     setupManufacturingModeMatch(*systemBus);
