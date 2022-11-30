@@ -22,6 +22,30 @@
       },
       "revId": "7627c860fa551663436416aa12f5afe2f7136930",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bc2ebb0_77679a24",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-11-30T05:43:05Z",
+      "side": 0,
+      "message": "Sorry for lost the part of debug log. I added this part in the right place.",
+      "parentUuid": "1f63f109_3b65774b",
+      "range": {
+        "startLine": 592,
+        "startChar": 0,
+        "endLine": 598,
+        "endChar": 0
+      },
+      "revId": "7627c860fa551663436416aa12f5afe2f7136930",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

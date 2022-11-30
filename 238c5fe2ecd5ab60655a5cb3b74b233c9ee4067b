@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0e11189_b74ed780",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-11-30T05:43:05Z",
+      "side": 1,
+      "message": "According to IIO the device driver, an IIO sensors will create single or multiple channels of power, voltage, current and other sensor information. And PSUSensor can use labels to get data from the different exposed paths, So add it to PSUSensor.",
+      "parentUuid": "63936dc8_aacee628",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 57
+      },
+      "revId": "238c5fe2ecd5ab60655a5cb3b74b233c9ee4067b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87de757e_a4627ac0",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "901dc935_2cf18169",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-11-30T05:43:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87de757e_a4627ac0",
+      "range": {
+        "startLine": 356,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 31
+      },
+      "revId": "238c5fe2ecd5ab60655a5cb3b74b233c9ee4067b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18b17fac_5ca23724",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-11-29T20:20:28Z",
       "side": 1,
       "message": "use condition on devType?",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 382,
+        "endChar": 9
+      },
+      "revId": "238c5fe2ecd5ab60655a5cb3b74b233c9ee4067b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "552b76ab_96a78355",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-11-30T05:43:05Z",
+      "side": 1,
+      "message": "Done. Update this condition with devType.",
+      "parentUuid": "18b17fac_5ca23724",
       "range": {
         "startLine": 373,
         "startChar": 0,
