@@ -412,6 +412,12 @@ void IpmbSensor::ipmbRequestCompletionCb(const boost::system::error_code& ec,
 
 void IpmbSensor::read(void)
 {
+    if (!dbusConnection)
+    {
+        std::cerr << "Connection not created\n";
+        return;
+    }
+
     waitTimer.expires_from_now(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
         [weakRef{weak_from_this()}](const boost::system::error_code& ec) {
@@ -580,12 +586,12 @@ void createSensors(
                 {
                     continue;
                 }
+
                 if ((ipmbSDREnable) &&
                     (intf != configInterfaceName(sdrInterface)))
                 {
                     continue;
                 }
-
                 std::string name = loadVariant<std::string>(cfg, "Name");
 
                 std::vector<thresholds::Threshold> sensorThresholds;
@@ -706,8 +712,7 @@ void sdrHandler(
 
     size_t waitSeconds = 15;
     sdrWaitTimer->expires_from_now(std::chrono::seconds(waitSeconds));
-    sdrWaitTimer->async_wait([&io, &objectServer, &sensors, &dbusConnection](
-                                 const boost::system::error_code ec) {
+    sdrWaitTimer->async_wait([&](const boost::system::error_code ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
@@ -759,6 +764,40 @@ void reinitSensors(sdbusplus::message_t& message)
                     }
                 }
             });
+        }
+    }
+}
+
+void interfaceRemoved(
+    sdbusplus::message_t& message,
+    boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
+        sensors)
+{
+    if (message.is_method_error())
+    {
+        std::cerr << "interfacesRemoved callback method error\n";
+        return;
+    }
+
+    sdbusplus::message::object_path removedPath;
+    std::vector<std::string> interfaces;
+
+    message.read(removedPath, interfaces);
+
+    // If the xyz.openbmc_project.Confguration.X interface was removed
+    // for one or more sensors, delete those sensor objects.
+    auto sensorIt = sensors.begin();
+    while (sensorIt != sensors.end())
+    {
+        if ((sensorIt->second->configurationPath == removedPath) &&
+            (std::find(interfaces.begin(), interfaces.end(),
+                       configInterfaceName(sdrInterface)) != interfaces.end()))
+        {
+            sensorIt = sensors.erase(sensorIt);
+        }
+        else
+        {
+            sensorIt++;
         }
     }
 }
@@ -815,6 +854,17 @@ int main()
             configInterfaceName(sdrInterface) + "'",
         [&systemBus, &io, &objectServer](sdbusplus::message_t& msg) {
         sdrHandler(msg, systemBus, io, objectServer, sensors);
+        });
+
+    // Watch for entity-manager to remove configuration interfaces
+    // so the corresponding sensors can be removed.
+    auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        "type='signal',member='InterfacesRemoved',arg0path='" +
+            std::string(inventoryPath) + "/'",
+        [](sdbusplus::message_t& msg) {
+        std::cerr << " InterfacesRemoved  called test.." << std::endl;
+        interfaceRemoved(msg, sensors);
         });
 
     setupManufacturingModeMatch(*systemBus);
