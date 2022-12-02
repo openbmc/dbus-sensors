@@ -546,6 +546,7 @@ int main()
 
     objectServer.add_manager("/xyz/openbmc_project/sensors");
     objectServer.add_manager("/xyz/openbmc_project/control");
+    objectServer.add_manager("/xyz/openbmc_project/inventory");
     systemBus->request_name("xyz.openbmc_project.FanSensor");
     boost::container::flat_map<std::string, std::shared_ptr<TachSensor>>
         tachSensors;
