@@ -407,20 +407,18 @@ void createSensors(
             const std::string& interfacePath = findSensorCfg->second.sensorPath;
             auto findI2CDev = devices.find(interfacePath);
 
-            // If we're only looking to activate newly-instantiated i2c
-            // devices and this sensor's underlying device either (a) wasn't
-            // found (e.g. because it's a static device and not a dynamic one
-            // whose lifetime we're managing) or (b) was already there before
-            // this call, there's nothing more to do here.
-            if (activateOnly &&
-                (findI2CDev == devices.end() || !findI2CDev->second.second))
-            {
-                continue;
-            }
-
             std::shared_ptr<I2CDevice> i2cDev;
             if (findI2CDev != devices.end())
             {
+                // If we're only looking to activate newly-instantiated i2c
+                // devices and this sensor's underlying device either (a) wasn't
+                // found (e.g. because it's a static device and not a dynamic
+                // one whose lifetime we're managing) or (b) was already there
+                // before this call, there's nothing more to do here.
+                if (activateOnly && !findI2CDev->second.second)
+                {
+                    continue;
+                }
                 i2cDev = findI2CDev->second.first;
             }
 
