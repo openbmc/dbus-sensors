@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab23cda9_594b0bcc",
+        "filename": "include/ChassisIntrusionSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-12-06T08:40:25Z",
+      "side": 1,
+      "message": "Don\u0027t need to update this variable, just add new timer mHwmonPollTimer",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e25b249_492b0934",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-12-06T08:40:25Z",
+      "side": 1,
+      "message": "Is the HwmonPath always the first path in the list?",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da4532c9_be0497af",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-12-06T08:40:25Z",
+      "side": 1,
+      "message": "Please apply the if...else...\nif (*pType \u003d\u003d IntrusionSensorType::pch)\n{\n}\nelse if (*pType \u003d\u003d IntrusionSensorType::hwmon)\n{\n}",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e538af5e_bc508fb9",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-12-06T08:40:25Z",
+      "side": 1,
+      "message": "\"can\u0027t find matched I2C, GPIO or Hwmon configuration \" is better in this case.",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
