@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea1184bd_14c52f46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-12-06T22:14:06Z",
+      "side": 1,
+      "message": "Please explain the test plan and the results, not just assert that you verified things.",
+      "revId": "5fe64a0955a6f88cf85d7c0124e3252a63a84ede",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f90891a6_dc40a030",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-12-06T22:14:06Z",
+      "side": 1,
+      "message": "Please clean up the duplicate SOB tags.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "5fe64a0955a6f88cf85d7c0124e3252a63a84ede",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
