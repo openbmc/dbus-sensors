@@ -59,20 +59,23 @@ std::optional<std::string> createSensorNameFromPath(const std::string& path)
     return name;
 }
 
-void createStorageAssociation(
-    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path)
+void NVMeSubsystem::createStorageAssociation()
 {
-    if (association)
-    {
-        std::filesystem::path p(path);
+    auto storageAssociation =
+        objServer.add_interface(path, association::interface);
 
-        std::vector<Association> associations;
-        associations.emplace_back("chassis", "storage",
-                                  p.parent_path().string());
-        association->register_property("Associations", associations);
-        association->initialize();
-    }
+    storageAssociation->register_property(
+        "Associations", associations,
+        // custom set
+        [&](const std::vector<Association>&,
+            std::vector<Association>& propertyValue) {
+        propertyValue = associations;
+        return false;
+        },
+        // custom get
+        [&](const std::vector<Association>&) { return associations; });
+
+    storageAssociation->initialize();
 }
 
 // get temporature from a NVMe Basic reading.
@@ -107,43 +110,41 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
     }
 
     // initiate the common interfaces (thermal sensor, Drive and Storage)
-    if (dynamic_cast<NVMeBasicIntf*>(nvmeIntf.get()) != nullptr ||
-        dynamic_cast<NVMeMiIntf*>(nvmeIntf.get()) != nullptr)
-    {
-        std::optional<std::string> sensorName = createSensorNameFromPath(path);
-        if (!sensorName)
-        {
-            // fail to parse sensor name from path, using name instead.
-            sensorName.emplace(name);
-        }
-
-        std::vector<thresholds::Threshold> sensorThresholds;
-        if (!parseThresholdsFromConfig(configData, sensorThresholds))
-        {
-            std::cerr << "error populating thresholds for " << *sensorName
-                      << "\n";
-            throw std::runtime_error("error populating thresholds for " +
-                                     *sensorName);
-        }
-
-        ctemp.emplace(objServer, io, conn, *sensorName,
-                      std::move(sensorThresholds), path);
-
-        /* xyz.openbmc_project.Inventory.Item.Drive */
-        drive.protocol(NVMeDrive::DriveProtocol::NVMe);
-        drive.type(NVMeDrive::DriveType::SSD);
-        // TODO: update capacity
-
-        /* xyz.openbmc_project.Inventory.Item.Storage */
-        // make association to chassis
-        auto storageAssociation =
-            objServer.add_interface(path, association::interface);
-        createStorageAssociation(storageAssociation, path);
-    }
-    else
+    if (dynamic_cast<NVMeBasicIntf*>(nvmeIntf.get()) == nullptr &&
+        dynamic_cast<NVMeMiIntf*>(nvmeIntf.get()) == nullptr)
     {
         throw std::runtime_error("Unsupported NVMe interface");
     }
+
+    std::optional<std::string> sensorName = createSensorNameFromPath(path);
+    if (!sensorName)
+    {
+        // fail to parse sensor name from path, using name instead.
+        sensorName.emplace(name);
+    }
+
+    std::vector<thresholds::Threshold> sensorThresholds;
+    if (!parseThresholdsFromConfig(configData, sensorThresholds))
+    {
+        std::cerr << "error populating thresholds for " << *sensorName << "\n";
+        throw std::runtime_error("error populating thresholds for " +
+                                 *sensorName);
+    }
+
+    ctemp.emplace(objServer, io, conn, *sensorName, std::move(sensorThresholds),
+                  path);
+
+    /* xyz.openbmc_project.Inventory.Item.Drive */
+    drive.protocol(NVMeDrive::DriveProtocol::NVMe);
+    drive.type(NVMeDrive::DriveType::SSD);
+    // TODO: update capacity
+
+    /* xyz.openbmc_project.Inventory.Item.Storage */
+    // make association for Drive/Storage/Chassis
+    std::filesystem::path p(path);
+    associations.emplace_back("chassis", "storage", p.parent_path().string());
+    associations.emplace_back("chassis", "drive", p.parent_path().string());
+    associations.emplace_back("drive", "storage", path);
 }
 
 void NVMeSubsystem::start()
@@ -160,6 +161,7 @@ void NVMeSubsystem::start()
                 // TODO: mark the subsystem invalid and reschedule refresh
                 std::cerr << "fail to scan controllers for the nvme subsystem"
                           << (ec ? ": " + ec.message() : "") << std::endl;
+                self->createStorageAssociation();
                 return;
             }
 
@@ -188,8 +190,13 @@ void NVMeSubsystem::start()
                 self->controllers.insert({*index, {nvmeController, plugin}});
                 nvmeController->start(plugin);
 
+                // set StorageController Association
+                self->associations.emplace_back("storage_controller", "storage",
+                                                path);
+
                 index++;
             }
+            self->createStorageAssociation();
 
             /*
             find primary controller and make association
@@ -275,16 +282,13 @@ void NVMeSubsystem::start()
     }
     else if (auto intf = std::dynamic_pointer_cast<NVMeMiIntf>(nvmeIntf))
     {
-        ctemp_fetcher_t<nvme_mi_nvm_ss_health_status*>
-            dataFether =
-                [intf](
-                    std::function<void(const std::error_code&,
-                                       nvme_mi_nvm_ss_health_status*)>&& cb) {
+        ctemp_fetcher_t<nvme_mi_nvm_ss_health_status*> dataFether =
+            [intf](std::function<void(const std::error_code&,
+                                      nvme_mi_nvm_ss_health_status*)>&& cb) {
             intf->miSubsystemHealthStatusPoll(std::move(cb));
         };
-       ctemp_parser_t<nvme_mi_nvm_ss_health_status*>
-            dataParser = [](nvme_mi_nvm_ss_health_status* status)
-            -> std::optional<double> {
+        ctemp_parser_t<nvme_mi_nvm_ss_health_status*> dataParser =
+            [](nvme_mi_nvm_ss_health_status* status) -> std::optional<double> {
             // Drive Functional
             bool df = status->nss & 0x20;
             if (!df)
