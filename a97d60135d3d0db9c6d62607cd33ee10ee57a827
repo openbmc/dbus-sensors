@@ -63,6 +63,30 @@
       },
       "revId": "a97d60135d3d0db9c6d62607cd33ee10ee57a827",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c8f176_cb9df6dc",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-12-06T05:10:03Z",
+      "side": 1,
+      "message": "Move it before the handler that will use it.\n(after the eventHandler block).",
+      "parentUuid": "4a0ccd17_b53dec15",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 49
+      },
+      "revId": "a97d60135d3d0db9c6d62607cd33ee10ee57a827",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
