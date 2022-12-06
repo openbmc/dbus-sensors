@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "291f9905_768dee74",
+        "filename": "include/ChassisIntrusionSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-06T13:33:44Z",
+      "side": 1,
+      "message": "I think this would cause confusion so I modified it. Is it not good to change an existing variable name?",
+      "parentUuid": "ab23cda9_594b0bcc",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e25b249_492b0934",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2022-12-06T08:40:25Z",
       "side": 1,
       "message": "Is the HwmonPath always the first path in the list?",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cbf5ba2_87485d12",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-06T13:33:44Z",
+      "side": 1,
+      "message": "Currently or temporarily, there seems to be only one chassis intrusion sensor in a Chassis. I assume there can be only one file with the specified name in hwmon.",
+      "parentUuid": "1e25b249_492b0934",
       "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b7f6e60_c521675a",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-06T13:33:44Z",
+      "side": 1,
+      "message": "Should I also change to else if(*pType \u003d\u003d IntrusionSensorType::gpio)?",
+      "parentUuid": "da4532c9_be0497af",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e538af5e_bc508fb9",
         "filename": "src/IntrusionSensorMain.cpp",
         "patchSetId": 1
@@ -65,6 +119,24 @@
       "writtenOn": "2022-12-06T08:40:25Z",
       "side": 1,
       "message": "\"can\u0027t find matched I2C, GPIO or Hwmon configuration \" is better in this case.",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb9c6ee_5a803078",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-06T13:33:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e538af5e_bc508fb9",
       "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
