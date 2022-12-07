@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9e383e_e2589580",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-12-07T21:34:37Z",
+      "side": 1,
+      "message": "Since the bug didn\u0027t manifest with dynamic sensor devices, we should clarify here that it caused problems with static sensors.",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "0811ebe1bf0bac8f291e25b3fa5852bc0959524e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3132348_d0b92735",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-12-07T21:34:37Z",
+      "side": 1,
+      "message": "For shell transcripts and such in commit messages, rather than backslash-escaping manual line breaks, you can surround blocks like this in markdown-style triple-backticks (or triple quotes) to exempt it from the line-length limits (which is more readable IMO, and nicer for copy/pasting and such if someone wants to reproduce your testing).",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "0811ebe1bf0bac8f291e25b3fa5852bc0959524e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "829feb04_aa5fb95f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-12-07T21:34:37Z",
+      "side": 1,
+      "message": "Okay, I\u0027ve now tested this out and it seems to work as it should for both static and dynamic sensors.  Just some minor commit-message tweaking and it should be good to go.",
+      "revId": "0811ebe1bf0bac8f291e25b3fa5852bc0959524e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
