@@ -1,0 +1,7 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Ed Tanous <ed@tanous.net>
+Submitted-by: Ed Tanous <ed@tanous.net>
+Submitted-at: Wed, 07 Dec 2022 22:20:45 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/59274
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
