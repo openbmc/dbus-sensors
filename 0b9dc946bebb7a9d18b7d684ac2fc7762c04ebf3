@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85e02ea3_c778e9d2",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-12-07T02:25:11Z",
+      "side": 1,
+      "message": "please use the full directory string like:\n    findFiles(fs::path(\"/sys/bus/iio/devices\"), \"name\", pmbusPaths);\n    findFiles(fs::path(\"/sys/class/hwmon\"), \"name\", pmbusPaths);",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 5
+      },
+      "revId": "0b9dc946bebb7a9d18b7d684ac2fc7762c04ebf3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb44b61d_dafb0966",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-12-07T02:25:11Z",
+      "side": 1,
+      "message": "This still looks odd to me because devType does not change for inside this for loop, yet there are multiple conditional statements inside the the loop for devType. \nMaybe this function can be refactored as a follow up patch",
+      "range": {
+        "startLine": 586,
+        "startChar": 0,
+        "endLine": 587,
+        "endChar": 73
+      },
+      "revId": "0b9dc946bebb7a9d18b7d684ac2fc7762c04ebf3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
