@@ -69,6 +69,24 @@
       "parentUuid": "17875e2b_2d86353d",
       "revId": "77be965d105149daf887cc9fb3956e613bdce907",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1a8f2c7_1506f985",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-12-07T08:23:59Z",
+      "side": 1,
+      "message": "In this case, we use SBTSI driver sensors to test HwmonTempSensor.\nI found the of_node file path(https://github.com/openbmc/dbus-sensors/blob/7627c860fa551663436416aa12f5afe2f7136930/src/DeviceMgmt.cpp#L66) is present on our board no matter host is power off or power on. Therefor, it will not run in the condition https://github.com/openbmc/dbus-sensors/blob/7627c860fa551663436416aa12f5afe2f7136930/src/HwmonTempMain.cpp#L285, and then it will not activate sensor to update value.\n\nI am not sure of_node path cannot be used when determining whether the host is up or the host is down. Does the of_node path disappear on your machine when host off?\nDo you have anything scripts or process will bind/unbind device?\n\n\u003e Okay, thanks for the more detailed description of what you\u0027re running to test and what you\u0027re seeing (and given the results with busctl it looks like we can rule out anything outside of hwmontempsensor itself).\n\u003e \n\u003e However, to understand things better I\u0027d like to reproduce the problem, and thus far I haven\u0027t been able to with a \u0027PowerState: \"On\"` sensor on my system, so it seems like there must be some other factor involved.  Is your cputemp sensor a device that hwmontempsensor is dynamically instantiating and removing at runtime on host power transitions, or is it a static device from your device-tree?\n\nWe add static device on our device-tree, and it will not be binded/unbinded with any scripts or process.",
+      "parentUuid": "02ab104e_2e28a6cf",
+      "revId": "77be965d105149daf887cc9fb3956e613bdce907",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
