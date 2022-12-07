@@ -22,6 +22,30 @@
       },
       "revId": "0ba60fc3c2b10854b04cfcb6e6b2c37c19454796",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "615d8e5d_6dc8acda",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-12-07T10:23:28Z",
+      "side": 1,
+      "message": "Done. Thanks for your advice.",
+      "parentUuid": "72bf2b72_ad296341",
+      "range": {
+        "startLine": 413,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 17
+      },
+      "revId": "0ba60fc3c2b10854b04cfcb6e6b2c37c19454796",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
