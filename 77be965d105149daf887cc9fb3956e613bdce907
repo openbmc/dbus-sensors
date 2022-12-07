@@ -51,6 +51,24 @@
       "parentUuid": "a74380d3_4a2b45fd",
       "revId": "77be965d105149daf887cc9fb3956e613bdce907",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02ab104e_2e28a6cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-12-07T07:45:06Z",
+      "side": 1,
+      "message": "Okay, thanks for the more detailed description of what you\u0027re running to test and what you\u0027re seeing (and given the results with busctl it looks like we can rule out anything outside of hwmontempsensor itself).\n\nHowever, to understand things better I\u0027d like to reproduce the problem, and thus far I haven\u0027t been able to with a \u0027PowerState: \"On\"` sensor on my system, so it seems like there must be some other factor involved.  Is your cputemp sensor a device that hwmontempsensor is dynamically instantiating and removing at runtime on host power transitions, or is it a static device from your device-tree?",
+      "parentUuid": "17875e2b_2d86353d",
+      "revId": "77be965d105149daf887cc9fb3956e613bdce907",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
