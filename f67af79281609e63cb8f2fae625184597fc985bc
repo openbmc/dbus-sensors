@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f6215ad_bd6ab32c",
+        "filename": "include/ChassisIntrusionSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-12-07T03:25:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "291f9905_768dee74",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e25b249_492b0934",
@@ -73,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cbd0a14d_511ed3e8",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-12-07T03:25:36Z",
+      "side": 1,
+      "message": "In that case, please add one warning message for two chassis sensors in one Chassis case.",
+      "parentUuid": "9cbf5ba2_87485d12",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da4532c9_be0497af",
         "filename": "src/IntrusionSensorMain.cpp",
         "patchSetId": 1
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "Should I also change to else if(*pType \u003d\u003d IntrusionSensorType::gpio)?",
       "parentUuid": "da4532c9_be0497af",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3cddde1_30c9eb81",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-12-07T03:25:36Z",
+      "side": 1,
+      "message": "Yes, I think so.",
+      "parentUuid": "3b7f6e60_c521675a",
       "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
