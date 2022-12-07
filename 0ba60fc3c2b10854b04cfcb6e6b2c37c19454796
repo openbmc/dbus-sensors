@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72bf2b72_ad296341",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-12-07T09:15:33Z",
+      "side": 1,
+      "message": "Okay, having now reproduced (and better understood) the problem, I *think* this logic looks right.  The comment, however, was written very specifically for the code in its previous form and now is kind of confusing applied to the new code -- to adjust it appropriately, I\u0027d suggest removing everything from \"either (a)...\" through \"...or (b)\" so it just reads \"...underlying device was already there...\".",
+      "range": {
+        "startLine": 413,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 17
+      },
+      "revId": "0ba60fc3c2b10854b04cfcb6e6b2c37c19454796",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

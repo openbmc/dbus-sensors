@@ -87,6 +87,24 @@
       "parentUuid": "02ab104e_2e28a6cf",
       "revId": "77be965d105149daf887cc9fb3956e613bdce907",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "298735a5_c25bb9ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-12-07T09:15:33Z",
+      "side": 1,
+      "message": "Okay, sounds like you\u0027ve got a static device, which looks like it was the difference that caused my testing to not reproduce the problem -- I had been using a dynamic device, but now trying with a static one I see the same behavior.\n\nThe of_node file in sysfs points to the device-tree node for a given device, which is why the code uses it to distinguish static devices from dynamic ones (devices instantiated by writing into the \u0027new_device\u0027 file don\u0027t have an of_node entry because they don\u0027t have a corresponding device-tree node).\n\n\u003e Does the of_node path disappear on your machine when host off?\n\nNo; as above that\u0027s a purely static link to the device-tree node corresponding to the device (if there is one).\n\n\u003e Do you have anything scripts or process will bind/unbind device?\n\nNo, I\u0027ve made some changes in hwmontempsensor recently (https://github.com/openbmc/dbus-sensors/commit/a1456c4abafc697e7caa6b8e95ac9ddb35c4e7d1 being the main component of it) to allow it to handle that itself -- which is actually what led to this bug, but once it\u0027s fixed I\u0027d recommend using that instead of tacking on shell scripts to duplicate the functionality elsewhere (if you\u0027re doing that anywhere else).",
+      "parentUuid": "f1a8f2c7_1506f985",
+      "revId": "77be965d105149daf887cc9fb3956e613bdce907",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
