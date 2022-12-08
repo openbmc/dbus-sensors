@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "beec1ece_314370f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-12-08T01:57:55Z",
+      "side": 1,
+      "message": "Done. Add brackets to indicate its contents about static sensors.",
+      "parentUuid": "1c9e383e_e2589580",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "0811ebe1bf0bac8f291e25b3fa5852bc0959524e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3132348_d0b92735",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-07T21:34:37Z",
       "side": 1,
       "message": "For shell transcripts and such in commit messages, rather than backslash-escaping manual line breaks, you can surround blocks like this in markdown-style triple-backticks (or triple quotes) to exempt it from the line-length limits (which is more readable IMO, and nicer for copy/pasting and such if someone wants to reproduce your testing).",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "0811ebe1bf0bac8f291e25b3fa5852bc0959524e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95de370f_b0f119cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-12-08T01:57:55Z",
+      "side": 1,
+      "message": "Done. I have updated all test data with triple-backticks from the commit messages.",
+      "parentUuid": "a3132348_d0b92735",
       "range": {
         "startLine": 21,
         "startChar": 0,
