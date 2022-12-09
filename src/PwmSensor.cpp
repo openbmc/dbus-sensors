@@ -104,8 +104,8 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         return curVal;
     });
     // pwm sensor interface is in percent
-    sensorInterface->register_property("MaxValue", static_cast<int64_t>(100));
-    sensorInterface->register_property("MinValue", static_cast<int64_t>(0));
+    sensorInterface->register_property("MaxValue", static_cast<double>(100));
+    sensorInterface->register_property("MinValue", static_cast<double>(0));
     sensorInterface->register_property("Unit", sensor_paths::unitPercent);
 
     controlInterface = objectServer.add_interface(
