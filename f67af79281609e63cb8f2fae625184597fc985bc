@@ -107,6 +107,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aea270b_b513b377",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-09T08:16:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbd0a14d_511ed3e8",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da4532c9_be0497af",
@@ -156,6 +174,24 @@
       "side": 1,
       "message": "Yes, I think so.",
       "parentUuid": "3b7f6e60_c521675a",
+      "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bcc463a_f634a2c7",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-09T08:16:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3cddde1_30c9eb81",
       "revId": "f67af79281609e63cb8f2fae625184597fc985bc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
