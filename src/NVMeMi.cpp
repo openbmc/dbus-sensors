@@ -1,10 +1,15 @@
 #include "NVMeMi.hpp"
 
+#include "NVMeUtil.hpp"
+
 #include <boost/endian.hpp>
 
 #include <cerrno>
 #include <iostream>
 
+std::map<int, std::weak_ptr<NVMeMi::Worker>> NVMeMi::workerMap{};
+
+// libnvme-mi root service
 nvme_root_t NVMeMi::nvmeRoot = nvme_mi_create_root(stderr, DEFAULT_LOGLEVEL);
 
 NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
@@ -15,6 +20,13 @@ NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
     if (!nvmeRoot)
     {
         throw std::runtime_error("invalid NVMe root");
+    }
+
+    auto root = deriveRootBus(bus);
+
+    if (!root || *root < 0)
+    {
+        throw std::runtime_error("invalid root bus number");
     }
 
     // init mctp ep via mctpd
@@ -59,7 +71,21 @@ NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
                                  std::to_string(eid));
     }
 
-    // start worker thread
+    auto res = workerMap.find(*root);
+
+    if (res == workerMap.end() || res->second.expired())
+    {
+        worker = std::make_shared<Worker>();
+        workerMap[*root] = worker;
+    }
+    else
+    {
+        worker = res->second.lock();
+    }
+}
+
+NVMeMi::Worker::Worker()
+{ // start worker thread
     workerStop = false;
     thread = std::thread([&io = workerIO, &stop = workerStop, &mtx = workerMtx,
                           &cv = workerCv]() {
@@ -84,7 +110,7 @@ NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
     });
 }
 
-NVMeMi::~NVMeMi()
+NVMeMi::Worker::~Worker()
 {
     // close worker
     workerStop = true;
@@ -93,7 +119,9 @@ NVMeMi::~NVMeMi()
         workerCv.notify_all();
     }
     thread.join();
-
+}
+NVMeMi::~NVMeMi()
+{
     // close EP
     if (nvmeEP)
     {
@@ -103,7 +131,7 @@ NVMeMi::~NVMeMi()
     // TODO: delete mctp ep from mctpd
 }
 
-void NVMeMi::post(std::function<void(void)>&& func)
+void NVMeMi::Worker::post(std::function<void(void)>&& func)
 {
     if (!workerStop)
     {
