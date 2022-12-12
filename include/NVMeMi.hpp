@@ -61,11 +61,34 @@ class NVMeMi : public NVMeMiIntf, public std::enable_shared_from_this<NVMeMi>
     uint8_t eid;
     std::string mctpPath;
 
-    bool workerStop;
-    std::mutex workerMtx;
-    std::condition_variable workerCv;
-    boost::asio::io_context workerIO;
-    std::thread thread;
+    // A worker thread for calling NVMeMI cmd.
+    class Worker
+    {
+      private:
+        bool workerStop;
+        std::mutex workerMtx;
+        std::condition_variable workerCv;
+        boost::asio::io_context workerIO;
+        std::thread thread;
 
-    void post(std::function<void(void)>&& func);
+      public:
+        Worker();
+        Worker(const Worker&) = delete;
+        ~Worker();
+        void post(std::function<void(void)>&& func);
+    };
+
+    // A map from root bus number to the Worker
+    // This map means to reuse the same worker for all NVMe EP under the same
+    // I2C root bus. There is no real physical concurrency among the i2c/mctp
+    // devices on the same bus. Though mctp kernel drive can schedule and
+    // sequencialize the transactions but assigning individual worker thread to
+    // each EP makes no sense.
+    static std::map<int, std::weak_ptr<Worker>> workerMap;
+
+    std::shared_ptr<Worker> worker;
+    void post(std::function<void(void)>&& func)
+    {
+        worker->post(std::move(func));
+    }
 };

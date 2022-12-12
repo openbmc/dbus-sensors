@@ -1,5 +1,7 @@
 #include "NVMeBasic.hpp"
 
+#include "NVMeUtil.hpp"
+
 #include <endian.h>
 
 #include <boost/asio/read.hpp>
@@ -236,37 +238,6 @@ NVMeBasicIO::NVMeBasicIO(
 
         std::cerr << "Terminating basic query thread\n";
     });
-}
-
-static std::filesystem::path deriveRootBusPath(int busNumber)
-{
-    return "/sys/bus/i2c/devices/i2c-" + std::to_string(busNumber) +
-           "/mux_device";
-}
-
-static std::optional<int> deriveRootBus(std::optional<int> busNumber)
-{
-    if (!busNumber)
-    {
-        return std::nullopt;
-    }
-
-    std::filesystem::path muxPath = deriveRootBusPath(*busNumber);
-
-    if (!std::filesystem::is_symlink(muxPath))
-    {
-        return *busNumber;
-    }
-
-    std::string rootName = std::filesystem::read_symlink(muxPath).filename();
-    size_t dash = rootName.find('-');
-    if (dash == std::string::npos)
-    {
-        std::cerr << "Error finding root bus for " << rootName << "\n";
-        return std::nullopt;
-    }
-
-    return std::stoi(rootName.substr(0, dash));
 }
 
 NVMeBasic::NVMeBasic(boost::asio::io_context& io, int bus, int addr) :
