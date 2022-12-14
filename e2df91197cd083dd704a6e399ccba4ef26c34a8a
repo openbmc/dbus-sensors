@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0592b002_54ac4c55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-12-14T15:05:03Z",
+      "side": 1,
+      "message": "@Zhikui, can you please review this from a code perspective even though the build fails?  We need the dbus interface and this to be merged in close proximity due to the dependency.",
+      "revId": "e2df91197cd083dd704a6e399ccba4ef26c34a8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
