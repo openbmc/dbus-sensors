@@ -117,6 +117,30 @@
       },
       "revId": "0b9dc946bebb7a9d18b7d684ac2fc7762c04ebf3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3128ff2b_87c860a7",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2022-12-15T07:05:35Z",
+      "side": 1,
+      "message": "\u003e My point is that devType does not change within for loop at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/58513/7/src/PSUSensorMain.cpp#574.\n\u003e \n\u003e How about add a variable for matchIndex and set outside the for loop?\n\u003e \n\u003e if (devType \u003d\u003d PSU) matchIndex \u003d 1\n\u003e else matchIndex \u003d 2;\n\nDone. Define this parameter in the above structure.",
+      "parentUuid": "4147231b_1674f6a3",
+      "range": {
+        "startLine": 586,
+        "startChar": 0,
+        "endLine": 587,
+        "endChar": 73
+      },
+      "revId": "0b9dc946bebb7a9d18b7d684ac2fc7762c04ebf3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
