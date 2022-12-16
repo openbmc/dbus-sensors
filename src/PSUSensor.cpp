@@ -44,10 +44,11 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      const PowerState& powerState,
                      const std::string& sensorUnits, unsigned int factor,
                      double max, double min, double offset,
-                     const std::string& label, size_t tSize, double pollRate) :
+                     const std::string& label, size_t tSize, double pollRate,
+                     const std::shared_ptr<I2CDevice>& i2cDevice) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState),
-    objServer(objectServer),
+    i2cDevice(i2cDevice), objServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), sensorFactor(factor), sensorOffset(offset),
     thresholdTimer(io)
@@ -98,14 +99,39 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
 
 PSUSensor::~PSUSensor()
 {
-    waitTimer.cancel();
-    inputDev.close();
+    deactivate();
+
     objServer.remove_interface(sensorInterface);
     for (const auto& iface : thresholdInterfaces)
     {
         objServer.remove_interface(iface);
     }
     objServer.remove_interface(association);
+}
+
+bool PSUSensor::isActive()
+{
+    return inputDev.is_open();
+}
+
+void PSUSensor::activate(const std::string& newPath,
+                         const std::shared_ptr<I2CDevice>& newI2CDevice)
+{
+    path = newPath;
+    i2cDevice = newI2CDevice;
+    inputDev.open(path, boost::asio::random_access_file::read_only);
+    markAvailable(true);
+    setupRead();
+}
+
+void PSUSensor::deactivate()
+{
+    markAvailable(false);
+    // close the input dev to cancel async operations
+    inputDev.close();
+    waitTimer.cancel();
+    i2cDevice = nullptr;
+    path = "";
 }
 
 void PSUSensor::setupRead(void)

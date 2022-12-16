@@ -279,10 +279,15 @@ static void createSensorsCallback(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const ManagedObjectType& sensorConfigs,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged,
+    bool activateOnly)
 {
     int numCreated = 0;
     bool firstScan = sensorsChanged == nullptr;
+
+    boost::container::flat_set<std::string> newSensors;
+
+    auto devices = instantiateDevices(sensorConfigs, sensors, sensorTypes);
 
     std::vector<fs::path> pmbusPaths;
     if (!findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths))
@@ -427,6 +432,19 @@ static void createSensorsCallback(
             // from Entity Manager, to sensorTypes at the top of this file.
             std::cerr << "failed to find match for " << deviceName << "\n";
             continue;
+        }
+
+        auto findI2CDev = devices.find(*interfacePath);
+
+        std::shared_ptr<I2CDevice> i2cDev;
+        if (findI2CDev != devices.end())
+        {
+            if (activateOnly &&
+                (findI2CDev == devices.end() || !findI2CDev->second.second))
+            {
+                continue;
+            }
+            i2cDev = findI2CDev->second.first;
         }
 
         auto findPSUName = baseConfig->find("Name");
@@ -883,19 +901,33 @@ static void createSensorsCallback(
                           << "\"\n";
             }
             // destruct existing one first if already created
-            sensors[sensorName] = nullptr;
-            sensors[sensorName] = std::make_shared<PSUSensor>(
-                sensorPathStr, sensorType, objectServer, dbusConnection, io,
-                sensorName, std::move(sensorThresholds), *interfacePath,
-                readState, findSensorUnit->second, factor,
-                psuProperty->maxReading, psuProperty->minReading,
-                psuProperty->sensorOffset, labelHead, thresholdConfSize,
-                pollRate);
-            sensors[sensorName]->setupRead();
-            ++numCreated;
-            if constexpr (debug)
+
+            auto& sensor = sensors[sensorName];
+            if (!activateOnly)
             {
-                std::cerr << "Created " << numCreated << " sensors so far\n";
+                sensor = nullptr;
+            }
+
+            if (sensor != nullptr)
+            {
+                sensor->activate(sensorPathStr, i2cDev);
+            }
+            else
+            {
+                sensors[sensorName] = std::make_shared<PSUSensor>(
+                    sensorPathStr, sensorType, objectServer, dbusConnection, io,
+                    sensorName, std::move(sensorThresholds), *interfacePath,
+                    readState, findSensorUnit->second, factor,
+                    psuProperty->maxReading, psuProperty->minReading,
+                    psuProperty->sensorOffset, labelHead, thresholdConfSize,
+                    pollRate, i2cDev);
+                sensors[sensorName]->setupRead();
+                ++numCreated;
+                if constexpr (debug)
+                {
+                    std::cerr << "Created " << numCreated
+                              << " sensors so far\n";
+                }
             }
         }
 
@@ -918,13 +950,14 @@ void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged,
+    bool activateOnly)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged](
-                            const ManagedObjectType& sensorConfigs) {
+        dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged,
+                         activateOnly](const ManagedObjectType& sensorConfigs) {
             createSensorsCallback(io, objectServer, dbusConnection,
-                                  sensorConfigs, sensorsChanged);
+                                  sensorConfigs, sensorsChanged, activateOnly);
         });
     std::vector<std::string> types(sensorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
@@ -1053,6 +1086,29 @@ void propertyInitialize(void)
                          {"fan4", {"fan4_alarm", "fan4_fault"}}}}};
 }
 
+static void powerStateChanged(
+    PowerState type, bool newState,
+    boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>&
+        sensors,
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    if (newState)
+    {
+        createSensors(io, objectServer, dbusConnection, nullptr, true);
+    }
+    else
+    {
+        for (auto& [path, sensor] : sensors)
+        {
+            if (sensor != nullptr && sensor->readState == type)
+            {
+                sensor->deactivate();
+            }
+        }
+    }
+}
+
 int main()
 {
     boost::asio::io_context io;
@@ -1067,8 +1123,16 @@ int main()
 
     propertyInitialize();
 
-    boost::asio::post(
-        io, [&]() { createSensors(io, objectServer, systemBus, nullptr); });
+    auto powerCallBack =
+        [&io, &objectServer, &systemBus](PowerState type, bool state) {
+        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+    };
+
+    setupPowerMatchCallback(systemBus, powerCallBack);
+
+    boost::asio::post(io, [&]() {
+        createSensors(io, objectServer, systemBus, nullptr, false);
+    });
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
@@ -1088,7 +1152,7 @@ int main()
             {
                 std::cerr << "timer error\n";
             }
-            createSensors(io, objectServer, systemBus, sensorsChanged);
+            createSensors(io, objectServer, systemBus, sensorsChanged, false);
         });
     };
 
@@ -1143,7 +1207,7 @@ int main()
                 std::cerr << "timer error\n";
                 return;
             }
-            createSensors(io, objectServer, systemBus, nullptr);
+            createSensors(io, objectServer, systemBus, nullptr, false);
         });
     };
 
