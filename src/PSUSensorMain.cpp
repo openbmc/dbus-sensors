@@ -39,65 +39,53 @@
 
 static constexpr bool debug = false;
 
-static constexpr auto sensorTypes{std::to_array<const char*>(
-    {"ADM1266",   "ADM1272",     "ADM1275",   "ADM1278",   "ADM1293",
-     "ADS7830",   "AHE50DC_FAN", "BMR490",    "DPS800",    "INA219",
-     "INA230",    "IPSPS",       "IR38060",   "IR38164",   "IR38263",
-     "ISL68137",  "ISL68220",    "ISL68223",  "ISL69225",  "ISL69243",
-     "ISL69260",  "LM25066",     "MAX16601",  "MAX20710",  "MAX20730",
-     "MAX20734",  "MAX20796",    "MAX34451",  "MP2971",    "MP2973",
-     "MP5023",    "PLI1209BC",   "pmbus",     "PXE1610",   "RAA228000",
-     "RAA228228", "RAA228620",   "RAA229001", "RAA229004", "RAA229126",
-     "TPS53679",  "TPS546D24",   "XDPE11280", "XDPE12284"})};
-
 // clang-format off
-static constexpr auto pmbusNames{std::to_array<const char*>({
-    "adm1266",
-    "adm1272",
-    "adm1275",
-    "adm1278",
-    "adm1293",
-    "ads7830",
-    "ahe50dc_fan",
-    "bmr490",
-    "dps800",
-    "ina219",
-    "ina230",
-    "ipsps1",
-    "ir38060",
-    "ir38164",
-    "ir38263",
-    "isl68137",
-    "isl68220",
-    "isl68223",
-    "isl69225",
-    "isl69243",
-    "isl69260",
-    "lm25066",
-    "max16601",
-    "max20710",
-    "max20730",
-    "max20734",
-    "max20796",
-    "max34451",
-    "mp2971",
-    "mp2973",
-    "mp5023",
-    "pli1209bc",
-    "pmbus",
-    "pxe1610",
-    "raa228000",
-    "raa228228",
-    "raa228620",
-    "raa229001",
-    "raa229004",
-    "raa229126",
-    "tps53679",
-    "tps546d24",
-    "xdpe11280",
-    "xdpe12284"
-})};
-//clang-format on
+static const I2CDeviceTypeMap sensorTypes{
+    {"ADM1266", I2CDeviceType{"adm1266", false}},
+    {"ADM1272", I2CDeviceType{"adm1272", false}},
+    {"ADM1275", I2CDeviceType{"adm1275", false}},
+    {"ADM1278", I2CDeviceType{"adm1278", false}},
+    {"ADM1293", I2CDeviceType{"adm1293", true}},
+    {"ADS7830", I2CDeviceType{"ads7830", false}},
+    {"BMR490", I2CDeviceType{"bmr490", false}},
+    {"DPS800", I2CDeviceType{"dps800", false}},
+    {"INA219", I2CDeviceType{"ina219", true}},
+    {"INA230", I2CDeviceType{"ina230", true}},
+    {"IPSPS", I2CDeviceType{"ipsps", false}},
+    {"IR38060", I2CDeviceType{"ir38060", false}},
+    {"IR38164", I2CDeviceType{"ir38164", false}},
+    {"IR38263", I2CDeviceType{"ir38263", false}},
+    {"ISL68137", I2CDeviceType{"isl68137", true}},
+    {"ISL68220", I2CDeviceType{"isl68220", true}},
+    {"ISL68223", I2CDeviceType{"isl68223", true}},
+    {"ISL69225", I2CDeviceType{"isl69225", true}},
+    {"ISL69243", I2CDeviceType{"isl69243", true}},
+    {"ISL69260", I2CDeviceType{"isl69260", true}},
+    {"LM25066", I2CDeviceType{"lm25066", true}},
+    {"MAX16601", I2CDeviceType{"max16601", true}},
+    {"MAX20710", I2CDeviceType{"max20710", true}},
+    {"MAX20730", I2CDeviceType{"max20730", true}},
+    {"MAX20734", I2CDeviceType{"max20734", true}},
+    {"MAX20796", I2CDeviceType{"max20796", true}},
+    {"MAX34451", I2CDeviceType{"max34451", true}},
+    {"MP2971", I2CDeviceType{"mp2971", true}},
+    {"MP2973", I2CDeviceType{"mp2973", true}},
+    {"MP5023", I2CDeviceType{"mp5023", true}},
+    {"PLI1209BC", I2CDeviceType{"pli1209bc", true}},
+    {"pmbus", I2CDeviceType{"pmbus", true}},
+    {"PXE1610", I2CDeviceType{"pxe1610", true}},
+    {"RAA228000", I2CDeviceType{"raa228000", true}},
+    {"RAA228228", I2CDeviceType{"raa228228", true}},
+    {"RAA228620", I2CDeviceType{"raa228620", true}},
+    {"RAA229001", I2CDeviceType{"raa229001", true}},
+    {"RAA229004", I2CDeviceType{"raa229004", true}},
+    {"RAA229126", I2CDeviceType{"raa229126", true}},
+    {"TPS53679", I2CDeviceType{"tps53679", true}},
+    {"TPS546D24", I2CDeviceType{"tps546d24", true}},
+    {"XDPE11280", I2CDeviceType{"xdpe11280", true}},
+    {"XDPE12284", I2CDeviceType{"xdpe12284", true}},
+};
+// clang-format off
 
 namespace fs = std::filesystem;
 
@@ -280,15 +268,96 @@ static void
     }
 }
 
+boost::container::flat_map<std::string,
+                           std::pair<std::shared_ptr<I2CDevice>, bool>>
+    instantiateDevices(
+        const ManagedObjectType& sensorConfigs,
+        const boost::container::flat_map<
+            std::string, std::shared_ptr<PSUSensor>>& sensors)
+{
+    boost::container::flat_map<std::string,
+                               std::pair<std::shared_ptr<I2CDevice>, bool>>
+        devices;
+    for (const auto& [path, sensor] : sensorConfigs)
+    {
+        for (const auto& [name, cfg] : sensor)
+        {
+            PowerState powerState = getPowerState(cfg);
+            if (!readingStateGood(powerState))
+            {
+                continue;
+            }
+
+            auto findSensorName = cfg.find("Name");
+            if (findSensorName == cfg.end())
+            {
+                continue;
+            }
+
+            try
+            {
+            std::string sensorName =
+                std::get<std::string>(findSensorName->second);
+            }
+            catch(const std::bad_variant_access& e)
+            {
+                std::cerr << e.what() << ':Unable to find sensor name.\n';
+            }
+
+            auto findSensor = sensors.find(sensorName);
+            if (findSensor != sensors.end() && findSensor->second != nullptr &&
+                findSensor->second->isActive())
+            {
+                devices.emplace(
+                    path.str,
+                    std::make_pair(findSensor->second->getI2CDevice(), false));
+                continue;
+            }
+
+            std::optional<I2CDeviceParams> params =
+                getI2CDeviceParams(sensorTypes, cfg);
+            if (params.has_value() && !params->deviceStatic())
+            {
+                if (params->devicePresent())
+                {
+                    std::cerr << "Clearing out previous instance for "
+                              << path.str << "\n";
+                    I2CDevice tmp(*params);
+                }
+
+                try
+                {
+                    devices.emplace(
+                        path.str,
+                        std::make_pair(std::make_shared<I2CDevice>(*params),
+                                       true));
+                }
+                catch (std::runtime_error&)
+                {
+                    std::cerr << "Failed to instantiate " << params->type->name
+                              << " at address " << params->address << " on bus "
+                              << params->bus << "\n";
+                }
+            }
+        }
+    }
+    return devices;
+}
+
 static void createSensorsCallback(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const ManagedObjectType& sensorConfigs,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged, bool activateOnly)
 {
     int numCreated = 0;
     bool firstScan = sensorsChanged == nullptr;
+
+    boost::container::flat_set<std::string> newSensors;
+
+    auto devices = instantiateDevices(sensorConfigs, sensors);
+
 
     std::vector<fs::path> pmbusPaths;
     if (!findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths))
@@ -318,8 +387,16 @@ static void createSensorsCallback(
         std::getline(nameFile, pmbusName);
         nameFile.close();
 
-        if (std::find(pmbusNames.begin(), pmbusNames.end(), pmbusName) ==
-            pmbusNames.end())
+        bool foundName = false;
+        for (const auto& [type, dt] : sensorTypes)
+        {
+            if (pmbusName == dt.name)
+            {
+                foundName = true;
+                break;
+            }
+        }
+        if (!foundName)
         {
             // To avoid this error message, add your driver name to
             // the pmbusNames vector at the top of this file.
@@ -372,13 +449,13 @@ static void createSensorsCallback(
         for (const auto& [path, cfgData] : sensorConfigs)
         {
             sensorData = &cfgData;
-            for (const char* type : sensorTypes)
+            for (const auto& [type, dt] : sensorTypes)
             {
                 auto sensorBase = sensorData->find(configInterfaceName(type));
                 if (sensorBase != sensorData->end())
                 {
                     baseConfig = &sensorBase->second;
-                    sensorType = type;
+                    sensorType = configInterfaceName(type).c_str();
                     break;
                 }
             }
@@ -432,6 +509,20 @@ static void createSensorsCallback(
             // from Entity Manager, to sensorTypes at the top of this file.
             std::cerr << "failed to find match for " << deviceName << "\n";
             continue;
+        }
+
+        auto findI2CDev = devices.find(*interfacePath);
+
+        if (activateOnly &&
+            (findI2CDev == devices.end() || !findI2CDev->second.second))
+        {
+            continue;
+        }
+
+        std::shared_ptr<I2CDevice> i2cDev;
+        if (findI2CDev != devices.end())
+        {
+            i2cDev = findI2CDev->second.first;
         }
 
         auto findPSUName = baseConfig->find("Name");
@@ -876,19 +967,32 @@ static void createSensorsCallback(
                           << "\"\n";
             }
             // destruct existing one first if already created
-            sensors[sensorName] = nullptr;
-            sensors[sensorName] = std::make_shared<PSUSensor>(
-                sensorPathStr, sensorType, objectServer, dbusConnection, io,
-                sensorName, std::move(sensorThresholds), *interfacePath,
-                readState, findSensorUnit->second, factor,
-                psuProperty->maxReading, psuProperty->minReading,
-                psuProperty->sensorOffset, labelHead, thresholdConfSize,
-                pollRate);
-            sensors[sensorName]->setupRead();
-            ++numCreated;
-            if constexpr (debug)
+
+            auto& sensor = sensors[sensorName];
+            if (!activateOnly)
             {
-                std::cerr << "Created " << numCreated << " sensors so far\n";
+                sensor = nullptr;
+            }
+
+            if (sensor != nullptr)
+            {
+                sensor->activate(sensorPathStr, i2cDev);
+            }
+            else
+            {
+                sensors[sensorName] = std::make_shared<PSUSensor>(
+                    sensorPathStr, sensorType, objectServer, dbusConnection, io,
+                    sensorName, std::move(sensorThresholds), *interfacePath,
+                    readState, findSensorUnit->second, factor,
+                    psuProperty->maxReading, psuProperty->minReading,
+                    psuProperty->sensorOffset, labelHead, thresholdConfSize,
+                    pollRate, i2cDev);
+                sensors[sensorName]->setupRead();
+                ++numCreated;
+                if constexpr (debug)
+                {
+                    std::cerr << "Created " << numCreated << " sensors so far\n";
+                }
             }
         }
 
@@ -911,16 +1015,20 @@ void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged)
+        sensorsChanged, bool activateOnly)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged](
+        dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged, activateOnly](
                             const ManagedObjectType& sensorConfigs) {
             createSensorsCallback(io, objectServer, dbusConnection,
-                                  sensorConfigs, sensorsChanged);
+                                  sensorConfigs, sensorsChanged, activateOnly);
         });
-    getter->getConfiguration(
-        std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
+    std::vector<std::string> types(sensorTypes.size());
+    for (const auto& [type, dt] : sensorTypes)
+    {
+        types.push_back(type);
+    }
+    getter->getConfiguration(types);
 }
 
 void propertyInitialize(void)
@@ -1038,6 +1146,32 @@ void propertyInitialize(void)
                          {"fan4", {"fan4_alarm", "fan4_fault"}}}}};
 }
 
+static void powerStateChanged(
+    PowerState type, bool newState,
+    boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>&
+        sensors,
+    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    std::cerr << "powerStateChanged: " << static_cast<int>(type)
+              << " , " << static_cast<int>(newState) << std::endl;
+    if (newState)
+    {
+        createSensors(io, objectServer, dbusConnection, nullptr, true);
+    }
+    else
+    {
+        for (auto& [path, sensor] : sensors)
+        {
+            if (sensor != nullptr && sensor->readState == type)
+            {
+                std::cerr << "deactivate: " << sensor->name << std::endl;
+                sensor->deactivate();
+            }
+        }
+    }
+}
+
 int main()
 {
     boost::asio::io_service io;
@@ -1052,7 +1186,13 @@ int main()
 
     propertyInitialize();
 
-    io.post([&]() { createSensors(io, objectServer, systemBus, nullptr); });
+    auto powerCallBack = [&io, &objectServer, &systemBus](PowerState type, bool state) {
+        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+    };
+
+    setupPowerMatchCallback(systemBus, powerCallBack);
+
+    io.post([&]() { createSensors(io, objectServer, systemBus, nullptr, false); });
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
@@ -1072,7 +1212,7 @@ int main()
                 {
                     std::cerr << "timer error\n";
                 }
-                createSensors(io, objectServer, systemBus, sensorsChanged);
+                createSensors(io, objectServer, systemBus, sensorsChanged, false);
             });
         };
 
