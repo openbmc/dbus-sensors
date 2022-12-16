@@ -63,6 +63,15 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
         sdbusplus::asio::connection& bus, const I2CDeviceTypeMap& typeMap,
         const std::function<void(sdbusplus::message_t&)>& handler);
 
+// Helper find function because some sensors use underscores in their names
+// while others don't.
+inline size_t sensorNameFind(const std::string& fullName,
+                             const std::string& partialName)
+{
+    return boost::replace_all_copy(fullName, " ", "_")
+        .find(boost::replace_all_copy(partialName, " ", "_"));
+}
+
 // returns a {path: <I2CDevice, is_new>} map.  is_new indicates if the I2CDevice
 // is newly instantiated by this call (true) or was already there (false).
 template <class T>
@@ -92,16 +101,31 @@ boost::container::flat_map<std::string,
             {
                 continue;
             }
-            std::string sensorName =
-                std::get<std::string>(findSensorName->second);
 
-            auto findSensor = sensors.find(sensorName);
-            if (findSensor != sensors.end() && findSensor->second != nullptr &&
-                findSensor->second->isActive())
+            const auto* sensorName =
+                std::get_if<std::string>(&findSensorName->second);
+            if (sensorName == nullptr)
+            {
+                std::cerr << "Unable to find sensor name " << name
+                          << " on path " << path.str << "\n";
+                continue;
+            }
+
+            std::shared_ptr<T> findSensor(nullptr);
+            for (const auto& sensor : sensors)
+            {
+                if (sensorNameFind(sensor.first, *sensorName) !=
+                    std::string::npos)
+                {
+                    findSensor = sensor.second;
+                    break;
+                }
+            }
+            if (findSensor != nullptr && findSensor->isActive())
             {
                 devices.emplace(
                     path.str,
-                    std::make_pair(findSensor->second->getI2CDevice(), false));
+                    std::make_pair(findSensor->getI2CDevice(), false));
                 continue;
             }
 
