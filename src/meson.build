@@ -169,6 +169,7 @@ if get_option('psu').enabled()
         'PSUSensorMain.cpp',
         dependencies: [
             default_deps,
+            devicemgmt_dep,
             pwmsensor_dep,
             thresholds_dep,
             utils_dep,

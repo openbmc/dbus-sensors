@@ -1,5 +1,6 @@
 #pragma once
 
+#include <DeviceMgmt.hpp>
 #include <PwmSensor.hpp>
 #include <Thresholds.hpp>
 #include <boost/asio/random_access_file.hpp>
@@ -22,15 +23,26 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const std::string& sensorConfiguration,
               const PowerState& powerState, const std::string& sensorUnits,
               unsigned int factor, double max, double min, double offset,
-              const std::string& label, size_t tSize, double pollRate);
+              const std::string& label, size_t tSize, double pollRate,
+              const std::shared_ptr<I2CDevice>& i2cDevice);
     ~PSUSensor() override;
     void setupRead(void);
+    void activate(const std::string& newPath,
+                  const std::shared_ptr<I2CDevice>& newI2CDevice);
+    void deactivate(void);
+    bool isActive(void);
+
+    std::shared_ptr<I2CDevice> getI2CDevice() const
+    {
+        return i2cDevice;
+    }
 
   private:
     // Note, this buffer is a shared_ptr because during a read, its lifetime
     // might have to outlive the PSUSensor class if the object gets destroyed
     // while in the middle of a read operation
     std::shared_ptr<std::array<char, 128>> buffer;
+    std::shared_ptr<I2CDevice> i2cDevice;
     sdbusplus::asio::object_server& objServer;
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
