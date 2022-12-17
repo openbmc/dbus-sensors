@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e170b265_582b5526",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-12-17T20:25:44Z",
+      "side": 1,
+      "message": "Please specify the test cases/steps that were run to demonstrate the function for both automatic and manual arm mode",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "e2df91197cd083dd704a6e399ccba4ef26c34a8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0592b002_54ac4c55",
@@ -14,6 +37,75 @@
       "writtenOn": "2022-12-14T15:05:03Z",
       "side": 1,
       "message": "@Zhikui, can you please review this from a code perspective even though the build fails?  We need the dbus interface and this to be merged in close proximity due to the dependency.",
+      "revId": "e2df91197cd083dd704a6e399ccba4ef26c34a8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "356cab09_4527d8d1",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-12-17T20:25:44Z",
+      "side": 1,
+      "message": "}\nreturn;",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 13
+      },
+      "revId": "e2df91197cd083dd704a6e399ccba4ef26c34a8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4323f717_30473fd8",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-12-17T20:25:44Z",
+      "side": 1,
+      "message": "mRearmFlag \u003d false;",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 5
+      },
+      "revId": "e2df91197cd083dd704a6e399ccba4ef26c34a8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68dac2aa_683b0e3c",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2022-12-17T20:25:44Z",
+      "side": 1,
+      "message": "No need for the comment here, the if statement is clear",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 20
+      },
       "revId": "e2df91197cd083dd704a6e399ccba4ef26c34a8a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
