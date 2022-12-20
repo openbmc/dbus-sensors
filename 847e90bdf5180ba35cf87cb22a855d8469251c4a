@@ -116,6 +116,98 @@
       },
       "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a31173_43138b0c",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-20T17:28:07Z",
+      "side": 1,
+      "message": "Can we keep only second log message dropping first one. Same information is conveyed by both lines.",
+      "range": {
+        "startLine": 288,
+        "startChar": 1,
+        "endLine": 289,
+        "endChar": 74
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea66e9f6_987c90b0",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-20T17:28:07Z",
+      "side": 1,
+      "message": "This be if constexpr. constexpr version will save on binary size.",
+      "range": {
+        "startLine": 286,
+        "startChar": 1,
+        "endLine": 290,
+        "endChar": 9
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc981a5f_691088f6",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-20T17:28:07Z",
+      "side": 1,
+      "message": "newValue can either be \"HardwareIntrusion\" or \"Normal\" making comparison with \"unknown\" redundant. First part of if check will always be true.",
+      "range": {
+        "startLine": 291,
+        "startChar": 1,
+        "endLine": 296,
+        "endChar": 9
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1a8669a_7f0430b3",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-20T17:28:07Z",
+      "side": 1,
+      "message": "Depending on first argument type only subset of later argument will be meaningful. There doesn\u0027t seem to be any meaning of having gpioInterted, slaveAddr, busId if howmon is going to be used used for intrusion. Similarly pollSensorStatusByPch and pollSensorStatusByGpio will be dead code.\nChassisIntrusionSensor is holding three classes PCHIntrusionSensor, GPIOIntrusionSensor and now hwmonIntrusionSensor. Is this observation correct ? if so shouldn\u0027t we keep three separate classes rather pushing three things in one class with \"type\" as field to differentiate ? Would like to others thought on this.",
+      "range": {
+        "startLine": 384,
+        "startChar": 0,
+        "endLine": 386,
+        "endChar": 64
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
