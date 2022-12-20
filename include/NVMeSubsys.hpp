@@ -15,10 +15,9 @@ class NVMeSubsystem : public std::enable_shared_from_this<NVMeSubsystem>
                   sdbusplus::asio::object_server& objServer,
                   std::shared_ptr<sdbusplus::asio::connection> conn,
                   const std::string& path, const std::string& name,
-                  const SensorData& configData,
                   const std::shared_ptr<NVMeIntf>& intf);
 
-    void start();
+    void start(const SensorData& configData);
 
     void stop()
     {

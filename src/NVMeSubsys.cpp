@@ -96,7 +96,6 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
                              sdbusplus::asio::object_server& objServer,
                              std::shared_ptr<sdbusplus::asio::connection> conn,
                              const std::string& path, const std::string& name,
-                             const SensorData& configData,
                              const std::shared_ptr<NVMeIntf>& intf) :
     io(io),
     objServer(objServer), conn(conn), path(path), name(name), nvmeIntf(intf),
@@ -116,24 +115,6 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
         throw std::runtime_error("Unsupported NVMe interface");
     }
 
-    std::optional<std::string> sensorName = createSensorNameFromPath(path);
-    if (!sensorName)
-    {
-        // fail to parse sensor name from path, using name instead.
-        sensorName.emplace(name);
-    }
-
-    std::vector<thresholds::Threshold> sensorThresholds;
-    if (!parseThresholdsFromConfig(configData, sensorThresholds))
-    {
-        std::cerr << "error populating thresholds for " << *sensorName << "\n";
-        throw std::runtime_error("error populating thresholds for " +
-                                 *sensorName);
-    }
-
-    ctemp.emplace(objServer, io, conn, *sensorName, std::move(sensorThresholds),
-                  path);
-
     /* xyz.openbmc_project.Inventory.Item.Drive */
     drive.protocol(NVMeDrive::DriveProtocol::NVMe);
     drive.type(NVMeDrive::DriveType::SSD);
@@ -147,7 +128,7 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
     associations.emplace_back("drive", "storage", path);
 }
 
-void NVMeSubsystem::start()
+void NVMeSubsystem::start(const SensorData& configData)
 {
     // add controllers for the subsystem
     if (auto nvme = std::dynamic_pointer_cast<NVMeMiIntf>(nvmeIntf))
@@ -261,6 +242,25 @@ void NVMeSubsystem::start()
                 });
         });
     }
+
+    // add thermal sensor for the subsystem
+    std::optional<std::string> sensorName = createSensorNameFromPath(path);
+    if (!sensorName)
+    {
+        // fail to parse sensor name from path, using name instead.
+        sensorName.emplace(name);
+    }
+
+    std::vector<thresholds::Threshold> sensorThresholds;
+    if (!parseThresholdsFromConfig(configData, sensorThresholds))
+    {
+        std::cerr << "error populating thresholds for " << *sensorName << "\n";
+        throw std::runtime_error("error populating thresholds for " +
+                                 *sensorName);
+    }
+
+    ctemp.emplace(objServer, io, conn, *sensorName, std::move(sensorThresholds),
+                  path);
 
     // start to poll value for CTEMP sensor.
     if (auto intf = std::dynamic_pointer_cast<NVMeBasicIntf>(nvmeIntf))
