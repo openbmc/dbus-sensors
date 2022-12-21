@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23c4c8ff_d2f5e926",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000847
+      },
+      "writtenOn": "2022-12-21T07:09:37Z",
+      "side": 1,
+      "message": "Hi @Zhikui , could you help to review this PR? In my system, we cannot read PCH temp through IPMB, so I use mcutemp to read. But in current mcutemp, it doesn\u0027t support ScaleValue and PowerState settings, so I want to add these two settings to mcutemp.",
+      "revId": "b2d2972d23b59bc12f3346ffdea1aa72283d85e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
