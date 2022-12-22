@@ -79,7 +79,28 @@ sdbusplus::message::unix_fd NVMeController::getLogPage(uint8_t lid,
         auto handler = nvmePlugin->getGetLogPageHandler();
         if (handler)
         {
-            handler(pipe, lid, nsid, lsp, lsi);
+            std::function<void(const std::error_code&, std::span<uint8_t>)> cb =
+                [pipe](std::error_code ec, std::span<uint8_t> data) {
+                ::close(pipe[0]);
+                int fd = pipe[1];
+                if (ec)
+                {
+                    std::cerr << "fail to GetLogPage: " << ec.message()
+                              << std::endl;
+                    close(fd);
+                    return;
+                }
+
+                // TODO: evaluate the impact of client not reading fast enough
+                // on large trunk of data
+                if (::write(fd, data.data(), data.size()) < 0)
+                {
+                    std::cerr << "GetLogPage fails to write fd: "
+                              << std::strerror(errno) << std::endl;
+                };
+                close(fd);
+            };
+            handler(lid, nsid, lsp, lsi, std::move(cb));
         }
         else // No VU LogPage handler
         {
