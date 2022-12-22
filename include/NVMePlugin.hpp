@@ -1,11 +1,10 @@
 #pragma once
-#include <NVMeController.hpp>
 class NVMePlugin
 {
   public:
-    using getlogpage_t =
-        std::function<void(std::array<int, 2> pipe, uint8_t lid, uint32_t nsid,
-                           uint8_t lsp, uint16_t lsi)>;
+    using getlogpage_t = std::function<void(
+        uint8_t lid, uint32_t nsid, uint8_t lsp, uint16_t lsi,
+        std::function<void(const std::error_code&, std::span<uint8_t>)>&& cb)>;
     NVMePlugin(std::shared_ptr<NVMeController> cntl) : nvmeController(cntl)
     {}
     virtual ~NVMePlugin()
