@@ -73,6 +73,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"TMP441", I2CDeviceType{"tmp441", true}},
     {"TMP75", I2CDeviceType{"tmp75", true}},
     {"W83773G", I2CDeviceType{"w83773g", true}},
+    {"TMP100", I2CDeviceType{"tmp100", true}},
 };
 
 static struct SensorParams
