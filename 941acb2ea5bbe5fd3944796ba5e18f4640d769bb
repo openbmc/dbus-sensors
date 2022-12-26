@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a366b34_c222af70",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-12-26T23:16:30Z",
+      "side": 1,
+      "message": "Can we reference real, documented interfaces instead of non-documented ones?",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eaa0a50_ed1b34fa",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-12-26T23:16:30Z",
+      "side": 1,
+      "message": "Is this the service name or the interface or both?",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d75702_55a0c568",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-12-26T23:16:30Z",
+      "side": 1,
+      "message": "I don’t understand your choice of types here. pointer-pointer?\n\nWhy not just auto?",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
