@@ -1662,6 +1662,30 @@
       },
       "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c803097_87598d92",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2022-12-26T21:49:33Z",
+      "side": 1,
+      "message": "Added a TODO for future improvement.",
+      "parentUuid": "e35816fb_cbb2c592",
+      "range": {
+        "startLine": 226,
+        "startChar": 50,
+        "endLine": 226,
+        "endChar": 58
+      },
+      "revId": "04a3775352fa78a0e6952ae99b807c09bb3d7ba3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
