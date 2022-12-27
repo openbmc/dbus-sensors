@@ -123,6 +123,7 @@ static constexpr auto labelMatch{std::to_array<PSUProperty>(
      {"maxpin", "", "Max Input Power", 3000, 0, 6, 0},
      {"vin", "", "Input Voltage", 300, 0, 3, 0},
      {"maxvin", "", "Max Input Voltage", 300, 0, 3, 0},
+     {"vout", "pxe1610", "Output Voltage", 3.7, 0, 3, 0},
      {"vout", "", "Output Voltage", 255, 0, 3, 0},
      {"vmon", "", "Auxiliary Input Voltage", 255, 0, 3, 0},
      {"in", "", "Output Voltage", 255, 0, 3, 0},
