@@ -615,7 +615,11 @@ static void createSensorsCallback(
                 }
             }
 
-            auto findProperty = labelMatch.find(labelHead);
+            auto findProperty = labelMatch.find(pmbusName + "_" + labelHead);
+            if (findProperty == labelMatch.end())
+            {
+                findProperty = labelMatch.find(labelHead);
+            }
             if (findProperty == labelMatch.end())
             {
                 if constexpr (debug)
