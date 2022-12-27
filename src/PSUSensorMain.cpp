@@ -949,6 +949,8 @@ void propertyInitialize(void)
         {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
         {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
+        {"pxe1610_vout1", PSUProperty("Output Voltage", 3.7, 0, 3, 0)},
+        {"pxe1610_vout2", PSUProperty("Output Voltage", 3.7, 0, 3, 0)},
         {"vout1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
