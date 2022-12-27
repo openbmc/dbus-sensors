@@ -117,6 +117,7 @@ static constexpr std::array labelMatch{
     PSUEntry{"maxpin", "", {"Max Input Power", 3000, 0, 6, 0}},
     PSUEntry{"vin", "", {"Input Voltage", 300, 0, 3, 0}},
     PSUEntry{"maxvin", "", {"Max Input Voltage", 300, 0, 3, 0}},
+    PSUEntry{"vout", "pxe1610", {"Output Voltage", 3.7, 0, 3, 0}},
     PSUEntry{"vout", "", {"Output Voltage", 255, 0, 3, 0}},
     PSUEntry{"vmon", "", {"Auxiliary Input Voltage", 255, 0, 3, 0}},
     PSUEntry{"in", "", {"Output Voltage", 255, 0, 3, 0}},
