@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e08b13dd_4983694e",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001496
+      },
+      "writtenOn": "2022-12-28T04:47:46Z",
+      "side": 1,
+      "message": "nit: \"appropriate\"",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a366b34_c222af70",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 39
@@ -14,6 +31,23 @@
       "writtenOn": "2022-12-26T23:16:30Z",
       "side": 1,
       "message": "Can we reference real, documented interfaces instead of non-documented ones?",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee6c157_37527e77",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001496
+      },
+      "writtenOn": "2022-12-28T04:47:46Z",
+      "side": 1,
+      "message": "nit: \"mechanical\"",
       "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
