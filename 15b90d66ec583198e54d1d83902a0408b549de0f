@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "0a4f3451_446e7df4",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 59
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "76f44118_537ae7bb",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 59
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e95c14fb_148ddbbe",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,34 @@
         "endChar": 59
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ad9789_c7b3c68e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-28T15:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e95c14fb_148ddbbe",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c3fb7581_6567f9f1",
         "filename": "src/IpmbSensor.cpp",
@@ -91,10 +116,10 @@
         "endChar": 60
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "892ecc2f_56e4343c",
         "filename": "src/IpmbSensor.cpp",
@@ -115,10 +140,10 @@
         "endChar": 60
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ead5b862_0d358c26",
         "filename": "src/IpmbSensor.cpp",
@@ -139,10 +164,10 @@
         "endChar": 60
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c1c63ffc_9c29a046",
         "filename": "src/IpmbSensor.cpp",
@@ -162,10 +187,10 @@
         "endChar": 32
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8b8fd2e5_9f98df70",
         "filename": "src/IpmbSensor.cpp",
@@ -186,10 +211,34 @@
         "endChar": 32
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ccb9e9_3eb34d5d",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-28T15:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b8fd2e5_9f98df70",
+      "range": {
+        "startLine": 425,
+        "startChar": 17,
+        "endLine": 425,
+        "endChar": 32
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ba6a7380_4282a23a",
         "filename": "src/IpmbSensor.cpp",
@@ -209,10 +258,10 @@
         "endChar": 28
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9abd4efc_7868e3c3",
         "filename": "src/IpmbSensor.cpp",
@@ -233,10 +282,34 @@
         "endChar": 28
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d048442c_17e3b1bd",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-28T15:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9abd4efc_7868e3c3",
+      "range": {
+        "startLine": 522,
+        "startChar": 23,
+        "endLine": 522,
+        "endChar": 28
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "de220580_0131fcec",
         "filename": "src/IpmbSensor.cpp",
@@ -256,10 +329,10 @@
         "endChar": 33
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2f02a41b_31093c3a",
         "filename": "src/IpmbSensor.cpp",
@@ -280,10 +353,34 @@
         "endChar": 33
       },
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fd7384d_41f03911",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-28T15:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f02a41b_31093c3a",
+      "range": {
+        "startLine": 551,
+        "startChar": 21,
+        "endLine": 551,
+        "endChar": 33
+      },
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "09f8383c_655129af",
         "filename": "src/IpmbSensor.cpp",
@@ -297,8 +394,25 @@
       "side": 1,
       "message": "This section has some great cleanups.",
       "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8d83269_98acf5fc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-28T15:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09f8383c_655129af",
+      "revId": "15b90d66ec583198e54d1d83902a0408b549de0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
