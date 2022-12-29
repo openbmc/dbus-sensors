@@ -217,6 +217,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97cf7ff3_caa77fe7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-29T09:03:26Z",
+      "side": 1,
+      "message": "In two places getRawPmbusCommand is called with doEnablePec as true. Rest all places it is called with doEnablePec as false. \n\nAs this is a clean up code I do not want to change the behavior of existing code. If doEnablePec needs to be removed that can be taken in a different PR.",
+      "parentUuid": "d75a8bbb_363de8e7",
+      "range": {
+        "startLine": 164,
+        "startChar": 24,
+        "endLine": 165,
+        "endChar": 28
+      },
+      "revId": "18bee53fb58b41527da991e84f5758c233dce4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0b10da7_1f274372",
