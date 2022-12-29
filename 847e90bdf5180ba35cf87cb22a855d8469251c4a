@@ -286,6 +286,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e32e0bbe_f91b66ec",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-29T11:26:05Z",
+      "side": 1,
+      "message": "My bad. I missed \"can\" in comment.\nIf check can be constexpr. constexpr gets executed at compile time that will save on binary size if debug is disabled. Example\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/ExitAirTempSensor.cpp#L415",
+      "parentUuid": "3d8905c4_e3bc1101",
+      "range": {
+        "startLine": 286,
+        "startChar": 1,
+        "endLine": 290,
+        "endChar": 9
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc981a5f_691088f6",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 5
@@ -368,6 +392,30 @@
       "side": 1,
       "message": "@Zhikui also suggested refactoring this so I think I will create a base class and 3 child classes to inherit it. I also think I should do the work in another patch because there\u0027s a lot to change. Is it OK?",
       "parentUuid": "c1a8669a_7f0430b3",
+      "range": {
+        "startLine": 384,
+        "startChar": 0,
+        "endLine": 386,
+        "endChar": 64
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86b347b5_7ab29cd3",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-29T11:26:05Z",
+      "side": 1,
+      "message": "IMO it\u0027s better to use same PR. That way history of review discussion remains intact. @Zhikui what is your thought ?",
+      "parentUuid": "2c0b8160_01099fe8",
       "range": {
         "startLine": 384,
         "startChar": 0,
