@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ba62561_8bb06f9f",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-29T08:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83155055_1b5356d0",
+      "revId": "18bee53fb58b41527da991e84f5758c233dce4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "daae6389_9a5ec239",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-12-28T19:21:04Z",
       "side": 1,
       "message": "Per the coding standard, all of these should be enum class, not enum.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 5
+      },
+      "revId": "18bee53fb58b41527da991e84f5758c233dce4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fae2f035_1ae18625",
+        "filename": "include/IpmbSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-29T08:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daae6389_9a5ec239",
       "range": {
         "startLine": 54,
         "startChar": 0,
@@ -81,6 +123,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fbed904_f60111a1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-29T08:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0376e27e_7e00c6d2",
+      "range": {
+        "startLine": 159,
+        "startChar": 3,
+        "endLine": 159,
+        "endChar": 11
+      },
+      "revId": "18bee53fb58b41527da991e84f5758c233dce4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28eed62a_28e5900b",
@@ -94,6 +160,30 @@
       "writtenOn": "2022-12-28T19:21:04Z",
       "side": 1,
       "message": "Does this have an enumeration it could use?",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 12
+      },
+      "revId": "18bee53fb58b41527da991e84f5758c233dce4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8be58355_3c5d5513",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-29T08:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28eed62a_28e5900b",
       "range": {
         "startLine": 163,
         "startChar": 4,
@@ -150,6 +240,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d61fed1b_9380283b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-29T08:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0b10da7_1f274372",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 73
+      },
+      "revId": "18bee53fb58b41527da991e84f5758c233dce4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e194e54_90a9c8c8",
@@ -163,6 +277,30 @@
       "writtenOn": "2022-12-28T19:21:04Z",
       "side": 1,
       "message": "Please simplify this to\n\ncommandByes.insert(commandBytes.end(), pmbusCommand.begin(), pmbusCommand.end());",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 275,
+        "endChar": 5
+      },
+      "revId": "18bee53fb58b41527da991e84f5758c233dce4d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11f70500_5aaf23b1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-29T08:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e194e54_90a9c8c8",
       "range": {
         "startLine": 272,
         "startChar": 0,
