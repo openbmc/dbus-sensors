@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6c06264_0eb205bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-29T09:11:00Z",
+      "side": 1,
+      "message": "Because the hwmon name is specfied in Aspeed\u0027s driver, so I will hardcode it in the source code and eliminate the \"Input\" option without updating the schema.",
+      "parentUuid": "0e0d9833_2ca0b054",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4896b9c_da4d060e",
@@ -95,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73c8c159_95419b42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-29T09:11:00Z",
+      "side": 1,
+      "message": "They confirmed the driver will be upstreamed in the future.",
+      "parentUuid": "ad8d57d6_9e53525b",
+      "range": {
+        "startLine": 20,
+        "startChar": 55,
+        "endLine": 23,
+        "endChar": 57
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01a942ed_6fd8e08a",
@@ -120,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8da7845_274cb0f6",
+        "filename": "include/ChassisIntrusionSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-29T09:11:00Z",
+      "side": 1,
+      "message": "Sure, I will try it in another patch. Do you think I should refactor it first or wait until all of these are merged?",
+      "parentUuid": "01a942ed_6fd8e08a",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 31
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42a31173_43138b0c",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 5
@@ -131,6 +203,30 @@
       "writtenOn": "2022-12-20T17:28:07Z",
       "side": 1,
       "message": "Can we keep only second log message dropping first one. Same information is conveyed by both lines.",
+      "range": {
+        "startLine": 288,
+        "startChar": 1,
+        "endLine": 289,
+        "endChar": 74
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1229f744_4523e196",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-29T09:11:00Z",
+      "side": 1,
+      "message": "ACK but I will keep the first log to acknowledge the hwmon value.",
+      "parentUuid": "42a31173_43138b0c",
       "range": {
         "startLine": 288,
         "startChar": 1,
@@ -166,6 +262,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d8905c4_e3bc1101",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-29T09:11:00Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t get it. Can you clarify?",
+      "parentUuid": "ea66e9f6_987c90b0",
+      "range": {
+        "startLine": 286,
+        "startChar": 1,
+        "endLine": 290,
+        "endChar": 9
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc981a5f_691088f6",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 5
@@ -177,6 +297,30 @@
       "writtenOn": "2022-12-20T17:28:07Z",
       "side": 1,
       "message": "newValue can either be \"HardwareIntrusion\" or \"Normal\" making comparison with \"unknown\" redundant. First part of if check will always be true.",
+      "range": {
+        "startLine": 291,
+        "startChar": 1,
+        "endLine": 296,
+        "endChar": 9
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c6d0542_30f902e5",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-29T09:11:00Z",
+      "side": 1,
+      "message": "At first, I did not want to change much of what the author had done, but he seems to be out of all of this so ACK.",
+      "parentUuid": "dc981a5f_691088f6",
       "range": {
         "startLine": 291,
         "startChar": 1,
@@ -200,6 +344,30 @@
       "writtenOn": "2022-12-20T17:28:07Z",
       "side": 1,
       "message": "Depending on first argument type only subset of later argument will be meaningful. There doesn\u0027t seem to be any meaning of having gpioInterted, slaveAddr, busId if howmon is going to be used used for intrusion. Similarly pollSensorStatusByPch and pollSensorStatusByGpio will be dead code.\nChassisIntrusionSensor is holding three classes PCHIntrusionSensor, GPIOIntrusionSensor and now hwmonIntrusionSensor. Is this observation correct ? if so shouldn\u0027t we keep three separate classes rather pushing three things in one class with \"type\" as field to differentiate ? Would like to others thought on this.",
+      "range": {
+        "startLine": 384,
+        "startChar": 0,
+        "endLine": 386,
+        "endChar": 64
+      },
+      "revId": "847e90bdf5180ba35cf87cb22a855d8469251c4a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c0b8160_01099fe8",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-12-29T09:11:00Z",
+      "side": 1,
+      "message": "@Zhikui also suggested refactoring this so I think I will create a base class and 3 child classes to inherit it. I also think I should do the work in another patch because there\u0027s a lot to change. Is it OK?",
+      "parentUuid": "c1a8669a_7f0430b3",
       "range": {
         "startLine": 384,
         "startChar": 0,
