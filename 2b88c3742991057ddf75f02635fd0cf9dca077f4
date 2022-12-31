@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38214507_cbb4c0ca",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 53
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T13:13:37Z",
+      "side": 1,
+      "message": "magic number",
+      "range": {
+        "startLine": 51,
+        "startChar": 22,
+        "endLine": 51,
+        "endChar": 23
+      },
+      "revId": "2b88c3742991057ddf75f02635fd0cf9dca077f4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
