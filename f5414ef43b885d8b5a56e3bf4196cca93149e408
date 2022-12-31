@@ -1,0 +1,487 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa2376d0_b78212cb",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 42
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "likelihood",
+      "range": {
+        "startLine": 54,
+        "startChar": 34,
+        "endLine": 54,
+        "endChar": 45
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26a1fc89_36d9930e",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 42
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "remove one the",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 44
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3687b60f_1b4c8200",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 42
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "one",
+      "range": {
+        "startLine": 85,
+        "startChar": 21,
+        "endLine": 85,
+        "endChar": 24
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cecce4c_a6a65b6a",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "namespace should be lower snake case",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0441e5c6_3daf4db2",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "move to cpp file",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 5
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df98835_ef7ffb75",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "see comment on line 20",
+      "range": {
+        "startLine": 8,
+        "startChar": 32,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa23acb0_6b73a0fb",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "magic number",
+      "range": {
+        "startLine": 13,
+        "startChar": 71,
+        "endLine": 13,
+        "endChar": 72
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30801a5e_4b63711a",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "it was easier to do readLine(const std::string\u0026 lineLabel) as everywhere it is getting converted into string.",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e8409c_a02d3153",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "are you passing statusIfc by value in fn so that you can use std::move here?\nWhy is the approach like this? do we want two std::unique_ptr copies? or can this be solved by shared pointer?",
+      "range": {
+        "startLine": 32,
+        "startChar": 39,
+        "endLine": 32,
+        "endChar": 59
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cf80d56_2189ada1",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "see comment in line 20",
+      "range": {
+        "startLine": 35,
+        "startChar": 29,
+        "endLine": 35,
+        "endChar": 53
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73daf7d2_baa44616",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "see comment in line 20",
+      "range": {
+        "startLine": 44,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6168176c_1224af19",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "??",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 12
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e20bae27_41ad10ec",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "what is the purpose of this?\n\nstartUpdateLoop is called from completion handler of timer. Which means timer won\u0027t be running when it comes to fn startUpdateLoop.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 19
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b90a9bfc_4bea09f9",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "do not pass this pointer to lambdas\nUse weak pointer",
+      "range": {
+        "startLine": 55,
+        "startChar": 22,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad9f752f_ca3f40d7",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "suggestion \ncan we add more details to log than just printing e?",
+      "range": {
+        "startLine": 75,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 51
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c1087d2_06ad06a4",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "so one of the obj in objIfaces fail and we redo the update loop again?\nso if there are 5 obj in objIfaces and 3rd fails we start from 1st again?",
+      "range": {
+        "startLine": 81,
+        "startChar": 16,
+        "endLine": 81,
+        "endChar": 46
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52263eb3_fb5660d4",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "Question\nwhat exactly is force update\u0027s purpose? I am bit confused on the logic.",
+      "range": {
+        "startLine": 86,
+        "startChar": 45,
+        "endLine": 86,
+        "endChar": 56
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e73a9ab_4e41c519",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "in fn check if pointer is null before using it",
+      "range": {
+        "startLine": 101,
+        "startChar": 56,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43047dd1_45f6d93d",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "why in some places like line 41 and 64 std::move is not used and here std::move is used?",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 33
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "468d00b5_d245e1b3",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "is this condition correct?\nremove object if there is no object?",
+      "range": {
+        "startLine": 162,
+        "startChar": 12,
+        "endLine": 162,
+        "endChar": 47
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3836de83_d1fdc9af",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:57:52Z",
+      "side": 1,
+      "message": "??",
+      "range": {
+        "startLine": 176,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 39
+      },
+      "revId": "f5414ef43b885d8b5a56e3bf4196cca93149e408",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
