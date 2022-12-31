@@ -1,0 +1,372 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ace276b_7f5549c0",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "nit\nSuggest you to move this to function initHwmonDevicePath, as it is used there.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcfee9d6_d670f5e3",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "What happens to the newValue !\u003d \"unknown\" check?",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 35
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edd77dfa_0029ccfc",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "Same as line 164",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 27
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dd1887d_98a7e62b",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "I see many places wer this function can fail. \nCan we use bool return type and make sure if readHwmon fails it is handled properly?",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 5
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8def1cbc_2dad7d09",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "What is the logic here?",
+      "range": {
+        "startLine": 281,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 75
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "345c87ae_0f333944",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "if mValue \u003d\u003d newValue then do you need to write 0 to refout?\nor not required?",
+      "range": {
+        "startLine": 290,
+        "startChar": 8,
+        "endLine": 290,
+        "endChar": 31
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3bd178a_4fea2365",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "Question:\nDo you see logs in journal if std::cout is used?",
+      "range": {
+        "startLine": 292,
+        "startChar": 12,
+        "endLine": 292,
+        "endChar": 21
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4215c20d_460c4132",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "This can be kept out of try block rt?",
+      "range": {
+        "startLine": 298,
+        "startChar": 7,
+        "endLine": 305,
+        "endChar": 20
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6490b4_044f3a9d",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "Magic number.",
+      "range": {
+        "startLine": 305,
+        "startChar": 8,
+        "endLine": 305,
+        "endChar": 20
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37fb7793_21ec3457",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "nit\nCan we log the error details we caught too.",
+      "range": {
+        "startLine": 307,
+        "startChar": 11,
+        "endLine": 307,
+        "endChar": 39
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3897f36_2ce9ad90",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "nit \nYou can remove this",
+      "range": {
+        "startLine": 313,
+        "startChar": 53,
+        "endLine": 313,
+        "endChar": 57
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43de3ee8_37babdc3",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "It is not recommended to do this. \nIf you really need to pass this pointer to lambda use weak pointer. \nElse it causes scope issues.",
+      "range": {
+        "startLine": 319,
+        "startChar": 32,
+        "endLine": 319,
+        "endChar": 33
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6222c12_18abd306",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "What if we get an ec which is not boost::asio::error::operation_aborted? \nShouldn\u0027t that be handled or logged??\n\nShould pollSensorStatusByHwmon be called in such case?",
+      "range": {
+        "startLine": 326,
+        "startChar": 7,
+        "endLine": 326,
+        "endChar": 61
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b20130fc_96da7384",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "Refer to ADC sensor to get a better understanding.",
+      "range": {
+        "startLine": 333,
+        "startChar": 8,
+        "endLine": 333,
+        "endChar": 31
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d324587a_3892de8c",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "pollSensorStatusByHwmon should be called from readHwmon. This is so that if you have let\u0027s say 110 sensors and read takes around 0.01 sec per sensor. Then total time taken \u003d 110*0.01 \u003d 11sec \n\nlet\u0027s assume intrusionSensorPollSec \u003d 10sec. Which means every 10 sec 110 sensor reads will be invoked. \n\nNow the issues is that we are pushing more read than we can process. So read a sensor only after it\u0027s previous read is completed + intrusionSensorPollSec later.",
+      "range": {
+        "startLine": 333,
+        "startChar": 7,
+        "endLine": 333,
+        "endChar": 34
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c82a317_ad5d0ad8",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T12:00:29Z",
+      "side": 1,
+      "message": "why only taking one?",
+      "range": {
+        "startLine": 353,
+        "startChar": 3,
+        "endLine": 357,
+        "endChar": 5
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
