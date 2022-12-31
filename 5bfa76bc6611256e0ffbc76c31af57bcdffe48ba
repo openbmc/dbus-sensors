@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1129fd6_4a7df693",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T16:59:37Z",
+      "side": 1,
+      "message": "rt now code ll create sensor at line 636 even if interface is not an sdr interface.\n\nIs this expected behavior? or should this function return false and the handle error from where it is called?",
+      "range": {
+        "startLine": 525,
+        "startChar": 8,
+        "endLine": 525,
+        "endChar": 15
+      },
+      "revId": "5bfa76bc6611256e0ffbc76c31af57bcdffe48ba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "160906a6_78766129",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T16:59:37Z",
+      "side": 1,
+      "message": "if we are not gonna init the sensor should the obj be still kept? or sensor obj should be removed?",
+      "range": {
+        "startLine": 644,
+        "startChar": 27,
+        "endLine": 644,
+        "endChar": 37
+      },
+      "revId": "5bfa76bc6611256e0ffbc76c31af57bcdffe48ba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
