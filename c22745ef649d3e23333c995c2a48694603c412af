@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91072e23_05c575c4",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2022-12-31T11:18:44Z",
+      "side": 1,
+      "message": "If it is just for debug purpose you can put it under if(debug)?",
+      "range": {
+        "startLine": 119,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 44
+      },
+      "revId": "c22745ef649d3e23333c995c2a48694603c412af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95ba819a_32bd91ea",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2022-12-31T11:18:44Z",
+      "side": 1,
+      "message": "same?",
+      "revId": "c22745ef649d3e23333c995c2a48694603c412af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "412f10cd_686fbfd9",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2022-12-31T11:18:44Z",
+      "side": 1,
+      "message": "handle error here as std::get can throw exception- bad_variant_access",
+      "range": {
+        "startLine": 297,
+        "startChar": 16,
+        "endLine": 297,
+        "endChar": 18
+      },
+      "revId": "c22745ef649d3e23333c995c2a48694603c412af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
