@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0190930_ecc733cf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-31T15:06:28Z",
+      "side": 1,
+      "message": "dbusConnection gets constructed in main method and there is check in createSensors \n to validate. IpmbSensor::read method can only be called post dbusConnection construction and I don\u0027t see any code path that will cause destruction of dbusConnection so is dbusConnection check relevant here ?",
+      "range": {
+        "startLine": 350,
+        "startChar": 4,
+        "endLine": 354,
+        "endChar": 5
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4833438_39fe4ae2",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-31T15:06:28Z",
+      "side": 1,
+      "message": "`this` capture in this lambda can cause use after free. Please rebase your patch on master HEAD. `this` capture issue is solved there. Hot replug(plug followed by unplug) is already handelled. This patch can do hot unplug.\nOn rebase changes in read method should not be needed. read will stop calling itself on destruction of sensor object.",
+      "range": {
+        "startLine": 363,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 9
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a7fef1a_91744b31",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 6
@@ -65,6 +111,29 @@
         "startChar": 12,
         "endLine": 776,
         "endChar": 47
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d471962_cd83b250",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2022-12-31T15:06:28Z",
+      "side": 1,
+      "message": "stl algorithm find_if can also be used in place of this while loop. Rough code snippet to achieve same result.\n```\nauto entryToErase \u003d std::find_if(sensors.cbegin(), sensors.cend(),\n                                 [](auto \u0026sensor){\n                                     // condition returning true if it\u0027s a match\n                                  });\nif(entryToErase !\u003d sensors.cend()){\n    sensors.erase(entryToErase);\n}\n```",
+      "range": {
+        "startLine": 770,
+        "startChar": 4,
+        "endLine": 782,
+        "endChar": 5
       },
       "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
