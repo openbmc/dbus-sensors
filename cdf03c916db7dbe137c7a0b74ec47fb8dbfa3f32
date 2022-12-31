@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a7fef1a_91744b31",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T13:07:05Z",
+      "side": 1,
+      "message": "shouldn\u0027t read be called again?\nor we stop at this point?",
+      "range": {
+        "startLine": 368,
+        "startChar": 12,
+        "endLine": 368,
+        "endChar": 19
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "963766b5_ecbf2227",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T13:07:05Z",
+      "side": 1,
+      "message": "Don\u0027t do this. This will cause this pointer also to be shared. \nIf you want this pointer to be shared use weak pointer.",
+      "range": {
+        "startLine": 695,
+        "startChar": 30,
+        "endLine": 695,
+        "endChar": 31
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0b8394_556f13a3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2022-12-31T13:07:05Z",
+      "side": 1,
+      "message": "cant we break at this point?",
+      "range": {
+        "startLine": 776,
+        "startChar": 12,
+        "endLine": 776,
+        "endChar": 47
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
