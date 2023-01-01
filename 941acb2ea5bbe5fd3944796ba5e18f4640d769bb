@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f432fd4d_58d9ff4b",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2023-01-01T22:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e08b13dd_4983694e",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a366b34_c222af70",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-12-26T23:16:30Z",
       "side": 1,
       "message": "Can we reference real, documented interfaces instead of non-documented ones?",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f8a7cd6_e8043632",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2023-01-01T22:21:34Z",
+      "side": 1,
+      "message": "The intent of the GPIO-based Presence Detection daemon design is to use GPIO\ninformation to instantiate knowledge of devices to make entity-manager aware of\nthem, and expose the appropriate user interfaces.\n\nxyz.openbmc_project.SlotStatus is not meant to be public for ipmid.",
+      "parentUuid": "4a366b34_c222af70",
       "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9da22bc0_6bf165e9",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2023-01-01T22:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ee6c157_37527e77",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eaa0a50_ed1b34fa",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-12-26T23:16:30Z",
       "side": 1,
       "message": "Is this the service name or the interface or both?",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd3443f3_66221e73",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2023-01-01T22:21:34Z",
+      "side": 1,
+      "message": "Using the same name for both the service and the interface. Please advise if this is acceptable",
+      "parentUuid": "2eaa0a50_ed1b34fa",
       "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -100,6 +172,24 @@
       "side": 1,
       "message": "I think it is a typo. Sorry. Will correct.",
       "parentUuid": "a6d75702_55a0c568",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "802ba2c9_e2890877",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2023-01-01T22:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91322a68_335f3286",
       "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
