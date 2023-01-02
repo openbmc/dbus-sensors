@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e38bd53_26a32219",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-02T02:00:08Z",
+      "side": 1,
+      "message": "Agree. Just added to do additional dbusConnection check. I will remove.",
+      "parentUuid": "d0190930_ecc733cf",
+      "range": {
+        "startLine": 350,
+        "startChar": 4,
+        "endLine": 354,
+        "endChar": 5
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4833438_39fe4ae2",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 6
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c738654_3ae04a30",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-02T02:00:08Z",
+      "side": 1,
+      "message": "Sure. \nSome synchronization issues occurs during hot unplug(elapse time between removing sensor object and unplug). To avoid this synchronization issue, I added this check. \n\nI will rebase and check.",
+      "parentUuid": "e4833438_39fe4ae2",
+      "range": {
+        "startLine": 363,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 9
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a7fef1a_91744b31",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 6
@@ -60,6 +108,30 @@
       "writtenOn": "2022-12-31T13:07:05Z",
       "side": 1,
       "message": "shouldn\u0027t read be called again?\nor we stop at this point?",
+      "range": {
+        "startLine": 368,
+        "startChar": 12,
+        "endLine": 368,
+        "endChar": 19
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd7d9a2_674c5c93",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-02T02:00:08Z",
+      "side": 1,
+      "message": "We just skip that read(when the sensor object is not there). others read will happen as usual.",
+      "parentUuid": "7a7fef1a_91744b31",
       "range": {
         "startLine": 368,
         "startChar": 12,
