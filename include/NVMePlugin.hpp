@@ -1,13 +1,24 @@
 #pragma once
-class NVMePlugin
+#include "NVMeController.hpp"
+#include "NVMeSubsys.hpp"
+#include "Utils.hpp"
+
+class NVMePlugin;
+
+class NVMeControllerPlugin
 {
   public:
     using getlogpage_t = std::function<void(
         uint8_t lid, uint32_t nsid, uint8_t lsp, uint16_t lsi,
         std::function<void(const std::error_code&, std::span<uint8_t>)>&& cb)>;
-    NVMePlugin(std::shared_ptr<NVMeController> cntl) : nvmeController(cntl)
+
+    // The controller plugin can only be created from NVMePlugin
+    NVMeControllerPlugin(std::shared_ptr<NVMeController> cntl,
+                         const SensorData&) :
+        nvmeController(cntl)
     {}
-    virtual ~NVMePlugin()
+
+    virtual ~NVMeControllerPlugin()
     {}
     virtual getlogpage_t getGetLogPageHandler()
     {
@@ -19,9 +30,13 @@ class NVMePlugin
     {
         return nvmeController->path;
     }
-    sdbusplus::asio::connection& getDbusConnection()
+    sdbusplus::asio::object_server& getDbusServer()
     {
-        return *nvmeController->conn;
+        return nvmeController->objServer;
+    }
+    std::shared_ptr<sdbusplus::asio::connection> getDbusConnection()
+    {
+        return nvmeController->conn;
     }
 
     boost::asio::io_context& getIOContext()
@@ -42,15 +57,16 @@ class NVMePlugin
      * Performs an arbitrary NVMe Admin command, using the provided request
      * header, in @admin_req. The requested data is attached by @data, if any.
      *
-     * On success, @cb will be called and response header and data are stored in
+     * On success, @cb will be called and response header and data are stored
+     * in
      * @admin_resp and @resp_data, which has an optional appended payload
-     * buffer. The response data does not include the Admin request header, so 0
-     * represents no payload.
+     * buffer. The response data does not include the Admin request header, so
+     * 0 represents no payload.
      *
      * As with all Admin commands, we can request partial data from the Admin
      * Response payload, offset by @resp_data_offset. In case of resp_data
-     * contains only partial data of the caller's requirement, a follow-up call
-     * to adminXfer with offset is required.
+     * contains only partial data of the caller's requirement, a follow-up
+     * call to adminXfer with offset is required.
      *
      * See: &struct nvme_mi_admin_req_hdr and &struct nvme_mi_admin_resp_hdr.
      *
@@ -70,13 +86,91 @@ class NVMePlugin
      *
      * @return cntrl_id
      */
-    uint16_t getCntrlId()
+    uint16_t getCntrlId() const
     {
-        return *reinterpret_cast<uint16_t*>(
-            (reinterpret_cast<uint8_t*>(nvmeController->nvmeCtrl) +
-             std::max(sizeof(uint16_t), sizeof(void*))));
+        return nvmeController->getCntrlId();
     }
 
   private:
     std::shared_ptr<NVMeController> nvmeController;
+};
+
+class NVMePlugin
+{
+  public:
+    NVMePlugin(std::shared_ptr<NVMeSubsystem> subsys,
+               const SensorData& /*config*/) :
+        subsystem(std::move(subsys)){};
+
+    virtual ~NVMePlugin()
+    {}
+
+    std::shared_ptr<NVMeControllerPlugin>
+        createControllerPlugin(const NVMeController& controller,
+                               const SensorData& config)
+    {
+        // searching for the target controller in NVMe subsystem
+        auto res = subsystem->controllers.find(controller.getCntrlId());
+        if (res == subsystem->controllers.end() ||
+            &controller != res->second.first.get())
+        {
+            throw std::runtime_error("Failed to create controller plugin: "
+                                     "cannot find the controller");
+        }
+
+        // insert the plugin
+        res->second.second = makeController(res->second.first, config);
+        return res->second.second;
+    }
+
+    // the NVMe subsystem will start the plugin after NVMesubsystem finished
+    // intialization and started.
+    virtual void start()
+    {
+        return;
+    }
+
+    // the NVMe subsystem will stop the plugin before NVMe subsystem stop
+    // itself.
+    virtual void stop()
+    {
+        return;
+    }
+
+  protected:
+    const std::string& getPath() const
+    {
+        return subsystem->path;
+    }
+    const std::string& getName() const
+    {
+        return subsystem->name;
+    }
+    boost::asio::io_context& getIOContext()
+    {
+        return subsystem->io;
+    }
+    sdbusplus::asio::object_server& getDbusServer()
+    {
+        return subsystem->objServer;
+    }
+    std::shared_ptr<sdbusplus::asio::connection> getDbusConnection()
+    {
+        return subsystem->conn;
+    }
+
+    const std::map<uint16_t, std::pair<std::shared_ptr<NVMeController>,
+                                       std::shared_ptr<NVMeControllerPlugin>>>&
+        getControllers()
+    {
+        return subsystem->controllers;
+    }
+    // The nvme plugin implemenation need to overload the function to create a
+    // derived controller plugin.
+    virtual std::shared_ptr<NVMeControllerPlugin>
+        makeController(std::shared_ptr<NVMeController> cntl,
+                       const SensorData&) = 0;
+
+  private:
+    std::shared_ptr<NVMeSubsystem> subsystem;
 };

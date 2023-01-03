@@ -3,7 +3,6 @@
 #include "NVMePlugin.hpp"
 #include "Thresholds.hpp"
 
-
 #include <filesystem>
 
 void NVMeSubsystem::createStorageAssociation()
@@ -80,9 +79,9 @@ void NVMeSubsystem::start(const SensorData& configData)
     if (auto nvme = std::dynamic_pointer_cast<NVMeMiIntf>(nvmeIntf))
     {
         nvme->miScanCtrl(
-            [self{shared_from_this()},
-             nvme](const std::error_code& ec,
-                   const std::vector<nvme_mi_ctrl_t>& ctrlList) mutable {
+            [self{shared_from_this()}, nvme,
+             configData](const std::error_code& ec,
+                         const std::vector<nvme_mi_ctrl_t>& ctrlList) mutable {
             if (ec || ctrlList.size() == 0)
             {
                 // TODO: mark the subsystem invalid and reschedule refresh
@@ -110,16 +109,36 @@ void NVMeSubsystem::start(const SensorData& configData)
                 std::filesystem::path path = std::filesystem::path(self->path) /
                                              "controllers" /
                                              std::to_string(*index);
-                auto nvmeController = std::make_shared<NVMeController>(
-                    self->io, self->objServer, self->conn, path.string(), nvme,
-                    c);
-                std::shared_ptr<NVMePlugin> plugin = {};
-                self->controllers.insert({*index, {nvmeController, plugin}});
-                nvmeController->start(plugin);
+                                             
+                try
+                {
+                    auto nvmeController = std::make_shared<NVMeController>(
+                        self->io, self->objServer, self->conn, path.string(),
+                        nvme, c);
 
-                // set StorageController Association
-                self->associations.emplace_back("storage_controller", "storage",
-                                                path);
+                    // insert the controllers with empty plugin
+                    auto [iter, _] = self->controllers.insert(
+                        {*index, {nvmeController, {}}});
+                    auto& ctrlPlugin = iter->second.second;
+
+                    // creat controller plugin
+                    if (self->plugin)
+                    {
+                        ctrlPlugin = self->plugin->createControllerPlugin(
+                            *nvmeController, configData);
+                    }
+                    nvmeController->start(ctrlPlugin);
+
+                    // set StorageController Association
+                    self->associations.emplace_back("storage_controller",
+                                                    "storage", path);
+                }
+                catch (const std::exception& e)
+                {
+                    std::cerr << "failed to create controller: "
+                              << std::to_string(*index)
+                              << ", reason: " << e.what() << std::endl;
+                }
 
                 index++;
             }
@@ -248,4 +267,17 @@ void NVMeSubsystem::start(const SensorData& configData)
     }
 
     // TODO: start to poll Drive status.
+
+    if (plugin)
+    {
+        plugin->start();
+    }
+}
+void NVMeSubsystem::stop()
+{
+    if (plugin)
+    {
+        plugin->stop();
+    }
+    ctempTimer->cancel();
 }

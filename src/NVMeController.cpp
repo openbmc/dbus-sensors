@@ -28,7 +28,7 @@ NVMeController::NVMeController(
     NVMeAdmin::emit_added();
 }
 
-void NVMeController::start(std::shared_ptr<NVMePlugin> nvmePlugin)
+void NVMeController::start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin)
 {
     plugin = nvmePlugin;
 }
