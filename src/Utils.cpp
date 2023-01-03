@@ -595,8 +595,8 @@ void createAssociation(
 
 void setInventoryAssociation(
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path,
-    const std::vector<std::string>& chassisPaths = std::vector<std::string>())
+    const std::string& path, const std::string& inventoryPath,
+    const std::vector<std::string>& chassisPaths)
 {
     if (association)
     {
@@ -604,7 +604,7 @@ void setInventoryAssociation(
         std::vector<Association> associations;
         std::string objPath(p.parent_path().string());
 
-        associations.emplace_back("inventory", "sensors", objPath);
+        associations.emplace_back("inventory", "sensors", inventoryPath);
         associations.emplace_back("chassis", "all_sensors", objPath);
 
         for (const std::string& chassisPath : chassisPaths)
@@ -630,14 +630,16 @@ void createInventoryAssoc(
     conn->async_method_call(
         [association, path](const boost::system::error_code ec,
                             const std::vector<std::string>& invSysObjPaths) {
+        fs::path inventoryPath = fs::path(path).parent_path();
         if (ec)
         {
             // In case of error, set the default associations and
             // initialize the association Interface.
-            setInventoryAssociation(association, path);
+            setInventoryAssociation(association, path, inventoryPath.string());
             return;
         }
-        setInventoryAssociation(association, path, invSysObjPaths);
+        setInventoryAssociation(association, path, inventoryPath.string(),
+                                invSysObjPaths);
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTreePaths",
         "/xyz/openbmc_project/inventory/system", 2,
@@ -817,4 +819,17 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
         types.push_back(type.data());
     }
     return setupPropertiesChangedMatches(bus, {types}, handler);
+}
+
+std::string getLastNameFromIface(const std::string& iface)
+{
+    std::regex itemIfaceReg("^(.*?\\.)*(.*?)$");
+    std::smatch match;
+
+    if (std::regex_search(iface, match, itemIfaceReg))
+    {
+        return match[match.size() - 1];
+    }
+
+    return "";
 }
