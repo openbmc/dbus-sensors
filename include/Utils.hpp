@@ -241,6 +241,11 @@ inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
         std::variant<bool>(on));
 }
 
+void setInventoryAssociation(
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::string& path, const std::string& inventoryPath,
+    const std::vector<std::string>& chassisPaths = std::vector<std::string>());
+
 void createInventoryAssoc(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
@@ -386,3 +391,5 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     setupPropertiesChangedMatches(
         sdbusplus::asio::connection& bus, std::span<const char* const> types,
         const std::function<void(sdbusplus::message_t&)>& handler);
+
+std::string getLastNameFromIface(const std::string& iface);
