@@ -23,6 +23,7 @@
 #include <boost/container/flat_set.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 #include <sdbusplus/bus/match.hpp>
 
 #include <array>
@@ -50,6 +51,7 @@ static constexpr double maxValueTemperature = 127;      // DegreesC
 static constexpr double minValueTemperature = -128;     // DegreesC
 
 namespace fs = std::filesystem;
+namespace rules = sdbusplus::bus::match::rules;
 
 static const I2CDeviceTypeMap sensorTypes{
     {"DPS310", I2CDeviceType{"dps310", false}},
@@ -76,6 +78,14 @@ static const I2CDeviceTypeMap sensorTypes{
     {"TMP464", I2CDeviceType{"tmp464", true}},
     {"TMP75", I2CDeviceType{"tmp75", true}},
     {"W83773G", I2CDeviceType{"w83773g", true}},
+};
+
+boost::container::flat_map<std::string, std::string> inventoryMap;
+
+static const boost::container::flat_map<std::string, std::vector<std::string>,
+                                        std::less<>>
+    sensorTargetMap = {
+        {"SBTSI", {"xyz.openbmc_project.Inventory.Item.Cpu"}},
 };
 
 static struct SensorParams
@@ -321,6 +331,109 @@ boost::container::flat_map<std::string,
     return devices;
 }
 
+void updateLocation(
+    const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+    std::string_view service, std::string_view path)
+{
+    sdbusplus::message_t getLocation = systemBus->new_method_call(
+        service.data(), path.data(), "org.freedesktop.DBus.Properties", "Get");
+    getLocation.append("xyz.openbmc_project.Inventory.Decorator.LocationCode");
+    getLocation.append("LocationCode");
+    std::variant<std::string> location;
+    try
+    {
+        systemBus->call(getLocation).read(location);
+    }
+    catch (const sdbusplus::exception_t& e)
+    {
+        std::cerr << "Failed to get property. err: " << e.what() << std::endl;
+        return;
+    }
+    inventoryMap[std::get<std::string>(location)] = path;
+}
+
+void getInventory(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+                  const std::vector<std::string>& interfaces)
+{
+    static boost::container::flat_map<
+        std::string, std::unique_ptr<sdbusplus::bus::match::match>>
+        matchers;
+
+    static auto handler =
+        [&systemBus, &interfaces](sdbusplus::message::message&) {
+        getInventory(systemBus, interfaces);
+    };
+
+    for (const auto& interface : interfaces)
+    {
+        if (matchers.contains(interface))
+        {
+            continue;
+        }
+
+        matchers[interface] = std::make_unique<sdbusplus::bus::match::match>(
+            *systemBus,
+            rules::interfacesAdded() + rules::interface(interface) +
+                rules::path_namespace(inventoryPath),
+            handler);
+    }
+
+    GetSubTreeType subtree;
+    try
+    {
+        sdbusplus::message_t getSubTree = systemBus->new_method_call(
+            mapper::busName, mapper::path, mapper::interface, mapper::subtree);
+        getSubTree.append(inventoryPath);
+        getSubTree.append(0);
+        getSubTree.append(interfaces);
+        systemBus->call(getSubTree).read(subtree);
+    }
+    catch (const sdbusplus::exception_t& e)
+    {
+        std::cerr << "Failed to get subtree. err: " << e.what() << std::endl;
+        return;
+    }
+
+    for (const auto& [path, services] : subtree)
+    {
+        for (const auto& [service, interfaces] : services)
+        {
+            if (std::find(
+                    interfaces.begin(), interfaces.end(),
+                    "xyz.openbmc_project.Inventory.Decorator.LocationCode") ==
+                interfaces.end())
+            {
+                continue;
+            }
+            updateLocation(systemBus, service, path);
+        }
+    }
+}
+
+// This function assumes that `LocationCode` is always a substring of its
+// corresponding `sensorName`. For example if the `LocationCode` of a cpu sensor
+// is `CPU1`. Then "Die_CPU1", "CPU1", "CPU1_T", "this_is_cpu1_sensor" are all
+// valid `sensorName`.
+std::string findInventoryPath(const std::string& sensorName)
+{
+    auto findInventoryPath = std::find_if(inventoryMap.begin(),
+                                          inventoryMap.end(),
+                                          [&sensorName](const auto& e) {
+        // ex: e.first(LocationCode)="CPU1" => search="(CPU1$|CPU1[^0-9].*$)"
+        // This will avoid "CPU11", "CPU12" ... to be matched
+        std::regex locationReg("(" + e.first + "$|" + e.first + "[^0-9].*$)",
+                               std::regex::icase);
+        return std::regex_match(sensorName, locationReg);
+    });
+
+    if (findInventoryPath == inventoryMap.end())
+    {
+        std::cerr << "Inventory not found for " << sensorName << "\n";
+        return "";
+    }
+    return findInventoryPath->second;
+}
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
@@ -507,11 +620,20 @@ void createSensors(
                 }
                 else
                 {
+                    std::string inventoryPath{};
+                    const auto& foundIfaces =
+                        sensorTargetMap.find(getLastNameFromIface(sensorType));
+                    if (foundIfaces != sensorTargetMap.end())
+                    {
+                        getInventory(dbusConnection, foundIfaces->second);
+                        inventoryPath = findInventoryPath(sensorName);
+                    }
+
                     sensor = std::make_shared<HwmonTempSensor>(
                         *hwmonFile, sensorType, objectServer, dbusConnection,
                         io, sensorName, std::move(sensorThresholds),
                         thisSensorParameters, pollRate, interfacePath,
-                        readState, i2cDev);
+                        readState, i2cDev, inventoryPath);
                     sensor->setupRead();
                 }
             }
@@ -566,11 +688,21 @@ void createSensors(
                     }
                     else
                     {
+                        std::string inventoryPath{};
+                        const auto& foundIfaces = sensorTargetMap.find(
+                            getLastNameFromIface(sensorType));
+                        if (foundIfaces != sensorTargetMap.end())
+                        {
+                            getInventory(dbusConnection, foundIfaces->second);
+                            inventoryPath = findInventoryPath(sensorName);
+                        }
+
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
                             std::move(thresholds), thisSensorParameters,
-                            pollRate, interfacePath, readState, i2cDev);
+                            pollRate, interfacePath, readState, i2cDev,
+                            inventoryPath);
                         sensor->setupRead();
                     }
                 }
