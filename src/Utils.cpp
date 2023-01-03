@@ -850,3 +850,16 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     }
     return setupPropertiesChangedMatches(bus, {types}, handler);
 }
+
+std::string getLastNameFromIface(const std::string& iface)
+{
+    std::regex itemIfaceReg("^(.*?\\.)*(.*?)$");
+    std::smatch match;
+
+    if (std::regex_search(iface, match, itemIfaceReg))
+    {
+        return match[match.size() - 1];
+    }
+
+    return "";
+}
