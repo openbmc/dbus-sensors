@@ -47,7 +47,8 @@ HwmonTempSensor::HwmonTempSensor(
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const struct SensorParams& thisSensorParameters, const float pollRate,
     const std::string& sensorConfiguration, const PowerState powerState,
-    const std::shared_ptr<I2CDevice>& i2cDevice) :
+    const std::shared_ptr<I2CDevice>& i2cDevice,
+    const std::string& inventoryPath) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
@@ -72,11 +73,25 @@ HwmonTempSensor::HwmonTempSensor(
                                            name,
                                        interface);
     }
-    association = objectServer.add_interface("/xyz/openbmc_project/sensors/" +
-                                                 thisSensorParameters.typeName +
-                                                 "/" + name,
-                                             association::interface);
-    setInitialProperties(thisSensorParameters.units);
+
+    if (inventoryPath.empty())
+    {
+        association = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName +
+                "/" + name,
+            association::interface);
+        setInitialProperties(thisSensorParameters.units);
+    }
+    else
+    {
+        setInitialProperties(thisSensorParameters.units);
+        association = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName +
+                "/" + name,
+            association::interface);
+        setInventoryAssociation(association, sensorConfiguration,
+                                inventoryPath);
+    }
 }
 
 bool HwmonTempSensor::isActive()
