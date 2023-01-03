@@ -165,6 +165,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a041c4a_597fe0b8",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-03T03:57:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "963766b5_ecbf2227",
+      "range": {
+        "startLine": 695,
+        "startChar": 30,
+        "endLine": 695,
+        "endChar": 31
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe0b8394_556f13a3",
@@ -188,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7df9475_f13927e6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-03T03:57:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe0b8394_556f13a3",
+      "range": {
+        "startLine": 776,
+        "startChar": 12,
+        "endLine": 776,
+        "endChar": 47
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d471962_cd83b250",
@@ -201,6 +249,30 @@
       "writtenOn": "2022-12-31T15:06:28Z",
       "side": 1,
       "message": "stl algorithm find_if can also be used in place of this while loop. Rough code snippet to achieve same result.\n```\nauto entryToErase \u003d std::find_if(sensors.cbegin(), sensors.cend(),\n                                 [](auto \u0026sensor){\n                                     // condition returning true if it\u0027s a match\n                                  });\nif(entryToErase !\u003d sensors.cend()){\n    sensors.erase(entryToErase);\n}\n```",
+      "range": {
+        "startLine": 770,
+        "startChar": 4,
+        "endLine": 782,
+        "endChar": 5
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6c736db_7b54ed1a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-03T03:57:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2d471962_cd83b250",
       "range": {
         "startLine": 770,
         "startChar": 4,
