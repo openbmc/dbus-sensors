@@ -11,7 +11,7 @@
 
 #include <utility>
 
-class NVMePlugin;
+class NVMeControllerPlugin;
 class NVMeController :
     private sdbusplus::xyz::openbmc_project::Inventory::Item::server::
         StorageController,
@@ -28,7 +28,7 @@ class NVMeController :
 
     ~NVMeController() override;
 
-    void start(std::shared_ptr<NVMePlugin> nvmePlugin);
+    void start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin);
 
     // setup association to the secondary controllers. Clear the Association if
     // empty.
@@ -40,8 +40,20 @@ class NVMeController :
         setSecAssoc({});
     }
 
+    /**
+     * @brief Get cntrl_id for the binded NVMe controller
+     *
+     * @return cntrl_id
+     */
+    uint16_t getCntrlId() const
+    {
+        return *reinterpret_cast<uint16_t*>(
+            (reinterpret_cast<uint8_t*>(nvmeCtrl) +
+             std::max(sizeof(uint16_t), sizeof(void*))));
+    }
+
   private:
-    friend class NVMePlugin;
+    friend class NVMeControllerPlugin;
 
     boost::asio::io_context& io;
     sdbusplus::asio::object_server& objServer;
@@ -56,7 +68,7 @@ class NVMeController :
     std::shared_ptr<sdbusplus::asio::dbus_interface> secAssoc;
 
     // NVMe Plug-in for vendor defined command/field
-    std::weak_ptr<NVMePlugin> plugin;
+    std::weak_ptr<NVMeControllerPlugin> plugin;
 
     /* NVMeAdmin method overload */
 
