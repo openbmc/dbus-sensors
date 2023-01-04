@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a66767e_17b5f78e",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-04T13:58:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e38bd53_26a32219",
+      "range": {
+        "startLine": 350,
+        "startChar": 4,
+        "endLine": 354,
+        "endChar": 5
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4833438_39fe4ae2",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Sure. \nSome synchronization issues occurs during hot unplug(elapse time between removing sensor object and unplug). To avoid this synchronization issue, I added this check. \n\nI will rebase and check.",
       "parentUuid": "e4833438_39fe4ae2",
+      "range": {
+        "startLine": 363,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 9
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60a45fb2_e24e33c0",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-04T13:58:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c738654_3ae04a30",
       "range": {
         "startLine": 363,
         "startChar": 8,
@@ -189,6 +237,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff92a230_b4bfc34b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-04T13:58:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a041c4a_597fe0b8",
+      "range": {
+        "startLine": 695,
+        "startChar": 30,
+        "endLine": 695,
+        "endChar": 31
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe0b8394_556f13a3",
@@ -236,6 +308,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2effd34b_e0622bdd",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-04T13:58:27Z",
+      "side": 1,
+      "message": "If break is added, then loop will not continue. But we need to erase all sensors when that particular hosts is unplugged. so, break is not needed here. \n\nI have added break and verified, it erases only one sensor of that host.",
+      "parentUuid": "b7df9475_f13927e6",
+      "range": {
+        "startLine": 776,
+        "startChar": 12,
+        "endLine": 776,
+        "endChar": 47
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d471962_cd83b250",
@@ -273,6 +369,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "2d471962_cd83b250",
+      "range": {
+        "startLine": 770,
+        "startChar": 4,
+        "endLine": 782,
+        "endChar": 5
+      },
+      "revId": "cdf03c916db7dbe137c7a0b74ec47fb8dbfa3f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "603ef623_58145912",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-04T13:58:27Z",
+      "side": 1,
+      "message": "```\n    auto entryToErase \u003d std::find_if(sensors.begin(), sensors.end(),\n                        [\u0026removedPath, \u0026interfaces](auto \u0026sensors){\n                         return ((sensors.second-\u003econfigurationPath \u003d\u003d \n    removedPath) \u0026\u0026\n                                 (std::find(interfaces.begin(), interfaces.end(),\n                                               configInterfaceName(sdrInterface)) \n    !\u003d interfaces.end()));\n                        }); \n\n    if(entryToErase !\u003d sensors.end()){\n       sensors.erase(entryToErase);\n    }\n```\nI have added the above code and checked. std::find_if function checks if that matched sensors are found, then it returns that iterator. But it is not continue or returned if more than one sensors are matched. we need to add one more loop to iterate all the sensors to check.",
+      "parentUuid": "f6c736db_7b54ed1a",
       "range": {
         "startLine": 770,
         "startChar": 4,
