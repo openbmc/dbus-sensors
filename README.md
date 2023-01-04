@@ -1,5 +1,6 @@
 # dbus-sensors
 
+
 dbus-sensors is a collection of sensor applications that provide the
 xyz.openbmc_project.Sensor collection of interfaces. They read sensor values
 from hwmon, d-bus, or direct driver access to provide readings. Some advance
