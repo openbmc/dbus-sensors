@@ -20,6 +20,7 @@ class PwmSensor
     std::string sysPath;
     sdbusplus::asio::object_server& objectServer;
     std::string name;
+    std::string sensorType;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
