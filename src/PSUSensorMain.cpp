@@ -255,6 +255,9 @@ static void
         const std::string& sensorPathStr = sensorPath.string();
         const std::string& pwmPathStr =
             boost::replace_all_copy(sensorPathStr, "input", "target");
+        std::vector<std::string> pwmPaths;
+        pwmPaths.clear();
+        pwmPaths.push_back(pwmPathStr);
         std::ifstream pwmFile(pwmPathStr);
         if (!pwmFile.good())
         {
@@ -277,7 +280,7 @@ static void
         objPath += pwmName;
 
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
+            name, pwmPaths, dbusConnection, objectServer, objPath, "PSU");
     }
 }
 
