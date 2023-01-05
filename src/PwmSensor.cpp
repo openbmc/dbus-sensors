@@ -19,6 +19,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -33,7 +34,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      const std::string& sensorConfiguration,
                      const std::string& sensorType, bool isValueMutable) :
     sysPath(sysPath),
-    objectServer(objectServer), name(name)
+    objectServer(objectServer), name(name), sensorType(sensorType)
 {
     // add interface under sensor and Control.FanPwm as Control is used
     // in obmc project, also add sensor so it can be viewed as a sensor
@@ -173,7 +174,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
     {
         createInventoryAssoc(conn, association, sensorConfiguration);
     }
-    else
+    else if (sensorType != "Zone")
     {
         createAssociation(association, sensorConfiguration);
     }
@@ -187,19 +188,44 @@ PwmSensor::~PwmSensor()
 
 void PwmSensor::setValue(uint32_t value)
 {
-    std::ofstream ref(sysPath);
-    if (!ref.good())
+    if (sensorType == "Zone")
     {
-        throw std::runtime_error("Bad Write File");
+        std::vector<std::string> pwmSysPaths;
+        std::string path;
+        std::stringstream ssObject(sysPath);
+
+        // Seperate all PWM paths that belong to the fan zone.
+        while (getline(ssObject, path, ' '))
+        {
+            pwmSysPaths.push_back(path);
+        }
+
+        for (const auto& pwmSysPath : pwmSysPaths)
+        {
+            std::ofstream ref(pwmSysPath);
+            if (!ref.good())
+            {
+                throw std::runtime_error("Bad Write File");
+            }
+            ref << value;
+        }
     }
-    ref << value;
+    else
+    {
+        std::ofstream ref(sysPath);
+        if (!ref.good())
+        {
+            throw std::runtime_error("Bad Write File");
+        }
+        ref << value;
+    }
 }
 
 // on success returns pwm, on failure throws except on initialization, where it
 // prints an error and returns 0
-uint32_t PwmSensor::getValue(bool errThrow)
+static uint32_t getSysPathValue(bool errThrow, const std::string& pwmSysPath)
 {
-    std::ifstream ref(sysPath);
+    std::ifstream ref(pwmSysPath);
     if (!ref.good())
     {
         return -1;
@@ -216,7 +242,7 @@ uint32_t PwmSensor::getValue(bool errThrow)
     }
     catch (const std::invalid_argument&)
     {
-        std::cerr << "Error reading pwm at " << sysPath << "\n";
+        std::cerr << "Error reading pwm at " << pwmSysPath << "\n";
         // throw if not initial read to be caught by dbus bindings
         if (errThrow)
         {
@@ -224,4 +250,31 @@ uint32_t PwmSensor::getValue(bool errThrow)
         }
     }
     return 0;
+}
+
+uint32_t PwmSensor::getValue(bool errThrow)
+{
+    if (sensorType == "Zone")
+    {
+        uint32_t value = 0;
+        std::vector<std::string> pwmSysPaths;
+        std::string path;
+        std::stringstream ssObject(sysPath);
+
+        // Seperate all PWM paths that belong to the fan zone.
+        while (getline(ssObject, path, ' '))
+        {
+            pwmSysPaths.push_back(path);
+        }
+
+        for (const auto& pwmSysPath : pwmSysPaths)
+        {
+            auto pwmValue = getSysPathValue(errThrow, pwmSysPath);
+            // Get the maximum PWM value in the fan zone
+            value = std::max(value, pwmValue);
+        }
+        return value;
+    }
+
+    return getSysPathValue(errThrow, sysPath);
 }
