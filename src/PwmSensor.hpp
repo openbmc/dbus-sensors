@@ -10,7 +10,7 @@
 class PwmSensor
 {
   public:
-    PwmSensor(const std::string& name, const std::string& sysPath,
+    PwmSensor(const std::string& name, const std::vector<std::string>& sysPaths,
               std::shared_ptr<sdbusplus::asio::connection>& conn,
               sdbusplus::asio::object_server& objectServer,
               const std::string& sensorConfiguration,
@@ -18,9 +18,10 @@ class PwmSensor
     ~PwmSensor();
 
   private:
-    std::string sysPath;
+    std::vector<std::string> sysPaths;
     sdbusplus::asio::object_server& objectServer;
     std::string name;
+    std::string sensorType;
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> association;
