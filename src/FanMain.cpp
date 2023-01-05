@@ -243,6 +243,9 @@ void createSensors(
          sensorsChanged](const ManagedObjectType& sensorConfigurations) {
         bool firstScan = sensorsChanged == nullptr;
         std::vector<fs::path> paths;
+        std::set<std::string> zoneSet;
+        std::vector<std::string> pwmPaths;
+        std::map<std::string, std::vector<std::string>> zonePwmPath;
         if (!findFiles(fs::path("/sys/class/hwmon"), R"(fan\d+_input)", paths))
         {
             std::cerr << "No fan sensors in system\n";
@@ -439,12 +442,23 @@ void createSensors(
 
             std::optional<std::string> led;
             std::string pwmName;
+            std::string zoneName;
             fs::path pwmPath;
 
             // The Mutable parameter is optional, defaulting to false
             bool isValueMutable = false;
             if (connector != sensorData->end())
             {
+                auto findZone = connector->second.find("Zone");
+                if (findZone != connector->second.end())
+                {
+                    size_t zone = std::visit(VariantToUnsignedIntVisitor(),
+                                             findZone->second);
+                    zoneName = "Zone_" + std::to_string(zone);
+
+                    zoneSet.insert(zoneName);
+                }
+
                 auto findPwm = connector->second.find("Pwm");
                 if (findPwm != connector->second.end())
                 {
@@ -526,12 +540,30 @@ void createSensors(
             if (!pwmPath.empty() && fs::exists(pwmPath) &&
                 (pwmSensors.count(pwmPath) == 0U))
             {
+                if (!zoneName.empty())
+                {
+                    // Prepend the PWM paths that belong to the fan zone
+                    zonePwmPath[zoneName].push_back(pwmPath.generic_string());
+                    pwmName.insert(0, zoneName + "/");
+                }
+                pwmPaths.clear();
+                pwmPaths.push_back(pwmPath);
                 pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
-                    pwmName, pwmPath, dbusConnection, objectServer,
+                    pwmName, pwmPaths, dbusConnection, objectServer,
                     *interfacePath, "Fan", isValueMutable);
             }
         }
 
+        // Create fan zone layer
+        if (!zoneSet.empty())
+        {
+            for (const auto& zone : zoneSet)
+            {
+                pwmSensors[zone] = std::make_unique<PwmSensor>(
+                    zone, zonePwmPath[zone], dbusConnection, objectServer, "",
+                    "Zone", false);
+            }
+        }
         createRedundancySensor(tachSensors, dbusConnection, objectServer);
         });
     getter->getConfiguration(

@@ -268,8 +268,9 @@ static void
         objPath += "_";
         objPath += pwmName;
 
+        std::vector<std::string> pwmPaths({pwmPathStr});
         pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-            name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
+            name, pwmPaths, dbusConnection, objectServer, objPath, "PSU");
     }
 }
 
