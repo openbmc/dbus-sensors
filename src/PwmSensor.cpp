@@ -22,6 +22,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -30,13 +31,15 @@ static constexpr double psuPwmMax = 100.0;
 static constexpr double defaultPwm = 30.0;
 static constexpr double targetIfaceMax = sysPwmMax;
 
-PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
+PwmSensor::PwmSensor(const std::string& pwmname,
+                     const std::vector<std::string>& sysPaths,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& sensorConfiguration,
                      const std::string& sensorType, bool isValueMutable) :
-    sysPath(sysPath),
-    objectServer(objectServer), name(sensor_paths::escapePathForDbus(pwmname))
+    sysPaths(sysPaths),
+    objectServer(objectServer), name(sensor_paths::escapePathForDbus(pwmname)),
+    sensorType(sensorType)
 {
     // add interface under sensor and Control.FanPwm as Control is used
     // in obmc project, also add sensor so it can be viewed as a sensor
@@ -190,27 +193,30 @@ PwmSensor::~PwmSensor()
 
 void PwmSensor::setValue(uint32_t value)
 {
-    std::ofstream ref(sysPath);
-    if (!ref.good())
+    for (const auto& pwmSysPath : sysPaths)
     {
-        throw std::runtime_error("Bad Write File");
+        std::ofstream ref(pwmSysPath);
+        if (!ref.good())
+        {
+            throw std::runtime_error("Bad Write File");
+        }
+        ref << value;
     }
-    ref << value;
 }
 
 // on success returns pwm, on failure throws except on initialization, where it
 // prints an error and returns 0
-uint32_t PwmSensor::getValue(bool errThrow)
+static uint32_t getSysPathValue(bool errThrow, const std::string& pwmSysPath)
 {
-    std::ifstream ref(sysPath);
+    std::ifstream ref(pwmSysPath);
     if (!ref.good())
     {
-        return -1;
+        return 0;
     }
     std::string line;
     if (!std::getline(ref, line))
     {
-        return -1;
+        return 0;
     }
     try
     {
@@ -219,7 +225,7 @@ uint32_t PwmSensor::getValue(bool errThrow)
     }
     catch (const std::invalid_argument&)
     {
-        std::cerr << "Error reading pwm at " << sysPath << "\n";
+        std::cerr << "Error reading pwm at " << pwmSysPath << "\n";
         // throw if not initial read to be caught by dbus bindings
         if (errThrow)
         {
@@ -227,4 +233,17 @@ uint32_t PwmSensor::getValue(bool errThrow)
         }
     }
     return 0;
+}
+
+uint32_t PwmSensor::getValue(bool errThrow)
+{
+    uint32_t value = std::numeric_limits<uint32_t>::quiet_NaN();
+
+    for (const auto& pwmSysPath : sysPaths)
+    {
+        auto pwmValue = getSysPathValue(errThrow, pwmSysPath);
+        // Get the maximum PWM value in the fan zone
+        value = std::max(value, pwmValue);
+    }
+    return value;
 }
