@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "32186bc6_a0b114aa",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2023-01-06T14:47:33Z",
+      "side": 1,
+      "message": "In line 619, sdr interface condition is checked before calling this function.",
+      "parentUuid": "a1129fd6_4a7df693",
+      "range": {
+        "startLine": 525,
+        "startChar": 8,
+        "endLine": 525,
+        "endChar": 15
+      },
+      "revId": "5bfa76bc6611256e0ffbc76c31af57bcdffe48ba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "160906a6_78766129",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 21
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-31T16:59:37Z",
       "side": 1,
       "message": "if we are not gonna init the sensor should the obj be still kept? or sensor obj should be removed?",
+      "range": {
+        "startLine": 644,
+        "startChar": 27,
+        "endLine": 644,
+        "endChar": 37
+      },
+      "revId": "5bfa76bc6611256e0ffbc76c31af57bcdffe48ba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ea906c_fe82db23",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2023-01-06T14:47:33Z",
+      "side": 1,
+      "message": "I think there is no need to remove the object, since it will handle automatically.",
+      "parentUuid": "160906a6_78766129",
       "range": {
         "startLine": 644,
         "startChar": 27,
