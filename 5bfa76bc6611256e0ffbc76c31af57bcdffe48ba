@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ea79091_86785de9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-08T22:35:40Z",
+      "side": 1,
+      "message": "So this check and parameter interface can be removed.",
+      "parentUuid": "32186bc6_a0b114aa",
+      "range": {
+        "startLine": 525,
+        "startChar": 8,
+        "endLine": 525,
+        "endChar": 15
+      },
+      "revId": "5bfa76bc6611256e0ffbc76c31af57bcdffe48ba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "160906a6_78766129",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 21

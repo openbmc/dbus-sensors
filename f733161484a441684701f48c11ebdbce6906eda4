@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad94adc6_d870a43f",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-08T22:35:40Z",
+      "side": 1,
+      "message": "Can some or all of these be skipped if intf \u003d\u003d adrInterface?",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 616,
+        "endChar": 17
+      },
+      "revId": "f733161484a441684701f48c11ebdbce6906eda4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b6323b1_e99ed433",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-08T22:35:40Z",
+      "side": 1,
+      "message": "not needed for sdr sensors, thresholds will be in sensorInfo, right?",
+      "range": {
+        "startLine": 623,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 25
+      },
+      "revId": "f733161484a441684701f48c11ebdbce6906eda4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f61cfdc6_31877b65",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-08T22:35:40Z",
+      "side": 1,
+      "message": "These lines are duplication for line650 - 663. Refactor it out into a function to avoid duplication",
+      "range": {
+        "startLine": 634,
+        "startChar": 1,
+        "endLine": 647,
+        "endChar": 21
+      },
+      "revId": "f733161484a441684701f48c11ebdbce6906eda4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9078d65e_ba703ae7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-08T22:35:40Z",
+      "side": 1,
+      "message": "This is incorrect, sensors includes non sdr sensor.",
+      "range": {
+        "startLine": 705,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 9
+      },
+      "revId": "f733161484a441684701f48c11ebdbce6906eda4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
