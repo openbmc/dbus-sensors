@@ -22,6 +22,30 @@
       },
       "revId": "530c9f3079c59adab29e2fcf5f16047a1882825a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba0e8a4f_8bdd4cf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-01-10T02:16:17Z",
+      "side": 1,
+      "message": "I think phosphor-pid-control doesn\u0027t support this feature.\n\nWe discussed with Patrick and Josh in this commit: https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/58427\n\nWe think that it is better to support this feature by adding Zone layer in fan sensors.",
+      "parentUuid": "30af3a1a_a014bd6b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "530c9f3079c59adab29e2fcf5f16047a1882825a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
