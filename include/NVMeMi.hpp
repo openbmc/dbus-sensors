@@ -41,7 +41,7 @@ class NVMeMi : public NVMeMiIntf, public std::enable_shared_from_this<NVMeMi>
         override;
 
     void adminXfer(nvme_mi_ctrl_t ctrl, const nvme_mi_admin_req_hdr& admin_req,
-                   std::span<uint8_t> data,
+                   std::span<uint8_t> data, unsigned int timeout_ms,
                    std::function<void(const std::error_code&,
                                       const nvme_mi_admin_resp_hdr&,
                                       std::span<uint8_t>)>&& cb) override;

@@ -48,6 +48,7 @@ class NVMeControllerPlugin
      * adminXfer() -  transfer Raw admin cmd to the binded conntroller
      * @admin_req: request header
      * @data: request data payload
+     * @timeout_ms: timeout in ms
      * @resp_data_offset: offset into request data to retrieve from controller
      * @cb: callback function after the response received.
      * @ec: error code
@@ -73,13 +74,13 @@ class NVMeControllerPlugin
      * @ec will be returned on failure.
      */
     void adminXfer(const nvme_mi_admin_req_hdr& admin_req,
-                   std::span<uint8_t> data,
+                   std::span<uint8_t> data, unsigned int timeout_ms,
                    std::function<void(const std::error_code& ec,
                                       const nvme_mi_admin_resp_hdr& admin_resp,
                                       std::span<uint8_t> resp_data)>&& cb)
     {
         nvmeController->nvmeIntf->adminXfer(nvmeController->nvmeCtrl, admin_req,
-                                            data, std::move(cb));
+                                            data, timeout_ms, std::move(cb));
     }
     /**
      * @brief Get cntrl_id for the binded NVMe controller

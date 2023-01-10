@@ -615,7 +615,7 @@ void NVMeMi::adminGetLogPage(
 
 void NVMeMi::adminXfer(
     nvme_mi_ctrl_t ctrl, const nvme_mi_admin_req_hdr& admin_req,
-    std::span<uint8_t> data,
+    std::span<uint8_t> data, unsigned int timeout_ms,
     std::function<void(const std::error_code&, const nvme_mi_admin_resp_hdr&,
                        std::span<uint8_t>)>&& cb)
 {
@@ -633,7 +633,7 @@ void NVMeMi::adminXfer(
         memcpy(req.data(), &admin_req, sizeof(nvme_mi_admin_req_hdr));
         memcpy(req.data() + sizeof(nvme_mi_admin_req_hdr), data.data(),
                data.size());
-        post([ctrl, req{std::move(req)}, self{shared_from_this()},
+        post([ctrl, req{std::move(req)}, self{shared_from_this()}, timeout_ms,
               cb{std::move(cb)}]() mutable {
             int rc = 0;
 
@@ -649,9 +649,15 @@ void NVMeMi::adminXfer(
             nvme_mi_admin_resp_hdr* respHeader =
                 reinterpret_cast<nvme_mi_admin_resp_hdr*>(buf.data());
 
+            // set timeout
+            unsigned timeout = nvme_mi_ep_get_timeout(self->nvmeEP);
+            nvme_mi_ep_set_timeout(self->nvmeEP, timeout_ms);
+
             rc = nvme_mi_admin_xfer(ctrl, reqHeader,
                                     req.size() - sizeof(nvme_mi_admin_req_hdr),
                                     respHeader, respDataOffset, &respDataSize);
+            // revert to previous timeout
+            nvme_mi_ep_set_timeout(self->nvmeEP, timeout);
 
             if (rc < 0)
             {
