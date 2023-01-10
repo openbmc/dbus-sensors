@@ -512,6 +512,34 @@ void IpmbSensor::parseConfigValues(const SensorBaseConfigMap& entry)
     readState = getPowerState(entry);
 }
 
+bool sensorCall(
+    const std::string& name,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    boost::asio::io_service& io, sdbusplus::message::object_path path,
+    sdbusplus::asio::object_server& objectServer,
+    std::vector<thresholds::Threshold>& sensorThresholds, uint8_t deviceAddress,
+    uint8_t hostSMbusIndex, const float pollRate, std::string& sensorTypeName,
+    const SensorBaseConfigMap& cfg, std::string sensorClass,
+    boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
+        sensors)
+{
+    auto& sensor = sensors[name];
+    sensor = std::make_shared<IpmbSensor>(
+        dbusConnection, io, name, path, objectServer,
+        std::move(sensorThresholds), deviceAddress, hostSMbusIndex, pollRate,
+        sensorTypeName);
+
+    sensor->parseConfigValues(cfg);
+    if (!(sensor->sensorClassType(sensorClass)))
+    {
+        return false;
+    }
+    sensor->sensorSubType(sensorTypeName);
+    sensor->init();
+
+    return true;
+}
+
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
@@ -580,20 +608,15 @@ void createSensors(
                         std::visit(VariantToStringVisitor(), findType->second);
                 }
 
-                auto& sensor = sensors[name];
-                sensor = nullptr;
-                sensor = std::make_shared<IpmbSensor>(
-                    dbusConnection, io, name, path, objectServer,
-                    std::move(sensorThresholds), deviceAddress, hostSMbusIndex,
-                    pollRate, sensorTypeName);
+                bool sensorFlag = sensorCall(
+                    name, dbusConnection, io, path, objectServer,
+                    sensorThresholds, deviceAddress, hostSMbusIndex, pollRate,
+                    sensorTypeName, cfg, sensorClass, sensors);
 
-                sensor->parseConfigValues(cfg);
-                if (!(sensor->sensorClassType(sensorClass)))
+                if (!sensorFlag)
                 {
                     continue;
                 }
-                sensor->sensorSubType(sensorTypeName);
-                sensor->init();
             }
         }
         },
