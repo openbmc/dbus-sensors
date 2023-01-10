@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7910d261_ed3c0a2d",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-01-10T01:45:29Z",
+      "side": 1,
+      "message": "This is suggested by unit-test when numCreated is \"unsigned int\"",
+      "parentUuid": "d734dbbb_1c74236c",
+      "range": {
+        "startLine": 515,
+        "startChar": 8,
+        "endLine": 515,
+        "endChar": 29
+      },
+      "revId": "48d3b86f80ceca9deed1e4215b514890ae503a56",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c5c3efe_b02b0daa",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-31T17:36:20Z",
       "side": 1,
       "message": "can we only pass only things that are necessary?",
+      "range": {
+        "startLine": 598,
+        "startChar": 9,
+        "endLine": 598,
+        "endChar": 10
+      },
+      "revId": "48d3b86f80ceca9deed1e4215b514890ae503a56",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "267606b9_d7508f69",
+        "filename": "src/AmpereCPUMain.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-01-10T01:45:29Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "8c5c3efe_b02b0daa",
       "range": {
         "startLine": 598,
         "startChar": 9,
