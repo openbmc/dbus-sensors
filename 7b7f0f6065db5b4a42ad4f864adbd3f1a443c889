@@ -47,6 +47,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff7872e2_d7b36bc6",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-01-11T10:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47e27afa_0cab3b78",
+      "range": {
+        "startLine": 226,
+        "startChar": 34,
+        "endLine": 226,
+        "endChar": 39
+      },
+      "revId": "7b7f0f6065db5b4a42ad4f864adbd3f1a443c889",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "feb254ee_68c0a7aa",
@@ -70,6 +94,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b4386da_5f0218f9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-01-11T10:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feb254ee_68c0a7aa",
+      "range": {
+        "startLine": 234,
+        "startChar": 16,
+        "endLine": 234,
+        "endChar": 17
+      },
+      "revId": "7b7f0f6065db5b4a42ad4f864adbd3f1a443c889",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07ac608e_c3f3835d",
@@ -83,6 +131,30 @@
       "writtenOn": "2023-01-11T05:08:33Z",
       "side": 1,
       "message": "pmbusCommand.size()? \nIf yes, move this to beginning of function",
+      "range": {
+        "startLine": 264,
+        "startChar": 46,
+        "endLine": 264,
+        "endChar": 65
+      },
+      "revId": "7b7f0f6065db5b4a42ad4f864adbd3f1a443c889",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c386dc1_7cac6eb7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-01-11T10:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07ac608e_c3f3835d",
       "range": {
         "startLine": 264,
         "startChar": 46,
