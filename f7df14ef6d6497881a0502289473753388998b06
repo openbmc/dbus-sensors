@@ -16,6 +16,29 @@
       "message": "FWIW, a related issue (but with adcsensor) was already discussed at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/37345 with many good points raised. AFAICT, the conclusion is that it\u0027s essential to set the maximum to the real maximum that ADC can measure; while with adcsensors it\u0027s possible to just hardcode it for all supported devices, psusensors needs more fine-grained approach.",
       "revId": "f7df14ef6d6497881a0502289473753388998b06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e39c04e8_f4364353",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-01-13T02:54:27Z",
+      "side": 1,
+      "message": "Why do we have to rely on encoding this metadata in a string? What are the alternatives and why are they worse?",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 80
+      },
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
