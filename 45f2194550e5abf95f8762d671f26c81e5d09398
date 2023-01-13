@@ -50,6 +50,24 @@
       "message": "Please keep the list sorted alphabetically, otherwise we\u0027ll go crazy 😊",
       "revId": "45f2194550e5abf95f8762d671f26c81e5d09398",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1035c09_98ec23e8",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000294
+      },
+      "writtenOn": "2023-01-13T04:33:59Z",
+      "side": 1,
+      "message": "Thanks your review. I have sort it after \"TMP75\". Please help me review it again.",
+      "parentUuid": "475df3bd_bc06d2aa",
+      "revId": "45f2194550e5abf95f8762d671f26c81e5d09398",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
