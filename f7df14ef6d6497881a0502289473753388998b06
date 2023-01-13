@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d2d9bc3_78ce7b31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-01-13T10:21:21Z",
+      "side": 1,
+      "message": "In omnisensor the control over default min and max values is less fine-grained: https://github.com/zevweiss/omnisensor/blob/master/src/hwmon.rs#L238 . Zev, since you\u0027ve recently had a good deep dive into the topic, probably you can provide some feedback here? Is this feature (driver-specific default values) worth having at all in your opinion?",
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e39c04e8_f4364353",
