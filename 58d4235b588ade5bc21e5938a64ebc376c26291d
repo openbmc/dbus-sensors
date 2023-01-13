@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e5c9594_d8141080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-01-13T02:38:04Z",
+      "side": 1,
+      "message": "I think the commit message needs a pointer to the schema that allows it, which I think is this?\n\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/a1347418307d31a94bd21f22897aa508df938dcf/yaml/xyz/openbmc_project/Inventory/Item.interface.yaml#L36-L43",
+      "revId": "58d4235b588ade5bc21e5938a64ebc376c26291d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
