@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6165187_514b539e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-01-13T02:49:28Z",
+      "side": 1,
+      "message": "Neither of these devices have support in either upstream linux or openbmc/linux",
+      "revId": "af1c4e70530d657f89601959d2b282f37995743e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
