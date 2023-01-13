@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee0d4e7d_be877ac6",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-13T12:46:18Z",
+      "side": 1,
+      "message": "I don\u0027t know what \"public for ipmid\" means.  There are lots of dbus objects that are unrelated to IPMI.\n\nHow do we make it obvious that this is only to be consumed by entity-manager?  We generally don\u0027t allow undocumented interfaces to be exposed between repositories.",
+      "parentUuid": "5f8a7cd6_e8043632",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ee6c157_37527e77",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 39
