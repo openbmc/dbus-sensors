@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0873d7ab_d5a5cca3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T21:19:17Z",
+      "side": 1,
+      "message": "I wouldn\u0027t read too much into that; I was basically just aiming for approximate feature parity with the existing psusensor code here: https://github.com/openbmc/dbus-sensors/blob/master/src/PSUSensorMain.cpp#L934-L1021\n\n(And as noted in the FIXME comment I left in that match block there I was lazy and didn\u0027t even make it fully match the existing code.)\n\nAs for whether it\u0027s worth having -- from your description there\u0027s clearly a significant shortcoming with the existing code; what I\u0027m less sure of is the right way to address it...\n\nIs the value range going to be roughly the same for all instances of that device?  If so, should we just have a fixed lookup table in the daemon to handle it automatically instead of making every instance of it specify it explicitly in its config?",
+      "parentUuid": "4d2d9bc3_78ce7b31",
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e39c04e8_f4364353",
