@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "387624c5_11dff42a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T09:23:18Z",
+      "side": 1,
+      "message": "It\u0027s not terrible as is IMO, but I might be be sort of inclined to split this into two commits -- one converting things to use `I2CDeviceMap` (similar to commit d29f8aa09da) and another to add the actual device-management stuff.",
+      "revId": "89a52a8f26cc004860e9bb29bb0cae03473008b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f60aa8b_17f69c6d",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T09:23:18Z",
+      "side": 1,
+      "message": "Did you happen to check if this is still necessary?  With struct elements instead of bare string literals maybe clang-format will let it be...",
+      "revId": "89a52a8f26cc004860e9bb29bb0cae03473008b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75970c4e_de6b8c30",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T09:23:18Z",
+      "side": 1,
+      "message": "...and either way the sense of this one looks inverted.",
+      "revId": "89a52a8f26cc004860e9bb29bb0cae03473008b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dab6dd6_51979f28",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T09:23:18Z",
+      "side": 1,
+      "message": "Nit: `\": Unable ...\"` (space after the colon).",
+      "revId": "89a52a8f26cc004860e9bb29bb0cae03473008b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80a5b314_dadbb232",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T09:23:18Z",
+      "side": 1,
+      "message": "Hmm, I guess the (unfortunate) casing difference here is the reason for the manual linear search instead of a simple `sensorTypes.contains()` test...and the (also unfortunate) exception of `\"pmbus\"` means we can\u0027t just do a `toupper()` and look that up either unless we also manually special-case that, so I don\u0027t see any simple/obvious better solutions here sadly.  Might be worth a brief comment explaining it though?",
+      "range": {
+        "startLine": 393,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 9
+      },
+      "revId": "89a52a8f26cc004860e9bb29bb0cae03473008b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fa4aac8_53f148b3",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T09:23:18Z",
+      "side": 1,
+      "message": "Looks like this might be recapitulating the bug fixed in commit 9bbeff75?  (The hazards of code duplication...)",
+      "range": {
+        "startLine": 518,
+        "startChar": 0,
+        "endLine": 528,
+        "endChar": 9
+      },
+      "revId": "89a52a8f26cc004860e9bb29bb0cae03473008b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbfa4036_f6765684",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T09:23:18Z",
+      "side": 1,
+      "message": "Remove, or make debug-only?",
+      "range": {
+        "startLine": 1158,
+        "startChar": 0,
+        "endLine": 1159,
+        "endChar": 66
+      },
+      "revId": "89a52a8f26cc004860e9bb29bb0cae03473008b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa3208e_c722b30b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-13T09:23:18Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "89a52a8f26cc004860e9bb29bb0cae03473008b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
