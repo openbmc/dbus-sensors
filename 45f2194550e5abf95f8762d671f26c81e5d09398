@@ -16,6 +16,23 @@
       "message": "Hi All,\nCould someone help us to review this commit for support TMP100 in dbus-sensors? Thanks.\n\nBest regards,\nTim",
       "revId": "45f2194550e5abf95f8762d671f26c81e5d09398",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb26d0e4_c48202c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000294
+      },
+      "writtenOn": "2023-01-13T01:29:06Z",
+      "side": 1,
+      "message": "Hi All,\nCould you help us to add TI/TMP100 of LM75 hwmon sensor into dbus-sensor support?\nDue to our project is using this sensor type and we need dbus-sensor add it to list. Thank you.",
+      "revId": "45f2194550e5abf95f8762d671f26c81e5d09398",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
