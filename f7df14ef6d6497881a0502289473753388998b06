@@ -39,6 +39,30 @@
       },
       "revId": "f7df14ef6d6497881a0502289473753388998b06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed587a3b_f96e7716",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-01-13T10:11:03Z",
+      "side": 1,
+      "message": "Hello Andrew,\nSo basically here we need a way to match on two keys: the kernel driver name and the particular label. One way to do that would be to make labelMatch a map that uses `std::pair\u003cstd::string, std::string\u003e` for the key. That would involve changing all the existing entries in it, and adding new entries would look a bit more complex. The approach I offer is allowing to do the job with minimal changes, also similar \"metadata in a string\" idea was already accepted in c7e956275ffef . I do not consider the possibility to get a clash between such an augmented label name with another real label name to be real, so I can\u0027t see any downsides.",
+      "parentUuid": "e39c04e8_f4364353",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 80
+      },
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
