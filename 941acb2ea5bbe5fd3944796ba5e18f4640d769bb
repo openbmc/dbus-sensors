@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "649a0fb8_556b8fee",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-13T13:07:47Z",
+      "side": 1,
+      "message": "My suggestion would be that we take a look at the connector interfaces in Inventory and add an interface that can be used to represent the “Occupied” state of the connector (you don’t need to use that word).",
+      "parentUuid": "ee0d4e7d_be877ac6",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ee6c157_37527e77",
         "filename": "docs/gpio-based-presence-detection.md",
         "patchSetId": 39
