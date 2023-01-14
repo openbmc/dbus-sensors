@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98625e02_ae0ab2af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-01-14T10:54:03Z",
+      "side": 1,
+      "message": "Hello Zev,\n\nThank you for chiming in.\n\n\u003e As for whether it\u0027s worth having -- from your description there\u0027s clearly a significant shortcoming with the existing code; what I\u0027m less sure of is the right way to address it...\n\nI see just two points why correct min and max values are important: precision of reporting via IPMI; automatic appropriate hysteresis. And the latter seems to be not implemented at all in omnisensor (defaults to NaN), so I\u0027d expect to see a stream of events reported when it so happens that the measured value fluctuates (e.g. in the LSB of the ADC) near a threshold unless a specific configuration for this input is added.\n\nBTW, a somewhat related idea: how about adding sanity checking for hysteresis in this manner: on startup if the first measured (and reported, since some measurements must be ignored while the host is turned off) value is within all the thresholds /but/ closer than the specified hysteresis to one of them, print a warning to the log?\n\n\u003e Is the value range going to be roughly the same for all instances of that device?  \n\nOf course, different hwmon (and other subsystem devices) can differ. E.g. a chip which measures current over a shunt resistor can have very different ranges on different boards, depending on the shunt value. But some devices (such as these pxe1610-compatible VRs, or the integrated ADC of ast2500/ast2600) have fixed limits.\n\n\u003e If so, should we just have a fixed lookup table in the daemon to handle it automatically instead of making every instance of it specify it explicitly in its config?\n\nThat\u0027s what I\u0027m proposing with this patch: to hardcode sensible values in the daemon for at least some drivers.",
+      "parentUuid": "0873d7ab_d5a5cca3",
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e39c04e8_f4364353",
