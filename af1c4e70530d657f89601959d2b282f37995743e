@@ -16,6 +16,24 @@
       "message": "Neither of these devices have support in either upstream linux or openbmc/linux",
       "revId": "af1c4e70530d657f89601959d2b282f37995743e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b247a992_c8ef8a4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001425
+      },
+      "writtenOn": "2023-01-16T01:35:11Z",
+      "side": 1,
+      "message": "Yes, the kernel only has\nhttps://github.com/torvalds/linux/blob/master/drivers/hwmon/pmbus/isl68137.c\n\nFor using these device, we need to add driver support.",
+      "parentUuid": "b6165187_514b539e",
+      "revId": "af1c4e70530d657f89601959d2b282f37995743e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
