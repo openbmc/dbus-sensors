@@ -116,6 +116,30 @@
       },
       "revId": "f7df14ef6d6497881a0502289473753388998b06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf52712_2e678a61",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-01-17T04:30:17Z",
+      "side": 1,
+      "message": "As a maintainer, the downside to me is we\u0027re adding a yet another DSL to this codebase, which is already full of crazy DSLs. Honestly, I want it to stop. It\u0027s next to impossible to learn the behaviour without completely reading the code: it\u0027s an unabstraction.\n\nYou\u0027re already guarding the fallback of an un-augmented search here. The least we could do is come up with a more appropriate device-specific structure and search that first. If that fails, we fall back to the generic definitions as you\u0027ve done here. No string parsing required, and we have types that can be enforced by the compiler.",
+      "parentUuid": "ed587a3b_f96e7716",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 80
+      },
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
