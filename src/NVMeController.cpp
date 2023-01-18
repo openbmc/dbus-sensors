@@ -14,6 +14,18 @@ using sdbusplus::xyz::openbmc_project::Inventory::Item::server::
     StorageController;
 using sdbusplus::xyz::openbmc_project::NVMe::server::NVMeAdmin;
 
+std::shared_ptr<NVMeController> NVMeController::create(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
+    std::shared_ptr<sdbusplus::asio::connection> conn, std::string path,
+    std::shared_ptr<NVMeMiIntf> nvmeIntf, nvme_mi_ctrl_t ctrl)
+{
+
+    auto self = std::shared_ptr<NVMeController>(
+        new NVMeController(io, objServer, conn, path, nvmeIntf, ctrl));
+    self->init();
+    return self;
+}
+
 NVMeController::NVMeController(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
     std::shared_ptr<sdbusplus::asio::connection> conn, std::string path,
@@ -23,6 +35,10 @@ NVMeController::NVMeController(
               {{"FirmwareCommitStatus", {FwCommitStatus::Ready}}}),
     io(io), objServer(objServer), conn(conn), path(path), nvmeIntf(nvmeIntf),
     nvmeCtrl(ctrl)
+{}
+
+// Performs initialisation after shared_from_this() has been set up.
+void NVMeController::init()
 {
     StorageController::emit_added();
     NVMeAdmin::emit_added();

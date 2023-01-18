@@ -109,10 +109,10 @@ void NVMeSubsystem::start(const SensorData& configData)
                 std::filesystem::path path = std::filesystem::path(self->path) /
                                              "controllers" /
                                              std::to_string(*index);
-                                             
+
                 try
                 {
-                    auto nvmeController = std::make_shared<NVMeController>(
+                    auto nvmeController = NVMeController::create(
                         self->io, self->objServer, self->conn, path.string(),
                         nvme, c);
 
