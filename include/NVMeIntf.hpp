@@ -184,6 +184,17 @@ class NVMeMiIntf
                                std::function<void(const std::error_code&,
                                                   nvme_status_field)>&& cb) = 0;
 
+    virtual void adminSecuritySend(
+        nvme_mi_ctrl_t ctrl, uint8_t proto, uint16_t proto_specific,
+        std::span<uint8_t> data,
+        std::function<void(const std::error_code&, int nvme_status)>&& cb) = 0;
+
+    virtual void adminSecurityReceive(
+        nvme_mi_ctrl_t ctrl, uint8_t proto, uint16_t proto_specific,
+        uint32_t transfer_length,
+        std::function<void(const std::error_code&, int nvme_status,
+                           const std::span<uint8_t> data)>&& cb) = 0;
+
     /**
      * adminXfer() -  Raw admin transfer interface.
      * @ctrl: controller to send the admin command to
