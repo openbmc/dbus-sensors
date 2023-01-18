@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include <DeviceMgmt.hpp>
 #include <PSUEvent.hpp>
 #include <PSUSensor.hpp>
 #include <Utils.hpp>
@@ -39,65 +40,52 @@
 
 static constexpr bool debug = false;
 
-static constexpr auto sensorTypes{std::to_array<const char*>(
-    {"ADM1266",   "ADM1272",     "ADM1275",   "ADM1278",   "ADM1293",
-     "ADS7830",   "AHE50DC_FAN", "BMR490",    "DPS800",    "INA219",
-     "INA230",    "IPSPS",       "IR38060",   "IR38164",   "IR38263",
-     "ISL68137",  "ISL68220",    "ISL68223",  "ISL69225",  "ISL69243",
-     "ISL69260",  "LM25066",     "MAX16601",  "MAX20710",  "MAX20730",
-     "MAX20734",  "MAX20796",    "MAX34451",  "MP2971",    "MP2973",
-     "MP5023",    "PLI1209BC",   "pmbus",     "PXE1610",   "RAA228000",
-     "RAA228228", "RAA228620",   "RAA229001", "RAA229004", "RAA229126",
-     "TPS53679",  "TPS546D24",   "XDPE11280", "XDPE12284"})};
-
-// clang-format off
-static constexpr auto pmbusNames{std::to_array<const char*>({
-    "adm1266",
-    "adm1272",
-    "adm1275",
-    "adm1278",
-    "adm1293",
-    "ads7830",
-    "ahe50dc_fan",
-    "bmr490",
-    "dps800",
-    "ina219",
-    "ina230",
-    "ipsps1",
-    "ir38060",
-    "ir38164",
-    "ir38263",
-    "isl68137",
-    "isl68220",
-    "isl68223",
-    "isl69225",
-    "isl69243",
-    "isl69260",
-    "lm25066",
-    "max16601",
-    "max20710",
-    "max20730",
-    "max20734",
-    "max20796",
-    "max34451",
-    "mp2971",
-    "mp2973",
-    "mp5023",
-    "pli1209bc",
-    "pmbus",
-    "pxe1610",
-    "raa228000",
-    "raa228228",
-    "raa228620",
-    "raa229001",
-    "raa229004",
-    "raa229126",
-    "tps53679",
-    "tps546d24",
-    "xdpe11280",
-    "xdpe12284"
-})};
-//clang-format on
+static const I2CDeviceTypeMap sensorTypes{
+    {"ADM1266", I2CDeviceType{"adm1266", false}},
+    {"ADM1272", I2CDeviceType{"adm1272", false}},
+    {"ADM1275", I2CDeviceType{"adm1275", false}},
+    {"ADM1278", I2CDeviceType{"adm1278", false}},
+    {"ADM1293", I2CDeviceType{"adm1293", true}},
+    {"ADS7830", I2CDeviceType{"ads7830", false}},
+    {"AHE50DC_FAN", I2CDeviceType{"ahe50dc_fan", false}},
+    {"BMR490", I2CDeviceType{"bmr490", false}},
+    {"DPS800", I2CDeviceType{"dps800", false}},
+    {"INA219", I2CDeviceType{"ina219", true}},
+    {"INA230", I2CDeviceType{"ina230", true}},
+    {"IPSPS", I2CDeviceType{"ipsps", false}},
+    {"IR38060", I2CDeviceType{"ir38060", false}},
+    {"IR38164", I2CDeviceType{"ir38164", false}},
+    {"IR38263", I2CDeviceType{"ir38263", false}},
+    {"ISL68137", I2CDeviceType{"isl68137", true}},
+    {"ISL68220", I2CDeviceType{"isl68220", true}},
+    {"ISL68223", I2CDeviceType{"isl68223", true}},
+    {"ISL69225", I2CDeviceType{"isl69225", true}},
+    {"ISL69243", I2CDeviceType{"isl69243", true}},
+    {"ISL69260", I2CDeviceType{"isl69260", true}},
+    {"LM25066", I2CDeviceType{"lm25066", true}},
+    {"MAX16601", I2CDeviceType{"max16601", true}},
+    {"MAX20710", I2CDeviceType{"max20710", true}},
+    {"MAX20730", I2CDeviceType{"max20730", true}},
+    {"MAX20734", I2CDeviceType{"max20734", true}},
+    {"MAX20796", I2CDeviceType{"max20796", true}},
+    {"MAX34451", I2CDeviceType{"max34451", true}},
+    {"MP2971", I2CDeviceType{"mp2971", true}},
+    {"MP2973", I2CDeviceType{"mp2973", true}},
+    {"MP5023", I2CDeviceType{"mp5023", true}},
+    {"PLI1209BC", I2CDeviceType{"pli1209bc", true}},
+    {"pmbus", I2CDeviceType{"pmbus", true}},
+    {"PXE1610", I2CDeviceType{"pxe1610", true}},
+    {"RAA228000", I2CDeviceType{"raa228000", true}},
+    {"RAA228228", I2CDeviceType{"raa228228", true}},
+    {"RAA228620", I2CDeviceType{"raa228620", true}},
+    {"RAA229001", I2CDeviceType{"raa229001", true}},
+    {"RAA229004", I2CDeviceType{"raa229004", true}},
+    {"RAA229126", I2CDeviceType{"raa229126", true}},
+    {"TPS53679", I2CDeviceType{"tps53679", true}},
+    {"TPS546D24", I2CDeviceType{"tps546d24", true}},
+    {"XDPE11280", I2CDeviceType{"xdpe11280", true}},
+    {"XDPE12284", I2CDeviceType{"xdpe12284", true}},
+};
 
 namespace fs = std::filesystem;
 
@@ -318,8 +306,19 @@ static void createSensorsCallback(
         std::getline(nameFile, pmbusName);
         nameFile.close();
 
-        if (std::find(pmbusNames.begin(), pmbusNames.end(), pmbusName) ==
-            pmbusNames.end())
+        // Perform linear search due to casing differences
+        // in I2C device type names
+        bool foundName = false;
+        for (const auto& [type, dt] : sensorTypes)
+        {
+            if (pmbusName == dt.name)
+            {
+                foundName = true;
+                break;
+            }
+        }
+
+        if (!foundName)
         {
             // To avoid this error message, add your driver name to
             // the pmbusNames vector at the top of this file.
@@ -372,13 +371,13 @@ static void createSensorsCallback(
         for (const auto& [path, cfgData] : sensorConfigs)
         {
             sensorData = &cfgData;
-            for (const char* type : sensorTypes)
+            for (const auto& [type, dt] : sensorTypes)
             {
                 auto sensorBase = sensorData->find(configInterfaceName(type));
                 if (sensorBase != sensorData->end())
                 {
                     baseConfig = &sensorBase->second;
-                    sensorType = type;
+                    sensorType = configInterfaceName(type).c_str();
                     break;
                 }
             }
@@ -399,8 +398,10 @@ static void createSensorsCallback(
                 continue;
             }
 
-            const uint64_t* confBus = std::get_if<uint64_t>(&(configBus->second));
-            const uint64_t* confAddr = std::get_if<uint64_t>(&(configAddress->second));
+            const uint64_t* confBus =
+                std::get_if<uint64_t>(&(configBus->second));
+            const uint64_t* confAddr =
+                std::get_if<uint64_t>(&(configAddress->second));
             if (confBus == nullptr || confAddr == nullptr)
             {
                 std::cerr
@@ -441,7 +442,8 @@ static void createSensorsCallback(
                       << deviceName << "\n";
             continue;
         }
-        const std::string* psuName = std::get_if<std::string>(&(findPSUName->second));
+        const std::string* psuName =
+            std::get_if<std::string>(&(findPSUName->second));
         if (psuName == nullptr)
         {
             std::cerr << "Cannot find psu name, invalid configuration\n";
@@ -455,8 +457,8 @@ static void createSensorsCallback(
             auto it =
                 std::find_if(sensorsChanged->begin(), sensorsChanged->end(),
                              [psuNameStr](std::string& s) {
-                                 return s.ends_with(psuNameStr);
-                             });
+                return s.ends_with(psuNameStr);
+                });
 
             if (it == sensorsChanged->end())
             {
@@ -905,7 +907,7 @@ static void createSensorsCallback(
     {
         std::cerr << "Created total of " << numCreated << " sensors\n";
     }
-    }
+}
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -919,8 +921,12 @@ void createSensors(
             createSensorsCallback(io, objectServer, dbusConnection,
                                   sensorConfigs, sensorsChanged);
         });
-    getter->getConfiguration(
-        std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
+    std::vector<std::string> types(sensorTypes.size());
+    for (const auto& [type, dt] : sensorTypes)
+    {
+        types.push_back(type);
+    }
+    getter->getConfiguration(types);
 }
 
 void propertyInitialize(void)
@@ -1020,8 +1026,10 @@ void propertyInitialize(void)
         {"fan3", PSUProperty("Fan Speed 3", 30000, 0, 0, 0)},
         {"fan4", PSUProperty("Fan Speed 4", 30000, 0, 0, 0)}};
 
-    pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"},
-                {"fan3", "Fan_3"}, {"fan4", "Fan_4"}};
+    pwmTable = {{"fan1", "Fan_1"},
+                {"fan2", "Fan_2"},
+                {"fan3", "Fan_3"},
+                {"fan4", "Fan_4"}};
 
     limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
                        {"Failure", {"crit_alarm", "lcrit_alarm"}}};
@@ -1056,25 +1064,25 @@ int main()
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
-            if (message.is_method_error())
+        if (message.is_method_error())
+        {
+            std::cerr << "callback method error\n";
+            return;
+        }
+        sensorsChanged->insert(message.get_path());
+        filterTimer.expires_from_now(std::chrono::seconds(3));
+        filterTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
             {
-                std::cerr << "callback method error\n";
                 return;
             }
-            sensorsChanged->insert(message.get_path());
-            filterTimer.expires_from_now(std::chrono::seconds(3));
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return;
-                }
-                if (ec)
-                {
-                    std::cerr << "timer error\n";
-                }
-                createSensors(io, objectServer, systemBus, sensorsChanged);
-            });
-        };
+            if (ec)
+            {
+                std::cerr << "timer error\n";
+            }
+            createSensors(io, objectServer, systemBus, sensorsChanged);
+        });
+    };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
