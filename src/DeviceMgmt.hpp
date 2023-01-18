@@ -14,8 +14,16 @@ struct I2CDeviceType
     bool createsHWMon;
 };
 
+struct I2CDeviceComparator
+{
+    bool operator()(const std::string& a, const std::string& b) const noexcept
+    {
+        return strcasecmp(a.c_str(), b.c_str()) < 0;
+    }
+};
+
 using I2CDeviceTypeMap =
-    boost::container::flat_map<std::string, I2CDeviceType, std::less<>>;
+    boost::container::flat_map<std::string, I2CDeviceType, I2CDeviceComparator>;
 
 struct I2CDeviceParams
 {
