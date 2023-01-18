@@ -29,8 +29,8 @@ add_project_arguments(
     '-DBOOST_NO_RTTI',
     '-DBOOST_NO_TYPEID',
     '-DBOOST_ALL_NO_LIB',
-    '-DBOOST_ASIO_DISABLE_THREADS',
     '-DBOOST_ALLOW_DEPRECATED_HEADERS',
+    '-DBOOST_ASIO_HAS_THREADS',
     language: 'cpp',
 )
 
@@ -65,7 +65,7 @@ systemd_system_unit_dir = systemd.get_variable(
     pkgconfig_define: ['prefix', get_option('prefix')])
 threads = dependency('threads')
 
-boost = dependency('boost',version : '>=1.79.0', required : false, include_type: 'system')
+boost = dependency('boost',version : '>=1.79.0', required : false, include_type: 'system', modules: ['coroutine'])
 if not boost.found()
   subproject('boost', required: false)
   boost_inc = include_directories('subprojects/boost_1_79_0/', is_system:true)
