@@ -14,6 +14,28 @@ using sdbusplus::xyz::openbmc_project::Inventory::Item::server::
     StorageController;
 using sdbusplus::xyz::openbmc_project::NVMe::server::NVMeAdmin;
 
+std::shared_ptr<NVMeControllerEnabled> NVMeControllerEnabled::create(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
+    std::shared_ptr<sdbusplus::asio::connection> conn, std::string path,
+    std::shared_ptr<NVMeMiIntf> nvmeIntf, nvme_mi_ctrl_t ctrl)
+{
+
+    auto self = std::shared_ptr<NVMeControllerEnabled>(
+        new NVMeControllerEnabled(io, objServer, conn, path, nvmeIntf, ctrl));
+    self->init();
+    return self;
+}
+
+std::shared_ptr<NVMeControllerEnabled>
+    NVMeControllerEnabled::create(NVMeController&& nvmeController)
+{
+
+    auto self = std::shared_ptr<NVMeControllerEnabled>(
+        new NVMeControllerEnabled(std::move(nvmeController)));
+    self->init();
+    return self;
+}
+
 NVMeControllerEnabled::NVMeControllerEnabled(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
     std::shared_ptr<sdbusplus::asio::connection> conn, std::string path,
@@ -22,17 +44,7 @@ NVMeControllerEnabled::NVMeControllerEnabled(
     StorageController(dynamic_cast<sdbusplus::bus_t&>(*conn), path.c_str()),
     NVMeAdmin(*conn, path.c_str(),
               {{"FirmwareCommitStatus", {FwCommitStatus::Ready}}})
-{
-    assocIntf = objServer.add_interface(
-        path, "xyz.openbmc_project.Association.Definitions");
-
-    // regiester a property with empty association
-    assocIntf->register_property("Associations", std::vector<Association>{});
-    assocIntf->initialize();
-
-    StorageController::emit_added();
-    NVMeAdmin::emit_added();
-}
+{}
 
 NVMeControllerEnabled::NVMeControllerEnabled(NVMeController&& nvmeController) :
     NVMeController(std::move(nvmeController)),
@@ -41,6 +53,9 @@ NVMeControllerEnabled::NVMeControllerEnabled(NVMeController&& nvmeController) :
         this->NVMeController::path.c_str()),
     NVMeAdmin(*this->NVMeController::conn, this->NVMeController::path.c_str(),
               {{"FirmwareCommitStatus", {FwCommitStatus::Ready}}})
+{}
+
+void NVMeControllerEnabled::init()
 {
     assocIntf = objServer.add_interface(
         path, "xyz.openbmc_project.Association.Definitions");

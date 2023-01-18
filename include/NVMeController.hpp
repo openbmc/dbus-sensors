@@ -3,7 +3,7 @@
 
 #include "NVMeIntf.hpp"
 
-#include <boost/asio/io_context.hpp>
+#include <boost/asio.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <xyz/openbmc_project/Inventory/Item/StorageController/server.hpp>
@@ -105,6 +105,19 @@ class NVMeControllerEnabled :
 
 {
   public:
+    static std::shared_ptr<NVMeControllerEnabled> create(
+        boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
+        std::shared_ptr<sdbusplus::asio::connection> conn, std::string path,
+        std::shared_ptr<NVMeMiIntf> nvmeIntf, nvme_mi_ctrl_t ctrl);
+
+    static std::shared_ptr<NVMeControllerEnabled>
+        create(NVMeController&& nvmeController);
+
+    ~NVMeControllerEnabled() override;
+
+    void start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin) override;
+
+  private:
     NVMeControllerEnabled(boost::asio::io_context& io,
                           sdbusplus::asio::object_server& objServer,
                           std::shared_ptr<sdbusplus::asio::connection> conn,
@@ -114,11 +127,8 @@ class NVMeControllerEnabled :
 
     NVMeControllerEnabled(NVMeController&& nvmeController);
 
-    ~NVMeControllerEnabled() override;
+    void init();
 
-    void start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin) override;
-
-  private:
     /* NVMeAdmin method overload */
 
     /** @brief Implementation for GetLogPage
