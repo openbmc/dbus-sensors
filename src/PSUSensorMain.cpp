@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "DeviceMgmt.hpp"
 #include "PSUEvent.hpp"
 #include "PSUSensor.hpp"
 #include "Utils.hpp"
@@ -40,6 +41,55 @@
 
 static constexpr bool debug = false;
 
+<<<<<<< PATCH SET (af06f9 psusensor: Convert sensorTypes to I2CDeviceTypeMap)
+static const I2CDeviceTypeMap sensorTypes{
+    {"ADM1266", I2CDeviceType{"adm1266", true}},
+    {"ADM1272", I2CDeviceType{"adm1272", true}},
+    {"ADM1275", I2CDeviceType{"adm1275", true}},
+    {"ADM1278", I2CDeviceType{"adm1278", true}},
+    {"ADM1293", I2CDeviceType{"adm1293", true}},
+    {"ADS7830", I2CDeviceType{"ads7830", true}},
+    {"AHE50DC_FAN", I2CDeviceType{"ahe50dc_fan", true}},
+    {"BMR490", I2CDeviceType{"bmr490", true}},
+    {"DPS800", I2CDeviceType{"dps800", true}},
+    {"INA219", I2CDeviceType{"ina219", true}},
+    {"INA230", I2CDeviceType{"ina230", true}},
+    {"IPSPS", I2CDeviceType{"ipsps", true}},
+    {"IR38060", I2CDeviceType{"ir38060", true}},
+    {"IR38164", I2CDeviceType{"ir38164", true}},
+    {"IR38263", I2CDeviceType{"ir38263", true}},
+    {"ISL68137", I2CDeviceType{"isl68137", true}},
+    {"ISL68220", I2CDeviceType{"isl68220", true}},
+    {"ISL68223", I2CDeviceType{"isl68223", true}},
+    {"ISL69225", I2CDeviceType{"isl69225", true}},
+    {"ISL69243", I2CDeviceType{"isl69243", true}},
+    {"ISL69260", I2CDeviceType{"isl69260", true}},
+    {"LM25066", I2CDeviceType{"lm25066", true}},
+    {"MAX16601", I2CDeviceType{"max16601", true}},
+    {"MAX20710", I2CDeviceType{"max20710", true}},
+    {"MAX20730", I2CDeviceType{"max20730", true}},
+    {"MAX20734", I2CDeviceType{"max20734", true}},
+    {"MAX20796", I2CDeviceType{"max20796", true}},
+    {"MAX34451", I2CDeviceType{"max34451", true}},
+    {"MP2971", I2CDeviceType{"mp2971", true}},
+    {"MP2973", I2CDeviceType{"mp2973", true}},
+    {"MP2975", I2CDeviceType{"mp2975", true}},
+    {"MP5023", I2CDeviceType{"mp5023", true}},
+    {"PLI1209BC", I2CDeviceType{"pli1209bc", true}},
+    {"pmbus", I2CDeviceType{"pmbus", true}},
+    {"PXE1610", I2CDeviceType{"pxe1610", true}},
+    {"RAA228000", I2CDeviceType{"raa228000", true}},
+    {"RAA228228", I2CDeviceType{"raa228228", true}},
+    {"RAA228620", I2CDeviceType{"raa228620", true}},
+    {"RAA229001", I2CDeviceType{"raa229001", true}},
+    {"RAA229004", I2CDeviceType{"raa229004", true}},
+    {"RAA229126", I2CDeviceType{"raa229126", true}},
+    {"TPS53679", I2CDeviceType{"tps53679", true}},
+    {"TPS546D24", I2CDeviceType{"tps546d24", true}},
+    {"XDPE11280", I2CDeviceType{"xdpe11280", true}},
+    {"XDPE12284", I2CDeviceType{"xdpe12284", true}},
+};
+=======
 // clang-format off
 static constexpr auto sensorTypes{std::to_array<const char*>({
     "ADM1266",
@@ -138,6 +188,7 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "xdpe12284"
 })};
 //clang-format on
+>>>>>>> BASE      (83209b PSUSensor: Add device type ncp4200)
 
 namespace fs = std::filesystem;
 
@@ -358,8 +409,7 @@ static void createSensorsCallback(
         std::getline(nameFile, pmbusName);
         nameFile.close();
 
-        if (std::find(pmbusNames.begin(), pmbusNames.end(), pmbusName) ==
-            pmbusNames.end())
+        if (sensorTypes.find(pmbusName) == sensorTypes.end())
         {
             // To avoid this error message, add your driver name to
             // the pmbusNames vector at the top of this file.
@@ -406,13 +456,13 @@ static void createSensorsCallback(
         const SensorBaseConfigMap* baseConfig = nullptr;
         const SensorData* sensorData = nullptr;
         const std::string* interfacePath = nullptr;
-        const char* sensorType = nullptr;
+        std::string sensorType;
         size_t thresholdConfSize = 0;
 
         for (const auto& [path, cfgData] : sensorConfigs)
         {
             sensorData = &cfgData;
-            for (const char* type : sensorTypes)
+            for (const auto& [type, dt] : sensorTypes)
             {
                 auto sensorBase = sensorData->find(configInterfaceName(type));
                 if (sensorBase != sensorData->end())
@@ -962,8 +1012,12 @@ void createSensors(
             createSensorsCallback(io, objectServer, dbusConnection,
                                   sensorConfigs, sensorsChanged);
         });
-    getter->getConfiguration(
-        std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
+    std::vector<std::string> types(sensorTypes.size());
+    for (const auto& [type, dt] : sensorTypes)
+    {
+        types.push_back(type);
+    }
+    getter->getConfiguration(types);
 }
 
 void propertyInitialize(void)
