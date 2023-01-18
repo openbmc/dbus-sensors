@@ -59,6 +59,8 @@ class NVMeController :
     std::shared_ptr<sdbusplus::asio::connection> conn;
     std::string path;
 
+    std::shared_ptr<sdbusplus::asio::dbus_interface> securityInterface;
+
     std::shared_ptr<NVMeMiIntf> nvmeIntf;
     nvme_mi_ctrl_t nvmeCtrl;
 
@@ -75,6 +77,9 @@ class NVMeController :
                    std::string path, std::shared_ptr<NVMeMiIntf> nvmeIntf,
                    nvme_mi_ctrl_t ctrl);
     void init();
+
+    static void checkLibNVMeError(const std::error_code& err, int nvme_status,
+                                  const char* method_name);
 
     /* NVMeAdmin method overload */
 
@@ -119,4 +124,12 @@ class NVMeController :
      */
     void firmwareCommitAsync(uint8_t commitAction, uint8_t firmwareSlot,
                              bool bpid) override;
+
+    void securitySendMethod(boost::asio::yield_context yield, uint8_t proto,
+                            uint16_t proto_specific, std::span<uint8_t> data);
+
+    std::vector<uint8_t> securityReceiveMethod(boost::asio::yield_context yield,
+                                               uint8_t proto,
+                                               uint16_t proto_specific,
+                                               uint32_t transfer_length);
 };

@@ -1,7 +1,9 @@
 #include "NVMeController.hpp"
 
+#include "AsioHelper.hpp"
 #include "NVMePlugin.hpp"
 
+#include <sdbusplus/exception.hpp>
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Common/File/error.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
@@ -40,6 +42,27 @@ NVMeController::NVMeController(
 // Performs initialisation after shared_from_this() has been set up.
 void NVMeController::init()
 {
+
+    securityInterface = objServer.add_interface(
+        path, "xyz.openbmc_project.Inventory.Item.StorageControllerSecurity");
+    securityInterface->register_method(
+        "SecuritySend",
+        [self{shared_from_this()}](boost::asio::yield_context yield,
+                                   uint8_t proto, uint16_t proto_specific,
+                                   std::vector<uint8_t> data) {
+        return self->securitySendMethod(yield, proto, proto_specific, data);
+        });
+    securityInterface->register_method(
+        "SecurityReceive",
+        [self{shared_from_this()}](boost::asio::yield_context yield,
+                                   uint8_t proto, uint16_t proto_specific,
+                                   uint32_t transfer_length) {
+        return self->securityReceiveMethod(yield, proto, proto_specific,
+                                           transfer_length);
+        });
+
+    securityInterface->initialize();
+
     StorageController::emit_added();
     NVMeAdmin::emit_added();
 }
@@ -209,6 +232,7 @@ void NVMeController::firmwareCommitAsync(uint8_t commitAction,
 
 NVMeController::~NVMeController()
 {
+    objServer.remove_interface(securityInterface);
     NVMeAdmin::emit_removed();
     StorageController::emit_removed();
 }
@@ -239,4 +263,112 @@ void NVMeController::setSecAssoc(
     }
     secAssoc->register_property("Associations", associations);
     secAssoc->initialize();
+}
+
+void NVMeController::securitySendMethod(boost::asio::yield_context yield,
+                                        uint8_t proto, uint16_t proto_specific,
+                                        std::span<uint8_t> data)
+{
+    using callback_t = void(std::tuple<std::error_code, int>);
+    auto [err, nvme_status] =
+        boost::asio::async_initiate<boost::asio::yield_context, callback_t>(
+            [intf{nvmeIntf}, ctrl{nvmeCtrl}, proto, proto_specific,
+             &data](auto&& handler) {
+        auto h = asio_helper::CopyableCallback(std::move(handler));
+
+        intf->adminSecuritySend(
+            ctrl, proto, proto_specific, data,
+            [h](const std::error_code& err, int nvme_status) mutable {
+            h(std::make_tuple(err, nvme_status));
+            });
+            },
+            yield);
+
+    // exception must be thrown outside of the async block
+    checkLibNVMeError(err, nvme_status, "SecuritySend");
+}
+
+std::vector<uint8_t> NVMeController::securityReceiveMethod(
+    boost::asio::yield_context yield, uint8_t proto, uint16_t proto_specific,
+    uint32_t transfer_length)
+{
+    using callback_t =
+        void(std::tuple<std::error_code, int, std::vector<uint8_t>>);
+    auto [err, nvme_status, data] =
+        boost::asio::async_initiate<boost::asio::yield_context, callback_t>(
+            [intf{nvmeIntf}, ctrl{nvmeCtrl}, proto, proto_specific,
+             transfer_length](auto&& handler) {
+        auto h = asio_helper::CopyableCallback(std::move(handler));
+
+        intf->adminSecurityReceive(ctrl, proto, proto_specific, transfer_length,
+                                   [h](const std::error_code& err,
+                                       int nvme_status,
+                                       std::span<uint8_t> data) mutable {
+            std::vector<uint8_t> d(data.begin(), data.end());
+            h(std::make_tuple(err, nvme_status, d));
+        });
+            },
+            yield);
+
+    // exception must be thrown outside of the async block
+    checkLibNVMeError(err, nvme_status, "SecurityReceive");
+    return data;
+}
+
+class NVMeSdBusPlusError : public sdbusplus::exception::exception
+{
+
+  public:
+    NVMeSdBusPlusError(const std::string_view& desc) : desc(desc)
+    {}
+
+    const char* name() const noexcept override
+    {
+        return "xyz.openbmc_project.NVMe.NVMeError";
+    }
+    const char* description() const noexcept override
+    {
+        return desc.c_str();
+    }
+    int get_errno() const noexcept override
+    {
+        // arbitrary, sdbusplus method return ignores this errno
+        return EIO;
+    }
+
+  private:
+    const std::string desc;
+};
+
+/* Throws an appropriate error type for the given status from libnvme,
+ * or returns normally if nvme_status == 0 */
+void NVMeController::checkLibNVMeError(const std::error_code& err,
+                                       int nvme_status, const char* method_name)
+{
+    if (nvme_status < 0)
+    {
+        throw sdbusplus::exception::SdBusError(err.value(), method_name);
+    }
+    else if (nvme_status > 0)
+    {
+        int val = nvme_status_get_value(nvme_status);
+        int ty = nvme_status_get_type(nvme_status);
+        std::string desc;
+
+        switch (ty)
+        {
+            case NVME_STATUS_TYPE_NVME:
+                desc =
+                    std::string("NVMe: ") + nvme_status_to_string(val, false);
+                break;
+            case NVME_STATUS_TYPE_MI:
+                desc = std::string("NVMe MI: ") + nvme_mi_status_to_string(val);
+                break;
+            default:
+                std::cerr << "Unknown libnvme error status " << nvme_status
+                          << std::endl;
+                desc = "Unknown libnvme error";
+        }
+        throw NVMeSdBusPlusError(desc);
+    }
 }
