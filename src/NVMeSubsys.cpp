@@ -144,7 +144,7 @@ void NVMeSubsystem::markFunctional(bool toggle)
                 std::filesystem::path path = std::filesystem::path(self->path) /
                                              "controllers" /
                                              std::to_string(*index);
-                                             
+
                 try
                 {
                     auto nvmeController = std::make_shared<NVMeController>(
@@ -232,8 +232,8 @@ void NVMeSubsystem::markFunctional(bool toggle)
 
                 // Enable primary controller since they are required to work
                 auto& primaryController = findPrimary->second.first;
-                primaryController.reset(new NVMeControllerEnabled(
-                    std::move(*primaryController.get())));
+                primaryController = NVMeControllerEnabled::create(
+                    std::move(*primaryController.get()));
 
                 std::vector<std::shared_ptr<NVMeController>> secCntrls;
                 for (int i = 0; i < listHdr.num; i++)
@@ -253,8 +253,8 @@ void NVMeSubsystem::markFunctional(bool toggle)
                     // Check Secondary Controller State
                     if (listHdr.sc_entry[i].scs != 0)
                     {
-                        secondaryController.reset(new NVMeControllerEnabled(
-                            std::move(*secondaryController.get())));
+                        secondaryController = NVMeControllerEnabled::create(
+                            std::move(*secondaryController.get()));
                     }
                     secCntrls.push_back(secondaryController);
                 }
