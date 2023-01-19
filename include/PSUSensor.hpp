@@ -68,3 +68,14 @@ class PSUProperty
     unsigned int sensorScaleFactor;
     double sensorOffset;
 };
+
+struct PSULabelKey
+{
+    std::string label;
+    std::string driver;
+
+    friend bool operator<(const PSULabelKey& l, const PSULabelKey& r)
+    {
+        return std::tie(l.label, l.driver) < std::tie(r.label, r.driver);
+    }
+};
