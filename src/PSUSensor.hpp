@@ -52,20 +52,18 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
         static_cast<unsigned int>(defaultSensorPoll * 1000);
 };
 
-class PSUProperty
+struct PSUProperty
 {
-  public:
-    PSUProperty(std::string name, double max, double min, unsigned int factor,
-                double offset) :
-        labelTypeName(std::move(name)),
-        maxReading(max), minReading(min), sensorScaleFactor(factor),
-        sensorOffset(offset)
-    {}
-    ~PSUProperty() = default;
-
-    std::string labelTypeName;
+    const char* labelTypeName;
     double maxReading;
     double minReading;
     unsigned int sensorScaleFactor;
     double sensorOffset;
+};
+
+struct PSUEntry
+{
+    std::string label;
+    std::string driver;
+    PSUProperty property;
 };
