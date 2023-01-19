@@ -109,7 +109,26 @@ static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
 static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
 static boost::container::flat_map<std::string, std::string> sensorTable;
-static boost::container::flat_map<std::string, PSUProperty> labelMatch;
+
+static constexpr std::array labelMatch{
+    PSUEntry{"pin", "", {"Input Power", 3000, 0, 6, 0}},
+    PSUEntry{"pout", "", {"Output Power", 3000, 0, 6, 0}},
+    PSUEntry{"power", "", {"Output Power", 3000, 0, 6, 0}},
+    PSUEntry{"maxpin", "", {"Max Input Power", 3000, 0, 6, 0}},
+    PSUEntry{"vin", "", {"Input Voltage", 300, 0, 3, 0}},
+    PSUEntry{"maxvin", "", {"Max Input Voltage", 300, 0, 3, 0}},
+    PSUEntry{"vout", "", {"Output Voltage", 255, 0, 3, 0}},
+    PSUEntry{"vmon", "", {"Auxiliary Input Voltage", 255, 0, 3, 0}},
+    PSUEntry{"in", "", {"Output Voltage", 255, 0, 3, 0}},
+    PSUEntry{"iin", "", {"Input Current", 20, 0, 3, 0}},
+    PSUEntry{"iout", "", {"Output Current", 255, 0, 3, 0}},
+    PSUEntry{"curr", "", {"Output Current", 255, 0, 3, 0}},
+    PSUEntry{"maxiout", "", {"Max Output Current", 255, 0, 3, 0}},
+    PSUEntry{"temp", "", {"Temperature", 127, -128, 3, 0}},
+    PSUEntry{"maxtemp", "", {"Max Temperature", 127, -128, 3, 0}},
+    PSUEntry{"fan", "", {"Fan Speed", 30000, 0, 0, 0}},
+};
+
 static boost::container::flat_map<std::string, std::string> pwmTable;
 static boost::container::flat_map<std::string, std::vector<std::string>>
     eventMatch;
@@ -619,8 +638,17 @@ static void createSensorsCallback(
                 }
             }
 
-            auto findProperty = labelMatch.find(labelHead);
-            if (findProperty == labelMatch.end())
+            PSUProperty const* findProperty = nullptr;
+            for (const auto& i : labelMatch)
+            {
+                if (labelHead.starts_with(i.label) &&
+                    (i.driver == pmbusName || i.driver[0] == '\0'))
+                {
+                    findProperty = &i.property;
+                    break;
+                }
+            }
+            if (findProperty == nullptr)
             {
                 if constexpr (debug)
                 {
@@ -634,7 +662,7 @@ static void createSensorsCallback(
             // by making a copy and modifying that instead.
             // Avoid bleedthrough of one device's customizations to
             // the next device, as each should be independently customizable.
-            psuProperties.push_back(findProperty->second);
+            psuProperties.push_back(*findProperty);
             auto psuProperty = psuProperties.rbegin();
 
             // Use label head as prefix for reading from config file,
@@ -646,13 +674,14 @@ static void createSensorsCallback(
             std::string keyOffset = labelHead + "_Offset";
             std::string keyPowerState = labelHead + "_PowerState";
 
+            std::string sensorName = psuProperty->labelTypeName;
             bool customizedName = false;
             auto findCustomName = baseConfig->find(keyName);
             if (findCustomName != baseConfig->end())
             {
                 try
                 {
-                    psuProperty->labelTypeName = std::visit(
+                    sensorName = std::visit(
                         VariantToStringVisitor(), findCustomName->second);
                 }
                 catch (const std::invalid_argument&)
@@ -847,14 +876,13 @@ static void createSensorsCallback(
             if constexpr (debug)
             {
                 std::cerr << "Sensor properties: Name \""
-                          << psuProperty->labelTypeName << "\" Scale "
+                          << sensorName << "\" Scale "
                           << psuProperty->sensorScaleFactor << " Min "
                           << psuProperty->minReading << " Max "
                           << psuProperty->maxReading << " Offset "
                           << psuProperty->sensorOffset << "\n";
             }
 
-            std::string sensorName = psuProperty->labelTypeName;
             if (customizedName)
             {
                 if (sensorName.empty())
@@ -870,7 +898,7 @@ static void createSensorsCallback(
                 // Sensor name not customized, do prefix/suffix composition,
                 // preserving default behavior by using psuNameFromIndex.
                 sensorName =
-                    psuNameFromIndex + " " + psuProperty->labelTypeName;
+                    psuNameFromIndex + " " + sensorName;
             }
 
             if constexpr (debug)
@@ -934,95 +962,6 @@ void propertyInitialize(void)
                    {"temp", sensor_paths::unitDegreesC},
                    {"in", sensor_paths::unitVolts},
                    {"fan", sensor_paths::unitRPMs}};
-
-    labelMatch = {
-        {"pin", PSUProperty("Input Power", 3000, 0, 6, 0)},
-        {"pin1", PSUProperty("Input Power", 3000, 0, 6, 0)},
-        {"pin2", PSUProperty("Input Power", 3000, 0, 6, 0)},
-        {"pout1", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"pout2", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"pout3", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"power1", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"power2", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"power3", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"power4", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
-        {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
-        {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
-        {"vout1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout8", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout9", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout10", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout11", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout12", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout13", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout14", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout15", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout16", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout17", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout18", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout19", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout20", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout21", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout22", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout23", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout24", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout25", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout26", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout27", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout28", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout29", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout30", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout31", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout32", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3, 0)},
-        {"in0", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
-        {"iin1", PSUProperty("Input Current", 20, 0, 3, 0)},
-        {"iin2", PSUProperty("Input Current", 20, 0, 3, 0)},
-        {"iout1", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout2", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout3", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout4", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout5", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout6", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout7", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout8", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout9", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout10", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout11", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout12", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout13", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout14", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"curr1", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"curr2", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"curr3", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"curr4", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3, 0)},
-        {"temp1", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp2", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp3", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp4", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp5", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp6", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3, 0)},
-        {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
-        {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)},
-        {"fan3", PSUProperty("Fan Speed 3", 30000, 0, 0, 0)},
-        {"fan4", PSUProperty("Fan Speed 4", 30000, 0, 0, 0)}};
 
     pwmTable = {{"fan1", "Fan_1"},
                 {"fan2", "Fan_2"},
