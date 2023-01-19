@@ -117,22 +117,22 @@ static const boost::container::flat_map<std::string, std::string> sensorTable =
      {"fan", sensor_paths::unitRPMs}};
 
 static constexpr auto labelMatch{std::to_array<PSUProperty>(
-    {{"pin", "Input Power", 3000, 0, 6, 0},
-     {"pout", "Output Power", 3000, 0, 6, 0},
-     {"power", "Output Power", 3000, 0, 6, 0},
-     {"maxpin", "Max Input Power", 3000, 0, 6, 0},
-     {"vin", "Input Voltage", 300, 0, 3, 0},
-     {"maxvin", "Max Input Voltage", 300, 0, 3, 0},
-     {"vout", "Output Voltage", 255, 0, 3, 0},
-     {"vmon", "Auxiliary Input Voltage", 255, 0, 3, 0},
-     {"in", "Output Voltage", 255, 0, 3, 0},
-     {"iin", "Input Current", 20, 0, 3, 0},
-     {"iout", "Output Current", 255, 0, 3, 0},
-     {"curr", "Output Current", 255, 0, 3, 0},
-     {"maxiout", "Max Output Current", 255, 0, 3, 0},
-     {"temp", "Temperature", 127, -128, 3, 0},
-     {"maxtemp", "Max Temperature", 127, -128, 3, 0},
-     {"fan", "Fan Speed", 30000, 0, 0, 0}})};
+    {{"pin", "", "Input Power", 3000, 0, 6, 0},
+     {"pout", "", "Output Power", 3000, 0, 6, 0},
+     {"power", "", "Output Power", 3000, 0, 6, 0},
+     {"maxpin", "", "Max Input Power", 3000, 0, 6, 0},
+     {"vin", "", "Input Voltage", 300, 0, 3, 0},
+     {"maxvin", "", "Max Input Voltage", 300, 0, 3, 0},
+     {"vout", "", "Output Voltage", 255, 0, 3, 0},
+     {"vmon", "", "Auxiliary Input Voltage", 255, 0, 3, 0},
+     {"in", "", "Output Voltage", 255, 0, 3, 0},
+     {"iin", "", "Input Current", 20, 0, 3, 0},
+     {"iout", "", "Output Current", 255, 0, 3, 0},
+     {"curr", "", "Output Current", 255, 0, 3, 0},
+     {"maxiout", "", "Max Output Current", 255, 0, 3, 0},
+     {"temp", "", "Temperature", 127, -128, 3, 0},
+     {"maxtemp", "", "Max Temperature", 127, -128, 3, 0},
+     {"fan", "", "Fan Speed", 30000, 0, 0, 0}})};
 
 static const boost::container::flat_map<std::string, std::string> pwmTable = {
     {"fan1", "Fan_1"}, {"fan2", "Fan_2"}, {"fan3", "Fan_3"}, {"fan4", "Fan_4"}};
@@ -654,8 +654,10 @@ static void createSensorsCallback(
             }
 
             const auto* findProperty = std::ranges::find_if(
-                labelMatch, [&labelHead](const PSUProperty& prop) {
-                    return labelHead.starts_with(prop.hwmonName);
+                labelMatch, [&labelHead, &pmbusName](const PSUProperty& prop) {
+                    return labelHead.starts_with(prop.hwmonName) &&
+                           (prop.driverName.empty() ||
+                            prop.driverName == pmbusName);
                 });
             if (findProperty == labelMatch.end())
             {

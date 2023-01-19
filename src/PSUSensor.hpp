@@ -56,6 +56,7 @@ struct PSUProperty
 {
     std::string_view hwmonName;
     std::string_view labelTypeName;
+    std::string_view driverName;
     double maxReading;
     double minReading;
     unsigned int sensorScaleFactor;
