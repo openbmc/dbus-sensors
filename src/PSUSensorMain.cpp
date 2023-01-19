@@ -399,8 +399,10 @@ static void createSensorsCallback(
                 continue;
             }
 
-            const uint64_t* confBus = std::get_if<uint64_t>(&(configBus->second));
-            const uint64_t* confAddr = std::get_if<uint64_t>(&(configAddress->second));
+            const uint64_t* confBus =
+                std::get_if<uint64_t>(&(configBus->second));
+            const uint64_t* confAddr =
+                std::get_if<uint64_t>(&(configAddress->second));
             if (confBus == nullptr || confAddr == nullptr)
             {
                 std::cerr
@@ -441,7 +443,8 @@ static void createSensorsCallback(
                       << deviceName << "\n";
             continue;
         }
-        const std::string* psuName = std::get_if<std::string>(&(findPSUName->second));
+        const std::string* psuName =
+            std::get_if<std::string>(&(findPSUName->second));
         if (psuName == nullptr)
         {
             std::cerr << "Cannot find psu name, invalid configuration\n";
@@ -455,8 +458,8 @@ static void createSensorsCallback(
             auto it =
                 std::find_if(sensorsChanged->begin(), sensorsChanged->end(),
                              [psuNameStr](std::string& s) {
-                                 return s.ends_with(psuNameStr);
-                             });
+                return s.ends_with(psuNameStr);
+                });
 
             if (it == sensorsChanged->end())
             {
@@ -905,7 +908,7 @@ static void createSensorsCallback(
     {
         std::cerr << "Created total of " << numCreated << " sensors\n";
     }
-    }
+}
 
 void createSensors(
     boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
@@ -1020,8 +1023,10 @@ void propertyInitialize(void)
         {"fan3", PSUProperty("Fan Speed 3", 30000, 0, 0, 0)},
         {"fan4", PSUProperty("Fan Speed 4", 30000, 0, 0, 0)}};
 
-    pwmTable = {{"fan1", "Fan_1"}, {"fan2", "Fan_2"},
-                {"fan3", "Fan_3"}, {"fan4", "Fan_4"}};
+    pwmTable = {{"fan1", "Fan_1"},
+                {"fan2", "Fan_2"},
+                {"fan3", "Fan_3"},
+                {"fan4", "Fan_4"}};
 
     limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
                        {"Failure", {"crit_alarm", "lcrit_alarm"}}};
@@ -1056,25 +1061,25 @@ int main()
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
-            if (message.is_method_error())
+        if (message.is_method_error())
+        {
+            std::cerr << "callback method error\n";
+            return;
+        }
+        sensorsChanged->insert(message.get_path());
+        filterTimer.expires_from_now(std::chrono::seconds(3));
+        filterTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
             {
-                std::cerr << "callback method error\n";
                 return;
             }
-            sensorsChanged->insert(message.get_path());
-            filterTimer.expires_from_now(std::chrono::seconds(3));
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return;
-                }
-                if (ec)
-                {
-                    std::cerr << "timer error\n";
-                }
-                createSensors(io, objectServer, systemBus, sensorsChanged);
-            });
-        };
+            if (ec)
+            {
+                std::cerr << "timer error\n";
+            }
+            createSensors(io, objectServer, systemBus, sensorsChanged);
+        });
+    };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
