@@ -182,7 +182,7 @@ if get_option('nvme').enabled()
         'nvmesensor',
         sources: nvme_srcs,
         dependencies: nvme_deps,
-        cpp_args: uring_args,
+        cpp_args: uring_args + ['-frtti', '-UBOOST_ASIO_DISABLE_THREADS', '-UBOOST_ASIO_HAS_IO_URING'],
         implicit_include_directories: false,
         include_directories: '../include',
         install: true,
