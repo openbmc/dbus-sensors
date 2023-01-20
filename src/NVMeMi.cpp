@@ -143,8 +143,8 @@ void NVMeMi::miSubsystemHealthStatusPoll(
 
                 std::cerr << "fail to subsystem_health_status_poll: "
                           << std::strerror(errno) << std::endl;
-                self->io.post([cb{std::move(cb)}]() {
-                    cb(std::make_error_code(static_cast<std::errc>(errno)),
+                self->io.post([cb{std::move(cb)}, last_errno{errno}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(last_errno)),
                        nullptr);
                 });
                 return;
@@ -199,8 +199,8 @@ void NVMeMi::miScanCtrl(std::function<void(const std::error_code&,
             {
                 std::cerr << "fail to scan controllers: "
                           << std::strerror(errno) << std::endl;
-                self->io.post([cb{std::move(cb)}]() {
-                    cb(std::make_error_code(static_cast<std::errc>(errno)), {});
+                self->io.post([cb{std::move(cb)}, last_errno{errno}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(last_errno)), {});
                 });
                 return;
             }
@@ -299,8 +299,8 @@ void NVMeMi::adminIdentify(
             {
                 std::cerr << "fail to do nvme identify: "
                           << std::strerror(errno) << std::endl;
-                self->io.post([cb{std::move(cb)}]() {
-                    cb(std::make_error_code(static_cast<std::errc>(errno)), {});
+                self->io.post([cb{std::move(cb)}, last_errno{errno}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(last_errno)), {});
                 });
                 return;
             }
@@ -581,8 +581,8 @@ void NVMeMi::adminGetLogPage(
             {
                 std::cerr << "fail to get log page: " << std::strerror(errno)
                           << std::endl;
-                self->io.post([cb{std::move(cb)}]() {
-                    cb(std::make_error_code(static_cast<std::errc>(errno)), {});
+                self->io.post([cb{std::move(cb)}, last_errno{errno}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(last_errno)), {});
                 });
                 return;
             }
@@ -662,8 +662,8 @@ void NVMeMi::adminXfer(
             if (rc < 0)
             {
                 std::cerr << "failed to nvme_mi_admin_xfer" << std::endl;
-                self->io.post([cb{std::move(cb)}]() {
-                    cb(std::make_error_code(static_cast<std::errc>(errno)), {},
+                self->io.post([cb{std::move(cb)}, last_errno{errno}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(last_errno)), {},
                        {});
                 });
                 return;
@@ -721,8 +721,8 @@ void NVMeMi::adminFwCommit(
 
                 std::cerr << "fail to nvme_mi_admin_fw_commit: "
                           << std::strerror(errno) << std::endl;
-                self->io.post([cb{std::move(cb)}]() {
-                    cb(std::make_error_code(static_cast<std::errc>(errno)),
+                self->io.post([cb{std::move(cb)}, last_errno{errno}]() {
+                    cb(std::make_error_code(static_cast<std::errc>(last_errno)),
                        nvme_status_field::NVME_SC_MASK);
                 });
                 return;
