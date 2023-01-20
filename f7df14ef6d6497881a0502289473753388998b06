@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "04790991_66097d1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-01-20T18:38:06Z",
+      "side": 1,
+      "message": "\u003e This is the part of this commit that I\u0027m not sure about.  The defaults are supposed to be exactly that, defaults, but I\u0027m not really sure this patchset solves the issue in a better way, given that ANY board is going to have to put in board-specific defaults.\n\nThe truth of life is that in the current entity-manager repository only `kudo` has custom specifications for maximum values (grep _Max) and only `blyth` specifies non-default hysteresis for some temperature sensors (grep \\\"Hysteresis).\n\nMy guess is that either the others never cared (as hitting an issue with unresonably large hysteresis is pretty hard in practice and requires an additional hardware or software issue) or probably have downstream patches to make default hysteresis effectively zero (I know Phoenix downstream uses max * 0.0005 instead of 0.01; Zev\u0027s unisensor has NaN). Apparently hitting an issue in real-life testing with 0 hysteresis is pretty hard too, even harder than crossing a threshold and going back. Probably that\u0027s what you want upstream instead?\n\nSo if most users are still counting on the defaults why not make it easier for them where we can?\n \n\u003e My minor preference would be to detect and error on the cases where we get a configuration with a threshold that can\u0027t be hit, which I think solves the problem.  \n\nDoes this idea sound sane to you: \"on startup if the first measured (and reported, since some measurements must be ignored while the host is turned off) value is within all the thresholds /but/ closer than the specified hysteresis to one of them, print a warning to the log?\"\n\n\u003e I\u0027m a little worried about extending the default system, because this type of hardware functionally has no good \"default\", as it depends on the board config, and any default we put in is just going to be from the first user, and still incorrect in a majority of cases, so I\u0027m not sure we gain anything overall.\n\nWith VRs such as pxe1610 and similar that\u0027s not the case, as they have some very strict limits on the voltage they measure, and they measure it directly, without any possibility for custom divider networks getting involved, so no matter what board you\u0027d have them on the maximum possible value will be exactly the same.\n\n\u003e The intent of the existing defaults was that we would pick the limits of what pmbus can represent, and if a system wanted to refine that, it could.  Setting per-device defaults just seems like it adds complexity in a bad way.\n\nI hope my clarifications make it seem less bad, and probably even desired :)",
+      "parentUuid": "2a7b1782_e2302814",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "74c48729_b529300a",
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "+1 to andrews comment.  Build typesafe structures.\n\n\u003e That would involve changing all the existing entries in it, and adding new entries would look a bit more comple\n\nWhat you laid out would be my preference, with the exception of not using std::pair (becuase x.first and x.second have less meaning).\n\n\u003e is allowing to do the job with minimal changes\n\nPer the coding standard \"minimal changes\" is not what we optimize for.  Code will be read many... many times by developers.  It will be written once.  We optimize for the reader, and clean code, and if that means propagating a type through several layers of interfaces, that\u0027s what we do.",
       "parentUuid": "aaf52712_2e678a61",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 80
+      },
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "396ae593_8dced9de",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-01-20T18:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de9a4be9_50e1c07f",
       "range": {
         "startLine": 617,
         "startChar": 0,
