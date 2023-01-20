@@ -16,6 +16,23 @@
       "message": "Removing my score due to discussion on the prior patch",
       "revId": "3e242a963b05f3c6c7738c1d205ed7c4fcba9ffd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "befff724_95153262",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1001496
+      },
+      "writtenOn": "2023-01-20T11:51:52Z",
+      "side": 1,
+      "message": "Why do we need model specific values in generic code?",
+      "revId": "3e242a963b05f3c6c7738c1d205ed7c4fcba9ffd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
