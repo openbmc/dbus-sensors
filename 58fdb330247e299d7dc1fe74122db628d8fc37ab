@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9f05939_82c24a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2023-01-23T12:42:03Z",
+      "side": 1,
+      "message": "Hi Zhikui Ren, \n\nPlease provide your suggestions on this patch.\n\nThanks",
+      "revId": "58fdb330247e299d7dc1fe74122db628d8fc37ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
