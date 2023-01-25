@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ffbf7a0_1a6bd09d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-25T00:50:34Z",
+      "side": 1,
+      "message": "Code change only for sdrSensors, please be clear in the commit message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "3a175d463961c64551df446cd374d1619173ad77",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ae2812ad_66e8eeb6",
