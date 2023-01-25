@@ -16,6 +16,29 @@
       "message": "LGTM",
       "revId": "3a175d463961c64551df446cd374d1619173ad77",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e88480_ebd29296",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-25T00:49:16Z",
+      "side": 1,
+      "message": "Should this be only for configInterfaceName(sdrInterface) and remove the test in side the handler?",
+      "range": {
+        "startLine": 873,
+        "startChar": 0,
+        "endLine": 883,
+        "endChar": 0
+      },
+      "revId": "3a175d463961c64551df446cd374d1619173ad77",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
