@@ -51,6 +51,24 @@
       "parentUuid": "befff724_95153262",
       "revId": "3e242a963b05f3c6c7738c1d205ed7c4fcba9ffd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f02a75_dc858d99",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-25T00:53:35Z",
+      "side": 1,
+      "message": "Need rebase with the parent patch. Change itself lgtm.",
+      "parentUuid": "a8ea81ce_c7777728",
+      "revId": "3e242a963b05f3c6c7738c1d205ed7c4fcba9ffd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
