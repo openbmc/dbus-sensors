@@ -1,5 +1,6 @@
-#include <TachSensor.hpp>
-#include <Thresholds.hpp>
+#include "TachSensor.hpp"
+#include "Thresholds.hpp"
+
 #include <dbus/connection.hpp>
 #include <nlohmann/json.hpp>
 

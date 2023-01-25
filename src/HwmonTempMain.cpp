@@ -14,9 +14,10 @@
 // limitations under the License.
 */
 
-#include <DeviceMgmt.hpp>
-#include <HwmonTempSensor.hpp>
-#include <Utils.hpp>
+#include "DeviceMgmt.hpp"
+#include "HwmonTempSensor.hpp"
+#include "Utils.hpp"
+
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>

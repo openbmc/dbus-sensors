@@ -88,65 +88,6 @@ default_deps = [
     uring,
 ]
 
-thresholds_a = static_library(
-    'thresholds_a',
-    'src/Thresholds.cpp',
-    dependencies: default_deps,
-    implicit_include_directories: false,
-    include_directories: 'include',
-)
-
-thresholds_dep = declare_dependency(
-    link_with: [ thresholds_a ],
-    dependencies: default_deps,
-)
-
-utils_a = static_library(
-    'utils_a',
-    [
-        'src/FileHandle.cpp',
-        'src/SensorPaths.cpp',
-        'src/Utils.cpp',
-    ],
-    dependencies: default_deps,
-    implicit_include_directories: false,
-    include_directories: 'include',
-)
-
-utils_dep = declare_dependency(
-    link_with: [ utils_a ],
-    dependencies: [ sdbusplus ],
-)
-
-devicemgmt_a = static_library(
-    'devicemgmt_a',
-    [
-        'src/DeviceMgmt.cpp',
-    ],
-    dependencies: default_deps,
-    implicit_include_directories: false,
-    include_directories: 'include',
-)
-
-devicemgmt_dep = declare_dependency(
-    link_with: [ devicemgmt_a ],
-    dependencies: default_deps,
-)
-
-pwmsensor_a = static_library(
-    'pwmsensor_a',
-    'src/PwmSensor.cpp',
-    dependencies: [ default_deps, thresholds_dep ],
-    implicit_include_directories: false,
-    include_directories: 'include',
-)
-
-pwmsensor_dep = declare_dependency(
-    link_with: [ pwmsensor_a ],
-    dependencies: [ default_deps, thresholds_dep ],
-)
-
-subdir('include')
 subdir('service_files')
 subdir('src')
 

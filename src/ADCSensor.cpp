@@ -14,9 +14,10 @@
 // limitations under the License.
 */
 
+#include "ADCSensor.hpp"
+
 #include <unistd.h>
 
-#include <ADCSensor.hpp>
 #include <boost/asio/read_until.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>

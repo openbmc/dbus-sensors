@@ -1,10 +1,11 @@
 #pragma once
 
-#include <DeviceMgmt.hpp>
-#include <Thresholds.hpp>
+#include "DeviceMgmt.hpp"
+#include "Thresholds.hpp"
+#include "sensor.hpp"
+
 #include <boost/asio/random_access_file.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 #include <string>
 #include <vector>

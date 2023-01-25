@@ -14,10 +14,12 @@
 // limitations under the License.
 */
 
+#include "Utils.hpp"
+
 #include "dbus-sensor_config.h"
 
-#include <DeviceMgmt.hpp>
-#include <Utils.hpp>
+#include "DeviceMgmt.hpp"
+
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>

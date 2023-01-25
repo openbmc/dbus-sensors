@@ -14,9 +14,10 @@
 // limitations under the License.
 */
 
+#include "PSUSensor.hpp"
+
 #include <unistd.h>
 
-#include <PSUSensor.hpp>
 #include <boost/asio/random_access_file.hpp>
 #include <boost/asio/read_until.hpp>
 #include <sdbusplus/asio/connection.hpp>

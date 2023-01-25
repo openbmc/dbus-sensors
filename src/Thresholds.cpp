@@ -1,8 +1,10 @@
-#include <Thresholds.hpp>
-#include <VariantVisitors.hpp>
+#include "Thresholds.hpp"
+
+#include "VariantVisitors.hpp"
+#include "sensor.hpp"
+
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
-#include <sensor.hpp>
 
 #include <array>
 #include <cmath>

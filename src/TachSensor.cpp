@@ -14,10 +14,12 @@
 // limitations under the License.
 */
 
+#include "TachSensor.hpp"
+
+#include "Utils.hpp"
+
 #include <unistd.h>
 
-#include <TachSensor.hpp>
-#include <Utils.hpp>
 #include <boost/asio/read_until.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/connection.hpp>

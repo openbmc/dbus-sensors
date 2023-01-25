@@ -1,9 +1,11 @@
 #pragma once
+
 #include "dbus-sensor_config.h"
 
-#include <SensorPaths.hpp>
-#include <Thresholds.hpp>
-#include <Utils.hpp>
+#include "SensorPaths.hpp"
+#include "Thresholds.hpp"
+#include "Utils.hpp"
+
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
 

@@ -1,4 +1,4 @@
-#include <IpmbSDRSensor.hpp>
+#include "IpmbSDRSensor.hpp"
 
 const constexpr char* ipmbService = "xyz.openbmc_project.Ipmi.Channel.Ipmb";
 const constexpr char* ipmbDbusPath = "/xyz/openbmc_project/Ipmi/Channel/Ipmb";

@@ -1,5 +1,6 @@
-#include <HwmonTempSensor.hpp>
-#include <dbus/connection.hpp>
+#include "HwmonTempSensor.hpp"
+#include "dbus/connection.hpp"
+
 #include <nlohmann/json.hpp>
 
 #include <fstream>

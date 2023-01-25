@@ -1,12 +1,14 @@
 #pragma once
-#include <Thresholds.hpp>
+
+#include "Thresholds.hpp"
+#include "sensor.hpp"
+
 #include <boost/asio/random_access_file.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <gpiod.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 #include <memory>
 #include <optional>

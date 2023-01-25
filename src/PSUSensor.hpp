@@ -1,10 +1,11 @@
 #pragma once
 
-#include <PwmSensor.hpp>
-#include <Thresholds.hpp>
+#include "PwmSensor.hpp"
+#include "Thresholds.hpp"
+#include "sensor.hpp"
+
 #include <boost/asio/random_access_file.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 #include <array>
 #include <memory>

@@ -1,10 +1,11 @@
 #pragma once
 
-#include <Thresholds.hpp>
+#include "Thresholds.hpp"
+#include "sensor.hpp"
+
 #include <boost/asio/streambuf.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 #include <memory>
 #include <optional>

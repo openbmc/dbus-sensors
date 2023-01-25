@@ -14,10 +14,12 @@
 // limitations under the License.
 */
 
+#include "IntelCPUSensor.hpp"
+
+#include "Utils.hpp"
+
 #include <unistd.h>
 
-#include <IntelCPUSensor.hpp>
-#include <Utils.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/read_until.hpp>
 #include <sdbusplus/asio/connection.hpp>

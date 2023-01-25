@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Thresholds.hpp>
-#include <Utils.hpp>
+#include "Thresholds.hpp"
+#include "Utils.hpp"
+
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <gpiod.hpp>

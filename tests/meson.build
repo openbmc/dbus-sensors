@@ -34,7 +34,7 @@ test(
         'test_HwmonTempSensor.cpp',
         dependencies: ut_deps_list,
         implicit_include_directories: false,
-        include_directories: '../include',
+        include_directories: '../src',
     )
 )
 
@@ -45,7 +45,7 @@ test(
         'test_TachSensor.cpp',
         dependencies: ut_deps_list,
         implicit_include_directories: false,
-        include_directories: '../include',
+        include_directories: '../src',
     )
 )
 endif
@@ -58,6 +58,6 @@ test(
         '../src/Utils.cpp',
         dependencies: ut_deps_list,
         implicit_include_directories: false,
-        include_directories: '../include',
+        include_directories: '../src',
     )
 )

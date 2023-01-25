@@ -1,7 +1,8 @@
 #pragma once
 
+#include "sensor.hpp"
+
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 #include <memory>
 #include <string>

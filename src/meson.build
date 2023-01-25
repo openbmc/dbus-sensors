@@ -1,3 +1,60 @@
+conf_data = configuration_data()
+conf_data.set10('VALIDATION_UNSECURE_FEATURE', get_option('validate-unsecure-feature').enabled())
+conf_data.set10('INSECURE_UNRESTRICTED_SENSOR_OVERRIDE', get_option('insecure-sensor-override').enabled())
+configure_file(input: 'dbus-sensor_config.h.in',
+               output: 'dbus-sensor_config.h',
+               configuration: conf_data)
+
+thresholds_a = static_library(
+    'thresholds_a',
+    'Thresholds.cpp',
+    dependencies: default_deps,
+)
+
+thresholds_dep = declare_dependency(
+    link_with: [ thresholds_a ],
+    dependencies: default_deps,
+)
+
+utils_a = static_library(
+    'utils_a',
+    [
+        'FileHandle.cpp',
+        'SensorPaths.cpp',
+        'Utils.cpp',
+    ],
+    dependencies: default_deps,
+)
+
+utils_dep = declare_dependency(
+    link_with: [ utils_a ],
+    dependencies: [ sdbusplus ],
+)
+
+devicemgmt_a = static_library(
+    'devicemgmt_a',
+    [
+        'DeviceMgmt.cpp',
+    ],
+    dependencies: default_deps,
+)
+
+devicemgmt_dep = declare_dependency(
+    link_with: [ devicemgmt_a ],
+    dependencies: default_deps,
+)
+
+pwmsensor_a = static_library(
+    'pwmsensor_a',
+    'PwmSensor.cpp',
+    dependencies: [ default_deps, thresholds_dep ],
+)
+
+pwmsensor_dep = declare_dependency(
+    link_with: [ pwmsensor_a ],
+    dependencies: [ default_deps, thresholds_dep ],
+)
+
 peci_incdirs = []
 if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
     peci_incdirs = ['../include']
@@ -15,8 +72,6 @@ if get_option('adc').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -32,10 +87,7 @@ if get_option('intel-cpu').enabled()
             thresholds_dep,
             utils_dep,
         ],
-        implicit_include_directories: false,
-        include_directories: [
-            '../include'
-        ] + peci_incdirs,
+        include_directories: peci_incdirs,
         install: true,
     )
 endif
@@ -50,8 +102,6 @@ if get_option('exit-air').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -69,8 +119,6 @@ if get_option('fan').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -87,8 +135,6 @@ if get_option('hwmon-temp').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -105,8 +151,6 @@ if get_option('intrusion').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -122,8 +166,6 @@ if get_option('ipmb').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -139,8 +181,6 @@ if get_option('mcu').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -156,8 +196,6 @@ if get_option('nvme').enabled()
         sources: nvme_srcs,
         dependencies: nvme_deps,
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -175,8 +213,6 @@ if get_option('psu').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif
@@ -192,8 +228,6 @@ if get_option('external').enabled()
             utils_dep,
         ],
         cpp_args: uring_args,
-        implicit_include_directories: false,
-        include_directories: '../include',
         install: true,
     )
 endif

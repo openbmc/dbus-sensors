@@ -14,8 +14,10 @@
 // limitations under the License.
 */
 
-#include <PSUEvent.hpp>
-#include <SensorPaths.hpp>
+#include "PSUEvent.hpp"
+
+#include "SensorPaths.hpp"
+
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
