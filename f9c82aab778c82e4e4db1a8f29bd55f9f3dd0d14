@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ab92603_43c4b8b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:35:47Z",
+      "side": 1,
+      "message": "Overall, IMO this is the wrong place for this code.  dbus-sensors is about reading hardware sensors, and pulling in TCP/http based sensors breaks quite a few things, and duplicates quite a big chunk of code that already exists in the aggregation feature, that should not be duplicated.  Reiterating what I said in the design review, this needs to be more tightly integrated with the existing features, rather than just rewriting them, given that significant effort has been put into tuning, debugging things like keepalive, supporting features HTTPS (which is technically a requirement of redfish) and other stuff that this patchset chooses to ignore.  When things like authentication, mutual TLS, and other are added, had we accepted this feature as written, we would have to duplicate those features as well, which would add significantly more engineering compared to integrating a solution in the first place.  This is roughly the same position that was taken when the aggregation feature was originally added, in that it re-implemented significant portions of EventService, so this is not feedback that is unique to this patchset.\n\nAs written, this patchset also seems to ignore some important required parts about the redfish specification, like walking the Redfish tree, ownership of the odata.id parameters, checking odata.type, error codes, handling 202 accepted, and other things.  While those could certainly be improved, it would have to start with a reading of the specification, and a rebuild of the polling loops and parameter sets to match what the specification states.\n\nIf other dbus-sensors and Redfish maintainers disagree with this opinion, I\u0027m happy to have a discussion about if this is the right place for this code, and who will maintain it.  We already have two redfish client libraries (libredfish, and http_client.hpp in bmcweb).  I\u0027m not interested in maintaining a third, especially one that\u0027s based on the same core libraries (beast/asio) as the http_client.hpp, and only implements a subset of its capabilities and specification correctness.  If we need to break that section of bmcweb out into a library, that\u0027s fine, lets get that done.",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0ca8481_94796098",
+        "filename": "src/RedfishSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:35:47Z",
+      "side": 1,
+      "message": "In EM configs, we wouldn\u0027t split up these three things into three config entries.  a device \"supports redfish\" as a single feature, and redfish is introspectable, so we shouldn\u0027t duplicate things in the EM config file that we can determine from the server itself by simply walking the tree.",
+      "range": {
+        "startLine": 17,
+        "startChar": 22,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d99aa530_028e3122",
+        "filename": "src/RedfishSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:35:47Z",
+      "side": 1,
+      "message": "Per the Redfish specification, IDs need to come from walking the tree, and are at the control of the server, not the client.",
+      "range": {
+        "startLine": 418,
+        "startChar": 66,
+        "endLine": 418,
+        "endChar": 75
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "342e30b2_1796540f",
+        "filename": "src/RedfishSensorQuery.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:35:47Z",
+      "side": 1,
+      "message": "This is duplicating code that already exists in bmcweb in http_client.hpp for handling Redfish transactions.  Please don\u0027t duplicate what already exists and has been debugged.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 80
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
