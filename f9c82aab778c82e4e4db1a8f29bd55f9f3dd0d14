@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c38145_fea0b10f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "I would also mention, this patchset is 4000 lines, which is far more than can be reviewed effectively in one review, if it proceeds, it needs broken up a bit so it\u0027s effectively reviewable.\n\nI\u0027ve left a few comments on general coding practices that need fixed across the patch just to help make progress.",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0ca8481_94796098",
@@ -82,6 +99,178 @@
         "startChar": 0,
         "endLine": 30,
         "endChar": 80
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "171e1845_eac450b0",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "Please make these kinds of lookup tables constexpr, per the coding standard.  As-written, they will be required to allocate on startup.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aac9326c_fc816ec5",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "It can be used today.  The classes just need crafted to allow it.  Take a look at the registry implementation in bmcweb for an example that\u0027s similar, and I\u0027m happy to help you if you could use more direct help.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e033590f_ed7a10cb",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "This code is duplicating readJson in bmcweb, which handles more cases.",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1683dbb_73d8a173",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "nit, extra parens.",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7beee622_e31358da",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "please use nlohmann::json::get_ptr\u003cnlohmann:json::object_t\u003e\n\nThis advice needs repeated quite a bit for the generalized pattern this patch takes.  I\u0027ll comment once, all need fixed.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86059488_78b1fb4b",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "Yes, it\u0027s called from_chars.  There\u0027s lots of examples of it in bmcweb you can use.",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 69
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1289503c_ccfe9bbe",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "I\u0027m not following this.  This isn\u0027t allowed in the standard, can you please explain (ideally in the commit message)?",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 57
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fe93189_ca51f10b",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-26T18:47:39Z",
+      "side": 1,
+      "message": "Please take a look at readJson in bmcweb.  It handles this in a much cleaner way, handles more errors, at at a minimum could be used as a model for this.",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 0
       },
       "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
