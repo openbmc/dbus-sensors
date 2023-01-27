@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e55f204e_0ad71329",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-27T17:48:01Z",
+      "side": 1,
+      "message": "Yeah, I would have expected `true` on all of these, since (AFAIK) they\u0027re all pmbus devices and hence should provide a hwmon interface.",
+      "parentUuid": "587fdb64_9327fad4",
+      "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d57e9c07_e5b2ce5a",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-22T22:38:47Z",
       "side": 1,
       "message": "What do you mean here? The sensor type map key vs the I2CDeviceType driver name? Something else?",
+      "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0b6393d_fd68b994",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-27T17:48:01Z",
+      "side": 1,
+      "message": "\u003e The sensor type map key vs the I2CDeviceType driver name?\n\nYeah, basically that I think -- see https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/59761/comment/80a5b314_dadbb232/",
+      "parentUuid": "d57e9c07_e5b2ce5a",
       "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
