@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62d560ae_ba83f99e",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-01-27T18:43:57Z",
+      "side": 1,
+      "message": "I went back through the sensors and put true for the drivers I found references to in the hwmon folder.",
+      "parentUuid": "e55f204e_0ad71329",
+      "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d57e9c07_e5b2ce5a",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 5
