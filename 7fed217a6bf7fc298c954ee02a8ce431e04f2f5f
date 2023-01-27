@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac6dbb91_45f6a0c8",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-01-27T18:51:11Z",
+      "side": 1,
+      "message": "Okay, that sounds like a reasonable approach, but it looks like something didn\u0027t go quite right in applying it -- for example:\n\n```\n$ git grep -i ir38164 drivers/hwmon/\ndrivers/hwmon/pmbus/Kconfig:      IR38060, IR38064, IR38164 and IR38263.\ndrivers/hwmon/pmbus/ir38064.c:  {\"ir38164\", 0},\ndrivers/hwmon/pmbus/ir38064.c:  { .compatible \u003d \"infineon,ir38164\" },\n```\n\nIt\u0027d be good to verify, but I\u0027m pretty sure these should all be `true`.",
+      "parentUuid": "62d560ae_ba83f99e",
+      "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d57e9c07_e5b2ce5a",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 5
