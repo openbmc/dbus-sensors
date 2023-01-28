@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012cdefb_89930ee0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-28T17:09:21Z",
+      "side": 1,
+      "message": "this is a given. maybe change to psusensors",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "f3eea9754686417e14c962e09aea46e3a1d5ecd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fafa91fc_3e6a6408",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-28T17:09:21Z",
+      "side": 1,
+      "message": "Any test done?",
+      "revId": "f3eea9754686417e14c962e09aea46e3a1d5ecd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9555666d_c2808fb5",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-28T17:09:21Z",
+      "side": 1,
+      "message": "replace deactivate() here",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 21
+      },
+      "revId": "f3eea9754686417e14c962e09aea46e3a1d5ecd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c3c834_7a0be6cc",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-28T17:09:21Z",
+      "side": 1,
+      "message": "This duplicates same function as in HwmonTempMain. Move it to utils so it can be shared by multiple daemons.",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 77
+      },
+      "revId": "f3eea9754686417e14c962e09aea46e3a1d5ecd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
