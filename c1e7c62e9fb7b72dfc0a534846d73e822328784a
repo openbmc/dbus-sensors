@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7e1c7f5_af3f192e",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 44
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-29T17:37:42Z",
+      "side": 1,
+      "message": "There is no mentioning of FaultLedGroup earlier in the doc. Can you explain how this would work?",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 0
+      },
+      "revId": "c1e7c62e9fb7b72dfc0a534846d73e822328784a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3d6e640_f9966f41",
         "filename": "src/GPIOPresenceSensorMain.cpp",
         "patchSetId": 44
