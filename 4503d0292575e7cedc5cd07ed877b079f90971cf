@@ -82,6 +82,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdcb4dec_8660dc87",
+        "filename": "include/IpmbPowerState.hpp",
+        "patchSetId": 51
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-29T17:48:17Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "f7a719cd_5f1d6aeb",
+      "range": {
+        "startLine": 66,
+        "startChar": 45,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "4503d0292575e7cedc5cd07ed877b079f90971cf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08d1cac8_bf94a656",
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "yes this can be configurable, but in the Entity-Manager repo, Ed suggest to move this to code.\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/48005/8..17/configurations/twinlake.json#b8",
       "parentUuid": "08d1cac8_bf94a656",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 62
+      },
+      "revId": "4503d0292575e7cedc5cd07ed877b079f90971cf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ee3958a_8232de9a",
+        "filename": "include/IpmbPowerState.hpp",
+        "patchSetId": 51
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-29T17:48:17Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "2a0e85ee_f75160ad",
       "range": {
         "startLine": 71,
         "startChar": 0,
