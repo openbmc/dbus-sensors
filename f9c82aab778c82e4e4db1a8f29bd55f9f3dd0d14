@@ -35,6 +35,41 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "381a0240_dd236cbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "I am all for extricating the HttpClient feature out of bmcweb, and making it available as a library, to other interested packages such as this. However, doing this is beyond the scope of what I had originally set out to do, that is, integrate Redfish sensors into dbus-sensors. It would be worth doing as a separate project in the future, though.\n\nThe reason to use Beast and ASIO is to smoothly integrate with the existing design of dbus-sensors, which uses ASIO, and for this, it works well. The RedfishConnection class is made to intentionally be at the center of the hourglass, as the implementation of it is intentionally drop-in replaceable with another implementation (such as HttpClient, if it could be extricated from the rest of bmcweb), as I agree that using HttpClient would be preferable.\n\nI believe dbus-sensors is for reading sensors, and making their values available on D-Bus. I don\u0027t believe it needs to be constrained to hardware sensors. (To be pedantic, they actually are hardware sensors, but they are located on another machine, and so, we need to use Redfish to pull in their values over the network.)\n\nHTTPS and TLS (SSL) can be added in a future revision of this feature. I am intentionally not including it in this first release. Also, RedfishSensor works best with tightly coupled machines in a cluster, with limited access to the outside world, which is our use case. As of yet, there has been no demand for encryption between machines within this cluster.\n\nNot sure what you mean about walking the Redfish tree. The tree is walked, starting at the root, to find chassises and sensors. The odata.id parameter does need to be more consistently checked, and I have that on my to-do list, you\u0027re right.\n\nError codes are supported, and made available to callers of RedfishConnection. The odata.type field is intentionally ignored, as RedfishSensor validates the syntax at the JSON level, without parsing schema metadata. The \"202 Accepted\" result seems only to be a concern when sending a request to perform a write action that modifies state on the Redfish server, but all requests RedfishSensor sends are merely read-only in nature.",
+      "parentUuid": "9ab92603_43c4b8b2",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76be55ef_0dbd656e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "Thanks for looking at this. I agree that this patch is quite large. I could break it up by stubbing out parts of the program so that it all still compiles, though, even though it would be missing most of the code. Would this be more helpful?",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0ca8481_94796098",
@@ -48,6 +83,30 @@
       "writtenOn": "2023-01-26T18:35:47Z",
       "side": 1,
       "message": "In EM configs, we wouldn\u0027t split up these three things into three config entries.  a device \"supports redfish\" as a single feature, and redfish is introspectable, so we shouldn\u0027t duplicate things in the EM config file that we can determine from the server itself by simply walking the tree.",
+      "range": {
+        "startLine": 17,
+        "startChar": 22,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee187281_88cf5bd9",
+        "filename": "src/RedfishSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "The tree from the server is walked. The server\u0027s available chassis and sensor objects are matched up against what is configured here, and a match must be found in order to instantiate the sensor.\n\nThe reason these 3 categories are split up is to avoid having to declare many redundant fields of information within the EM configuration. A server can contain many chassises, and a chassis can contain many sensors. It would make the JSON file very awkwardly large and verbose, if all this had to be duplicated for every sensor. I\u0027d rather be able to set the chassis and server once, then use it for many sensors.",
+      "parentUuid": "f0ca8481_94796098",
       "range": {
         "startLine": 17,
         "startChar": 22,
@@ -81,6 +140,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93643861_60c5a4b6",
+        "filename": "src/RedfishSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "That is true, but they are made available to the client as read-only strings in the response, under the key \"Id\". I added it as one more thing the client can use to match on a desired sensor. If the server changes it, then it will not match anymore. I could remove this if desired, but I like having it for symmetry with \"RedfishName\".",
+      "parentUuid": "d99aa530_028e3122",
+      "range": {
+        "startLine": 418,
+        "startChar": 66,
+        "endLine": 418,
+        "endChar": 75
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "342e30b2_1796540f",
@@ -94,6 +177,30 @@
       "writtenOn": "2023-01-26T18:35:47Z",
       "side": 1,
       "message": "This is duplicating code that already exists in bmcweb in http_client.hpp for handling Redfish transactions.  Please don\u0027t duplicate what already exists and has been debugged.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 80
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c739263b_88e0bbcd",
+        "filename": "src/RedfishSensorQuery.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "True, but this is not bmcweb. It would be nice if the HttpClient feature of bmcweb were extracted out into a library, then that library could be usable by other projects such as dbus-sensors.",
+      "parentUuid": "342e30b2_1796540f",
       "range": {
         "startLine": 30,
         "startChar": 0,
@@ -127,6 +234,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0e5946f_27d2362c",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "OK, done.",
+      "parentUuid": "171e1845_eac450b0",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aac9326c_fc816ec5",
@@ -140,6 +271,30 @@
       "writtenOn": "2023-01-26T18:47:39Z",
       "side": 1,
       "message": "It can be used today.  The classes just need crafted to allow it.  Take a look at the registry implementation in bmcweb for an example that\u0027s similar, and I\u0027m happy to help you if you could use more direct help.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1199f10c_b69dbe8f",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "I looked. The solution seems to be downgrading std::string to const char* (C string), and downgrading std::vector to std::array (unfortunately requiring the redundant size argument, even though the compiler should already know it from initialization, but it somehow doesn\u0027t), so did that.",
+      "parentUuid": "aac9326c_fc816ec5",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -167,6 +322,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e307c5_aa46c731",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "True, but this is not bmcweb. It would be nice if the JSON parsing of bmcweb were extracted out into a library, then that library could be usable by other projects such as dbus-sensors.",
+      "parentUuid": "e033590f_ed7a10cb",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1683dbb_73d8a173",
@@ -184,6 +357,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "995c8a64_7316f8b9",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "I did this intentionally, as it\u0027s more readable, making it obvious that it\u0027s a negation. I can remove it, though. I still think it looks visually wrong to have something like !json.is_object(), as it looks like you\u0027re negating json and then calling is_object() on the results of the negation.",
+      "parentUuid": "c1683dbb_73d8a173",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7beee622_e31358da",
@@ -197,6 +388,30 @@
       "writtenOn": "2023-01-26T18:47:39Z",
       "side": 1,
       "message": "please use nlohmann::json::get_ptr\u003cnlohmann:json::object_t\u003e\n\nThis advice needs repeated quite a bit for the generalized pattern this patch takes.  I\u0027ll comment once, all need fixed.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69cd174e_4706b908",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "OK, also I still like the idea of checking the type of things before trying to get a pointer to them.",
+      "parentUuid": "7beee622_e31358da",
       "range": {
         "startLine": 42,
         "startChar": 0,
@@ -230,6 +445,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaa18811_82ce2530",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "Thanks, I will look at from_chars(). I\u0027m glad that it ignores locale.",
+      "parentUuid": "86059488_78b1fb4b",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 69
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1289503c_ccfe9bbe",
@@ -253,6 +492,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3959e9a_aa495f2b",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "In JSON, there is no clean way to specify floating-point NaN, so JSON null (the JSON null type) or JSON string \"nan\" is often used. Also, I have seen numeric values wrapped in JSON strings (such as \"123.456\") instead of being JSON numbers. This usage appears common in the field, including third-party Redfish servers which we have no control over.",
+      "parentUuid": "1289503c_ccfe9bbe",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 57
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fe93189_ca51f10b",
@@ -266,6 +529,30 @@
       "writtenOn": "2023-01-26T18:47:39Z",
       "side": 1,
       "message": "Please take a look at readJson in bmcweb.  It handles this in a much cleaner way, handles more errors, at at a minimum could be used as a model for this.",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 0
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d6e4c4_2bee2f27",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-30T06:59:14Z",
+      "side": 1,
+      "message": "I took a look at it. The readJsonHelper uses variants and parameter packs, which are beyond the scope of these simple functions which intentionally accept only one type.\nAnd, I noticed readJson() uses is_object() instead of get_ptr(), contrary to your earlier comment?",
+      "parentUuid": "5fe93189_ca51f10b",
       "range": {
         "startLine": 378,
         "startChar": 0,
