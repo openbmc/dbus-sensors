@@ -26,6 +26,92 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f81cd36d_e8b3a851",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 44
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-01-30T04:01:54Z",
+      "side": 1,
+      "message": "Query : Can pollRateDefault be -ve here ..?",
+      "revId": "c1e7c62e9fb7b72dfc0a534846d73e822328784a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "453e85be_6101ef0d",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 44
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-01-30T04:01:54Z",
+      "side": 1,
+      "message": "same as line number 20.",
+      "range": {
+        "startLine": 52,
+        "startChar": 3,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "c1e7c62e9fb7b72dfc0a534846d73e822328784a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb8b97c4_e5a808ac",
+        "filename": "include/GPIOPresenceSensor.hpp",
+        "patchSetId": 44
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-01-30T04:01:54Z",
+      "side": 1,
+      "message": "same as line number 20",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 7
+      },
+      "revId": "c1e7c62e9fb7b72dfc0a534846d73e822328784a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ab871be_dd3dece9",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 44
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-01-30T04:01:54Z",
+      "side": 1,
+      "message": "Query \u003d can NewRate be -ve here ..?",
+      "range": {
+        "startLine": 8,
+        "startChar": 34,
+        "endLine": 8,
+        "endChar": 37
+      },
+      "revId": "c1e7c62e9fb7b72dfc0a534846d73e822328784a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3d6e640_f9966f41",
         "filename": "src/GPIOPresenceSensorMain.cpp",
         "patchSetId": 44
