@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a5ad0dc_289e6396",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-01-30T05:53:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5b23218_58cd8a83",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "b7974ea5e6781177824a4d5e2e44a02551340b17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db05a28b_a5910761",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f1546b2_e205168e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-01-30T05:53:28Z",
+      "side": 1,
+      "message": "\u003e If SBTSI is a CPU sensor, should it be in CPU sensor daemon?\n\n1. I don\u0027t find CPU sensor daemon in `dbus-sensors` (except IntelCPUSensor that is specifically for Intel).\n2. This sensor is a qualified hwmon sensor. I am unsure what\u0027s the benefit for handling it separately since we can handle it as a normal hwmon sensor.\n\n\u003e What is the redfish URI for this? Please add.\n\nAdded in the end of `Tested`\nThe URI will be like `\"@odata.id\": \"/redfish/v1/Systems/system/Processors/cpu0\"`",
+      "parentUuid": "db05a28b_a5910761",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "b7974ea5e6781177824a4d5e2e44a02551340b17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "431f6ee8_9d5d5653",
         "filename": "src/HwmonTempMain.cpp",
         "patchSetId": 4
@@ -60,6 +108,30 @@
       "writtenOn": "2023-01-29T17:25:40Z",
       "side": 1,
       "message": "This is system specific, which should be defined in a system specific config file",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 0
+      },
+      "revId": "b7974ea5e6781177824a4d5e2e44a02551340b17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce5b2ef8_9f21ad49",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-01-30T05:53:28Z",
+      "side": 1,
+      "message": "Not really..\n`SBTSI` is for AMD CPU only. It must be CPU sensor no matter which system you are using.\n\ncite:\n```\nSideband interface (SBI) Temperature Sensor Interface (SB-TSI) compliant AMD SoC temperature device.\n```\nhttps://www.kernel.org/doc/html/latest/hwmon/sbtsi_temp.html",
+      "parentUuid": "431f6ee8_9d5d5653",
       "range": {
         "startLine": 80,
         "startChar": 0,
