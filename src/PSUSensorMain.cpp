@@ -98,7 +98,7 @@ static constexpr auto pmbusNames{std::to_array<const char*>({
     "xdpe11280",
     "xdpe12284"
 })};
-//clang-format on
+// clang-format on
 
 namespace fs = std::filesystem;
 
@@ -108,17 +108,120 @@ static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
     combineEvents;
 static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
     pwmSensors;
-static boost::container::flat_map<std::string, std::string> sensorTable;
-static boost::container::flat_map<std::string, PSUProperty> labelMatch;
-static boost::container::flat_map<std::string, std::string> pwmTable;
-static boost::container::flat_map<std::string, std::vector<std::string>>
-    eventMatch;
-static boost::container::flat_map<
+static const boost::container::flat_map<std::string, std::string> sensorTable =
+    {{"power", sensor_paths::unitWatts},
+     {"curr", sensor_paths::unitAmperes},
+     {"temp", sensor_paths::unitDegreesC},
+     {"in", sensor_paths::unitVolts},
+     {"fan", sensor_paths::unitRPMs}};
+
+static const boost::container::flat_map<std::string, PSUProperty> labelMatch = {
+    {"pin", PSUProperty("Input Power", 3000, 0, 6, 0)},
+    {"pin1", PSUProperty("Input Power", 3000, 0, 6, 0)},
+    {"pin2", PSUProperty("Input Power", 3000, 0, 6, 0)},
+    {"pout1", PSUProperty("Output Power", 3000, 0, 6, 0)},
+    {"pout2", PSUProperty("Output Power", 3000, 0, 6, 0)},
+    {"pout3", PSUProperty("Output Power", 3000, 0, 6, 0)},
+    {"power1", PSUProperty("Output Power", 3000, 0, 6, 0)},
+    {"power2", PSUProperty("Output Power", 3000, 0, 6, 0)},
+    {"power3", PSUProperty("Output Power", 3000, 0, 6, 0)},
+    {"power4", PSUProperty("Output Power", 3000, 0, 6, 0)},
+    {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
+    {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
+    {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
+    {"vout1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout8", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout9", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout10", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout11", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout12", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout13", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout14", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout15", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout16", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout17", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout18", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout19", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout20", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout21", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout22", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout23", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout24", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout25", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout26", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout27", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout28", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout29", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout30", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout31", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vout32", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3, 0)},
+    {"in0", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"in1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"in2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"in3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"in4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"in5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"in6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"in7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+    {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
+    {"iin1", PSUProperty("Input Current", 20, 0, 3, 0)},
+    {"iin2", PSUProperty("Input Current", 20, 0, 3, 0)},
+    {"iout1", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout2", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout3", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout4", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout5", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout6", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout7", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout8", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout9", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout10", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout11", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout12", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout13", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"iout14", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"curr1", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"curr2", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"curr3", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"curr4", PSUProperty("Output Current", 255, 0, 3, 0)},
+    {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3, 0)},
+    {"temp1", PSUProperty("Temperature", 127, -128, 3, 0)},
+    {"temp2", PSUProperty("Temperature", 127, -128, 3, 0)},
+    {"temp3", PSUProperty("Temperature", 127, -128, 3, 0)},
+    {"temp4", PSUProperty("Temperature", 127, -128, 3, 0)},
+    {"temp5", PSUProperty("Temperature", 127, -128, 3, 0)},
+    {"temp6", PSUProperty("Temperature", 127, -128, 3, 0)},
+    {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3, 0)},
+    {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
+    {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)},
+    {"fan3", PSUProperty("Fan Speed 3", 30000, 0, 0, 0)},
+    {"fan4", PSUProperty("Fan Speed 4", 30000, 0, 0, 0)}};
+static const boost::container::flat_map<std::string, std::string> pwmTable = {
+    {"fan1", "Fan_1"}, {"fan2", "Fan_2"}, {"fan3", "Fan_3"}, {"fan4", "Fan_4"}};
+static const boost::container::flat_map<std::string, std::vector<std::string>>
+    eventMatch = {{"PredictiveFailure", {"power1_alarm"}},
+                  {"Failure", {"in2_alarm"}},
+                  {"ACLost", {"in1_beep"}},
+                  {"ConfigureError", {"in1_fault"}}};
+
+static const boost::container::flat_map<
     std::string,
     boost::container::flat_map<std::string, std::vector<std::string>>>
-    groupEventMatch;
-static boost::container::flat_map<std::string, std::vector<std::string>>
-    limitEventMatch;
+    groupEventMatch = {{"FanFault",
+                        {{"fan1", {"fan1_alarm", "fan1_fault"}},
+                         {"fan2", {"fan2_alarm", "fan2_fault"}},
+                         {"fan3", {"fan3_alarm", "fan3_fault"}},
+                         {"fan4", {"fan4_alarm", "fan4_fault"}}}}};
+static const boost::container::flat_map<std::string, std::vector<std::string>>
+    limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
+                       {"Failure", {"crit_alarm", "lcrit_alarm"}}};
 
 static std::vector<PSUProperty> psuProperties;
 
@@ -927,123 +1030,6 @@ void createSensors(
         std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
 }
 
-void propertyInitialize(void)
-{
-    sensorTable = {{"power", sensor_paths::unitWatts},
-                   {"curr", sensor_paths::unitAmperes},
-                   {"temp", sensor_paths::unitDegreesC},
-                   {"in", sensor_paths::unitVolts},
-                   {"fan", sensor_paths::unitRPMs}};
-
-    labelMatch = {
-        {"pin", PSUProperty("Input Power", 3000, 0, 6, 0)},
-        {"pin1", PSUProperty("Input Power", 3000, 0, 6, 0)},
-        {"pin2", PSUProperty("Input Power", 3000, 0, 6, 0)},
-        {"pout1", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"pout2", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"pout3", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"power1", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"power2", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"power3", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"power4", PSUProperty("Output Power", 3000, 0, 6, 0)},
-        {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
-        {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
-        {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
-        {"vout1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout8", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout9", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout10", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout11", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout12", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout13", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout14", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout15", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout16", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout17", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout18", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout19", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout20", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout21", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout22", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout23", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout24", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout25", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout26", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout27", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout28", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout29", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout30", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout31", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vout32", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3, 0)},
-        {"in0", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"in7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-        {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
-        {"iin1", PSUProperty("Input Current", 20, 0, 3, 0)},
-        {"iin2", PSUProperty("Input Current", 20, 0, 3, 0)},
-        {"iout1", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout2", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout3", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout4", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout5", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout6", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout7", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout8", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout9", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout10", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout11", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout12", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout13", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"iout14", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"curr1", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"curr2", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"curr3", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"curr4", PSUProperty("Output Current", 255, 0, 3, 0)},
-        {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3, 0)},
-        {"temp1", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp2", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp3", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp4", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp5", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"temp6", PSUProperty("Temperature", 127, -128, 3, 0)},
-        {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3, 0)},
-        {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
-        {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)},
-        {"fan3", PSUProperty("Fan Speed 3", 30000, 0, 0, 0)},
-        {"fan4", PSUProperty("Fan Speed 4", 30000, 0, 0, 0)}};
-
-    pwmTable = {{"fan1", "Fan_1"},
-                {"fan2", "Fan_2"},
-                {"fan3", "Fan_3"},
-                {"fan4", "Fan_4"}};
-
-    limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
-                       {"Failure", {"crit_alarm", "lcrit_alarm"}}};
-
-    eventMatch = {{"PredictiveFailure", {"power1_alarm"}},
-                  {"Failure", {"in2_alarm"}},
-                  {"ACLost", {"in1_beep"}},
-                  {"ConfigureError", {"in1_fault"}}};
-
-    groupEventMatch = {{"FanFault",
-                        {{"fan1", {"fan1_alarm", "fan1_fault"}},
-                         {"fan2", {"fan2_alarm", "fan2_fault"}},
-                         {"fan3", {"fan3_alarm", "fan3_fault"}},
-                         {"fan4", {"fan4_alarm", "fan4_fault"}}}}};
-}
-
 int main()
 {
     boost::asio::io_service io;
@@ -1055,8 +1041,6 @@ int main()
     systemBus->request_name("xyz.openbmc_project.PSUSensor");
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
-
-    propertyInitialize();
 
     io.post([&]() { createSensors(io, objectServer, systemBus, nullptr); });
     boost::asio::steady_timer filterTimer(io);
