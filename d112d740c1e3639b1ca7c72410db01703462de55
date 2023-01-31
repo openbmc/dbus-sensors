@@ -100,6 +100,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "32bfa940_7236d02a",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-01-31T19:57:50Z",
+      "side": 1,
+      "message": "\u003e Can we do this the easier to read way?\n\u003e \n\u003e if (l.label !\u003d r.label){\n\u003e     return false;\n\u003e }\n\u003e return l.driver \u003d\u003d r.driver;\n\nMy implementation is taken literally from https://en.cppreference.com/w/cpp/language/operators#Comparison_operators . We need to implement operator\u003c for the map to work, the set requires ordering. Why exactly it needs to be friend I\u0027m not sure, C++ is still surprising to me so I just trust cppreference.",
+      "parentUuid": "18696ff6_abe40f71",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 72
+      },
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec4bbc40_346838cd",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
@@ -111,6 +135,24 @@
       "writtenOn": "2023-01-31T19:34:27Z",
       "side": 1,
       "message": "If this structure becomes per-system, it explodes it in a really bad way.\n\nThis struct already suffers from the fact that it:\n1. Takes up a ton of memory.\n2. Is allocated on startup.\n3. Includes tons of redundant data that could be easily just matched (vout1, vout2, vout3, ect)\n\nI don\u0027t like to require cleaning up someone elses code, but I don\u0027t see how we can afford to make this structure 20 times larger (assuming 20 different VR types) without some simplification.",
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93437c37_92e50f54",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-01-31T19:57:50Z",
+      "side": 1,
+      "message": "\u003e If this structure becomes per-system, it explodes it in a really bad way.\n\u003e \n\u003e This struct already suffers from the fact that it:\n\u003e 1. Takes up a ton of memory.\n\u003e 2. Is allocated on startup.\n\u003e 3. Includes tons of redundant data that could be easily just matched (vout1, vout2, vout3, ect)\n\u003e \n\u003e I don\u0027t like to require cleaning up someone elses code, but I don\u0027t see how we can afford to make this structure 20 times larger (assuming 20 different VR types) without some simplification.\n\nHm, probably it would be enough to match something like ``pin[0-9]*`` instead of the exact match, and that would simplify it enough?\n\nI\u0027ll see what I can do.",
+      "parentUuid": "ec4bbc40_346838cd",
       "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
