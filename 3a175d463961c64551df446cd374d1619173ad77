@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "126ded5e_ec12dd7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-31T14:30:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ffbf7a0_1a6bd09d",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "3a175d463961c64551df446cd374d1619173ad77",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ae2812ad_66e8eeb6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11
@@ -54,6 +78,30 @@
       "writtenOn": "2023-01-25T00:49:16Z",
       "side": 1,
       "message": "Should this be only for configInterfaceName(sdrInterface) and remove the test in side the handler?",
+      "range": {
+        "startLine": 873,
+        "startChar": 0,
+        "endLine": 883,
+        "endChar": 0
+      },
+      "revId": "3a175d463961c64551df446cd374d1619173ad77",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6daaa9d8_130ca1da",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2023-01-31T14:30:04Z",
+      "side": 1,
+      "message": "This interfaceRemoved function is added for sdr sensors only as of now. Will add support for other sensors in future. \n\nThis interfaceRemoved function is called when any of the interfaces removed in sdr sensors.\n\nIf we add interfaceRemoved function inside the sdrhandler, registering interfaceRemoved function may call multiple times as sdrhandler called multiple times and whenever it\u0027s property changed. That is the reason for keeping this interfaceRemoved handler in main function.",
+      "parentUuid": "c1e88480_ebd29296",
       "range": {
         "startLine": 873,
         "startChar": 0,
