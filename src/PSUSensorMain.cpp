@@ -115,94 +115,95 @@ static const boost::container::flat_map<std::string, std::string> sensorTable =
      {"in", sensor_paths::unitVolts},
      {"fan", sensor_paths::unitRPMs}};
 
-static const boost::container::flat_map<std::string, PSUProperty> labelMatch = {
-    {"pin", PSUProperty("Input Power", 3000, 0, 6, 0)},
-    {"pin1", PSUProperty("Input Power", 3000, 0, 6, 0)},
-    {"pin2", PSUProperty("Input Power", 3000, 0, 6, 0)},
-    {"pout1", PSUProperty("Output Power", 3000, 0, 6, 0)},
-    {"pout2", PSUProperty("Output Power", 3000, 0, 6, 0)},
-    {"pout3", PSUProperty("Output Power", 3000, 0, 6, 0)},
-    {"power1", PSUProperty("Output Power", 3000, 0, 6, 0)},
-    {"power2", PSUProperty("Output Power", 3000, 0, 6, 0)},
-    {"power3", PSUProperty("Output Power", 3000, 0, 6, 0)},
-    {"power4", PSUProperty("Output Power", 3000, 0, 6, 0)},
-    {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
-    {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
-    {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
-    {"vout1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout8", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout9", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout10", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout11", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout12", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout13", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout14", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout15", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout16", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout17", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout18", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout19", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout20", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout21", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout22", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout23", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout24", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout25", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout26", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout27", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout28", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout29", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout30", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout31", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vout32", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3, 0)},
-    {"in0", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"in1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"in2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"in3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"in4", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"in5", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"in6", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"in7", PSUProperty("Output Voltage", 255, 0, 3, 0)},
-    {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
-    {"iin1", PSUProperty("Input Current", 20, 0, 3, 0)},
-    {"iin2", PSUProperty("Input Current", 20, 0, 3, 0)},
-    {"iout1", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout2", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout3", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout4", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout5", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout6", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout7", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout8", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout9", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout10", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout11", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout12", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout13", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"iout14", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"curr1", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"curr2", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"curr3", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"curr4", PSUProperty("Output Current", 255, 0, 3, 0)},
-    {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3, 0)},
-    {"temp1", PSUProperty("Temperature", 127, -128, 3, 0)},
-    {"temp2", PSUProperty("Temperature", 127, -128, 3, 0)},
-    {"temp3", PSUProperty("Temperature", 127, -128, 3, 0)},
-    {"temp4", PSUProperty("Temperature", 127, -128, 3, 0)},
-    {"temp5", PSUProperty("Temperature", 127, -128, 3, 0)},
-    {"temp6", PSUProperty("Temperature", 127, -128, 3, 0)},
-    {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3, 0)},
-    {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
-    {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)},
-    {"fan3", PSUProperty("Fan Speed 3", 30000, 0, 0, 0)},
-    {"fan4", PSUProperty("Fan Speed 4", 30000, 0, 0, 0)}};
+static constexpr auto labelMatch{std::to_array<PSUProperty>(
+    {{"pin", "Input Power", 3000, 0, 6, 0},
+     {"pin1", "Input Power", 3000, 0, 6, 0},
+     {"pin2", "Input Power", 3000, 0, 6, 0},
+     {"pout1", "Output Power", 3000, 0, 6, 0},
+     {"pout2", "Output Power", 3000, 0, 6, 0},
+     {"pout3", "Output Power", 3000, 0, 6, 0},
+     {"power1", "Output Power", 3000, 0, 6, 0},
+     {"power2", "Output Power", 3000, 0, 6, 0},
+     {"power3", "Output Power", 3000, 0, 6, 0},
+     {"power4", "Output Power", 3000, 0, 6, 0},
+     {"maxpin", "Max Input Power", 3000, 0, 6, 0},
+     {"vin", "Input Voltage", 300, 0, 3, 0},
+     {"maxvin", "Max Input Voltage", 300, 0, 3, 0},
+     {"vout1", "Output Voltage", 255, 0, 3, 0},
+     {"vout2", "Output Voltage", 255, 0, 3, 0},
+     {"vout3", "Output Voltage", 255, 0, 3, 0},
+     {"vout4", "Output Voltage", 255, 0, 3, 0},
+     {"vout5", "Output Voltage", 255, 0, 3, 0},
+     {"vout6", "Output Voltage", 255, 0, 3, 0},
+     {"vout7", "Output Voltage", 255, 0, 3, 0},
+     {"vout8", "Output Voltage", 255, 0, 3, 0},
+     {"vout9", "Output Voltage", 255, 0, 3, 0},
+     {"vout10", "Output Voltage", 255, 0, 3, 0},
+     {"vout11", "Output Voltage", 255, 0, 3, 0},
+     {"vout12", "Output Voltage", 255, 0, 3, 0},
+     {"vout13", "Output Voltage", 255, 0, 3, 0},
+     {"vout14", "Output Voltage", 255, 0, 3, 0},
+     {"vout15", "Output Voltage", 255, 0, 3, 0},
+     {"vout16", "Output Voltage", 255, 0, 3, 0},
+     {"vout17", "Output Voltage", 255, 0, 3, 0},
+     {"vout18", "Output Voltage", 255, 0, 3, 0},
+     {"vout19", "Output Voltage", 255, 0, 3, 0},
+     {"vout20", "Output Voltage", 255, 0, 3, 0},
+     {"vout21", "Output Voltage", 255, 0, 3, 0},
+     {"vout22", "Output Voltage", 255, 0, 3, 0},
+     {"vout23", "Output Voltage", 255, 0, 3, 0},
+     {"vout24", "Output Voltage", 255, 0, 3, 0},
+     {"vout25", "Output Voltage", 255, 0, 3, 0},
+     {"vout26", "Output Voltage", 255, 0, 3, 0},
+     {"vout27", "Output Voltage", 255, 0, 3, 0},
+     {"vout28", "Output Voltage", 255, 0, 3, 0},
+     {"vout29", "Output Voltage", 255, 0, 3, 0},
+     {"vout30", "Output Voltage", 255, 0, 3, 0},
+     {"vout31", "Output Voltage", 255, 0, 3, 0},
+     {"vout32", "Output Voltage", 255, 0, 3, 0},
+     {"vmon", "Auxiliary Input Voltage", 255, 0, 3, 0},
+     {"in0", "Output Voltage", 255, 0, 3, 0},
+     {"in1", "Output Voltage", 255, 0, 3, 0},
+     {"in2", "Output Voltage", 255, 0, 3, 0},
+     {"in3", "Output Voltage", 255, 0, 3, 0},
+     {"in4", "Output Voltage", 255, 0, 3, 0},
+     {"in5", "Output Voltage", 255, 0, 3, 0},
+     {"in6", "Output Voltage", 255, 0, 3, 0},
+     {"in7", "Output Voltage", 255, 0, 3, 0},
+     {"iin", "Input Current", 20, 0, 3, 0},
+     {"iin1", "Input Current", 20, 0, 3, 0},
+     {"iin2", "Input Current", 20, 0, 3, 0},
+     {"iout1", "Output Current", 255, 0, 3, 0},
+     {"iout2", "Output Current", 255, 0, 3, 0},
+     {"iout3", "Output Current", 255, 0, 3, 0},
+     {"iout4", "Output Current", 255, 0, 3, 0},
+     {"iout5", "Output Current", 255, 0, 3, 0},
+     {"iout6", "Output Current", 255, 0, 3, 0},
+     {"iout7", "Output Current", 255, 0, 3, 0},
+     {"iout8", "Output Current", 255, 0, 3, 0},
+     {"iout9", "Output Current", 255, 0, 3, 0},
+     {"iout10", "Output Current", 255, 0, 3, 0},
+     {"iout11", "Output Current", 255, 0, 3, 0},
+     {"iout12", "Output Current", 255, 0, 3, 0},
+     {"iout13", "Output Current", 255, 0, 3, 0},
+     {"iout14", "Output Current", 255, 0, 3, 0},
+     {"curr1", "Output Current", 255, 0, 3, 0},
+     {"curr2", "Output Current", 255, 0, 3, 0},
+     {"curr3", "Output Current", 255, 0, 3, 0},
+     {"curr4", "Output Current", 255, 0, 3, 0},
+     {"maxiout1", "Max Output Current", 255, 0, 3, 0},
+     {"temp1", "Temperature", 127, -128, 3, 0},
+     {"temp2", "Temperature", 127, -128, 3, 0},
+     {"temp3", "Temperature", 127, -128, 3, 0},
+     {"temp4", "Temperature", 127, -128, 3, 0},
+     {"temp5", "Temperature", 127, -128, 3, 0},
+     {"temp6", "Temperature", 127, -128, 3, 0},
+     {"maxtemp1", "Max Temperature", 127, -128, 3, 0},
+     {"fan1", "Fan Speed 1", 30000, 0, 0, 0},
+     {"fan2", "Fan Speed 2", 30000, 0, 0, 0},
+     {"fan3", "Fan Speed 3", 30000, 0, 0, 0},
+     {"fan4", "Fan Speed 4", 30000, 0, 0, 0}})};
+
 static const boost::container::flat_map<std::string, std::string> pwmTable = {
     {"fan1", "Fan_1"}, {"fan2", "Fan_2"}, {"fan3", "Fan_3"}, {"fan4", "Fan_4"}};
 static const boost::container::flat_map<std::string, std::vector<std::string>>
@@ -722,7 +723,10 @@ static void createSensorsCallback(
                 }
             }
 
-            auto findProperty = labelMatch.find(labelHead);
+            auto findProperty = std::ranges::find_if(
+                labelMatch, [&labelHead](const PSUProperty& prop) {
+                    return labelHead == prop.hwmonName;
+                });
             if (findProperty == labelMatch.end())
             {
                 if constexpr (debug)
@@ -737,7 +741,7 @@ static void createSensorsCallback(
             // by making a copy and modifying that instead.
             // Avoid bleedthrough of one device's customizations to
             // the next device, as each should be independently customizable.
-            psuProperties.push_back(findProperty->second);
+            psuProperties.push_back(*findProperty);
             auto psuProperty = psuProperties.rbegin();
 
             // Use label head as prefix for reading from config file,
@@ -957,7 +961,7 @@ static void createSensorsCallback(
                           << psuProperty->sensorOffset << "\n";
             }
 
-            std::string sensorName = psuProperty->labelTypeName;
+            std::string sensorName{psuProperty->labelTypeName};
             if (customizedName)
             {
                 if (sensorName.empty())
@@ -972,8 +976,8 @@ static void createSensorsCallback(
             {
                 // Sensor name not customized, do prefix/suffix composition,
                 // preserving default behavior by using psuNameFromIndex.
-                sensorName =
-                    psuNameFromIndex + " " + psuProperty->labelTypeName;
+                sensorName = psuNameFromIndex + " ";
+                sensorName += psuProperty->labelTypeName;
             }
 
             if constexpr (debug)
