@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cc55216_f5bdfed4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-01-31T19:15:41Z",
+      "side": 1,
+      "message": "Added",
+      "parentUuid": "6ebf768d_605c4dac",
+      "revId": "ffaa71f93291c558982a66076b23d12b00ce4a13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "036502e6_563abd7d",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-01-28T17:38:28Z",
       "side": 1,
       "message": "why this change?",
+      "range": {
+        "startLine": 381,
+        "startChar": 20,
+        "endLine": 381,
+        "endChar": 67
+      },
+      "revId": "ffaa71f93291c558982a66076b23d12b00ce4a13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76fc40a2_5fe5c2e5",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-01-31T19:15:41Z",
+      "side": 1,
+      "message": "After looking at it, since it\u0027s not really needed I reverted back to the original assignment.  One change I decided to make was switching sensorType to be a string.  Since that\u0027s what the PSUSensor constructor is looking for it makes sense imo.",
+      "parentUuid": "036502e6_563abd7d",
       "range": {
         "startLine": 381,
         "startChar": 20,
