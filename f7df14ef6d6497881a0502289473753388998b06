@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e74e27db_3c8a1c66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-31T18:20:09Z",
+      "side": 1,
+      "message": "\u003e With VRs such as pxe1610 and similar that\u0027s not the case, as they have some very strict limits on the voltage they measure, and they measure it directly\n\nThis changes my opinion here.  If the classes of VR aren\u0027t configurable by the board, and we just picked a mediocre default, I\u0027m fine with new defaults.",
+      "parentUuid": "04790991_66097d1d",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "74c48729_b529300a",
