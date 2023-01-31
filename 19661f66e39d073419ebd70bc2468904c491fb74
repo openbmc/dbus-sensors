@@ -16,6 +16,24 @@
       "message": "I\u0027m looking at the patch, and I\u0027m really not following how it\u0027s doing what the commit message claims here.  It\u0027s just doing an extra call to look for the label name instead of pmbusname + label name?  I\u0027m not really following how that accomplishes what you\u0027re trying to do.",
       "revId": "19661f66e39d073419ebd70bc2468904c491fb74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9414256e_f2b4379a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-01-31T18:39:24Z",
+      "side": 1,
+      "message": "\u003e I\u0027m looking at the patch, and I\u0027m really not following how it\u0027s doing what the commit message claims here.  It\u0027s just doing an extra call to look for the label name instead of pmbusname + label name?  I\u0027m not really following how that accomplishes what you\u0027re trying to do.\n\nI haven\u0027t rebased https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/59929/2?usp\u003drelated-change on top of the current change yet, but I hope the idea is clear: the current change provides a mechanism to hardcode a driver-specific override. pmbusname is the kernel driver name that\u0027s currently bound for the device in question.",
+      "parentUuid": "e720f22c_2d717d02",
+      "revId": "19661f66e39d073419ebd70bc2468904c491fb74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
