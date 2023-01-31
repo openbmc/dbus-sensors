@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ee1dac7_80d3b7a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-01-31T20:23:00Z",
+      "side": 1,
+      "message": "Maybe: IpmbSensor: add helper function ....",
+      "parentUuid": "32167404_c337889a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "aafe1309d3aaeb6242a95d4d80a6fb235616deff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e22d680_eb53ca9f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 20
