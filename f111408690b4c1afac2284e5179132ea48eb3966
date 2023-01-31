@@ -16,6 +16,108 @@
       "message": "Hi All,\nRebased master and fixed the conflict.\nPlease help to review agarin. Thanks!",
       "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0350b940_f565b982",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-31T11:06:32Z",
+      "side": 1,
+      "message": "This looks promising. Also, it could be a step towards the idea mentioned here: https://github.com/openbmc/phosphor-pid-control/issues/27",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64db2fa6_6e29c1bc",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-31T11:06:32Z",
+      "side": 1,
+      "message": "This code is performing a prepend, not an append. Please correct this comment.",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f016b06_0b9ea172",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-31T11:06:32Z",
+      "side": 1,
+      "message": "I am concerned about this changing the syntax of the control/fanpwm and sensors/fan_pwm pathnames. There are many scripts and other programs in the field that depend on these pathnames. I do not want to break them.\n\nWould it be possible to preserve the old syntax, that did not require the user to know the zone number in order to address a particular PWM by name? Maybe create two pathnames, aliased to each other, to avoid breaking existing users?",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a902308_317fe896",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-31T11:06:32Z",
+      "side": 1,
+      "message": "I recommend changing sysPath to be vector\u003cstring\u003e sysPaths. Then, you can have a vector of strings, instead of having to use a space-separated string.",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b9b0fe9_3ad7cb95",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-31T11:06:32Z",
+      "side": 1,
+      "message": "I am curious why Zone types do not want their association created.",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "287bb477_fac95796",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-01-31T11:06:32Z",
+      "side": 1,
+      "message": "I recommend using a member variable that is vector\u003cstring\u003e instead of \"space separated strings\".\nThis will save the overhead of having to recover the vector from the space-separated string every time.",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
