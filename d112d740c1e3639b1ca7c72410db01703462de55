@@ -33,6 +33,86 @@
       "message": "I think this is an improvement. It does provide a solution where drivers have specific limits.",
       "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "556dfff5_e4f56de4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-31T19:34:27Z",
+      "side": 1,
+      "message": "Ok, overall, I\u0027m understanding the feature, and I think there\u0027s a use case, and definitely think it\u0027s valid.  I do think we need to simplify the const structure a bit.  Ideally it should be something like:\n\nconstexpr std::array\u003cPSURangeEntry, number\u003e lookup \u003d {\n....\n\n}.\n\nThat way, we\u0027re not mallocing a huge structure on startup.",
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1686674f_768a4c63",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-31T19:34:27Z",
+      "side": 1,
+      "message": "?  Why friend?",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 10
+      },
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18696ff6_abe40f71",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-31T19:34:27Z",
+      "side": 1,
+      "message": "Can we do this the easier to read way?\n\nif (l.label !\u003d r.label){\n    return false;\n}\nreturn l.driver \u003d\u003d r.driver;",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 72
+      },
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec4bbc40_346838cd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-01-31T19:34:27Z",
+      "side": 1,
+      "message": "If this structure becomes per-system, it explodes it in a really bad way.\n\nThis struct already suffers from the fact that it:\n1. Takes up a ton of memory.\n2. Is allocated on startup.\n3. Includes tons of redundant data that could be easily just matched (vout1, vout2, vout3, ect)\n\nI don\u0027t like to require cleaning up someone elses code, but I don\u0027t see how we can afford to make this structure 20 times larger (assuming 20 different VR types) without some simplification.",
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
