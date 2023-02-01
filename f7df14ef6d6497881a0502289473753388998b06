@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3c378c9e_b7535dee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-02-01T15:08:34Z",
+      "side": 1,
+      "message": "So let\u0027s proceed with the new plan.",
+      "parentUuid": "e74e27db_3c8a1c66",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "f7df14ef6d6497881a0502289473753388998b06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "74c48729_b529300a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

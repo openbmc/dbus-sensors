@@ -75,6 +75,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38254041_38c583a9",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-02-01T15:08:34Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter if friend or const member afaict.",
+      "parentUuid": "1686674f_768a4c63",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 10
+      },
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18696ff6_abe40f71",
@@ -122,6 +146,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50c21836_7a64e16c",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-02-01T15:08:34Z",
+      "side": 1,
+      "message": "FWIW it looks like to provide total ordering (which is required for std::map and similar containers) one can either give a friend operator\u003c function or a const member operator\u003c function, both should be equivalent, and using std::tie is considered the right ideomatic way for the purpose.",
+      "parentUuid": "32bfa940_7236d02a",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 72
+      },
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec4bbc40_346838cd",
@@ -153,6 +201,24 @@
       "side": 1,
       "message": "\u003e If this structure becomes per-system, it explodes it in a really bad way.\n\u003e \n\u003e This struct already suffers from the fact that it:\n\u003e 1. Takes up a ton of memory.\n\u003e 2. Is allocated on startup.\n\u003e 3. Includes tons of redundant data that could be easily just matched (vout1, vout2, vout3, ect)\n\u003e \n\u003e I don\u0027t like to require cleaning up someone elses code, but I don\u0027t see how we can afford to make this structure 20 times larger (assuming 20 different VR types) without some simplification.\n\nHm, probably it would be enough to match something like ``pin[0-9]*`` instead of the exact match, and that would simplify it enough?\n\nI\u0027ll see what I can do.",
       "parentUuid": "ec4bbc40_346838cd",
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a08579a1_dbcc4e6f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-02-01T15:08:34Z",
+      "side": 1,
+      "message": "Guess you meant something like my last changeset, it seems to satisfy all your requirements.",
+      "parentUuid": "93437c37_92e50f54",
       "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

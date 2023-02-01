@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e2b9cd2_e95343be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-02-01T15:08:34Z",
+      "side": 1,
+      "message": "A fair warning: the last changeset is only compile-time tested. Would be happy to hear your feedback before I invest time in testing it on our downstream old fork.**",
+      "revId": "dd2b6331bf0924c1b7bd9573a3319f49646bb05b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
