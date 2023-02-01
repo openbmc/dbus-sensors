@@ -101,6 +101,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76b191a3_e71228cd",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-02-01T22:45:43Z",
+      "side": 1,
+      "message": "The coding standard would normally make this not a friend.",
+      "parentUuid": "38254041_38c583a9",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 10
+      },
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "18696ff6_abe40f71",
         "filename": "include/PSUSensor.hpp",
         "patchSetId": 3
@@ -172,6 +196,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3594199_ae6982e0",
+        "filename": "include/PSUSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-02-01T22:45:43Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be using std::map here.  PLease take a look at the WIP patches I\u0027ve pushed.",
+      "parentUuid": "50c21836_7a64e16c",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 72
+      },
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec4bbc40_346838cd",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 3
@@ -219,6 +267,24 @@
       "side": 1,
       "message": "Guess you meant something like my last changeset, it seems to satisfy all your requirements.",
       "parentUuid": "93437c37_92e50f54",
+      "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c22b252_b486bc9f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-02-01T22:45:43Z",
+      "side": 1,
+      "message": "I pushed a patch series that conveys what needs to change, please help to review it, and if it works for you, we can just stack your changes ontop.",
+      "parentUuid": "a08579a1_dbcc4e6f",
       "revId": "d112d740c1e3639b1ca7c72410db01703462de55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
