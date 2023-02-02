@@ -16,6 +16,23 @@
       "message": "Celesitica will upload the driver for ltc4282.",
       "revId": "155726f051dfcb40c370e34f047c2a189ca6346d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49b44238_e7cd37c3",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-02-02T02:00:15Z",
+      "side": 1,
+      "message": "The driver for this device isn\u0027t present in either the upstream kernel nor openbmc/linux. Please submit support for it upstream first before adding to the device list here.",
+      "revId": "155726f051dfcb40c370e34f047c2a189ca6346d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
