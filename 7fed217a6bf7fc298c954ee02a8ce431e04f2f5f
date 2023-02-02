@@ -159,6 +159,24 @@
       "parentUuid": "d57e9c07_e5b2ce5a",
       "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93ce3d27_7259d5d8",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-02-02T01:58:07Z",
+      "side": 1,
+      "message": "We can\u0027t search with case insensitivity? Not that it really matters if we do a linear scan given the number of entries, just it seems silly to be tripped up by case differences.",
+      "parentUuid": "d0b6393d_fd68b994",
+      "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
