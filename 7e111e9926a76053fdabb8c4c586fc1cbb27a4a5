@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5323f2c5_8d76af3f",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1000388
+      },
+      "writtenOn": "2023-02-02T18:51:01Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/58006 seems closer to being merged perhaps?",
+      "range": {
+        "startLine": 634,
+        "startChar": 3,
+        "endLine": 646,
+        "endChar": 76
+      },
+      "revId": "7e111e9926a76053fdabb8c4c586fc1cbb27a4a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
