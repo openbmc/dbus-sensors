@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "943fdc0a_d7563e7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-02-03T19:57:19Z",
+      "side": 1,
+      "message": "I\u0027ve had essentially this patch queued in my local for a very long time. 👍👍👍👍👍👍👍",
+      "revId": "89d7f223eee7636888b50d05861066a2eebdf293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bea3cc3d_7dd9652f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-02-03T19:57:19Z",
+      "side": 1,
+      "message": "are we guaranteed that these tags will never start with the substring of another in sysfs?  ie,\n\nvin\nvin_max\n\nvin, would make it through this check in either case.  Should we check that it follows the format thing\u003cnumber\u003e, by first doing a find for the first number, or an exact match?",
+      "range": {
+        "startLine": 658,
+        "startChar": 37,
+        "endLine": 658,
+        "endChar": 48
+      },
+      "revId": "89d7f223eee7636888b50d05861066a2eebdf293",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
