@@ -33,6 +33,24 @@
       "message": "The driver for this device isn\u0027t present in either the upstream kernel nor openbmc/linux. Please submit support for it upstream first before adding to the device list here.",
       "revId": "155726f051dfcb40c370e34f047c2a189ca6346d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c87691bd_10ec3632",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-03T05:52:12Z",
+      "side": 1,
+      "message": "We will keep tracking driver progress.",
+      "parentUuid": "49b44238_e7cd37c3",
+      "revId": "155726f051dfcb40c370e34f047c2a189ca6346d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
