@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dea0d058_dc9a13c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T09:21:35Z",
+      "side": 1,
+      "message": "I think I would leave it like that. If it is the case in the future, the implementer may change this.",
+      "parentUuid": "54974397_5bd407f8",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "a8dea1039c6847546dfdd1a47f6289f2e2114462",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5002e46e_4511bbaa",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cd74c12_95ec0028",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T09:21:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5002e46e_4511bbaa",
+      "range": {
+        "startLine": 89,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "a8dea1039c6847546dfdd1a47f6289f2e2114462",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2b4c2fd_dd28a3f5",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-02-06T08:36:26Z",
       "side": 1,
       "message": "Why do you need to change chassisIntrusionSensor from an object to share_ptr?",
+      "range": {
+        "startLine": 448,
+        "startChar": 9,
+        "endLine": 448,
+        "endChar": 19
+      },
+      "revId": "a8dea1039c6847546dfdd1a47f6289f2e2114462",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11a40c0_4fb8f883",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T09:21:35Z",
+      "side": 1,
+      "message": "Because I need to use weak_ptr for the looping in pollSensorStatus...() to avoid the issue that @Arun Lal K M pointed out. Using directly the object to call methods in a loop may cause it to be not aware of whether the object is still alive.",
+      "parentUuid": "d2b4c2fd_dd28a3f5",
       "range": {
         "startLine": 448,
         "startChar": 9,
