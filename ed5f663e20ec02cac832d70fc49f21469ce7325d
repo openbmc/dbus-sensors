@@ -379,6 +379,24 @@
       "parentUuid": "2caa6033_dd5bd811",
       "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8557a268_27393f77",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001683
+      },
+      "writtenOn": "2023-02-06T22:32:29Z",
+      "side": 1,
+      "message": "I know this is a necro-comment, but I see this PR is still open -- for what kernel drivers is the PWM scaled to 0-100000? Is this true for all PSU drivers that implement fan control in PWM mode? (I can\u0027t actually find any PSUs that implement PWM fan control in mainline or openbmc/linux -- is it a proprietary driver?)",
+      "parentUuid": "a1b7679f_309cb596",
+      "revId": "ed5f663e20ec02cac832d70fc49f21469ce7325d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
