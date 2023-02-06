@@ -141,6 +141,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0746d96_1f845303",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T07:14:14Z",
+      "side": 1,
+      "message": "pollSensorStatusByHwmon won\u0027t be called when readHwmon failed along the way.",
+      "parentUuid": "1dd1887d_98a7e62b",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 5
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8def1cbc_2dad7d09",
@@ -376,6 +400,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "353b189d_a249901d",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T07:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e90ccb2_bd02febb",
+      "range": {
+        "startLine": 298,
+        "startChar": 7,
+        "endLine": 305,
+        "endChar": 20
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b0c7295_c5a2a3f8",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T07:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d166b0ee_1e3d3153",
+      "range": {
+        "startLine": 305,
+        "startChar": 8,
+        "endLine": 305,
+        "endChar": 20
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37fb7793_21ec3457",
@@ -493,6 +565,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "698c1387_712fdade",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T07:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43de3ee8_37babdc3",
+      "range": {
+        "startLine": 319,
+        "startChar": 32,
+        "endLine": 319,
+        "endChar": 33
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6222c12_18abd306",
@@ -506,6 +602,30 @@
       "writtenOn": "2022-12-31T12:00:29Z",
       "side": 1,
       "message": "What if we get an ec which is not boost::asio::error::operation_aborted? \nShouldn\u0027t that be handled or logged??\n\nShould pollSensorStatusByHwmon be called in such case?",
+      "range": {
+        "startLine": 326,
+        "startChar": 7,
+        "endLine": 326,
+        "endChar": 61
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a272a479_347048bc",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T07:14:14Z",
+      "side": 1,
+      "message": "I have referred other sensors and used this behavior. Maybe only operation_aborted ec matters in this async function. As I read some other places on the internet, I think other ec won\u0027t cause the handler to be called.",
+      "parentUuid": "d6222c12_18abd306",
       "range": {
         "startLine": 326,
         "startChar": 7,
@@ -552,6 +672,54 @@
       "writtenOn": "2022-12-31T12:00:29Z",
       "side": 1,
       "message": "pollSensorStatusByHwmon should be called from readHwmon. This is so that if you have let\u0027s say 110 sensors and read takes around 0.01 sec per sensor. Then total time taken \u003d 110*0.01 \u003d 11sec \n\nlet\u0027s assume intrusionSensorPollSec \u003d 10sec. Which means every 10 sec 110 sensor reads will be invoked. \n\nNow the issues is that we are pushing more read than we can process. So read a sensor only after it\u0027s previous read is completed + intrusionSensorPollSec later.",
+      "range": {
+        "startLine": 333,
+        "startChar": 7,
+        "endLine": 333,
+        "endChar": 34
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b77df73d_7c6e6a81",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T07:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b20130fc_96da7384",
+      "range": {
+        "startLine": 333,
+        "startChar": 8,
+        "endLine": 333,
+        "endChar": 31
+      },
+      "revId": "203db32646c8e0811b58b747e46e2e94259396a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d31afad0_38160abb",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-02-06T07:14:14Z",
+      "side": 1,
+      "message": "Please take a look.",
+      "parentUuid": "d324587a_3892de8c",
       "range": {
         "startLine": 333,
         "startChar": 7,
