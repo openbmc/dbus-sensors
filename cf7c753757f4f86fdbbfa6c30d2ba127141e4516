@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f93017ff_a54542ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000388
+      },
+      "writtenOn": "2023-02-07T20:33:17Z",
+      "side": 1,
+      "message": "Gentle ping for this review since the nits have been fixed.\n\nWe brought this patch downstream and saw that it fixed some of the issues we were seeing with duplicate sensors.",
+      "revId": "cf7c753757f4f86fdbbfa6c30d2ba127141e4516",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
