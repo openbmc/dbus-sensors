@@ -177,6 +177,24 @@
       "parentUuid": "d0b6393d_fd68b994",
       "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5be0a3a2_0875bb1f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-02-07T21:25:08Z",
+      "side": 1,
+      "message": "I added a comparator to the flat map that\u0027ll achieve case insensitive compare.",
+      "parentUuid": "93ce3d27_7259d5d8",
+      "revId": "7fed217a6bf7fc298c954ee02a8ce431e04f2f5f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
