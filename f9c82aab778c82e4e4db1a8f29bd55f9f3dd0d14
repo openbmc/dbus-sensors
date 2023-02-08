@@ -165,6 +165,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d915b4b_f9e99ded",
+        "filename": "src/RedfishSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-02-08T18:24:41Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand. I think we are talking about two different things. As for reading data from the server, this is already done. The user still needs to specify the desired server, though, and the desired chassis on that server, and the desired sensor on that chassis.",
+      "parentUuid": "9ca45455_d3218a94",
+      "range": {
+        "startLine": 17,
+        "startChar": 22,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d99aa530_028e3122",
@@ -226,6 +250,30 @@
       "side": 1,
       "message": "\u003e  I added it as one more thing the client can use to match on a desired sensor.\n\nPer the spec, they should not be used for matching.  We should follow the specification in this regard.",
       "parentUuid": "93643861_60c5a4b6",
+      "range": {
+        "startLine": 418,
+        "startChar": 66,
+        "endLine": 418,
+        "endChar": 75
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36a84d3c_828bbc01",
+        "filename": "src/RedfishSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-02-08T18:24:41Z",
+      "side": 1,
+      "message": "I will consider removing \"RedfishId\". I can see the concern about it being a backdoor way to embed a URL path into configuration, which is frowned upon in the Redfish community.",
+      "parentUuid": "99de04d3_7b3263d0",
       "range": {
         "startLine": 418,
         "startChar": 66,
@@ -401,6 +449,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b89adbc_a70dd7c6",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-02-08T18:24:41Z",
+      "side": 1,
+      "message": "Correct. As for std::string_view, it is a non-owning view of a classic C string, so it essentially is a classic C string.",
+      "parentUuid": "e596d7f3_c177a453",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e033590f_ed7a10cb",
@@ -454,6 +526,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "621968e8_5bc018f6",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-02-08T18:24:41Z",
+      "side": 1,
+      "message": "The JSON needs to get out of nlohmann and into a standard string somehow, and I think this function is as good as any. It consolidates some functionality that otherwise would be very verbose. If HttpClient were refactored out of bmcweb in such a way that it could be independently usable by other executables, I would gladly use it.",
+      "parentUuid": "b55393ef_b9134c64",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1683dbb_73d8a173",
@@ -503,6 +593,24 @@
       "side": 1,
       "message": "clang builds will warn on these, and for consistency, we should keep the clang build warning free.",
       "parentUuid": "995c8a64_7316f8b9",
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb4cae5_73d778bd",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-02-08T18:24:41Z",
+      "side": 1,
+      "message": "Interesting. I didn\u0027t see any warnings when compiling, both locally, and in the output from Jenkins upstream. Is a different compiler used elsewhere?",
+      "parentUuid": "25a0d709_04b099d2",
       "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -568,6 +676,30 @@
       "side": 1,
       "message": "get_ptr does the type checking in a single line.  It will return nullptr if the type is wrong.",
       "parentUuid": "69cd174e_4706b908",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c744ba5d_dd879c02",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-02-08T18:24:41Z",
+      "side": 1,
+      "message": "Got it, get_ptr functions like the \"!\" suffix, in a language like Swift that natively supports optionals (with \"?\" suffix). Will revise accordingly.",
+      "parentUuid": "2af5ac17_56567586",
       "range": {
         "startLine": 42,
         "startChar": 0,
@@ -696,6 +828,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bac7b6aa_31457d45",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-02-08T18:24:41Z",
+      "side": 1,
+      "message": "I have reported it, but again, we have no control over these third-party Redfish servers. The purpose of RedfishSensor is to read from a remote sensor, not be a strict validator, so I would rather make RedfishSensor robust against different numeric input formats, instead of making it intentionally brittle.",
+      "parentUuid": "dfde75e1_c05b81d2",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 57
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fe93189_ca51f10b",
@@ -781,6 +937,30 @@
       "side": 1,
       "message": "https://gerrit.openbmc.org/c/openbmc/bmcweb/+/60619",
       "parentUuid": "09139e6d_dafd97cc",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 0
+      },
+      "revId": "f9c82aab778c82e4e4db1a8f29bd55f9f3dd0d14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d508bb64_efee91a9",
+        "filename": "src/RedfishSensorResponse.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-02-08T18:24:41Z",
+      "side": 1,
+      "message": "Nice, will follow this as an example.",
+      "parentUuid": "5914ae02_ec560f54",
       "range": {
         "startLine": 378,
         "startChar": 0,
