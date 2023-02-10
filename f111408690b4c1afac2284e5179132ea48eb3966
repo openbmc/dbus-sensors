@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d81f5f8_4546ddc5",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-10T06:29:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64db2fa6_6e29c1bc",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f016b06_0b9ea172",
@@ -65,6 +83,24 @@
       "writtenOn": "2023-01-31T11:06:32Z",
       "side": 1,
       "message": "I am concerned about this changing the syntax of the control/fanpwm and sensors/fan_pwm pathnames. There are many scripts and other programs in the field that depend on these pathnames. I do not want to break them.\n\nWould it be possible to preserve the old syntax, that did not require the user to know the zone number in order to address a particular PWM by name? Maybe create two pathnames, aliased to each other, to avoid breaking existing users?",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "703c7e7f_1986e14a",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-10T06:29:04Z",
+      "side": 1,
+      "message": "The zone layer will be added only if the user adds config in entity-manager. it  should be fine if someone don\u0027t want to use this feature.",
+      "parentUuid": "0f016b06_0b9ea172",
       "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +122,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0da60b0_b0d26e26",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-10T06:29:04Z",
+      "side": 1,
+      "message": "Change to vector. It did affect codes at different place and we also modified them.",
+      "parentUuid": "9a902308_317fe896",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b9b0fe9_3ad7cb95",
@@ -103,6 +157,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c078ae2c_78d72d93",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-10T06:29:04Z",
+      "side": 1,
+      "message": "Added Zone type to assiciation creation.",
+      "parentUuid": "1b9b0fe9_3ad7cb95",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "287bb477_fac95796",
@@ -116,6 +188,24 @@
       "writtenOn": "2023-01-31T11:06:32Z",
       "side": 1,
       "message": "I recommend using a member variable that is vector\u003cstring\u003e instead of \"space separated strings\".\nThis will save the overhead of having to recover the vector from the space-separated string every time.",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3f0e6b7_f9b7bdff",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-10T06:29:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "287bb477_fac95796",
       "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
