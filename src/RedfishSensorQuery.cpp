@@ -24,6 +24,31 @@ static constexpr int httpVersion = 11;
 static constexpr auto userAgent = "RedfishSensor/1.0";
 static constexpr auto redfishRoot = "/redfish/v1";
 
+// THis class exists separately, so it can be torn down and rebuilt as needed
+class RedfishConnectionImpl
+{
+  public:
+    boost::asio::ip::tcp::resolver netResolver;
+    boost::beast::tcp_stream netStream;
+    boost::beast::flat_buffer netBuffer;
+    boost::beast::http::request<boost::beast::http::empty_body> httpReq;
+    boost::beast::http::response<boost::beast::http::string_body> httpResp;
+    std::optional<
+        boost::beast::http::request_serializer<boost::beast::http::empty_body>>
+        reqSerializer;
+    std::optional<
+        boost::beast::http::response_parser<boost::beast::http::string_body>>
+        respParser;
+
+    explicit RedfishConnectionImpl(
+        const std::shared_ptr<boost::asio::io_service>& io) :
+        netResolver(boost::asio::make_strand(*io)),
+        netStream(boost::asio::make_strand(*io))
+    {
+        // No body necessary
+    }
+};
+
 // This class acts as an oracle, taking a string from caller, and eventually
 // calling the callback, supplying another string as an answer. The caller
 // does not need to know any details of what goes on behind the scenes.
@@ -33,11 +58,9 @@ class RedfishConnection : public std::enable_shared_from_this<RedfishConnection>
     RedfishConnection(const std::shared_ptr<boost::asio::io_service>& io,
                       const std::string& host, const std::string& protocol) :
         ioContext(io),
-        mockTimer(*io), netResolver(boost::asio::make_strand(*io)),
-        netStream(boost::asio::make_strand(*io)), serverHost(host),
-        serverProtocol(protocol)
+        mockTimer(*io), serverHost(host), serverProtocol(protocol)
     {
-        // No body necessary
+        resetConnection();
     }
 
     // Call this before submitTransaction to mock that transaction
@@ -49,6 +72,8 @@ class RedfishConnection : public std::enable_shared_from_this<RedfishConnection>
                                                     int code)>& callback);
 
   private:
+    void resetConnection();
+
     bool mockEnabled = false;
     int amockTime = 0;
     int mockError = 0;
@@ -61,17 +86,7 @@ class RedfishConnection : public std::enable_shared_from_this<RedfishConnection>
     boost::asio::steady_timer mockTimer;
 
     // Stuff to feed the Beast with
-    boost::asio::ip::tcp::resolver netResolver;
-    boost::beast::tcp_stream netStream;
-    boost::beast::flat_buffer netBuffer;
-    boost::beast::http::request<boost::beast::http::empty_body> httpReq;
-    boost::beast::http::response<boost::beast::http::string_body> httpResp;
-    std::optional<
-        boost::beast::http::request_serializer<boost::beast::http::empty_body>>
-        reqSerializer;
-    std::optional<
-        boost::beast::http::response_parser<boost::beast::http::string_body>>
-        respParser;
+    std::optional<RedfishConnectionImpl> impl;
 
     // For resolution
     // FUTURE: Add support for SSL (if https), TCP port, user, password
@@ -109,6 +124,18 @@ class RedfishConnection : public std::enable_shared_from_this<RedfishConnection>
         const boost::system::error_code& ec,
         const boost::asio::ip::tcp::resolver::results_type& results);
 };
+
+void RedfishConnection::resetConnection()
+{
+    // Do not clear isResolved here
+    // Resolved hostnames can survive reconnection
+    // FUTURE: Rotate each reconnection through all resolved hostnames
+    isConnected = false;
+
+    // Destroy all old Boost Beast objects and create fresh unused anew
+    impl.reset();
+    impl.emplace(ioContext);
+}
 
 void RedfishConnection::enableMock(int msDelay, int mockErrorCode,
                                    const std::string& mockResponse)
@@ -178,7 +205,8 @@ void RedfishConnection::submitTransaction(
         return;
     }
 
-    // Callbacks will chain: Resolve -> Connect -> Query -> Reply
+    // Callbacks will chain: Resolve -> Connect -> Query ->
+    // Reply
     if (!isResolved)
     {
         submitResolution(request, callback);
@@ -192,7 +220,8 @@ void RedfishConnection::submitTransaction(
         return;
     }
 
-    // Things look good from before, fastest path: Query -> Reply
+    // Things look good from before, fastest path: Query ->
+    // Reply
     submitQuery(request, callback);
 }
 
@@ -209,6 +238,8 @@ void RedfishConnection::handleResolution(
     {
         std::cerr << "Network resolution failure: " << ec.message() << "\n";
 
+        resetConnection();
+
         // Give the user the bad news
         callback("", ec.value());
         return;
@@ -223,7 +254,8 @@ void RedfishConnection::handleResolution(
         }
 
         // Accept the first endpoint in the results list
-        // FUTURE: Perhaps handle multiple endpoints in the future
+        // FUTURE: Perhaps handle multiple endpoints in the
+        // future
         if (!isResolved)
         {
             isResolved = true;
@@ -234,6 +266,8 @@ void RedfishConnection::handleResolution(
     if (!isResolved)
     {
         std::cerr << "Network resolution failure: No results\n";
+
+        resetConnection();
 
         // Give the user the bad news
         callback("", ec.value());
@@ -255,18 +289,20 @@ void RedfishConnection::submitResolution(
     const std::string& request,
     const std::function<void(const std::string& response, int code)>& callback)
 {
-    // Boost limitation, async_resolve() forcefully creates a new thread
-    // Workaround for the resulting exception abort if threads disabled
+    // Boost limitation, async_resolve() forcefully creates
+    // a new thread Workaround for the resulting exception
+    // abort if threads disabled
 #ifdef BOOST_ASIO_DISABLE_THREADS
     if constexpr (debug)
     {
-        std::cerr << "Network attempting blocking resolution: host "
+        std::cerr << "Network attempting blocking "
+                     "resolution: host "
                   << serverHost << ", protocol " << serverProtocol << "\n";
     }
 
     boost::system::error_code ec;
     boost::asio::ip::tcp::resolver::results_type results =
-        netResolver.resolve(serverHost, serverProtocol, ec);
+        impl->netResolver.resolve(serverHost, serverProtocol, ec);
     handleResolution(request, callback, ec, results);
 
     return;
@@ -274,8 +310,9 @@ void RedfishConnection::submitResolution(
 
     auto weakThis = weak_from_this();
 
-    // FUTURE: Use another timer, because resolver does not have a timeout
-    netResolver.async_resolve(
+    // FUTURE: Use another timer, because resolver does not
+    // have a timeout
+    impl->netResolver.async_resolve(
         serverHost, serverProtocol,
         [weakThis, request, callback](
             const boost::system::error_code& ec,
@@ -291,7 +328,8 @@ void RedfishConnection::submitResolution(
 
     if constexpr (debug)
     {
-        std::cerr << "Network attempting threaded resolution: host "
+        std::cerr << "Network attempting threaded "
+                     "resolution: host "
                   << serverHost << ", protocol " << serverProtocol << "\n";
     }
 }
@@ -302,12 +340,13 @@ void RedfishConnection::submitConnection(
 {
     auto weakThis = weak_from_this();
 
-    netStream.expires_after(
+    impl->netStream.expires_after(
         std::chrono::duration_cast<std::chrono::steady_clock::duration>(
             std::chrono::duration<double>(networkTimeout)));
 
-    netStream.async_connect(serverEndpoint, [weakThis, request, callback](
-                                                boost::beast::error_code ec) {
+    impl->netStream.async_connect(
+        serverEndpoint,
+        [weakThis, request, callback](boost::beast::error_code ec) {
         auto lockThis = weakThis.lock();
         if (!lockThis)
         {
@@ -319,8 +358,7 @@ void RedfishConnection::submitConnection(
         {
             std::cerr << "Network connection failure: " << ec.message() << "\n";
 
-            // FUTURE: Back all the way out, do resolve again if connect fails
-            lockThis->isConnected = false;
+            lockThis->resetConnection();
 
             // Give the user the bad news
             callback("", ec.value());
@@ -337,7 +375,7 @@ void RedfishConnection::submitConnection(
         {
             std::cerr << "Network connection success\n";
         }
-    });
+        });
 
     if constexpr (debug)
     {
@@ -352,26 +390,28 @@ void RedfishConnection::submitQuery(
 {
     auto weakThis = weak_from_this();
 
-    // FUTURE: Support HTTP username/password, if given, and SSL
-    httpReq.method(boost::beast::http::verb::get);
-    httpReq.target(request);
-    httpReq.version(httpVersion);
-    httpReq.keep_alive(true);
-    httpReq.set(boost::beast::http::field::host, serverHost);
-    httpReq.set(boost::beast::http::field::user_agent, userAgent);
+    // FUTURE: Support HTTP username/password, if given,
+    // and SSL
+    impl->httpReq.method(boost::beast::http::verb::get);
+    impl->httpReq.target(request);
+    impl->httpReq.version(httpVersion);
+    impl->httpReq.keep_alive(true);
+    impl->httpReq.set(boost::beast::http::field::host, serverHost);
+    impl->httpReq.set(boost::beast::http::field::user_agent, userAgent);
 
-    // The parser must live through async, but reconstructed before each message
-    reqSerializer.reset();
-    reqSerializer.emplace(httpReq);
+    // The parser must live through async, but
+    // reconstructed before each message
+    impl->reqSerializer.reset();
+    impl->reqSerializer.emplace(impl->httpReq);
 
-    reqSerializer->limit(sizeLimit);
+    impl->reqSerializer->limit(sizeLimit);
 
-    netStream.expires_after(
+    impl->netStream.expires_after(
         std::chrono::duration_cast<std::chrono::steady_clock::duration>(
             std::chrono::duration<double>(networkTimeout)));
 
     boost::beast::http::async_write(
-        netStream, *reqSerializer,
+        impl->netStream, *(impl->reqSerializer),
         [weakThis, request, callback](const boost::beast::error_code ec,
                                       std::size_t bytesTransferred) {
         auto lockThis = weakThis.lock();
@@ -385,9 +425,7 @@ void RedfishConnection::submitQuery(
         {
             std::cerr << "Network query failure: " << ec.message() << "\n";
 
-            // Connection is unusable after error, tear it down
-            lockThis->netStream.close();
-            lockThis->isConnected = false;
+            lockThis->resetConnection();
 
             // Give the user the bad news
             callback("", ec.value());
@@ -418,19 +456,20 @@ void RedfishConnection::submitReply(
 {
     auto weakThis = weak_from_this();
 
-    // The parser must live through async, but reconstructed before each message
-    respParser.reset();
-    respParser.emplace();
+    // The parser must live through async, but
+    // reconstructed before each message
+    impl->respParser.reset();
+    impl->respParser.emplace();
 
-    respParser->header_limit(sizeLimit);
-    respParser->body_limit(sizeLimit);
+    impl->respParser->header_limit(sizeLimit);
+    impl->respParser->body_limit(sizeLimit);
 
-    netStream.expires_after(
+    impl->netStream.expires_after(
         std::chrono::duration_cast<std::chrono::steady_clock::duration>(
             std::chrono::duration<double>(networkTimeout)));
 
     boost::beast::http::async_read(
-        netStream, netBuffer, *respParser,
+        impl->netStream, impl->netBuffer, *(impl->respParser),
         [weakThis, request, callback](const boost::beast::error_code ec,
                                       std::size_t bytesTransferred) {
         auto lockThis = weakThis.lock();
@@ -444,30 +483,28 @@ void RedfishConnection::submitReply(
         {
             std::cerr << "Network reply failure: " << ec.message() << "\n";
 
-            // Connection is unusable after error, tear it down
-            lockThis->netStream.close();
-            lockThis->isConnected = false;
+            lockThis->resetConnection();
 
             // Give the user the bad news
             callback("", ec.value());
             return;
         }
 
-        lockThis->httpResp = lockThis->respParser->release();
+        lockThis->impl->httpResp = lockThis->impl->respParser->release();
 
         lockThis->bytesRead += bytesTransferred;
         ++(lockThis->transactionsCompleted);
 
-        int resultCode = lockThis->httpResp.result_int();
-        if (lockThis->httpResp.result() != boost::beast::http::status::ok)
+        int resultCode = lockThis->impl->httpResp.result_int();
+        if (lockThis->impl->httpResp.result() != boost::beast::http::status::ok)
         {
             // No return here, this is only a warning, not an error
             std::cerr << "Network reply code: " << resultCode << " "
-                      << lockThis->httpResp.result() << "\n";
+                      << lockThis->impl->httpResp.result() << "\n";
         }
 
         // Finally some good news
-        callback(lockThis->httpResp.body(), resultCode);
+        callback(lockThis->impl->httpResp.body(), resultCode);
 
         if constexpr (debug)
         {
@@ -509,13 +546,16 @@ void RedfishTransaction::handleCallback(const std::string& response, int code)
     reply.msElapsed = msSince;
     reply.errorCode = code;
 
-    // Turn response string into JSON early, saving caller some work
-    // Pass 3rd argument to avoid throwing exceptions
+    // Turn response string into JSON early, saving caller
+    // some work Pass 3rd argument to avoid throwing
+    // exceptions
     reply.jsonResponse = nlohmann::json::parse(response, nullptr, false);
     if (!(reply.jsonResponse.is_object()))
     {
-        // No return here, this is a warning, not a fatal error
-        std::cerr << "Transaction returned content that is not a JSON object\n";
+        // No return here, this is a warning, not a fatal
+        // error
+        std::cerr << "Transaction returned content that "
+                     "is not a JSON object\n";
     }
 
     // Tell the caller what just happened
@@ -562,17 +602,20 @@ void RedfishServer::startNetworking()
 {
     if (networkConnection)
     {
-        std::cerr << "Internal error: Networking already started\n";
+        std::cerr << "Internal error: Networking already "
+                     "started\n";
         return;
     }
 
     if (host.empty())
     {
-        std::cerr << "Internal error: Networking host is empty\n";
+        std::cerr << "Internal error: Networking host is "
+                     "empty\n";
         return;
     }
 
-    // FUTURE: Allow https (SSL), custom TCP port, HTTP user/password
+    // FUTURE: Allow https (SSL), custom TCP port, HTTP
+    // user/password
     if (protocol.empty())
     {
         protocol = "http";
@@ -587,13 +630,15 @@ bool RedfishServer::sendTransaction(const RedfishTransaction& transaction)
 {
     if (networkBusy)
     {
-        std::cerr << "Internal error: Overlapping transactions attempted\n";
+        std::cerr << "Internal error: Overlapping "
+                     "transactions attempted\n";
         return false;
     }
 
     if (!networkConnection)
     {
-        std::cerr << "Internal error: Networking not successfully started\n";
+        std::cerr << "Internal error: Networking not "
+                     "successfully started\n";
         return false;
     }
 
@@ -625,7 +670,8 @@ bool RedfishServer::doneTransaction(const RedfishCompletion& completion)
 
     bool success = false;
 
-    // Success is defined by having a valid JSON object and HTTP success
+    // Success is defined by having a valid JSON object and
+    // HTTP success
     if (completion.jsonResponse.is_object())
     {
         if (boost::beast::http::int_to_status(completion.errorCode) ==
@@ -639,17 +685,22 @@ bool RedfishServer::doneTransaction(const RedfishCompletion& completion)
 
     if (success)
     {
+        if constexpr (debug)
+        {
+            std::cerr << "Transaction succeeded: " << completion.errorCode
+                      << " code, " << completion.msElapsed << " ms, "
+                      << completion.queryRequest << "\n";
+        }
+
         ++transactionsSuccess;
     }
     else
     {
-        ++transactionsFailure;
-    }
+        std::cerr << "Transaction failed: " << completion.errorCode << " code, "
+                  << completion.msElapsed << " ms, " << completion.queryRequest
+                  << "\n";
 
-    if constexpr (debug)
-    {
-        std::cerr << "Done transaction: " << (success ? "Success" : "Failure")
-                  << ", " << completion.msElapsed << " ms\n";
+        ++transactionsFailure;
     }
 
     return success;
