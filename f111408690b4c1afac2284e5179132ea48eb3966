@@ -125,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ffba582_aeae4177",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-13T02:03:27Z",
+      "side": 1,
+      "message": "It is not required of configuring existing zones in entity-manager inventory. We tested function with and without zones configured in entity-manager.\n\nWith zones configured, the object path will be like:\n```\n         `-/xyz\n          `-/xyz/openbmc_project\n            |-/xyz/openbmc_project/control\n            | `-/xyz/openbmc_project/control/fanpwm\n            |   `-/xyz/openbmc_project/control/fanpwm/Zone_0\n            |     |-/xyz/openbmc_project/control/fanpwm/Zone_0/Pwm_1\n            |     |-/xyz/openbmc_project/control/fanpwm/Zone_0/Pwm_2\n            |     |-/xyz/openbmc_project/control/fanpwm/Zone_0/Pwm_3\n            |     `-/xyz/openbmc_project/control/fanpwm/Zone_0/Pwm_4\n            `-/xyz/openbmc_project/sensors\n              |-/xyz/openbmc_project/sensors/fan_pwm\n              | `-/xyz/openbmc_project/sensors/fan_pwm/Zone_0\n              |   |-/xyz/openbmc_project/sensors/fan_pwm/Zone_0/Pwm_1\n              |   |-/xyz/openbmc_project/sensors/fan_pwm/Zone_0/Pwm_2\n              |   |-/xyz/openbmc_project/sensors/fan_pwm/Zone_0/Pwm_3\n              |   `-/xyz/openbmc_project/sensors/fan_pwm/Zone_0/Pwm_4\n              `-/xyz/openbmc_project/sensors/fan_tach\n                |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN0_TACH_RPM\n                |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN1_TACH_RPM\n                |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN2_TACH_RPM\n                `-/xyz/openbmc_project/sensors/fan_tach/BB_FAN3_TACH_RPM\n```\n\nWithout zones configured:\n```\n        `-/xyz\n          `-/xyz/openbmc_project\n            |-/xyz/openbmc_project/control\n            | `-/xyz/openbmc_project/control/fanpwm\n            |   `-/xyz/openbmc_project/control/fanpwm\n            |     |-/xyz/openbmc_project/control/fanpwm/Pwm_1\n            |     |-/xyz/openbmc_project/control/fanpwm/Pwm_2\n            |     |-/xyz/openbmc_project/control/fanpwm/Pwm_3\n            |     `-/xyz/openbmc_project/control/fanpwm/Pwm_4\n            `-/xyz/openbmc_project/sensors\n              |-/xyz/openbmc_project/sensors/fan_pwm\n              | `-/xyz/openbmc_project/sensors/fan_pwm\n              |   |-/xyz/openbmc_project/sensors/fan_pwm/Pwm_1\n              |   |-/xyz/openbmc_project/sensors/fan_pwm/Pwm_2\n              |   |-/xyz/openbmc_project/sensors/fan_pwm/Pwm_3\n              |   `-/xyz/openbmc_project/sensors/fan_pwm/Pwm_4\n              `-/xyz/openbmc_project/sensors/fan_tach\n                |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN0_TACH_RPM\n                |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN1_TACH_RPM\n                |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN2_TACH_RPM\n                `-/xyz/openbmc_project/sensors/fan_tach/BB_FAN3_TACH_RPM\n```",
+      "parentUuid": "32f915a3_06968f06",
+      "revId": "f111408690b4c1afac2284e5179132ea48eb3966",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a902308_317fe896",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 3
