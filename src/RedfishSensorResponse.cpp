@@ -377,6 +377,61 @@ static std::vector<thresholds::Threshold>
     return results;
 }
 
+static bool isMetricStale(const nlohmann::json::object_t& json)
+{
+    auto oemFound = json.find("Oem");
+    if (oemFound == json.end())
+    {
+        // No OEM extensions found, cannot be stale
+        return false;
+    }
+
+    auto oemPtr =
+        oemFound->second.get_ptr<const nlohmann::json::object_t* const>();
+    if (!oemPtr)
+    {
+        // The value of "Oem" is not an object
+        return false;
+    }
+
+    // If not found under any vendor name, cannot be stale
+    bool metricValueStale = false;
+
+    // Iterate through all vendor name objects under "Oem"
+    for (const auto& oemPair : *oemPtr)
+    {
+        auto vendorPtr =
+            oemPair.second.get_ptr<const nlohmann::json::object_t* const>();
+        if (!vendorPtr)
+        {
+            // The value of this vendor name is not an object
+            continue;
+        }
+
+        auto staleFound = vendorPtr->find("MetricValueStale");
+        if (staleFound == vendorPtr->end())
+        {
+            // No staleness flag found, keep searching
+            continue;
+        }
+
+        auto stalePtr = staleFound->second
+                            .get_ptr<const nlohmann::json::boolean_t* const>();
+        if (!stalePtr)
+        {
+            // The value of "MetricValueStale" is not a bool
+            continue;
+        }
+
+        // No need to process more than one vendor if found
+        // FUTURE: Perhaps enforce that there can be only one
+        metricValueStale = *stalePtr;
+        break;
+    }
+
+    return metricValueStale;
+}
+
 bool RedfishChassisMatcher::fillFromJson(const nlohmann::json& json)
 {
     clear();
@@ -1050,27 +1105,30 @@ bool RedfishServer::acceptMetricReport(
     const std::chrono::steady_clock::time_point& now)
 {
     // Must be an object
-    if (!(json.is_object()))
+    auto respPtr = json.get_ptr<const nlohmann::json::object_t* const>();
+    if (!respPtr)
     {
         return false;
     }
 
     // The object must contain this hardcoded field name
-    std::string reportPath = fillFromJsonString("@odata.id", json);
+    std::string reportPath = fillFromJsonString("@odata.id", *respPtr);
     if (reportPath.empty())
     {
         return false;
     }
 
     // The object must contain this hardcoded field name
-    auto iterValues = json.find("MetricValues");
-    if (iterValues == json.end())
+    auto valuesFound = respPtr->find("MetricValues");
+    if (valuesFound == respPtr->end())
     {
         return false;
     }
 
     // The field value must be an array
-    if (!(iterValues->is_array()))
+    auto valuesPtr =
+        valuesFound->second.get_ptr<const nlohmann::json::array_t* const>();
+    if (!valuesPtr)
     {
         return false;
     }
@@ -1083,34 +1141,41 @@ bool RedfishServer::acceptMetricReport(
     }
 
     // Unlike Members, this JSON contains no corresponding "@odata.count"
-    size_t count = iterValues->size();
+    size_t count = valuesPtr->size();
 
-    // FUTURE: Consider keeping track of badReadings also
+    // FUTURE: Consider keeping track of readings skipped below also
     size_t goodReadings = 0;
+    size_t badParse = 0;
+    size_t badMatch = 0;
+    size_t badStale = 0;
 
     for (size_t i = 0; i < count; ++i)
     {
-        const auto& element = (*iterValues)[i];
-
         // The element must be an object
-        if (!(element.is_object()))
+        auto elementPtr =
+            (*valuesPtr)[i].get_ptr<const nlohmann::json::object_t* const>();
+        if (!elementPtr)
         {
+            ++badParse;
             continue;
         }
 
         // This indicates the sensor whose reading is being supplied here
-        std::string sensorPath = fillFromJsonString("MetricProperty", element);
+        std::string sensorPath =
+            fillFromJsonString("MetricProperty", *elementPtr);
         if (sensorPath.empty())
         {
+            ++badParse;
             continue;
         }
 
         // The value must be present, even if it is NaN
         bool successful = false;
         double sensorValue =
-            fillFromJsonNumber("MetricValue", element, successful);
+            fillFromJsonNumber("MetricValue", *elementPtr, successful);
         if (!successful)
         {
+            ++badParse;
             continue;
         }
 
@@ -1118,6 +1183,7 @@ bool RedfishServer::acceptMetricReport(
         auto iterPair = pathsToSensors.find(sensorPath);
         if (iterPair == pathsToSensors.end())
         {
+            ++badMatch;
             continue;
         }
 
@@ -1126,6 +1192,14 @@ bool RedfishServer::acceptMetricReport(
         // The sensor must have successfully been instantiated
         if (!(sensor.impl))
         {
+            ++badMatch;
+            continue;
+        }
+
+        // The sensor must not have been indicated as being stale
+        if (isMetricStale(*elementPtr))
+        {
+            ++badStale;
             continue;
         }
 
@@ -1135,7 +1209,6 @@ bool RedfishServer::acceptMetricReport(
         sensor.readingWhen = now;
         sensor.isCollected = true;
         sensor.impl->updateValue(sensor.readingValue);
-        ++readingsGoodReported;
 
         if constexpr (debug)
         {
@@ -1151,9 +1224,14 @@ bool RedfishServer::acceptMetricReport(
 
     ++readingsReports;
 
+    // FUTURE: Also keep running totals of the bad readings
+    readingsGoodReported += goodReadings;
+
     if constexpr (debug)
     {
-        std::cerr << "Accepted report: " << goodReadings << " good readings\n";
+        std::cerr << "Accepted report: readings " << goodReadings
+                  << " good, bad " << badParse << " parse, " << badMatch
+                  << " match, " << badStale << " stale\n";
     }
 
     // It is good if we got this far, even if zero readings
