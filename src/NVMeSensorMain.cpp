@@ -44,6 +44,21 @@ static std::optional<int>
     return std::visit(VariantToIntVisitor(), findBus->second);
 }
 
+static std::optional<uint8_t>
+    extractSlaveAddr(const std::string& path,
+                     const SensorBaseConfigMap& properties)
+{
+    auto findSlaveAddr = properties.find("Address");
+    if (findSlaveAddr == properties.end())
+    {
+        std::cerr << "could not determine slave address for " << path
+                  << "\n";
+        return std::nullopt;
+    }
+
+    return std::visit(VariantToUnsignedIntVisitor(), findSlaveAddr->second);
+}
+
 static std::optional<std::string>
     extractSensorName(const std::string& path,
                       const SensorBaseConfigMap& properties)
@@ -138,9 +153,11 @@ static void handleSensorConfigurations(
             extractBusNumber(interfacePath, sensorConfig);
         std::optional<std::string> sensorName =
             extractSensorName(interfacePath, sensorConfig);
+        std::optional<uint8_t> slaveAddr =
+            extractSlaveAddr(interfacePath, sensorConfig);
         std::optional<int> rootBus = deriveRootBus(busNumber);
 
-        if (!(busNumber && sensorName && rootBus))
+        if (!(busNumber && sensorName && rootBus && slaveAddr))
         {
             continue;
         }
@@ -163,7 +180,8 @@ static void handleSensorConfigurations(
             std::shared_ptr<NVMeSensor> sensorPtr =
                 std::make_shared<NVMeSensor>(
                     objectServer, io, dbusConnection, *sensorName,
-                    std::move(sensorThresholds), interfacePath, *busNumber);
+                    std::move(sensorThresholds), interfacePath, *busNumber,
+                    *slaveAddr);
 
             context->addSensor(sensorPtr);
         }
