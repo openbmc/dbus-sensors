@@ -23,6 +23,8 @@
 #include <optional>
 #include <regex>
 
+static constexpr uint8_t nvmeMiDefaultSlaveAddr = 0x6A;
+
 static NVMEMap nvmeDeviceMap;
 
 NVMEMap& getNVMEMap()
@@ -42,6 +44,21 @@ static std::optional<int>
     }
 
     return std::visit(VariantToIntVisitor(), findBus->second);
+}
+
+static uint8_t extractSlaveAddr(const std::string& path,
+                                const SensorBaseConfigMap& properties)
+{
+    auto findSlaveAddr = properties.find("Address");
+    if (findSlaveAddr == properties.end())
+    {
+        std::cerr << "could not determine slave address for " << path << "\n"
+                  << "using default as specified in nvme-mi"
+                  << "\n";
+        return nvmeMiDefaultSlaveAddr;
+    }
+
+    return std::visit(VariantToUnsignedIntVisitor(), findSlaveAddr->second);
 }
 
 static std::optional<std::string>
@@ -138,6 +155,7 @@ static void handleSensorConfigurations(
             extractBusNumber(interfacePath, sensorConfig);
         std::optional<std::string> sensorName =
             extractSensorName(interfacePath, sensorConfig);
+        uint8_t slaveAddr = extractSlaveAddr(interfacePath, sensorConfig);
         std::optional<int> rootBus = deriveRootBus(busNumber);
 
         if (!(busNumber && sensorName && rootBus))
@@ -163,7 +181,8 @@ static void handleSensorConfigurations(
             std::shared_ptr<NVMeSensor> sensorPtr =
                 std::make_shared<NVMeSensor>(
                     objectServer, io, dbusConnection, *sensorName,
-                    std::move(sensorThresholds), interfacePath, *busNumber);
+                    std::move(sensorThresholds), interfacePath, *busNumber,
+                    slaveAddr);
 
             context->addSensor(sensorPtr);
         }
