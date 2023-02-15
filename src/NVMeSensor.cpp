@@ -27,15 +27,20 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
                        const std::string& sensorName,
                        std::vector<thresholds::Threshold>&& thresholdsIn,
                        const std::string& sensorConfiguration,
-                       const int busNumber) :
+                       const int busNumber, const uint8_t slaveAddr) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,
            PowerState::on),
-    bus(busNumber), objServer(objectServer)
+    bus(busNumber), address(slaveAddr), objServer(objectServer)
 {
     if (bus < 0)
     {
         throw std::invalid_argument("Invalid bus: Bus ID must not be negative");
+    }
+
+    if (address < 0x08)
+    {
+        throw std::invalid_argument("Invalid slave address: Address starts from 0x08");
     }
 
     sensorInterface = objectServer.add_interface(

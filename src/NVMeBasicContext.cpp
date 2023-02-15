@@ -22,6 +22,8 @@ extern "C"
 #include <linux/i2c-dev.h>
 }
 
+#define NVME_OFFSET 0x00
+
 /*
  * NVMe-MI Basic Management Command
  *
@@ -263,7 +265,8 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         return;
     }
 
-    auto command = encodeBasicQuery(sensor->bus, 0x6a, 0x00);
+    uint8_t offset = NVME_OFFSET;
+    auto command = encodeBasicQuery(sensor->bus, sensor->address, offset);
 
     /* Issue the request */
     boost::asio::async_write(
