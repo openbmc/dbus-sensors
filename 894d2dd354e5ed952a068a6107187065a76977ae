@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc00786_52a65368",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-02-16T05:34:55Z",
+      "side": 1,
+      "message": "Hi Nnamdi, thanks for the patch! I have a couple of comments and a query about the address validation, but otherwise the functionality is definitely something we should merge.",
+      "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09458e06_9b45010a",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-02-16T05:34:55Z",
+      "side": 1,
+      "message": "Hmm, I\u0027d probably pick a different name for this. Really it\u0027s the offset into the basic management command response. I think a name like `NVME_MI_BASIC_OFFSET` would be an improvement.\n\nThat said it\u0027s also not a change that\u0027s required by this patch. Do you mind dropping it for now?",
+      "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d78b487_8bd27333",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-02-16T05:34:55Z",
+      "side": 1,
+      "message": "Assigning to a variable isn\u0027t necessary, if we really needed to we could just supply the macro to the function invocation below. But I think we just drop the macro and leave the constant 0 there?",
+      "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1105494_657ca7f2",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-02-16T05:34:55Z",
+      "side": 1,
+      "message": "We probably *do* want a name for this magic 0x08 number. Are you basing this on the SMBus spec? Because there\u0027s a whole bunch of other address values that it shouldn\u0027t take either.\n\nSo, I think either we don\u0027t worry about checking this, or we get a bit more specific about what it is we\u0027re actually trying to check.",
+      "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
