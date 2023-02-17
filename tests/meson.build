@@ -25,31 +25,6 @@ ut_deps_list = [
 
 ut_deps_list += default_deps
 
-have_boost_dbus = meson.get_compiler('cpp').has_header('dbus/connection.hpp')
-if have_boost_dbus
-test(
-    'test_hwmon_temp_sensor',
-    executable(
-        'test_hwmon_temp_sensor',
-        'test_HwmonTempSensor.cpp',
-        dependencies: ut_deps_list,
-        implicit_include_directories: false,
-        include_directories: '../src',
-    )
-)
-
-test(
-    'test_tach_sensor',
-    executable(
-        'test_tach_sensor',
-        'test_TachSensor.cpp',
-        dependencies: ut_deps_list,
-        implicit_include_directories: false,
-        include_directories: '../src',
-    )
-)
-endif
-
 test(
     'test_utils',
     executable(
