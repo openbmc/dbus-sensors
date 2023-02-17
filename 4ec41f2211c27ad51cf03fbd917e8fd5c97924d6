@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4503930_a84b5e8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 55
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7269f227_bd4b3001",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd981794_6f0246bc",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4fda0d7_f05cd0bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 55
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/x86-power-control/blob/master/src/power_control.cpp#L2583",
+      "parentUuid": "fd981794_6f0246bc",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a6b79cd_a6b3109d",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-01-30T06:34:41Z",
       "side": 1,
       "message": "Can you add a link to the new JSON file?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 65
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32b333a8_66333ad2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 55
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/openbmc/tree/master/meta-facebook/recipes-x86/chassis/x86-power-control/yosemitev2",
+      "parentUuid": "4a6b79cd_a6b3109d",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -110,6 +182,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f25079_ff78ef85",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1b0f89_77ded809",
+      "range": {
+        "startLine": 51,
+        "startChar": 22,
+        "endLine": 51,
+        "endChar": 23
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "996b0e51_9f341f28",
@@ -123,6 +219,54 @@
       "writtenOn": "2023-01-30T06:34:41Z",
       "side": 1,
       "message": "I still don\u0027t see the purpose of this logic. Looks like, all it does is to print the error msg for every 3 consecutive errors. Is that intended, or do you want to stop the polling if it fails 3 times in row?",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 56,
+        "endChar": 5
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bcfd94c_f3dcea25",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "yes this is intended to stop the polling if fails 3 times in a row.",
+      "parentUuid": "996b0e51_9f341f28",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 56,
+        "endChar": 5
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "382ea9db_ae2b9f04",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "It stop\u0027s pollling if it fails 3 times in a row.",
+      "parentUuid": "996b0e51_9f341f28",
       "range": {
         "startLine": 51,
         "startChar": 3,
@@ -156,6 +300,78 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd384c4_17d21c38",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3aa127b3_31b5353c",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 50
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d0b87bf_0358ceac",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "csat necessary here for the stateByteMask its from the ByteMask type.",
+      "parentUuid": "3aa127b3_31b5353c",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 50
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d85a20b_8954d638",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "cast is necessary for the byte is form the enum class.",
+      "parentUuid": "3aa127b3_31b5353c",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 50
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03435018_87afa025",
@@ -169,6 +385,30 @@
       "writtenOn": "2023-01-30T06:34:41Z",
       "side": 1,
       "message": "does prop change? Seems like this can be checked once during construction?\nIf it does change, does this count as error? Should it be combined with line 62?",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 5
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "860da656_81f0f4c5",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "the prop doesn\u0027t change, but it will change for the different ipmbstate(gpio) in further implementations.",
+      "parentUuid": "03435018_87afa025",
       "range": {
         "startLine": 73,
         "startChar": 4,
@@ -202,6 +442,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99acfa25_11267731",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "No, the status can not be -ve value.",
+      "parentUuid": "753ea124_6f6e4375",
+      "range": {
+        "startLine": 108,
+        "startChar": 22,
+        "endLine": 108,
+        "endChar": 29
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "570fd088_922ffe96",
@@ -225,6 +489,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbd51075_52bb444b",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "570fd088_922ffe96",
+      "range": {
+        "startLine": 595,
+        "startChar": 20,
+        "endLine": 595,
+        "endChar": 29
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6d60049_aae347c6",
@@ -238,6 +526,30 @@
       "writtenOn": "2023-01-30T06:34:41Z",
       "side": 1,
       "message": "For this type \"HostSMBusIndex\" and \"SensorType\" are not needed, can be moved after this block.",
+      "range": {
+        "startLine": 592,
+        "startChar": 16,
+        "endLine": 600,
+        "endChar": 17
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edccbebf_7830188a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-02-17T08:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6d60049_aae347c6",
       "range": {
         "startLine": 592,
         "startChar": 16,
