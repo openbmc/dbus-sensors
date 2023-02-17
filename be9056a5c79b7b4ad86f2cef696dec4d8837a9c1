@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d37f8eb3_7d5b72e3",
+        "filename": "src/NVMeController.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001129
+      },
+      "writtenOn": "2023-02-17T06:04:50Z",
+      "side": 1,
+      "message": "I couldn\u0027t find any alternative to using CopyableCallback here, though I may have overlooked options. \n\nThe problem is that adminSecuritySend takes a std::function argument, but the lambda here isn\u0027t CopyConstructible (required by std::function) since its capture argument isn\u0027t CopyConstructible.\n\nThe `handler` type to capture is boost::asio::detail::spawn_handler .",
+      "revId": "be9056a5c79b7b4ad86f2cef696dec4d8837a9c1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
