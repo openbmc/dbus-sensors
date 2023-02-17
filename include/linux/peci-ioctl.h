@@ -6,6 +6,10 @@
 #ifndef __PECI_IOCTL_H
 #define __PECI_IOCTL_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <linux/ioctl.h>
 #include <linux/types.h>
 
@@ -659,6 +663,10 @@ struct peci_crashdump_get_frame_msg {
 #define PECI_IOC_CRASHDUMP_GET_FRAME \
 	_IOWR(PECI_IOC_BASE, PECI_CMD_CRASHDUMP_GET_FRAME, \
 	      struct peci_crashdump_get_frame_msg)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PECI_IOCTL_H */
 // clang-format on
