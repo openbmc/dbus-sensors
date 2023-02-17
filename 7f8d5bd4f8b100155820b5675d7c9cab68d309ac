@@ -33,6 +33,24 @@
       "message": "Hi Nnamdi, the next hurdle is that I don\u0027t think Cloudflare has signed a corporate CLA. Is this something you can get addressed? I\u0027m following up with Brad to see if he\u0027s aware of one.\n\nGenerally once we have a CCLA with your name on it you get added to a group in Gerrit which automatically enables CI runs for your user. The fact that CI didn\u0027t trigger is what made me follow up :)",
       "revId": "7f8d5bd4f8b100155820b5675d7c9cab68d309ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b3ab93_7ba07b88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-02-17T01:42:47Z",
+      "side": 1,
+      "message": "More information on CLAs here:\n\nhttps://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#starting-out",
+      "parentUuid": "82099fd1_573c3bbf",
+      "revId": "7f8d5bd4f8b100155820b5675d7c9cab68d309ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
