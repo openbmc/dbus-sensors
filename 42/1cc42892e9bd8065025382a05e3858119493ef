@@ -1,0 +1,8 @@
+Code-Review+2: Ed Tanous <ed@tanous.net>
+Verified+1: Ed Tanous <ed@tanous.net>
+Code-Review+1: Andrew Jeffery <andrew@aj.id.au>
+Submitted-by: Ed Tanous <ed@tanous.net>
+Submitted-at: Fri, 17 Feb 2023 21:19:38 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/61058
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
