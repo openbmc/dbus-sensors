@@ -107,6 +107,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "627d6420_a5e3f864",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 39
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2023-02-17T18:24:46Z",
+      "side": 1,
+      "message": "I converted it to https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Inventory/Item.interface.yaml",
+      "parentUuid": "649a0fb8_556b8fee",
+      "revId": "941acb2ea5bbe5fd3944796ba5e18f4640d769bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ee6c157_37527e77",
