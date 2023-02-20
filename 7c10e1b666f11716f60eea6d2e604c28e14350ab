@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6215cf2c_2e3efb36",
+        "filename": "src/NVMeMi.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2023-02-20T06:34:55Z",
+      "side": 1,
+      "message": "I believe doing MCTP EP detection inside NVMe-MI have its demerits.\nIf we follow this design, then \n1. Each daemon which supports different MCTP message type will have \"SetupEndpoint\" within it. Which will be a duplicate and results in decentralized MCTP device management.\n2. How do we handle devices which needs dynamic discovery? Hot pluggable devices?\n3. Let\u0027s say an MCTP device supports more than one MCTP message types, do we need to call \"SetupEndpoint\" from both? e.g.: NVMe drive which supports SPDM.\n4. What if the drive went for a reset? Which daemon will re-discover the device?\n\nIn short, having an mctp daemon which does centralize MCTP device management might be a better approach.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "7c10e1b666f11716f60eea6d2e604c28e14350ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e50ed237_69852244",
+        "filename": "src/NVMeMi.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000479
+      },
+      "writtenOn": "2023-02-20T06:34:55Z",
+      "side": 1,
+      "message": "Empty white space. Missed clang format?",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 12
+      },
+      "revId": "7c10e1b666f11716f60eea6d2e604c28e14350ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
