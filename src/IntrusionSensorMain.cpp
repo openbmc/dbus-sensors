@@ -425,12 +425,11 @@ int main()
 
     sdbusplus::asio::object_server objServer(systemBus, true);
 
-    objServer.add_manager("/xyz/openbmc_project/sensors");
+    objServer.add_manager("/xyz/openbmc_project/Chassis");
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> ifaceChassis =
-        objServer.add_interface(
-            "/xyz/openbmc_project/Intrusion/Chassis_Intrusion",
-            "xyz.openbmc_project.Chassis.Intrusion");
+        objServer.add_interface("/xyz/openbmc_project/Chassis/Intrusion",
+                                "xyz.openbmc_project.Chassis.Intrusion");
 
     ChassisIntrusionSensor chassisIntrusionSensor(io, ifaceChassis);
 
