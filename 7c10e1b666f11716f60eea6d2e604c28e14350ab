@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "efd5dcc3_c30e5e62",
+        "filename": "src/NVMeMi.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2023-02-20T08:28:46Z",
+      "side": 1,
+      "message": "Can we upstream this D-Bus interface(au.com.CodeConstruct.MCTP)? Would be good to have discussions around the use case.",
+      "revId": "7c10e1b666f11716f60eea6d2e604c28e14350ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6215cf2c_2e3efb36",
         "filename": "src/NVMeMi.cpp",
         "patchSetId": 4
