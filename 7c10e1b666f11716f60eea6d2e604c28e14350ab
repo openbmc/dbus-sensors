@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0762c75_8430702d",
+        "filename": "src/NVMeMi.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-02-21T09:24:20Z",
+      "side": 1,
+      "message": "\u003e In short, having an mctp daemon which does centralize MCTP device management might be a better approach\n\nThat\u0027s essentially what we have here; SetupEndpoint will not re-enumerate a device that it already knows about. The enumeration is centralised to mctpd - which collects enumeration results and publishes them to dbus.\n\n\u003e Each daemon which supports different MCTP message type will have \"SetupEndpoint\" within it. Which will be a duplicate and hesults in decentralized MCTP device management.\n\nThe daemon only needs to call SetupEndpoint to turn a physical-layer address into a MCTP EID (and perform enumeration if necessary).\n\nDaemons can also enumerate the already-discovered endpoints if they don\u0027t need to start from a physical address. The libnvme code has provision for this (but it doesn\u0027t really fit with the dbus-sensors model, which starts discovery from an i2c address).\n\n\u003e How do we handle devices which needs dynamic discovery? Hot pluggable devices?\n\nThe hotplug event should trigger the SetupEndpoint call, then the device will be enumerated and advertised on dbus.\n\nOther infrastructure can either react to the MCTP endpoint appearing on d-bus, or if it is notified at the i2c layer, it can call SetupEndpoint.\n\n\u003e Let\u0027s say an MCTP device supports more than one MCTP message types, do we need to call \"SetupEndpoint\" from both? e.g.: NVMe drive which supports SPDM.\n\nyou can do, there\u0027s no harm in that.\n\nAgain, it depends what the starting point for that discovery process is.\n\n\u003e What if the drive went for a reset? Which daemon will re-discover the device?\n\nthis really depends on the reset mechanism, and how the device is \"re-discovered\" after the reset.",
+      "parentUuid": "6215cf2c_2e3efb36",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "7c10e1b666f11716f60eea6d2e604c28e14350ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e50ed237_69852244",
         "filename": "src/NVMeMi.cpp",
         "patchSetId": 4
