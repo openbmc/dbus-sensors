@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24e20a8c_87a58101",
+        "filename": "src/NVMeMi.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-02-21T20:02:44Z",
+      "side": 1,
+      "message": "\u003e \u003e In short, having an mctp daemon which does centralize MCTP device management might be a better approach\n\u003e \n\u003e That\u0027s essentially what we have here; SetupEndpoint will not re-enumerate a device that it already knows about. The enumeration is centralised to mctpd - which collects enumeration results and publishes them to dbus.\n\u003e \nI think the question is more about the duty of discovery/enumeration. As we discussed a while ago, the current mctpd works as passive to the caller of SetupEndpoint(), instead of generating the probe result itself. \n\n\u003e \u003e Each daemon which supports different MCTP message type will have \"SetupEndpoint\" within it. Which will be a duplicate and hesults in decentralized MCTP device management.\n\u003e \n\u003e The daemon only needs to call SetupEndpoint to turn a physical-layer address into a MCTP EID (and perform enumeration if necessary).\n\u003e \n\u003e Daemons can also enumerate the already-discovered endpoints if they don\u0027t need to start from a physical address. The libnvme code has provision for this (but it doesn\u0027t really fit with the dbus-sensors model, which starts discovery from an i2c address).\n\u003e \nThey will not duplicate. Instead, they are pointing to the same mctpd object (on dbus). \n\nI proposed to use association between the mctpd path to the protocol specific client: \n\nhttps://gerrit.openbmc.org/c/openbmc/docs/+/53809/6/designs/nvmed.md#256\n\u003e \u003e How do we handle devices which needs dynamic discovery? Hot pluggable devices?\n\u003e \n\u003e The hotplug event should trigger the SetupEndpoint call, then the device will be enumerated and advertised on dbus.\n\u003e \n\u003e Other infrastructure can either react to the MCTP endpoint appearing on d-bus, or if it is notified at the i2c layer, it can call SetupEndpoint.\n\u003e \n\nThe discovery for NVMe over MCTP is generated from FruDevice. The NVMe architecture is proposed with Fru Device on the i2c bus, for both storage device and enclosure. Other protocol services can have their own source of discovery (e.g. the usb event for plugging in security chip). \n\nI don\u0027t like the idea of \"Other infrastructure can either react to the MCTP endpoint appearing on d-bus\". If the protocol service is reator to mctpd object, then the only service call to mctpd `SetupEndpoint` should be EntityManager. Otherwise we will introduce a chain of dependency (probe service -\u003e EM -\u003e Proto service A -\u003e mctpd -\u003e proto service B). \n\n\u003e \u003e Let\u0027s say an MCTP device supports more than one MCTP message types, do we need to call \"SetupEndpoint\" from both? e.g.: NVMe drive which supports SPDM.\n\u003e \n\u003e you can do, there\u0027s no harm in that.\n\u003e \n\u003e Again, it depends what the starting point for that discovery process is.\n\u003e \n\nBoth nvmed and spdmd can associate to the same mctp ep object. Two separate SetupEndpoint calls will return the same object. \n\nIn addition, who removes the mctp ep is more vital than who creates the ep, since the creation always points to the same ep. To the contrary, one proto service should dup the remove if the ep is still used by other proto services. \n\nIMHO, if multiple proto services detects hardware removal, they remove their own association first. When the association clears to 0, proto service will do `au.com.CodeConstruct.MCTP.Endpoint.Remove`. \n\n\u003e \u003e What if the drive went for a reset? Which daemon will re-discover the device?\n\u003e \n\u003e this really depends on the reset mechanism, and how the device is \"re-discovered\" after the reset.\n\nThe nvme daemon will be able to discover and handle the subsystem/controller level reset via `NVM Subsystem Health Status Poll`. It is purely on nvme level above mctp. \n\nif there is low level reset such as hot-removal, the \"re-discovered\" process should work the same as the initial discover process.",
+      "parentUuid": "d0762c75_8430702d",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "7c10e1b666f11716f60eea6d2e604c28e14350ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e50ed237_69852244",
         "filename": "src/NVMeMi.cpp",
         "patchSetId": 4
