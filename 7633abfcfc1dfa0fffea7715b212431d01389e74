@@ -16,6 +16,24 @@
       "message": "friendly ping",
       "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ea5fd4d_62fd12d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 49
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-02-23T19:59:03Z",
+      "side": 1,
+      "message": "From looking at this, it still hasn\u0027t addressed the documented problem of GPIO not being an appropriate abstraction for dbus.  The title of this commit still states \"to report gpio status to dbus\" which is something that is documented as a no-go design pattern in the docs repo.  If you disagree with that, the first step would be to get the docs repo updated, and get general agreement on that.  More likely would be that this needs to be changed into a slot presence daemon.\n\nPlease note, in openbmc vernacular, GPIO is not a sensor, so the name \"gpiosensor\" also needs corrected everywhere.  I commented this earlier.\n\nThis is likely why you haven\u0027t seen replies here, because the underlying design problems still haven\u0027t been addressed, and fall counter to documented anti patterns, without any discussion of those documented anti-patterns, or why this should be accepted in opposition to them.",
+      "parentUuid": "8a04919d_9483480a",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
