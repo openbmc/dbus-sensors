@@ -34,6 +34,23 @@
       "parentUuid": "8a04919d_9483480a",
       "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62fb244c_47782f59",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 49
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-02-23T20:28:15Z",
+      "side": 1,
+      "message": "This seems like a poor overloading of Inventory.Item.  A GPIO isn\u0027t an Inventory-Item.  Your GPIO is always \"present\" so the Present property is describing something different than what everyone would naturally expect.  I strongly suggest not trying to overload an existing interface into something more generic than it was intended to be.  This either:\n\n1. Forces everyone to start coding up special behavior to understand your free-form PrettyName strings (which is an anti-pattern).\n\n2. Causes unforeseen side-effects, such as users pondering why they have \"Not Present\" hardware when they interrogate Redfish and get an automatically generated Redfish item from your Inventory.Item.",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
