@@ -16,6 +16,40 @@
       "message": "Thanks. I am still concerned about the fact this changes the location of objects already well-established in the field.",
       "revId": "258976660a62a7d67c16a934d0ed2aa83d9c813e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f03d227c_13f0ac9a",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-02-23T20:41:11Z",
+      "side": 1,
+      "message": "Don\u0027t early declare variables.  You defined this 20+ lines earlier than the first use.\n\nWhy not this?\n\n  std::vector\u003cstd::string\u003e pwmPaths({ pwmPathStr });",
+      "revId": "258976660a62a7d67c16a934d0ed2aa83d9c813e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6160da81_27fa6abf",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-02-23T20:41:11Z",
+      "side": 1,
+      "message": "Or just change it to `{ pwmPaths }` here.",
+      "revId": "258976660a62a7d67c16a934d0ed2aa83d9c813e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
