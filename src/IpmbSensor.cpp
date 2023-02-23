@@ -338,10 +338,11 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             }
 
             int16_t value = ((data[4] << 8) | data[3]);
-            constexpr const size_t shift = 16 - 11; // 11bit into 16bit
-            value <<= shift;
-            value >>= shift;
-            resp = value;
+            // 5 MSB bits are exponent
+            int16_t exponent = value >> 11;
+            // Rest 11 are mantisa
+            int16_t mantisa = static_cast<uint16_t>((value & 0x7FF) << 5) >> 5;
+            resp = mantisa * std::pow(2.0, exponent);
             return true;
         }
         default:
