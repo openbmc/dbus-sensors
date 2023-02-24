@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b81c1bda_a8d1a355",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-24T01:44:26Z",
+      "side": 1,
+      "message": "Change to std::vector\u003cstd::string\u003e pwmPaths({ pwmPathStr }); and moved to line 280.",
+      "parentUuid": "f03d227c_13f0ac9a",
+      "revId": "258976660a62a7d67c16a934d0ed2aa83d9c813e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6160da81_27fa6abf",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-02-23T20:41:11Z",
       "side": 1,
       "message": "Or just change it to `{ pwmPaths }` here.",
+      "revId": "258976660a62a7d67c16a934d0ed2aa83d9c813e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bcec8d4_7cd752f5",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-02-24T01:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6160da81_27fa6abf",
       "revId": "258976660a62a7d67c16a934d0ed2aa83d9c813e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
