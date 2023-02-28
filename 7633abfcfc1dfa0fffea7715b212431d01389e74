@@ -68,6 +68,24 @@
       "message": "This seems like a poor overloading of Inventory.Item.  A GPIO isn\u0027t an Inventory-Item.  Your GPIO is always \"present\" so the Present property is describing something different than what everyone would naturally expect.  I strongly suggest not trying to overload an existing interface into something more generic than it was intended to be.  This either:\n\n1. Forces everyone to start coding up special behavior to understand your free-form PrettyName strings (which is an anti-pattern).\n\n2. Causes unforeseen side-effects, such as users pondering why they have \"Not Present\" hardware when they interrogate Redfish and get an automatically generated Redfish item from your Inventory.Item.",
       "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07248fa6_836466a5",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 49
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000952
+      },
+      "writtenOn": "2023-02-28T17:34:35Z",
+      "side": 1,
+      "message": "After reading about https://github.com/openbmc/docs/blob/master/anti-patterns.md#dbus-interface-representing-gpios I think what I need to do is redo this as slot presence daemon instead of gpio presence daemon. For the interfaces, it looks like I am using the Inventory.Item interface incorrectly. Would you suggest what are the correct interface and variables to implement for slot presence? For example, does the follow combination looks correct?\n```\nxyz.openbmc_project.state.decorator.Availability\nxyz.openbmc_project.Inventory.Decorator.UniqueIdentifier\nxyz.openbmc_project.Inventory.Connector.Slot\n```\n\nAvailability is boolean. UniqueIdentifier is the name for the cable (e.g. cdfp). Slot is empty interface indicating this is slot inventory.",
+      "parentUuid": "62fb244c_47782f59",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
