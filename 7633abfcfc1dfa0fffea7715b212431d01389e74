@@ -86,6 +86,24 @@
       "parentUuid": "62fb244c_47782f59",
       "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9d7cef7_a0eb8ac1",
+        "filename": "docs/gpio-based-presence-detection.md",
+        "patchSetId": 49
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-02-28T20:11:52Z",
+      "side": 1,
+      "message": "UniqueIdentifier appears to be intended for UUID/GUID-type information, based on the commit message history, but I don\u0027t know why they didn\u0027t leverage Common.UUID for that.  You might want to look at LocationCode?\n\nConnector.Slot seems reasonable.\n\nI don\u0027t know if Availability or OperationalStatus is more appropriate here.  You\u0027ll probably want to look into other usages of both of these if you go that route.",
+      "parentUuid": "07248fa6_836466a5",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
