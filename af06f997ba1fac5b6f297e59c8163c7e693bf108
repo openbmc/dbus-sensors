@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6da4f650_a773b17b",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-02-28T05:40:13Z",
+      "side": 1,
+      "message": "Why is this change needed?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 2
+      },
+      "revId": "af06f997ba1fac5b6f297e59c8163c7e693bf108",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
