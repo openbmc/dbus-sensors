@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49943cb8_5167b853",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-02-28T03:57:26Z",
+      "side": 1,
+      "message": "Is this supported by bmcweb already? Same for the next log",
+      "range": {
+        "startLine": 71,
+        "startChar": 37,
+        "endLine": 71,
+        "endChar": 61
+      },
+      "revId": "c7c609bc200abd928d6c0134239292bd75c53893",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
