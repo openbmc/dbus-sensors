@@ -126,7 +126,7 @@ void TachSensor::setupRead()
 void TachSensor::restartRead(size_t pollTime)
 {
     std::weak_ptr<TachSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(std::chrono::milliseconds(pollTime));
+    waitTimer.expires_after(std::chrono::milliseconds(pollTime));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

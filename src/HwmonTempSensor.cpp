@@ -142,7 +142,7 @@ void HwmonTempSensor::setupRead(void)
 void HwmonTempSensor::restartRead()
 {
     std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(std::chrono::milliseconds(sensorPollMs));
+    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

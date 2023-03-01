@@ -348,7 +348,7 @@ void ThresholdTimer::startTimer(const std::weak_ptr<Sensor>& weakSensor,
     pair->first.level = threshold.level;
     pair->first.direction = threshold.direction;
     pair->first.assert = assert;
-    pair->second.expires_from_now(std::chrono::seconds(waitTime));
+    pair->second.expires_after(std::chrono::seconds(waitTime));
     pair->second.async_wait([weakSensor, pair, threshold, assert,
                              assertValue](boost::system::error_code ec) {
         auto sensorPtr = weakSensor.lock();

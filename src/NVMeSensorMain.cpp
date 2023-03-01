@@ -235,13 +235,14 @@ int main()
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");
 
-    io.post([&]() { createSensors(io, objectServer, systemBus); });
+    boost::asio::post(io,
+                      [&]() { createSensors(io, objectServer, systemBus); });
 
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&filterTimer, &io, &objectServer, &systemBus](sdbusplus::message_t&) {
         // this implicitly cancels the timer
-        filterTimer.expires_from_now(std::chrono::seconds(1));
+        filterTimer.expires_after(std::chrono::seconds(1));
 
         filterTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)

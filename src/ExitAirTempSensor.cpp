@@ -939,13 +939,14 @@ int main()
     std::shared_ptr<ExitAirTempSensor> sensor =
         nullptr; // wait until we find the config
 
-    io.post([&]() { createSensor(objectServer, sensor, systemBus); });
+    boost::asio::post(io,
+                      [&]() { createSensor(objectServer, sensor, systemBus); });
 
     boost::asio::steady_timer configTimer(io);
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t&) {
-        configTimer.expires_from_now(std::chrono::seconds(1));
+        configTimer.expires_after(std::chrono::seconds(1));
         // create a timer because normally multiple properties change
         configTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)

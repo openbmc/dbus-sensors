@@ -146,7 +146,7 @@ void PSUSensor::setupRead(void)
 void PSUSensor::restartRead(void)
 {
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(std::chrono::milliseconds(sensorPollMs));
+    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

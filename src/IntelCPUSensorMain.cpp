@@ -552,8 +552,7 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
     if (rescanDelaySeconds != 0U)
     {
-        creationTimer.expires_from_now(
-            std::chrono::seconds(rescanDelaySeconds));
+        creationTimer.expires_after(std::chrono::seconds(rescanDelaySeconds));
         creationTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)
             {
@@ -584,7 +583,7 @@ void detectCpuAsync(
     boost::container::flat_set<CPUConfig>& cpuConfigs,
     ManagedObjectType& sensorConfigs)
 {
-    pingTimer.expires_from_now(std::chrono::seconds(1));
+    pingTimer.expires_after(std::chrono::seconds(1));
     pingTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -714,7 +713,7 @@ int main()
     boost::asio::steady_timer filterTimer(io);
     ManagedObjectType sensorConfigs;
 
-    filterTimer.expires_from_now(std::chrono::seconds(1));
+    filterTimer.expires_after(std::chrono::seconds(1));
     filterTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -742,7 +741,7 @@ int main()
         }
 
         // this implicitly cancels the timer
-        filterTimer.expires_from_now(std::chrono::seconds(1));
+        filterTimer.expires_after(std::chrono::seconds(1));
         filterTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)
             {

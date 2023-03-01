@@ -308,7 +308,7 @@ int main()
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
-    io.post([&]() {
+    boost::asio::post(io, [&]() {
         createSensors(io, objectServer, sensors, systemBus, nullptr,
                       UpdateType::init);
     });
@@ -323,7 +323,7 @@ int main()
         }
         sensorsChanged->insert(message.get_path());
         // this implicitly cancels the timer
-        filterTimer.expires_from_now(std::chrono::seconds(1));
+        filterTimer.expires_after(std::chrono::seconds(1));
 
         filterTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)
@@ -374,7 +374,7 @@ int main()
         }
 
         // this implicitly cancels the timer
-        cpuFilterTimer.expires_from_now(std::chrono::seconds(1));
+        cpuFilterTimer.expires_after(std::chrono::seconds(1));
 
         cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)

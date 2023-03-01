@@ -147,7 +147,7 @@ int ChassisIntrusionSensor::i2cReadFromPch(int busId, int slaveAddr)
 void ChassisIntrusionSensor::pollSensorStatusByPch()
 {
     // setting a new experation implicitly cancels any pending async wait
-    mPollTimer.expires_from_now(std::chrono::seconds(intrusionSensorPollSec));
+    mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
 
     mPollTimer.async_wait([&](const boost::system::error_code& ec) {
         // case of timer expired

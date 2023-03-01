@@ -108,7 +108,7 @@ void ADCSensor::setupRead(void)
         // prior to reading a value at least for one scan cycle to get a valid
         // value. Guarantee that the HW signal can be stable, the HW signal
         // could be instability.
-        waitTimer.expires_from_now(
+        waitTimer.expires_after(
             std::chrono::milliseconds(bridgeGpio->setupTimeMs));
         waitTimer.async_wait(
             [weakRef, buffer](const boost::system::error_code& ec) {
@@ -198,7 +198,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         return; // we're no longer valid
     }
     inputDev.assign(fd);
-    waitTimer.expires_from_now(std::chrono::milliseconds(sensorPollMs));
+    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         std::shared_ptr<ADCSensor> self = weakRef.lock();
         if (ec == boost::asio::error::operation_aborted)

@@ -220,7 +220,7 @@ void PSUSubEvent::setupRead(void)
 void PSUSubEvent::restartRead()
 {
     std::weak_ptr<PSUSubEvent> weakRef = weak_from_this();
-    waitTimer.expires_from_now(std::chrono::milliseconds(eventPollMs));
+    waitTimer.expires_after(std::chrono::milliseconds(eventPollMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

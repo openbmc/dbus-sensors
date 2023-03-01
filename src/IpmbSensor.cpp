@@ -404,7 +404,7 @@ void IpmbSensor::ipmbRequestCompletionCb(const boost::system::error_code& ec,
 
 void IpmbSensor::read(void)
 {
-    waitTimer.expires_from_now(std::chrono::milliseconds(sensorPollMs));
+    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
         [weakRef{weak_from_this()}](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
@@ -645,7 +645,7 @@ void reinitSensors(sdbusplus::message_t& message)
             }
             // we seem to send this command too fast sometimes, wait before
             // sending
-            initCmdTimer->expires_from_now(
+            initCmdTimer->expires_after(
                 std::chrono::seconds(reinitWaitSeconds));
 
             initCmdTimer->async_wait([](const boost::system::error_code ec) {
@@ -677,13 +677,14 @@ int main()
 
     initCmdTimer = std::make_unique<boost::asio::steady_timer>(io);
 
-    io.post([&]() { createSensors(io, objectServer, sensors, systemBus); });
+    boost::asio::post(
+        io, [&]() { createSensors(io, objectServer, sensors, systemBus); });
 
     boost::asio::steady_timer configTimer(io);
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t&) {
-        configTimer.expires_from_now(std::chrono::seconds(1));
+        configTimer.expires_after(std::chrono::seconds(1));
         // create a timer because normally multiple properties change
         configTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)

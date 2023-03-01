@@ -350,7 +350,8 @@ int main()
         std::make_shared<boost::container::flat_set<std::string>>();
     boost::asio::steady_timer reaperTimer(io);
 
-    io.post([&objectServer, &sensors, &systemBus, &reaperTimer]() {
+    boost::asio::post(io,
+                      [&objectServer, &sensors, &systemBus, &reaperTimer]() {
         createSensors(objectServer, sensors, systemBus, nullptr, reaperTimer);
     });
 
@@ -373,7 +374,7 @@ int main()
         }
 
         // this implicitly cancels the timer
-        filterTimer.expires_from_now(std::chrono::seconds(1));
+        filterTimer.expires_after(std::chrono::seconds(1));
 
         filterTimer.async_wait(
             [&objectServer, &sensors, &systemBus, &sensorsChanged,

@@ -114,7 +114,7 @@ IntelCPUSensor::~IntelCPUSensor()
 void IntelCPUSensor::restartRead(void)
 {
     std::weak_ptr<IntelCPUSensor> weakRef = weak_from_this();
-    waitTimer.expires_from_now(std::chrono::milliseconds(pollTime));
+    waitTimer.expires_after(std::chrono::milliseconds(pollTime));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

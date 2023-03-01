@@ -1059,7 +1059,7 @@ int main()
 
     propertyInitialize();
 
-    io.post([&]() { createSensors(io, objectServer, systemBus, nullptr); });
+    boost::asio::post(io, [&]() { createSensors(io, objectServer, systemBus, nullptr); });
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
@@ -1069,7 +1069,7 @@ int main()
             return;
         }
         sensorsChanged->insert(message.get_path());
-        filterTimer.expires_from_now(std::chrono::seconds(3));
+        filterTimer.expires_after(std::chrono::seconds(3));
         filterTimer.async_wait([&](const boost::system::error_code& ec) {
             if (ec == boost::asio::error::operation_aborted)
             {
