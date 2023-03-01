@@ -106,6 +106,24 @@
       "parentUuid": "d07a42b5_fe919fba",
       "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81ec011a_9d2d7244",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-01T09:43:17Z",
+      "side": 1,
+      "message": "You\u0027re really making that sound like a lot of effort, and it\u0027s not. You\u0027ve put more effort into pushing back against writing tests than it actually takes to write the tests as I requested.\n\nThere\u0027s no reason you can\u0027t extract the linear eleven bit decoding formula into a stand-alone function in e.g. `pmbus.cpp`, and then pass the message buffer or relevant fields from the response parsing here to that stand-alone function to calculate the value.\n\nHaving got the formula implementation isolated it is then straight-forward to unit test it by encoding/decoding known values and buffers and asserting the output is as expected.\n\nPlease write the unit tests.",
+      "parentUuid": "ba428a37_81cc871b",
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
