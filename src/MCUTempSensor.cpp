@@ -49,7 +49,7 @@ static constexpr double mcuTempMinReading = 0;
 boost::container::flat_map<std::string, std::unique_ptr<MCUTempSensor>> sensors;
 
 MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                             boost::asio::io_service& io,
+                             boost::asio::io_context& io,
                              const std::string& sensorName,
                              const std::string& sensorConfiguration,
                              sdbusplus::asio::object_server& objectServer,
@@ -188,7 +188,7 @@ void MCUTempSensor::read(void)
 }
 
 void createSensors(
-    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<MCUTempSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
@@ -259,7 +259,7 @@ void createSensors(
 
 int main()
 {
-    boost::asio::io_service io;
+    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");

@@ -83,7 +83,7 @@ struct IpmbSensor :
     public std::enable_shared_from_this<IpmbSensor>
 {
     IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
-               boost::asio::io_service& io, const std::string& name,
+               boost::asio::io_context& io, const std::string& name,
                const std::string& sensorConfiguration,
                sdbusplus::asio::object_server& objectServer,
                std::vector<thresholds::Threshold>&& thresholdData,

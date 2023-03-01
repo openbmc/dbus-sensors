@@ -283,7 +283,7 @@ static void
 }
 
 static void createSensorsCallback(
-    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const ManagedObjectType& sensorConfigs,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
@@ -913,7 +913,7 @@ static void createSensorsCallback(
 }
 
 void createSensors(
-    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged)
@@ -1047,7 +1047,7 @@ void propertyInitialize(void)
 
 int main()
 {
-    boost::asio::io_service io;
+    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
 
     sdbusplus::asio::object_server objectServer(systemBus, true);

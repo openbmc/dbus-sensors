@@ -1,6 +1,6 @@
 #pragma once
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -18,7 +18,7 @@ class ChassisIntrusionSensor
 {
   public:
     ChassisIntrusionSensor(
-        boost::asio::io_service& io,
+        boost::asio::io_context& io,
         std::shared_ptr<sdbusplus::asio::dbus_interface> iface);
 
     ~ChassisIntrusionSensor();

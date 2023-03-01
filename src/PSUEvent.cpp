@@ -18,7 +18,7 @@
 
 #include "SensorPaths.hpp"
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -36,7 +36,7 @@
 PSUCombineEvent::PSUCombineEvent(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
-    boost::asio::io_service& io, const std::string& psuName,
+    boost::asio::io_context& io, const std::string& psuName,
     const PowerState& powerState,
     boost::container::flat_map<std::string, std::vector<std::string>>&
         eventPathList,
@@ -140,7 +140,7 @@ static boost::container::flat_map<std::string,
 PSUSubEvent::PSUSubEvent(
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface,
     const std::string& path, std::shared_ptr<sdbusplus::asio::connection>& conn,
-    boost::asio::io_service& io, const PowerState& powerState,
+    boost::asio::io_context& io, const PowerState& powerState,
     const std::string& groupEventName, const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,

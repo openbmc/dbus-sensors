@@ -17,7 +17,7 @@
 #include "ChassisIntrusionSensor.hpp"
 #include "Utils.hpp"
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -418,7 +418,7 @@ int main()
     IntrusionSensorType type = IntrusionSensorType::gpio;
 
     // setup connection to dbus
-    boost::asio::io_service io;
+    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
 
     // setup object server, define interface

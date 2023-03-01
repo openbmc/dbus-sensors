@@ -2,7 +2,7 @@
 
 #include "Utils.hpp"
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <nlohmann/json.hpp>
 
@@ -69,7 +69,7 @@ using TimerPair = std::pair<struct TimerUsed, boost::asio::steady_timer>;
 struct ThresholdTimer
 {
 
-    explicit ThresholdTimer(boost::asio::io_service& ioService) : io(ioService)
+    explicit ThresholdTimer(boost::asio::io_context& ioService) : io(ioService)
     {}
 
     bool hasActiveTimer(const Threshold& threshold, bool assert)
@@ -111,7 +111,7 @@ struct ThresholdTimer
                     const Threshold& threshold, bool assert,
                     double assertValue);
 
-    boost::asio::io_service& io;
+    boost::asio::io_context& io;
     std::list<TimerPair> timers;
 };
 

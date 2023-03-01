@@ -1,6 +1,6 @@
 #pragma once
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <sensor.hpp>
 
 class NVMeSensor : public Sensor
@@ -9,7 +9,7 @@ class NVMeSensor : public Sensor
     static constexpr const char* sensorType = "NVME1000";
 
     NVMeSensor(sdbusplus::asio::object_server& objectServer,
-               boost::asio::io_service& io,
+               boost::asio::io_context& io,
                std::shared_ptr<sdbusplus::asio::connection>& conn,
                const std::string& sensorName,
                std::vector<thresholds::Threshold>&& thresholds,

@@ -931,7 +931,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
 int main()
 {
 
-    boost::asio::io_service io;
+    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");

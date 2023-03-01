@@ -69,7 +69,7 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
     ADCSensor(const std::string& path,
               sdbusplus::asio::object_server& objectServer,
               std::shared_ptr<sdbusplus::asio::connection>& conn,
-              boost::asio::io_service& io, const std::string& sensorName,
+              boost::asio::io_context& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
               double scaleFactor, float pollRate, PowerState readState,
               const std::string& sensorConfiguration,

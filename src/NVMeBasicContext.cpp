@@ -185,7 +185,7 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
 
 /* Throws std::error_code on failure */
 /* FIXME: Probably shouldn't do fallible stuff in a constructor */
-NVMeBasicContext::NVMeBasicContext(boost::asio::io_service& io, int rootBus) :
+NVMeBasicContext::NVMeBasicContext(boost::asio::io_context& io, int rootBus) :
     NVMeContext::NVMeContext(io, rootBus), io(io), reqStream(io), respStream(io)
 {
     std::array<int, 2> responsePipe{};

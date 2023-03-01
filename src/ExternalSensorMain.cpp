@@ -337,7 +337,7 @@ int main()
         std::cerr << "ExternalSensor service starting up\n";
     }
 
-    boost::asio::io_service io;
+    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objectServer(systemBus, true);
 

@@ -44,7 +44,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
                        std::shared_ptr<sdbusplus::asio::connection>& conn,
                        std::unique_ptr<PresenceSensor>&& presenceSensor,
                        std::optional<RedundancySensor>* redundancy,
-                       boost::asio::io_service& io, const std::string& fanName,
+                       boost::asio::io_context& io, const std::string& fanName,
                        std::vector<thresholds::Threshold>&& thresholdsIn,
                        const std::string& sensorConfiguration,
                        const std::pair<double, double>& limits,
@@ -210,7 +210,7 @@ void TachSensor::checkThresholds(void)
 }
 
 PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
-                               boost::asio::io_service& io,
+                               boost::asio::io_context& io,
                                const std::string& name) :
     gpioLine(gpiod::find_line(gpioName)),
     gpioFd(io), name(name)

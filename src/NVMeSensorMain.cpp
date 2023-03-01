@@ -91,7 +91,7 @@ static std::optional<int> deriveRootBus(std::optional<int> busNumber)
 }
 
 static std::shared_ptr<NVMeContext>
-    provideRootBusContext(boost::asio::io_service& io, NVMEMap& map,
+    provideRootBusContext(boost::asio::io_context& io, NVMEMap& map,
                           int rootBus)
 {
     auto findRoot = map.find(rootBus);
@@ -108,7 +108,7 @@ static std::shared_ptr<NVMeContext>
 }
 
 static void handleSensorConfigurations(
-    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const ManagedObjectType& sensorConfigurations)
 {
@@ -180,7 +180,7 @@ static void handleSensorConfigurations(
     }
 }
 
-void createSensors(boost::asio::io_service& io,
+void createSensors(boost::asio::io_context& io,
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
@@ -229,7 +229,7 @@ static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
 
 int main()
 {
-    boost::asio::io_service io;
+    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.NVMeSensor");
     sdbusplus::asio::object_server objectServer(systemBus, true);

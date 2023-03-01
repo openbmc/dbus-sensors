@@ -2,7 +2,7 @@
 
 #include "NVMeSensor.hpp"
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 
 #include <memory>
@@ -11,7 +11,7 @@
 class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 {
   public:
-    NVMeContext(boost::asio::io_service& io, int rootBus) :
+    NVMeContext(boost::asio::io_context& io, int rootBus) :
         scanTimer(io), rootBus(rootBus), pollCursor(sensors.end())
     {
         if (rootBus < 0)

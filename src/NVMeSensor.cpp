@@ -22,7 +22,7 @@ static constexpr double maxReading = 127;
 static constexpr double minReading = 0;
 
 NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
-                       boost::asio::io_service& /*unused*/,
+                       boost::asio::io_context& /*unused*/,
                        std::shared_ptr<sdbusplus::asio::connection>& conn,
                        const std::string& sensorName,
                        std::vector<thresholds::Threshold>&& thresholdsIn,

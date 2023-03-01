@@ -93,7 +93,7 @@ static constexpr auto hiddenProps{std::to_array<const char*>(
 
 void detectCpuAsync(
     boost::asio::steady_timer& pingTimer,
-    boost::asio::steady_timer& creationTimer, boost::asio::io_service& io,
+    boost::asio::steady_timer& creationTimer, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_set<CPUConfig>& cpuConfigs,
@@ -129,7 +129,7 @@ std::string createSensorName(const std::string& label, const std::string& item,
     return sensorName;
 }
 
-bool createSensors(boost::asio::io_service& io,
+bool createSensors(boost::asio::io_context& io,
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
                    boost::container::flat_set<CPUConfig>& cpuConfigs,
@@ -447,7 +447,7 @@ void exportDevice(const CPUConfig& config)
 
 void detectCpu(boost::asio::steady_timer& pingTimer,
                boost::asio::steady_timer& creationTimer,
-               boost::asio::io_service& io,
+               boost::asio::io_context& io,
                sdbusplus::asio::object_server& objectServer,
                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
                boost::container::flat_set<CPUConfig>& cpuConfigs,
@@ -578,7 +578,7 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
 void detectCpuAsync(
     boost::asio::steady_timer& pingTimer,
-    boost::asio::steady_timer& creationTimer, boost::asio::io_service& io,
+    boost::asio::steady_timer& creationTimer, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_set<CPUConfig>& cpuConfigs,
@@ -703,7 +703,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
 
 int main()
 {
-    boost::asio::io_service io;
+    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     boost::container::flat_set<CPUConfig> cpuConfigs;
 

@@ -2,7 +2,7 @@
 
 #include "NVMeContext.hpp"
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>
 
 #include <thread>
@@ -10,7 +10,7 @@
 class NVMeBasicContext : public NVMeContext
 {
   public:
-    NVMeBasicContext(boost::asio::io_service& io, int rootBus);
+    NVMeBasicContext(boost::asio::io_context& io, int rootBus);
     ~NVMeBasicContext() override = default;
     void pollNVMeDevices() override;
     void readAndProcessNVMeSensor() override;
@@ -18,9 +18,9 @@ class NVMeBasicContext : public NVMeContext
                          size_t len) override;
 
   private:
-    NVMeBasicContext(boost::asio::io_service& io, int rootBus, int cmdOut,
+    NVMeBasicContext(boost::asio::io_context& io, int rootBus, int cmdOut,
                      int streamIn, int streamOut, int cmdIn);
-    boost::asio::io_service& io;
+    boost::asio::io_context& io;
 
     // The IO thread must be destructed after the stream descriptors, so
     // initialise it first. http://eel.is/c++draft/class.base.init#note-6

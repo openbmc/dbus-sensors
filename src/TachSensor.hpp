@@ -20,7 +20,7 @@ class PresenceSensor
 {
   public:
     PresenceSensor(const std::string& gpioName, bool inverted,
-                   boost::asio::io_service& io, const std::string& name);
+                   boost::asio::io_context& io, const std::string& name);
     ~PresenceSensor();
 
     void monitorPresence(void);
@@ -70,7 +70,7 @@ class TachSensor :
                std::shared_ptr<sdbusplus::asio::connection>& conn,
                std::unique_ptr<PresenceSensor>&& presence,
                std::optional<RedundancySensor>* redundancy,
-               boost::asio::io_service& io, const std::string& fanName,
+               boost::asio::io_context& io, const std::string& fanName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration,
                const std::pair<double, double>& limits,

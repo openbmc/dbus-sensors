@@ -20,7 +20,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <cerrno>
@@ -361,7 +361,7 @@ void ChassisIntrusionSensor::start(IntrusionSensorType type, int busId,
 }
 
 ChassisIntrusionSensor::ChassisIntrusionSensor(
-    boost::asio::io_service& io,
+    boost::asio::io_context& io,
     std::shared_ptr<sdbusplus::asio::dbus_interface> iface) :
     mIface(std::move(iface)),
     mValue("unknown"), mOldValue("unknown"), mPollTimer(io), mGpioFd(io)

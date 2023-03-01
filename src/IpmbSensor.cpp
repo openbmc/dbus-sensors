@@ -59,7 +59,7 @@ boost::container::flat_map<uint8_t, std::shared_ptr<IpmbSDRDevice>> sdrsensor;
 std::unique_ptr<boost::asio::steady_timer> initCmdTimer;
 
 IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       boost::asio::io_service& io,
+                       boost::asio::io_context& io,
                        const std::string& sensorName,
                        const std::string& sensorConfiguration,
                        sdbusplus::asio::object_server& objectServer,
@@ -515,7 +515,7 @@ void IpmbSensor::parseConfigValues(const SensorBaseConfigMap& entry)
 }
 
 void createSensors(
-    boost::asio::io_service& io, sdbusplus::asio::object_server& objectServer,
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
@@ -669,7 +669,7 @@ void reinitSensors(sdbusplus::message_t& message)
 int main()
 {
 
-    boost::asio::io_service io;
+    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");
