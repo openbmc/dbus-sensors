@@ -69,6 +69,24 @@
       "parentUuid": "7689b564_d68200dc",
       "revId": "8f7ffe242e1c56cf90d1717a77728dcd37a6718c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bddadfb1_9f090e0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001210
+      },
+      "writtenOn": "2023-03-02T05:56:08Z",
+      "side": 1,
+      "message": "Only because they are two different actions in meaning. Even though they are very small.\nShould I add ncp4200 here?",
+      "parentUuid": "1e4afa78_0cb4ffa0",
+      "revId": "8f7ffe242e1c56cf90d1717a77728dcd37a6718c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
