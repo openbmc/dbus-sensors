@@ -18,6 +18,7 @@
 #include "PSUSensor.hpp"
 #include "Utils.hpp"
 
+#include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -158,6 +159,7 @@ static boost::container::flat_map<std::string, std::vector<std::string>>
     limitEventMatch;
 
 static std::vector<PSUProperty> psuProperties;
+static boost::container::flat_map<size_t, bool> cpuPresence;
 
 // Function CheckEvent will check each attribute from eventMatch table in the
 // sysfs. If the attributes exists in sysfs, then store the complete path
@@ -487,6 +489,18 @@ static void createSensorsCallback(
         {
             std::cerr << "Cannot find psu name, invalid configuration\n";
             continue;
+        }
+
+        auto findCPU = baseConfig->find("CPURequired");
+        if (findCPU != baseConfig->end())
+        {
+            size_t index =
+                std::visit(VariantToIntVisitor(), findCPU->second);
+            auto presenceFind = cpuPresence.find(index);
+            if (presenceFind == cpuPresence.end() || !presenceFind->second)
+            {
+                continue;
+            }
         }
 
         // on rescans, only update sensors we were signaled by
@@ -1119,8 +1133,63 @@ int main()
         });
     };
 
+    boost::asio::steady_timer cpuFilterTimer(io);
+    std::function<void(sdbusplus::message_t&)> cpuPresenceHandler =
+        [&](sdbusplus::message_t& message) {
+        std::string path = message.get_path();
+        boost::to_lower(path);
+
+        sdbusplus::message::object_path cpuPath(path);
+        std::string cpuName = cpuPath.filename();
+        if (!cpuName.starts_with("cpu"))
+        {
+            return;
+        }
+        size_t index = 0;
+        try
+        {
+            index = std::stoi(path.substr(path.size() - 1));
+        }
+        catch (const std::invalid_argument&)
+        {
+            std::cerr << "Found invalid path " << path << "\n";
+            return;
+        }
+
+        std::string objectName;
+        boost::container::flat_map<std::string, std::variant<bool>> values;
+        message.read(objectName, values);
+        auto findPresence = values.find("Present");
+        if (findPresence != values.end())
+        {
+            cpuPresence[index] = std::get<bool>(findPresence->second);
+        }
+
+        cpuFilterTimer.expires_from_now(std::chrono::seconds(1));
+        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return;
+            }
+            if (ec)
+            {
+                std::cerr << "timer error\n";
+                return;
+            }
+            createSensors(io, objectServer, systemBus, sensorsChanged);
+        });
+    };
+
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+
+    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        "type='signal',member='PropertiesChanged',path_namespace='" +
+            std::string(cpuInventoryPath) +
+            "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
+        cpuPresenceHandler));
+
     setupManufacturingModeMatch(*systemBus);
     io.run();
 }
