@@ -104,6 +104,40 @@
       "parentUuid": "07248fa6_836466a5",
       "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2513475c_b8088b1e",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-03-03T02:29:03Z",
+      "side": 1,
+      "message": "If the gpioline is not exist, this daemon will crash with the following message:\n```\nJan 01 00:05:33 qbmc gpiosensor[3995]: terminate called after throwing an instance of \u0027std::logic_error\u0027\nJan 01 00:05:33 qbmc gpiosensor[3995]:   what():  object not holding a GPIO line handle\n```\n\nCan we check the gpioline is exist or not before request like ADCSensor?\n\nRefer to: https://github.com/openbmc/dbus-sensors/blob/master/src/ADCSensor.hpp#L24",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ee3a77c_9cc5cbda",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-03-03T02:29:03Z",
+      "side": 1,
+      "message": "If this is duplicate check with line 15 in function addInputLine?",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
