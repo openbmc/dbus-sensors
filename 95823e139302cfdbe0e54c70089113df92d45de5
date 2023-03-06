@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93820fba_1441dd49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-06T19:14:10Z",
+      "side": 1,
+      "message": "Did you test sensors that with CPU present still are created. And make sure there is no race conditions.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "95823e139302cfdbe0e54c70089113df92d45de5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d706c46f_87d56be6",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-06T19:14:10Z",
+      "side": 1,
+      "message": "This does not seem right - what is expected to be in it?",
+      "range": {
+        "startLine": 1179,
+        "startChar": 55,
+        "endLine": 1179,
+        "endChar": 69
+      },
+      "revId": "95823e139302cfdbe0e54c70089113df92d45de5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
