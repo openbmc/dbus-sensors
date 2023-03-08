@@ -22,6 +22,30 @@
       },
       "revId": "c7c609bc200abd928d6c0134239292bd75c53893",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7018b53_57c6be95",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-03-08T16:30:55Z",
+      "side": 1,
+      "message": "These are supported - \nhttps://github.com/openbmc/bmcweb/blob/68dd075a8ddf644c0056f6ecdb50cd0c4a463f20/redfish-core/include/registries/openbmc_message_registry.hpp#L319\n\nhttps://github.com/openbmc/bmcweb/blob/68dd075a8ddf644c0056f6ecdb50cd0c4a463f20/redfish-core/include/registries/openbmc_message_registry.hpp#L329",
+      "parentUuid": "49943cb8_5167b853",
+      "range": {
+        "startLine": 71,
+        "startChar": 37,
+        "endLine": 71,
+        "endChar": 61
+      },
+      "revId": "c7c609bc200abd928d6c0134239292bd75c53893",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
