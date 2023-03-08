@@ -28,6 +28,7 @@
 #include <sdbusplus/bus/match.hpp>
 
 #include <array>
+#include <cerrno>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -464,8 +465,11 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
         auto file = open(peciDevPath.c_str(), O_RDWR | O_CLOEXEC);
         if (file < 0)
         {
-            std::cerr << "unable to open " << peciDevPath << "\n";
-            std::exit(EXIT_FAILURE);
+            std::cerr << "unable to open " << peciDevPath << " " 
+                      << strerror(errno) << "\n";
+            detectCpuAsync(pingTimer, creationTimer, io, objectServer,
+                       dbusConnection, cpuConfigs, sensorConfigs);
+            return;
         }
 
         State newState = State::OFF;
