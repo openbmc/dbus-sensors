@@ -16,6 +16,29 @@
       "message": "Hi, please help take a look again.",
       "revId": "1240f1ddfdaad5df27c4ece34c93fedf346c7ee6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20f68cd7_7b88d86b",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-03-10T15:36:12Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be mixing phosphor-dbus-interfaces and asio here.  As written, this now imposes a hard dependency, and ports over existing code, which needs a lot more discussion if that\u0027s a change we want to make here, it needs to be looked at from a holistic standpoint.  Pulling in one two value enum doesn\u0027t seem like it would justify the dependency here.\n\nPlease follow the patterns that exist elsewhere in this repository, which will also resolve your build failure.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "1240f1ddfdaad5df27c4ece34c93fedf346c7ee6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
