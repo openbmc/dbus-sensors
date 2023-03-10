@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90d213fa_7cfc480f",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-03-10T15:40:00Z",
+      "side": 1,
+      "message": "updateValue is called from both within the codebase and externally.",
+      "range": {
+        "startLine": 66,
+        "startChar": 56,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "1240f1ddfdaad5df27c4ece34c93fedf346c7ee6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20f68cd7_7b88d86b",
         "filename": "src/ChassisIntrusionSensor.hpp",
         "patchSetId": 11
@@ -36,6 +59,29 @@
         "startChar": 0,
         "endLine": 7,
         "endChar": 59
+      },
+      "revId": "1240f1ddfdaad5df27c4ece34c93fedf346c7ee6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f4aed11_165b9099",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-03-10T15:40:00Z",
+      "side": 1,
+      "message": "This is generally not how we handle this failure.  We would generally just not instanstiate the sensor if the config can\u0027t be parsed.\n\nI think you need a continue here.",
+      "range": {
+        "startLine": 103,
+        "startChar": 29,
+        "endLine": 104,
+        "endChar": 52
       },
       "revId": "1240f1ddfdaad5df27c4ece34c93fedf346c7ee6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
