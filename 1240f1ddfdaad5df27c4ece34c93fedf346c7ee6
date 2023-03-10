@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68333dde_c743efbe",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-03-10T16:30:20Z",
+      "side": 1,
+      "message": "Hi, this function is called only internally. Instead, I see that setSensorValue() is for the purpose you mentioned.",
+      "parentUuid": "90d213fa_7cfc480f",
+      "range": {
+        "startLine": 66,
+        "startChar": 56,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "1240f1ddfdaad5df27c4ece34c93fedf346c7ee6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20f68cd7_7b88d86b",
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "799f8ced_a8bc84ba",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-03-10T16:30:20Z",
+      "side": 1,
+      "message": "Is it Ok if I just simply define RearmMode as std::string? That was my first intention. I just thought over Patrick\u0027s comment (https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/58205/comment/99ff4be9_fa9b4417/) and supposed that if the enum was generated, it\u0027s good to be used here.",
+      "parentUuid": "20f68cd7_7b88d86b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "1240f1ddfdaad5df27c4ece34c93fedf346c7ee6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f4aed11_165b9099",
         "filename": "src/IntrusionSensorMain.cpp",
         "patchSetId": 11
@@ -77,6 +125,30 @@
       "writtenOn": "2023-03-10T15:40:00Z",
       "side": 1,
       "message": "This is generally not how we handle this failure.  We would generally just not instanstiate the sensor if the config can\u0027t be parsed.\n\nI think you need a continue here.",
+      "range": {
+        "startLine": 103,
+        "startChar": 29,
+        "endLine": 104,
+        "endChar": 52
+      },
+      "revId": "1240f1ddfdaad5df27c4ece34c93fedf346c7ee6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65d58f90_b687da57",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-03-10T16:30:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f4aed11_165b9099",
       "range": {
         "startLine": 103,
         "startChar": 29,
