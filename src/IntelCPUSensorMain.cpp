@@ -19,6 +19,7 @@
 #include "VariantVisitors.hpp"
 
 #include <fcntl.h>
+#include <peci.h>
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
@@ -472,29 +473,25 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
             return;
         }
 
+        peci_SetDevName(peciDevPath.data());
         State newState = State::OFF;
-        struct peci_ping_msg msg
-        {};
-        msg.addr = config.addr;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-        if (ioctl(file, PECI_IOC_PING, &msg) == 0)
+        if (peci_Ping(config.addr) == PECI_CC_SUCCESS)
         {
             bool dimmReady = false;
             for (unsigned int rank = 0; rank < rankNumMax; rank++)
             {
-                struct peci_rd_pkg_cfg_msg msg
-                {};
-                msg.addr = config.addr;
-                msg.index = PECI_MBX_INDEX_DDR_DIMM_TEMP;
-                msg.param = rank;
-                msg.rx_len = 4;
+                std::array<uint8_t, 8> pkgConfig{};
+                uint8_t cc = 0;
 
                 // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-                if (ioctl(file, PECI_IOC_RD_PKG_CFG, &msg) == 0)
+                if (peci_RdPkgConfig(config.addr, PECI_MBX_INDEX_DDR_DIMM_TEMP,
+                                     rank, 4, &pkgConfig[0],
+                                     &cc) == PECI_CC_SUCCESS)
                 {
-                    if ((msg.pkg_config[0] != 0U) ||
-                        (msg.pkg_config[1] != 0U) || (msg.pkg_config[2] != 0U))
+                    if ((pkgConfig[0] != 0U) || (pkgConfig[1] != 0U) ||
+                        (pkgConfig[2] != 0U))
                     {
                         dimmReady = true;
                         break;
@@ -515,8 +512,6 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
                 newState = State::ON;
             }
         }
-
-        close(file);
 
         if (config.state != newState)
         {
