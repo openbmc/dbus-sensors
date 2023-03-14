@@ -60,6 +60,15 @@ if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
     peci_incdirs = ['../include']
 endif
 
+peci_dep = meson.get_compiler('cpp').find_library('libpeci', required : false)
+if not peci_dep.found()
+  cmake = import('cmake')
+  opt = cmake.subproject_options()
+  opt.append_compile_args('c', '-Wno-pedantic')
+  peci_proj = cmake.subproject('libpeci', options : opt)
+  peci_dep = peci_proj.dependency('peci')
+endif
+
 if get_option('adc').enabled()
     executable(
         'adcsensor',
@@ -86,6 +95,7 @@ if get_option('intel-cpu').enabled()
             gpiodcxx,
             thresholds_dep,
             utils_dep,
+            peci_dep,
         ],
         include_directories: peci_incdirs,
         install: true,
