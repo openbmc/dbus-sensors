@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "125b3496_c1200014",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-15T13:46:23Z",
+      "side": 1,
+      "message": "Hello Andrew, thank you for the comments. I agree with all of them, and have pushed a new change to that effect.",
+      "parentUuid": "0dc00786_52a65368",
+      "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09458e06_9b45010a",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-02-17T01:41:33Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "09458e06_9b45010a",
+      "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7d797ed_f4fdeefe",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-15T13:46:23Z",
+      "side": 1,
+      "message": "I agree that it is not a change required by this patch. I shall be dropping it.",
       "parentUuid": "09458e06_9b45010a",
       "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
@@ -88,6 +124,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86f49f36_b8c890f6",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-15T13:46:23Z",
+      "side": 1,
+      "message": "I also agree with this. I shall drop the macro and leave the constant as 0.",
+      "parentUuid": "7d78b487_8bd27333",
+      "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1105494_657ca7f2",
@@ -118,6 +172,24 @@
       "writtenOn": "2023-02-17T01:41:33Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "e1105494_657ca7f2",
+      "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bcf30e5_3518d19b",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-15T13:46:23Z",
+      "side": 1,
+      "message": "I based 0x08 off the starting point of a 7-bit address. Considering that there\u0027s a bunch of other address values that it should not take, I lean more towards not bothering to check it.",
       "parentUuid": "e1105494_657ca7f2",
       "revId": "894d2dd354e5ed952a068a6107187065a76977ae",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"

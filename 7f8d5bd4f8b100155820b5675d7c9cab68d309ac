@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f257ccc1_db6c6286",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-15T13:46:23Z",
+      "side": 1,
+      "message": "Thanks for pointing it out. I have amended the commit.",
+      "parentUuid": "56d6e43b_07ae36f6",
+      "revId": "7f8d5bd4f8b100155820b5675d7c9cab68d309ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "82099fd1_573c3bbf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "More information on CLAs here:\n\nhttps://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#starting-out",
       "parentUuid": "82099fd1_573c3bbf",
+      "revId": "7f8d5bd4f8b100155820b5675d7c9cab68d309ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a3465e_6869bf9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-15T13:46:23Z",
+      "side": 1,
+      "message": "Hello Andrew, Cloudflare has signed the corporate CLA, and it has been approved by Brad. Please what do you advice has the next steps.",
+      "parentUuid": "82b3ab93_7ba07b88",
       "revId": "7f8d5bd4f8b100155820b5675d7c9cab68d309ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

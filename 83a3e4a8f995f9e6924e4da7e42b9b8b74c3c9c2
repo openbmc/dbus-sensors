@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "975b623f_1e8dfd7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-15T13:46:23Z",
+      "side": 1,
+      "message": "Hello Ed, you are right about nvme-mi explicitly specifying the slave address (0x6A), however, the SSD form factor such as that seen on Intel P4000 series SSDs uses a different slave address (see nvme_p4000.json, https://github.com/openbmc/entity-manager/blob/master/configurations/nvme_p4000.json). I shall update the documentation that it is for non-compliant NVME Interface devices, as you have suggested.",
+      "parentUuid": "dc0f257c_684ed0d2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "83a3e4a8f995f9e6924e4da7e42b9b8b74c3c9c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3abd40d6_39274e84",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-17T21:23:24Z",
       "side": 1,
       "message": "You need to pick a default that matches the old behavior, otherwise you\u0027re breaking everyone else.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 28
+      },
+      "revId": "83a3e4a8f995f9e6924e4da7e42b9b8b74c3c9c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fd7a695_81da1a5d",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-15T13:46:23Z",
+      "side": 1,
+      "message": "Thanks for the catch. I shall set the default slave address to use the old address.",
+      "parentUuid": "3abd40d6_39274e84",
       "range": {
         "startLine": 56,
         "startChar": 0,
