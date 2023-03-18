@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2ab1fb6_adf3de5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-18T07:29:03Z",
+      "side": 1,
+      "message": "Hello Andrew, thank you for the suggestions, I have done the cleanup and updated the commit.",
+      "parentUuid": "335931e3_7e664bc0",
+      "revId": "db6a3de64f588fa6fa7cf7a974fc77bc9e7bcc8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdb77e41_383565fd",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9ee95e7_d3ab51c8",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-18T07:29:03Z",
+      "side": 1,
+      "message": "Thanks for this, I have made the change to return `uint8_t`",
+      "parentUuid": "fdb77e41_383565fd",
+      "revId": "db6a3de64f588fa6fa7cf7a974fc77bc9e7bcc8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4384e9c_f3010efc",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-03-18T00:15:48Z",
       "side": 1,
       "message": "If we remove the optional above we don\u0027t have to test this here.",
+      "revId": "db6a3de64f588fa6fa7cf7a974fc77bc9e7bcc8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef69f607_c48e63f4",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-18T07:29:03Z",
+      "side": 1,
+      "message": "I have removed the test.",
+      "parentUuid": "a4384e9c_f3010efc",
       "revId": "db6a3de64f588fa6fa7cf7a974fc77bc9e7bcc8e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

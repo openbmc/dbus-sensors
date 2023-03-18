@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6463bf5_22d59095",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-18T07:29:03Z",
+      "side": 1,
+      "message": "Hello Andrew, I have cleaned the code as suggested.",
+      "revId": "5f513af7bca0b8784dc8cd10594bbb4fb1d912bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
