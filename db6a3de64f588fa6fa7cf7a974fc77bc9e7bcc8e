@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "335931e3_7e664bc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-18T00:15:48Z",
+      "side": 1,
+      "message": "One minor cleanup suggested, the code as-is isn\u0027t incorrect though. Otherwise this looks good.",
+      "revId": "db6a3de64f588fa6fa7cf7a974fc77bc9e7bcc8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb77e41_383565fd",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-18T00:15:48Z",
+      "side": 1,
+      "message": "I don\u0027t think we want the return value to be `std::optional` as we return either the specified value in the EM configuration xor `NVME_MI_DEFAULT_SLAVE_ADDR`, and never `std::nullopt`.",
+      "revId": "db6a3de64f588fa6fa7cf7a974fc77bc9e7bcc8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4384e9c_f3010efc",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-18T00:15:48Z",
+      "side": 1,
+      "message": "If we remove the optional above we don\u0027t have to test this here.",
+      "revId": "db6a3de64f588fa6fa7cf7a974fc77bc9e7bcc8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
