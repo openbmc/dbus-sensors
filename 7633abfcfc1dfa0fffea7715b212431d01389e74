@@ -108,6 +108,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25f20c16_126a2a55",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T05:48:36Z",
+      "side": 1,
+      "message": "where this header is used ...?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2513475c_b8088b1e",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 49
@@ -161,6 +184,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac9215a1_8a1fe099",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T05:48:36Z",
+      "side": 1,
+      "message": "query : wanted to understand in which scenarios this function will return negative values .",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77adee28_d329953d",
+        "filename": "src/GPIOPresenceSensor.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T05:48:36Z",
+      "side": 1,
+      "message": "Query : Wanted to understand why return type is signed int ..?\n        As per my understanding it will return ACTIVE_HIGH ,ACTIVE_LOW etc ..\n        so just wanted understand if any negative return value its returns .",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ee3a77c_9cc5cbda",
         "filename": "src/GPIOPresenceSensor.cpp",
         "patchSetId": 49
@@ -178,6 +247,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "237c45c3_a290e717",
+        "filename": "src/GPIOPresenceSensor.hpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T05:48:36Z",
+      "side": 1,
+      "message": "is this Header used anywhere ...?",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c951afa0_728516ca",
+        "filename": "src/GPIOPresenceSensor.hpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T05:48:36Z",
+      "side": 1,
+      "message": "is this Header used anywhere ...?",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "599c8cba_58271cfa",
         "filename": "src/GPIOPresenceSensor.hpp",
         "patchSetId": 49
@@ -189,6 +292,46 @@
       "writtenOn": "2023-03-18T08:19:44Z",
       "side": 1,
       "message": "NIT: A simple comment about time unit will be helpful",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa41cd0d_605763dd",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T05:48:36Z",
+      "side": 1,
+      "message": "remove this header As Its already included GPIOPresenceSensor.hpp.",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "656b3439_c232f657",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T05:48:36Z",
+      "side": 1,
+      "message": "Remove this header as this already inlcuded in \"GPIOPresenceSensor.hpp\"",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 19
+      },
       "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -223,6 +366,29 @@
       "writtenOn": "2023-03-18T08:19:44Z",
       "side": 1,
       "message": "Here also ? is it intentional ?",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e80a794_b6b5014c",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T05:48:36Z",
+      "side": 1,
+      "message": "is delay can hold negative value ...?",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 7
+      },
       "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
