@@ -242,6 +242,24 @@
       "message": "Is this if statement section to prevent reciving same confg from EM?\nDo you see any chance that EM sned same config twice?",
       "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b4c0e2d_a1680336",
+        "filename": "src/GPIOPresenceSensorMain.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1001425
+      },
+      "writtenOn": "2023-03-20T01:46:05Z",
+      "side": 1,
+      "message": "In my case, there\u0027s possibility gpiosensor reviced same config when AC cycle. \n\nMar 11 00:09:27 roux gpiosensor[677]: New config received /xyz/openbmc_project/inventory/item/PE0_PCIeCard\n.\n.\n.\nMar 11 00:09:30 roux gpiosensor[677]: New config received /xyz/openbmc_project/inventory/item/PE0_Cable\nMar 11 00:09:30 roux gpiosensor[677]: Incomplete config found: sd_bus_add_object_vtable: org.freedesktop.DBus.Error.FileExists: File exists obj \u003d /xyz/openbmc_project/inventory/system/board/astoria/PE0_Cable",
+      "parentUuid": "c3bfd0bf_91b7d917",
+      "revId": "7633abfcfc1dfa0fffea7715b212431d01389e74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
