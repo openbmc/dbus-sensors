@@ -468,6 +468,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "145ae807_5a158f14",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-20T10:26:53Z",
+      "side": 1,
+      "message": "so make it unsigned int",
+      "parentUuid": "99acfa25_11267731",
+      "range": {
+        "startLine": 108,
+        "startChar": 22,
+        "endLine": 108,
+        "endChar": 29
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "570fd088_922ffe96",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 55
