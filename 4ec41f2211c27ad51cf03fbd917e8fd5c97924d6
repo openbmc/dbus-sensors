@@ -492,6 +492,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b5ddbf0_4138cbde",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-03-20T11:40:11Z",
+      "side": 1,
+      "message": "The value from ipmibridge is an \u0027int\u0027.  It can, in fact, be negative.\n\nhttps://github.com/openbmc/ipmbbridge/blob/0da15b5517b05685c5af70ff6ee5d67e523f47de/ipmbbridged.cpp#L140\n\nPlease don\u0027t use \"-ve\" as some shorthand.  This is maybe something that is used in EE circles but it is not generally accepted/understood in software circles.  I would not be surprised if the author didn\u0027t know what you were asking.",
+      "parentUuid": "145ae807_5a158f14",
+      "range": {
+        "startLine": 108,
+        "startChar": 22,
+        "endLine": 108,
+        "endChar": 29
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "570fd088_922ffe96",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 55
