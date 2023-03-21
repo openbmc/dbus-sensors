@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18b75cc2_6b6257f9",
+        "filename": "src/RedfishSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "make it unsigned int",
+      "range": {
+        "startLine": 15,
+        "startChar": 17,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8056b1a_c43088f4",
+        "filename": "src/RedfishSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 16,
+        "startChar": 17,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d96e0b90_c5474da1",
+        "filename": "src/RedfishSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "query : can msElapsed hold negative value anytime ...? If not make it unsinged int .",
+      "range": {
+        "startLine": 64,
+        "startChar": 3,
+        "endLine": 64,
+        "endChar": 7
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6bc2d7a_6cea32f2",
+        "filename": "src/RedfishSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "query : can port hold negative value anytime ...? If not make it unsinged int .",
+      "range": {
+        "startLine": 183,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 7
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aceba4b4_7402d320",
+        "filename": "src/RedfishSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "same as line number 183 .",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 0
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42b149e2_adc3fd14",
+        "filename": "src/RedfishSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "same as line number 183 .",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 31
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b129a43f_8b6b4c81",
+        "filename": "src/RedfishSensorQuery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "if sizeLimit holds positive numbers make it unsigned int .",
+      "range": {
+        "startLine": 18,
+        "startChar": 16,
+        "endLine": 18,
+        "endChar": 20
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83857651_a4d5de24",
+        "filename": "src/RedfishSensorQuery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "you make it 8 bit unsigned int as mentioned  This one goes up to 11 .",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 20
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c460fb8_d59d4c55",
+        "filename": "src/RedfishSensorQuery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "this variable can hold negative value anytime ...?",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 17
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "693e6f0e_7d40c178",
+        "filename": "src/RedfishSensorQuery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001048
+      },
+      "writtenOn": "2023-03-21T05:02:57Z",
+      "side": 1,
+      "message": "same as line number 53",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 34
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
