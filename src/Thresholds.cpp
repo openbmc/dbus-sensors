@@ -516,7 +516,7 @@ bool parseThresholdsFromAttr(
                         std::cout << "Threshold: " << attrPath << ": " << *val
                                   << "\n";
                     }
-                    thresholdVector.emplace_back(level, direction, *val);
+                    thresholdVector.emplace_back(level, direction, *val, 0);
                 }
             }
         }
