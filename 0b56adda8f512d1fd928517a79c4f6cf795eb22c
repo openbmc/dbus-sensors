@@ -16,6 +16,52 @@
       "message": "Hi Zhikui Ren,\n\nPlease provide your suggestions/approval on this patch.\n\nThanks",
       "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb26ba55_4809ea9c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-22T05:29:41Z",
+      "side": 1,
+      "message": "sensorCreator()  or emplaceSensor() ?",
+      "range": {
+        "startLine": 517,
+        "startChar": 5,
+        "endLine": 517,
+        "endChar": 15
+      },
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d01ddb_af7087dc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-22T05:29:41Z",
+      "side": 1,
+      "message": "This does not do anything, the new function does not need to return anything",
+      "range": {
+        "startLine": 619,
+        "startChar": 1,
+        "endLine": 623,
+        "endChar": 0
+      },
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
