@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b4d3151_2bf0772c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:38:50Z",
+      "side": 1,
+      "message": "double spaces?",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c926bdc3_adb73bc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:38:50Z",
+      "side": 1,
+      "message": "typo: mantissa",
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "89276d17_8cf0aa7e",
@@ -122,6 +162,69 @@
       "side": 1,
       "message": "You\u0027re really making that sound like a lot of effort, and it\u0027s not. You\u0027ve put more effort into pushing back against writing tests than it actually takes to write the tests as I requested.\n\nThere\u0027s no reason you can\u0027t extract the linear eleven bit decoding formula into a stand-alone function in e.g. `pmbus.cpp`, and then pass the message buffer or relevant fields from the response parsing here to that stand-alone function to calculate the value.\n\nHaving got the formula implementation isolated it is then straight-forward to unit test it by encoding/decoding known values and buffers and asserting the output is as expected.\n\nPlease write the unit tests.",
       "parentUuid": "ba428a37_81cc871b",
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff66c29_cbba45be",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:38:50Z",
+      "side": 1,
+      "message": "correct to \u0027mantissa\u0027 and in all other places too.",
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af8fc9ea_93c3de19",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:38:50Z",
+      "side": 1,
+      "message": "Can you make it a mask with meaningful name?",
+      "range": {
+        "startLine": 344,
+        "startChar": 61,
+        "endLine": 344,
+        "endChar": 66
+      },
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ce7b7db_1321480c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:38:50Z",
+      "side": 1,
+      "message": "std::pow can throw many exceptions. It\u0027s good to catch exception and handle error accordingly.\nRef: https://en.cppreference.com/w/cpp/numeric/math/pow",
+      "range": {
+        "startLine": 345,
+        "startChar": 29,
+        "endLine": 345,
+        "endChar": 37
+      },
       "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
