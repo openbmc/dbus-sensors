@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9155ba58_66a4520e",
+        "filename": "service_files/xyz.openbmc_project.redfishsensor.service",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T12:38:59Z",
+      "side": 1,
+      "message": "Add Service Type field too\nexample: Type\u003ddbus",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "18b75cc2_6b6257f9",
         "filename": "src/RedfishSensor.cpp",
         "patchSetId": 5
@@ -42,6 +65,98 @@
         "startChar": 17,
         "endLine": 16,
         "endChar": 20
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d03d471a_305c009a",
+        "filename": "src/RedfishSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T12:38:59Z",
+      "side": 1,
+      "message": "Replace with the following:\n\nif(unit.redfishType \u003d\u003d name || unit.redfishUnits \u003d\u003d name || unit.dbusUnits \u003d\u003d name)\n   return unit;",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 9
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c2c42c2_bd4ffc65",
+        "filename": "src/RedfishSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T12:38:59Z",
+      "side": 1,
+      "message": "Question: Can you explain?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 57
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "523f6417_86bf9573",
+        "filename": "src/RedfishSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T12:38:59Z",
+      "side": 1,
+      "message": "Magic number",
+      "range": {
+        "startLine": 41,
+        "startChar": 27,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "543383e1_27e176d1",
+        "filename": "src/RedfishSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T12:38:59Z",
+      "side": 1,
+      "message": "Magic number",
+      "range": {
+        "startLine": 51,
+        "startChar": 33,
+        "endLine": 51,
+        "endChar": 34
       },
       "revId": "23b4fa81013483f13ff26908e6365a8afe3e925d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
