@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74d40990_218bbfb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T12:13:42Z",
+      "side": 1,
+      "message": "Please wrap it up to 72 chars, as per commit msg guidelines.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 94
+      },
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04c33650_294ccd42",
         "filename": "src/NVMeBasicContext.cpp",
         "patchSetId": 7
@@ -19,6 +42,29 @@
         "startChar": 66,
         "endLine": 266,
         "endChar": 70
+      },
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fce70fa_1550d67f",
+        "filename": "src/NVMeSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T12:13:42Z",
+      "side": 1,
+      "message": "Keeping this var public means this can be edited in code. \nIt is recommended to keep the variable as private and providing a getter function to get value of the variable.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
       },
       "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
