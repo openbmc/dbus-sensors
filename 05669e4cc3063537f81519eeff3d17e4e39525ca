@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d80eea61_7b410efb",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-22T00:16:53Z",
+      "side": 1,
+      "message": "why is this changed?",
+      "range": {
+        "startLine": 524,
+        "startChar": 50,
+        "endLine": 524,
+        "endChar": 77
+      },
+      "revId": "05669e4cc3063537f81519eeff3d17e4e39525ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "290eac76_18d45761",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-22T00:16:53Z",
+      "side": 1,
+      "message": "else",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 650,
+        "endChar": 62
+      },
+      "revId": "05669e4cc3063537f81519eeff3d17e4e39525ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90e28184_21b21ed1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-22T00:16:53Z",
+      "side": 1,
+      "message": "this does not do anything",
+      "range": {
+        "startLine": 666,
+        "startChar": 0,
+        "endLine": 669,
+        "endChar": 25
+      },
+      "revId": "05669e4cc3063537f81519eeff3d17e4e39525ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "681f2ce1_7efb563f",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-22T00:16:53Z",
+      "side": 1,
+      "message": "if this block is moved to line 620, the if statement at line626 can be removed. Code will be easier to read",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 672,
+        "endChar": 17
+      },
+      "revId": "05669e4cc3063537f81519eeff3d17e4e39525ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
