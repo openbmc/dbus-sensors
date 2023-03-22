@@ -43,6 +43,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "152a3a13_d05de099",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T10:42:03Z",
+      "side": 1,
+      "message": "This line is not required.\nstd::make_shared will create a new object and sensor pointer will be pointing to this object.\nMaking reference count of old sensor object as zero.",
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad15600d_8bbd8d41",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T10:42:03Z",
+      "side": 1,
+      "message": "Should object be added to sensors map in this case?\nShouldn\u0027t we remove this sensor from sensors map as anyway init won\u0027t be called\nfor this sensor object.",
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1d01ddb_af7087dc",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 7
