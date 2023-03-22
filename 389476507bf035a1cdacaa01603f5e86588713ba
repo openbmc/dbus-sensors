@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "531767a4_160fedf3",
+        "filename": "src/IntelCPUSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:59:34Z",
+      "side": 1,
+      "message": "Can std::string_view be used here instead?",
+      "revId": "389476507bf035a1cdacaa01603f5e86588713ba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c3673a0_53f1a672",
+        "filename": "src/IntelCPUSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:59:34Z",
+      "side": 1,
+      "message": "Why \u0027setInitialProperties\u0027 order is changed?",
+      "revId": "389476507bf035a1cdacaa01603f5e86588713ba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb424b34_692ebde6",
         "filename": "src/IntelCPUSensorMain.cpp",
         "patchSetId": 11
