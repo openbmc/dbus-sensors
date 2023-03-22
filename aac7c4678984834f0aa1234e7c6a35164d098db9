@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9108e999_00900e95",
+        "filename": "src/PSUSensor.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:14:48Z",
+      "side": 1,
+      "message": "As per guidelines, it is recommended to use enumClass.",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf43f97_77426453",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:14:48Z",
+      "side": 1,
+      "message": "What does macthIndex \u003d 0, 1 and 2 mean? \nShould we make it an enum?",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "440ae675_4e05d5b7",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:14:48Z",
+      "side": 1,
+      "message": "Isn\u0027t is better to return true/false from the function and pass psuSensorParams as parameter as an argument?",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fa02adf_8e361a8d",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:14:48Z",
+      "side": 1,
+      "message": "success or failure can be returned from getDeviveParameters function \nand continue can be done if getDeviveParameters returns failure.\n\nNo need to return default value.",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77be9558_b5c6b8f7",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-03-22T11:14:48Z",
+      "side": 1,
+      "message": "It will look something like:\n\nif(!getDeviveParameters())\n   continue;",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
