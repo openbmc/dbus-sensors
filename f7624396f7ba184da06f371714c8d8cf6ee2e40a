@@ -168,6 +168,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c991498_7bbdf2cf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001343
+      },
+      "writtenOn": "2023-03-23T06:03:08Z",
+      "side": 1,
+      "message": "instead of 11 can we use some meaning #define variable here \nBITSHIFTELVEN",
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ff66c29_cbba45be",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 1
@@ -208,6 +225,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a3610e7_7a9caaca",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001343
+      },
+      "writtenOn": "2023-03-23T06:03:08Z",
+      "side": 1,
+      "message": "Same here also",
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ce7b7db_1321480c",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 1
@@ -225,6 +259,23 @@
         "endLine": 345,
         "endChar": 37
       },
+      "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad280a1_7a1056b9",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1001343
+      },
+      "writtenOn": "2023-03-23T06:03:08Z",
+      "side": 1,
+      "message": "same here also",
       "revId": "f7624396f7ba184da06f371714c8d8cf6ee2e40a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
