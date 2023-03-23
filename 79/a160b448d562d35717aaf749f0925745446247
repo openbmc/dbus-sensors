@@ -1,0 +1,7 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Zhikui Ren <zhikui.ren@intel.com>
+Submitted-by: Zhikui Ren <zhikui.ren@intel.com>
+Submitted-at: Thu, 23 Mar 2023 23:32:05 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/58679
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
