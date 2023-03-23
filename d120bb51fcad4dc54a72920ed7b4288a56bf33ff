@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fae740a_5fb90a4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-03-23T18:29:32Z",
+      "side": 1,
+      "message": "When referencing code within this repository, please use relative references like: configurations/nvme_p4000.json",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 84
+      },
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74d40990_218bbfb6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -14,6 +37,30 @@
       "writtenOn": "2023-03-22T12:13:42Z",
       "side": 1,
       "message": "Please wrap it up to 72 chars, as per commit msg guidelines.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 94
+      },
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3022dad8_61b205d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-03-23T18:29:32Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "74d40990_218bbfb6",
       "range": {
         "startLine": 12,
         "startChar": 0,
