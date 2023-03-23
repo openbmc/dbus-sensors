@@ -490,6 +490,11 @@ struct Sensor
         if (!readingStateGood())
         {
             markAvailable(false);
+            for (auto& threshold : thresholds)
+            {
+                assertThresholds(this, value, threshold.level,
+                                 threshold.direction, false);
+            }
             updateValueProperty(std::numeric_limits<double>::quiet_NaN());
             return;
         }
