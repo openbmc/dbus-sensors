@@ -71,6 +71,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e18e522_32b96cdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-24T00:13:15Z",
+      "side": 1,
+      "message": "Looks good, only one minor comment",
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04c33650_294ccd42",
@@ -178,6 +195,24 @@
       "writtenOn": "2023-03-20T09:39:30Z",
       "side": 1,
       "message": "nit : better to treat this const or const expression ...?",
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a471d97_0699a48d",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-03-24T00:13:15Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e718429d_3a8cc7cf",
       "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
