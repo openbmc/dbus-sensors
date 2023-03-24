@@ -271,6 +271,39 @@ static void
     }
 }
 
+/**
+ * For a given hwmon matched to a given entity manager config, check if the
+ * config specifies a shunt resistor value, and if so configure the hwmon driver
+ * with that value.
+ *
+ * Currently this only works for ina219 devices but could be extended in the
+ * future to work with others.
+ */
+static void applyShuntConfig(const std::filesystem::path& hwmonDir,
+                             const SensorBaseConfigMap& config)
+{
+    // Check if there is a config for the shunt
+    auto shuntIter = config.find("Shunt");
+    if (shuntIter == config.end())
+    {
+        return;
+    }
+    const auto* shuntVal = std::get_if<uint64_t>(&shuntIter->second);
+    if (shuntVal == nullptr)
+    {
+        return;
+    }
+
+    // Check if there is a sysfs driver option to configure
+    auto shuntFile = hwmonDir / "shunt_resistor";
+    if (!std::filesystem::exists(shuntFile))
+    {
+        return;
+    }
+
+    std::ofstream(shuntFile) << *shuntVal;
+}
+
 static void createSensorsCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -500,6 +533,8 @@ static void createSensorsCallback(
             findLabels =
                 std::get<std::vector<std::string>>(findLabelObj->second);
         }
+
+        applyShuntConfig(directory, *baseConfig);
 
         std::regex sensorNameRegEx("([A-Za-z]+)[0-9]*_");
         std::smatch matches;
