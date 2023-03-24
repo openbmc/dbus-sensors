@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fe091c7_3a9f29c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-24T13:43:17Z",
+      "side": 1,
+      "message": "Noted. Thanks. Refactored to use a relative reference. Do not that this reference refers to Entity Manager project which is outside this repository.",
+      "parentUuid": "8fae740a_5fb90a4f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 84
+      },
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74d40990_218bbfb6",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "74d40990_218bbfb6",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 94
+      },
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b1f081e_2d5ad59b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-24T13:43:17Z",
+      "side": 1,
+      "message": "Thanks for the catch. Fixed in the new patchset.",
+      "parentUuid": "3022dad8_61b205d7",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -135,6 +183,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a8f73cb_b7c2b9f5",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-24T13:43:17Z",
+      "side": 1,
+      "message": "As already mentioned by Ed, 0x00 was not introduced by this commit.",
+      "parentUuid": "4bb5067d_4ce0f7f3",
+      "range": {
+        "startLine": 266,
+        "startChar": 66,
+        "endLine": 266,
+        "endChar": 70
+      },
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fce70fa_1550d67f",
@@ -182,6 +254,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3847173f_d331ba11",
+        "filename": "src/NVMeSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-24T13:43:17Z",
+      "side": 1,
+      "message": "As Ed mentioned, this was done for consistency. A separate patch can be created to use a getter function to get the values of bus and address across dbus-sensors.",
+      "parentUuid": "89b28ab3_d1c6997d",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e718429d_3a8cc7cf",
@@ -213,6 +309,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "e718429d_3a8cc7cf",
+      "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0bea05b_e8f8df12",
+        "filename": "src/NVMeSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-24T13:43:17Z",
+      "side": 1,
+      "message": "Agreed. Thanks for the catch. This has been changed in the new patchset.",
+      "parentUuid": "0a471d97_0699a48d",
       "revId": "d120bb51fcad4dc54a72920ed7b4288a56bf33ff",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
