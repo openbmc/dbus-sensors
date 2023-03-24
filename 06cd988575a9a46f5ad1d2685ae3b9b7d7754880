@@ -16,6 +16,23 @@
       "message": "Thank you for the constructive feedback. The suggestions have been implemented in a new commit.",
       "revId": "06cd988575a9a46f5ad1d2685ae3b9b7d7754880",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "298768b7_7373a338",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-03-24T13:44:37Z",
+      "side": 1,
+      "message": "Thank you for the feedback. The suggestion has been implemented in the new commit.",
+      "revId": "06cd988575a9a46f5ad1d2685ae3b9b7d7754880",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
