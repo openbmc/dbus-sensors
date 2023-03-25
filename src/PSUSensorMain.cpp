@@ -48,6 +48,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"ADM1275", I2CDeviceType{"adm1275", true}},
     {"ADM1278", I2CDeviceType{"adm1278", true}},
     {"ADM1293", I2CDeviceType{"adm1293", true}},
+    {"ADS1015", I2CDeviceType{"ads1015", true}},
     {"ADS7830", I2CDeviceType{"ads7830", true}},
     {"AHE50DC_FAN", I2CDeviceType{"ahe50dc_fan", true}},
     {"BMR490", I2CDeviceType{"bmr490", true}},
@@ -93,6 +94,21 @@ static const I2CDeviceTypeMap sensorTypes{
     {"XDPE152C4", I2CDeviceType{"xdpe152c4", true}},
 };
 
+enum class DevTypes
+{
+    Unknown = 0,
+    HWMON,
+    IIO
+};
+
+struct DevParams
+{
+    DevTypes devType;
+    unsigned int matchIndex;
+    std::string matchRegEx;
+    std::string nameRegEx;
+};
+
 namespace fs = std::filesystem;
 
 static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
@@ -115,6 +131,11 @@ static boost::container::flat_map<std::string, std::vector<std::string>>
 
 static std::vector<PSUProperty> psuProperties;
 static boost::container::flat_map<size_t, bool> cpuPresence;
+
+static std::array<DevParams, 2> deviceParameters{
+    {{DevTypes::HWMON, 1, R"(\w\d+_input$)", "([A-Za-z]+)[0-9]*_"},
+     {DevTypes::IIO, 2, R"(\w+_(raw|input)$)",
+      "^(in|out)_([A-Za-z]+)[0-9]*_"}}};
 
 // Function CheckEvent will check each attribute from eventMatch table in the
 // sysfs. If the attributes exists in sysfs, then store the complete path
@@ -286,7 +307,9 @@ static void createSensorsCallback(
     bool firstScan = sensorsChanged == nullptr;
 
     std::vector<fs::path> pmbusPaths;
-    if (!findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths))
+    findFiles(fs::path("/sys/bus/iio/devices"), "name", pmbusPaths);
+    findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths);
+    if (pmbusPaths.empty())
     {
         std::cerr << "No PSU sensors in system\n";
         return;
@@ -331,8 +354,18 @@ static void createSensorsCallback(
             continue; // check if path has already been searched
         }
 
-        fs::path device = directory / "device";
-        std::string deviceName = fs::canonical(device).stem();
+        auto devParam = deviceParameters[0];
+        std::string deviceName;
+        if (directory.parent_path() == "/sys/class/hwmon")
+        {
+            deviceName = fs::canonical(directory / "device").stem();
+        }
+        else
+        {
+            deviceName = fs::canonical(directory).parent_path().stem();
+            devParam = deviceParameters[1];
+        }
+
         auto findHyphen = deviceName.find('-');
         if (findHyphen == std::string::npos)
         {
@@ -490,7 +523,7 @@ static void createSensorsCallback(
         } while (findPSUName != baseConfig->end());
 
         std::vector<fs::path> sensorPaths;
-        if (!findFiles(directory, R"(\w\d+_input$)", sensorPaths, 0))
+        if (!findFiles(directory, devParam.matchRegEx, sensorPaths, 0))
         {
             std::cerr << "No PSU non-label sensor in PSU\n";
             continue;
@@ -516,7 +549,7 @@ static void createSensorsCallback(
                 std::get<std::vector<std::string>>(findLabelObj->second);
         }
 
-        std::regex sensorNameRegEx("([A-Za-z]+)[0-9]*_");
+        std::regex sensorNameRegEx(devParam.nameRegEx);
         std::smatch matches;
 
         for (const auto& sensorPath : sensorPaths)
@@ -530,7 +563,9 @@ static void createSensorsCallback(
             {
                 // hwmon *_input filename without number:
                 // in, curr, power, temp, ...
-                sensorNameSubStr = matches[1];
+                // iio in_*_raw filename without number:
+                // voltage, temp, pressure, ...
+                sensorNameSubStr = matches[devParam.matchIndex];
             }
             else
             {
@@ -541,61 +576,73 @@ static void createSensorsCallback(
 
             std::string labelPath;
 
-            /* find and differentiate _max and _input to replace "label" */
-            size_t pos = sensorPathStr.find('_');
-            if (pos != std::string::npos)
+            if (devParam.devType == DevTypes::HWMON)
             {
-                std::string sensorPathStrMax = sensorPathStr.substr(pos);
-                if (sensorPathStrMax == "_max")
+                /* find and differentiate _max and _input to replace "label" */
+                size_t pos = sensorPathStr.find('_');
+                if (pos != std::string::npos)
                 {
-                    labelPath = boost::replace_all_copy(sensorPathStr, "max",
-                                                        "label");
-                    maxLabel = true;
+                    std::string sensorPathStrMax = sensorPathStr.substr(pos);
+                    if (sensorPathStrMax == "_max")
+                    {
+                        labelPath = boost::replace_all_copy(sensorPathStr,
+                                                            "max", "label");
+                        maxLabel = true;
+                    }
+                    else
+                    {
+                        labelPath = boost::replace_all_copy(sensorPathStr,
+                                                            "input", "label");
+                        maxLabel = false;
+                    }
                 }
                 else
-                {
-                    labelPath = boost::replace_all_copy(sensorPathStr, "input",
-                                                        "label");
-                    maxLabel = false;
-                }
-            }
-            else
-            {
-                continue;
-            }
-
-            std::ifstream labelFile(labelPath);
-            if (!labelFile.good())
-            {
-                if constexpr (debug)
-                {
-                    std::cerr << "Input file " << sensorPath
-                              << " has no corresponding label file\n";
-                }
-                // hwmon *_input filename with number:
-                // temp1, temp2, temp3, ...
-                labelHead = sensorNameStr.substr(0, sensorNameStr.find('_'));
-            }
-            else
-            {
-                std::string label;
-                std::getline(labelFile, label);
-                labelFile.close();
-                auto findSensor = sensors.find(label);
-                if (findSensor != sensors.end())
                 {
                     continue;
                 }
 
-                // hwmon corresponding *_label file contents:
-                // vin1, vout1, ...
-                labelHead = label.substr(0, label.find(' '));
-            }
+                std::ifstream labelFile(labelPath);
+                if (!labelFile.good())
+                {
+                    if constexpr (debug)
+                    {
+                        std::cerr << "Input file " << sensorPath
+                                  << " has no corresponding label file\n";
+                    }
+                    // hwmon *_input filename with number:
+                    // temp1, temp2, temp3, ...
+                    labelHead = sensorNameStr.substr(0,
+                                                     sensorNameStr.find('_'));
+                }
+                else
+                {
+                    std::string label;
+                    std::getline(labelFile, label);
+                    labelFile.close();
+                    auto findSensor = sensors.find(label);
+                    if (findSensor != sensors.end())
+                    {
+                        continue;
+                    }
 
-            /* append "max" for labelMatch */
-            if (maxLabel)
+                    // hwmon corresponding *_label file contents:
+                    // vin1, vout1, ...
+                    labelHead = label.substr(0, label.find(' '));
+                }
+
+                /* append "max" for labelMatch */
+                if (maxLabel)
+                {
+                    labelHead.insert(0, "max");
+                }
+
+                checkPWMSensor(sensorPath, labelHead, *interfacePath,
+                               dbusConnection, objectServer, psuNames[0]);
+            }
+            else if (devParam.devType == DevTypes::IIO)
             {
-                labelHead.insert(0, "max");
+                auto findIIOHyphen = sensorNameStr.find_last_of('_');
+                labelHead = sensorNameStr.substr(0, findIIOHyphen);
             }
 
             if constexpr (debug)
@@ -603,9 +650,6 @@ static void createSensorsCallback(
                 std::cerr << "Sensor type=\"" << sensorNameSubStr
                           << "\" label=\"" << labelHead << "\"\n";
             }
-
-            checkPWMSensor(sensorPath, labelHead, *interfacePath,
-                           dbusConnection, objectServer, psuNames[0]);
 
             if (!findLabels.empty())
             {
@@ -798,7 +842,10 @@ static void createSensorsCallback(
                 }
             }
 
-            checkEventLimits(sensorPathStr, limitEventMatch, eventPathList);
+            if (devParam.devType == DevTypes::HWMON)
+            {
+                checkEventLimits(sensorPathStr, limitEventMatch, eventPathList);
+            }
 
             // Similarly, if sensor scaling factor is being customized,
             // then the below power-of-10 constraint becomes unnecessary,
@@ -899,13 +946,16 @@ static void createSensorsCallback(
             }
         }
 
-        // OperationalStatus event
-        combineEvents[*psuName + "OperationalStatus"] = nullptr;
-        combineEvents[*psuName + "OperationalStatus"] =
-            std::make_unique<PSUCombineEvent>(objectServer, dbusConnection, io,
-                                              *psuName, readState,
-                                              eventPathList, groupEventPathList,
-                                              "OperationalStatus", pollRate);
+        if (devParam.devType == DevTypes::HWMON)
+        {
+            // OperationalStatus event
+            combineEvents[*psuName + "OperationalStatus"] = nullptr;
+            combineEvents[*psuName + "OperationalStatus"] =
+                std::make_unique<PSUCombineEvent>(
+                    objectServer, dbusConnection, io, *psuName, readState,
+                    eventPathList, groupEventPathList, "OperationalStatus",
+                    pollRate);
+        }
     }
 
     if constexpr (debug)
@@ -940,6 +990,7 @@ void propertyInitialize(void)
                    {"curr", sensor_paths::unitAmperes},
                    {"temp", sensor_paths::unitDegreesC},
                    {"in", sensor_paths::unitVolts},
+                   {"voltage", sensor_paths::unitVolts},
                    {"fan", sensor_paths::unitRPMs}};
 
     labelMatch = {
@@ -958,6 +1009,10 @@ void propertyInitialize(void)
         {"vin1", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"vin2", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
+        {"in_voltage0", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"in_voltage1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"in_voltage2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"in_voltage3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout3", PSUProperty("Output Voltage", 255, 0, 3, 0)},
