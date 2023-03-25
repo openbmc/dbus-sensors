@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c625c07_2dbf8d47",
+        "filename": "src/PSUSensor.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-03-25T07:00:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9108e999_00900e95",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bf43f97_77426453",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-03-22T11:14:48Z",
       "side": 1,
       "message": "What does macthIndex \u003d 0, 1 and 2 mean? \nShould we make it an enum?",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "312ae1b4_cc51e4fb",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-03-25T07:00:12Z",
+      "side": 1,
+      "message": "\u003e What does macthIndex \u003d 0, 1 and 2 mean? \nOnly 1 and 2 are meaningful. ```matchIndex``` is get paramater as sensor type from filename.\n\nThe hwmon file name is in_input/curr_input/temp_input and the iio file name is in_voltage_raw/in_temp_raw.\nIf the device type is hwmon, set this to 1 and use the first part of the argument as the sensor type, e.g., ```in```/```curr```/```temp```.\nIf it\u0027s iio device, set 2 and get the second, e.g., ```voltage```/```temp```.\n\n\n\u003e Should we make it an enum?\nIt seems unnecessary to make it an enum.",
+      "parentUuid": "6bf43f97_77426453",
       "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "211bae48_8cd00cbd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-03-25T07:00:12Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t is better to return true/false from the function and pass psuSensorParams as parameter as an argument?\n\nYes, this seems like a better way to pass psuSensorParams information.",
+      "parentUuid": "440ae675_4e05d5b7",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fa02adf_8e361a8d",
@@ -69,6 +123,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9902d6_df2fa4da",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-03-25T07:00:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa02adf_8e361a8d",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77be9558_b5c6b8f7",
@@ -82,6 +154,24 @@
       "writtenOn": "2023-03-22T11:14:48Z",
       "side": 1,
       "message": "It will look something like:\n\nif(!getDeviveParameters())\n   continue;",
+      "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7523d0_cb099758",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-03-25T07:00:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77be9558_b5c6b8f7",
       "revId": "aac7c4678984834f0aa1234e7c6a35164d098db9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
