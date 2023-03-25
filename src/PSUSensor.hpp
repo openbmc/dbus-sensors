@@ -12,6 +12,22 @@
 #include <string>
 #include <utility>
 
+enum class DevTypes
+{
+    Unknown = 0,
+    PSU,
+    IIO
+};
+
+struct DevParams
+{
+    DevTypes devType;
+    unsigned int matchIndex;
+    std::string deviceName;
+    std::string matchRegEx;
+    std::regex nameRegEx;
+};
+
 class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 {
   public:
