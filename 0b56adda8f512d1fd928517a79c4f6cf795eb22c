@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "962a423a_c3a4ef82",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2023-03-27T06:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb26ba55_4809ea9c",
+      "range": {
+        "startLine": 517,
+        "startChar": 5,
+        "endLine": 517,
+        "endChar": 15
+      },
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "152a3a13_d05de099",
@@ -88,6 +112,30 @@
       "writtenOn": "2023-03-22T05:29:41Z",
       "side": 1,
       "message": "This does not do anything, the new function does not need to return anything",
+      "range": {
+        "startLine": 619,
+        "startChar": 1,
+        "endLine": 623,
+        "endChar": 0
+      },
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03779e18_dbd3daf8",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2023-03-27T06:24:30Z",
+      "side": 1,
+      "message": "sensorClassType() function returns boolean value if the sensor class is not matched, therefore, this condition is used to iterate the next sensor.",
+      "parentUuid": "e1d01ddb_af7087dc",
       "range": {
         "startLine": 619,
         "startChar": 1,
