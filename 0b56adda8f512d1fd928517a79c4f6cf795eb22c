@@ -84,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb75d176_499dcb43",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2023-03-28T12:48:02Z",
+      "side": 1,
+      "message": "nullptr was suggested in the review comment.\n\n@Zhikui Ren Please provide your suggestions on this.",
+      "parentUuid": "152a3a13_d05de099",
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad15600d_8bbd8d41",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 7
@@ -95,6 +113,24 @@
       "writtenOn": "2023-03-22T10:42:03Z",
       "side": 1,
       "message": "Should object be added to sensors map in this case?\nShouldn\u0027t we remove this sensor from sensors map as anyway init won\u0027t be called\nfor this sensor object.",
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f8b2d0c_112e2222",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1000869
+      },
+      "writtenOn": "2023-03-28T12:48:02Z",
+      "side": 1,
+      "message": "yes, init function won\u0027t be called for the sensor for this case. This is the existing implementation in IpmbSensor, I have just moved this to a new function. This can be refactored and submit as a new patch.",
+      "parentUuid": "ad15600d_8bbd8d41",
       "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
