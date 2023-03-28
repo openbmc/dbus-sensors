@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dfb5120c_568662cf",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-03-28T15:52:24Z",
+      "side": 1,
+      "message": "This IS required, because the two sensors share resources, we need to ensure that the old sensor is destroyed BEFORE the new sensor is created.  This pattern was the best way that we\u0027ve found to do that, although in new code.\n\nIn modern c++20, arguably we could use insert_or_assign to do this in one line, but it\u0027s difficult to hold new code to that when no other code does it.",
+      "parentUuid": "fb75d176_499dcb43",
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad15600d_8bbd8d41",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 7
