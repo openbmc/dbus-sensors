@@ -166,8 +166,9 @@ bool createSensors(boost::asio::io_context& io,
     }
 
     std::vector<fs::path> hwmonNamePaths;
-    if (!findFiles(fs::path(R"(/sys/bus/peci/devices/peci-0)"),
-                   R"(\d+-.+/peci-.+/hwmon/hwmon\d+/name$)", hwmonNamePaths, 5))
+    findFiles(fs::path(R"(/sys/bus/peci/devices/peci-0)"),
+              R"(\d+-.+/peci[-_].+/hwmon/hwmon\d+/name$)", hwmonNamePaths, 5);
+    if (hwmonNamePaths.empty())
     {
         std::cerr << "No CPU sensors in system\n";
         return false;
@@ -464,7 +465,22 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
         auto file = open(peciDevPath.c_str(), O_RDWR | O_CLOEXEC);
         if (file < 0)
         {
-            std::cerr << "unable to open " << peciDevPath << "\n";
+            std::cout << "unable to open " << peciDevPath
+                      << " trying new rescan API\n";
+
+            std::fstream rescan{"/sys/bus/peci/rescan", std::ios::out};
+            if (rescan.is_open())
+            {
+                rescan << "1";
+                config.state = State::READY;
+                rescanDelaySeconds = 1;
+                continue;
+            }
+            else
+            {
+                std::cerr << "PECI bus not present\n";
+            }
+
             std::exit(EXIT_FAILURE);
         }
 
