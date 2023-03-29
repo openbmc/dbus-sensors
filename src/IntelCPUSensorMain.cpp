@@ -86,6 +86,7 @@ struct CPUConfig
 
 static constexpr const char* peciDev = "/dev/peci-";
 static constexpr const char* peciDevPath = "/sys/bus/peci/devices/";
+static constexpr const char* rescanPath = "/sys/bus/peci/rescan";
 static constexpr const unsigned int rankNumMax = 8;
 
 namespace fs = std::filesystem;
@@ -169,9 +170,10 @@ bool createSensors(boost::asio::io_context& io,
     }
 
     std::vector<fs::path> hwmonNamePaths;
-    if (!findFiles(fs::path(peciDevPath),
-                   R"(peci-\d+/\d+-.+/peci-.+/hwmon/hwmon\d+/name$)",
-                   hwmonNamePaths, 6))
+    findFiles(fs::path(peciDevPath),
+              R"(peci-\d+/\d+-.+/peci[-_].+/hwmon/hwmon\d+/name$)",
+              hwmonNamePaths, 6);
+    if (hwmonNamePaths.empty())
     {
         std::cerr << "No CPU sensors in system\n";
         return false;
@@ -485,6 +487,45 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
     {
         if (config.state == State::READY)
         {
+            continue;
+        }
+
+        std::fstream rescan{rescanPath, std::ios::out};
+        if (rescan.is_open())
+        {
+            std::vector<fs::path> peciPaths;
+            std::ostringstream searchPath;
+            searchPath << std::hex << "peci-" << config.bus << "/" << config.bus
+                       << "-" << config.addr;
+            findFiles(fs::path(peciDevPath + searchPath.str()),
+                      R"(peci_cpu.dimmtemp.+/hwmon/hwmon\d+/name$)", peciPaths,
+                      3);
+            if (!peciPaths.empty())
+            {
+                config.state = State::READY;
+                rescanDelaySeconds = 1;
+            }
+            else
+            {
+                findFiles(fs::path(peciDevPath + searchPath.str()),
+                          R"(peci_cpu.cputemp.+/hwmon/hwmon\d+/name$)",
+                          peciPaths, 3);
+                if (!peciPaths.empty())
+                {
+                    config.state = State::ON;
+                    rescanDelaySeconds = 3;
+                }
+                else
+                {
+                    // https://www.kernel.org/doc/html/latest/admin-guide/abi-testing.html#abi-sys-bus-peci-rescan
+                    rescan << "1";
+                }
+            }
+            if (config.state != State::READY)
+            {
+                keepPinging = true;
+            }
+
             continue;
         }
 
