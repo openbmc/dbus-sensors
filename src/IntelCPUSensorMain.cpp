@@ -170,7 +170,7 @@ bool createSensors(boost::asio::io_context& io,
                    R"(\d+-.+/peci-.+/hwmon/hwmon\d+/name$)", hwmonNamePaths, 5))
     {
         std::cerr << "No CPU sensors in system\n";
-        return true;
+        return false;
     }
 
     boost::container::flat_set<std::string> scannedDirectories;
