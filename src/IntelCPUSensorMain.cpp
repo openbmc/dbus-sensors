@@ -83,6 +83,7 @@ struct CPUConfig
 };
 
 static constexpr const char* peciDev = "/dev/peci-";
+static constexpr const char* rescanPath = "/sys/bus/peci/rescan";
 static constexpr const unsigned int rankNumMax = 8;
 
 namespace fs = std::filesystem;
@@ -166,8 +167,9 @@ bool createSensors(boost::asio::io_context& io,
     }
 
     std::vector<fs::path> hwmonNamePaths;
-    if (!findFiles(fs::path(R"(/sys/bus/peci/devices/peci-0)"),
-                   R"(\d+-.+/peci-.+/hwmon/hwmon\d+/name$)", hwmonNamePaths, 5))
+    findFiles(fs::path(R"(/sys/bus/peci/devices/peci-0)"),
+              R"(\d+-.+/peci[-_].+/hwmon/hwmon\d+/name$)", hwmonNamePaths, 5);
+    if (hwmonNamePaths.empty())
     {
         std::cerr << "No CPU sensors in system\n";
         return false;
@@ -458,6 +460,18 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
     for (CPUConfig& config : cpuConfigs)
     {
+        std::fstream rescan{rescanPath, std::ios::out};
+        if (rescan.is_open())
+        {
+            rescan << "1";
+            config.state = State::READY;
+            rescanDelaySeconds = 1;
+            continue;
+        }
+
+        std::cout << "unable to open " << rescanPath
+                  << " trying downstream PECI API\n";
+
         std::string peciDevPath = peciDev + std::to_string(config.bus);
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
