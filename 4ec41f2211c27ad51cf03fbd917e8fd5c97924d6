@@ -301,6 +301,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "820ca83b_317c5c1f",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001135
+      },
+      "writtenOn": "2023-03-30T10:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28755c10_9a73aa8a",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 56,
+        "endChar": 5
+      },
+      "revId": "4ec41f2211c27ad51cf03fbd917e8fd5c97924d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3aa127b3_31b5353c",
