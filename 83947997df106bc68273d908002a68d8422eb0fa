@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89960162_41867da5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-03-31T09:21:36Z",
+      "side": 1,
+      "message": "Hi Iwona,\n\nThank you for answering.\n\n\u003e The old one doesn\u0027t exist.\n\nOf course in never existed in upstream, no doubt. But it exists and is relied upon by downstream forks so and I assume IntelCPUSensor maintainers would prefer to continue supporting it, hence I\u0027m asking for the most practical way given the situation.\n\n\u003e I think what Andrew suggested is simply to invert the logic here.\n\nSo with the patch as it currently is, the daemon tries opening /dev/peci-0 , and right there if it fails tries to continue doing a \"rescan\" in case it might be needed. The new code is above the old code and is run as soon as it\u0027s discovered /dev/peci-0 doesn\u0027t exist.\n\nI\u0027ve just checked and indeed the old code doesn\u0027t have rescan at all (that surprised me), so I\u0027ll just check for it first, agreed. Thank you for the feedback.",
+      "parentUuid": "b5ba3cbe_30c9912d",
+      "revId": "83947997df106bc68273d908002a68d8422eb0fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b8137e1d_9af5af42",
         "filename": "src/IntelCPUSensorMain.cpp",
         "patchSetId": 2
