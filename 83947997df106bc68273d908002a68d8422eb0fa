@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8137e1d_9af5af42",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-31T02:41:12Z",
+      "side": 1,
+      "message": "We should be testing the presence of the new ABI first before falling back to the original device path. That way the new code paths are tried first now that we have them, not used only only once we remove the old paths.",
+      "revId": "83947997df106bc68273d908002a68d8422eb0fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
