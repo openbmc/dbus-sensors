@@ -21,6 +21,8 @@ class NVMeSubsystem : public std::enable_shared_from_this<NVMeSubsystem>
                   const std::string& path, const std::string& name,
                   NVMeIntf intf);
 
+    ~NVMeSubsystem();
+
     void start(const SensorData& configData);
 
     void stop();
@@ -57,6 +59,6 @@ class NVMeSubsystem : public std::enable_shared_from_this<NVMeSubsystem>
                                  std::shared_ptr<NVMeControllerPlugin>>>
         controllers{};
 
-    std::vector<Association> associations;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> assocIntf;
     void createStorageAssociation();
 };

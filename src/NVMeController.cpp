@@ -26,6 +26,12 @@ NVMeController::NVMeController(
 {
     StorageController::emit_added();
     NVMeAdmin::emit_added();
+    assocIntf = objServer.add_interface(
+        path, "xyz.openbmc_project.Association.Definitions");
+
+    // regiester a property with empty association
+    assocIntf->register_property("Associations", std::vector<Association>{});
+    assocIntf->initialize();
 }
 
 void NVMeController::start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin)
@@ -193,6 +199,7 @@ void NVMeController::firmwareCommitAsync(uint8_t commitAction,
 
 NVMeController::~NVMeController()
 {
+    objServer.remove_interface(assocIntf);
     NVMeAdmin::emit_removed();
     StorageController::emit_removed();
 }
@@ -200,27 +207,46 @@ NVMeController::~NVMeController()
 void NVMeController::setSecAssoc(
     const std::vector<std::shared_ptr<NVMeController>> secCntrls)
 {
-
-    if (secAssoc)
-    {
-        objServer.remove_interface(secAssoc);
-        secAssoc.reset();
-    }
+    secondaryControllers.clear();
 
     if (secCntrls.empty())
     {
         return;
     }
 
-    using Association = std::tuple<std::string, std::string, std::string>;
-    secAssoc = objServer.add_interface(
-        path, "xyz.openbmc_project.Association.Definitions");
-    std::vector<Association> associations;
-
-    for (auto& cntrl : secCntrls)
+    for (const auto& cntrl : secCntrls)
     {
-        associations.emplace_back("secondary", "primary", cntrl->path);
+        secondaryControllers.push_back(cntrl->path);
     }
-    secAssoc->register_property("Associations", associations);
-    secAssoc->initialize();
+
+    std::vector<Association> associations;
+    for (const auto& subsys : subsystems)
+    {
+        associations.emplace_back("storage", "storage_controller", subsys);
+    }
+
+    for (const auto& cntrl : secondaryControllers)
+    {
+        associations.emplace_back("secondary", "primary", cntrl);
+    }
+
+    assocIntf->set_property("Associations", associations);
+}
+
+void NVMeController::addSubsystemAssociation(const std::string& subsysPath)
+{
+    subsystems.push_back(subsysPath);
+
+    std::vector<Association> associations;
+    for (const auto& subsys : subsystems)
+    {
+        associations.emplace_back("storage", "storage_controller", subsys);
+    }
+
+    for (const auto& cntrl : secondaryControllers)
+    {
+        associations.emplace_back("secondary", "primary", cntrl);
+    }
+
+    assocIntf->set_property("Associations", associations);
 }

@@ -7,21 +7,18 @@
 
 void NVMeSubsystem::createStorageAssociation()
 {
-    auto storageAssociation =
-        objServer.add_interface(path, association::interface);
+    std::vector<Association> associations;
+    std::filesystem::path p(path);
 
-    storageAssociation->register_property(
-        "Associations", associations,
-        // custom set
-        [&](const std::vector<Association>&,
-            std::vector<Association>& propertyValue) {
-        propertyValue = associations;
-        return false;
-        },
-        // custom get
-        [&](const std::vector<Association>&) { return associations; });
+    associations.emplace_back("chassis", "storage", p.parent_path().string());
+    associations.emplace_back("chassis", "drive", p.parent_path().string());
+    associations.emplace_back("drive", "storage", path);
 
-    storageAssociation->initialize();
+    assocIntf = objServer.add_interface(path, association::interface);
+
+    assocIntf->register_property("Associations", associations);
+
+    assocIntf->initialize();
 }
 
 // get temporature from a NVMe Basic reading.
@@ -72,10 +69,12 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
 
     /* xyz.openbmc_project.Inventory.Item.Storage */
     // make association for Drive/Storage/Chassis
-    std::filesystem::path p(path);
-    associations.emplace_back("chassis", "storage", p.parent_path().string());
-    associations.emplace_back("chassis", "drive", p.parent_path().string());
-    associations.emplace_back("drive", "storage", path);
+    createStorageAssociation();
+}
+
+NVMeSubsystem::~NVMeSubsystem()
+{
+    objServer.remove_interface(assocIntf);
 }
 
 void NVMeSubsystem::start(const SensorData& configData)
@@ -94,7 +93,7 @@ void NVMeSubsystem::start(const SensorData& configData)
                 // TODO: mark the subsystem invalid and reschedule refresh
                 std::cerr << "fail to scan controllers for the nvme subsystem"
                           << (ec ? ": " + ec.message() : "") << std::endl;
-                self->createStorageAssociation();
+                // self->createStorageAssociation();
                 return;
             }
 
@@ -128,6 +127,9 @@ void NVMeSubsystem::start(const SensorData& configData)
                         {*index, {nvmeController, {}}});
                     auto& ctrlPlugin = iter->second.second;
 
+                    // set StorageController Association
+                    nvmeController->addSubsystemAssociation(self->path);
+
                     // creat controller plugin
                     if (self->plugin)
                     {
@@ -135,10 +137,6 @@ void NVMeSubsystem::start(const SensorData& configData)
                             *nvmeController, configData);
                     }
                     nvmeController->start(ctrlPlugin);
-
-                    // set StorageController Association
-                    self->associations.emplace_back("storage_controller",
-                                                    "storage", path);
                 }
                 catch (const std::exception& e)
                 {
@@ -149,7 +147,7 @@ void NVMeSubsystem::start(const SensorData& configData)
 
                 index++;
             }
-            self->createStorageAssociation();
+            // self->createStorageAssociation();
 
             /*
             find primary controller and make association
