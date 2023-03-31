@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53e9848d_1dc4c29d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-03-31T07:08:30Z",
+      "side": 1,
+      "message": "Iwona, can you please recommend the best way to check for the new code and whether you think it\u0027s the right way to proceed here? So far it looks like the new API is a subset of the old one, and with this patch the daemon tries a no longer supported operation as a way to differentiaite.",
+      "revId": "83947997df106bc68273d908002a68d8422eb0fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8137e1d_9af5af42",
