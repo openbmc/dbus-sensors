@@ -52,6 +52,14 @@ class NVMeController :
              std::max(sizeof(uint16_t), sizeof(void*))));
     }
 
+    /**
+     * @brief Register the NVMe subsystem to the controller. The function can be
+     * called mutiple times to associate multi-subsys to a single controller.
+     *
+     * @param subsysPath Path to the subsystem
+     */
+    void addSubsystemAssociation(const std::string& subsysPath);
+
   private:
     friend class NVMeControllerPlugin;
 
@@ -63,9 +71,12 @@ class NVMeController :
     std::shared_ptr<NVMeMiIntf> nvmeIntf;
     nvme_mi_ctrl_t nvmeCtrl;
 
-    // The Association interface to secondary controllers from a primary
-    // controller
-    std::shared_ptr<sdbusplus::asio::dbus_interface> secAssoc;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> assocIntf;
+    // The association to subsystems
+    std::vector<std::string> subsystems;
+
+    // The association to secondary controllers from a primary controller
+    std::vector<std::string> secondaryControllers;
 
     // NVMe Plug-in for vendor defined command/field
     std::weak_ptr<NVMeControllerPlugin> plugin;
