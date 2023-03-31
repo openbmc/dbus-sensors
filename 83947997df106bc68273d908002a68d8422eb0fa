@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5ba3cbe_30c9912d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000461
+      },
+      "writtenOn": "2023-03-31T08:46:39Z",
+      "side": 1,
+      "message": "The old one doesn\u0027t exist.\nFrom upstream kernel perspective, we\u0027re committed to maintain backwards compatibility, but only for the code that exist in upstream. We can\u0027t ever remove existing uAPI, so there\u0027s no dedicated mechanism to discover uAPI \"version\".\n\nI think what Andrew suggested is simply to invert the logic here.\nIf we wish to maintain userspace compatibility with the old out-of-tree module, we can simply test for /sys/bus/peci/rescan presence first.",
+      "parentUuid": "53e9848d_1dc4c29d",
+      "revId": "83947997df106bc68273d908002a68d8422eb0fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b8137e1d_9af5af42",
         "filename": "src/IntelCPUSensorMain.cpp",
         "patchSetId": 2
