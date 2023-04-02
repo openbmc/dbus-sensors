@@ -1,5 +1,5 @@
 #include <RedfishSensor.hpp>
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/asio/strand.hpp>
@@ -11,8 +11,9 @@ static constexpr bool debug = false;
 // Dumps all content received, dangerous (no escaping), only if debug true
 static constexpr bool dumpContent = false;
 
-// FUTURE: This parameter could come in from configuration
-static constexpr double networkTimeout = 30;
+// Allow time to receive error message after upstream 30 second timeout
+// FUTURE: This parameter should come in from configuration
+static constexpr double networkTimeout = 45;
 
 // Arbitrary limit on network request and reply size, in bytes
 static constexpr int sizeLimit = 65536;
@@ -41,7 +42,7 @@ class RedfishConnectionImpl
         respParser;
 
     explicit RedfishConnectionImpl(
-        const std::shared_ptr<boost::asio::io_service>& io) :
+        const std::shared_ptr<boost::asio::io_context>& io) :
         netResolver(boost::asio::make_strand(*io)),
         netStream(boost::asio::make_strand(*io))
     {
@@ -55,10 +56,12 @@ class RedfishConnectionImpl
 class RedfishConnection : public std::enable_shared_from_this<RedfishConnection>
 {
   public:
-    RedfishConnection(const std::shared_ptr<boost::asio::io_service>& io,
-                      const std::string& host, const std::string& protocol) :
+    RedfishConnection(const std::shared_ptr<boost::asio::io_context>& io,
+                      const std::string& host, const std::string& protocol,
+                      const int& port) :
         ioContext(io),
-        mockTimer(*io), serverHost(host), serverProtocol(protocol)
+        mockTimer(*io), serverHost(host), serverProtocol(protocol),
+        serverPort(port)
     {
         resetConnection();
     }
@@ -82,16 +85,18 @@ class RedfishConnection : public std::enable_shared_from_this<RedfishConnection>
     bool isResolved = false;
     bool isConnected = false;
 
-    std::shared_ptr<boost::asio::io_service> ioContext;
+    std::shared_ptr<boost::asio::io_context> ioContext;
     boost::asio::steady_timer mockTimer;
 
     // Stuff to feed the Beast with
     std::optional<RedfishConnectionImpl> impl;
 
     // For resolution
-    // FUTURE: Add support for SSL (if https), TCP port, user, password
+    // FUTURE: Support SSL (for https protocol)
+    // FUTURE: Support HTTP username/password
     std::string serverHost;
     std::string serverProtocol;
+    int serverPort;
     boost::asio::ip::tcp::endpoint serverEndpoint;
 
     uint64_t bytesRead = 0;
@@ -247,19 +252,28 @@ void RedfishConnection::handleResolution(
 
     for (const auto& result : results)
     {
+        auto candidateEndpoint = result.endpoint();
+
+        // Replace resolved port number with custom port from user
+        if (!(serverPort < 0))
+        {
+            candidateEndpoint.port(serverPort);
+        }
+
         if constexpr (debug)
         {
-            std::cerr << "Network resolution endpoint: " << result.endpoint()
+            std::cerr << "Network resolution endpoint: " << candidateEndpoint
                       << "\n";
         }
 
-        // Accept the first endpoint in the results list
-        // FUTURE: Perhaps handle multiple endpoints in the
-        // future
+        // FUTURE: Retain multiple endpoints
+        // FUTURE: Rotate endpoints after each failure
         if (!isResolved)
         {
+            // Accept the first endpoint in the results list
+            serverEndpoint = candidateEndpoint;
+
             isResolved = true;
-            serverEndpoint = result.endpoint();
         }
     }
 
@@ -284,7 +298,6 @@ void RedfishConnection::handleResolution(
     }
 }
 
-// FUTURE: Allow https and/or custom port number
 void RedfishConnection::submitResolution(
     const std::string& request,
     const std::function<void(const std::string& response, int code)>& callback)
@@ -297,7 +310,8 @@ void RedfishConnection::submitResolution(
     {
         std::cerr << "Network attempting blocking "
                      "resolution: host "
-                  << serverHost << ", protocol " << serverProtocol << "\n";
+                  << serverHost << ", protocol " << serverProtocol << ", port "
+                  << serverPort << "\n";
     }
 
     boost::system::error_code ec;
@@ -324,13 +338,14 @@ void RedfishConnection::submitResolution(
             return;
         }
         lockThis->handleResolution(request, callback, ec, results);
-        });
+    });
 
     if constexpr (debug)
     {
         std::cerr << "Network attempting threaded "
                      "resolution: host "
-                  << serverHost << ", protocol " << serverProtocol << "\n";
+                  << serverHost << ", protocol " << serverProtocol << ", port "
+                  << serverPort << "\n";
     }
 }
 
@@ -375,7 +390,7 @@ void RedfishConnection::submitConnection(
         {
             std::cerr << "Network connection success\n";
         }
-        });
+    });
 
     if constexpr (debug)
     {
@@ -442,7 +457,7 @@ void RedfishConnection::submitQuery(
             std::cerr << "Network query success: " << bytesTransferred
                       << " bytes transferred\n";
         }
-        });
+    });
 
     if constexpr (debug)
     {
@@ -511,7 +526,7 @@ void RedfishConnection::submitReply(
             std::cerr << "Network reply success: " << bytesTransferred
                       << " bytes transferred\n";
         }
-        });
+    });
 
     if constexpr (debug)
     {
@@ -552,10 +567,16 @@ void RedfishTransaction::handleCallback(const std::string& response, int code)
     reply.jsonResponse = nlohmann::json::parse(response, nullptr, false);
     if (!(reply.jsonResponse.is_object()))
     {
-        // No return here, this is a warning, not a fatal
-        // error
-        std::cerr << "Transaction returned content that "
-                     "is not a JSON object\n";
+        // Provide additional context as to what went wrong
+        if (response.size() == 0)
+        {
+            std::cerr << "Transaction returned content that is zero-length\n";
+        }
+        else
+        {
+            std::cerr << "Transaction returned content that "
+                         "is not a JSON object\n";
+        }
     }
 
     // Tell the caller what just happened
@@ -581,16 +602,16 @@ void RedfishTransaction::submitRequest(
 
     connection->submitTransaction(
         queryRequest, [weakThis](const std::string& response, int code) {
-            auto lockThis = weakThis.lock();
-            if (!lockThis)
-            {
-                std::cerr
-                    << "Transaction callback ignored: Object has disappeared\n";
-                return;
-            }
+        auto lockThis = weakThis.lock();
+        if (!lockThis)
+        {
+            std::cerr
+                << "Transaction callback ignored: Object has disappeared\n";
+            return;
+        }
 
-            lockThis->handleCallback(response, code);
-        });
+        lockThis->handleCallback(response, code);
+    });
 
     if constexpr (debug)
     {
@@ -614,15 +635,16 @@ void RedfishServer::startNetworking()
         return;
     }
 
-    // FUTURE: Allow https (SSL), custom TCP port, HTTP
-    // user/password
     if (protocol.empty())
     {
-        protocol = "http";
+        std::cerr << "Internal error: Networking protocol is empty\n";
+        return;
     }
 
+    // FUTURE: Allow SSL
+    // FUTURE: Allow HTTP username/password
     networkConnection =
-        make_shared<RedfishConnection>(ioContext, host, protocol);
+        make_shared<RedfishConnection>(ioContext, host, protocol, port);
 }
 
 // To keep the flags and audits correct, wrap your transactions in these
@@ -839,8 +861,8 @@ void RedfishServer::queryChassisCandidate(const std::string& path)
     RedfishTransaction trans;
 
     trans.queryRequest = path;
-    trans.callbackResponse =
-        [weakThis, path](const RedfishCompletion& completion) {
+    trans.callbackResponse = [weakThis,
+                              path](const RedfishCompletion& completion) {
         auto lockThis = weakThis.lock();
         if (!lockThis)
         {
@@ -866,8 +888,8 @@ void RedfishServer::querySensorCollection(const std::string& path)
     RedfishTransaction trans;
 
     trans.queryRequest = path;
-    trans.callbackResponse =
-        [weakThis, path](const RedfishCompletion& completion) {
+    trans.callbackResponse = [weakThis,
+                              path](const RedfishCompletion& completion) {
         auto lockThis = weakThis.lock();
         if (!lockThis)
         {
@@ -893,8 +915,8 @@ void RedfishServer::querySensorCandidate(const std::string& path)
     RedfishTransaction trans;
 
     trans.queryRequest = path;
-    trans.callbackResponse =
-        [weakThis, path](const RedfishCompletion& completion) {
+    trans.callbackResponse = [weakThis,
+                              path](const RedfishCompletion& completion) {
         auto lockThis = weakThis.lock();
         if (!lockThis)
         {

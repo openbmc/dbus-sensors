@@ -213,7 +213,7 @@ class RedfishServer : public std::enable_shared_from_this<RedfishServer>
 
     void staleReaper(const std::chrono::steady_clock::time_point& now);
 
-    void provideContext(std::shared_ptr<boost::asio::io_service> io,
+    void provideContext(std::shared_ptr<boost::asio::io_context> io,
                         std::shared_ptr<sdbusplus::asio::connection> conn,
                         std::shared_ptr<sdbusplus::asio::object_server> obj);
 
@@ -229,7 +229,7 @@ class RedfishServer : public std::enable_shared_from_this<RedfishServer>
     std::shared_ptr<RedfishConnection> networkConnection;
 
     // Necessary to hold on to, to create RedfishSensorImpl when ready
-    std::shared_ptr<boost::asio::io_service> ioContext;
+    std::shared_ptr<boost::asio::io_context> ioContext;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     std::shared_ptr<sdbusplus::asio::object_server> objectServer;
 

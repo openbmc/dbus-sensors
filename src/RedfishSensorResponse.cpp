@@ -141,8 +141,11 @@ static double stringToNumber(const std::string& text, bool& outSuccessful)
     {
         result = std::numeric_limits<double>::quiet_NaN();
 
-        std::cerr << "Problem converting string to number: " << e.what()
-                  << "\n";
+        if constexpr (debug)
+        {
+            std::cerr << "Problem converting string to number: " << e.what()
+                      << "\n";
+        }
     }
 
     if constexpr (debug)
@@ -1291,6 +1294,11 @@ int RedfishServer::checkMetricReport(const nlohmann::json& json,
         fillFromJsonNumber("MetricValue", element, successful);
         if (!successful)
         {
+            if constexpr (debug)
+            {
+                std::cerr << "Ignoring non-numeric metric: " << sensorPath
+                          << "\n";
+            }
             continue;
         }
 

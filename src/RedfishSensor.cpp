@@ -417,11 +417,10 @@ void RedfishServer::handleTimer()
 {
     std::chrono::steady_clock::time_point now =
         std::chrono::steady_clock::now();
-    std::chrono::steady_clock::time_point when = pollTimer->expiry();
-
-    ++ticksElapsed;
 
     timeAction = now;
+
+    ++ticksElapsed;
 
     // Initiates the next network activity, unless network is already busy
     // Keeps track of how many times we had to skip because network was busy
@@ -430,25 +429,26 @@ void RedfishServer::handleTimer()
     // Expire stale sensors
     staleReaper(timeAction);
 
-    auto weakThis = weak_from_this();
-
-    when += std::chrono::milliseconds(pollIntervalTimeMs);
+    std::chrono::steady_clock::time_point thisExpiry = pollTimer->expiry();
+    std::chrono::steady_clock::time_point nextExpiry =
+        thisExpiry + std::chrono::milliseconds(pollIntervalTimeMs);
 
     // This is explicitly not expires_from_now(). Instead, the expiration
     // time is incremented manually, to ensure accurate intervals, that do
     // not drift slower over time due to processing overhead.
-    pollTimer->expires_at(when);
+    pollTimer->expires_at(nextExpiry);
 
+    auto weakThis = weak_from_this();
     pollTimer->async_wait([weakThis](const boost::system::error_code& ec) {
         timerCallback(weakThis, ec);
     });
 
     if constexpr (debug)
     {
-        // If lagging, "now" will get ahead of "when"
-        auto msLag =
-            std::chrono::duration_cast<std::chrono::milliseconds>(now - when)
-                .count();
+        // If lagging, "now" will get ahead of "thisExpiry"
+        auto msLag = std::chrono::duration_cast<std::chrono::milliseconds>(
+                         now - thisExpiry)
+                         .count();
 
         std::chrono::steady_clock::time_point later =
             std::chrono::steady_clock::now();
@@ -464,7 +464,7 @@ void RedfishServer::handleTimer()
 }
 
 void RedfishServer::provideContext(
-    std::shared_ptr<boost::asio::io_service> io,
+    std::shared_ptr<boost::asio::io_context> io,
     std::shared_ptr<sdbusplus::asio::connection> conn,
     std::shared_ptr<sdbusplus::asio::object_server> obj)
 {
@@ -821,13 +821,20 @@ void RedfishServer::acceptSensors()
         int reportsPresent =
             checkMetricReport(metricReport.reportCache, sensorsIncluded);
 
+        if constexpr (debug)
+        {
+            std::cerr << "Checking " << metricReport.reportPath
+                      << " report: " << reportsPresent << " readings, "
+                      << sensorsIncluded << " relevant\n";
+        }
+
         if (sensorsIncluded < 1)
         {
             std::cerr << "Report " << metricReport.reportPath
                       << " not relevant for any of our sensors\n";
             continue;
         }
-        if (reportsPresent < sensorsIncluded)
+        if (reportsPresent < 1)
         {
             std::cerr << "Report " << metricReport.reportPath
                       << " not usable with our sensors\n";
@@ -840,8 +847,7 @@ void RedfishServer::acceptSensors()
         if constexpr (debug)
         {
             std::cerr << "Report " << metricReport.reportPath
-                      << " is useful: " << reportsPresent << " readings, "
-                      << sensorsIncluded << " relevant\n";
+                      << " considered useful\n";
         }
     }
 

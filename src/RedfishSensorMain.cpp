@@ -13,6 +13,12 @@
 
 static constexpr bool debug = false;
 
+// Default network protocol
+static constexpr auto defaultProtocol = "http";
+
+// Default port number will be looked up dynamically by protocol
+static constexpr int defaultPort = -1;
+
 static constexpr auto sensorTypes{std::to_array<const char*>(
     {"RedfishSensor", "RedfishChassis", "RedfishServer"})};
 
@@ -20,7 +26,7 @@ class Globals
 {
   public:
     // Common globals for communication to the outside world
-    std::shared_ptr<boost::asio::io_service> ioContext;
+    std::shared_ptr<boost::asio::io_context> ioContext;
     std::shared_ptr<sdbusplus::asio::connection> systemBus;
     std::shared_ptr<sdbusplus::asio::object_server> objectServer;
 
@@ -33,7 +39,7 @@ class Globals
         sensorsConfig;
 
     Globals() :
-        ioContext(std::make_shared<boost::asio::io_service>()),
+        ioContext(std::make_shared<boost::asio::io_context>()),
         systemBus(std::make_shared<sdbusplus::asio::connection>(*ioContext)),
         objectServer(
             std::make_shared<sdbusplus::asio::object_server>(systemBus, true))
@@ -193,19 +199,96 @@ bool fillConfigString(const SensorBaseConfigMap& baseConfigMap,
     {
         if (isMandatory)
         {
-            std::cerr << paramName << " parameter not found for "
+            std::cerr << paramName << " parameter not found in "
                       << interfacePath << "\n";
             return false;
         }
-        paramValue.clear();
+
+        if constexpr (debug)
+        {
+            std::cerr << paramName << " optional parameter not given in "
+                      << interfacePath << "\n";
+        }
         return true;
     }
-    paramValue = std::visit(VariantToStringVisitor(), paramFound->second);
+
+    try
+    {
+        paramValue = std::visit(VariantToStringVisitor(), paramFound->second);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << paramName << " parameter not parsed in " << interfacePath
+                  << ": " << e.what() << "\n";
+        return false;
+    }
+
     if (paramValue.empty())
     {
-        std::cerr << paramName << " parameter not parsed for " << interfacePath
-                  << "\n";
+        std::cerr << paramName << " parameter not acceptable in "
+                  << interfacePath << "\n";
         return false;
+    }
+
+    if constexpr (debug)
+    {
+        std::cerr << paramName << " accepted in " << interfacePath << ": "
+                  << paramValue << "\n";
+    }
+    return true;
+}
+
+bool fillConfigNumber(const SensorBaseConfigMap& baseConfigMap,
+                      const std::string& interfacePath,
+                      const std::string& paramName, bool isMandatory,
+                      double& paramValue)
+{
+    auto paramFound = baseConfigMap.find(paramName);
+    if (paramFound == baseConfigMap.end())
+    {
+        if (isMandatory)
+        {
+            std::cerr << paramName << " parameter not found in "
+                      << interfacePath << "\n";
+            return false;
+        }
+
+        if constexpr (debug)
+        {
+            std::cerr << paramName << " optional parameter not given in "
+                      << interfacePath << "\n";
+        }
+        return true;
+    }
+
+    try
+    {
+        paramValue = std::visit(VariantToDoubleVisitor(), paramFound->second);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << paramName << " parameter not parsed in " << interfacePath
+                  << ": " << e.what() << "\n";
+        return false;
+    }
+
+    if (!std::isfinite(paramValue))
+    {
+        std::cerr << paramName << " parameter not acceptable in "
+                  << interfacePath << "\n";
+        return false;
+    }
+    if (paramValue < 0.0)
+    {
+        std::cerr << paramName << " parameter not acceptable in "
+                  << interfacePath << "\n";
+        return false;
+    }
+
+    if constexpr (debug)
+    {
+        std::cerr << paramName << " accepted in " << interfacePath << ": "
+                  << paramValue << "\n";
     }
     return true;
 }
@@ -374,6 +457,8 @@ void createSensorsCallback(
         if (sensorType == "RedfishServer")
         {
             std::string serverHost;
+            std::string serverProtocol = defaultProtocol;
+            auto serverPort = static_cast<double>(defaultPort);
 
             // Host is only mandatory parameter
             if (!fillConfigString(baseConfigMap, interfacePath, "Host", true,
@@ -381,21 +466,38 @@ void createSensorsCallback(
             {
                 continue;
             }
-            // FUTURE: Parse optional parameters
+
+            // Protocol and Port are optional parameters
+            if (!fillConfigString(baseConfigMap, interfacePath, "Protocol",
+                                  false, serverProtocol))
+            {
+                continue;
+            }
+            if (!fillConfigNumber(baseConfigMap, interfacePath, "Port", false,
+                                  serverPort))
+            {
+                continue;
+            }
+
+            // FUTURE: Parse additional optional parameters
 
             auto newServer = std::make_shared<RedfishServer>();
 
             newServer->configName = sensorName;
 
             newServer->host = serverHost;
-            // FUTURE: Provide optional parameters
+            newServer->protocol = serverProtocol;
+            newServer->port = static_cast<int>(serverPort);
+
+            // FUTURE: Provide additional optional parameters
 
             globals.serversConfig[sensorName] = newServer;
 
             if constexpr (debug)
             {
                 std::cerr << "Added server " << sensorName << ": host "
-                          << serverHost << "\n";
+                          << serverHost << ", protocol " << serverProtocol
+                          << ", port " << serverPort << "\n";
             }
             continue;
         }
@@ -541,7 +643,7 @@ void createSensors(Globals& globals,
         globals.systemBus,
         [&globals, &sensorsChanged](const ManagedObjectType& sensorConfigs) {
         createSensorsCallback(globals, sensorsChanged, sensorConfigs);
-        });
+    });
 
     getter->getConfiguration(
         std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()));
@@ -577,7 +679,7 @@ int main()
         sensorsChanged.insert(messagePath);
         if constexpr (debug)
         {
-            std::cerr << "Received message from " << messagePath;
+            std::cerr << "Received message from " << messagePath << "\n";
         }
 
         // Defer action, so rapidly incoming requests can be batched up
