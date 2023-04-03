@@ -207,6 +207,30 @@
       },
       "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0981fd34_e2f928ad",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-03T20:29:21Z",
+      "side": 1,
+      "message": "I\u0027ve created a proposed change to using of_node/compatible here: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62006\n\nAny further suggestions or thoughts are extremely welcome- figuring out how all this works in the context of openbmc has been a fantastic learning experience :)",
+      "parentUuid": "2dd84dd4_aa24b7d4",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "f7736cbbc27e48ba14b48fb1a5ccf1f60b64e60d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
