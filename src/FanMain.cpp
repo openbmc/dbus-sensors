@@ -64,17 +64,35 @@ std::optional<RedundancySensor> systemRedundancy;
 
 FanTypes getFanType(const fs::path& parentPath)
 {
-    fs::path linkPath = parentPath / "device";
-    std::string canonical = fs::read_symlink(linkPath);
-    if (canonical.ends_with("pwm-tacho-controller") ||
-        canonical.ends_with("pwm_tach:tach"))
+    fs::path linkPath = parentPath / "of_node";
+    std::string canonical = fs::canonical(linkPath);
+
+    std::string compatiblePath = canonical + "/compatible";
+    std::ifstream compatibleStream(compatiblePath);
+
+    if (!compatibleStream.is_open())
     {
-        return FanTypes::aspeed;
+        std::cerr << "Error opening " << compatiblePath << "\n";
+        return FanTypes::i2c; // Should this throw an exception instead?
     }
-    if (canonical.ends_with("pwm-fan-controller"))
+
+    std::string compatibleString;
+    while (compatibleStream.peek() != EOF)
     {
-        return FanTypes::nuvoton;
+        std::getline(compatibleStream, compatibleString);
+        compatibleString.pop_back(); // trim EOL before comparisons
+
+        if (compatibleString == "aspeed,ast2400-pwm-tacho" ||
+            compatibleString == "aspeed,ast2500-pwm-tacho")
+        {
+            return FanTypes::aspeed;
+        }
+        if (compatibleString == "nuvoton,npcm750-pwm-fan")
+        {
+            return FanTypes::nuvoton;
+        }
     }
+
     // todo: will we need to support other types?
     return FanTypes::i2c;
 }
