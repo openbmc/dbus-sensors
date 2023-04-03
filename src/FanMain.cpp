@@ -64,20 +64,42 @@ std::optional<RedundancySensor> systemRedundancy;
 
 FanTypes getFanType(const fs::path& parentPath)
 {
-    fs::path linkPath = parentPath / "device";
-    std::string canonical = fs::read_symlink(linkPath);
-    if (canonical.ends_with("pwm-tacho-controller") ||
-        canonical.ends_with("pwm_tach:tach"))
+    fs::path linkPath = parentPath / "of_node";
+    std::string canonical = fs::canonical(linkPath);
+
+    std::string compatibilityPath = canonical + "/compatible";
+    std::ifstream compatibilityNode(compatibilityPath);
+
+    if (compatibilityNode.is_open())
     {
-        return FanTypes::aspeed;
+        std::string compatibilityString;
+        while (compatibilityNode.peek() != EOF)
+        {
+
+            std::getline(compatibilityNode, compatibilityString);
+            compatibilityString = compatibilityString.substr(
+                0, compatibilityString.length() -
+                       1); // trim EOL before comparisons
+
+            if (compatibilityString == "aspeed,ast2400-pwm-tacho" ||
+                compatibilityString == "aspeed,ast2500-pwm-tacho")
+            {
+                return FanTypes::aspeed;
+            }
+            if (compatibilityString == "nuvoton,npcm750-pwm-fan")
+            {
+                return FanTypes::nuvoton;
+            }
+        }
     }
-    if (canonical.ends_with("pwm-fan-controller"))
+    else
     {
-        return FanTypes::nuvoton;
+        std::cerr << "Error opening " << compatibilityPath << "\n";
     }
-    // todo: will we need to support other types?
+
     return FanTypes::i2c;
 }
+
 void enablePwm(const fs::path& filePath)
 {
     std::fstream enableFile(filePath, std::ios::in | std::ios::out);
@@ -300,6 +322,7 @@ void createSensors(
                 {
                     // there will be only 1 aspeed or nuvoton sensor object
                     // in sysfs, we found the fan
+
                     sensorData = &cfgData;
                     break;
                 }
