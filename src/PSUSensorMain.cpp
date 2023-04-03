@@ -446,8 +446,7 @@ static void createSensorsCallback(
         auto findCPU = baseConfig->find("CPURequired");
         if (findCPU != baseConfig->end())
         {
-            size_t index =
-                std::visit(VariantToIntVisitor(), findCPU->second);
+            size_t index = std::visit(VariantToIntVisitor(), findCPU->second);
             auto presenceFind = cpuPresence.find(index);
             if (presenceFind == cpuPresence.end() || !presenceFind->second)
             {
@@ -1121,12 +1120,12 @@ int main()
         {
             cpuPresence[index] = std::get<bool>(findPresence->second);
         }
-        catch(const std::bad_variant_access& err)
+        catch (const std::bad_variant_access& err)
         {
             return;
         }
 
-        if(!cpuPresence[index])
+        if (!cpuPresence[index])
         {
             return;
         }
