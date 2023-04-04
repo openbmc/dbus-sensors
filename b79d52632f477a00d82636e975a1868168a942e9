@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51e4274e_89d23d01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-04-04T06:51:44Z",
+      "side": 1,
+      "message": "Basic testing was performed on a Tioga Pass board (ast2500 BMC, Xeon Skylake SKX host CPUs) with Linux version 6.1.15-0e94476-dirty-3631c2d, basically, current OpenBMC master with minor unrelated tweaks. Worked as expected. The DIMM temperatures appeared automatically a bit later, probably after POST was done.",
+      "parentUuid": "0079df7e_ba768c48",
+      "revId": "b79d52632f477a00d82636e975a1868168a942e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b823358_4dd35823",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01e7b424_b91b3600",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-04-04T06:51:44Z",
+      "side": 1,
+      "message": "I\u0027d say it\u0027s created unconditionally:\nhttps://elixir.bootlin.com/linux/latest/source/drivers/peci/core.c#L209\nhttps://elixir.bootlin.com/linux/latest/source/drivers/peci/sysfs.c#L36",
+      "parentUuid": "0b823358_4dd35823",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 470,
+        "endChar": 9
+      },
+      "revId": "b79d52632f477a00d82636e975a1868168a942e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83768426_9ded79d1",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-04-04T00:17:24Z",
       "side": 1,
       "message": "nit: Legacy PECI API (open to discuss whether it is better than \"downstream\"\nActually, we probably don\u0027t need to log anything since there is nothing wrong and it can flood the logging for users still use legacy driver.",
+      "range": {
+        "startLine": 473,
+        "startChar": 30,
+        "endLine": 473,
+        "endChar": 45
+      },
+      "revId": "b79d52632f477a00d82636e975a1868168a942e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa93fb9f_7de55403",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-04-04T06:51:44Z",
+      "side": 1,
+      "message": "During normal operation it prints \"CPU configs are parsed\" and \"Sensors are created\" even though there\u0027s nothing wrong, and the logs weren\u0027t considered flooded with that, so I thought one more informational message wouldn\u0027t harm but might help someone bringing up a new board and dealing with configuration options.\nI personally prefer to always have \"strace\" to run any daemon under that when in doubt about what\u0027s really happening, but seeing a message is a bit more straightforward.\nI do not mind eiher way, just tell me how you like it and I\u0027ll send an amended version.",
+      "parentUuid": "83768426_9ded79d1",
       "range": {
         "startLine": 473,
         "startChar": 30,
