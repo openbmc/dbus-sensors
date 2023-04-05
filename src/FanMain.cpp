@@ -41,14 +41,15 @@
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
-static auto sensorTypes{
-    std::to_array<const char*>({"AspeedFan", "I2CFan", "NuvotonFan"})};
+static auto sensorTypes{std::to_array<const char*>(
+    {"AspeedFan", "I2CFan", "NuvotonFan", "GxpFan"})};
 
 enum FanTypes
 {
     aspeed = 0,
     i2c,
     nuvoton,
+    hpe,
     max,
 };
 
@@ -65,7 +66,12 @@ std::optional<RedundancySensor> systemRedundancy;
 static const std::map<std::string, FanTypes> compatibleFanTypes = {
     {"aspeed,ast2400-pwm-tacho", FanTypes::aspeed},
     {"aspeed,ast2500-pwm-tacho", FanTypes::aspeed},
+<<<<<<< PATCH SET (22f19d add support for hpe's gxpfan type)
+    {"nuvoton,npcm750-pwm-fan", FanTypes::nuvoton},
+    {"hpe,gxp-fan-ctrl", FanTypes::hpe}
+=======
     {"nuvoton,npcm750-pwm-fan", FanTypes::nuvoton}
+>>>>>>> BASE      (9c6ed8 use std::map for fantype 'compatible' string checks)
     // todo: will we need to support other types?
 };
 
@@ -321,9 +327,14 @@ void createSensors(
                 {
                     continue;
                 }
-                if (fanType == FanTypes::aspeed || fanType == FanTypes::nuvoton)
+                if (fanType == FanTypes::aspeed ||
+                    fanType == FanTypes::nuvoton || fanType == FanTypes::hpe)
                 {
+<<<<<<< PATCH SET (22f19d add support for hpe's gxpfan type)
+                    // there will be only 1 aspeed or nuvoton or gxp sensor
+=======
                     // there will be only 1 aspeed or nuvoton
+>>>>>>> BASE      (9c6ed8 use std::map for fantype 'compatible' string checks)
                     // object in sysfs, we found the fan
                     sensorData = &cfgData;
                     break;
