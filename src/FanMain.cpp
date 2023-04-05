@@ -41,14 +41,15 @@
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
-static auto sensorTypes{
-    std::to_array<const char*>({"AspeedFan", "I2CFan", "NuvotonFan"})};
+static auto sensorTypes{std::to_array<const char*>(
+    {"AspeedFan", "I2CFan", "NuvotonFan", "GxpFan"})};
 
 enum FanTypes
 {
     aspeed = 0,
     i2c,
     nuvoton,
+    hpe,
     max,
 };
 
@@ -61,6 +62,14 @@ static std::regex inputRegex(R"(fan(\d+)_input)");
 
 // todo: power supply fan redundancy
 std::optional<RedundancySensor> systemRedundancy;
+
+static const std::map<std::string, FanTypes> compatibleFanTypes = {
+    {"aspeed,ast2400-pwm-tacho", FanTypes::aspeed},
+    {"aspeed,ast2500-pwm-tacho", FanTypes::aspeed},
+    {"nuvoton,npcm750-pwm-fan", FanTypes::nuvoton},
+    {"hpe,gxp-fan-ctrl", FanTypes::hpe}
+    // todo: will we need to support other types?
+};
 
 FanTypes getFanType(const fs::path& parentPath)
 {
@@ -82,18 +91,18 @@ FanTypes getFanType(const fs::path& parentPath)
         std::getline(compatibleStream, compatibleString);
         compatibleString.pop_back(); // trim EOL before comparisons
 
-        if (compatibleString == "aspeed,ast2400-pwm-tacho" ||
-            compatibleString == "aspeed,ast2500-pwm-tacho")
+        std::map<std::string, FanTypes>::const_iterator compatibleIterator =
+            compatibleFanTypes.find(compatibleString);
+
+        if (compatibleIterator !=
+            compatibleFanTypes.end()) // check if compatibleString is a key in
+                                      // the compatibleFanTypes map
         {
-            return FanTypes::aspeed;
-        }
-        if (compatibleString == "nuvoton,npcm750-pwm-fan")
-        {
-            return FanTypes::nuvoton;
+            return compatibleIterator
+                ->second; // return FanType found in compatibleFanTypes map
         }
     }
 
-    // todo: will we need to support other types?
     return FanTypes::i2c;
 }
 void enablePwm(const fs::path& filePath)
@@ -314,10 +323,11 @@ void createSensors(
                 {
                     continue;
                 }
-                if (fanType == FanTypes::aspeed || fanType == FanTypes::nuvoton)
+                if (fanType == FanTypes::aspeed ||
+                    fanType == FanTypes::nuvoton || fanType == FanTypes::hpe)
                 {
-                    // there will be only 1 aspeed or nuvoton sensor object
-                    // in sysfs, we found the fan
+                    // there will be only 1 aspeed or nuvoton or gxp sensor
+                    // object in sysfs, we found the fan
                     sensorData = &cfgData;
                     break;
                 }
