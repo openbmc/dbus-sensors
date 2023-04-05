@@ -41,14 +41,15 @@
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
-static auto sensorTypes{
-    std::to_array<const char*>({"AspeedFan", "I2CFan", "NuvotonFan"})};
+static auto sensorTypes{std::to_array<const char*>(
+    {"AspeedFan", "I2CFan", "NuvotonFan", "GxpFan"})};
 
 enum FanTypes
 {
     aspeed = 0,
     i2c,
     nuvoton,
+    gxp,
     max,
 };
 
@@ -85,11 +86,33 @@ FanTypes getFanType(const fs::path& parentPath)
         if (compatibleString == "aspeed,ast2400-pwm-tacho" ||
             compatibleString == "aspeed,ast2500-pwm-tacho")
         {
+<<<<<<< PATCH SET (adfeb8 add support for hpe's gxpfan type)
+
+            std::getline(compatibilityNode, compatibilityString);
+            compatibilityString = compatibilityString.substr(
+                0, compatibilityString.length() -
+                       1); // trim EOL before comparisons
+
+            if (compatibilityString == "aspeed,ast2400-pwm-tacho" ||
+                compatibilityString == "aspeed,ast2500-pwm-tacho")
+            {
+                return FanTypes::aspeed;
+            }
+            if (compatibilityString == "nuvoton,npcm750-pwm-fan")
+            {
+                return FanTypes::nuvoton;
+            }
+            if (compatibilityString == "hpe,gxp-fan-ctrl")
+            {
+                return FanTypes::gxp;
+            }
+=======
             return FanTypes::aspeed;
         }
         if (compatibleString == "nuvoton,npcm750-pwm-fan")
         {
             return FanTypes::nuvoton;
+>>>>>>> BASE      (450b1e detect fan type by matching against 'compatible')
         }
     }
 
@@ -314,10 +337,11 @@ void createSensors(
                 {
                     continue;
                 }
-                if (fanType == FanTypes::aspeed || fanType == FanTypes::nuvoton)
+                if (fanType == FanTypes::aspeed ||
+                    fanType == FanTypes::nuvoton || fanType == FanTypes::gxp)
                 {
-                    // there will be only 1 aspeed or nuvoton sensor object
-                    // in sysfs, we found the fan
+                    // there will be only 1 aspeed or nuvoton or gxp sensor
+                    // object in sysfs, we found the fan
                     sensorData = &cfgData;
                     break;
                 }
