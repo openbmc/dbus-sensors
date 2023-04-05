@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9399926a_8b17a9b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-04-05T17:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "012cdefb_89930ee0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "f3eea9754686417e14c962e09aea46e3a1d5ecd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fafa91fc_3e6a6408",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-01-28T17:09:21Z",
       "side": 1,
       "message": "replace deactivate() here",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 21
+      },
+      "revId": "f3eea9754686417e14c962e09aea46e3a1d5ecd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "388015a8_e6e8fb51",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-04-05T17:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555666d_c2808fb5",
       "range": {
         "startLine": 102,
         "startChar": 4,
