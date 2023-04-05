@@ -16,6 +16,24 @@
       "message": "I think the code change and the explanation for it both make sense.\n\nMy question: If you powered the host back on with no further changes, will thresholds be re-asserted, and the status changed back to \u0027critical\u0027 in the webUI?\n\nBased on my read of surrounding code, I believe the normal threshold behavior will be restored when PowerState-linked sensors have ThresholdTimer::startTimer called after power is restored --and that this change *will not* break normal threshold responses for affected sensors once host power is back on.\n\nCan someone with a better understanding, or hardware to check confirm that this is the case?",
       "revId": "033f8448e2cc71ba14000380a9b87774a28293da",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7d88643_adf593e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2023-04-05T20:53:41Z",
+      "side": 1,
+      "message": "```\nMy question: If you powered the host back on with no further changes, will thresholds be re-asserted, and the status changed back to \u0027critical\u0027 in the webUI?\n```\nGenerally it depends on the sensor value at that time.\n\nIf the host is powered off, the value is no longer sampled, and therefore is not checked against its thresholds. This is why we need to disable thresholds manually.\nWhen the host is powered on, the value sampling process starts again, and each value is compared against the thresholds. So as soon as it crosses limits, threshold will be re-asserted.\n\nIn the example described in the commit thresholds correctly re-assert after power off/power on cycle.",
+      "parentUuid": "4a027f9a_2b1fabef",
+      "revId": "033f8448e2cc71ba14000380a9b87774a28293da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
