@@ -41,14 +41,15 @@
 namespace fs = std::filesystem;
 
 // The following two structures need to be consistent
-static auto sensorTypes{
-    std::to_array<const char*>({"AspeedFan", "I2CFan", "NuvotonFan"})};
+static auto sensorTypes{std::to_array<const char*>(
+    {"AspeedFan", "I2CFan", "NuvotonFan", "HPEFan"})};
 
 enum FanTypes
 {
     aspeed = 0,
     i2c,
     nuvoton,
+    hpe,
     max,
 };
 
@@ -65,8 +66,14 @@ std::optional<RedundancySensor> systemRedundancy;
 static const std::map<std::string, FanTypes> compatibleFanTypes = {
     {"aspeed,ast2400-pwm-tacho", FanTypes::aspeed},
     {"aspeed,ast2500-pwm-tacho", FanTypes::aspeed},
+<<<<<<< PATCH SET (2af2b5 add support for hpe's gxpfan type)
+    {"nuvoton,npcm750-pwm-fan", FanTypes::nuvoton},
+    {"hpe,gxp-fan-ctrl", FanTypes::hpe}
+    // todo: will we need to support other types?
+=======
     {"nuvoton,npcm750-pwm-fan", FanTypes::nuvoton}
     // add compatible string here for new fan type
+>>>>>>> BASE      (3d5260 use std::map for fantype 'compatible' string checks)
 };
 
 FanTypes getFanType(const fs::path& parentPath)
@@ -317,9 +324,10 @@ void createSensors(
                 {
                     continue;
                 }
-                if (fanType == FanTypes::aspeed || fanType == FanTypes::nuvoton)
+                if (fanType == FanTypes::aspeed ||
+                    fanType == FanTypes::nuvoton || fanType == FanTypes::hpe)
                 {
-                    // there will be only 1 aspeed or nuvoton
+                    // there will be only 1 aspeed or nuvoton or hpe sensor
                     // object in sysfs, we found the fan
                     sensorData = &cfgData;
                     break;
