@@ -122,21 +122,21 @@ void NVMeSubsystem::start(const SensorData& configData)
                         self->io, self->objServer, self->conn, path.string(),
                         nvme, c);
 
-                    // insert the controllers with empty plugin
-                    auto [iter, _] = self->controllers.insert(
-                        {*index, {nvmeController, {}}});
-                    auto& ctrlPlugin = iter->second.second;
+                    std::shared_ptr<NVMeControllerPlugin> ctrlPlugin;
 
-                    // set StorageController Association
-                    nvmeController->addSubsystemAssociation(self->path);
-
-                    // creat controller plugin
+                    // create controller plugin
                     if (self->plugin)
                     {
                         ctrlPlugin = self->plugin->createControllerPlugin(
                             *nvmeController, configData);
                     }
-                    nvmeController->start(ctrlPlugin);
+
+                    // insert the controllers and controller plugin
+                    self->controllers.insert(
+                        {*index, {nvmeController, ctrlPlugin}});
+
+                    // set StorageController Association
+                    nvmeController->addSubsystemAssociation(self->path);
                 }
                 catch (const std::exception& e)
                 {
@@ -209,7 +209,13 @@ void NVMeSubsystem::start(const SensorData& configData)
                     secCntrls.push_back(findSecondary->second.first);
                 }
                 findPrimary->second.first->setSecAssoc(secCntrls);
-                });
+
+                // start controller
+                for (auto& [_, pair] : self->controllers)
+                {
+                    pair.first->start(pair.second);
+                }
+                });            
         });
     }
 
