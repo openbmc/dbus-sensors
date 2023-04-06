@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a84c6c3_7ff0ee89",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-06T00:55:03Z",
+      "side": 1,
+      "message": "Using `gxp` here is inconsistent. The other entries represent the company who produced the family of SoCs, not the name of the family of SoCs. So if we\u0027re to be consistent you should add `hpe` here rather than `gxp`.",
+      "revId": "adfeb8ffae06732046782168a925c047ccbb6f44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf2f99d8_a3d1d111",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-06T00:55:03Z",
+      "side": 1,
+      "message": "At this point it might make more sense to do:\n\n```\nstatic const std::map\u003cstd::string, FanTypes\u003e compatibleFanTypes \u003d {\n    {\"aspeed,ast2400-pwm-tacho\", FanTypes::aspeed},\n    {\"aspeed,ast2500-pwm-tacho\", FanTypes::aspeed},\n    {\"nuvoton,npcm750-pwm-fan\", FanTypes::nuvoton},\n    {\"hpe,gxp-fan-ctrl\", FanTypes::gxp}\n};\n```\n\nAnd then loop body is mostly reduced to:\n\n```\nreturn compatibleFanTypes.at(compatibilityString);\n```",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "adfeb8ffae06732046782168a925c047ccbb6f44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
