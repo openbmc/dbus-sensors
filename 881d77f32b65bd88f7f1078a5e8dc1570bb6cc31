@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "623994c4_e48fdd3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-06T14:22:03Z",
+      "side": 1,
+      "message": "This level of suggestion/commentary is definitely appreciated, thanks!",
+      "parentUuid": "38baaaba_50f63880",
+      "revId": "881d77f32b65bd88f7f1078a5e8dc1570bb6cc31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3049e78_ae8c4f95",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-04-06T00:47:14Z",
       "side": 1,
       "message": "Nit: as a general comment with respect to `compatibilityPath`, `compatibilityNode` and `compatibilityString` I think we should `s/compatibility/compatible/` so the variable names align with the actual attribute name.",
+      "revId": "881d77f32b65bd88f7f1078a5e8dc1570bb6cc31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d40c1643_6ebac9ce",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-06T14:22:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f3049e78_ae8c4f95",
       "revId": "881d77f32b65bd88f7f1078a5e8dc1570bb6cc31",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +94,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94536a67_b6253fce",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-06T14:22:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4b4661eb_d0b3c327",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 35
+      },
+      "revId": "881d77f32b65bd88f7f1078a5e8dc1570bb6cc31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ec65d90_4b77347c",
@@ -75,6 +135,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "869b85a3_1b7afbc2",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-06T14:22:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9ec65d90_4b77347c",
+      "revId": "881d77f32b65bd88f7f1078a5e8dc1570bb6cc31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "539ff995_db6e7022",
@@ -88,6 +166,30 @@
       "writtenOn": "2023-04-06T00:47:14Z",
       "side": 1,
       "message": "Nit: We could make this less noisy as just `compatibleString.pop_back()`",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 57
+      },
+      "revId": "881d77f32b65bd88f7f1078a5e8dc1570bb6cc31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b941852e_64f0a9c3",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-06T14:22:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "539ff995_db6e7022",
       "range": {
         "startLine": 80,
         "startChar": 0,
