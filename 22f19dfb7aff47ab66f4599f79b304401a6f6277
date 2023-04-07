@@ -16,6 +16,24 @@
       "message": "lgtm",
       "revId": "22f19dfb7aff47ab66f4599f79b304401a6f6277",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b03308da_f6bc681c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-07T21:20:41Z",
+      "side": 1,
+      "message": "This is depend on https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62006",
+      "parentUuid": "94381d51_be85f588",
+      "revId": "22f19dfb7aff47ab66f4599f79b304401a6f6277",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
