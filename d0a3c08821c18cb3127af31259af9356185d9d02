@@ -73,6 +73,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "66bbffe4_ada35f51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-07T20:54:44Z",
+      "side": 1,
+      "message": "This code is flagged for merge, so I\u0027m thinking I\u0027ll submit a separate change to moves the threshold hysteresis setting into the function header with a default value of \u00270.\u0027 \n\nThe intent would be just so that devs aren\u0027t surprised with a hardcoded threshold hysteresis value that might disagree with various devices I assume could decide to use this function someday.\n\nAny objections, questions, or other comments?",
+      "parentUuid": "64af7b08_168a6185",
+      "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "441a01e1_978d2110",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 3
