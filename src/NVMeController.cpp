@@ -14,35 +14,67 @@ using sdbusplus::xyz::openbmc_project::Inventory::Item::server::
     StorageController;
 using sdbusplus::xyz::openbmc_project::NVMe::server::NVMeAdmin;
 
-NVMeController::NVMeController(
+NVMeControllerEnabled::NVMeControllerEnabled(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
     std::shared_ptr<sdbusplus::asio::connection> conn, std::string path,
     std::shared_ptr<NVMeMiIntf> nvmeIntf, nvme_mi_ctrl_t ctrl) :
+    NVMeController(io, objServer, conn, path, nvmeIntf, ctrl),
     StorageController(dynamic_cast<sdbusplus::bus_t&>(*conn), path.c_str()),
     NVMeAdmin(*conn, path.c_str(),
-              {{"FirmwareCommitStatus", {FwCommitStatus::Ready}}}),
-    io(io), objServer(objServer), conn(conn), path(path), nvmeIntf(nvmeIntf),
-    nvmeCtrl(ctrl)
+              {{"FirmwareCommitStatus", {FwCommitStatus::Ready}}})
 {
-    StorageController::emit_added();
-    NVMeAdmin::emit_added();
     assocIntf = objServer.add_interface(
         path, "xyz.openbmc_project.Association.Definitions");
 
     // regiester a property with empty association
     assocIntf->register_property("Associations", std::vector<Association>{});
     assocIntf->initialize();
+
+    StorageController::emit_added();
+    NVMeAdmin::emit_added();
 }
 
-void NVMeController::start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin)
+NVMeControllerEnabled::NVMeControllerEnabled(NVMeController&& nvmeController) :
+    NVMeController(std::move(nvmeController)),
+    StorageController(
+        dynamic_cast<sdbusplus::bus_t&>(*this->NVMeController::conn),
+        this->NVMeController::path.c_str()),
+    NVMeAdmin(*this->NVMeController::conn, this->NVMeController::path.c_str(),
+              {{"FirmwareCommitStatus", {FwCommitStatus::Ready}}})
 {
-    plugin = nvmePlugin;
+    assocIntf = objServer.add_interface(
+        path, "xyz.openbmc_project.Association.Definitions");
+
+    // the association could have be set via NVMeController, set the association
+    // dbus property accordingly
+    std::vector<Association> associations;
+    for (const auto& subsys : subsystems)
+    {
+        associations.emplace_back("storage", "storage_controller", subsys);
+    }
+
+    for (const auto& cntrl : secondaryControllers)
+    {
+        associations.emplace_back("secondary", "primary", cntrl);
+    }
+
+    assocIntf->register_property("Associations", associations);
+    assocIntf->initialize();
+
+    StorageController::emit_added();
+    NVMeAdmin::emit_added();
 }
 
-sdbusplus::message::unix_fd NVMeController::getLogPage(uint8_t lid,
-                                                       uint32_t nsid,
-                                                       uint8_t lsp,
-                                                       uint16_t lsi)
+void NVMeControllerEnabled::start(
+    std::shared_ptr<NVMeControllerPlugin> nvmePlugin)
+{
+    this->NVMeController::start(std::move(nvmePlugin));
+}
+
+sdbusplus::message::unix_fd NVMeControllerEnabled::getLogPage(uint8_t lid,
+                                                              uint32_t nsid,
+                                                              uint8_t lsp,
+                                                              uint16_t lsi)
 {
     std::array<int, 2> pipe;
     if (::pipe(pipe.data()) < 0)
@@ -121,8 +153,8 @@ sdbusplus::message::unix_fd NVMeController::getLogPage(uint8_t lid,
     return sdbusplus::message::unix_fd{pipe[0]};
 }
 
-sdbusplus::message::unix_fd NVMeController::identify(uint8_t cns, uint32_t nsid,
-                                                     uint16_t cntid)
+sdbusplus::message::unix_fd
+    NVMeControllerEnabled::identify(uint8_t cns, uint32_t nsid, uint16_t cntid)
 {
     std::array<int, 2> pipe;
     if (::pipe(pipe.data()) < 0)
@@ -154,8 +186,8 @@ sdbusplus::message::unix_fd NVMeController::identify(uint8_t cns, uint32_t nsid,
     return sdbusplus::message::unix_fd{pipe[0]};
 }
 
-NVMeAdmin::FwCommitStatus
-    NVMeController::firmwareCommitStatus(NVMeAdmin::FwCommitStatus status)
+NVMeAdmin::FwCommitStatus NVMeControllerEnabled::firmwareCommitStatus(
+    NVMeAdmin::FwCommitStatus status)
 {
     auto commitStatus = this->NVMeAdmin::firmwareCommitStatus();
     // The function is only allowed to reset the status back to ready
@@ -168,8 +200,8 @@ NVMeAdmin::FwCommitStatus
     return this->NVMeAdmin::firmwareCommitStatus(status);
 }
 
-void NVMeController::firmwareCommitAsync(uint8_t commitAction,
-                                         uint8_t firmwareSlot, bool bpid)
+void NVMeControllerEnabled::firmwareCommitAsync(uint8_t commitAction,
+                                                uint8_t firmwareSlot, bool bpid)
 {
     auto commitStatus = this->NVMeAdmin::firmwareCommitStatus();
     if (commitStatus != FwCommitStatus::Ready)
@@ -197,11 +229,29 @@ void NVMeController::firmwareCommitAsync(uint8_t commitAction,
         });
 }
 
+NVMeControllerEnabled::~NVMeControllerEnabled()
+{
+    NVMeAdmin::emit_removed();
+    StorageController::emit_removed();
+}
+
+NVMeController::NVMeController(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
+    std::shared_ptr<sdbusplus::asio::connection> conn, std::string path,
+    std::shared_ptr<NVMeMiIntf> nvmeIntf, nvme_mi_ctrl_t ctrl) :
+    io(io),
+    objServer(objServer), conn(conn), path(path), nvmeIntf(nvmeIntf),
+    nvmeCtrl(ctrl)
+{}
+
 NVMeController::~NVMeController()
 {
     objServer.remove_interface(assocIntf);
-    NVMeAdmin::emit_removed();
-    StorageController::emit_removed();
+}
+
+void NVMeController::start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin)
+{
+    plugin = nvmePlugin;
 }
 
 void NVMeController::setSecAssoc(
@@ -230,7 +280,10 @@ void NVMeController::setSecAssoc(
         associations.emplace_back("secondary", "primary", cntrl);
     }
 
-    assocIntf->set_property("Associations", associations);
+    if (assocIntf)
+    {
+        assocIntf->set_property("Associations", associations);
+    }
 }
 
 void NVMeController::addSubsystemAssociation(const std::string& subsysPath)
@@ -248,5 +301,8 @@ void NVMeController::addSubsystemAssociation(const std::string& subsysPath)
         associations.emplace_back("secondary", "primary", cntrl);
     }
 
-    assocIntf->set_property("Associations", associations);
+    if (assocIntf)
+    {
+        assocIntf->set_property("Associations", associations);
+    }
 }

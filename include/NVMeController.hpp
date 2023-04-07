@@ -12,12 +12,18 @@
 #include <utility>
 
 class NVMeControllerPlugin;
-class NVMeController :
-    private sdbusplus::xyz::openbmc_project::Inventory::Item::server::
-        StorageController,
-    private sdbusplus::xyz::openbmc_project::NVMe::server::NVMeAdmin,
-    public std::enable_shared_from_this<NVMeController>
 
+/**
+ * @brief A class to represent the NVMeController has not been enabled (CC.EN =
+ * 0)
+ *
+ * The disabled controllers still have cntrl_id and are listed in the
+ * cntrl_list. However the functionility has been disabled so neither
+ * StorageController nor NVMeAdmin interface should be exposed for the disabled
+ * controllers.
+ *
+ */
+class NVMeController
 {
   public:
     NVMeController(boost::asio::io_context& io,
@@ -26,9 +32,9 @@ class NVMeController :
                    std::string path, std::shared_ptr<NVMeMiIntf> nvmeIntf,
                    nvme_mi_ctrl_t ctrl);
 
-    ~NVMeController() override;
+    virtual ~NVMeController();
 
-    void start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin);
+    virtual void start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin);
 
     // setup association to the secondary controllers. Clear the Association if
     // empty.
@@ -60,7 +66,7 @@ class NVMeController :
      */
     void addSubsystemAssociation(const std::string& subsysPath);
 
-  private:
+  protected:
     friend class NVMeControllerPlugin;
 
     boost::asio::io_context& io;
@@ -80,7 +86,39 @@ class NVMeController :
 
     // NVMe Plug-in for vendor defined command/field
     std::weak_ptr<NVMeControllerPlugin> plugin;
+};
 
+/**
+ * @brief A class for the NVMe controller that has been enabled (CC.EN = 1)
+ *
+ * The premitted NVMe Admin cmds should be anable to processed via the enabled
+ * controller (e.g reading the temletries or other admin tasks). Thus the
+ * NVMeAmin and StorageController Dbus interface will be exposed via this class.
+ *
+ */
+class NVMeControllerEnabled :
+    public NVMeController,
+    private sdbusplus::xyz::openbmc_project::Inventory::Item::server::
+        StorageController,
+    private sdbusplus::xyz::openbmc_project::NVMe::server::NVMeAdmin,
+    public std::enable_shared_from_this<NVMeControllerEnabled>
+
+{
+  public:
+    NVMeControllerEnabled(boost::asio::io_context& io,
+                          sdbusplus::asio::object_server& objServer,
+                          std::shared_ptr<sdbusplus::asio::connection> conn,
+                          std::string path,
+                          std::shared_ptr<NVMeMiIntf> nvmeIntf,
+                          nvme_mi_ctrl_t ctrl);
+
+    NVMeControllerEnabled(NVMeController&& nvmeController);
+
+    ~NVMeControllerEnabled() override;
+
+    void start(std::shared_ptr<NVMeControllerPlugin> nvmePlugin) override;
+
+  private:
     /* NVMeAdmin method overload */
 
     /** @brief Implementation for GetLogPage
