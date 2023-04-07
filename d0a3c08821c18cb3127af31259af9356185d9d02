@@ -16,6 +16,40 @@
       "message": "Simple change. +2 now and submit. Happy yo discuss if there are concerns",
       "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a004ce_c1c2a7ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-07T20:33:13Z",
+      "side": 1,
+      "message": "The problem statement makes sense, and from what I\u0027ve seen as I dig through surrounding code, the solution seems like it should work as expected too. I do have some mild reservations about how the threshold-Hysteresis \u00270\u0027 value is set, though.\n\nI think I would feel more comfortable with the change if it was set via a parameter (maybe with a default value?) in the function header.\n\nWhat do you folks more experienced with dbus-sensors code think?",
+      "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "441a01e1_978d2110",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-07T20:33:13Z",
+      "side": 1,
+      "message": "I think this change makes a lot of sense, but setting the value via magic number in a general function (even if it\u0027s only being used by one component at the moment) makes me feel a bit nervous. \n\nCould it make sense to change the function header to something like \n\nbool parseThresholdsFromAttr(\n    std::vector\u003cthresholds::Threshold\u003e\u0026 thresholdVector,\n    const std::string\u0026 inputPath, const double\u0026 scaleFactor,\n    const double\u0026 offset, const double\u0026  thresholdHysteresis \u003d 0)\n\nthen explicity set that param \u003d 0 from the calls in IntelCPUSensor::handleResponse?",
+      "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
