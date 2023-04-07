@@ -194,6 +194,12 @@ void NVMeSubsystem::start(const SensorData& configData)
                               << std::endl;
                     return;
                 }
+
+                // Enable primary controller since they are required to work
+                auto& primaryController = findPrimary->second.first;
+                primaryController.reset(new NVMeControllerEnabled(
+                    std::move(*primaryController.get())));
+
                 std::vector<std::shared_ptr<NVMeController>> secCntrls;
                 for (int i = 0; i < listHdr.num; i++)
                 {
@@ -206,9 +212,18 @@ void NVMeSubsystem::start(const SensorData& configData)
                                   << std::endl;
                         break;
                     }
-                    secCntrls.push_back(findSecondary->second.first);
+
+                    auto& secondaryController = findSecondary->second.first;
+
+                    // Check Secondary Controller State
+                    if (listHdr.sc_entry[i].scs != 0)
+                    {
+                        secondaryController.reset(new NVMeControllerEnabled(
+                            std::move(*secondaryController.get())));
+                    }
+                    secCntrls.push_back(secondaryController);
                 }
-                findPrimary->second.first->setSecAssoc(secCntrls);
+                primaryController->setSecAssoc(secCntrls);
 
                 // start controller
                 for (auto& [_, pair] : self->controllers)
