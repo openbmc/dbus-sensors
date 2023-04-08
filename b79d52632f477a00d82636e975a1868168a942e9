@@ -54,6 +54,41 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aab81291_92d5739b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-04-08T07:19:56Z",
+      "side": 1,
+      "message": "Sure, will do. I\u0027m surprised nobody else is testing this, as my QA options are quite limited. Current OpenBMC is not doing one of the main functions on Intel servers, how come there\u0027s so little interest in fixing it?",
+      "parentUuid": "2517bb3f_370fa808",
+      "revId": "b79d52632f477a00d82636e975a1868168a942e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "713e1161_4c626d95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-04-08T07:19:56Z",
+      "side": 1,
+      "message": "Iwona, during the last testing of this code with a slightly different memory configuration I faced a condition when this daemon didn\u0027t show any DIMM temperatures while they were already available in hwmon.\n\nPlease describe how exactly the new API is supposed to be used. Under which conditions should the userspace trigger rescan? I noticed if triggered right after host is turned on it often isn\u0027t creating the memory temperature hwmon nodes. Should userspace retrigger it after a while (fixed amount of time?)? Also, after doing rescan how long exactly should one wait for all hwmon devices to appear? Or should intelcpusensor be constantly polling /sys/bus/peci/ to see if some hwmon directories appeared or disappeared? Please explain how you see the ideal userspace for your code.",
+      "revId": "b79d52632f477a00d82636e975a1868168a942e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b823358_4dd35823",
@@ -186,6 +221,30 @@
       "side": 1,
       "message": "But parse config only happen once ( or few times when config is updated). detectCpu on the other hand can happen periodically (every few seconds) during run time. I prefer not to have this printed repeatedly.",
       "parentUuid": "fa93fb9f_7de55403",
+      "range": {
+        "startLine": 473,
+        "startChar": 30,
+        "endLine": 473,
+        "endChar": 45
+      },
+      "revId": "b79d52632f477a00d82636e975a1868168a942e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ecd4345_3a8df244",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-04-08T07:19:56Z",
+      "side": 1,
+      "message": "Will remove the message, no problem.",
+      "parentUuid": "d39d23f2_a4c9386e",
       "range": {
         "startLine": 473,
         "startChar": 30,
