@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78b36bdf_707b4262",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-08T00:59:55Z",
+      "side": 1,
+      "message": "Can we break this up into two reviews\n1. clean up existing and get ready to add a new type\n2. Add the new type\n\nTo avoid a lot of the if statement, how about make\nChassisIntrusionSensor the base class and capture the common code. for example the main polling function. Add ChassisIntrusionSensorPch, ChassisIntrusionSensorGpio and ChassisIntrusionSensorHwmon as the derived class with specialized read function.  Or create a Reader class to encapsulate the read function.",
+      "revId": "510cd1d48343f9c6739ed821f36bf7cdc9966e7e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c06f7fd_65874df8",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-08T00:59:55Z",
+      "side": 1,
+      "message": "As a cleanup patch, these can be moved to after line 93",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 24
+      },
+      "revId": "510cd1d48343f9c6739ed821f36bf7cdc9966e7e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1169eecb_b427995d",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-08T00:59:55Z",
+      "side": 1,
+      "message": "As a cleanup patch, these can be moved to after line 98",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 24
+      },
+      "revId": "510cd1d48343f9c6739ed821f36bf7cdc9966e7e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22107a00_9fbec021",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-08T00:59:55Z",
+      "side": 1,
+      "message": "As a cleanup patch, these can be moved after line 102",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 9
+      },
+      "revId": "510cd1d48343f9c6739ed821f36bf7cdc9966e7e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
