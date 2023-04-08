@@ -133,6 +133,30 @@
       },
       "revId": "f3eea9754686417e14c962e09aea46e3a1d5ecd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "313ab05f_ee9e9047",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-08T03:50:56Z",
+      "side": 1,
+      "message": "It is not really common since it uses std::shared_ptr\u003cPSUSensor\u003e\u003e\u0026 sensors\nBut we probably can make it common with a little refactor as a follow-up improvement",
+      "parentUuid": "32c3c834_7a0be6cc",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 77
+      },
+      "revId": "f3eea9754686417e14c962e09aea46e3a1d5ecd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
