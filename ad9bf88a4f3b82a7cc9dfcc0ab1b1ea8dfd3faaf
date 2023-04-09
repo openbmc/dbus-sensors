@@ -3,6 +3,92 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da30140d_3556f924",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 60
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-09T16:56:10Z",
+      "side": 1,
+      "message": "why clear the counter, it is confusing here",
+      "revId": "ad9bf88a4f3b82a7cc9dfcc0ab1b1ea8dfd3faaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d318523_49dbb4f1",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 60
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-09T16:56:10Z",
+      "side": 1,
+      "message": "\u003c",
+      "range": {
+        "startLine": 112,
+        "startChar": 37,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "ad9bf88a4f3b82a7cc9dfcc0ab1b1ea8dfd3faaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e60e6215_6bc47c54",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 60
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-09T16:56:10Z",
+      "side": 1,
+      "message": "also return after this",
+      "range": {
+        "startLine": 114,
+        "startChar": 19,
+        "endLine": 114,
+        "endChar": 33
+      },
+      "revId": "ad9bf88a4f3b82a7cc9dfcc0ab1b1ea8dfd3faaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9dcc061_88771001",
+        "filename": "src/IpmbPowerState.cpp",
+        "patchSetId": 60
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-09T16:56:10Z",
+      "side": 1,
+      "message": "if (self-\u003eretryCount \u003c retryLimit)\n{\n   self-\u003eread();\n}\nreturn;",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 17
+      },
+      "revId": "ad9bf88a4f3b82a7cc9dfcc0ab1b1ea8dfd3faaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cf4b54a_7daa9fda",
         "filename": "src/IpmbPowerState.hpp",
         "patchSetId": 60
@@ -26,6 +112,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca6e73fe_b872abeb",
+        "filename": "src/IpmbPowerState.hpp",
+        "patchSetId": 60
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-09T16:56:10Z",
+      "side": 1,
+      "message": "This is a constant, use constexpr also with name: retryLimit or retryMax",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 27
+      },
+      "revId": "ad9bf88a4f3b82a7cc9dfcc0ab1b1ea8dfd3faaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f47089c_fb0127f5",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 60
@@ -37,6 +146,30 @@
       "writtenOn": "2023-03-31T17:36:52Z",
       "side": 1,
       "message": "This is not required. \nipmbPower \u003d std::make_shared done in next line is enough.",
+      "range": {
+        "startLine": 581,
+        "startChar": 20,
+        "endLine": 581,
+        "endChar": 40
+      },
+      "revId": "ad9bf88a4f3b82a7cc9dfcc0ab1b1ea8dfd3faaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de73b0d2_2b75aace",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 60
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-09T16:56:10Z",
+      "side": 1,
+      "message": "This is to ensure the old copy is destroyed before a new one is created.",
+      "parentUuid": "8f47089c_fb0127f5",
       "range": {
         "startLine": 581,
         "startChar": 20,
