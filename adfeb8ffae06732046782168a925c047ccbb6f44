@@ -105,6 +105,30 @@
       },
       "revId": "adfeb8ffae06732046782168a925c047ccbb6f44",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f991e70_1a3012dc",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-10T20:16:36Z",
+      "side": 1,
+      "message": "Now that I\u0027m thining about it- should I consider making the \u0027std::map\u0027 change into a separate gerrit review, then rebasing this \u0027GXP fan type\u0027 review on top of that one?\n\nOr is this change a small enough incidental change to just leave it as-is?",
+      "parentUuid": "eab1a4a5_2ea117f8",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "adfeb8ffae06732046782168a925c047ccbb6f44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
