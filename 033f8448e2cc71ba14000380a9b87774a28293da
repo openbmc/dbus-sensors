@@ -57,6 +57,30 @@
       },
       "revId": "033f8448e2cc71ba14000380a9b87774a28293da",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b161b620_bfcd5929",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2023-04-10T08:00:55Z",
+      "side": 1,
+      "message": "I have a patch for the `phosphor-sel-logger`, which I\u0027m planning to upstream depending on the reaction to this patchset.\n\nThe commit message have examples of the SEL messages before/after, so I think I just post it for you:\n```\nCorrect message for threshold events\n\nThresholds can be deasserted not only because of the actual sensor\ndata, but also because of the change in the general system state.\nFor example some sensors can be configured to be measured only when\nthe system is powered on.\nIn such cases current messages can be confusing:\n\"PVPP_ABCD_CPU2 sensor crossed a critical low threshold going high.\nReading\u003d0.033000 Threshold\u003d2.410000\".\nReplace message template to be more generic to cover discussed cases:\n\"PVPP_ABCD_CPU2 critical low threshold deassert.\nReading\u003d0.033000 Threshold\u003d2.410000\".\n\nSigned-off-by: Konstantin Aladyshev \u003caladyshev22@gmail.com\u003e\n---\n include/threshold_event_monitor.hpp | 4 ++--\n 1 file changed, 2 insertions(+), 2 deletions(-)\n\ndiff --git a/include/threshold_event_monitor.hpp b/include/threshold_event_monitor.hpp\nindex ba2a20b..5d8583e 100644\n--- a/include/threshold_event_monitor.hpp\n+++ b/include/threshold_event_monitor.hpp\n@@ -277,8 +277,8 @@ inline static sdbusplus::bus::match_t startThresholdAssertMonitor(\n             }\n         }\n\n-        std::string journalMsg(std::string(sensorName) + \" sensor crossed a \" +\n-                               threshold + \" threshold going \" + direction +\n+        std::string journalMsg(std::string(sensorName) + \" \" + threshold +\n+                               \" threshold \" + ( assert? \"assert\" : \"deassert\" ) +\n                                \". Reading\u003d\" + std::to_string(assertValue) +\n                                \" Threshold\u003d\" + std::to_string(thresholdVal) +\n                                \".\");\n--\n```",
+      "parentUuid": "e0c2d655_a972f1da",
+      "range": {
+        "startLine": 495,
+        "startChar": 39,
+        "endLine": 495,
+        "endChar": 44
+      },
+      "revId": "033f8448e2cc71ba14000380a9b87774a28293da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
