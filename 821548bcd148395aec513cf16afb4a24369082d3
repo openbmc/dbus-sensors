@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af5779ed_0cb2904a",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-10T11:13:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e12ce8d9_a38975b8",
+      "range": {
+        "startLine": 301,
+        "startChar": 8,
+        "endLine": 301,
+        "endChar": 16
+      },
+      "revId": "821548bcd148395aec513cf16afb4a24369082d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e337ef84_28e8f243",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Do you think this should be eliminated?",
       "parentUuid": "e337ef84_28e8f243",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 306,
+        "endChar": 15
+      },
+      "revId": "821548bcd148395aec513cf16afb4a24369082d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5495687f_d459ce6b",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-10T11:13:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f903d35_e1b28347",
       "range": {
         "startLine": 306,
         "startChar": 8,
