@@ -109,6 +109,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "eed099d9_d8f4d85d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-10T14:47:38Z",
+      "side": 1,
+      "message": "As far as I understand, the variable \u0027max\u0027 (\u003d 127) and \u0027min\u0027 (\u003d -128) used in the default dbus threshold-hysteresis formula \u0027(max - min ) * 0.01 \u003d 2.55\u0027 aren\u0027t available to the function, or to where the function is called from. \n\nIf I move forward with this proposed change (happy to do it if folks think it\u0027s worth doing!) I think it could make sense to set the default value to \u003d 2.55 in the header. \n\n...but in that scenario, we\u0027d need to also modify the call from IntelCPUSensor  so that it explicitly specifies \u0027\u003d0\u0027 for threshold-hysteresis, since that wouldn\u0027t be the default value anymore.\n\nThoughts?",
+      "parentUuid": "33278e36_1798bdf7",
+      "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "441a01e1_978d2110",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 3
