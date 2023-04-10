@@ -81,6 +81,30 @@
       },
       "revId": "033f8448e2cc71ba14000380a9b87774a28293da",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51125a73_3d98dc0c",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-04-10T10:57:32Z",
+      "side": 1,
+      "message": "Thanks for the sharing!\nThese two patches looks good to me.",
+      "parentUuid": "b161b620_bfcd5929",
+      "range": {
+        "startLine": 495,
+        "startChar": 39,
+        "endLine": 495,
+        "endChar": 44
+      },
+      "revId": "033f8448e2cc71ba14000380a9b87774a28293da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
