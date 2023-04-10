@@ -62,6 +62,13 @@ static std::regex inputRegex(R"(fan(\d+)_input)");
 // todo: power supply fan redundancy
 std::optional<RedundancySensor> systemRedundancy;
 
+static const std::map<std::string, FanTypes> compatibleFanTypes = {
+    {"aspeed,ast2400-pwm-tacho", FanTypes::aspeed},
+    {"aspeed,ast2500-pwm-tacho", FanTypes::aspeed},
+    {"nuvoton,npcm750-pwm-fan", FanTypes::nuvoton}
+    // todo: will we need to support other types?
+};
+
 FanTypes getFanType(const fs::path& parentPath)
 {
     fs::path linkPath = parentPath / "of_node";
@@ -70,7 +77,7 @@ FanTypes getFanType(const fs::path& parentPath)
     std::string compatiblePath = canonical + "/compatible";
     std::ifstream compatibleStream(compatiblePath);
 
-    if (!compatibleStream.is_open())
+    if (!compatibleStream)
     {
         std::cerr << "Error opening " << compatiblePath << "\n";
         return FanTypes::i2c; // Should this throw an exception instead?
@@ -82,18 +89,18 @@ FanTypes getFanType(const fs::path& parentPath)
         std::getline(compatibleStream, compatibleString);
         compatibleString.pop_back(); // trim EOL before comparisons
 
-        if (compatibleString == "aspeed,ast2400-pwm-tacho" ||
-            compatibleString == "aspeed,ast2500-pwm-tacho")
+        std::map<std::string, FanTypes>::const_iterator compatibleIterator =
+            compatibleFanTypes.find(compatibleString);
+
+        if (compatibleIterator !=
+            compatibleFanTypes.end()) // check if compatibleString is a key in
+                                      // the compatibleFanTypes map
         {
-            return FanTypes::aspeed;
-        }
-        if (compatibleString == "nuvoton,npcm750-pwm-fan")
-        {
-            return FanTypes::nuvoton;
+            return compatibleIterator
+                ->second; // return FanType found in compatibleFanTypes map
         }
     }
 
-    // todo: will we need to support other types?
     return FanTypes::i2c;
 }
 void enablePwm(const fs::path& filePath)
@@ -316,8 +323,8 @@ void createSensors(
                 }
                 if (fanType == FanTypes::aspeed || fanType == FanTypes::nuvoton)
                 {
-                    // there will be only 1 aspeed or nuvoton sensor object
-                    // in sysfs, we found the fan
+                    // there will be only 1 aspeed or nuvoton
+                    // object in sysfs, we found the fan
                     sensorData = &cfgData;
                     break;
                 }
