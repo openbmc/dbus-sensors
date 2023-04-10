@@ -34,6 +34,29 @@
       "parentUuid": "4a027f9a_2b1fabef",
       "revId": "033f8448e2cc71ba14000380a9b87774a28293da",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c2d655_a972f1da",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-04-10T03:17:56Z",
+      "side": 1,
+      "message": "This change sounds reasonable, but I think the result in sel event log might looks weird.\n\nCould you share the result in command \"ipmitool sel elist\"?\n\nThanks.",
+      "range": {
+        "startLine": 495,
+        "startChar": 39,
+        "endLine": 495,
+        "endChar": 44
+      },
+      "revId": "033f8448e2cc71ba14000380a9b87774a28293da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
