@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3ff8cc9_f238583a",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-10T21:29:44Z",
+      "side": 1,
+      "message": "I\u0027m going to create a separate code review for using prefixes like \u0027aspeed,\u0027 and \u0027nuvoton,\u0027 on top of the std::map code @ https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62011\n\nthat way any comments can be made on that change alone. The new review will likely be online tomorrow once I\u0027ve had time to test that the prefix-only checks work as expected on a test machine.",
+      "parentUuid": "56defd8b_7e9823f3",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 59
+      },
+      "revId": "450b1e88a0c306e1ed4eef7905904e2f979e90a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "645751f1_be6b90d5",
         "filename": "src/FanMain.cpp",
         "patchSetId": 8
