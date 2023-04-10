@@ -91,6 +91,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "33278e36_1798bdf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-04-10T02:43:02Z",
+      "side": 1,
+      "message": "\u003e This code is flagged for merge, so I\u0027m thinking I\u0027ll submit a separate change to moves the threshold hysteresis setting into the function header with a default value of \u00270.\u0027 \n\u003e \n\u003e The intent would be just so that devs aren\u0027t surprised with a hardcoded threshold hysteresis value that might disagree with various devices I assume could decide to use this function someday.\n\u003e \n\u003e Any objections, questions, or other comments?\n\nThanks for the commend!\n\nI think it\u0027s fine to set default in that function, but the default value might be a good question.\n\nIn most of temperature sensors in dbus-sensors, their default hysteresis is 2.55 not 0.",
+      "parentUuid": "66bbffe4_ada35f51",
+      "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "441a01e1_978d2110",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 3
@@ -102,6 +120,24 @@
       "writtenOn": "2023-04-07T20:33:13Z",
       "side": 1,
       "message": "I think this change makes a lot of sense, but setting the value via magic number in a general function (even if it\u0027s only being used by one component at the moment) makes me feel a bit nervous. \n\nCould it make sense to change the function header to something like \n\nbool parseThresholdsFromAttr(\n    std::vector\u003cthresholds::Threshold\u003e\u0026 thresholdVector,\n    const std::string\u0026 inputPath, const double\u0026 scaleFactor,\n    const double\u0026 offset, const double\u0026  thresholdHysteresis \u003d 0)\n\nthen explicity set that param \u003d 0 from the calls in IntelCPUSensor::handleResponse?",
+      "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26525ae2_92d3b262",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-04-10T02:43:02Z",
+      "side": 1,
+      "message": "\u003e I think this change makes a lot of sense, but setting the value via magic number in a general function (even if it\u0027s only being used by one component at the moment) makes me feel a bit nervous. \n\u003e \n\u003e Could it make sense to change the function header to something like \n\u003e \n\u003e bool parseThresholdsFromAttr(\n\u003e     std::vector\u003cthresholds::Threshold\u003e\u0026 thresholdVector,\n\u003e     const std::string\u0026 inputPath, const double\u0026 scaleFactor,\n\u003e     const double\u0026 offset, const double\u0026  thresholdHysteresis \u003d 0)\n\u003e \n\u003e then explicity set that param \u003d 0 from the calls in IntelCPUSensor::handleResponse?\n\nThis change looks fine, but this default \u00270\u0027 is still a magic number base on IntelCPUSensor\u0027s constructor.\n\nIMO, the default of hysteresis is (max - min) * 0.01 in dbus-sensors.\n\nIf we give the default value to 0 in parseThresholdsFromAttr, I\u0027m afraid that might make someone confuse that there are two kinds of hysteresis\u0027s default in this code.\n\nBut I\u0027m fine with this change, this should works as well as before.",
+      "parentUuid": "441a01e1_978d2110",
       "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
