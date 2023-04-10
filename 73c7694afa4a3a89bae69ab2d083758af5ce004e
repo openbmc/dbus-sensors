@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f5ee982_f6930f77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-10T06:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0682e24e_e7f8954d",
+      "range": {
+        "startLine": 12,
+        "startChar": 57,
+        "endLine": 13,
+        "endChar": 63
+      },
+      "revId": "73c7694afa4a3a89bae69ab2d083758af5ce004e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d075cc16_6abe159f",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-04-07T22:39:44Z",
       "side": 1,
       "message": "Please add the tested section",
+      "revId": "73c7694afa4a3a89bae69ab2d083758af5ce004e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7793250_d0591fbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-10T06:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d075cc16_6abe159f",
       "revId": "73c7694afa4a3a89bae69ab2d083758af5ce004e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
