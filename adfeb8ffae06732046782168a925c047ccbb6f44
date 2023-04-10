@@ -129,6 +129,30 @@
       },
       "revId": "adfeb8ffae06732046782168a925c047ccbb6f44",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb019760_80478296",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-10T21:09:21Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure best practice would be to go ahead and make the std::map change separate from the gxp addition, so I\u0027ve created a new review here:\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62011",
+      "parentUuid": "9f991e70_1a3012dc",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "adfeb8ffae06732046782168a925c047ccbb6f44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
