@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9dd829c8_78de7369",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-10T21:02:08Z",
+      "side": 1,
+      "message": "Update: I\u0027ve separated out the code for the \u0027std::map\u0027 change and the addition of HPE-GXP fan handling into separate reviews.\n\nThe new review for the compatible-check-only changes are now here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62011\n\nwhere \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62008\nis being updated to *only* include the HPE-GXP fantype additions (and will be rebased on the above review soon)",
+      "parentUuid": "307ce881_a841d2ef",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 5
+      },
+      "revId": "450b1e88a0c306e1ed4eef7905904e2f979e90a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b4c8d3b8_c4b9dbb0",
         "filename": "src/FanMain.cpp",
         "patchSetId": 8
