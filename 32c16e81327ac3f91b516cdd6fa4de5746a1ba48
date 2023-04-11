@@ -16,6 +16,29 @@
       "message": "Updated this review to separate out a suggested \u0027std::map\u0027 change for checking \u0027compatible\u0027 strings. \n\nNew review is here: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62011\n\nThis review is now *just* for the HPE-GXP fantype changes.",
       "revId": "32c16e81327ac3f91b516cdd6fa4de5746a1ba48",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7ee4fa3_58283e3d",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-11T10:58:07Z",
+      "side": 1,
+      "message": "HPEFan?",
+      "range": {
+        "startLine": 45,
+        "startChar": 43,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "32c16e81327ac3f91b516cdd6fa4de5746a1ba48",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
