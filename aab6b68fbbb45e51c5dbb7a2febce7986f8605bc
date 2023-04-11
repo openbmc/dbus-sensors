@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5a884a7_2f186e71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-11T03:55:31Z",
+      "side": 1,
+      "message": "have you tested change 5 here to open chassis cover?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 42
+      },
+      "revId": "aab6b68fbbb45e51c5dbb7a2febce7986f8605bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "663ab14e_f08c54fb",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-11T03:55:31Z",
+      "side": 1,
+      "message": "where is \"Auto\" handled",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 9
+      },
+      "revId": "aab6b68fbbb45e51c5dbb7a2febce7986f8605bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
