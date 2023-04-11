@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fcdbe05b_1387b8d1",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-11T10:52:36Z",
+      "side": 1,
+      "message": "I prefer early exits but I\u0027ll defer to Zhikui who is a much more active maintainer of dbus-sensors than I am.",
+      "parentUuid": "e496f5f1_31f3f7a0",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 5
+      },
+      "revId": "450b1e88a0c306e1ed4eef7905904e2f979e90a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b4c8d3b8_c4b9dbb0",
         "filename": "src/FanMain.cpp",
         "patchSetId": 8
