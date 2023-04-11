@@ -198,6 +198,30 @@
       },
       "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c240875_268241c1",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-11T04:16:03Z",
+      "side": 1,
+      "message": "It is continue to the next interface either way sensor flag is true or false",
+      "parentUuid": "03779e18_dbd3daf8",
+      "range": {
+        "startLine": 619,
+        "startChar": 1,
+        "endLine": 623,
+        "endChar": 0
+      },
+      "revId": "0b56adda8f512d1fd928517a79c4f6cf795eb22c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
