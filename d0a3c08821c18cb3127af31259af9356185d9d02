@@ -127,6 +127,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "91934e52_1aa451c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-04-11T01:11:17Z",
+      "side": 1,
+      "message": "I prefer to set default as 2.55 and IntelCPUSensor call with hysteresis 0.\n\nBut, it might be better to create PR to see peoples and maintainer\u0027s thinking.",
+      "parentUuid": "eed099d9_d8f4d85d",
+      "revId": "d0a3c08821c18cb3127af31259af9356185d9d02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "441a01e1_978d2110",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 3
