@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f712fe40_cd7223ae",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-11T10:57:06Z",
+      "side": 1,
+      "message": "Currently there\u0027s no upstream support for the 2600 PWM/Tach:\n\nhttps://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/hwmon/aspeed-pwm-tacho.txt\n\nI think it got stuck in some review madness:\n\nhttps://lore.kernel.org/all/20221123061635.32025-1-billy_tsai@aspeedtech.com/",
+      "parentUuid": "8537782d_2b8614db",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 51
+      },
+      "revId": "9c6ed811b7fd0f139e02ed04423b744235d7943b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "63db3e39_80dfc0a5",
         "filename": "src/FanMain.cpp",
         "patchSetId": 1
