@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eea95b80_898be9e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-11T04:40:47Z",
+      "side": 1,
+      "message": "If the chassis cover is open and the rearm action was taken, it will keep showing \"Normal\" until the chassis cover is closed and then opened again. So if stop 5 is \"chassis cover is still open\", the value will still be \"Normal\"",
+      "parentUuid": "c5a884a7_2f186e71",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 42
+      },
+      "revId": "aab6b68fbbb45e51c5dbb7a2febce7986f8605bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "663ab14e_f08c54fb",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 15
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-11T03:55:31Z",
       "side": 1,
       "message": "where is \"Auto\" handled",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 9
+      },
+      "revId": "aab6b68fbbb45e51c5dbb7a2febce7986f8605bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77221d7b_75181ab8",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-11T04:40:47Z",
+      "side": 1,
+      "message": "I missed the case. But can we assume that with \"Auto\", external writings will not affect the property anyway because it will be updated internally continuously? And we also don\u0027t expect it to log any fake assert de-assert event because of external writings. If so then I can change to skipping setting the property if the action is from outside in Auto mode...",
+      "parentUuid": "663ab14e_f08c54fb",
       "range": {
         "startLine": 284,
         "startChar": 0,
