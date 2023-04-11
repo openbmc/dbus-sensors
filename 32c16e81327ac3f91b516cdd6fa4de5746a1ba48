@@ -39,6 +39,30 @@
       },
       "revId": "32c16e81327ac3f91b516cdd6fa4de5746a1ba48",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76a28276_ad684575",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-11T21:36:34Z",
+      "side": 1,
+      "message": "Good point. This change would also necessitate updates to how HPE\u0027s fans are referred to in entity-manager configs (currently \u0027type: GXPFan\u0027 across a handful of POC platforms)- but it would bring things in-line with existing norms.\n\nBetter now than later.",
+      "parentUuid": "a7ee4fa3_58283e3d",
+      "range": {
+        "startLine": 45,
+        "startChar": 43,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "32c16e81327ac3f91b516cdd6fa4de5746a1ba48",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
