@@ -16,6 +16,24 @@
       "message": "I\u0027m open to completely different approaches to solve this problem on setting the shunt_resistor value. This is just what I was able to figure out first.",
       "revId": "7d5658c8baca5b447b1e3dd1ea4be61691bb7ce7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22ed1148_68c54ec7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-11T04:52:41Z",
+      "side": 1,
+      "message": "This seems safe that only set the value if it is defined in config. If there are similar requirements for other devices or sensors that require configurable init /setup, maybe it can be generalized.",
+      "parentUuid": "efda8420_69ee07a0",
+      "revId": "7d5658c8baca5b447b1e3dd1ea4be61691bb7ce7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
