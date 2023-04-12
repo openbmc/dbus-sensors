@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f094897b_263a822c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-12T00:27:59Z",
+      "side": 1,
+      "message": "Look, this is a bit disingenuous. Github currently warns:\n\n\u003e This commit does not belong to any branch on this repository, and may belong to a fork outside of the repository.\n\nPlease link to the repo where the document is actually hosted, not try to inject it sideways from a fork into upstream through questionable github behaviour.\n\nBetter yet, let\u0027s work to get the document reviewed and merged into openbmc/docs proper.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 94
+      },
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b6dd70e_114ab3d5",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-12T00:27:59Z",
+      "side": 1,
+      "message": "This header doesn\u0027t belong in `include/`. See https://github.com/openbmc/docs/blob/master/anti-patterns.md#placing-internal-headers-in-a-parallel-subtree",
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21521e80_eca1e257",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-12T00:27:59Z",
+      "side": 1,
+      "message": "Please just use `getAddress`",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ec4d765_7167ab8f",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-12T00:27:59Z",
+      "side": 1,
+      "message": "As above.",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

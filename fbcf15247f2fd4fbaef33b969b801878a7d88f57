@@ -16,6 +16,23 @@
       "message": "Use composition instead of inherentance for NVMeIntf. \n\nNVMeIntf is used as a container for both NVMe basic and NVMe Mi interfaces. \n\nThe originally implementation required downcast to derived protocol interface, which needs rtti. \n\nThe new implementation uses composition and the variant\u003c\u003e which switch between protocols at compile time.",
       "revId": "fbcf15247f2fd4fbaef33b969b801878a7d88f57",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6df44ba_d286e546",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-12T00:27:59Z",
+      "side": 1,
+      "message": "Can you please break this refactor up into smaller changes that are more easily consumable? For instance, from what I can gather ,there\u0027s a bunch of code motion moving functions between files and such. It would be nice if that kind of problem were separated out so that the patch re-architecting the functionality has minimal noise.",
+      "revId": "fbcf15247f2fd4fbaef33b969b801878a7d88f57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
