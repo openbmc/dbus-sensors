@@ -52,6 +52,24 @@
       "parentUuid": "22ed1148_68c54ec7",
       "revId": "7d5658c8baca5b447b1e3dd1ea4be61691bb7ce7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd0da3c8_f39a7e28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-12T23:53:58Z",
+      "side": 1,
+      "message": "Oh, that\u0027s a good idea. Could I add it to entity-manager instead since it could apply to any sensor?",
+      "parentUuid": "49010e89_379047b5",
+      "revId": "7d5658c8baca5b447b1e3dd1ea4be61691bb7ce7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
