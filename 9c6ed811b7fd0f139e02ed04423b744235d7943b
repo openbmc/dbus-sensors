@@ -83,6 +83,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f888022e_21af86ee",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-12T20:42:42Z",
+      "side": 1,
+      "message": "Sounds like this is something that\u0027ll likely be added at a later time if/when it gets out of the review process (assuming we don\u0027t decide to start matching by prefixes).",
+      "parentUuid": "f712fe40_cd7223ae",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 51
+      },
+      "revId": "9c6ed811b7fd0f139e02ed04423b744235d7943b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63db3e39_80dfc0a5",
@@ -96,6 +120,30 @@
       "writtenOn": "2023-04-11T00:20:25Z",
       "side": 1,
       "message": "can this be: if (!compatibleStream)",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 35
+      },
+      "revId": "9c6ed811b7fd0f139e02ed04423b744235d7943b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "829f24ad_3cba64cc",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-12T20:42:42Z",
+      "side": 1,
+      "message": "Just tested that it works. Will push the change.",
+      "parentUuid": "63db3e39_80dfc0a5",
       "range": {
         "startLine": 80,
         "startChar": 8,
