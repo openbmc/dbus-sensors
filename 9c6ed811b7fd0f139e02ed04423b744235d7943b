@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e00d7b35_2c0e3c41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-12T20:15:45Z",
+      "side": 1,
+      "message": "This update has been tested by confirming the fans appear in the webUI when paired with the correct platform config settings.\n\nI\u0027ve gone ahead and updated the commit message to reflect this.",
+      "parentUuid": "cb4f6f8b_11f9c9c6",
+      "revId": "9c6ed811b7fd0f139e02ed04423b744235d7943b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8537782d_2b8614db",
