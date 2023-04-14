@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073c5210_b3205de2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-14T11:33:07Z",
+      "side": 1,
+      "message": "There\u0027s no driver upstream as of v6.3-rc6. Please upstream the driver first.",
+      "revId": "8671fd4200b510095ac1d795142569ced1451845",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
