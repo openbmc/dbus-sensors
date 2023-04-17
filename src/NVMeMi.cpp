@@ -358,7 +358,7 @@ static int nvme_mi_admin_get_log_telemetry_host_rae(nvme_mi_ctrl_t ctrl,
 
 // Get Temetery Log header and return the size for hdr + data area (Area 1, 2,
 // 3, or maybe 4)
-int getTelemetryLog(nvme_mi_ctrl_t ctrl, bool host, bool create,
+static int getTelemetryLog(nvme_mi_ctrl_t ctrl, bool host, bool create,
                     std::vector<uint8_t>& data)
 {
     int rc = 0;
@@ -377,16 +377,16 @@ int getTelemetryLog(nvme_mi_ctrl_t ctrl, bool host, bool create,
             std::cerr << "failed to create telemetry host log" << std::endl;
             return rc;
         }
-        return 0;
     }
-
-    rc = func(ctrl, false, 0, sizeof(log), &log);
-
-    if (rc)
+    else
     {
-        std::cerr << "failed to retain telemetry log for "
-                  << (host ? "host" : "ctrl") << std::endl;
-        return rc;
+        rc = func(ctrl, false, 0, sizeof(log), &log);
+        if (rc)
+        {
+            std::cerr << "failed to retain telemetry log header for "
+                    << (host ? "host" : "ctrl") << std::endl;
+            return rc;
+        }
     }
 
     long size =
@@ -523,33 +523,9 @@ void NVMeMi::adminGetLogPage(
                 // fall through to NVME_LOG_LID_TELEMETRY_CTRL
                 case NVME_LOG_LID_TELEMETRY_CTRL:
                 {
-                    bool host = false;
-                    bool create = false;
-                    if (lid == NVME_LOG_LID_TELEMETRY_HOST)
-                    {
-                        host = true;
-                        if (lsp == NVME_LOG_TELEM_HOST_LSP_CREATE)
-                        {
-                            create = true;
-                        }
-                        else if (lsp == NVME_LOG_TELEM_HOST_LSP_RETAIN)
-                        {
-                            create = false;
-                        }
-                        else
-                        {
-                            std::cerr << "invalid lsp for telemetry host log"
-                                      << std::endl;
-                            rc = -1;
-                            errno = EINVAL;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        host = false;
-                    }
-
+                    bool host = (lid == NVME_LOG_LID_TELEMETRY_HOST);
+                    // We always create host telemetry regardless LSP
+                    bool create = host && true;
                     rc = getTelemetryLog(ctrl, host, create, data);
                 }
                 break;
