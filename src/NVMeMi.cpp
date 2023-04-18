@@ -8,6 +8,7 @@
 nvme_root_t NVMeMi::nvmeRoot = nvme_mi_create_root(stderr, DEFAULT_LOGLEVEL);
 
 constexpr size_t maxNVMeMILength = 4096;
+constexpr int tcgDefaultTimeoutMS = 20*1000;
 
 NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
                int addr) :
@@ -776,7 +777,11 @@ void NVMeMi::adminSecuritySend(
         args.data_len = data.size_bytes();
         args.args_size = sizeof(struct nvme_security_send_args);
 
+        unsigned timeout = nvme_mi_ep_get_timeout(self->nvmeEP);
+        nvme_mi_ep_set_timeout(self->nvmeEP, tcgDefaultTimeoutMS);
         int status = nvme_mi_admin_security_send(ctrl, &args);
+        nvme_mi_ep_set_timeout(self->nvmeEP, timeout);
+
         self->io.post([cb{std::move(cb)}, nvme_errno{errno}, status]() {
             auto err = std::make_error_code(static_cast<std::errc>(nvme_errno));
             cb(err, status);
@@ -816,7 +821,11 @@ void NVMeMi::adminSecurityReceive(
         args.data_len = data.size();
         args.args_size = sizeof(struct nvme_security_receive_args);
 
+        unsigned timeout = nvme_mi_ep_get_timeout(self->nvmeEP);
+        nvme_mi_ep_set_timeout(self->nvmeEP, tcgDefaultTimeoutMS);
         int status = nvme_mi_admin_security_recv(ctrl, &args);
+        nvme_mi_ep_set_timeout(self->nvmeEP, timeout);
+
         if (args.data_len > maxNVMeMILength)
         {
             std::cerr << "nvme_mi_admin_security_send returned excess data, "
