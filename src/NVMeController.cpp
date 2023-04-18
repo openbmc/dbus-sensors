@@ -143,12 +143,16 @@ sdbusplus::message::unix_fd NVMeController::getLogPage(uint8_t lid,
         }
         else // No VU LogPage handler
         {
+            ::close(pipe[0]);
+            ::close(pipe[1]);
             throw sdbusplus::xyz::openbmc_project::Common::Error::
                 InvalidArgument();
         }
     }
     else // No VU plugin
     {
+        ::close(pipe[0]);
+        ::close(pipe[1]);
         throw sdbusplus::xyz::openbmc_project::Common::Error::InvalidArgument();
     }
     return sdbusplus::message::unix_fd{pipe[0]};
