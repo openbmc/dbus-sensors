@@ -19,11 +19,11 @@ class NVMeSubsystem : public std::enable_shared_from_this<NVMeSubsystem>
                   sdbusplus::asio::object_server& objServer,
                   std::shared_ptr<sdbusplus::asio::connection> conn,
                   const std::string& path, const std::string& name,
-                  NVMeIntf intf);
+                  const SensorData& configData, NVMeIntf intf);
 
     ~NVMeSubsystem();
 
-    void start(const SensorData& configData);
+    void start();
 
     void stop();
 
@@ -34,8 +34,18 @@ class NVMeSubsystem : public std::enable_shared_from_this<NVMeSubsystem>
     std::shared_ptr<sdbusplus::asio::connection> conn;
     std::string path;
     std::string name;
+    SensorData config;
 
     NVMeIntf nvmeIntf;
+
+    enum class Status
+    {
+        Stop,
+        Intiatilzing,
+        Start,
+    };
+
+    Status status;
 
     // plugin
     std::shared_ptr<NVMePlugin> plugin;
@@ -61,4 +71,8 @@ class NVMeSubsystem : public std::enable_shared_from_this<NVMeSubsystem>
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> assocIntf;
     void createStorageAssociation();
+
+    // make the subsystem functional/functional be enabling/disabling the
+    // storage controller, namespaces and thermal sensors.
+    void markFunctional(bool toggle);
 };

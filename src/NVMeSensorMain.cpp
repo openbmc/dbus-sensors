@@ -204,9 +204,9 @@ static void handleConfigurations(
         {
             auto nvmeSubsys = std::make_shared<NVMeSubsystem>(
                 io, objectServer, dbusConnection, interfacePath, *sensorName,
-                std::move(find->second));
+                configData, std::move(find->second));
             nvmeSubsysMap.emplace(interfacePath, nvmeSubsys);
-            nvmeSubsys->start(configData);
+            nvmeSubsys->start();
         }
         catch (std::exception& ex)
         {

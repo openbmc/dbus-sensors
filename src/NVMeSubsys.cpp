@@ -39,9 +39,10 @@ NVMeSubsystem::NVMeSubsystem(boost::asio::io_context& io,
                              sdbusplus::asio::object_server& objServer,
                              std::shared_ptr<sdbusplus::asio::connection> conn,
                              const std::string& path, const std::string& name,
-                             NVMeIntf intf) :
+                             const SensorData& configData, NVMeIntf intf) :
     io(io),
-    objServer(objServer), conn(conn), path(path), name(name), nvmeIntf(intf),
+    objServer(objServer), conn(conn), path(path), name(name),
+    config(configData), nvmeIntf(intf), status(Status::Stop),
     storage(*dynamic_cast<sdbusplus::bus_t*>(conn.get()), path.c_str()),
     drive(*dynamic_cast<sdbusplus::bus_t*>(conn.get()), path.c_str())
 {
@@ -77,23 +78,50 @@ NVMeSubsystem::~NVMeSubsystem()
     objServer.remove_interface(assocIntf);
 }
 
-void NVMeSubsystem::start(const SensorData& configData)
+void NVMeSubsystem::markFunctional(bool toggle)
 {
+    // disable the subsystem
+    if (!toggle)
+    {
+        if (status == Status::Intiatilzing)
+        {
+            throw std::runtime_error(
+                "cannot stop: the subsystem is intiatilzing");
+        }
+        status = Status::Stop;
+        if (plugin)
+        {
+            plugin->stop();
+        }
+        // TODO: the controller should be stopped after controller level polling
+        // is enabled
+
+        controllers.clear();
+        plugin.reset();
+        return;
+    }
+    if (status == Status::Intiatilzing)
+    {
+        throw std::runtime_error("cannot start: the subsystem is intiatilzing");
+    }
+    status = Status::Intiatilzing;
+
     // add controllers for the subsystem
     if (nvmeIntf.getProtocol() == NVMeIntf::Protocol::NVMeMI)
     {
         auto nvme =
             std::get<std::shared_ptr<NVMeMiIntf>>(nvmeIntf.getInferface());
         nvme->miScanCtrl(
-            [self{shared_from_this()}, nvme,
-             configData](const std::error_code& ec,
-                         const std::vector<nvme_mi_ctrl_t>& ctrlList) mutable {
+            [self{shared_from_this()},
+             nvme](const std::error_code& ec,
+                   const std::vector<nvme_mi_ctrl_t>& ctrlList) mutable {
             if (ec || ctrlList.size() == 0)
             {
                 // TODO: mark the subsystem invalid and reschedule refresh
                 std::cerr << "fail to scan controllers for the nvme subsystem"
                           << (ec ? ": " + ec.message() : "") << std::endl;
-                // self->createStorageAssociation();
+                self->status = Status::Stop;
+                self->markFunctional(false);
                 return;
             }
 
@@ -128,7 +156,7 @@ void NVMeSubsystem::start(const SensorData& configData)
                     if (self->plugin)
                     {
                         ctrlPlugin = self->plugin->createControllerPlugin(
-                            *nvmeController, configData);
+                            *nvmeController, self->config);
                     }
 
                     // insert the controllers and controller plugin
@@ -165,6 +193,8 @@ void NVMeSubsystem::start(const SensorData& configData)
                 {
                     std::cerr << "fail to identify secondary controller list"
                               << std::endl;
+                    self->status = Status::Stop;
+                    self->markFunctional(false);
                     return;
                 }
                 nvme_secondary_ctrl_list& listHdr =
@@ -180,6 +210,8 @@ void NVMeSubsystem::start(const SensorData& configData)
                 {
                     std::cerr << "empty identify secondary controller list"
                               << std::endl;
+                    self->status = Status::Stop;
+                    self->markFunctional(false);
                     return;
                 }
 
@@ -192,6 +224,8 @@ void NVMeSubsystem::start(const SensorData& configData)
                     std::cerr << "fail to match primary controller from "
                                  "identify sencondary cntrl list"
                               << std::endl;
+                    self->status = Status::Stop;
+                    self->markFunctional(false);
                     return;
                 }
 
@@ -230,10 +264,14 @@ void NVMeSubsystem::start(const SensorData& configData)
                 {
                     pair.first->start(pair.second);
                 }
-                });            
+                self->status = Status::Start;
+                });
         });
     }
+}
 
+void NVMeSubsystem::start()
+{
     // add thermal sensor for the subsystem
     std::optional<std::string> sensorName = createSensorNameFromPath(path);
     if (!sensorName)
@@ -243,7 +281,7 @@ void NVMeSubsystem::start(const SensorData& configData)
     }
 
     std::vector<thresholds::Threshold> sensorThresholds;
-    if (!parseThresholdsFromConfig(configData, sensorThresholds))
+    if (!parseThresholdsFromConfig(config, sensorThresholds))
     {
         std::cerr << "error populating thresholds for " << *sensorName << "\n";
         throw std::runtime_error("error populating thresholds for " +
@@ -285,20 +323,37 @@ void NVMeSubsystem::start(const SensorData& configData)
             intf->miSubsystemHealthStatusPoll(std::move(cb));
         };
         ctemp_parser_t<nvme_mi_nvm_ss_health_status*> dataParser =
-            [](nvme_mi_nvm_ss_health_status* status) -> std::optional<double> {
+            [self{shared_from_this()}](
+                nvme_mi_nvm_ss_health_status* status) -> std::optional<double> {
             // Drive Functional
             bool df = status->nss & 0x20;
             if (!df)
             {
+                // stop the subsystem
+                try
+                {
+                    self->markFunctional(false);
+                    self->ctemp->markFunctional(false);
+                }
+                catch (const std::runtime_error& e)
+                {
+                    std::cerr << e.what() << std::endl;
+                }
                 return std::nullopt;
+            }
+
+            // restart the subsystem
+            if (self->status == Status::Stop)
+            {
+                self->markFunctional(true);
+                self->ctemp->markFunctional(true);
             }
             return {getTemperatureReading(status->ctemp)};
         };
         pollCtemp(ctempTimer, ctemp, dataFether, dataParser);
     }
 
-    // TODO: start to poll Drive status.
-
+    // start plugin
     if (plugin)
     {
         plugin->start();
@@ -306,9 +361,24 @@ void NVMeSubsystem::start(const SensorData& configData)
 }
 void NVMeSubsystem::stop()
 {
-    if (plugin)
-    {
-        plugin->stop();
-    }
     ctempTimer->cancel();
+    if (status == Status::Start)
+    {
+        std::cerr << "status start" << std::endl;
+        markFunctional(false);
+        ctemp->markFunctional(false);
+    }
+    else if (status == Status::Intiatilzing)
+    {
+        std::cerr << "status init" << std::endl;
+        ctempTimer->expires_after(std::chrono::milliseconds(100));
+        ctempTimer->async_wait(
+            [self{shared_from_this()}](boost::system::error_code ec) {
+            if (ec)
+            {
+                return;
+            }
+            self->stop();
+        });
+    }
 }

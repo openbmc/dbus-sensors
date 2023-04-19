@@ -21,6 +21,7 @@ endif
 
 ut_deps_list = [
     gtest_dep,
+    gmock_dep,
 ]
 
 ut_deps_list += default_deps
