@@ -54,6 +54,9 @@ const static constexpr size_t pchStatusRegIntrusion = 0x04;
 // Status bit field masks
 const static constexpr size_t pchRegMaskIntrusion = 0x01;
 
+// Value to clear intrusion status hwmon file
+const static constexpr size_t intrusionStatusHwmonClearValue = 0;
+
 void ChassisIntrusionSensor::updateValue(const size_t& value)
 {
     std::string newValue = value != 0 ? hwIntrusionValStr : normalValStr;
@@ -124,6 +127,7 @@ int ChassisIntrusionPchSensor::readSensor()
 void ChassisIntrusionPchSensor::pollSensorStatus()
 {
     std::weak_ptr<ChassisIntrusionPchSensor> weakRef = weak_from_this();
+
     // setting a new experation implicitly cancels any pending async wait
     mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
 
@@ -134,12 +138,14 @@ void ChassisIntrusionPchSensor::pollSensorStatus()
             std::cerr << "Timer of intrusion sensor is cancelled\n";
             return;
         }
+
         std::shared_ptr<ChassisIntrusionPchSensor> self = weakRef.lock();
         if (!self)
         {
             std::cerr << "ChassisIntrusionSensor no self\n";
             return;
         }
+
         int value = self->readSensor();
         if (value < 0)
         {
@@ -150,6 +156,7 @@ void ChassisIntrusionPchSensor::pollSensorStatus()
             intrusionSensorPollSec = defaultPollSec;
             self->updateValue(value);
         }
+
         // trigger next polling
         self->pollSensorStatus();
     });
@@ -174,6 +181,7 @@ void ChassisIntrusionGpioSensor::pollSensorStatus()
         {
             return; // we're being destroyed
         }
+
         if (ec)
         {
             std::cerr << "Error on GPIO based intrusion sensor wait event\n";
@@ -188,6 +196,83 @@ void ChassisIntrusionGpioSensor::pollSensorStatus()
             // trigger next polling
             pollSensorStatus();
         }
+    });
+}
+
+int ChassisIntrusionHwmonSensor::readSensor()
+{
+    int value = 0;
+
+    std::fstream stream(mHwmonPath, std::ios::in | std::ios::out);
+    if (!stream.good())
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << "\n";
+        return -1;
+    }
+
+    std::string line;
+    if (!std::getline(stream, line))
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << "\n";
+        return -1;
+    }
+
+    try
+    {
+        value = std::stoi(line);
+        if constexpr (debug)
+        {
+            std::cout << "Hwmon type: raw value is " << value << "\n";
+        }
+    }
+    catch (const std::invalid_argument& e)
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << " : "
+                  << e.what() << "\n";
+        return -1;
+    }
+
+    // Reset chassis intrusion status after every reading
+    stream << intrusionStatusHwmonClearValue;
+
+    return value;
+}
+
+void ChassisIntrusionHwmonSensor::pollSensorStatus()
+{
+    std::weak_ptr<ChassisIntrusionHwmonSensor> weakRef = weak_from_this();
+
+    // setting a new experation implicitly cancels any pending async wait
+    mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
+
+    mPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        // case of being canceled
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Timer of intrusion sensor is cancelled\n";
+            return;
+        }
+
+        std::shared_ptr<ChassisIntrusionHwmonSensor> self = weakRef.lock();
+        if (!self)
+        {
+            std::cerr << "ChassisIntrusionSensor no self\n";
+            return;
+        }
+
+        int value = self->readSensor();
+        if (value < 0)
+        {
+            intrusionSensorPollSec = sensorFailedPollSec;
+        }
+        else
+        {
+            intrusionSensorPollSec = defaultPollSec;
+            self->updateValue(value);
+        }
+
+        // trigger next polling
+        self->pollSensorStatus();
     });
 }
 
@@ -237,7 +322,9 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
                                     " address " + std::to_string(slaveAddr) +
                                     "\n");
     }
+
     mSlaveAddr = slaveAddr;
+
     std::string devPath = "/dev/i2c-" + std::to_string(busId);
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     mBusFd = open(devPath.c_str(), O_RDWR | O_CLOEXEC);
@@ -288,7 +375,44 @@ ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
     {
         throw std::invalid_argument("Failed to get " + mPinName + " fd\n");
     }
+
     mGpioFd.assign(gpioLineFd);
+}
+
+ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
+    std::string hwmonName) :
+    ChassisIntrusionSensor(objServer),
+    mHwmonName(std::move(hwmonName)), mPollTimer(io)
+{
+    std::vector<fs::path> paths;
+
+    if (!findFiles(fs::path("/sys/class/hwmon"), mHwmonName, paths))
+    {
+        throw std::invalid_argument("Failed to find hwmon path in sysfs\n");
+    }
+
+    if (paths.empty())
+    {
+        throw std::invalid_argument("Hwmon file " + mHwmonName +
+                                    " can't be found in sysfs\n");
+    }
+
+    if (paths.size() > 1)
+    {
+        std::cerr << "Found more than 1 hwmon file to read chassis intrusion"
+                  << " status. Taking the first one. \n";
+    }
+
+    // Expecting only one hwmon file for one given chassis
+    mHwmonPath = paths[0].string();
+
+    if constexpr (debug)
+    {
+        std::cout << "Found " << paths.size()
+                  << " paths for intrusion status \n"
+                  << " The first path is: " << mHwmonPath << "\n";
+    }
 }
 
 ChassisIntrusionSensor::~ChassisIntrusionSensor()
@@ -312,4 +436,9 @@ ChassisIntrusionGpioSensor::~ChassisIntrusionGpioSensor()
     {
         mGpioLine.release();
     }
+}
+
+ChassisIntrusionHwmonSensor::~ChassisIntrusionHwmonSensor()
+{
+    mPollTimer.cancel();
 }
