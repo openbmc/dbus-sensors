@@ -139,6 +139,29 @@ static void createSensorsFromConfig(
                 continue;
             }
         }
+        else if (findClass != baseConfiguration->second.end() &&
+                 std::get<std::string>(findClass->second) == "Hwmon")
+        {
+            type = IntrusionSensorType::hwmon;
+            try
+            {
+                // If the sensor has been constructed before with the same type,
+                // skip re-initialization
+                if (pSensor && (type == pSensor->getType()))
+                {
+                    return;
+                }
+                pSensor = std::make_shared<ChassisIntrusionHwmonSensor>(
+                    type, io, objServer);
+                pSensor->start();
+                return;
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << e.what() << std::endl;
+                continue;
+            }
+        }
         else
         {
             type = IntrusionSensorType::pch;
@@ -191,7 +214,7 @@ static void createSensorsFromConfig(
         }
     }
 
-    std::cerr << " Can't find matched I2C, GPIO configuration\n";
+    std::cerr << " Can't find matched I2C, GPIO or Hwmon configuration\n";
 
     // Make sure nothing runs when there's no configuration for the sensor after
     // rescan

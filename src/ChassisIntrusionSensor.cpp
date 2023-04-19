@@ -50,6 +50,9 @@ const static constexpr size_t pchStatusRegIntrusion = 0x04;
 // Status bit field masks
 const static constexpr size_t pchRegMaskIntrusion = 0x01;
 
+// Value to clear intrusion status hwmon file
+const static constexpr size_t intrusionStatusHwmonClearValue = 0;
+
 void ChassisIntrusionSensor::updateValue(const std::string& newValue)
 {
     // Take no action if value already equal
@@ -209,6 +212,81 @@ void ChassisIntrusionGpioSensor::pollSensorStatus()
     });
 }
 
+void ChassisIntrusionHwmonSensor::readSensor()
+{
+    std::ifstream refin(mHwmonPath);
+    if (!refin.good())
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << "\n";
+        return;
+    }
+    std::string line;
+    if (!std::getline(refin, line))
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << "\n";
+        return;
+    }
+    try
+    {
+        size_t value = std::stoi(line);
+
+        // set string defined in chassis redfish schema
+        std::string newValue = value != 0 ? "HardwareIntrusion" : "Normal";
+
+        if constexpr (debug)
+        {
+            std::cout << "Hwmon value is " << std::dec << value << "\n";
+        }
+        if (mValue != newValue)
+        {
+            std::cout << "update value from " << mValue << " to " << newValue
+                      << "\n";
+            updateValue(newValue);
+        }
+    }
+    catch (const std::invalid_argument& e)
+    {
+        std::cerr << "Error reading status at " << mHwmonPath << " : "
+                  << e.what() << "\n";
+    }
+    // Reset chassis intrusion status after every reading
+    std::ofstream refout(mHwmonPath);
+    if (!refout.good())
+    {
+        std::cerr << "Error resetting intrusion status at " << mHwmonPath
+                  << "\n";
+        return;
+    }
+    refout << intrusionStatusHwmonClearValue;
+    // trigger next polling
+    pollSensorStatus();
+}
+
+void ChassisIntrusionHwmonSensor::pollSensorStatus()
+{
+    std::weak_ptr<ChassisIntrusionHwmonSensor> weakRef = weak_from_this();
+
+    // setting a new experation implicitly cancels any pending async wait
+    mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
+    mPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<ChassisIntrusionHwmonSensor> self = weakRef.lock();
+        // case of being canceled
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            std::cerr << "Timer of intrusion sensor is cancelled\n";
+            return;
+        }
+        if (self)
+        {
+            self->readSensor();
+        }
+        else
+        {
+            std::cerr << "ChassisIntrusionSensor no self\n";
+        }
+    });
+}
+
 int ChassisIntrusionSensor::setSensorValue(const std::string& req,
                                            std::string& propertyValue)
 {
@@ -301,6 +379,38 @@ ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
     }
 }
 
+ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
+    IntrusionSensorType type, boost::asio::io_context& io,
+    sdbusplus::asio::object_server& objServer) :
+    ChassisIntrusionSensor(type, objServer),
+    mPollTimer(io)
+{
+    std::vector<fs::path> paths;
+    if (!findFiles(fs::path("/sys/class/hwmon"), mHwmonName, paths))
+    {
+        throw std::invalid_argument("Failed to find hwmon path in sysfs\n");
+    }
+    if (paths.empty())
+    {
+        throw std::invalid_argument("Hwmon file " + mHwmonName +
+                                    " can't be found in sysfs\n");
+    }
+    if (paths.size() > 1)
+    {
+        std::cerr << "Found more than 1 hwmon file to read chassis intrusion"
+                  << " status. Taking the first one. \n";
+    }
+
+    mHwmonPath = paths[0].string();
+
+    if constexpr (debug)
+    {
+        std::cout << "Found " << paths.size()
+                  << " paths for intrusion status \n"
+                  << " The first path is: " << mHwmonPath << "\n";
+    }
+}
+
 ChassisIntrusionSensor::~ChassisIntrusionSensor()
 {
     mObjServer.remove_interface(mIface);
@@ -322,4 +432,9 @@ ChassisIntrusionGpioSensor::~ChassisIntrusionGpioSensor()
     {
         mGpioLine.release();
     }
+}
+
+ChassisIntrusionHwmonSensor::~ChassisIntrusionHwmonSensor()
+{
+    mPollTimer.cancel();
 }

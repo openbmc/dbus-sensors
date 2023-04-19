@@ -13,7 +13,8 @@ namespace fs = std::filesystem;
 enum IntrusionSensorType
 {
     pch,
-    gpio
+    gpio,
+    hwmon
 };
 
 class ChassisIntrusionSensor
@@ -102,6 +103,25 @@ class ChassisIntrusionGpioSensor :
     std::string mPinName = "CHASSIS_INTRUSION";
     gpiod::line mGpioLine;
     boost::asio::posix::stream_descriptor mGpioFd;
+    void readSensor(void) override;
+    void pollSensorStatus(void) override;
+};
+
+class ChassisIntrusionHwmonSensor :
+    public ChassisIntrusionSensor,
+    public std::enable_shared_from_this<ChassisIntrusionHwmonSensor>
+{
+  public:
+    ChassisIntrusionHwmonSensor(IntrusionSensorType type,
+                                boost::asio::io_context& io,
+                                sdbusplus::asio::object_server& objServer);
+
+    ~ChassisIntrusionHwmonSensor() override;
+
+  private:
+    std::string mHwmonName = "intrusion0_alarm";
+    std::string mHwmonPath;
+    boost::asio::steady_timer mPollTimer;
     void readSensor(void) override;
     void pollSensorStatus(void) override;
 };
