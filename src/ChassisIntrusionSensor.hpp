@@ -74,3 +74,22 @@ class ChassisIntrusionGpioSensor :
     int readSensor() override;
     void pollSensorStatus() override;
 };
+
+class ChassisIntrusionHwmonSensor :
+    public ChassisIntrusionSensor,
+    public std::enable_shared_from_this<ChassisIntrusionHwmonSensor>
+{
+  public:
+    ChassisIntrusionHwmonSensor(boost::asio::io_context& io,
+                                sdbusplus::asio::object_server& objServer,
+                                std::string hwmonName);
+
+    ~ChassisIntrusionHwmonSensor() override;
+
+  private:
+    std::string mHwmonName;
+    std::string mHwmonPath;
+    boost::asio::steady_timer mPollTimer;
+    int readSensor() override;
+    void pollSensorStatus() override;
+};
