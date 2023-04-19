@@ -13,7 +13,7 @@ std::map<int, std::weak_ptr<NVMeMi::Worker>> NVMeMi::workerMap{};
 nvme_root_t NVMeMi::nvmeRoot = nvme_mi_create_root(stderr, DEFAULT_LOGLEVEL);
 
 NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
-               int addr) :
+               int addr, bool singleThreadMode) :
     io(io),
     dbus(dbus)
 {
@@ -22,11 +22,30 @@ NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
         throw std::runtime_error("invalid NVMe root");
     }
 
-    auto root = deriveRootBus(bus);
-
-    if (!root || *root < 0)
+    if (singleThreadMode)
     {
-        throw std::runtime_error("invalid root bus number");
+
+        auto root = deriveRootBus(bus);
+
+        if (!root || *root < 0)
+        {
+            throw std::runtime_error("invalid root bus number");
+        }
+        auto res = workerMap.find(*root);
+
+        if (res == workerMap.end() || res->second.expired())
+        {
+            worker = std::make_shared<Worker>();
+            workerMap[*root] = worker;
+        }
+        else
+        {
+            worker = res->second.lock();
+        }
+    }
+    else
+    {
+        worker = std::make_shared<Worker>();
     }
 
     // init mctp ep via mctpd
@@ -69,18 +88,6 @@ NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
         throw std::runtime_error("can't open MCTP endpoint " +
                                  std::to_string(nid) + ":" +
                                  std::to_string(eid));
-    }
-
-    auto res = workerMap.find(*root);
-
-    if (res == workerMap.end() || res->second.expired())
-    {
-        worker = std::make_shared<Worker>();
-        workerMap[*root] = worker;
-    }
-    else
-    {
-        worker = res->second.lock();
     }
 }
 

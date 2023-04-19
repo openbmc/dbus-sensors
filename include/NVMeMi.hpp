@@ -9,7 +9,7 @@ class NVMeMi : public NVMeMiIntf, public std::enable_shared_from_this<NVMeMi>
 {
   public:
     NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
-           int addr);
+           int addr, bool singleThreadMode = false);
     ~NVMeMi() override;
 
     int getNID() const override
