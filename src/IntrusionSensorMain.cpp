@@ -47,6 +47,13 @@ static constexpr const char* sensorType = "ChassisIntrusionSensor";
 static constexpr const char* nicType = "NIC";
 static constexpr auto nicTypes{std::to_array<const char*>({nicType})};
 
+static const std::map<std::string, std::string> compatibleHwmonNames = {
+    {"Aspeed2600_Hwmon", "intrusion0_alarm"}
+    // Add compatible strings here for new hwmon intrusion detection
+    // drivers that have different hwmon names but would also like to
+    // use the available Hwmon class.
+};
+
 static void createSensorsFromConfig(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -67,7 +74,6 @@ static void createSensorsFromConfig(
     const std::pair<std::string, SensorBaseConfigMap>* baseConfiguration =
         nullptr;
 
-    // Get bus and addr of matched configuration
     for (const auto& [path, cfgData] : sensorConfigurations)
     {
         baseConfiguration = nullptr;
@@ -83,85 +89,121 @@ static void createSensorsFromConfig(
 
         baseConfiguration = &(*sensorBase);
 
-        // judge class, "Gpio" or "I2C"
+        // judge class, "Gpio", "Hwmon" or "I2C"
         auto findClass = baseConfiguration->second.find("Class");
-        if (findClass != baseConfiguration->second.end() &&
-            std::get<std::string>(findClass->second) == "Gpio")
+        if (findClass != baseConfiguration->second.end())
         {
-            auto findGpioPolarity =
-                baseConfiguration->second.find("GpioPolarity");
+            auto classString = std::get<std::string>(findClass->second);
+            if (classString == "Gpio")
+            {
+                auto findGpioPolarity =
+                    baseConfiguration->second.find("GpioPolarity");
 
-            if (findGpioPolarity == baseConfiguration->second.end())
-            {
-                std::cerr << "error finding gpio polarity in configuration \n";
-                continue;
-            }
+                if (findGpioPolarity == baseConfiguration->second.end())
+                {
+                    std::cerr
+                        << "error finding gpio polarity in configuration \n";
+                    continue;
+                }
 
-            try
-            {
-                bool gpioInverted =
-                    (std::get<std::string>(findGpioPolarity->second) == "Low");
-                pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
-                    io, objServer, gpioInverted);
-                pSensor->start();
-                if (debug)
+                try
                 {
-                    std::cout
-                        << "find chassis intrusion sensor polarity inverted "
-                           "flag is "
-                        << gpioInverted << "\n";
+                    bool gpioInverted =
+                        (std::get<std::string>(findGpioPolarity->second) ==
+                         "Low");
+                    pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
+                        io, objServer, gpioInverted);
+                    pSensor->start();
+                    if (debug)
+                    {
+                        std::cout
+                            << "find chassis intrusion sensor polarity inverted "
+                               "flag is "
+                            << gpioInverted << "\n";
+                    }
+                    return;
                 }
-                return;
-            }
-            catch (const std::bad_variant_access& e)
-            {
-                std::cerr << "invalid value for gpio info in config. \n";
-                continue;
-            }
-            catch (const std::exception& e)
-            {
-                std::cerr << e.what() << std::endl;
-                continue;
-            }
-        }
-        else
-        {
-            auto findBus = baseConfiguration->second.find("Bus");
-            auto findAddress = baseConfiguration->second.find("Address");
-            if (findBus == baseConfiguration->second.end() ||
-                findAddress == baseConfiguration->second.end())
-            {
-                std::cerr << "error finding bus or address in configuration \n";
-                continue;
-            }
-            try
-            {
-                int busId = std::get<uint64_t>(findBus->second);
-                int slaveAddr = std::get<uint64_t>(findAddress->second);
-                pSensor = std::make_shared<ChassisIntrusionPchSensor>(
-                    io, objServer, busId, slaveAddr);
-                pSensor->start();
-                if (debug)
+                catch (const std::bad_variant_access& e)
                 {
-                    std::cout << "find matched bus " << busId
-                              << ", matched slave addr " << slaveAddr << "\n";
+                    std::cerr << "invalid value for gpio info in config. \n";
+                    continue;
                 }
-                return;
+                catch (const std::exception& e)
+                {
+                    std::cerr << e.what() << std::endl;
+                    continue;
+                }
             }
-            catch (const std::bad_variant_access& e)
+            // If class string contains Hwmon string
+            else if (classString.find("Hwmon") != std::string::npos)
             {
-                std::cerr << "invalid value for bus or address in config. \n";
-                continue;
+                std::string hwmonName;
+                std::map<std::string, std::string>::const_iterator
+                    compatIterator = compatibleHwmonNames.find(classString);
+
+                if (compatIterator == compatibleHwmonNames.end())
+                {
+                    std::cerr << "Hwmon Class string is not supported\n";
+                    continue;
+                }
+
+                hwmonName = compatIterator->second;
+
+                try
+                {
+                    pSensor = std::make_shared<ChassisIntrusionHwmonSensor>(
+                        io, objServer, hwmonName);
+                    pSensor->start();
+                    return;
+                }
+                catch (const std::exception& e)
+                {
+                    std::cerr << e.what() << std::endl;
+                    continue;
+                }
             }
-            catch (const std::exception& e)
+            else
             {
-                std::cerr << e.what() << std::endl;
-                continue;
+                auto findBus = baseConfiguration->second.find("Bus");
+                auto findAddress = baseConfiguration->second.find("Address");
+                if (findBus == baseConfiguration->second.end() ||
+                    findAddress == baseConfiguration->second.end())
+                {
+                    std::cerr
+                        << "error finding bus or address in configuration \n";
+                    continue;
+                }
+                try
+                {
+                    int busId = std::get<uint64_t>(findBus->second);
+                    int slaveAddr = std::get<uint64_t>(findAddress->second);
+                    pSensor = std::make_shared<ChassisIntrusionPchSensor>(
+                        io, objServer, busId, slaveAddr);
+                    pSensor->start();
+                    if (debug)
+                    {
+                        std::cout << "find matched bus " << busId
+                                  << ", matched slave addr " << slaveAddr
+                                  << "\n";
+                    }
+                    return;
+                }
+                catch (const std::bad_variant_access& e)
+                {
+                    std::cerr
+                        << "invalid value for bus or address in config. \n";
+                    continue;
+                }
+                catch (const std::exception& e)
+                {
+                    std::cerr << e.what() << std::endl;
+                    continue;
+                }
             }
         }
     }
 
-    std::cerr << " Can't find matched I2C, GPIO configuration\n";
+    std::cerr << " Can't find matched I2C, GPIO or Hwmon configuration\n";
 
     // Make sure nothing runs when there's failure in configuration for the
     // sensor after rescan
