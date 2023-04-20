@@ -107,6 +107,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e864490e_ac08537f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T19:28:07Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "f888022e_21af86ee",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 51
+      },
+      "revId": "9c6ed811b7fd0f139e02ed04423b744235d7943b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63db3e39_80dfc0a5",

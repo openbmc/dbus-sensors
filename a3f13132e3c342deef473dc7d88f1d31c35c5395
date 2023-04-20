@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc36e0bc_6c0ee3f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T19:28:07Z",
+      "side": 1,
+      "message": "Only couple of minors, then it would be good to go.",
+      "revId": "a3f13132e3c342deef473dc7d88f1d31c35c5395",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de3a2299_d2d41236",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T19:28:07Z",
+      "side": 1,
+      "message": "nit: change it to //add compatible string here for new fan type",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "a3f13132e3c342deef473dc7d88f1d31c35c5395",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00e238ac_2f619415",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T19:28:07Z",
+      "side": 1,
+      "message": "FanTypes::i2c is used as default type.",
+      "range": {
+        "startLine": 83,
+        "startChar": 8,
+        "endLine": 83,
+        "endChar": 72
+      },
+      "revId": "a3f13132e3c342deef473dc7d88f1d31c35c5395",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b14f594_29079bcf",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T19:28:07Z",
+      "side": 1,
+      "message": "This can be simplified as while (std::getline())",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 57
+      },
+      "revId": "a3f13132e3c342deef473dc7d88f1d31c35c5395",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c7c854_238af1dc",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T19:28:07Z",
+      "side": 1,
+      "message": "nit: code is self explanatory, no need for the comment",
+      "range": {
+        "startLine": 96,
+        "startChar": 38,
+        "endLine": 97,
+        "endChar": 67
+      },
+      "revId": "a3f13132e3c342deef473dc7d88f1d31c35c5395",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb875d30_3507b1d9",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T19:28:07Z",
+      "side": 1,
+      "message": "same as above, remove the comment",
+      "range": {
+        "startLine": 100,
+        "startChar": 26,
+        "endLine": 100,
+        "endChar": 75
+      },
+      "revId": "a3f13132e3c342deef473dc7d88f1d31c35c5395",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
