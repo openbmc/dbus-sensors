@@ -1,6 +1,7 @@
 #include "NVMeSubsys.hpp"
 
 #include "NVMePlugin.hpp"
+#include "NVMeUtil.hpp"
 #include "Thresholds.hpp"
 
 #include <filesystem>
@@ -297,60 +298,153 @@ void NVMeSubsystem::start()
     {
         auto intf =
             std::get<std::shared_ptr<NVMeBasicIntf>>(nvmeIntf.getInferface());
-        ctemp_fetcher_t<NVMeBasicIntf::DriveStatus*> dataFether =
-            [intf](std::function<void(const std::error_code&,
-                                      NVMeBasicIntf::DriveStatus*)>&& cb) {
+        ctemp_fetch_t<NVMeBasicIntf::DriveStatus*> dataFether =
+            [intf, self{std::move(shared_from_this())}](
+                std::function<void(const std::error_code&,
+                                   NVMeBasicIntf::DriveStatus*)>&& cb) {
+            /* Potentially defer sampling the sensor sensor if it is in error */
+            if (!self->ctemp->sample())
+            {
+                cb(std::make_error_code(std::errc::operation_canceled),
+                   nullptr);
+                return;
+            }
+
             intf->getStatus(std::move(cb));
         };
-        ctemp_parser_t<NVMeBasicIntf::DriveStatus*> dataParser =
-            [](NVMeBasicIntf::DriveStatus* status) -> std::optional<double> {
+        ctemp_process_t<NVMeBasicIntf::DriveStatus*> dataProcessor =
+            [self{shared_from_this()}](const std::error_code& error,
+                                       NVMeBasicIntf::DriveStatus* status) {
+            // deferred sampling
+            if (error == std::errc::operation_canceled)
+            {
+                return;
+            }
+            // The device is physically absent
+            else if (error == std::errc::no_such_device)
+            {
+                std::cerr << "error reading ctemp from subsystem"
+                          << ", reason:" << error.message() << "\n";
+                self->ctemp->markFunctional(false);
+                self->ctemp->markAvailable(false);
+                return;
+            }
+            // other communication errors
+            else if (error)
+            {
+                std::cerr << "error reading ctemp from subsystem"
+                          << ", reason:" << error.message() << "\n";
+                self->ctemp->incrementError();
+                return;
+            }
+
             if (status == nullptr)
             {
-                return std::nullopt;
+                std::cerr << "empty data returned by data fetcher" << std::endl;
+                self->ctemp->markFunctional(false);
+                return;
             }
-            return {getTemperatureReading(status->Temp)};
+
+            uint8_t flags = status->Status;
+            if (((flags & NVMeBasicIntf::StatusFlags::
+                              NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY) != 0) ||
+                ((flags & NVMeBasicIntf::StatusFlags::
+                              NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL) == 0))
+            {
+                self->ctemp->markFunctional(false);
+                return;
+            }
+            self->ctemp->updateValue(getTemperatureReading(status->Temp));
         };
-        pollCtemp(this->ctempTimer, this->ctemp, dataFether, dataParser);
+
+        pollCtemp(ctempTimer, std::chrono::seconds(1), dataFether,
+                  dataProcessor);
     }
     else if (nvmeIntf.getProtocol() == NVMeIntf::Protocol::NVMeMI)
     {
         auto intf =
             std::get<std::shared_ptr<NVMeMiIntf>>(nvmeIntf.getInferface());
 
-        ctemp_fetcher_t<nvme_mi_nvm_ss_health_status*> dataFether =
-            [intf](std::function<void(const std::error_code&,
-                                      nvme_mi_nvm_ss_health_status*)>&& cb) {
+        ctemp_fetch_t<nvme_mi_nvm_ss_health_status*> dataFether =
+            [intf, self{std::move(shared_from_this())}](
+                std::function<void(const std::error_code&,
+                                   nvme_mi_nvm_ss_health_status*)>&& cb) {
+            // do not poll the health status if the subsystem is intiatilzing
+            if (self->status == Status::Intiatilzing)
+            {
+                std::cerr << "subsystem is intiatilzing, cancel the health poll"
+                          << std::endl;
+                cb(std::make_error_code(std::errc::operation_canceled),
+                   nullptr);
+                return;
+            }
             intf->miSubsystemHealthStatusPoll(std::move(cb));
         };
-        ctemp_parser_t<nvme_mi_nvm_ss_health_status*> dataParser =
-            [self{shared_from_this()}](
-                nvme_mi_nvm_ss_health_status* status) -> std::optional<double> {
+        ctemp_process_t<nvme_mi_nvm_ss_health_status*> dataProcessor =
+            [self{shared_from_this()}](const std::error_code& error,
+                                       nvme_mi_nvm_ss_health_status* status) {
+            if (error == std::errc::operation_canceled ||
+                self->status == Status::Intiatilzing)
+            {
+                // on initialization, the subsystem will not update the status.
+                std::cerr
+                    << "subsystem is intiatilzing, do not process the status"
+                    << std::endl;
+                return;
+            }
+
+            if (error == std::errc::no_such_device)
+            {
+                std::cerr << "error reading ctemp "
+                             "from subsystem"
+                          << ", reason:" << error.message() << "\n";
+                // stop the subsystem
+                self->markFunctional(false);
+                self->ctemp->markFunctional(false);
+                self->ctemp->markAvailable(false);
+
+                return;
+            }
+            else if (error)
+            {
+                std::cerr << "error reading ctemp "
+                             "from subsystem"
+                          << ", reason:" << error.message() << "\n";
+                self->ctemp->incrementError();
+                if (self->ctemp->inError())
+                {
+                    self->markFunctional(false);
+                    self->ctemp->markFunctional(false);
+                }
+                return;
+            }
+
             // Drive Functional
             bool df = status->nss & 0x20;
             if (!df)
             {
                 // stop the subsystem
-                try
-                {
-                    self->markFunctional(false);
-                    self->ctemp->markFunctional(false);
-                }
-                catch (const std::runtime_error& e)
-                {
-                    std::cerr << e.what() << std::endl;
-                }
-                return std::nullopt;
+
+                self->markFunctional(false);
+                self->ctemp->markFunctional(false);
+
+                return;
             }
 
             // restart the subsystem
             if (self->status == Status::Stop)
             {
                 self->markFunctional(true);
-                self->ctemp->markFunctional(true);
             }
-            return {getTemperatureReading(status->ctemp)};
+
+            // TODO: update the drive interface
+
+            self->ctemp->updateValue(getTemperatureReading(status->ctemp));
+            return;
         };
-        pollCtemp(ctempTimer, ctemp, dataFether, dataParser);
+
+        pollCtemp(ctempTimer, std::chrono::seconds(1), dataFether,
+                  dataProcessor);
     }
 
     // start plugin

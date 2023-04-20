@@ -342,23 +342,12 @@ void NVMeBasic::getStatus(
 
             /* Process the callback */
             self->io.post([data, cb{std::move(cb)}]() {
-                if (data->size() <
-                    sizeof(DriveStatus) + 1) // The first byte is status flags
+                if (data->size() < sizeof(DriveStatus))
                 {
                     cb(std::make_error_code(std::errc::message_size), nullptr);
                     return;
                 }
 
-                uint8_t flags = static_cast<uint8_t>(data->front());
-                if (((flags & NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY) != 0) ||
-                    ((flags & NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL) == 0))
-                {
-                    cb(std::make_error_code(std::errc::no_such_device),
-                       nullptr);
-                    return;
-                }
-
-                data->erase(data->begin());
                 cb({}, reinterpret_cast<DriveStatus*>(data->data()));
             });
         }

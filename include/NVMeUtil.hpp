@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <iostream>
 #include <optional>
+#include <system_error>
 
 inline std::filesystem::path deriveRootBusPath(int busNumber)
 {
@@ -104,60 +105,43 @@ inline std::optional<std::string>
 // Function type for fetching ctemp which incaplucated in a structure of T.
 // The fetcher function take a callback as input to process the result.
 template <class T>
-using ctemp_fetcher_t =
+using ctemp_fetch_t =
     std::function<void(std::function<void(const std::error_code&, T)>&&)>;
 
-// Function type for parsing ctemp out the structure of type T.
-// The parser function will return the value of ctemp or nullopt on failure.
+// Function type for processing ctemp out the structure of type T.
+// The process function will update the properties based on input data.
 template <class T>
-using ctemp_parser_t = std::function<std::optional<double>(T data)>;
+using ctemp_process_t =
+    std::function<void(const std::error_code& error, T data)>;
 
 template <class T>
 void pollCtemp(
     std::shared_ptr<boost::asio::steady_timer> timer,
-    std::shared_ptr<NVMeSensor> sensor,
+    std::chrono::duration<double, std::milli> delay,
     const std::function<void(std::function<void(const std::error_code&, T)>&&)>&
         dataFetcher,
-    const std::function<std::optional<double>(T data)>& dataParser);
+    const std::function<void(const std::error_code& error, T data)>&
+        dataProcessor);
 
 namespace detail
 {
 
 template <class T>
 void updateCtemp(std::shared_ptr<boost::asio::steady_timer> timer,
-                 std::shared_ptr<NVMeSensor> sensor,
-                 ctemp_parser_t<T> dataParser, ctemp_fetcher_t<T> dataFetcher,
-                 const boost::system::error_code error, T data)
+                 std::chrono::duration<double, std::milli> delay,
+                 ctemp_process_t<T> dataProcessor, ctemp_fetch_t<T> dataFetcher,
+                 const std::error_code& error, T data)
 {
-    if (error)
-    {
-        std::cerr << "error reading ctemp from subsystem"
-                  << ", reason:" << error.message() << "\n";
-        sensor->markFunctional(false);
-        ::pollCtemp(std::move(timer), std::move(sensor), dataFetcher,
-                    dataParser);
-        return;
-    }
-    auto value = dataParser(data);
-    if (!value)
-    {
-        sensor->incrementError();
-        ::pollCtemp(std::move(timer), std::move(sensor), dataFetcher,
-                    dataParser);
-        return;
-    }
-
-    sensor->updateValue(*value);
-    ::pollCtemp(std::move(timer), std::move(sensor), dataFetcher, dataParser);
+    dataProcessor(error, data);
+    ::pollCtemp(std::move(timer), std::move(delay), dataFetcher, dataProcessor);
 }
 
 template <class T>
 void pollCtemp(std::shared_ptr<boost::asio::steady_timer> timer,
-               std::shared_ptr<NVMeSensor> sensor,
-               ctemp_fetcher_t<T> dataFetcher, ctemp_parser_t<T> dataParser,
+               std::chrono::duration<double, std::milli> delay,
+               ctemp_fetch_t<T> dataFetcher, ctemp_process_t<T> dataProcessor,
                const boost::system::error_code errorCode)
 {
-
     if (errorCode == boost::asio::error::operation_aborted)
     {
         return;
@@ -165,37 +149,13 @@ void pollCtemp(std::shared_ptr<boost::asio::steady_timer> timer,
     if (errorCode)
     {
         std::cerr << errorCode.message() << "\n";
-        ::pollCtemp(std::move(timer), std::move(sensor), dataFetcher,
-                    dataParser);
-        return;
-    }
-
-    if (!sensor)
-    {
-        ::pollCtemp(std::move(timer), std::move(sensor), dataFetcher,
-                    dataParser);
-        return;
-    }
-
-    if (!sensor->readingStateGood())
-    {
-        sensor->markAvailable(false);
-        sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
-        ::pollCtemp(std::move(timer), std::move(sensor), dataFetcher,
-                    dataParser);
-        return;
-    }
-
-    /* Potentially defer sampling the sensor sensor if it is in error */
-    if (!sensor->sample())
-    {
-        ::pollCtemp(std::move(timer), std::move(sensor), dataFetcher,
-                    dataParser);
+        ::pollCtemp(std::move(timer), std::move(delay), dataFetcher,
+                    dataProcessor);
         return;
     }
 
     dataFetcher(std::bind_front(detail::updateCtemp<T>, std::move(timer),
-                                std::move(sensor), dataParser, dataFetcher));
+                                std::move(delay), dataProcessor, dataFetcher));
 }
 
 } // namespace detail
@@ -203,17 +163,19 @@ void pollCtemp(std::shared_ptr<boost::asio::steady_timer> timer,
 template <class T>
 void pollCtemp(
     std::shared_ptr<boost::asio::steady_timer> timer,
-    std::shared_ptr<NVMeSensor> sensor,
+    std::chrono::duration<double, std::milli> delay,
     const std::function<void(std::function<void(const std::error_code&, T)>&&)>&
         dataFetcher,
-    const std::function<std::optional<double>(T data)>& dataParser)
+    const std::function<void(const std::error_code& error, T data)>&
+        dataProcessor)
 {
-    if (!timer && !sensor)
+    if (!timer)
     {
         return;
     }
-    timer->expires_from_now(std::chrono::seconds(1));
+    timer->expires_from_now(
+        std::chrono::duration_cast<std::chrono::milliseconds>(delay));
     timer->async_wait(std::bind_front(detail::pollCtemp<T>, std::move(timer),
-                                      std::move(sensor), dataFetcher,
-                                      dataParser));
+                                      std::move(delay), dataFetcher,
+                                      dataProcessor));
 }

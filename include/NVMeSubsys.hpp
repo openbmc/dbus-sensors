@@ -4,7 +4,6 @@
 #include "NVMeDrive.hpp"
 #include "NVMeSensor.hpp"
 #include "NVMeStorage.hpp"
-#include "NVMeUtil.hpp"
 #include "Utils.hpp"
 
 class NVMeControllerPlugin;

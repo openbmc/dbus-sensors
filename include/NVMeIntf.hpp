@@ -78,6 +78,7 @@ class NVMeBasicIntf
   public:
     struct DriveStatus
     {
+        uint8_t Status;
         uint8_t SmartWarnings;
         uint8_t Temp;
         uint8_t DriveLifeUsed;

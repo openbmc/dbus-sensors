@@ -228,7 +228,8 @@ TEST_F(NVMeTest, TestDriveFunctional)
                     [&](std::function<void(const std::error_code&,
                                            nvme_mi_nvm_ss_health_status*)>&&
                             cb) {
-                std::cerr << "mock health poll" << std::endl;
+                std::cerr << "mock device not functional health poll"
+                          << std::endl;
                 // return status.nss.df = 0
                 return io.post([cb = std::move(cb)]() {
                     nvme_mi_nvm_ss_health_status status;
@@ -264,7 +265,97 @@ TEST_F(NVMeTest, TestDriveFunctional)
                             EXPECT_EQ(result.size(), 2);
 
                             subsys->stop();
-                            io.stop();
+                            io.post([&]() { io.stop(); });
+                            },
+                            "xyz.openbmc_project.ObjectMapper",
+                            "/xyz/openbmc_project/object_mapper",
+                            "xyz.openbmc_project.ObjectMapper", "GetSubTree",
+                            subsys_path, 0,
+                            std::vector<std::string>{
+                                "xyz.openbmc_project.Inventory."
+                                "Item.StorageController"});
+                    });
+                    },
+                    "xyz.openbmc_project.ObjectMapper",
+                    "/xyz/openbmc_project/object_mapper",
+                    "xyz.openbmc_project.ObjectMapper", "GetSubTree",
+                    subsys_path, 0,
+                    std::vector<std::string>{"xyz.openbmc_project.Inventory."
+                                             "Item.StorageController"});
+            });
+            },
+            "xyz.openbmc_project.ObjectMapper",
+            "/xyz/openbmc_project/object_mapper",
+            "xyz.openbmc_project.ObjectMapper", "GetSubTree", subsys_path, 0,
+            std::vector<std::string>{
+                "xyz.openbmc_project.Inventory.Item.StorageController"});
+    });
+    io.run();
+}
+
+/**
+ * @brief Test NVMeMi returns Drive is absent (ec = no_such_device)
+ *
+ */
+TEST_F(NVMeTest, TestDriveAbsent)
+{
+    using ::testing::AtLeast;
+    boost::asio::steady_timer timer(io);
+
+    EXPECT_CALL(mock, miSubsystemHealthStatusPoll).Times(AtLeast(1));
+    EXPECT_CALL(mock, adminIdentify).Times(AtLeast(1));
+    EXPECT_CALL(mock, miScanCtrl).Times(AtLeast(1));
+
+    // wait for subsystem initialization
+    timer.expires_after(std::chrono::seconds(2));
+    timer.async_wait([&](boost::system::error_code) {
+        system_bus->async_method_call(
+            [&](boost::system::error_code, const GetSubTreeType& result) {
+            // Only PF and the enabled VF should be listed
+            EXPECT_EQ(result.size(), 2);
+
+            // mimik communication error of NVMeMI request
+            ON_CALL(mock, miSubsystemHealthStatusPoll)
+                .WillByDefault(
+                    [&](std::function<void(const std::error_code&,
+                                           nvme_mi_nvm_ss_health_status*)>&&
+                            cb) {
+                std::cerr << "mock device absent health poll" << std::endl;
+                // return no_such_device
+                return io.post([cb = std::move(cb)]() {
+                    cb(std::make_error_code(std::errc::no_such_device),
+                       nullptr);
+                });
+                });
+
+            // wait for storage controller destruction.
+            timer.expires_after(std::chrono::seconds(2));
+            timer.async_wait([&](boost::system::error_code) {
+                system_bus->async_method_call(
+                    [&](boost::system::error_code,
+                        const GetSubTreeType& result) {
+                    // no storage controller should be listed.
+                    EXPECT_EQ(result.size(), 0);
+
+                    // restart sending normal polling result
+                    ON_CALL(mock, miSubsystemHealthStatusPoll)
+                        .WillByDefault(
+                            [&](std::function<void(
+                                    const std::error_code&,
+                                    nvme_mi_nvm_ss_health_status*)>&& cb) {
+                        return mock.fake->miSubsystemHealthStatusPoll(
+                            std::move(cb));
+                        });
+                    timer.expires_after(std::chrono::seconds(2));
+                    timer.async_wait([&](boost::system::error_code) {
+                        system_bus->async_method_call(
+                            [&](boost::system::error_code,
+                                const GetSubTreeType& result) {
+                            // storage controller should be restored.
+                            EXPECT_EQ(result.size(), 2);
+
+                            subsys->stop();
+                            io.post([&]() { io.stop(); });
                             },
                             "xyz.openbmc_project.ObjectMapper",
                             "/xyz/openbmc_project/object_mapper",
