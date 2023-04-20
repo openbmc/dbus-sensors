@@ -109,6 +109,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f5566b7_556f9f47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T17:59:06Z",
+      "side": 1,
+      "message": "What happens when CPU reset/powers down after these peci_cpus are created. They will still work after CPUs powers backup? legacy PECI works that way I think.",
+      "parentUuid": "605b870d_619f469a",
+      "revId": "b79d52632f477a00d82636e975a1868168a942e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bba0b697_63e93023",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-20T17:59:06Z",
+      "side": 1,
+      "message": "\u003e When PECI subsystem loads on BMC, it\u0027s possible that the platform is in e.g. S5 state, which means that PECI subsystem won\u0027t be able to communicate with CPUs in order to discover their properties (and create PECI devices corresponding with a given CPU).\n\u003e That\u0027s the reason for exposing rescan - userspace running on BMC needs to call it once the platform is up (since currently we don\u0027t have any mechanism to detect it on the kernel side). Once PECI devices are created, their corresponding drivers (peci_cpu in this case) will bind to them, and will create auxiliary devices for HWMONs.\n\nBased on Iwona\u0027s comment, I think config.state should be set based on HWMONs. State::ON is HWMONs for cpus are created, State::Ready is HWMONs for DIMM are created. Keep periodically do rescan until all configs are in READY state.",
+      "range": {
+        "startLine": 467,
+        "startChar": 0,
+        "endLine": 467,
+        "endChar": 40
+      },
+      "revId": "b79d52632f477a00d82636e975a1868168a942e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b823358_4dd35823",
         "filename": "src/IntelCPUSensorMain.cpp",
         "patchSetId": 3
