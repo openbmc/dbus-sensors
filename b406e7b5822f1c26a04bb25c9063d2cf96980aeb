@@ -16,6 +16,24 @@
       "message": "This should be restricted when the Intel-cpu option is not enabled.",
       "revId": "b406e7b5822f1c26a04bb25c9063d2cf96980aeb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a752a3c_33f1c3c4",
+        "filename": "src/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001746
+      },
+      "writtenOn": "2023-04-20T14:48:26Z",
+      "side": 1,
+      "message": "Done, but please let me know if there is some meson-specific way to do it better.",
+      "parentUuid": "bed9178a_f31ba1ce",
+      "revId": "b406e7b5822f1c26a04bb25c9063d2cf96980aeb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
