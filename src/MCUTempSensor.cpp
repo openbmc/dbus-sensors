@@ -100,7 +100,7 @@ void MCUTempSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
-int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data) const
+int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, uint32_t* pu32data) const
 {
     std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
 
@@ -137,15 +137,16 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int16_t* pu16data) const
         return -1;
     }
 
-    *pu16data = i2c_smbus_read_word_data(fd, regs);
+    int val = i2c_smbus_read_word_data(fd, regs);
     close(fd);
 
-    if (*pu16data < 0)
+    if (val < 0)
     {
         std::cerr << " read word data failed at " << static_cast<int>(regs)
                   << "\n";
         return -1;
     }
+    *pu32data = val;
 
     return 0;
 }
@@ -166,7 +167,7 @@ void MCUTempSensor::read(void)
             std::cerr << "timer error\n";
             return;
         }
-        int16_t temp = 0;
+        uint32_t temp = 0;
         int ret = getMCURegsInfoWord(tempReg, &temp);
         if (ret >= 0)
         {
