@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd653c99_f1c934d6",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-04-24T04:28:51Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "33b9b440_ce766251",
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "63219949_57700759",
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "If compareSensor function is used, it has to take different type and number of params for each derived class which is I think not neccessary.",
       "parentUuid": "404f2c1c_c1f3a453",
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f10bbf4e_3c2d5e8a",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-04-24T04:28:51Z",
+      "side": 1,
+      "message": "you can pass baseConfiguration to this method.",
+      "parentUuid": "d32df0ca_7ac9b769",
       "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
