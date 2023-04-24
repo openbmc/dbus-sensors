@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e0f3893_1b172a09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-24T21:48:14Z",
+      "side": 1,
+      "message": "I\u0027ve suggested a set of follow-up changes @ \n\nA) https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62825/2\nB) https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62826/1\n\nto \nA) make hysteresis settable in calls to the function\nB) explicitly define hysteresis\u003d0 in IntelCPU calls to the function",
+      "revId": "03f93acdcd1ffe9a2f03d6509a59d857017b3074",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
