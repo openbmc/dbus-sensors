@@ -123,7 +123,8 @@ bool parseThresholdsFromConfig(
 bool parseThresholdsFromAttr(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string& inputPath, const double& scaleFactor,
-    const double& offset = 0);
+    const double& offset = 0,
+    const double& hysteresis = std::numeric_limits<double>::quiet_NaN());
 
 struct ThresholdDefinition
 {

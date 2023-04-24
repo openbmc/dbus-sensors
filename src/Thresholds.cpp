@@ -475,7 +475,7 @@ void assertThresholds(Sensor* sensor, double assertValue,
 bool parseThresholdsFromAttr(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string& inputPath, const double& scaleFactor,
-    const double& offset)
+    const double& offset, const double& hysteresis)
 {
     const boost::container::flat_map<
         std::string, std::vector<std::tuple<const char*, thresholds::Level,
@@ -516,7 +516,8 @@ bool parseThresholdsFromAttr(
                         std::cout << "Threshold: " << attrPath << ": " << *val
                                   << "\n";
                     }
-                    thresholdVector.emplace_back(level, direction, *val, 0);
+                    thresholdVector.emplace_back(level, direction, *val,
+                                                 hysteresis);
                 }
             }
         }
