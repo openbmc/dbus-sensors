@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "234b233c_94760f78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-24T02:59:49Z",
+      "side": 1,
+      "message": "Hi, please also have a look at this, and the patch with new method added: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62775",
+      "parentUuid": "78b36bdf_707b4262",
+      "revId": "510cd1d48343f9c6739ed821f36bf7cdc9966e7e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c06f7fd_65874df8",
         "filename": "src/IntrusionSensorMain.cpp",
         "patchSetId": 9
@@ -66,6 +84,30 @@
       "writtenOn": "2023-04-08T00:59:55Z",
       "side": 1,
       "message": "As a cleanup patch, these can be moved to after line 93",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 24
+      },
+      "revId": "510cd1d48343f9c6739ed821f36bf7cdc9966e7e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb732c78_1f26ece8",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-24T02:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c06f7fd_65874df8",
       "range": {
         "startLine": 108,
         "startChar": 0,
@@ -99,6 +141,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e55c171_be628823",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-24T02:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1169eecb_b427995d",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 24
+      },
+      "revId": "510cd1d48343f9c6739ed821f36bf7cdc9966e7e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22107a00_9fbec021",
@@ -112,6 +178,30 @@
       "writtenOn": "2023-04-08T00:59:55Z",
       "side": 1,
       "message": "As a cleanup patch, these can be moved after line 102",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 9
+      },
+      "revId": "510cd1d48343f9c6739ed821f36bf7cdc9966e7e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcc9b6e_f27c5e40",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-24T02:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22107a00_9fbec021",
       "range": {
         "startLine": 147,
         "startChar": 0,
