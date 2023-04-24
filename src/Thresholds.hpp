@@ -119,10 +119,15 @@ bool parseThresholdsFromConfig(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr);
 
+// Sensors touched by parseThresholdFromAttr() are forcibly updated with given
+// parameters, so callers are encouraged to specify a sane hysteresis value for
+// their HW. For reference, the hysteresis fomula used in Sensor.hpp is:
+//  hysteresis.trigger = (max_val - min_val) * 0.01
 bool parseThresholdsFromAttr(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string& inputPath, const double& scaleFactor,
-    const double& offset = 0);
+    const double& offset = 0,
+    const double& hysteresis = std::numeric_limits<double>::quiet_NaN());
 
 struct ThresholdDefinition
 {
