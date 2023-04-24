@@ -370,7 +370,7 @@ bool createSensors(boost::asio::io_context& io,
             {
                 if (!parseThresholdsFromAttr(sensorThresholds, inputPathStr,
                                              IntelCPUSensor::sensorScaleFactor,
-                                             dtsOffset))
+                                             dtsOffset, 0))
                 {
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";

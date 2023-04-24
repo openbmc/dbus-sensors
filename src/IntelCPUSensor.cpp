@@ -289,7 +289,7 @@ void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
                     std::vector<thresholds::Threshold> newThresholds;
                     if (parseThresholdsFromAttr(
                             newThresholds, path,
-                            IntelCPUSensor::sensorScaleFactor, dtsOffset))
+                            IntelCPUSensor::sensorScaleFactor, dtsOffset, 0))
                     {
                         if (!std::equal(thresholds.begin(), thresholds.end(),
                                         newThresholds.begin(),
