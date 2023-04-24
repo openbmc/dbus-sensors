@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8638a9b8_5d2045ea",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-04-24T03:21:10Z",
+      "side": 1,
+      "message": "I think it is better if this method is not virtual. I expect that all of the sensor have the same behavior for this.",
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63219949_57700759",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-04-24T03:21:10Z",
+      "side": 1,
+      "message": "Why the default value is \"pch\"?",
+      "range": {
+        "startLine": 49,
+        "startChar": 53,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "404f2c1c_c1f3a453",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-04-24T03:21:10Z",
+      "side": 1,
+      "message": "I think you should not dynamic cast from ChassisIntrusionSensor to ChassisIntrusionGpioSensor. You can define a new method compareSensor in the ChassisIntrusionSensor class. If you do that, you don\u0027t have to define getGpioInverted, getBusId and getSlaveAddr methods",
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
