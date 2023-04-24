@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f564a4d2_ec2f0ac2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-24T21:43:53Z",
+      "side": 1,
+      "message": "The change @ https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62826/1 will prevent IntelCPU functionality from breaking if/when this change is accepted.",
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
