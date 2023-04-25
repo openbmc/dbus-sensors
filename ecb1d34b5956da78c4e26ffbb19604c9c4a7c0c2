@@ -16,6 +16,24 @@
       "message": "In the old design, when reading I2C done, it releases this i2c channel via calling close function, other applications can use this i2c channel. But I see that in the new design, you are not releasing i2c channel. Is it correct?",
       "revId": "ecb1d34b5956da78c4e26ffbb19604c9c4a7c0c2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71114ea1_f13eb3f5",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-04-25T10:29:13Z",
+      "side": 1,
+      "message": "I was enlighted before by Andrew that opening an fd on the bus does not cause it to be busy to other clients. It only really touches the bus the moment it issues an i2c command and blocks other fds. Please check the line and correct my explanation if it\u0027s wrong\nhttps://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/i2c/i2c-dev.c?h\u003dv5.19-rc7#n595",
+      "parentUuid": "98b1a569_40aaf803",
+      "revId": "ecb1d34b5956da78c4e26ffbb19604c9c4a7c0c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
