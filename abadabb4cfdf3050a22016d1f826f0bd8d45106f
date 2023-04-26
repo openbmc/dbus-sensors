@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d083df_2ebf0160",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-26T22:57:00Z",
+      "side": 1,
+      "message": "should this be false?\nActually base on line 558, seems like false is success, which is opposite of one would expect. Can we reverse the logic?",
+      "revId": "abadabb4cfdf3050a22016d1f826f0bd8d45106f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7736088_6f52b6ff",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-26T22:57:00Z",
+      "side": 1,
+      "message": "should this be true?",
+      "range": {
+        "startLine": 470,
+        "startChar": 0,
+        "endLine": 470,
+        "endChar": 17
+      },
+      "revId": "abadabb4cfdf3050a22016d1f826f0bd8d45106f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
