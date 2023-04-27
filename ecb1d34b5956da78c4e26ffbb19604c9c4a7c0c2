@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31e74399_7372cc47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-27T01:45:01Z",
+      "side": 1,
+      "message": "Thanks for separating the original patch.",
+      "revId": "ecb1d34b5956da78c4e26ffbb19604c9c4a7c0c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98b1a569_40aaf803",

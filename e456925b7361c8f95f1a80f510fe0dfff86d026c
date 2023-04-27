@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98f90a60_c8ebee95",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-04-27T01:45:01Z",
+      "side": 0,
+      "message": "Do we want keep this behavior: open and close fd for every read cycle?",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 14
+      },
+      "revId": "e456925b7361c8f95f1a80f510fe0dfff86d026c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
