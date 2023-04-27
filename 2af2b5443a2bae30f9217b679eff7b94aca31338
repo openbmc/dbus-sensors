@@ -16,6 +16,24 @@
       "message": "Can you please rebase this patch on master?",
       "revId": "2af2b5443a2bae30f9217b679eff7b94aca31338",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47dda35c_46b6c82c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-04-27T19:24:13Z",
+      "side": 1,
+      "message": "Done, thanks!",
+      "parentUuid": "419b2e08_9963e017",
+      "revId": "2af2b5443a2bae30f9217b679eff7b94aca31338",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
