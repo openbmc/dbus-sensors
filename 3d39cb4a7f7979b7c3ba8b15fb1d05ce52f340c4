@@ -16,6 +16,24 @@
       "message": "Hi Matt, \n\nI changed the codebase so I rebased your patch with a little twitch. PTAL",
       "revId": "3d39cb4a7f7979b7c3ba8b15fb1d05ce52f340c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5dd0545_d8d1462f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001129
+      },
+      "writtenOn": "2023-04-28T03:53:38Z",
+      "side": 1,
+      "message": "Thanks, the rebase looks good.",
+      "parentUuid": "952dd5ca_5e0a8bfd",
+      "revId": "3d39cb4a7f7979b7c3ba8b15fb1d05ce52f340c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
