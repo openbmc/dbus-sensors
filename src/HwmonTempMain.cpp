@@ -661,7 +661,7 @@ int main()
                           &systemBus](PowerState type, bool state) {
         powerStateChanged(type, state, sensors, io, objectServer, systemBus);
     };
-    setupPowerMatchCallback(systemBus, powerCallBack);
+    auto powerCallBackEntry = setupPowerMatchCallback(systemBus, powerCallBack);
 
     boost::asio::post(io, [&]() {
         createSensors(io, objectServer, sensors, systemBus, nullptr, false);
