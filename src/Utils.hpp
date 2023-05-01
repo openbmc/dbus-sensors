@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <functional>
 #include <iostream>
+#include <list>
 #include <memory>
 #include <optional>
 #include <regex>
@@ -71,9 +72,43 @@ bool findFiles(const std::filesystem::path& dirPath,
 bool isPowerOn(void);
 bool hasBiosPost(void);
 bool isChassisOn(void);
-void setupPowerMatchCallback(
+
+class PowerCallbackEntry;
+
+std::unique_ptr<PowerCallbackEntry> setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::function<void(PowerState type, bool state)>&& callback);
+class PowerCallbackEntry
+{
+  public:
+    using callback_t = std::function<void(PowerState type, bool state)>;
+
+    PowerCallbackEntry()
+    {
+        current = list.insert(list.end(), callback_t{});
+    }
+
+    PowerCallbackEntry(const PowerCallbackEntry&) = delete;
+
+    explicit PowerCallbackEntry(callback_t&& cb)
+    {
+        current = list.insert(list.end(), std::move(cb));
+    }
+
+    ~PowerCallbackEntry()
+    {
+        list.erase(current);
+    }
+
+  private:
+    friend std::unique_ptr<PowerCallbackEntry> setupPowerMatchCallback(
+        const std::shared_ptr<sdbusplus::asio::connection>& conn,
+        std::function<void(PowerState type, bool state)>&& callback);
+
+    static std::list<callback_t> list;
+    decltype(list)::iterator current;
+};
+
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     const std::string& type,
