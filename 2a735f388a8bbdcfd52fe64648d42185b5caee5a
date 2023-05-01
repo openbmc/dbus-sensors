@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f99071c_03a43df5",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-01T17:59:28Z",
+      "side": 1,
+      "message": "should we use int32_t to match return type from line 140? So no down conversion would happen at line 149?",
+      "range": {
+        "startLine": 170,
+        "startChar": 8,
+        "endLine": 170,
+        "endChar": 16
+      },
+      "revId": "2a735f388a8bbdcfd52fe64648d42185b5caee5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
