@@ -18,6 +18,7 @@
 #include "NVMeMi.hpp"
 #include "NVMeSubsys.hpp"
 
+#include <boost/algorithm/string.hpp>
 #include <boost/asio/steady_timer.hpp>
 
 #include <optional>
@@ -26,6 +27,9 @@
 // a map with key value of {path, NVMeSubsystem}
 using NVMEMap = std::map<std::string, std::shared_ptr<NVMeSubsystem>>;
 static NVMEMap nvmeSubsysMap;
+
+// flag to set a single worker thread for all nvme eps under the same i2c bus
+static bool singleThreadMode = false;
 
 static std::optional<int>
     extractBusNumber(const std::string& path,
@@ -79,6 +83,40 @@ static std::optional<std::string>
         return std::nullopt;
     }
     return std::get<std::string>(findProtocol->second);
+}
+
+static PowerState extractPowerState(const std::string& path,
+                                    const SensorBaseConfigMap& properties)
+{
+    auto find = properties.find("PowerState");
+    if (find == properties.end())
+    {
+        std::cerr << "could not determine configuration of PowerState for "
+                  << path << ", using default\n";
+        // default to always
+        return PowerState::always;
+    }
+    auto res = std::get<std::string>(find->second);
+    if (boost::iequals(res, "on"))
+    {
+        return PowerState::on;
+    }
+    else if (boost::iequals(res, "biosPost"))
+    {
+        return PowerState::biosPost;
+    }
+    else if (boost::iequals(res, "always"))
+    {
+        return PowerState::always;
+    }
+    else if (boost::iequals(res, "chassisOn"))
+    {
+        return PowerState::chassisOn;
+    }
+    // default to always
+    std::cerr << "could not determine config value for PowerState for " << path
+              << ", using default\n";
+    return PowerState::always;
 }
 
 static void handleConfigurations(
@@ -164,11 +202,15 @@ static void handleConfigurations(
             {
                 address.emplace(0x1d);
             }
+
+            PowerState powerState =
+                extractPowerState(interfacePath, sensorConfig);
+
             try
             {
                 NVMeIntf nvmeMi = NVMeIntf::create<NVMeMi>(
-                    io, dynamic_cast<sdbusplus::bus_t&>(*dbusConnection),
-                    *busNumber, *address);
+                    io, dbusConnection, *busNumber, *address, singleThreadMode,
+                    powerState);
 
                 nvmeInterfaces.emplace(interfacePath, nvmeMi);
             }
@@ -265,6 +307,8 @@ static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& subsystems)
 
 int main()
 {
+    // TODO: set single thread mode according to input parameters
+
     boost::asio::io_service io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.NVMe");

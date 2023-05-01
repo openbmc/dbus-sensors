@@ -14,11 +14,19 @@ nvme_root_t NVMeMi::nvmeRoot = nvme_mi_create_root(stderr, DEFAULT_LOGLEVEL);
 
 constexpr size_t maxNVMeMILength = 4096;
 
-NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
-               int addr, bool singleThreadMode) :
+NVMeMi::NVMeMi(boost::asio::io_context& io,
+               std::shared_ptr<sdbusplus::asio::connection> conn, int bus,
+               int addr, bool singleThreadMode, PowerState readState) :
     io(io),
-    dbus(dbus)
+    conn(conn), dbus(*conn.get()), bus(bus), addr(addr), readState(readState)
 {
+    // reset to unassigned nid/eid and endpoint
+    nid = -1;
+    eid = 0;
+    mctpPath.erase();
+    nvmeEP = nullptr;
+
+    // set update the worker thread
     if (!nvmeRoot)
     {
         throw std::runtime_error("invalid NVMe root");
@@ -50,7 +58,38 @@ NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
         worker = std::make_shared<Worker>();
     }
 
+    // setup the power state
+    if (readState == PowerState::on || readState == PowerState::biosPost ||
+        readState == PowerState::chassisOn)
+    {
+        // life time of the callback is binding to the NVMeMi instance, so only
+        // this capture is required.
+        powerCallback = setupPowerMatchCallback(conn, [this](PowerState, bool) {
+            if (::readingStateGood(this->readState))
+            {
+                initMCTP();
+            }
+            else
+            {
+                closeMCTP();
+            }
+        });
+    }
+
+    // TODO: check the powerstate.
+    initMCTP();
+}
+
+void NVMeMi::initMCTP()
+{
+    // already initiated
+    if (isMCTPconnect())
+    {
+        return;
+    }
+
     // init mctp ep via mctpd
+    std::unique_lock<std::mutex> lock(mctpMtx);
     int i = 0;
     for (;; i++)
     {
@@ -78,19 +117,58 @@ NVMeMi::NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
             }
             else
             {
-                throw std::runtime_error(e.what());
+                nid = -1;
+                eid = 0;
+                mctpPath.erase();
+                nvmeEP = nullptr;
+                std::cerr << "fail to init MCTP endpoint: " << e.what()
+                          << std::endl;
+                return;
             }
         }
     }
 
     // open mctp endpoint
     nvmeEP = nvme_mi_open_mctp(nvmeRoot, nid, eid);
-    if (!nvmeEP)
+    if (nvmeEP == nullptr)
     {
-        throw std::runtime_error("can't open MCTP endpoint " +
-                                 std::to_string(nid) + ":" +
-                                 std::to_string(eid));
+        nid = -1;
+        eid = 0;
+        // MCTPd won't expect to delete the ep object, just to erase the record
+        // here.
+        mctpPath.erase();
+        nvmeEP = nullptr;
+        std::cerr << "can't open MCTP endpoint "
+                  << std::to_string(nid) + ":" + std::to_string(eid)
+                  << std::endl;
     }
+}
+
+void NVMeMi::closeMCTP()
+{
+    // MCTP is disconnected
+    if (!isMCTPconnect())
+    {
+        return;
+    }
+    // each nvme mi message transaction should take relatively short time
+    // (typically <= 200 ms). So the blocking time should be short
+    std::unique_lock<std::mutex> lock(mctpMtx);
+
+    nvme_mi_close(nvmeEP);
+
+    // Note: No need to remove MCTP ep from MCTPd since the routing table will
+    // re-establish on the next init
+
+    nid = -1;
+    eid = 0;
+    mctpPath.erase();
+    nvmeEP = nullptr;
+}
+
+bool NVMeMi::isMCTPconnect() const
+{
+    return nid >= 0 && !mctpPath.empty() && nvmeEP != nullptr;
 }
 
 NVMeMi::Worker::Worker()
@@ -131,13 +209,7 @@ NVMeMi::Worker::~Worker()
 }
 NVMeMi::~NVMeMi()
 {
-    // close EP
-    if (nvmeEP)
-    {
-        nvme_mi_close(nvmeEP);
-    }
-
-    // TODO: delete mctp ep from mctpd
+    closeMCTP();
 }
 
 void NVMeMi::Worker::post(std::function<void(void)>&& func)
@@ -153,6 +225,15 @@ void NVMeMi::Worker::post(std::function<void(void)>&& func)
         }
     }
     throw std::runtime_error("NVMeMi has been stopped");
+}
+
+void NVMeMi::post(std::function<void(void)>&& func)
+{
+    worker->post(
+        [self{std::move(shared_from_this())}, func{std::move(func)}]() {
+        std::unique_lock<std::mutex> lock(self->mctpMtx);
+        func();
+    });
 }
 
 // Calls .post(), catching runtime_error and returning an error code on failure.

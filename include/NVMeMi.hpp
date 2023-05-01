@@ -1,4 +1,5 @@
 #include "NVMeIntf.hpp"
+#include "Utils.hpp"
 
 #include <boost/asio.hpp>
 #include <sdbusplus/bus.hpp>
@@ -8,8 +9,9 @@
 class NVMeMi : public NVMeMiIntf, public std::enable_shared_from_this<NVMeMi>
 {
   public:
-    NVMeMi(boost::asio::io_context& io, sdbusplus::bus_t& dbus, int bus,
-           int addr, bool singleThreadMode = false);
+    NVMeMi(boost::asio::io_context& io, std::shared_ptr<sdbusplus::asio::connection> conn, int bus,
+           int addr, bool singleThreadMode = false,
+           PowerState readState = PowerState::always);
     ~NVMeMi() override;
 
     int getNID() const override
@@ -65,12 +67,25 @@ class NVMeMi : public NVMeMiIntf, public std::enable_shared_from_this<NVMeMi>
     static nvme_root_t nvmeRoot;
 
     boost::asio::io_context& io;
+    std::shared_ptr<sdbusplus::asio::connection> conn;
     sdbusplus::bus_t& dbus;
+
+    // I2C info
+    int bus;
+    int addr;
+
+    // power state
+    std::unique_ptr<PowerCallbackEntry> powerCallback;
+    PowerState readState;
+
+    // mctp connection
     nvme_mi_ep_t nvmeEP;
 
     int nid;
     uint8_t eid;
     std::string mctpPath;
+
+    std::mutex mctpMtx;
 
     // A worker thread for calling NVMeMI cmd.
     class Worker
@@ -98,9 +113,17 @@ class NVMeMi : public NVMeMiIntf, public std::enable_shared_from_this<NVMeMi>
     static std::map<int, std::weak_ptr<Worker>> workerMap;
 
     std::shared_ptr<Worker> worker;
-    void post(std::function<void(void)>&& func)
+    void post(std::function<void(void)>&& func);
+
+    void initMCTP();
+
+    void closeMCTP();
+
+    bool isMCTPconnect() const;
+
+    bool readingStateGood() const
     {
-        worker->post(std::move(func));
+        return isMCTPconnect() && ::readingStateGood(readState);
     }
 
     std::error_code try_post(std::function<void(void)>&& func);
