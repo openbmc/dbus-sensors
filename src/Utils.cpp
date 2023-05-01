@@ -44,6 +44,8 @@ static std::unique_ptr<sdbusplus::bus::match_t> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> postMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> chassisMatch = nullptr;
 
+std::list<PowerCallbackEntry::callback_t> PowerCallbackEntry::list;
+
 /**
  * return the contents of a file
  * @param[in] hwmonFile - the path to the file to read
@@ -431,17 +433,20 @@ static void
         chassis::interface, chassis::property);
 }
 
-void setupPowerMatchCallback(
+std::unique_ptr<PowerCallbackEntry> setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::function<void(PowerState type, bool state)>&& hostStatusCallback)
 {
     static boost::asio::steady_timer timer(conn->get_io_context());
     static boost::asio::steady_timer timerChassisOn(conn->get_io_context());
+
+    auto entry =  std::make_unique<PowerCallbackEntry>(std::move(hostStatusCallback));
+
     // create a match for powergood changes, first time do a method call to
     // cache the correct value
     if (powerMatch)
     {
-        return;
+        return entry;
     }
 
     powerMatch = std::make_unique<sdbusplus::bus::match_t>(
@@ -449,7 +454,7 @@ void setupPowerMatchCallback(
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(power::path) + "',arg0='" +
             std::string(power::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
+        [](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             values;
@@ -463,13 +468,18 @@ void setupPowerMatchCallback(
             {
                 timer.cancel();
                 powerStatusOn = false;
-                hostStatusCallback(PowerState::on, powerStatusOn);
+                for (const auto& cb : PowerCallbackEntry::list)
+                {
+                    if (cb)
+                    {
+                        cb(PowerState::on, powerStatusOn);
+                    }
+                }
                 return;
             }
             // on comes too quickly
             timer.expires_after(std::chrono::seconds(10));
-            timer.async_wait(
-                [hostStatusCallback](boost::system::error_code ec) {
+            timer.async_wait([](boost::system::error_code ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     return;
@@ -480,7 +490,13 @@ void setupPowerMatchCallback(
                     return;
                 }
                 powerStatusOn = true;
-                hostStatusCallback(PowerState::on, powerStatusOn);
+                for (const auto& cb : PowerCallbackEntry::list)
+                {
+                    if (cb)
+                    {
+                        cb(PowerState::on, powerStatusOn);
+                    }
+                }
             });
         }
         });
@@ -490,7 +506,7 @@ void setupPowerMatchCallback(
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(post::path) + "',arg0='" +
             std::string(post::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
+        [](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             values;
@@ -502,7 +518,13 @@ void setupPowerMatchCallback(
             biosHasPost = (value != "Inactive") &&
                           (value != "xyz.openbmc_project.State.OperatingSystem."
                                     "Status.OSStatus.Inactive");
-            hostStatusCallback(PowerState::biosPost, biosHasPost);
+            for (const auto& cb : PowerCallbackEntry::list)
+            {
+                if (cb)
+                {
+                    cb(PowerState::biosPost, biosHasPost);
+                }
+            }
         }
         });
 
@@ -511,7 +533,7 @@ void setupPowerMatchCallback(
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(chassis::path) + "',arg0='" +
             std::string(chassis::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
+        [](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             values;
@@ -525,13 +547,18 @@ void setupPowerMatchCallback(
             {
                 timerChassisOn.cancel();
                 chassisStatusOn = false;
-                hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
+                for (const auto& cb : PowerCallbackEntry::list)
+                {
+                    if (cb)
+                    {
+                        cb(PowerState::chassisOn, chassisStatusOn);
+                    }
+                }
                 return;
             }
             // on comes too quickly
             timerChassisOn.expires_after(std::chrono::seconds(10));
-            timerChassisOn.async_wait(
-                [hostStatusCallback](boost::system::error_code ec) {
+            timerChassisOn.async_wait([](boost::system::error_code ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     return;
@@ -542,13 +569,20 @@ void setupPowerMatchCallback(
                     return;
                 }
                 chassisStatusOn = true;
-                hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
+                for (const auto& cb : PowerCallbackEntry::list)
+                {
+                    if (cb)
+                    {
+                        cb(PowerState::chassisOn, chassisStatusOn);
+                    }
+                }
             });
         }
         });
     getPowerStatus(conn);
     getPostStatus(conn);
     getChassisStatus(conn);
+    return entry;
 }
 
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
