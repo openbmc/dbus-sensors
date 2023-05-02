@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d66fc60_30ad46a2",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-02T00:39:15Z",
+      "side": 1,
+      "message": "This zone pwmSensor also has the sensor.value  interface. Have you checked on redfish sensors URI and ipmitool sdr?. I think it would show up an another sensor in both places. Is that what we want? I think that is a little confusing.",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 566,
+        "endChar": 9
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "919e931a_3397f59b",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-02T00:39:15Z",
+      "side": 1,
+      "message": "function return type is uint32_t\nic - it is an existing bug.  Would be nice to fix it, no changes are made to this function",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 18
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "069a1718_3d0c832b",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-02T00:39:15Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 18
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40bba5f0_11fd4297",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-02T00:39:15Z",
+      "side": 1,
+      "message": "should error condition return na?",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 23
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
