@@ -21,10 +21,14 @@ class NVMeSensor : public Sensor
 
     bool sample();
 
-    int bus;
-    uint8_t address;
+    void setBus(const int busNumber);
+    void setAddress(const uint8_t slaveAddr);
+    int getBus();
+    uint8_t getAddress();
 
   private:
+    int bus;
+    uint8_t address;
     const unsigned int scanDelayTicks = 5 * 60;
     sdbusplus::asio::object_server& objServer;
     unsigned int scanDelay{0};

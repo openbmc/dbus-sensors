@@ -31,12 +31,14 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,
            PowerState::on),
-    bus(busNumber), address(slaveAddr), objServer(objectServer)
+    objServer(objectServer)
 {
-    if (bus < 0)
+    if (busNumber < 0)
     {
         throw std::invalid_argument("Invalid bus: Bus ID must not be negative");
     }
+    setBus(busNumber);
+    setAddress(slaveAddr);
 
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -54,6 +56,26 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
         association::interface);
 
     setInitialProperties(sensor_paths::unitDegreesC);
+}
+
+void NVMeSensor::setBus(const int busNumber)
+{
+    bus = busNumber;
+}
+
+void NVMeSensor::setAddress(const uint8_t slaveAddr)
+{
+    address = slaveAddr;
+}
+
+int NVMeSensor::getBus()
+{
+    return bus;
+}
+
+uint8_t NVMeSensor::getAddress()
+{
+    return address;
 }
 
 NVMeSensor::~NVMeSensor()
