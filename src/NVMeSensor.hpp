@@ -21,8 +21,8 @@ class NVMeSensor : public Sensor
 
     bool sample();
 
-    int bus;
-    uint8_t address;
+    const int bus;
+    const uint8_t address;
 
   private:
     const unsigned int scanDelayTicks = 5 * 60;
