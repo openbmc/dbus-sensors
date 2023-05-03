@@ -415,6 +415,25 @@ class NVMeMiFake :
         }
     }
 
+    void adminSecuritySend(
+        [[maybe_unused]] nvme_mi_ctrl_t ctrl, [[maybe_unused]] uint8_t proto,
+        [[maybe_unused]] uint16_t proto_specific,
+        [[maybe_unused]] std::span<uint8_t> data,
+        std::function<void(const std::error_code&, int nvme_status)>&& cb)
+        override
+    {
+        cb(std::make_error_code(std::errc::not_supported), 0);
+    }
+    void adminSecurityReceive(
+        [[maybe_unused]] nvme_mi_ctrl_t ctrl, [[maybe_unused]] uint8_t proto,
+        [[maybe_unused]] uint16_t proto_specific,
+        [[maybe_unused]] uint32_t transfer_length,
+        std::function<void(const std::error_code&, int nvme_status,
+                           const std::span<uint8_t> data)>&& cb) override
+    {
+        cb(std::make_error_code(std::errc::not_supported), 0, {});
+    }
+
   private:
     boost::asio::io_context& io;
     bool valid = false;
