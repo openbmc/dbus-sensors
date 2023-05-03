@@ -65,6 +65,8 @@ class NVMeMiMock :
             return fake->adminXfer(ctrl, admin_req, data, timeout_ms,
                                    std::move(cb));
             });
+        ON_CALL(*this, adminSecuritySend).WillByDefault([]() { return; });
+        ON_CALL(*this, adminSecurityReceive).WillByDefault([]() { return; });
     }
 
     MOCK_METHOD(int, getNID, (), (const override));
@@ -100,6 +102,19 @@ class NVMeMiMock :
                  std::function<void(const std::error_code& ec,
                                     const nvme_mi_admin_resp_hdr& admin_resp,
                                     std::span<uint8_t> resp_data)>&& cb),
+                (override));
+
+    MOCK_METHOD(
+        void, adminSecuritySend,
+        (nvme_mi_ctrl_t ctrl, uint8_t proto, uint16_t proto_specific,
+         std::span<uint8_t> data,
+         std::function<void(const std::error_code&, int nvme_status)>&& cb),
+        (override));
+    MOCK_METHOD(void, adminSecurityReceive,
+                (nvme_mi_ctrl_t ctrl, uint8_t proto, uint16_t proto_specific,
+                 uint32_t transfer_length,
+                 std::function<void(const std::error_code&, int nvme_status,
+                                    const std::span<uint8_t> data)>&& cb),
                 (override));
 
     std::shared_ptr<NVMeMiFake> fake;
