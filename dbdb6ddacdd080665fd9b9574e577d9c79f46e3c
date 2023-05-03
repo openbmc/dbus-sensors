@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5257d1f9_b91b64dd",
+        "filename": "src/NVMeController.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-03T22:27:04Z",
+      "side": 1,
+      "message": "you are holding self in the callback method but release the cb only in destructor, so the class will never be released.",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 13
+      },
+      "revId": "dbdb6ddacdd080665fd9b9574e577d9c79f46e3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e92763_4b44d95b",
+        "filename": "src/NVMeController.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-03T22:27:04Z",
+      "side": 1,
+      "message": "Same",
+      "range": {
+        "startLine": 93,
+        "startChar": 9,
+        "endLine": 93,
+        "endChar": 13
+      },
+      "revId": "dbdb6ddacdd080665fd9b9574e577d9c79f46e3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
