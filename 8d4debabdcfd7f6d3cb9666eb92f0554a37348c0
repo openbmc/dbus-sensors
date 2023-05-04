@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a32a3793_0045490c",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001496
+      },
+      "writtenOn": "2023-05-04T04:18:50Z",
+      "side": 1,
+      "message": "nit: remove this blank line to pass verification",
+      "revId": "8d4debabdcfd7f6d3cb9666eb92f0554a37348c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cbc7b9c_22a8104c",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001496
+      },
+      "writtenOn": "2023-05-04T04:18:50Z",
+      "side": 1,
+      "message": "nit: remove this blank line to pass verification",
+      "revId": "8d4debabdcfd7f6d3cb9666eb92f0554a37348c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
