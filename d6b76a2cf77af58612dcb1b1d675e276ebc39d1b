@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d46f8fe2_03a882b3",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-04T04:04:06Z",
+      "side": 1,
+      "message": "I moved the value conversion into the updateValue() and called updateValue() from pollSensorStatus() when the readSensor() function returns positive values. Can you please check?",
+      "parentUuid": "9155ab47_5d654bc4",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 23
+      },
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c768107d_7a8a224e",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 10
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-27T01:45:01Z",
       "side": 1,
       "message": "we want to be consistent in all types, either throw on error and use try/catch in createSensor or just return an inactive sensor",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 5
+      },
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ed5b0c8_f04a1377",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-04T04:04:06Z",
+      "side": 1,
+      "message": "I throw error when there\u0027s failure in initializing attributes for both sensor types, and try/catch in createSensorsFromConfig. Is there any missing detail that I didn\u0027t notice?",
+      "parentUuid": "c768107d_7a8a224e",
       "range": {
         "startLine": 264,
         "startChar": 0,
@@ -191,6 +239,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "379527e1_c0cf3e56",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-04T04:04:06Z",
+      "side": 1,
+      "message": "Since I changed to re-initializing every re-scan, removed this.",
+      "parentUuid": "25fbc259_ae808f53",
+      "range": {
+        "startLine": 49,
+        "startChar": 53,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "404f2c1c_c1f3a453",
         "filename": "src/IntrusionSensorMain.cpp",
         "patchSetId": 10
@@ -310,6 +382,24 @@
       "side": 1,
       "message": "Looks like only a single intrusion sensor is supported. Why not always re-initialize?",
       "parentUuid": "7d09f9b2_9a927dce",
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c83116a0_21215de7",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-04T04:04:06Z",
+      "side": 1,
+      "message": "I removed the comparison stuffs and let it re-initialize every rescan if there\u0027s a sensor config.",
+      "parentUuid": "9376e642_d51076c0",
       "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

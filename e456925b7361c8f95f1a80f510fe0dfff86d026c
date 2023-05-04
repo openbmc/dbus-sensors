@@ -22,6 +22,30 @@
       },
       "revId": "e456925b7361c8f95f1a80f510fe0dfff86d026c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b1c25f2_99fed86a",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-04T04:04:06Z",
+      "side": 0,
+      "message": "I chose to keep the fd open the whole sensor lifetime and close it when the sensor object is destroyed (in the destructor). Do you suggest any pros and cons?",
+      "parentUuid": "98f90a60_c8ebee95",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 14
+      },
+      "revId": "e456925b7361c8f95f1a80f510fe0dfff86d026c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
