@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de5f9f2_e3744e01",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-04T06:46:09Z",
+      "side": 1,
+      "message": "Oh thanks, I ran local CI for all the commits and it seemed to be not aware of the errors of the first commit alone.",
+      "parentUuid": "a32a3793_0045490c",
+      "revId": "8d4debabdcfd7f6d3cb9666eb92f0554a37348c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cbc7b9c_22a8104c",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-04T04:18:50Z",
       "side": 1,
       "message": "nit: remove this blank line to pass verification",
+      "revId": "8d4debabdcfd7f6d3cb9666eb92f0554a37348c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b206436b_bd9047a8",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-04T06:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cbc7b9c_22a8104c",
       "revId": "8d4debabdcfd7f6d3cb9666eb92f0554a37348c0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
