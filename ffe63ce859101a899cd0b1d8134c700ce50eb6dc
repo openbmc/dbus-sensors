@@ -16,6 +16,24 @@
       "message": "Can we please follow the `Fixes:` tag convention used in the kernel?\n\nhttps://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes\n\n```\nandrew@fedora:~/src/openbmc/dbus-sensors (master) $ \\\n\u003e git log -1 --pretty\u003dfixes 9a472e8ed1a0da677d2e28446db87b55677b8d83\nFixes: 9a472e8ed1a0 (\"detect fan type by matching against \u0027compatible\u0027\")\nandrew@fedora:~/src/openbmc/dbus-sensors (master) $ \n```\n\nI\u0027ve ended up aliasing it:\n\n```\nandrew@fedora:~/src/openbmc/dbus-sensors (master) $ \\\n\u003e git config alias.fixes\nlog -1 --pretty\u003dfixes\nandrew@fedora:~/src/openbmc/dbus-sensors (master) $ \\\n\u003e git fixes 9a472e8ed1a0da677d2e28446db87b55677b8d83\nFixes: 9a472e8ed1a0 (\"detect fan type by matching against \u0027compatible\u0027\")\n```",
       "revId": "ffe63ce859101a899cd0b1d8134c700ce50eb6dc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94b7e7a5_46a44968",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-05T04:26:16Z",
+      "side": 1,
+      "message": "Good suggestion. Thanks for sharing the tip.",
+      "parentUuid": "cea96535_b8f31ad3",
+      "revId": "ffe63ce859101a899cd0b1d8134c700ce50eb6dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
