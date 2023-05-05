@@ -74,8 +74,12 @@ static const std::map<std::string, FanTypes> compatibleFanTypes = {
 FanTypes getFanType(const fs::path& parentPath)
 {
     fs::path linkPath = parentPath / "of_node";
-    std::string canonical = fs::canonical(linkPath);
+    if (!fs::exists(linkPath))
+    {
+        return FanTypes::i2c;
+    }
 
+    std::string canonical = fs::canonical(linkPath);
     std::string compatiblePath = canonical + "/compatible";
     std::ifstream compatibleStream(compatiblePath);
 
