@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb4c94f5_89992fe3",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-05T09:09:34Z",
+      "side": 1,
+      "message": "We found that the redfish sensors URI didn\u0027t show up another sensor for it. The ipmi sdr shew up another sensor for it. We think it should be fine because the zone sensor is the largest value of the pwm sensor\u0027s in zone.\n\nHowever, we did find a bug when getting sensor reading via redfish URI. We revise the code and the dbus path will be like:\n```\nbusctl tree xyz.openbmc_project.FanSensor\n`-/xyz\n  `-/xyz/openbmc_project\n    |-/xyz/openbmc_project/control\n    | `-/xyz/openbmc_project/control/fanpwm\n    |   |-/xyz/openbmc_project/control/fanpwm/Pwm_1\n    |   |-/xyz/openbmc_project/control/fanpwm/Pwm_2\n    |   |-/xyz/openbmc_project/control/fanpwm/Pwm_3\n    |   |-/xyz/openbmc_project/control/fanpwm/Pwm_4\n    |   |-/xyz/openbmc_project/control/fanpwm/Zone_0\n    |   | |-/xyz/openbmc_project/control/fanpwm/Zone_0/Pwm_1\n    |   | `-/xyz/openbmc_project/control/fanpwm/Zone_0/Pwm_2\n    |   `-/xyz/openbmc_project/control/fanpwm/Zone_1\n    |     |-/xyz/openbmc_project/control/fanpwm/Zone_1/Pwm_3\n    |     `-/xyz/openbmc_project/control/fanpwm/Zone_1/Pwm_4\n    |-/xyz/openbmc_project/inventory\n    `-/xyz/openbmc_project/sensors\n      |-/xyz/openbmc_project/sensors/fan_pwm\n      | |-/xyz/openbmc_project/sensors/fan_pwm/Pwm_1\n      | |-/xyz/openbmc_project/sensors/fan_pwm/Pwm_2\n      | |-/xyz/openbmc_project/sensors/fan_pwm/Pwm_3\n      | |-/xyz/openbmc_project/sensors/fan_pwm/Pwm_4\n      | |-/xyz/openbmc_project/sensors/fan_pwm/Zone_0\n      | | |-/xyz/openbmc_project/sensors/fan_pwm/Zone_0/Pwm_1\n      | | `-/xyz/openbmc_project/sensors/fan_pwm/Zone_0/Pwm_2\n      | `-/xyz/openbmc_project/sensors/fan_pwm/Zone_1\n      |   |-/xyz/openbmc_project/sensors/fan_pwm/Zone_1/Pwm_3\n      |   `-/xyz/openbmc_project/sensors/fan_pwm/Zone_1/Pwm_4\n      `-/xyz/openbmc_project/sensors/fan_tach\n        |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN0_TACH_RPM\n        |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN1_TACH_RPM\n        |-/xyz/openbmc_project/sensors/fan_tach/BB_FAN2_TACH_RPM\n        `-/xyz/openbmc_project/sensors/fan_tach/BB_FAN3_TACH_RPM\n```\n\nDo you have any concern about this implementation?",
+      "parentUuid": "4d66fc60_30ad46a2",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 566,
+        "endChar": 9
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "919e931a_3397f59b",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 7
