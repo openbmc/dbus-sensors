@@ -1157,6 +1157,47 @@ int main()
             "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
         cpuPresenceHandler));
 
+    systemBus->async_method_call(
+        [&systemBus](boost::system::error_code ec,
+                     const GetSubTreeType& subTree) {
+        if (ec)
+        {
+            std::cerr << "Error in CPU inventory method call\n";
+            return;
+        }
+
+        for (const auto& [path, objDict] : subTree)
+        {
+            if (path.find("cpu") == std::string::npos)
+            {
+                return;
+            }
+            const std::string& owner = objDict.begin()->first;
+            systemBus->async_method_call(
+                [path, owner](const boost::system::error_code ec,
+                              const std::variant<bool>& cpuPres) {
+                if (ec)
+                {
+                    std::cerr << "Error in CPU presence method call\n";
+                    return;
+                }
+                const auto* present = std::get_if<bool>(&cpuPres);
+                if (present == nullptr)
+                {
+                    std::cerr << "Error getting CPU presence\n";
+                    return;
+                }
+                size_t index = std::stoi(path.substr(path.size() - 1));
+                cpuPresence[index + 1] = *present;
+                },
+                owner, path, "org.freedesktop.DBus.Properties", "Get",
+                "xyz.openbmc_project.Inventory.Item", "Present");
+        }
+        },
+        mapper::busName, mapper::path, mapper::interface, mapper::subtree,
+        cpuInventoryPath, 2,
+        std::array<const char*, 1>{"xyz.openbmc_project.Inventory.Item"});
+
     setupManufacturingModeMatch(*systemBus);
     io.run();
 }
