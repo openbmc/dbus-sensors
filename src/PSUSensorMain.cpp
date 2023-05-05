@@ -914,6 +914,62 @@ static void createSensorsCallback(
     }
 }
 
+static void
+    getPresentCpus(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    GetSubTreeType cpuSubTree;
+    auto getItems = dbusConnection->new_method_call(
+        mapper::busName, mapper::path, mapper::interface, mapper::subtree);
+    getItems.append(
+        cpuInventoryPath, static_cast<int32_t>(2),
+        std::array<const char*, 1>{"xyz.openbmc_project.Inventory.Item"});
+
+    try
+    {
+        auto getItemsResp = dbusConnection->call(getItems);
+        getItemsResp.read(cpuSubTree);
+    }
+    catch (sdbusplus::exception_t&)
+    {
+        std::cerr << "error getting inventory item subtree\n";
+        return;
+    }
+
+    for (const auto& [path, objDict] : cpuSubTree)
+    {
+        if (path.find("cpu") == std::string::npos)
+        {
+            continue;
+        }
+        const std::string& owner = objDict.begin()->first;
+
+        auto getPresence = dbusConnection->new_method_call(
+            owner.c_str(), path.c_str(), "org.freedesktop.DBus.Properties",
+            "Get");
+
+        getPresence.append("xyz.openbmc_project.Inventory.Item", "Present");
+        std::variant<bool> respValue;
+        try
+        {
+            auto resp = dbusConnection->call(getPresence);
+            resp.read(respValue);
+        }
+        catch (sdbusplus::exception_t&)
+        {
+            std::cerr << "Error in getting presence" << std::endl;
+            continue;
+        }
+
+        auto present = std::get_if<bool>(&respValue);
+        if (*present)
+        {
+            size_t index = std::stoi(path.substr(path.size() - 1));
+            cpuPresence[index + 1] = *present;
+            std::cerr << "found presence\n";
+        }
+    }
+}
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -1156,6 +1212,8 @@ int main()
             std::string(cpuInventoryPath) +
             "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
         cpuPresenceHandler));
+
+    getPresentCpus(systemBus);
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
