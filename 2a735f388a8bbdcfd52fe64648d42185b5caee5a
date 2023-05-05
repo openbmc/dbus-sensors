@@ -118,6 +118,30 @@
       },
       "revId": "2a735f388a8bbdcfd52fe64648d42185b5caee5a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a3396cd_27170716",
+        "filename": "src/MCUTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001496
+      },
+      "writtenOn": "2023-05-05T02:23:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1dba12dc_8d721311",
+      "range": {
+        "startLine": 170,
+        "startChar": 8,
+        "endLine": 170,
+        "endChar": 16
+      },
+      "revId": "2a735f388a8bbdcfd52fe64648d42185b5caee5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
