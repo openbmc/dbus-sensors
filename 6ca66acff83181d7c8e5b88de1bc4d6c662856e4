@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "77139279_a7e81cd2",
+        "filename": ".clang-tidy",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-05T17:22:08Z",
+      "side": 1,
+      "message": "Is there a reason this is necessary?  Ideally we can use a common .clang-tidy file across the project, but things like this make it harder.\n\nI suspect you\u0027re just missing a .clang-tidy-ignore in subprojects.",
+      "revId": "6ca66acff83181d7c8e5b88de1bc4d6c662856e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "64c35268_51df73f6",
