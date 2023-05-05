@@ -914,6 +914,73 @@ static void createSensorsCallback(
     }
 }
 
+static void
+    getPresentCpus(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    static const int depth = 2;
+    static const int numKeys = 1;
+    GetSubTreeType cpuSubTree;
+
+    try
+    {
+        auto getItems = dbusConnection->new_method_call(
+            mapper::busName, mapper::path, mapper::interface, mapper::subtree);
+        getItems.append(cpuInventoryPath, static_cast<int32_t>(depth),
+                        std::array<const char*, numKeys>{
+                            "xyz.openbmc_project.Inventory.Item"});
+        auto getItemsResp = dbusConnection->call(getItems);
+        getItemsResp.read(cpuSubTree);
+    }
+    catch (sdbusplus::exception_t& e)
+    {
+        std::cerr << "error getting inventory item subtree: " << e.what()
+                  << "\n";
+        return;
+    }
+
+    for (const auto& [path, objDict] : cpuSubTree)
+    {
+        auto obj = sdbusplus::message::object_path(path).filename();
+        if (!obj.starts_with("cpu") || objDict.empty())
+        {
+            continue;
+        }
+        const std::string& owner = objDict.begin()->first;
+
+        std::variant<bool> respValue;
+        try
+        {
+            auto getPresence = dbusConnection->new_method_call(
+                owner.c_str(), path.c_str(), "org.freedesktop.DBus.Properties",
+                "Get");
+            getPresence.append("xyz.openbmc_project.Inventory.Item", "Present");
+            auto resp = dbusConnection->call(getPresence);
+            resp.read(respValue);
+        }
+        catch (sdbusplus::exception_t& e)
+        {
+            std::cerr << "Error in getting CPU presence: " << e.what() << "\n";
+            continue;
+        }
+
+        auto present = std::get_if<bool>(&respValue);
+        if (present != nullptr && *present)
+        {
+            int cpuIndex;
+            try
+            {
+                cpuIndex = std::stoi(obj.substr(obj.find_last_of("cpu") + 1));
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "Error converting CPU index, " << e.what() << '\n';
+                continue;
+            }
+            cpuPresence[cpuIndex + 1] = *present;
+        }
+    }
+}
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -1156,6 +1223,8 @@ int main()
             std::string(cpuInventoryPath) +
             "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
         cpuPresenceHandler));
+
+    getPresentCpus(systemBus);
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
