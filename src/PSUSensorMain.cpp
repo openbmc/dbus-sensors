@@ -20,6 +20,7 @@
 #include "Utils.hpp"
 
 #include <boost/algorithm/string/case_conv.hpp>
+#include <boost/algorithm/string/erase.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -914,6 +915,21 @@ static void createSensorsCallback(
     }
 }
 
+static void handleCpuPresenceSubTreePaths(std::error_code ec,
+                                          std::vector<std::string>& subTree)
+{
+    if (ec)
+    {
+        return;
+    }
+    for (const auto& path : subTree)
+    {
+        auto cpuNum = boost::algorithm::erase_all_copy(
+            path, std::string(cpuInventoryPath) + "/cpu");
+        cpuPresence[std::stoi(cpuNum) + 1] = true;
+    }
+}
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -1156,6 +1172,14 @@ int main()
             std::string(cpuInventoryPath) +
             "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
         cpuPresenceHandler));
+
+    systemBus->async_method_call(
+        handleCpuPresenceSubTreePaths, "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetSubTreePaths", cpuInventoryPath,
+        2,
+        std::array<const char*, 1>{
+            "xyz.openbmc_project.Control.Processor.CurrentOperatingConfig"});
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
