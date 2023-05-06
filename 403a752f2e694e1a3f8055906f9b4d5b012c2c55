@@ -16,6 +16,24 @@
       "message": "just curious, what is putting this on D-Bus?  My search with https://grok.openbmc.org/search?full\u003dCurrentOperatingConfig\u0026project\u003dopenbmc didn\u0027t turn up anything.",
       "revId": "403a752f2e694e1a3f8055906f9b4d5b012c2c55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "040f75a1_d703c06b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-06T00:04:16Z",
+      "side": 1,
+      "message": "We should use the same property that the match at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/63115/1/src/PSUSensorMain.cpp#1169 monitors.\nStart monitor property changes and initialize the cpuPresence[] array with current property value and that is a typical logic sequence.",
+      "parentUuid": "b2a05015_52f0278d",
+      "revId": "403a752f2e694e1a3f8055906f9b4d5b012c2c55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
