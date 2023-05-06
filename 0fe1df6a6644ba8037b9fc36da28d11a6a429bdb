@@ -16,6 +16,98 @@
       "message": "This plus the other patch worked for me.",
       "revId": "0fe1df6a6644ba8037b9fc36da28d11a6a429bdb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f48d59b_a3b8db1b",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-06T00:33:33Z",
+      "side": 1,
+      "message": "These can be called in init (constructor), no need to recheck for every read, right?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "0fe1df6a6644ba8037b9fc36da28d11a6a429bdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28c85d2d_b3d9b183",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-06T00:33:33Z",
+      "side": 1,
+      "message": "this can be after line157",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 73
+      },
+      "revId": "0fe1df6a6644ba8037b9fc36da28d11a6a429bdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36a94fd2_a03f7407",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-06T00:33:33Z",
+      "side": 1,
+      "message": "move this after self:\nif (!self)\n{\n   log error\n   return;\n}\nread sensor",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 9
+      },
+      "revId": "0fe1df6a6644ba8037b9fc36da28d11a6a429bdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2181b1c0_4819b33a",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-06T00:33:33Z",
+      "side": 1,
+      "message": "nit: no need to add void",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "0fe1df6a6644ba8037b9fc36da28d11a6a429bdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

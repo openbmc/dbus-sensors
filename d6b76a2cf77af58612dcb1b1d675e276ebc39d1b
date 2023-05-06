@@ -95,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c74c3449_e6acef0c",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-06T00:33:33Z",
+      "side": 1,
+      "message": "For the gpio you have try/catch inside constructor, your constructor would never throw. What I am suggesting is to be consistent, for non-recoverable errors, throw inside constructor or all outside the constructor for all sensor types.",
+      "parentUuid": "0ed5b0c8_f04a1377",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 5
+      },
+      "revId": "d6b76a2cf77af58612dcb1b1d675e276ebc39d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8638a9b8_5d2045ea",
