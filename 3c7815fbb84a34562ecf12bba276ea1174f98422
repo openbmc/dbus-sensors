@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1715717f_c762babc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T22:57:38Z",
+      "side": 1,
+      "message": "nit: add package name first\nexitairtemp: use ...",
+      "revId": "3c7815fbb84a34562ecf12bba276ea1174f98422",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edcc5690_4b5283bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T22:57:38Z",
+      "side": 1,
+      "message": "second",
+      "range": {
+        "startLine": 10,
+        "startChar": 66,
+        "endLine": 10,
+        "endChar": 73
+      },
+      "revId": "3c7815fbb84a34562ecf12bba276ea1174f98422",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18987f8d_de52c6b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T22:57:38Z",
+      "side": 1,
+      "message": "weightage",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "3c7815fbb84a34562ecf12bba276ea1174f98422",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a41be7c_22504e75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T22:57:38Z",
+      "side": 1,
+      "message": "second",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "3c7815fbb84a34562ecf12bba276ea1174f98422",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d21b6dd_fda280e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T22:57:38Z",
+      "side": 1,
+      "message": "Have you also considered to skip if the time has not been one second yet? It would address the issue and avoid constantly updating the exit air temp.",
+      "range": {
+        "startLine": 12,
+        "startChar": 67,
+        "endLine": 19,
+        "endChar": 65
+      },
+      "revId": "3c7815fbb84a34562ecf12bba276ea1174f98422",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
