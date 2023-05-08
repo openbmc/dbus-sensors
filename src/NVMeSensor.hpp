@@ -13,8 +13,7 @@ class NVMeSensor : public Sensor
                std::shared_ptr<sdbusplus::asio::connection>& conn,
                const std::string& sensorName,
                std::vector<thresholds::Threshold>&& thresholds,
-               const std::string& sensorConfiguration, int busNumber,
-               uint8_t slaveAddr);
+               const std::string& sensorConfiguration, int busNumber);
     ~NVMeSensor() override;
 
     NVMeSensor& operator=(const NVMeSensor& other) = delete;
@@ -22,7 +21,6 @@ class NVMeSensor : public Sensor
     bool sample();
 
     int bus;
-    uint8_t address;
 
   private:
     const unsigned int scanDelayTicks = 5 * 60;
