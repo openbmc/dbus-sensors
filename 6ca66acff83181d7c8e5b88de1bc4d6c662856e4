@@ -72,6 +72,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "26fe623e_ade51f1f",
+        "filename": ".clang-tidy",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001746
+      },
+      "writtenOn": "2023-05-08T12:01:14Z",
+      "side": 1,
+      "message": "I see. But anyway are you sure there is a way to ignore header file using clang-tidy-ignore? Could you please point out how to fill in the file so that it ignores peci.h? \nclang-tidy-ignore doesn\u0027t seem to be standard clang feature - instead this file seem to be parsed by a specific CI infrastructure individually. \nI can\u0027t find its usage in meson source codes, but whenever such approach is used - it is said to check (or ignore) only source files.",
+      "parentUuid": "49e6dca0_1569ac52",
+      "revId": "6ca66acff83181d7c8e5b88de1bc4d6c662856e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "64c35268_51df73f6",
