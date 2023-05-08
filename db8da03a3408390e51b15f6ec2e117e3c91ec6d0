@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73f05950_d0fbe628",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-08T03:51:20Z",
+      "side": 1,
+      "message": "As you can see the commit msg describes, resetting to the hwmon file will cause the driver to write to the reset bit in the BMC register which handles intrusion. They haven\u0027t upstreamed the driver yet but it\u0027s here https://github.com/AspeedTech-BMC/linux/blob/aspeed-master-v5.15/drivers/hwmon/aspeed-chassis.c. And you can check out the register CHAI10 in Aspeed2600 datasheet.",
+      "parentUuid": "27798aaa_fe8005dc",
+      "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c23e0400_c084e159",
         "filename": "src/ChassisIntrusionSensor.cpp",
         "patchSetId": 5
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cfac770_b9f21732",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-08T03:51:20Z",
+      "side": 1,
+      "message": "Yes, I expect it to have only one path because the configuration in the aspeed-g6.dtsi points to the exact address of the register, I think configuration in dts files to use it won\u0027t cause any difference. Please help suggest a change if my understanding is not correct.",
+      "parentUuid": "c23e0400_c084e159",
+      "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90fcbab1_134306a4",
         "filename": "src/ChassisIntrusionSensor.hpp",
         "patchSetId": 5
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-07T14:25:13Z",
       "side": 1,
       "message": "const ? or does the name changes",
+      "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00680a17_714879d6",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-08T03:51:20Z",
+      "side": 1,
+      "message": "It doesn\u0027t change for now.",
+      "parentUuid": "90fcbab1_134306a4",
       "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
