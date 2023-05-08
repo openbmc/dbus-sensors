@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8501460b_8fc02289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T23:43:00Z",
+      "side": 1,
+      "message": "Add clarification, only one type of intrusion is expected for a given system",
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c69180_0e4c9b90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T23:43:00Z",
+      "side": 1,
+      "message": "Looking good now. Only some small things",
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d3d9c5_c761f3cf",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T23:43:00Z",
+      "side": 1,
+      "message": "nit: \u003d defaultPollSec;\nand move after line 47",
+      "range": {
+        "startLine": 45,
+        "startChar": 43,
+        "endLine": 45,
+        "endChar": 46
+      },
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6519ac7_c6064eb3",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T23:43:00Z",
+      "side": 1,
+      "message": "These two strings are used in multiple places, use constexpr, so it only need to be defined in one place.",
+      "range": {
+        "startLine": 57,
+        "startChar": 40,
+        "endLine": 57,
+        "endChar": 70
+      },
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbe7dc1b_e61168f1",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T23:43:00Z",
+      "side": 1,
+      "message": "busId can be 0",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 237,
+        "endChar": 18
+      },
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
