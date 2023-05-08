@@ -802,9 +802,9 @@ bool ExitAirTempSensor::calculate(double& val)
         lastReading = reading;
     }
     double alphaDT =
-        std::chrono::duration_cast<std::chrono::seconds>(time - lastTime)
+        std::chrono::duration_cast<std::chrono::milliseconds>(time - lastTime)
             .count() *
-        alpha;
+        alpha / 1000.0;
 
     // cap at 1.0 or the below fails
     if (alphaDT > 1.0)
