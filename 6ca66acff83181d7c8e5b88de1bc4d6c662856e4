@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c038323_e137547a",
+        "filename": ".clang-tidy",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001746
+      },
+      "writtenOn": "2023-05-08T11:29:23Z",
+      "side": 1,
+      "message": "Looks like clang-tidy-ignore is not supported for OpenBMC CI: https://gerrit.openbmc.org/c/openbmc/openbmc-build-scripts/+/53234\nFurthermore, when (if) it is merged - it will check only source files, not headers",
+      "parentUuid": "efe0d049_b53d8f8b",
+      "revId": "6ca66acff83181d7c8e5b88de1bc4d6c662856e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "64c35268_51df73f6",
