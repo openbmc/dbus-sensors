@@ -46,7 +46,7 @@ namespace sensor
 constexpr uint8_t netFn = 0x04;
 constexpr uint8_t getSensorReading = 0x2d;
 
-static bool isValid(const std::vector<uint8_t>& data)
+static inline bool isValid(const std::vector<uint8_t>& data)
 {
     constexpr auto readingUnavailableBit = 5;
 
