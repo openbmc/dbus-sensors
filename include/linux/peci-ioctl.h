@@ -2,6 +2,7 @@
 /* Copyright (c) 2018-2019 Intel Corporation */
 
 // clang-format off
+// NOLINTBEGIN
 
 #ifndef __PECI_IOCTL_H
 #define __PECI_IOCTL_H
@@ -669,4 +670,6 @@ struct peci_crashdump_get_frame_msg {
 #endif
 
 #endif /* __PECI_IOCTL_H */
+
+// NOLINTEND
 // clang-format on

@@ -1,8 +1,9 @@
 build*/
 subprojects/*
 !subprojects/*.wrap
-!subprojects/.clang-tidy
 !subprojects/.clang-format
+!subprojects/.clang-tidy
+!subprojects/.clang-tidy-ignore
 
 .vscode
 .idea/
