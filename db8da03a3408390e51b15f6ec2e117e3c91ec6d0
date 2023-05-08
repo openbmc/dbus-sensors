@@ -104,6 +104,24 @@
       "parentUuid": "90fcbab1_134306a4",
       "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28a2b1f5_abd95b02",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-08T23:26:01Z",
+      "side": 1,
+      "message": "We might want to make this configurable - the hwmon label. There are other BMC chips or aspeed can make changes in the driver",
+      "parentUuid": "00680a17_714879d6",
+      "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
