@@ -122,6 +122,24 @@
       "parentUuid": "00680a17_714879d6",
       "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8abc7166_3e83d565",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-09T03:25:36Z",
+      "side": 1,
+      "message": "Is it suitable to make users be aware of what\u0027s in the driver? I think if there\u0027s a change in the name, we have to modify this string from dbus-sensors because it corresponds to the driver. Would it be OK to change \"Class\" to \"Aspeed2600_Hwmon\" instead to separate this from implementations of other chips? If making hwmonName configurable is better, can you please recommend a config in the schema for it?",
+      "parentUuid": "28a2b1f5_abd95b02",
+      "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
