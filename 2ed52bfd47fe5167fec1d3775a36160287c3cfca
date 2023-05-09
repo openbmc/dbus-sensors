@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8621ff98_da0f3ddd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-09T04:20:09Z",
+      "side": 1,
+      "message": "Done. Thank you.",
+      "parentUuid": "8501460b_8fc02289",
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c4c69180_0e4c9b90",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
@@ -58,6 +76,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1eb77b9_02b71f01",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-09T04:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7d3d9c5_c761f3cf",
+      "range": {
+        "startLine": 45,
+        "startChar": 43,
+        "endLine": 45,
+        "endChar": 46
+      },
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6519ac7_c6064eb3",
@@ -81,6 +123,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c56321d_17df6ddb",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-09T04:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6519ac7_c6064eb3",
+      "range": {
+        "startLine": 57,
+        "startChar": 40,
+        "endLine": 57,
+        "endChar": 70
+      },
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbe7dc1b_e61168f1",
@@ -94,6 +160,30 @@
       "writtenOn": "2023-05-08T23:43:00Z",
       "side": 1,
       "message": "busId can be 0",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 237,
+        "endChar": 18
+      },
+      "revId": "2ed52bfd47fe5167fec1d3775a36160287c3cfca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61a5a005_1b8e4bfc",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-05-09T04:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbe7dc1b_e61168f1",
       "range": {
         "startLine": 237,
         "startChar": 8,
