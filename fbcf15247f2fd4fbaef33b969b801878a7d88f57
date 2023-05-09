@@ -33,6 +33,24 @@
       "message": "Can you please break this refactor up into smaller changes that are more easily consumable? For instance, from what I can gather ,there\u0027s a bunch of code motion moving functions between files and such. It would be nice if that kind of problem were separated out so that the patch re-architecting the functionality has minimal noise.",
       "revId": "fbcf15247f2fd4fbaef33b969b801878a7d88f57",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8abfe388_72fc8008",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "Sure. I created a separate patch for the file renaming.",
+      "parentUuid": "d6df44ba_d286e546",
+      "revId": "fbcf15247f2fd4fbaef33b969b801878a7d88f57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

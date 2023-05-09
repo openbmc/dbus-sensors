@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cdd9489_f5b404a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "I could link to gerrit if you want. But it is in review, and gerrit preview doesn\u0027t support html styled table. That was why I linked to the blob view from github. \n\nWe can close the refactor first then turn to the design doc review. since this refactor doesn\u0027t have any new NVMe-MI implementation.",
+      "parentUuid": "f094897b_263a822c",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 94
+      },
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b6dd70e_114ab3d5",
         "filename": "include/NVMeBasic.hpp",
         "patchSetId": 13
@@ -37,6 +61,24 @@
       "writtenOn": "2023-04-12T00:27:59Z",
       "side": 1,
       "message": "This header doesn\u0027t belong in `include/`. See https://github.com/openbmc/docs/blob/master/anti-patterns.md#placing-internal-headers-in-a-parallel-subtree",
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84cfe520_574f7aee",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "I rebased the patch so the header files moved to their new home.",
+      "parentUuid": "7b6dd70e_114ab3d5",
       "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd72302c_61e4c690",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21521e80_eca1e257",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ec4d765_7167ab8f",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-04-12T00:27:59Z",
       "side": 1,
       "message": "As above.",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1559b96_24031637",
+        "filename": "include/NVMeBasic.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "Quite a few places used this abbreviation. e.g \nhttps://github.com/openbmc/dbus-sensors/blob/06433269e052b46c2b2a7ad1ecda23a76629407e/src/NVMeBasic.cpp#L59\n\nand https://github.com/openbmc/dbus-sensors/blob/06433269e052b46c2b2a7ad1ecda23a76629407e/src/HwmonTempMain.cpp#L165\n\nWould like to keep the way it is for consistency for the following patches.",
+      "parentUuid": "1ec4d765_7167ab8f",
       "range": {
         "startLine": 48,
         "startChar": 8,

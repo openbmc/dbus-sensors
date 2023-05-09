@@ -417,6 +417,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e0f045e_22a97c07",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "I am getting rid of dynamic_cast by using composition instead of inherence for the two interfaces.",
+      "parentUuid": "a0254761_898de2dd",
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ba6a682_fc34adf5",
@@ -502,6 +520,30 @@
       "side": 1,
       "message": "The goal of enum class of forbidding the implicit conversion is not to cast its **index** to the underlying type, which could be buggy. As it is argued in the article(https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0138r2.pdf): \" For all practical purposes, Index acts like a \"strong typedef\" in C++11\". \n\nI agree if the enum is used as an index for `switch`, or a template type. However, in my case, we are using the actual **value** of the flags, instead of the index/type. e.g. \n\n```\nbool notRdy \u003d message \u0026 NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY;\n```\n\nIf we insist on forcing enum class in the above use case, we need either: \n* static_cast to the underlying type, which is also semantically wrong. \n* use a operator overload, which over-complex the code\n\nThe real question is, if we know the usage of the enum is to use it underlying type. And every type cast is the correct way to use it, why should we forbid the implicit cast at the very beginning? \n\nMaybe I can use a nested class as the namespace: \n\n```\nclass\n{\nstatic constexpr unit8_t NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY \u003d 0x40;\nstatic constexpr unit8_t NVME_MI_BASIC_SFLGS_DRIVE_FUNCTIONAL \u003d 0x20;\n}\n```\nBut it is basically the same thing as a non-class enum.",
       "parentUuid": "dd855d9a_c3f368fd",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d68644b2_0b069e4e",
+        "filename": "include/NVMeIntf.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "Just reusing the original definition for the enum. If we want to change it to constexpr, it should belong to a seperate cl.",
+      "parentUuid": "14ea9647_e299a005",
       "range": {
         "startLine": 25,
         "startChar": 4,
@@ -1312,6 +1354,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b8e4e0_72b5f9eb",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "Same of removing rtti.",
+      "parentUuid": "663d0d2c_8cc18696",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 53
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcbf3c1c_0bdf1533",
@@ -1406,6 +1472,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e04a8390_789465b6",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "New implementation fully get rid of rtti. PTAL",
+      "parentUuid": "197c6374_66e7e625",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 10
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e0d7851_da1ac50b",
@@ -1490,6 +1580,30 @@
       "side": 1,
       "message": "I was always used to use a single `T` for Template. Saw other files use the same convention. e.g. https://github.com/openbmc/dbus-sensors/blob/53d2bfb5c1cc0b6600876de7dda744f5dc2e024f/include/Utils.hpp#L132\n\nAny suggestions of name convention? like Ttype, template_type_t, or so?",
       "parentUuid": "5610771e_d0c8e5a9",
+      "range": {
+        "startLine": 139,
+        "startChar": 16,
+        "endLine": 139,
+        "endChar": 17
+      },
+      "revId": "53d2bfb5c1cc0b6600876de7dda744f5dc2e024f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a783442_83606eda",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-09T22:31:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64a52771_769cd605",
       "range": {
         "startLine": 139,
         "startChar": 16,
