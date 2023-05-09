@@ -14,8 +14,8 @@
 // limitations under the License.
 */
 
-#include "NVMeBasicContext.hpp"
-#include "NVMeContext.hpp"
+#include "NVMeBasic.hpp"
+#include "NVMeIntf.hpp"
 #include "NVMeSensor.hpp"
 
 #include <boost/asio/steady_timer.hpp>
