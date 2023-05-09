@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9d2e498_5fa228ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-09T23:51:37Z",
+      "side": 1,
+      "message": "Reading through again, notice few more things that were missed.",
+      "revId": "07cac0f471f9dd97ed0d57e7e8c8e77c9259c5a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3839690_cd80194f",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-09T23:51:37Z",
+      "side": 1,
+      "message": "why is this changed from !\u003d NormalStr? This changes the power on behavior since mOldValue is initialized to unknown",
+      "range": {
+        "startLine": 88,
+        "startChar": 23,
+        "endLine": 88,
+        "endChar": 43
+      },
+      "revId": "07cac0f471f9dd97ed0d57e7e8c8e77c9259c5a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7518c6_dddab522",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-09T23:51:37Z",
+      "side": 1,
+      "message": "if (0 \u003c\u003d value)\n{\n  updateValue(value);\n}",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 13
+      },
+      "revId": "07cac0f471f9dd97ed0d57e7e8c8e77c9259c5a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9bb5a95_23b8cbfe",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-09T23:51:37Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 226,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 26
+      },
+      "revId": "07cac0f471f9dd97ed0d57e7e8c8e77c9259c5a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
