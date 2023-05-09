@@ -128,6 +128,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "de97b1a4_b514998b",
+        "filename": ".clang-tidy",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001746
+      },
+      "writtenOn": "2023-05-09T15:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "652772da_ad42e8a3",
+      "revId": "6ca66acff83181d7c8e5b88de1bc4d6c662856e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "64c35268_51df73f6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
