@@ -39,6 +39,30 @@
       },
       "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77bf9186_2bc60fbe",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-05-10T00:17:02Z",
+      "side": 1,
+      "message": "Suggestion #1 sounds like good to me. I\u0027ll take a look at sensor.hpp and see what makes sense.",
+      "parentUuid": "a60b5341_85f3c37f",
+      "range": {
+        "startLine": 126,
+        "startChar": 30,
+        "endLine": 126,
+        "endChar": 61
+      },
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
