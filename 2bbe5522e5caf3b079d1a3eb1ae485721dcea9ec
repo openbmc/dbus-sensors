@@ -16,6 +16,29 @@
       "message": "The change @ https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62826/1 will prevent IntelCPU functionality from breaking if/when this change is accepted.",
       "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a60b5341_85f3c37f",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-05-10T00:00:32Z",
+      "side": 1,
+      "message": "Specify default hysteresis that is good for all sensors is hard. options can be:\n1. use n/a, then sensor.hpp fill in the threshold based off sensors min and max\n2. derive from thresholds, for example 1% of highThreshold - lowThreshold\nIt make sense to use #1 since it is what the code does today i believe",
+      "range": {
+        "startLine": 126,
+        "startChar": 30,
+        "endLine": 126,
+        "endChar": 61
+      },
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
