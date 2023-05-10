@@ -228,8 +228,8 @@ void createSensors(
                 uint8_t mcuAddress = loadVariant<uint8_t>(cfg, "Address");
                 uint8_t tempReg = loadVariant<uint8_t>(cfg, "Reg");
 
-                std::string sensorClass =
-                    loadVariant<std::string>(cfg, "Class");
+                std::string sensorClass = loadVariant<std::string>(cfg,
+                                                                   "Class");
 
                 if constexpr (debug)
                 {

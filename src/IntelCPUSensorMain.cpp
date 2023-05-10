@@ -291,8 +291,8 @@ bool createSensors(boost::asio::io_context& io,
             std::cerr << "could not determine CPU ID for " << hwmonName << "\n";
             continue;
         }
-        int cpuId =
-            std::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
+        int cpuId = std::visit(VariantToUnsignedIntVisitor(),
+                               findCpuId->second);
 
         auto directory = hwmonNamePath.parent_path();
         std::vector<fs::path> inputPaths;
@@ -313,8 +313,8 @@ bool createSensors(boost::asio::io_context& io,
             }
             auto& [type, nr, item] = *fileParts;
             auto inputPathStr = inputPath.string();
-            auto labelPath =
-                boost::replace_all_copy(inputPathStr, item, "label");
+            auto labelPath = boost::replace_all_copy(inputPathStr, item,
+                                                     "label");
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
@@ -672,10 +672,10 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 {
                     continue;
                 }
-                std::string nameRaw =
-                    std::visit(VariantToStringVisitor(), findName->second);
-                std::string name =
-                    std::regex_replace(nameRaw, illegalDbusRegex, "_");
+                std::string nameRaw = std::visit(VariantToStringVisitor(),
+                                                 findName->second);
+                std::string name = std::regex_replace(nameRaw, illegalDbusRegex,
+                                                      "_");
 
                 auto present = std::optional<bool>();
                 // if we can't detect it via gpio, we set presence later
@@ -706,8 +706,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                     std::cerr << "Can't find 'Bus' setting in " << name << "\n";
                     continue;
                 }
-                uint64_t bus =
-                    std::visit(VariantToUnsignedIntVisitor(), findBus->second);
+                uint64_t bus = std::visit(VariantToUnsignedIntVisitor(),
+                                          findBus->second);
 
                 auto findAddress = cfg.find("Address");
                 if (findAddress == cfg.end())

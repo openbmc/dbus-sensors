@@ -201,8 +201,8 @@ void createSensors(
             auto findCPU = baseConfiguration->second.find("CPURequired");
             if (findCPU != baseConfiguration->second.end())
             {
-                size_t index =
-                    std::visit(VariantToIntVisitor(), findCPU->second);
+                size_t index = std::visit(VariantToIntVisitor(),
+                                          findCPU->second);
                 auto presenceFind = cpuPresence.find(index);
                 if (presenceFind == cpuPresence.end())
                 {
@@ -239,8 +239,8 @@ void createSensors(
                 }
             }
 
-            float pollRate =
-                getPollRate(baseConfiguration->second, pollRateDefault);
+            float pollRate = getPollRate(baseConfiguration->second,
+                                         pollRateDefault);
             PowerState readState = getPowerState(baseConfiguration->second);
 
             auto& sensor = sensors[sensorName];

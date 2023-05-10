@@ -180,7 +180,6 @@ inline T loadVariant(const SensorBaseConfigMap& data, const std::string& key)
 
 inline void setReadState(const std::string& str, PowerState& val)
 {
-
     if (str == "On")
     {
         val = PowerState::on;
@@ -205,8 +204,8 @@ inline PowerState getPowerState(const SensorBaseConfigMap& cfg)
     auto findPowerState = cfg.find("PowerState");
     if (findPowerState != cfg.end())
     {
-        std::string powerState =
-            std::visit(VariantToStringVisitor(), findPowerState->second);
+        std::string powerState = std::visit(VariantToStringVisitor(),
+                                            findPowerState->second);
         setReadState(powerState, state);
     }
     return state;

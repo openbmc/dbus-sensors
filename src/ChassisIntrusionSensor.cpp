@@ -157,8 +157,8 @@ void ChassisIntrusionSensor::pollSensorStatusByPch()
         if (!ec)
         {
             int statusValue = i2cReadFromPch(mBusId, mSlaveAddr);
-            std::string newValue =
-                statusValue != 0 ? "HardwareIntrusion" : "Normal";
+            std::string newValue = statusValue != 0 ? "HardwareIntrusion"
+                                                    : "Normal";
 
             if (newValue != "unknown" && mValue != newValue)
             {
@@ -233,7 +233,6 @@ void ChassisIntrusionSensor::initGpioDeviceFile()
 
     try
     {
-
         mGpioLine.request(
             {"ChassisIntrusionSensor", gpiod::line_request::EVENT_BOTH_EDGES,
              mGpioInverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});

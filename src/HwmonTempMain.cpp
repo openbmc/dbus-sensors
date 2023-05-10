@@ -40,14 +40,14 @@
 
 static constexpr float pollRateDefault = 0.5;
 
-static constexpr double maxValuePressure = 120000; // Pascals
-static constexpr double minValuePressure = 30000;  // Pascals
+static constexpr double maxValuePressure = 120000;      // Pascals
+static constexpr double minValuePressure = 30000;       // Pascals
 
 static constexpr double maxValueRelativeHumidity = 100; // PercentRH
 static constexpr double minValueRelativeHumidity = 0;   // PercentRH
 
-static constexpr double maxValueTemperature = 127;  // DegreesC
-static constexpr double minValueTemperature = -128; // DegreesC
+static constexpr double maxValueTemperature = 127;      // DegreesC
+static constexpr double minValueTemperature = -128;     // DegreesC
 
 namespace fs = std::filesystem;
 
@@ -82,13 +82,13 @@ static struct SensorParams
 {
     // offset is to default to 0 and scale to 1, see lore
     // https://lore.kernel.org/linux-iio/5c79425f-6e88-36b6-cdfe-4080738d039f@metafoo.de/
-    struct SensorParams tmpSensorParameters = {.minValue = minValueTemperature,
-                                               .maxValue = maxValueTemperature,
-                                               .offsetValue = 0.0,
-                                               .scaleValue = 1.0,
-                                               .units =
-                                                   sensor_paths::unitDegreesC,
-                                               .typeName = "temperature"};
+    struct SensorParams tmpSensorParameters = {
+        .minValue = minValueTemperature,
+        .maxValue = maxValueTemperature,
+        .offsetValue = 0.0,
+        .scaleValue = 1.0,
+        .units = sensor_paths::unitDegreesC,
+        .typeName = "temperature"};
 
     // For IIO RAW sensors we get a raw_value, an offset, and scale
     // to compute the value = (raw_value + offset) * scale
@@ -99,8 +99,8 @@ static struct SensorParams
     const std::string pathStr = path.string();
     if (pathStr.ends_with("_raw"))
     {
-        std::string pathOffsetStr =
-            pathStr.substr(0, pathStr.size() - 4) + "_offset";
+        std::string pathOffsetStr = pathStr.substr(0, pathStr.size() - 4) +
+                                    "_offset";
         std::optional<double> tmpOffsetValue = readFile(pathOffsetStr, 1.0);
         // In case there is nothing to read skip this device
         // This is not an error condition see lore
@@ -110,8 +110,8 @@ static struct SensorParams
             tmpSensorParameters.offsetValue = *tmpOffsetValue;
         }
 
-        std::string pathScaleStr =
-            pathStr.substr(0, pathStr.size() - 4) + "_scale";
+        std::string pathScaleStr = pathStr.substr(0, pathStr.size() - 4) +
+                                   "_scale";
         std::optional<double> tmpScaleValue = readFile(pathScaleStr, 1.0);
         // In case there is nothing to read skip this device
         // This is not an error condition see lore
@@ -487,8 +487,8 @@ void createSensors(
             {
                 sensor = nullptr;
             }
-            auto hwmonFile =
-                getFullHwmonFilePath(directory.string(), "temp1", permitSet);
+            auto hwmonFile = getFullHwmonFilePath(directory.string(), "temp1",
+                                                  permitSet);
             if (pathStr.starts_with("/sys/bus/iio/devices"))
             {
                 hwmonFile = pathStr;

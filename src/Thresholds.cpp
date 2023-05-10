@@ -93,8 +93,8 @@ bool parseThresholdsFromConfig(
         auto hysteresisFind = cfg.find("Hysteresis");
         if (hysteresisFind != cfg.end())
         {
-            hysteresis =
-                std::visit(VariantToDoubleVisitor(), hysteresisFind->second);
+            hysteresis = std::visit(VariantToDoubleVisitor(),
+                                    hysteresisFind->second);
         }
 
         auto directionFind = cfg.find("Direction");
@@ -107,11 +107,11 @@ bool parseThresholdsFromConfig(
                       << intf << "\n";
             return false;
         }
-        unsigned int severity =
-            std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+        unsigned int severity = std::visit(VariantToUnsignedIntVisitor(),
+                                           severityFind->second);
 
-        std::string directions =
-            std::visit(VariantToStringVisitor(), directionFind->second);
+        std::string directions = std::visit(VariantToStringVisitor(),
+                                            directionFind->second);
 
         Level level = findThresholdLevel(severity);
         Direction direction = findThresholdDirection(directions);
@@ -134,8 +134,8 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
 {
     for (size_t ii = 0; ii < thresholdCount; ii++)
     {
-        std::string thresholdInterface =
-            baseInterface + ".Thresholds" + std::to_string(ii);
+        std::string thresholdInterface = baseInterface + ".Thresholds" +
+                                         std::to_string(ii);
         conn->async_method_call(
             [&, path, threshold, thresholdInterface,
              labelMatch](const boost::system::error_code& ec,
@@ -153,8 +153,8 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     std::cerr << "No label in threshold configuration\n";
                     return;
                 }
-                std::string label =
-                    std::visit(VariantToStringVisitor(), labelFind->second);
+                std::string label = std::visit(VariantToStringVisitor(),
+                                               labelFind->second);
                 if (label != labelMatch)
                 {
                     return;
@@ -170,11 +170,11 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                 std::cerr << "Malformed threshold in configuration\n";
                 return;
             }
-            unsigned int severity =
-                std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+            unsigned int severity = std::visit(VariantToUnsignedIntVisitor(),
+                                               severityFind->second);
 
-            std::string dir =
-                std::visit(VariantToStringVisitor(), directionFind->second);
+            std::string dir = std::visit(VariantToStringVisitor(),
+                                         directionFind->second);
             if ((findThresholdLevel(severity) != threshold.level) ||
                 (findThresholdDirection(dir) != threshold.direction))
             {
@@ -209,8 +209,8 @@ void updateThresholds(Sensor* sensor)
             continue;
         }
 
-        std::string property =
-            Sensor::propertyLevel(threshold.level, threshold.direction);
+        std::string property = Sensor::propertyLevel(threshold.level,
+                                                     threshold.direction);
         if (property.empty())
         {
             continue;
@@ -506,8 +506,8 @@ bool parseThresholdsFromAttr(
             for (const auto& t : map.at(item))
             {
                 const auto& [suffix, level, direction, offset] = t;
-                auto attrPath =
-                    boost::replace_all_copy(inputPath, item, suffix);
+                auto attrPath = boost::replace_all_copy(inputPath, item,
+                                                        suffix);
                 if (auto val = readFile(attrPath, scaleFactor))
                 {
                     *val += offset;
