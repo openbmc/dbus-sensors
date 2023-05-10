@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5dd72db5_6216326f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:17:03Z",
+      "side": 1,
+      "message": "Ah, I see. You can use Gerrit\u0027s gitiles support to render the documents, which also makes them much easier to review because you can ignore all the comment noise. Basically you click the link titled with the shortened commit ID immediately below the `Comments` tab in the patch review screen. That takes you to the gitiles page for the patch, and from there you can navigate to the document where the markdown gets rendered as HTML: \n\nhttps://gerrit.openbmc.org/plugins/gitiles/openbmc/docs/+/10f2d00fbcfb97cfb02a1ee4005d82f237783668/designs/nvmed.md",
+      "parentUuid": "7cdd9489_f5b404a2",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 94
+      },
+      "revId": "60cb1360bbf1afd4f6d76d4bcfc75480522347a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b6dd70e_114ab3d5",
         "filename": "include/NVMeBasic.hpp",
         "patchSetId": 13
