@@ -246,6 +246,30 @@
       },
       "revId": "3c7815fbb84a34562ecf12bba276ea1174f98422",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff463e33_cbf4bca1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2023-05-10T09:27:52Z",
+      "side": 1,
+      "message": "ok, I will add change to skip calculation if time is less than one second and use milliseconds.",
+      "parentUuid": "61344435_c7fbc229",
+      "range": {
+        "startLine": 12,
+        "startChar": 67,
+        "endLine": 19,
+        "endChar": 65
+      },
+      "revId": "3c7815fbb84a34562ecf12bba276ea1174f98422",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
