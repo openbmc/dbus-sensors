@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2afcde_96feb111",
+        "filename": "src/NVMeIntf.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:47:06Z",
+      "side": 1,
+      "message": "This feels inside-out. Can we instead instantiate an object of the required type directly?",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44af0192_294f6c65",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:47:06Z",
+      "side": 1,
+      "message": "Can we instead use `filename` and `parent_path` from `std::filesystem`? Or do you feel that\u0027s slightly abusive of use of `std::filesystem`?",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c6ee43_09c6b91c",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:47:06Z",
+      "side": 1,
+      "message": "Where is it specified that the object path will be of this form?",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d2dc4cf_5a10fed5",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:47:06Z",
+      "side": 1,
+      "message": "This also seems like fallout from a failure to exploit inheritance?",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17fda15c_55ef3cde",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:47:06Z",
+      "side": 1,
+      "message": "As above",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "855d3af4_9dd745e4",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:47:06Z",
+      "side": 1,
+      "message": "This would go away with regular inheritance.",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7215bb6_9b046a4c",
+        "filename": "src/NVMeSubsys.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:47:06Z",
+      "side": 1,
+      "message": "encapsulated?",
+      "range": {
+        "startLine": 36,
+        "startChar": 46,
+        "endLine": 36,
+        "endChar": 58
+      },
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d203c502_4c978003",
+        "filename": "src/NVMeSubsys.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:47:06Z",
+      "side": 1,
+      "message": "I don\u0027t yet appreciate the motivation for this design, but I have a nagging feeling that it\u0027s more complex than necessary. Whilst separating the concerns of fetching and parsing is reasonable, I\u0027m yet to convince myself that we need this segregated abstraction on top.\n\nFor instance, why not solve the problem with regular inheritance instead of trying to assemble all these pieces that have been stripped of coherence? Maybe my query coloured by my educational background in traditional inheritance-based approaches, but the benefit of avoiding it isn\u0027t obvious to me, and I feel exploiting it would tidy the code up.\n\nI will continue to try improve my understanding and either substantiate or dismiss that feeling.",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
