@@ -209,7 +209,6 @@ void createRedundancySensor(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     sdbusplus::asio::object_server& objectServer)
 {
-
     conn->async_method_call(
         [&objectServer, &sensors](boost::system::error_code& ec,
                                   const ManagedObjectType& managedObj) {
@@ -485,8 +484,8 @@ void createSensors(
                         continue;
                     }
 
-                    fs::path pwmEnableFile =
-                        "pwm" + std::to_string(pwm + 1) + "_enable";
+                    fs::path pwmEnableFile = "pwm" + std::to_string(pwm + 1) +
+                                             "_enable";
                     fs::path enablePath = pwmPath.parent_path() / pwmEnableFile;
                     enablePwm(enablePath);
 

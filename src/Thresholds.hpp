@@ -68,7 +68,6 @@ using TimerPair = std::pair<struct TimerUsed, boost::asio::steady_timer>;
 
 struct ThresholdTimer
 {
-
     explicit ThresholdTimer(boost::asio::io_context& ioService) : io(ioService)
     {}
 

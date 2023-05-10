@@ -50,7 +50,6 @@ struct ExitAirTempSensor :
     public Sensor,
     std::enable_shared_from_this<ExitAirTempSensor>
 {
-
     double powerFactorMin = 0.0;
     double powerFactorMax = 0.0;
     double qMin = 0.0;

@@ -127,7 +127,24 @@ void ChassisIntrusionPchSensor::pollSensorStatus()
     // setting a new experation implicitly cancels any pending async wait
     mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
 
-    mPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+    mPollTimer.async_wait([&](const boost::system::error_code& ec) {
+        // case of timer expired
+        if (!ec)
+        {
+            int statusValue = i2cReadFromPch(mBusId, mSlaveAddr);
+            std::string newValue = statusValue != 0 ? "HardwareIntrusion"
+                                                    : "Normal";
+
+            if (newValue != "unknown" && mValue != newValue)
+            {
+                std::cout << "update value from " << mValue << " to "
+                          << newValue << "\n";
+                updateValue(newValue);
+            }
+
+            // trigger next polling
+            pollSensorStatusByPch();
+        }
         // case of being canceled
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -189,6 +206,45 @@ void ChassisIntrusionGpioSensor::pollSensorStatus()
             pollSensorStatus();
         }
     });
+}
+
+void ChassisIntrusionSensor::initGpioDeviceFile()
+{
+    mGpioLine = gpiod::find_line(mPinName);
+    if (!mGpioLine)
+    {
+        std::cerr << "ChassisIntrusionSensor error finding gpio pin name: "
+                  << mPinName << "\n";
+        return;
+    }
+
+    try
+    {
+        mGpioLine.request(
+            {"ChassisIntrusionSensor", gpiod::line_request::EVENT_BOTH_EDGES,
+             mGpioInverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+
+        // set string defined in chassis redfish schema
+        auto value = mGpioLine.get_value();
+        std::string newValue = value != 0 ? "HardwareIntrusion" : "Normal";
+        updateValue(newValue);
+
+        auto gpioLineFd = mGpioLine.event_get_fd();
+        if (gpioLineFd < 0)
+        {
+            std::cerr << "ChassisIntrusionSensor failed to get " << mPinName
+                      << " fd\n";
+            return;
+        }
+
+        mGpioFd.assign(gpioLineFd);
+    }
+    catch (const std::system_error&)
+    {
+        std::cerr << "ChassisInrtusionSensor error requesting gpio pin name: "
+                  << mPinName << "\n";
+        return;
+    }
 }
 
 int ChassisIntrusionSensor::setSensorValue(const std::string& req,

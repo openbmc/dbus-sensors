@@ -6,12 +6,14 @@ AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignEscapedNewlines: Right
-AlignOperands:   true
-AlignTrailingComments: true
+AlignOperands:  Align
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 1
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterReturnType: None
@@ -36,12 +38,13 @@ BraceWrapping:
   SplitEmptyFunction:   false
   SplitEmptyRecord:     false
   SplitEmptyNamespace:  false
+BreakAfterAttributes: Never
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Custom
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterColon
-BreakStringLiterals: true
+BreakStringLiterals: false
 ColumnLimit:     80
 CommentPragmas:  '^ IWYU pragma:'
 CompactNamespaces: false
@@ -49,8 +52,8 @@ ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
+DeriveLineEnding: false
 DerivePointerAlignment: false
-LambdaBodyIndentation: OuterScope
 PointerAlignment: Left
 DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
@@ -75,9 +78,13 @@ IncludeCategories:
   - Regex:           '.*'
     Priority:        6
 IndentCaseLabels: true
+IndentRequiresClause: true
 IndentWidth:     4
 IndentWrappedFunctionNames: true
-KeepEmptyLinesAtTheStartOfBlocks: true
+InsertNewlineAtEOF: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+LambdaBodyIndentation: OuterScope
+LineEnding: LF
 MacroBlockBegin: ''
 MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
@@ -85,13 +92,19 @@ NamespaceIndentation: None
 ObjCBlockIndentWidth: 2
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: true
+PenaltyBreakAssignment: 25
 PenaltyBreakBeforeFirstCallParameter: 19
 PenaltyBreakComment: 300
 PenaltyBreakFirstLessLess: 120
 PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
+PenaltyIndentedWhitespace: 0
+QualifierAlignment: Left
+ReferenceAlignment: Left
 ReflowComments:  true
+RequiresClausePosition: OwnLine
+RequiresExpressionIndentation: Keyword
 SortIncludes:    true
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
@@ -109,7 +122,7 @@ SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard:        Cpp11
+Standard:        Latest
 TabWidth:        4
 UseTab:          Never
 ...

@@ -65,8 +65,8 @@ void IpmbSDRDevice::getSDRRepositoryInfo()
         constexpr uint8_t recordCountLSB = 1;
         constexpr uint8_t recordCountMSB = 2;
 
-        uint16_t recordCount =
-            (data[recordCountMSB] << 8) | data[recordCountLSB];
+        uint16_t recordCount = (data[recordCountMSB] << 8) |
+                               data[recordCountLSB];
 
         self->reserveSDRRepository(recordCount);
         },
@@ -225,8 +225,8 @@ void IpmbSDRDevice::checkSDRData(std::vector<uint8_t>& sdrDataBytes,
     int strLen = (sdrDataBytes[sdrtype01::nameLengthByte]) & (sdrLenBit);
 
     /* iStrAddr represents the starting byte (Byte 56) for SDR sensor name */
-    int strAddr =
-        dataLen + ((dataLen / (sdr::perCountByte)) * 4) - (strLen - 1);
+    int strAddr = dataLen + ((dataLen / (sdr::perCountByte)) * 4) -
+                  (strLen - 1);
 
     /* Below for loop will convert the bytes to string and form a sensor name */
 
@@ -252,24 +252,24 @@ void IpmbSDRDevice::checkSDRType01Threshold(std::vector<uint8_t>& sdrDataBytes,
 
     /* sdrSensCapability (Byte 13) and(&) with sdrThresAccess(0x0C) will declare
      * whether threshold is present for each sensor */
-    int threshold =
-        (sdrDataBytes[sdrtype01::sensorCapability]) & (sdrThresAccess);
+    int threshold = (sdrDataBytes[sdrtype01::sensorCapability]) &
+                    (sdrThresAccess);
 
     /* mData        - 10 bits
      * mDataByte    - Byte 28 - 8 bits LSB
      * mTolDataByte - Byte 29 - 2 bits MSB [7-6]
      */
-    uint16_t mData =
-        ((sdrDataBytes[sdrtype01::mTolDataByte] & 0xC0) << bitShiftMsb) |
-        sdrDataBytes[sdrtype01::mDataByte];
+    uint16_t mData = ((sdrDataBytes[sdrtype01::mTolDataByte] & 0xC0)
+                      << bitShiftMsb) |
+                     sdrDataBytes[sdrtype01::mDataByte];
 
     /* bData        - 10 bits
      * bDataByte    - Byte 30 - 8 bits LSB
      * bAcuDataByte - Byte 31 - 2 bits MSB [7-6]
      */
-    uint16_t bData =
-        ((sdrDataBytes[sdrtype01::bAcuDataByte] & 0xC0) << bitShiftMsb) |
-        sdrDataBytes[sdrtype01::bDataByte];
+    uint16_t bData = ((sdrDataBytes[sdrtype01::bAcuDataByte] & 0xC0)
+                      << bitShiftMsb) |
+                     sdrDataBytes[sdrtype01::bDataByte];
 
     /* rbExpDataByte (Byte 33) represents the exponent value
      *  Bit [3-0] - B Exponent 2's complement signed bit.

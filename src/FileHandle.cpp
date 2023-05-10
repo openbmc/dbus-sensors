@@ -21,7 +21,6 @@ FileHandle::FileHandle(int fdIn) : fd(fdIn){};
 
 FileHandle::FileHandle(FileHandle&& in) noexcept : fd(in.fd)
 {
-
     in.fd = -1;
 }
 

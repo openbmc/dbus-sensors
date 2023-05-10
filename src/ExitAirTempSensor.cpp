@@ -67,7 +67,6 @@ static void setupSensorMatch(
     const std::string& type,
     std::function<void(const double&, sdbusplus::message_t&)>&& callback)
 {
-
     std::function<void(sdbusplus::message_t & message)> eventHandler =
         [callback{std::move(callback)}](sdbusplus::message_t& message) {
         std::string objectName;
@@ -192,7 +191,6 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
 
 void CFMSensor::setupMatches()
 {
-
     std::weak_ptr<CFMSensor> weakRef = weak_from_this();
     setupSensorMatch(
         matches, *dbusConnection, "fan_tach",
@@ -226,7 +224,6 @@ void CFMSensor::setupMatches()
         uint64_t maxRpm = 100;
         if (!ec)
         {
-
             const auto* cfm = std::get_if<double>(&cfmVariant);
             if (cfm != nullptr && *cfm >= minSystemCfm)
             {
@@ -404,7 +401,6 @@ bool CFMSensor::calculate(double& value)
     double totalCFM = 0;
     for (const std::string& tachName : tachs)
     {
-
         auto findReading = std::find_if(
             tachReadings.begin(), tachReadings.end(),
             [&](const auto& item) { return item.first.ends_with(tachName); });
@@ -619,8 +615,8 @@ void ExitAirTempSensor::setupMatches(void)
                     {
                         return;
                     }
-                    double reading =
-                        std::visit(VariantToDoubleVisitor(), value);
+                    double reading = std::visit(VariantToDoubleVisitor(),
+                                                value);
                     if constexpr (debug)
                     {
                         std::cerr << cbPath << "Reading " << reading << "\n";
@@ -639,7 +635,6 @@ void ExitAirTempSensor::setupMatches(void)
 
 void ExitAirTempSensor::updateReading(void)
 {
-
     double val = 0.0;
     if (calculate(val))
     {
@@ -930,7 +925,6 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
 
 int main()
 {
-
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objectServer(systemBus, true);
