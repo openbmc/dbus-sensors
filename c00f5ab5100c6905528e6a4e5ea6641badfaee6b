@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5075e205_d341bf91",
+        "filename": "src/NVMeIntf.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:28:13Z",
+      "side": 1,
+      "message": "This is more like a factory function to instantiate the different implementation but returning the common interface object. Please take a looks at some examples: \n\n1. https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56851/22/src/NVMeSensorMain.cpp#138\n\n2. https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57056/6/src/NVMeSensorMain.cpp#164\n\n3. https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/63048/1/tests/test_nvme_mi.cpp#16",
+      "parentUuid": "ba2afcde_96feb111",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44af0192_294f6c65",
         "filename": "src/NVMeSubsys.cpp",
         "patchSetId": 21
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-10T00:47:06Z",
       "side": 1,
       "message": "Can we instead use `filename` and `parent_path` from `std::filesystem`? Or do you feel that\u0027s slightly abusive of use of `std::filesystem`?",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "891f955c_8c663c73",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:28:13Z",
+      "side": 1,
+      "message": "I guess originally I didn\u0027t use the std::filesystem to avoid the ending \u0027/\u0027 or \u0027..\u0027 issue.",
+      "parentUuid": "44af0192_294f6c65",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b8625b8_79c09e3b",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:28:13Z",
+      "side": 1,
+      "message": "It is trying to deal with the dbus path differentiation between nvme subsystem(Drive) and sensors. \n\nThe subsystem is allocated under `/xyz/openbmc_project/inventory/system/board/$Chassis/$Drive` to model both the normal M.2/U.2 NVMe and NVMe PCIe expansion card (which has dedicated Fru EEPROM). \n\nBut all sensors are grouped under `/xyz/openbmc_project/sensors/temperature/` \n\nSo we need this \"structural\" sensor name to flatten the $Chassis/$Drive hierarchy.",
+      "parentUuid": "f9c6ee43_09c6b91c",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d2dc4cf_5a10fed5",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-05-10T00:47:06Z",
       "side": 1,
       "message": "This also seems like fallout from a failure to exploit inheritance?",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f021bc_5eaafe1c",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:28:13Z",
+      "side": 1,
+      "message": "The new implement is using composition. \n\nI was trying to avoid dynamic downcast with using inheritance. \n\nTake a look at the original inheritance implementation: \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56851/13..22/src/NVMeSubsys.cpp#b87",
+      "parentUuid": "6d2dc4cf_5a10fed5",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f319dc55_f6e80fd6",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:28:13Z",
+      "side": 1,
+      "message": "Replied above.",
+      "parentUuid": "17fda15c_55ef3cde",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "855d3af4_9dd745e4",
@@ -99,6 +189,24 @@
       "writtenOn": "2023-05-10T00:47:06Z",
       "side": 1,
       "message": "This would go away with regular inheritance.",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac3f0762_880ee78a",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:28:13Z",
+      "side": 1,
+      "message": "We still need it because the NVMe-MI implementation will use different dataFether/dataParser functions. \n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57322/5/src/NVMeSubsys.cpp#209",
+      "parentUuid": "855d3af4_9dd745e4",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -126,6 +234,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b1e9b27_dde063ab",
+        "filename": "src/NVMeSubsys.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7215bb6_9b046a4c",
+      "range": {
+        "startLine": 36,
+        "startChar": 46,
+        "endLine": 36,
+        "endChar": 58
+      },
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d203c502_4c978003",
@@ -139,6 +271,24 @@
       "writtenOn": "2023-05-10T00:47:06Z",
       "side": 1,
       "message": "I don\u0027t yet appreciate the motivation for this design, but I have a nagging feeling that it\u0027s more complex than necessary. Whilst separating the concerns of fetching and parsing is reasonable, I\u0027m yet to convince myself that we need this segregated abstraction on top.\n\nFor instance, why not solve the problem with regular inheritance instead of trying to assemble all these pieces that have been stripped of coherence? Maybe my query coloured by my educational background in traditional inheritance-based approaches, but the benefit of avoiding it isn\u0027t obvious to me, and I feel exploiting it would tidy the code up.\n\nI will continue to try improve my understanding and either substantiate or dismiss that feeling.",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e26f129_7231a481",
+        "filename": "src/NVMeSubsys.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:28:13Z",
+      "side": 1,
+      "message": "I think your feeling of confusion with from several design choices. Let me try to detangle it. \n\nA. Why decoupling the the NVMeIntf from NVMeSubsystem. \nThe thermal sensor is not only the dbus object we are managing now. In the current patches and future, thare are Drives, Storages, StorageControllers, Namespaces and more. We need to manage their life time according to the device status, as well as the dbus properties and methods attached to them. So my proposal is to split the functions into 3 independent classes, inspired by the MVC model. \n\nThe NVMeIntf is now a pure data provider(Model). It is completely passive w/o any life time management ability for NVMe subsystem layers nore the dbus representation. What it does is the physically layer presentation for the connection, encapsulating the message transport mangling, and scheduling for data transaction, etc. So it make you feel like you are reading from local database for these data structures with concurrency. Some examples:\n \n1. transportation handling for log pages: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/61026/3/src/NVMeMi.cpp#391; \n2. scheduling for i2c topology: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62699/2/src/NVMeMi.cpp#25\n\nThe generated dbus server or dbus interfaces created by sdbusplus::asio is of course the View, similar to these UI classes in Android programming.\n\nThe NVMeSubsystem (and the StorageController and Namespace) classes are the Controller. It controls: \n1. The lifetime of the components. e.g. \n\n * Binding Drive and Storage life time to NVMeSubsystem: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57034/7/include/NVMeSubsys.hpp#57\n * Binding StorageController interface to enabled NVMe controller: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62304/2/include/NVMeController.hpp#99\n * Removing all NVMe controllers when the NSS.DF \u003d 0: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/63049/1/src/NVMeSubsys.cpp#99 \n2. When to poll the data, e.g. every 1 sec for the ctemp_poll for temperature sensor. \n3. What properties to update in the View(dbus properties). e.g. the Value of the sensor.\n\nB. Why NVMeIntf doesn\u0027t use inherence. \n\nThe Model and Controller is fully decoupled in the the design so I need a unified class for NVMeIntf passing into Controller, given I don\u0027t want the Controller to be templated. And the NVMeIntf will support both NVMe basic and NVMe-MI (w/ the real implementation and fake/mock). \n\nI have two ways to implement such common Model interface: \n\n* inherence from the common base interface. But the Controller has to downcast to each protocol using rtti. \n* composition which makes the command interface works like a union class. \n\nI turned from the first options to the second based on the discussion with Ed.",
+      "parentUuid": "d203c502_4c978003",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
