@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "237cf774_5dbc0e37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-10T21:16:17Z",
+      "side": 1,
+      "message": "All issues reported here are a pervasive boost issue we\u0027re looking into.  Overriding CI because it doesn\u0027t make things worse.",
+      "revId": "d0ce32820c6ae7b5a3f3eb767739d2f5000d11b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
