@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32904634_f2abd2a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:08:40Z",
+      "side": 1,
+      "message": "Okay, but that doesn\u0027t explain why this needs to be done as a revert. Why couldn\u0027t the refactoring be a bit more orderly and not break those relying on the ability to specify the address for the basic management endpoint?",
+      "revId": "98ce9a97cc0485a0af1d6b9cd1734beff43f5c2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e8859b_e1ae6fe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-10T00:08:40Z",
+      "side": 1,
+      "message": "The default value is an implementation detail of the patch you\u0027re reverting. The aim of the patch you\u0027re reverting was to allow the EM configuration to specify the endpoint address, which if does is, should be appropriate for the protocol (basic vs MCTP). Given that until your work is merged the only protocol supported is the basic management command, I don\u0027t think it\u0027s reasonable to just outright remove this functionality.\n\nWith the introduction of NVMe MI MCTP support it should be possible for the protocol implementation to specify the default address.\n\nThoughts?",
+      "revId": "98ce9a97cc0485a0af1d6b9cd1734beff43f5c2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
