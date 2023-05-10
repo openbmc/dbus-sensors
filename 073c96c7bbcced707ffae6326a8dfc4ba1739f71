@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cb60b4c_5a8e3554",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-10T21:33:36Z",
+      "side": 1,
+      "message": "Can we make the CL Lint check only the files(blocks) get modified. \n\nI am not comfortable to reformat the doc that I didn\u0027t touch.",
+      "revId": "073c96c7bbcced707ffae6326a8dfc4ba1739f71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
