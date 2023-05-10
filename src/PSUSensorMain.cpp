@@ -459,11 +459,11 @@ static void createSensorsCallback(
         if (!firstScan)
         {
             std::string psuNameStr = "/" + escapeName(*psuName);
-            auto it =
-                std::find_if(sensorsChanged->begin(), sensorsChanged->end(),
-                             [psuNameStr](std::string& s) {
+            auto it = std::find_if(sensorsChanged->begin(),
+                                   sensorsChanged->end(),
+                                   [psuNameStr](std::string& s) {
                 return s.ends_with(psuNameStr);
-                });
+            });
 
             if (it == sensorsChanged->end())
             {
@@ -544,12 +544,11 @@ static void createSensorsCallback(
             size_t pos = sensorPathStr.find('_');
             if (pos != std::string::npos)
             {
-
                 std::string sensorPathStrMax = sensorPathStr.substr(pos);
                 if (sensorPathStrMax == "_max")
                 {
-                    labelPath =
-                        boost::replace_all_copy(sensorPathStr, "max", "label");
+                    labelPath = boost::replace_all_copy(sensorPathStr, "max",
+                                                        "label");
                     maxLabel = true;
                 }
                 else
@@ -872,8 +871,8 @@ static void createSensorsCallback(
             {
                 // Sensor name not customized, do prefix/suffix composition,
                 // preserving default behavior by using psuNameFromIndex.
-                sensorName =
-                    psuNameFromIndex + " " + psuProperty->labelTypeName;
+                sensorName = psuNameFromIndex + " " +
+                             psuProperty->labelTypeName;
             }
 
             if constexpr (debug)

@@ -66,8 +66,8 @@ IntelCPUSensor::IntelCPUSensor(
             }
             else
             {
-                interfacePath =
-                    "/xyz/openbmc_project/sensors/temperature/" + name;
+                interfacePath = "/xyz/openbmc_project/sensors/temperature/" +
+                                name;
                 units = sensor_paths::unitDegreesC;
                 minValue = -128;
                 maxValue = 127;
@@ -192,8 +192,8 @@ void IntelCPUSensor::updateMinMaxValues(void)
             {
                 const auto& [suffix, oldValue, dbusName] = vectorItem;
                 auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
-                if (auto newVal =
-                        readFile(attrPath, IntelCPUSensor::sensorScaleFactor))
+                if (auto newVal = readFile(attrPath,
+                                           IntelCPUSensor::sensorScaleFactor))
                 {
                     updateProperty(sensorInterface, oldValue, *newVal,
                                    dbusName);
@@ -258,7 +258,6 @@ void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
 
     if (rdLen > 0)
     {
-
         try
         {
             rawValue = std::stod(response);

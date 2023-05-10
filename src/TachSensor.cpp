@@ -169,8 +169,8 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
         {
             const char* bufEnd = readBuf.data() + bytesRead;
             int nvalue = 0;
-            std::from_chars_result ret =
-                std::from_chars(readBuf.data(), bufEnd, nvalue);
+            std::from_chars_result ret = std::from_chars(readBuf.data(), bufEnd,
+                                                         nvalue);
             if (ret.ec != std::errc())
             {
                 incrementError();

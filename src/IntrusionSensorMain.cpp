@@ -181,48 +181,48 @@ static void getNicNameInfo(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection, [](const ManagedObjectType& sensorConfigurations) {
-            // Get NIC name and save to map
-            lanInfoMap.clear();
-            for (const auto& [path, cfgData] : sensorConfigurations)
+        dbusConnection,
+        [](const ManagedObjectType& sensorConfigurations) {
+        // Get NIC name and save to map
+        lanInfoMap.clear();
+        for (const auto& [path, cfgData] : sensorConfigurations)
+        {
+            const std::pair<std::string, SensorBaseConfigMap>*
+                baseConfiguration = nullptr;
+
+            // find base configuration
+            auto sensorBase = cfgData.find(configInterfaceName(nicType));
+            if (sensorBase == cfgData.end())
             {
-                const std::pair<std::string, SensorBaseConfigMap>*
-                    baseConfiguration = nullptr;
+                continue;
+            }
+            baseConfiguration = &(*sensorBase);
 
-                // find base configuration
-                auto sensorBase = cfgData.find(configInterfaceName(nicType));
-                if (sensorBase == cfgData.end())
+            auto findEthIndex = baseConfiguration->second.find("EthIndex");
+            auto findName = baseConfiguration->second.find("Name");
+
+            if (findEthIndex != baseConfiguration->second.end() &&
+                findName != baseConfiguration->second.end())
+            {
+                const auto* pEthIndex =
+                    std::get_if<uint64_t>(&findEthIndex->second);
+                const auto* pName = std::get_if<std::string>(&findName->second);
+                if (pEthIndex != nullptr && pName != nullptr)
                 {
-                    continue;
-                }
-                baseConfiguration = &(*sensorBase);
-
-                auto findEthIndex = baseConfiguration->second.find("EthIndex");
-                auto findName = baseConfiguration->second.find("Name");
-
-                if (findEthIndex != baseConfiguration->second.end() &&
-                    findName != baseConfiguration->second.end())
-                {
-                    const auto* pEthIndex =
-                        std::get_if<uint64_t>(&findEthIndex->second);
-                    const auto* pName =
-                        std::get_if<std::string>(&findName->second);
-                    if (pEthIndex != nullptr && pName != nullptr)
+                    lanInfoMap[*pEthIndex] = *pName;
+                    if (debugLanLeash)
                     {
-                        lanInfoMap[*pEthIndex] = *pName;
-                        if (debugLanLeash)
-                        {
-                            std::cout << "find name of eth" << *pEthIndex
-                                      << " is " << *pName << "\n";
-                        }
+                        std::cout << "find name of eth" << *pEthIndex << " is "
+                                  << *pName << "\n";
                     }
                 }
             }
+        }
 
-            if (lanInfoMap.empty())
-            {
-                std::cerr << "can't find matched NIC name. \n";
-            }
+        if (lanInfoMap.empty())
+        {
+            std::cerr << "can't find matched NIC name. \n";
+        }
         });
 
     getter->getConfiguration(
@@ -306,8 +306,8 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     {
         std::string strEthNum = "eth" + std::to_string(ethNum) + lanInfo;
         const auto* strState = newLanConnected ? "connected" : "lost";
-        const auto* strMsgId =
-            newLanConnected ? "OpenBMC.0.1.LanRegained" : "OpenBMC.0.1.LanLost";
+        const auto* strMsgId = newLanConnected ? "OpenBMC.0.1.LanRegained"
+                                               : "OpenBMC.0.1.LanLost";
 
         lg2::info("{ETHDEV} LAN leash {STATE}", "ETHDEV", strEthNum, "STATE",
                   strState, "REDFISH_MESSAGE_ID", strMsgId,
@@ -393,9 +393,9 @@ static bool initializeLanStatus(
                 std::cerr << "Unable to read lan status value\n";
                 return;
             }
-            bool isLanConnected =
-                (*pState == "routable" || *pState == "carrier" ||
-                 *pState == "degraded");
+            bool isLanConnected = (*pState == "routable" ||
+                                   *pState == "carrier" ||
+                                   *pState == "degraded");
             if (debugLanLeash)
             {
                 std::cout << "ethNum = " << std::to_string(ethNum)

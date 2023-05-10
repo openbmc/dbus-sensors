@@ -151,10 +151,10 @@ static void handleSensorConfigurations(
         }
 
         const SensorBaseConfigMap& sensorConfig = sensorBase->second;
-        std::optional<int> busNumber =
-            extractBusNumber(interfacePath, sensorConfig);
-        std::optional<std::string> sensorName =
-            extractSensorName(interfacePath, sensorConfig);
+        std::optional<int> busNumber = extractBusNumber(interfacePath,
+                                                        sensorConfig);
+        std::optional<std::string> sensorName = extractSensorName(interfacePath,
+                                                                  sensorConfig);
         uint8_t slaveAddr = extractSlaveAddr(interfacePath, sensorConfig);
         std::optional<int> rootBus = deriveRootBus(busNumber);
 
@@ -203,7 +203,6 @@ void createSensors(boost::asio::io_context& io,
                    sdbusplus::asio::object_server& objectServer,
                    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
-
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection, [&io, &objectServer, &dbusConnection](
                             const ManagedObjectType& sensorConfigurations) {

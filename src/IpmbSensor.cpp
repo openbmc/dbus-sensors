@@ -267,7 +267,6 @@ void IpmbSensor::checkThresholds(void)
 
 bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
 {
-
     switch (readingFormat)
     {
         case (ReadingFormat::byte0):
@@ -550,8 +549,8 @@ void createSensors(
                 }
                 uint8_t deviceAddress = loadVariant<uint8_t>(cfg, "Address");
 
-                std::string sensorClass =
-                    loadVariant<std::string>(cfg, "Class");
+                std::string sensorClass = loadVariant<std::string>(cfg,
+                                                                   "Class");
 
                 uint8_t hostSMbusIndex = hostSMbusIndexDefault;
                 auto findSmType = cfg.find("HostSMbusIndex");
@@ -578,8 +577,8 @@ void createSensors(
                 auto findType = cfg.find("SensorType");
                 if (findType != cfg.end())
                 {
-                    sensorTypeName =
-                        std::visit(VariantToStringVisitor(), findType->second);
+                    sensorTypeName = std::visit(VariantToStringVisitor(),
+                                                findType->second);
                 }
 
                 auto& sensor = sensors[name];
@@ -702,7 +701,6 @@ void interfaceRemoved(
 
 int main()
 {
-
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objectServer(systemBus, true);

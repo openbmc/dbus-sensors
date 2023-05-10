@@ -288,17 +288,17 @@ struct Sensor
                 continue;
             }
 
-            std::string level =
-                propertyLevel(threshold.level, threshold.direction);
-            std::string alarm =
-                propertyAlarm(threshold.level, threshold.direction);
+            std::string level = propertyLevel(threshold.level,
+                                              threshold.direction);
+            std::string alarm = propertyAlarm(threshold.level,
+                                              threshold.direction);
 
             if ((level.empty()) || (alarm.empty()))
             {
                 continue;
             }
-            size_t thresSize =
-                label.empty() ? thresholds.size() : thresholdSize;
+            size_t thresSize = label.empty() ? thresholds.size()
+                                             : thresholdSize;
             iface->register_property(
                 level, threshold.value,
                 [&, label, thresSize](const double& request, double& oldValue) {
