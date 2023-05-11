@@ -480,6 +480,7 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 {
     size_t rescanDelaySeconds = 0;
     static bool keepPinging = false;
+    int peciFd = -1;
 
     for (CPUConfig& config : cpuConfigs)
     {
@@ -490,9 +491,11 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
         std::string peciDevPath = peciDev + std::to_string(config.bus);
 
+        peci_SetDevName(peciDevPath.data());
+
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-        auto file = open(peciDevPath.c_str(), O_RDWR | O_CLOEXEC);
-        if (file < 0)
+        if ((peci_Lock(&peciFd, PECI_NO_WAIT) != PECI_CC_SUCCESS) ||
+            (peciFd < 0))
         {
             std::cerr << "unable to open " << peciDevPath << " "
                       << std::strerror(errno) << "\n";
@@ -501,7 +504,6 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
             return;
         }
 
-        peci_SetDevName(peciDevPath.data());
         State newState = State::OFF;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
@@ -591,6 +593,8 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
             std::cout << config.name << ", state: " << config.state << "\n";
         }
     }
+
+    peci_Unlock(peciFd);
 
     if (rescanDelaySeconds != 0U)
     {
