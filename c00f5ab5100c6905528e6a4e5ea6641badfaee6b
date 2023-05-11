@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "70c1c9c1_154c0a48",
+        "filename": "src/NVMeIntf.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-11T02:43:17Z",
+      "side": 1,
+      "message": "Can\u0027t that be achieved by regular inheritance and dependency injection without requiring a factory function?",
+      "parentUuid": "5075e205_d341bf91",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44af0192_294f6c65",
         "filename": "src/NVMeSubsys.cpp",
         "patchSetId": 21
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "I guess originally I didn\u0027t use the std::filesystem to avoid the ending \u0027/\u0027 or \u0027..\u0027 issue.",
       "parentUuid": "44af0192_294f6c65",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd21b3c_99fddbd7",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-11T02:43:17Z",
+      "side": 1,
+      "message": "okay. The implementation feels a bit ugly but it doesn\u0027t matter so much.",
+      "parentUuid": "891f955c_8c663c73",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -108,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b93afcc_242f7c32",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-11T02:43:17Z",
+      "side": 1,
+      "message": "Right, so something that threw me is that you\u0027ve interchanged `prod` with `chassis` in your explanation. `prod` didn\u0027t immediately have any meaning to me so it was hard to understand what the intent was. `chassis` has more obvious intent.\n\nHaving said that, what I was really looking for was a canonical link to the place where this path structure expectation is defined.",
+      "parentUuid": "6b8625b8_79c09e3b",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d2dc4cf_5a10fed5",
         "filename": "src/NVMeSubsys.cpp",
         "patchSetId": 21
@@ -137,6 +191,24 @@
       "side": 1,
       "message": "The new implement is using composition. \n\nI was trying to avoid dynamic downcast with using inheritance. \n\nTake a look at the original inheritance implementation: \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56851/13..22/src/NVMeSubsys.cpp#b87",
       "parentUuid": "6d2dc4cf_5a10fed5",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be81aa1b_fcc8ffe9",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-11T02:43:17Z",
+      "side": 1,
+      "message": "I\u0027m struggling to understand what we\u0027re composing together. We\u0027re not planning to concurrently talk both protocols to the one drive instance are we?\n\nWhy would a dynamic downcast be required? We could just call a virtual method and have it dispatched to the appropriate transport implementation.",
+      "parentUuid": "88f021bc_5eaafe1c",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -207,6 +279,24 @@
       "side": 1,
       "message": "We still need it because the NVMe-MI implementation will use different dataFether/dataParser functions. \n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57322/5/src/NVMeSubsys.cpp#209",
       "parentUuid": "855d3af4_9dd745e4",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a4deba_67fdbf0e",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-11T02:43:17Z",
+      "side": 1,
+      "message": "In my mind that\u0027s still solved by inheritance and I\u0027m still missing the motivation. \"Using composition\" isn\u0027t a motivation in its own right. Tools for the job and all.",
+      "parentUuid": "ac3f0762_880ee78a",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -289,6 +379,24 @@
       "side": 1,
       "message": "I think your feeling of confusion with from several design choices. Let me try to detangle it. \n\nA. Why decoupling the the NVMeIntf from NVMeSubsystem. \nThe thermal sensor is not only the dbus object we are managing now. In the current patches and future, thare are Drives, Storages, StorageControllers, Namespaces and more. We need to manage their life time according to the device status, as well as the dbus properties and methods attached to them. So my proposal is to split the functions into 3 independent classes, inspired by the MVC model. \n\nThe NVMeIntf is now a pure data provider(Model). It is completely passive w/o any life time management ability for NVMe subsystem layers nore the dbus representation. What it does is the physically layer presentation for the connection, encapsulating the message transport mangling, and scheduling for data transaction, etc. So it make you feel like you are reading from local database for these data structures with concurrency. Some examples:\n \n1. transportation handling for log pages: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/61026/3/src/NVMeMi.cpp#391; \n2. scheduling for i2c topology: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62699/2/src/NVMeMi.cpp#25\n\nThe generated dbus server or dbus interfaces created by sdbusplus::asio is of course the View, similar to these UI classes in Android programming.\n\nThe NVMeSubsystem (and the StorageController and Namespace) classes are the Controller. It controls: \n1. The lifetime of the components. e.g. \n\n * Binding Drive and Storage life time to NVMeSubsystem: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/57034/7/include/NVMeSubsys.hpp#57\n * Binding StorageController interface to enabled NVMe controller: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62304/2/include/NVMeController.hpp#99\n * Removing all NVMe controllers when the NSS.DF \u003d 0: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/63049/1/src/NVMeSubsys.cpp#99 \n2. When to poll the data, e.g. every 1 sec for the ctemp_poll for temperature sensor. \n3. What properties to update in the View(dbus properties). e.g. the Value of the sensor.\n\nB. Why NVMeIntf doesn\u0027t use inherence. \n\nThe Model and Controller is fully decoupled in the the design so I need a unified class for NVMeIntf passing into Controller, given I don\u0027t want the Controller to be templated. And the NVMeIntf will support both NVMe basic and NVMe-MI (w/ the real implementation and fake/mock). \n\nI have two ways to implement such common Model interface: \n\n* inherence from the common base interface. But the Controller has to downcast to each protocol using rtti. \n* composition which makes the command interface works like a union class. \n\nI turned from the first options to the second based on the discussion with Ed.",
       "parentUuid": "d203c502_4c978003",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b3a205a_7a994e32",
+        "filename": "src/NVMeSubsys.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-11T02:43:17Z",
+      "side": 1,
+      "message": "\u003e The NVMeIntf is now a pure data provider(Model). It is completely passive w/o any life time management ability for NVMe subsystem layers nore the dbus representation. What it does is the physically layer presentation for the connection, encapsulating the message transport mangling, and scheduling for data transaction, etc.\n\nSo trying to put that in my own words, is it the case that `NVMeIntf` is specifically an abstraction over the mechanics of the chosen communication protocol (basic vs MCTP)?\n\n\u003e B. Why NVMeIntf doesn\u0027t use inherence. \n\u003e \n\u003e The Model and Controller is fully decoupled in the the design so I need a unified class for NVMeIntf passing into Controller, given I don\u0027t want the Controller to be templated. And the NVMeIntf will support both NVMe basic and NVMe-MI (w/ the real implementation and fake/mock).\n\nSure. You need both transports to expose a common set of behaviours, abstracting the details from the Controller. Is that a reasonable statement?\n\n\u003e \n\u003e I have two ways to implement such common Model interface: \n\u003e \n\u003e * inherence from the common base interface. But the Controller has to downcast to each protocol using rtti. \n\nIf my understanding is correct, this is the opposite of the statement above. You seem to be saying the controller requires knowledge of the implementation held by NVMeIntf, which violates the abstraction that NVMeIntf is trying to represent. In my mind, that suggests a breakdown in the design\u0027s separation of concerns.\n\n\u003e * composition which makes the command interface works like a union class. \n\nIs it possible for us to work together to get a class diagram drawn of the design? I\u0027d find it easier to comprehend at least, and maybe we could establish a shared understanding by trading diagrams. Can we try with [mermaid][] or [plantuml][]?\n\n[mermaid]: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams\n[plantuml]: https://plantuml.com/",
+      "parentUuid": "2e26f129_7231a481",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
