@@ -54,6 +54,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e811adc5_27817a76",
+        "filename": "src/NVMeIntf.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-11T22:12:28Z",
+      "side": 1,
+      "message": "Actually I did Constructor Injection between NVMeIntf and NVMeSubsystem. \n\nWe can continue the topic [here](https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56851/comment/d203c502_4c978003/)since they are relevant.",
+      "parentUuid": "70c1c9c1_154c0a48",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44af0192_294f6c65",
@@ -162,6 +180,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c1b1960_f5be7ecf",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-11T22:12:28Z",
+      "side": 1,
+      "message": "My bad here. Typically we are using the product name for chassis so I used them interchangeable. I will update the comment\n\nAhh, I just realized gitiles still didn\u0027t render the table correctly. That is why you didn\u0027t see the dbus obj structure. \n\nhttps://github.com/openbmc/docs/blob/10f2d00fbcfb97cfb02a1ee4005d82f237783668/designs/nvmed.md#nvme-subsystem-structure\n\nGiven we have the working system right now, I can show you the output on real machines:\n\n```\n# busctl tree xyz.openbmc_project.NVMe\n`-/xyz\n  `-/xyz/openbmc_project\n    |-/xyz/openbmc_project/inventory\n    | `-/xyz/openbmc_project/inventory/system\n    |   `-/xyz/openbmc_project/inventory/system/board\n    |     `-/xyz/openbmc_project/inventory/system/board/{prod}_1\n    |       |-/xyz/openbmc_project/inventory/system/board/{prod}_1/NVMe_1\n    |       | `-/xyz/openbmc_project/inventory/system/board/{prod}_1/NVMe_1/controllers\n    |       |   `-/xyz/openbmc_project/inventory/system/board/{prod}_1/NVMe_1/controllers/0\n    `-/xyz/openbmc_project/sensors\n      `-/xyz/openbmc_project/sensors/temperature\n        |-/xyz/openbmc_project/sensors/temperature/{prod}_1_NVMe_1\n```",
+      "parentUuid": "5b93afcc_242f7c32",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d2dc4cf_5a10fed5",
         "filename": "src/NVMeSubsys.cpp",
         "patchSetId": 21
@@ -209,6 +245,24 @@
       "side": 1,
       "message": "I\u0027m struggling to understand what we\u0027re composing together. We\u0027re not planning to concurrently talk both protocols to the one drive instance are we?\n\nWhy would a dynamic downcast be required? We could just call a virtual method and have it dispatched to the appropriate transport implementation.",
       "parentUuid": "88f021bc_5eaafe1c",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72c840fc_7afa1990",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-11T22:12:28Z",
+      "side": 1,
+      "message": "\u003e I\u0027m struggling to understand what we\u0027re composing together. We\u0027re not planning to concurrently talk both protocols to the one drive instance are we?\n\nNo, one drive instance will only have one type of communication connection. \n\n\u003e Why would a dynamic downcast be required? We could just call a virtual method and have it dispatched to the appropriate transport implementation.\n\nThe the Controller will handle both protocols so it requires a downcast or de-compose at runtime to tell which protocol the node(device) supports. \n\nWe can continue the topic in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56851/comment/d203c502_4c978003/",
+      "parentUuid": "be81aa1b_fcc8ffe9",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -297,6 +351,24 @@
       "side": 1,
       "message": "In my mind that\u0027s still solved by inheritance and I\u0027m still missing the motivation. \"Using composition\" isn\u0027t a motivation in its own right. Tools for the job and all.",
       "parentUuid": "ac3f0762_880ee78a",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b1c3ee1_01d87a01",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-11T22:12:28Z",
+      "side": 1,
+      "message": "Let\u0027s aggregate the topic in a single thread: \n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/56851/comment/d203c502_4c978003/",
+      "parentUuid": "e8a4deba_67fdbf0e",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -397,6 +469,24 @@
       "side": 1,
       "message": "\u003e The NVMeIntf is now a pure data provider(Model). It is completely passive w/o any life time management ability for NVMe subsystem layers nore the dbus representation. What it does is the physically layer presentation for the connection, encapsulating the message transport mangling, and scheduling for data transaction, etc.\n\nSo trying to put that in my own words, is it the case that `NVMeIntf` is specifically an abstraction over the mechanics of the chosen communication protocol (basic vs MCTP)?\n\n\u003e B. Why NVMeIntf doesn\u0027t use inherence. \n\u003e \n\u003e The Model and Controller is fully decoupled in the the design so I need a unified class for NVMeIntf passing into Controller, given I don\u0027t want the Controller to be templated. And the NVMeIntf will support both NVMe basic and NVMe-MI (w/ the real implementation and fake/mock).\n\nSure. You need both transports to expose a common set of behaviours, abstracting the details from the Controller. Is that a reasonable statement?\n\n\u003e \n\u003e I have two ways to implement such common Model interface: \n\u003e \n\u003e * inherence from the common base interface. But the Controller has to downcast to each protocol using rtti. \n\nIf my understanding is correct, this is the opposite of the statement above. You seem to be saying the controller requires knowledge of the implementation held by NVMeIntf, which violates the abstraction that NVMeIntf is trying to represent. In my mind, that suggests a breakdown in the design\u0027s separation of concerns.\n\n\u003e * composition which makes the command interface works like a union class. \n\nIs it possible for us to work together to get a class diagram drawn of the design? I\u0027d find it easier to comprehend at least, and maybe we could establish a shared understanding by trading diagrams. Can we try with [mermaid][] or [plantuml][]?\n\n[mermaid]: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams\n[plantuml]: https://plantuml.com/",
       "parentUuid": "2e26f129_7231a481",
+      "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70e9c987_7020828c",
+        "filename": "src/NVMeSubsys.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2023-05-11T22:12:28Z",
+      "side": 1,
+      "message": "\u003e So trying to put that in my own words, is it the case that NVMeIntf is specifically an abstraction over the mechanics of the chosen communication protocol (basic vs MCTP)?\n\nYes\n\n\u003e Sure. You need both transports to expose a common set of behaviours, abstracting the details from the Controller. Is that a reasonable statement?\n\nThat is correct. The Controller(NVMeSubsystem) will determine from runtime which protocol the node is running against based on the common interface of NVMeIntf. \n\n\u003e If my understanding is correct, this is the opposite of the statement above. You seem to be saying the controller requires knowledge of the implementation held by NVMeIntf, which violates the abstraction that NVMeIntf is trying to represent. In my mind, that suggests a breakdown in the design\u0027s separation of concerns.\n\nThe Controller need the runtime information against the protocol. Saying we have a data set of A for NVMeBasic and another data set for NVMeMi. The client(Controller) will know which data set it can retrieve from Model so it can behave differently. But the interface to retrieve these two data set should be common. Thinking about SQL language or xml data binding, and in our case the NVMeIntf. \n\nThe only difference against reading data from normal datasheet is that the NVMeSubsystem is using the function name at compile time instead of the \"key\" of the column to locate the data. That is because both protocol is well defined w/ the meaning of the column (e.g. the LID of a logpage) so the programmer should know such definition b4/at the compile time. \n\n\u003e Is it possible for us to work together to get a class diagram drawn of the design? I\u0027d find it easier to comprehend at least, and maybe we could establish a shared understanding by trading diagrams. Can we try with mermaid or plantuml?\n\nSure. I posted the diagram [here](https://mermaid.ink/img/pako:eNrFVdFu2jAU_RXL2gN0hL5HCGltaBdpYUiR-rCmDxf7krokNrIdporx73MIOAkr7GXSeAB8zsk9x9f4sqNMcaQhZQUYEwnINZSEkEwS_z5_SjCWdkVuguCwuAMjWI1c4BPRJ72eTH51S7SK5omWTsQ17gHWeI1PFFtf45-i5ECfxZ8cBWm1NO_GYhmSyqD5QBXFIRHSWJBWgD1miWIyHk_PKwj5hswa59WoDn321XYNWL8ClFVJNlpZxVTRwbeghTOaTF0ti3oFDFv2M9PoEgyGn3zNDpmjXRwLDoZ9PJarptaJ2P-Z0J-bjzmZ-AzT6Qmsy91VpnWogS-c6z6SWrA91Xg8HgyJd-97N6f2d-N5HPVtZj2gFCkDeW910QdPB_QVobCvTbSFKroq4KWQj2i_qXwBOZ4Hv5D70DMfO1hW5hZcKzzwU-k16n_Suoudu2IvBb9Fwdv1tsTZ4kq6_9_f7ihqd-kdulfIX9L6x9K_KIEVZbszt94UVS5kB-CuWd-Xb88pSqP0KNJii6PUKu3CvXx4R6L4OaOzICFMyZXICYOiWIKbPfRld_ZAnexeSatdD1CTILjp76JVzaFEs3HZL4mabtARdfspQXA3vA9uGbWvWGJGQ_eVg3YxMrl3OqisSt8lo6HVFY5oteFuZBxnPQ1XUBiHIhdur8nx36D-GNENyB9KnTT73xuF1pw?type\u003dpng)\n\n[editable](https://mermaid.live/edit#pako:eNrFVdFu2jAU_RXL2gN0hL5HCGltaBdpYUiR-rCmDxf7krokNrIdporx73MIOAkr7GXSeAB8zsk9x9f4sqNMcaQhZQUYEwnINZSEkEwS_z5_SjCWdkVuguCwuAMjWI1c4BPRJ72eTH51S7SK5omWTsQ17gHWeI1PFFtf45-i5ECfxZ8cBWm1NO_GYhmSyqD5QBXFIRHSWJBWgD1miWIyHk_PKwj5hswa59WoDn321XYNWL8ClFVJNlpZxVTRwbeghTOaTF0ti3oFDFv2M9PoEgyGn3zNDpmjXRwLDoZ9PJarptaJ2P-Z0J-bjzmZ-AzT6Qmsy91VpnWogS-c6z6SWrA91Xg8HgyJd-97N6f2d-N5HPVtZj2gFCkDeW910QdPB_QVobCvTbSFKroq4KWQj2i_qXwBOZ4Hv5D70DMfO1hW5hZcKzzwU-k16n_Suoudu2IvBb9Fwdv1tsTZ4kq6_9_f7ihqd-kdulfIX9L6x9K_KIEVZbszt94UVS5kB-CuWd-Xb88pSqP0KNJii6PUKu3CvXx4R6L4OaOzICFMyZXICYOiWIKbPfRld_ZAnexeSatdD1CTILjp76JVzaFEs3HZL4mabtARdfspQXA3vA9uGbWvWGJGQ_eVg3YxMrl3OqisSt8lo6HVFY5oteFuZBxnPQ1XUBiHIhdur8nx36D-GNENyB9KnTT73xuF1pw)",
+      "parentUuid": "7b3a205a_7a994e32",
       "revId": "c00f5ab5100c6905528e6a4e5ea6641badfaee6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
