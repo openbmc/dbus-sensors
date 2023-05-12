@@ -62,3 +62,93 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     setupPropertiesChangedMatches(
         sdbusplus::asio::connection& bus, const I2CDeviceTypeMap& typeMap,
         const std::function<void(sdbusplus::message_t&)>& handler);
+
+// returns a {path: <I2CDevice, is_new>} map.  is_new indicates if the I2CDevice
+// is newly instantiated by this call (true) or was already there (false).
+template <class T>
+boost::container::flat_map<std::string,
+                           std::pair<std::shared_ptr<I2CDevice>, bool>>
+    instantiateDevices(
+        const ManagedObjectType& sensorConfigs,
+        const boost::container::flat_map<std::string, std::shared_ptr<T>>&
+            sensors,
+        const I2CDeviceTypeMap& sensorTypes)
+{
+    boost::container::flat_map<std::string,
+                               std::pair<std::shared_ptr<I2CDevice>, bool>>
+        devices;
+    for (const auto& [path, sensor] : sensorConfigs)
+    {
+        for (const auto& [name, cfg] : sensor)
+        {
+            PowerState powerState = getPowerState(cfg);
+            if (!readingStateGood(powerState))
+            {
+                continue;
+            }
+
+            auto findSensorName = cfg.find("Name");
+            if (findSensorName == cfg.end())
+            {
+                continue;
+            }
+
+            std::string sensorName;
+            try
+            {
+                sensorName = std::get<std::string>(findSensorName->second);
+            }
+            catch (const std::bad_variant_access& e)
+            {
+                std::cerr << e.what() << ": unable to find sensor name " << name
+                          << " on path " << path.str << std::endl;
+                continue;
+            }
+
+            auto findSensor = sensors.find(sensorName);
+            if (findSensor != sensors.end() && findSensor->second != nullptr &&
+                findSensor->second->isActive())
+            {
+                devices.emplace(
+                    path.str,
+                    std::make_pair(findSensor->second->getI2CDevice(), false));
+                continue;
+            }
+
+            std::optional<I2CDeviceParams> params =
+                getI2CDeviceParams(sensorTypes, cfg);
+            if (params.has_value() && !params->deviceStatic())
+            {
+                // There exist error cases in which a sensor device that we
+                // need is already instantiated, but needs to be destroyed and
+                // re-created in order to be useful (for example if we crash
+                // after instantiating a device and the sensor device's power
+                // is cut before we get restarted, leaving it "present" but
+                // not really usable).  To be on the safe side, instantiate a
+                // temporary device that's immediately destroyed so as to
+                // ensure that we end up with a fresh instance of it.
+                if (params->devicePresent())
+                {
+                    std::cerr << "Clearing out previous instance for "
+                              << path.str << "\n";
+                    I2CDevice tmp(*params);
+                }
+
+                try
+                {
+                    devices.emplace(
+                        path.str,
+                        std::make_pair(std::make_shared<I2CDevice>(*params),
+                                       true));
+                }
+                catch (std::runtime_error&)
+                {
+                    std::cerr << "Failed to instantiate " << params->type->name
+                              << " at address " << params->address << " on bus "
+                              << params->bus << "\n";
+                }
+            }
+        }
+    }
+    return devices;
+}
