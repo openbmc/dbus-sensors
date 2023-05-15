@@ -40,14 +40,14 @@
 
 static constexpr float pollRateDefault = 0.5;
 
-static constexpr double maxValuePressure = 120000; // Pascals
-static constexpr double minValuePressure = 30000;  // Pascals
+static constexpr double maxValuePressure = 120000;      // Pascals
+static constexpr double minValuePressure = 30000;       // Pascals
 
 static constexpr double maxValueRelativeHumidity = 100; // PercentRH
 static constexpr double minValueRelativeHumidity = 0;   // PercentRH
 
-static constexpr double maxValueTemperature = 127;  // DegreesC
-static constexpr double minValueTemperature = -128; // DegreesC
+static constexpr double maxValueTemperature = 127;      // DegreesC
+static constexpr double minValueTemperature = -128;     // DegreesC
 
 namespace fs = std::filesystem;
 
