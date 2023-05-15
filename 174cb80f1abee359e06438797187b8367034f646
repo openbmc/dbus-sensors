@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8750179c_4f52f91c",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-05-15T09:57:08Z",
+      "side": 1,
+      "message": "These spaces are just to make the verification pass (otherwise the format check will fail).\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/63496 fix this issue as well.",
+      "range": {
+        "startLine": 43,
+        "startChar": 50,
+        "endLine": 43,
+        "endChar": 56
+      },
+      "revId": "174cb80f1abee359e06438797187b8367034f646",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
