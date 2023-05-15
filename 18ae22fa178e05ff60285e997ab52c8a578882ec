@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60a6d1a1_f8a86687",
+        "filename": "src/CPUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-05-15T09:45:26Z",
+      "side": 1,
+      "message": "Because of this static keepPinging never gets reset in the current code:\n```\ndbus-sensors$ git grep keepPinging\nsrc/IntelCPUSensorMain.cpp:    static bool keepPinging \u003d false;\nsrc/IntelCPUSensorMain.cpp:            keepPinging \u003d true;\nsrc/IntelCPUSensorMain.cpp:                keepPinging)\nsrc/IntelCPUSensorMain.cpp:    else if (keepPinging)\n```\nso once the condition is met to set it to true the function is going to be called for pings forever till daemon restart. This doesn\u0027t seem to be right.",
+      "range": {
+        "startLine": 382,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 11
+      },
+      "revId": "18ae22fa178e05ff60285e997ab52c8a578882ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
