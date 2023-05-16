@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a4449a_c22b785e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-05-16T15:40:55Z",
+      "side": 1,
+      "message": "@Andrew Jeffery, @Ed Tanous; just checking in on this patch to see if it would be a useful contribution to the dbus-sensors project.",
+      "revId": "4b888ca375fe33cc32b05c9f8efdc04c346873c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
