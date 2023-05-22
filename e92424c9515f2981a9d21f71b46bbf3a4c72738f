@@ -16,6 +16,24 @@
       "message": "Dear Reviewers,\n\nAST2600 TACH driver is still under review (https://lore.kernel.org/all/20221123061635.32025-6-billy_tsai@aspeedtech.com/), but Bletchley imported the patch series and tests and runs for a while.\n\nI would like to confirm that is it OK to add `aspeed,ast2600-tach` as compatible string for ast2600? please kindly let me know any suggestions for this, thank you.",
       "revId": "e92424c9515f2981a9d21f71b46bbf3a4c72738f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d49d089f_ac7badd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-22T01:06:39Z",
+      "side": 1,
+      "message": "If you\u0027d like these patches merged then please help with getting the kernel driver reviewed and merged upstream. I\u0027m marking this patch as -1 until we can get that done.",
+      "parentUuid": "1d8e0d80_7d0d0617",
+      "revId": "e92424c9515f2981a9d21f71b46bbf3a4c72738f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
