@@ -190,16 +190,18 @@ void NVMeSubsystem::markFunctional(bool toggle)
                 0, 0,
                 [self{self->shared_from_this()}](const std::error_code& ec,
                                                  std::span<uint8_t> data) {
+                nvme_secondary_ctrl_list* listHdr = nullptr;
+                int num_of_identifiers = 0;
                 if (ec || data.size() < sizeof(nvme_secondary_ctrl_list))
                 {
-                    std::cerr << "fail to identify secondary controller list"
+                    std::cerr << "failed to identify secondary controller list"
                               << std::endl;
-                    self->status = Status::Stop;
-                    self->markFunctional(false);
-                    return;
                 }
-                nvme_secondary_ctrl_list& listHdr =
-                    *reinterpret_cast<nvme_secondary_ctrl_list*>(data.data());
+                else
+                {
+                    listHdr = reinterpret_cast<nvme_secondary_ctrl_list*>(data.data());
+                    num_of_identifiers = listHdr->num;
+                }
 
                 // Remove all associations
                 for (const auto& [_, pair] : self->controllers)
@@ -207,27 +209,21 @@ void NVMeSubsystem::markFunctional(bool toggle)
                     pair.first->setSecAssoc();
                 }
 
-                if (listHdr.num == 0)
+                auto findPrimary = self->controllers.begin();
+                if (num_of_identifiers != 0)
                 {
-                    std::cerr << "empty identify secondary controller list"
-                              << std::endl;
-                    self->status = Status::Stop;
-                    self->markFunctional(false);
-                    return;
-                }
-
-                // all sc_entry pointing to a single pcid, so we only check
-                // the first entry.
-                auto findPrimary =
-                    self->controllers.find(listHdr.sc_entry[0].pcid);
-                if (findPrimary == self->controllers.end())
-                {
-                    std::cerr << "fail to match primary controller from "
-                                 "identify sencondary cntrl list"
-                              << std::endl;
-                    self->status = Status::Stop;
-                    self->markFunctional(false);
-                    return;
+                    // all sc_entry pointing to a single pcid, so we only check
+                    // the first entry.
+                    findPrimary = self->controllers.find(listHdr->sc_entry[0].pcid);
+                    if (findPrimary == self->controllers.end())
+                    {
+                        std::cerr << "failed to match primary controller from "
+                                     "identify sencondary cntrl list"
+                                  << std::endl;
+                        self->status = Status::Stop;
+                        self->markFunctional(false);
+                        return;
+                    }
                 }
 
                 // Enable primary controller since they are required to work
@@ -236,13 +232,13 @@ void NVMeSubsystem::markFunctional(bool toggle)
                     std::move(*primaryController.get()));
 
                 std::vector<std::shared_ptr<NVMeController>> secCntrls;
-                for (int i = 0; i < listHdr.num; i++)
+                for (int i = 0; i < num_of_identifiers; i++)
                 {
                     auto findSecondary =
-                        self->controllers.find(listHdr.sc_entry[i].scid);
+                        self->controllers.find(listHdr->sc_entry[i].scid);
                     if (findSecondary == self->controllers.end())
                     {
-                        std::cerr << "fail to match secondary controller from "
+                        std::cerr << "failed to match secondary controller from "
                                      "identify sencondary cntrl list"
                                   << std::endl;
                         break;
@@ -251,7 +247,7 @@ void NVMeSubsystem::markFunctional(bool toggle)
                     auto& secondaryController = findSecondary->second.first;
 
                     // Check Secondary Controller State
-                    if (listHdr.sc_entry[i].scs != 0)
+                    if (listHdr->sc_entry[i].scs != 0)
                     {
                         secondaryController = NVMeControllerEnabled::create(
                             std::move(*secondaryController.get()));
