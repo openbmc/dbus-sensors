@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a1526da_8357ab03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-28T23:57:10Z",
+      "side": 1,
+      "message": "Instead of the undecorated commit ID can we please use the \"description\" style of `git log -1 --format\u003d\u0027%h (\"%s\")\u0027 421cc42892e9bd8065025382a05e3858119493ef`, which yields `421cc42892e9 (\"Remove non-functional tests\")`. This provides a bit more context without having to go chase up the actual change in question.",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71de3188_0825944d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-28T23:57:10Z",
+      "side": 1,
+      "message": "How did you go about this? Is this a revert of the mentioned commit plus a cleanup mashed into one commit?\n\nWhy is it better to have 1 executable for all tests?\n\nCan we please add the threshold tests separately?",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea48243_882d76db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-28T23:57:10Z",
+      "side": 1,
+      "message": "Can you please add a `Fixes:` tag in the manner of Linux? See:\n\n1. https://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes\n2. https://docs.kernel.org/process/submitting-patches.html#describe-changes",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d4c3e1_6f43c388",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-28T23:57:10Z",
+      "side": 1,
+      "message": "Thanks for adding the tests back. It\u0027s a shame they were removed instead of fixed initially, but sometimes that\u0027s the easiest way to make progress. I\u0027ve made a few comments.",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
