@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e3bc155_3728efa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-05-29T18:00:21Z",
+      "side": 1,
+      "message": "yes its a \n- revert of the mentioned commit\n- cleanup\n- new tests",
+      "parentUuid": "eed6c667_4b3e619c",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ea48243_882d76db",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
