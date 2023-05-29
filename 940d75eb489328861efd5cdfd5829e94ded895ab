@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a946085_ed8263c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-05-29T17:58:36Z",
+      "side": 1,
+      "message": "done 😊",
+      "parentUuid": "7a1526da_8357ab03",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71de3188_0825944d",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eed6c667_4b3e619c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-05-29T17:58:36Z",
+      "side": 1,
+      "message": "for me its better to have 1 executable. \n\ni run the tests on the BMC, and with 1 binary its about 25 MB\nwhereas having 1 binary for each test suite is about 15 MB for each suite.\n\nso its less space to have just one and takes less time to copy to the BMC.\n\nalso its more convenient to only run one program and see that all tests pass \nbecause thats what most people would care about in my opinion. just making a\nchange and seeing that the tests pass.\n\nwhen there are so many tests that it takes too long or output becomes too big\nthen one could think about making a commandline option to only run some suites.\n\nwhat do you care about?\n\njust having multiple binaries? for what reason?\nor just being able to run only a specific suite of tests?",
+      "parentUuid": "71de3188_0825944d",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ea48243_882d76db",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-28T23:57:10Z",
       "side": 1,
       "message": "Can you please add a `Fixes:` tag in the manner of Linux? See:\n\n1. https://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes\n2. https://docs.kernel.org/process/submitting-patches.html#describe-changes",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea1a98b_4087899d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-05-29T17:58:36Z",
+      "side": 1,
+      "message": "done 😊",
+      "parentUuid": "5ea48243_882d76db",
       "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
