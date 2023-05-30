@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c2771bd_273a13eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-30T03:13:47Z",
+      "side": 1,
+      "message": "\u003e yes its a \n\u003e - revert of the mentioned commit\n\u003e - cleanup\n\u003e - new tests\n\nSo, if you can write a list of things the commit does, it suggests that each entry in the list could be its own commit 😊\n\nHowever, I while expect the revert doesn\u0027t stand on its own and that some cleanup is necessary, I also suspect the addition of new tests can be its own separate change.\n\nEssentially you should try to minimise each commit to reduce the opportunity for maintainers to say no (and thus maximise your chance of making them say yes).\n\n\u003e i run the tests on the BMC, and with 1 binary its about 25 MB\n\u003e whereas having 1 binary for each test suite is about 15 MB for each suite.\n\nOkay. Are these stripped? You could massage the meson to install the tests and then use `meson install --strip` to sort them out. It might also be worth building with `meson setup -Dbuildtype\u003drelease` to see if there\u0027s much difference.\n\n\u003e when there are so many tests that it takes too long or output becomes too big\nthen one could think about making a commandline option to only run some suites.\n\nWell, they do appear to be gtests so we can already slice-and-dice them on the command line:\n\nhttps://google.github.io/googletest/advanced.html#running-test-programs-advanced-options\n\nI guess I\u0027m not terribly fussed about the one binary. But I was curious.",
+      "parentUuid": "0e3bc155_3728efa1",
+      "revId": "940d75eb489328861efd5cdfd5829e94ded895ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ea48243_882d76db",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
