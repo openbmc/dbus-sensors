@@ -34,6 +34,24 @@
       "parentUuid": "1d8e0d80_7d0d0617",
       "revId": "e92424c9515f2981a9d21f71b46bbf3a4c72738f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d4720e9_06ebe55d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-06-02T16:08:55Z",
+      "side": 1,
+      "message": "I followed up with Aspeed on this.  Got commitment from them that they will be sending out an updated patch set before the end of next week.  It seemed like it was in pretty decent shape when they last sent it out except for Kryzstof had some feedback but wouldn\u0027t respond to follow-up discussion points from Billy.  I suspect that the patch should be good enough for Joel to pick up when they send it out... if it isn\u0027t then I\u0027ll keep on Aspeed.",
+      "parentUuid": "d49d089f_ac7badd9",
+      "revId": "e92424c9515f2981a9d21f71b46bbf3a4c72738f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
