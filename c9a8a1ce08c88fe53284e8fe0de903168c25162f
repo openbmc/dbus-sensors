@@ -16,6 +16,24 @@
       "message": "```\nFAILED: subprojects/libpeci/peci_cmds.p/peci_cmds.c.o \ncc -Isubprojects/libpeci/peci_cmds.p -Isubprojects/libpeci -I../subprojects/libpeci -Isubprojects/libpeci/__CMake_build -I../subprojects/libpeci/__CMake_build -fdiagnostics-color\u003dnever -D_FILE_OFFSET_BITS\u003d64 -Wall -Winvalid-pch -Wextra -Wpedantic -Werror -Og -g -Wcast-align -Wunused -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat\u003d2 -Wno-unused-parameter -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wno-pedantic -MD -MQ subprojects/libpeci/peci_cmds.p/peci_cmds.c.o -MF subprojects/libpeci/peci_cmds.p/peci_cmds.c.o.d -o subprojects/libpeci/peci_cmds.p/peci_cmds.c.o -c ../subprojects/libpeci/peci_cmds.c\n../subprojects/libpeci/peci_cmds.c: In function ‘main’:\n../subprojects/libpeci/peci_cmds.c:1142:16: error: ‘ret’ may be used uninitialized [-Werror\u003dmaybe-uninitialized]\n 1142 |             if (0 !\u003d ret)\n      |                ^\n../subprojects/libpeci/peci_cmds.c:122:17: note: ‘ret’ was declared here\n  122 |     EPECIStatus ret;\n      |                 ^~~\ncc1: all warnings being treated as errors```",
       "revId": "c9a8a1ce08c88fe53284e8fe0de903168c25162f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fb0d49c_63291e92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-06-02T08:11:27Z",
+      "side": 1,
+      "message": "Will trigger retest when https://gerrit.openbmc.org/c/openbmc/libpeci/+/63782 is merged.",
+      "parentUuid": "27c88273_ae56a2a6",
+      "revId": "c9a8a1ce08c88fe53284e8fe0de903168c25162f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
