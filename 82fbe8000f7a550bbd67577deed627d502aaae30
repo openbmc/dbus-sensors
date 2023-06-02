@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb747458_71a416d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-06-02T17:10:54Z",
+      "side": 1,
+      "message": "wanted to give this another chance in the CI since\nhttps://gerrit.openbmc.org/c/openbmc/libpeci/+/63782\nthis was merged",
+      "revId": "82fbe8000f7a550bbd67577deed627d502aaae30",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
