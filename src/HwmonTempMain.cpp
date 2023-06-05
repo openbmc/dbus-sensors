@@ -423,7 +423,12 @@ void createSensors(
             }
 
             const SensorData& sensorData = findSensorCfg->second.sensorData;
-            const std::string& sensorType = findSensorCfg->second.interface;
+            std::string sensorType = findSensorCfg->second.interface;
+            auto pos = sensorType.find_last_of('.');
+            if (pos != std::string::npos)
+            {
+                sensorType = sensorType.substr(pos + 1);
+            }
             const SensorBaseConfigMap& baseConfigMap =
                 findSensorCfg->second.config;
             std::vector<std::string>& hwmonName = findSensorCfg->second.name;
