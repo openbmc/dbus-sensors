@@ -158,6 +158,24 @@
       "parentUuid": "8abc7166_3e83d565",
       "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d175b26_b9314069",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-06-06T04:53:00Z",
+      "side": 1,
+      "message": "From what I checked in EM\u0027s schema, \"Label\" seems not to be for this purpose (but for the Threshold in a multisensor type - is this correct?). Since the hwmonName is specific to Aspeed2600\u0027s chassis driver, I think I\u0027d better change the Class to \"Aspeed2600_Hwmon\". The code before constructing objects will go as:\nif ( \"Class\" \u003d\u003d \"Aspeed2600_Hwmon\" || \"Class\" \u003d\u003d \"another hwmon driver\" || ...)\n{\n  if ( \"Class\" \u003d\u003d \"Aspeed2600_Hwmon\" )\n  {\n       hwmonName \u003d \"intrusion0_alarm\";\n  }\n  else if\n  {...}\n  // create the hwmon class object with the hwmonName.\n}\nAny driver that wants to use the new sensor class can add its class name in the first if condition and provide its hwmonName to the constructor. Then, users can just choose the driver without knowing about the hwmonName.\n\nDo you think this is a good way to go?",
+      "parentUuid": "19c6dae4_0103abae",
+      "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
