@@ -82,7 +82,6 @@ if get_option('adc').enabled()
             thresholds_dep,
             utils_dep,
         ],
-        cpp_args: uring_args,
         install: true,
     )
 endif
@@ -130,7 +129,6 @@ if get_option('fan').enabled()
             thresholds_dep,
             utils_dep,
         ],
-        cpp_args: uring_args,
         install: true,
     )
 endif
@@ -146,7 +144,6 @@ if get_option('hwmon-temp').enabled()
             thresholds_dep,
             utils_dep,
         ],
-        cpp_args: uring_args,
         install: true,
     )
 endif
@@ -162,7 +159,6 @@ if get_option('intrusion').enabled()
             i2c,
             utils_dep,
         ],
-        cpp_args: uring_args,
         install: true,
     )
 endif
@@ -177,7 +173,6 @@ if get_option('ipmb').enabled()
             thresholds_dep,
             utils_dep,
         ],
-        cpp_args: uring_args,
         install: true,
     )
 endif
@@ -192,7 +187,6 @@ if get_option('mcu').enabled()
             thresholds_dep,
             utils_dep,
         ],
-        cpp_args: uring_args,
         install: true,
     )
 endif
@@ -207,7 +201,6 @@ if get_option('nvme').enabled()
         'nvmesensor',
         sources: nvme_srcs,
         dependencies: nvme_deps,
-        cpp_args: uring_args,
         install: true,
     )
 endif
@@ -225,7 +218,6 @@ if get_option('psu').enabled()
             thresholds_dep,
             utils_dep,
         ],
-        cpp_args: uring_args,
         install: true,
     )
 endif
@@ -240,7 +232,6 @@ if get_option('external').enabled()
             thresholds_dep,
             utils_dep,
         ],
-        cpp_args: uring_args,
         install: true,
     )
 endif
