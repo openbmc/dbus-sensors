@@ -140,6 +140,24 @@
       "parentUuid": "28a2b1f5_abd95b02",
       "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c6dae4_0103abae",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-06T00:25:55Z",
+      "side": 1,
+      "message": "My idea was to have a \"Label\" field in the config for this sensor type and different drivers are supported by different configs. \nHaving said that, I am ok with define a constexpr and improve later when we want to expand the support to other drivers",
+      "parentUuid": "8abc7166_3e83d565",
+      "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
