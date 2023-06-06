@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28ca666d_d537ad50",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-06-06T00:17:24Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me that this isn\u0027t a problem we have elsewhere. Is that something you\u0027ve looked into? I\u0027m just concerned about open-coding this fix-up here. It feels like yet another band-aid in a code-base made almost entirely from band-aids.",
+      "revId": "353d0285e1555fbf70d7a2b84eb302e9c93ad8a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
