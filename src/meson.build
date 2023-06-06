@@ -9,6 +9,7 @@ thresholds_a = static_library(
     'thresholds_a',
     'Thresholds.cpp',
     dependencies: default_deps,
+    cpp_args: uring_args,
 )
 
 thresholds_dep = declare_dependency(
@@ -24,6 +25,7 @@ utils_a = static_library(
         'Utils.cpp',
     ],
     dependencies: default_deps,
+    cpp_args: uring_args,
 )
 
 utils_dep = declare_dependency(
