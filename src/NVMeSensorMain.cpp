@@ -236,7 +236,7 @@ static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
         }
 
         auto interface = std::find(interfaces.begin(), interfaces.end(),
-                                   (*sensor)->objectType);
+                                   (*sensor)->configInterface);
         if (interface == interfaces.end())
         {
             continue;
