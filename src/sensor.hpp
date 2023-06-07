@@ -66,7 +66,7 @@ struct Sensor
            PowerState readState = PowerState::always) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath),
-        objectType(configInterfaceName(objectType)),
+        configInterface(configInterfaceName(objectType)),
         isSensorSettable(isSettable), isValueMutable(isMutable), maxValue(max),
         minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
@@ -80,7 +80,7 @@ struct Sensor
     virtual void checkThresholds(void) = 0;
     std::string name;
     std::string configurationPath;
-    std::string objectType;
+    std::string configInterface;
     bool isSensorSettable;
 
     /* A flag indicates if properties of xyz.openbmc_project.Sensor.Value
@@ -154,7 +154,7 @@ struct Sensor
         if ((inst.numCollectsGood == 0) && (inst.numCollectsMiss == 0))
         {
             std::cerr << "Sensor " << name << ": Configuration min=" << minValue
-                      << ", max=" << maxValue << ", type=" << objectType
+                      << ", max=" << maxValue << ", type=" << configInterface
                       << ", path=" << configurationPath << "\n";
         }
 
@@ -304,7 +304,7 @@ struct Sensor
                 [&, label, thresSize](const double& request, double& oldValue) {
                 oldValue = request; // todo, just let the config do this?
                 threshold.value = request;
-                thresholds::persistThreshold(configurationPath, objectType,
+                thresholds::persistThreshold(configurationPath, configInterface,
                                              threshold, dbusConnection,
                                              thresSize, label);
                 // Invalidate previously remembered value,
