@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dade8ee8_a602c3aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-09T04:13:16Z",
+      "side": 1,
+      "message": "The issue observed is that this timer works (delays for 10s before handler is called) with service that is build without io_uring enabled (EPOLL is enabled). It does not work (handler is called right after with no delay of 10S) in service that is build with io_uring enabled (EPOLL is disabled) like fansensor service.\nI believe that is caused by static library utils.a is build without uring_args (ie EPOLL backend) but service executable target is build with EPOLL disabled.",
+      "parentUuid": "205efddd_be35cd3d",
+      "revId": "bc2d9f1a565e58c8661afe60f44477c2f1851277",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d9b4061b_2f91f018",
