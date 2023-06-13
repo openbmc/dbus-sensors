@@ -39,6 +39,30 @@
       },
       "revId": "0b430bce9c244f3cc695be6a6f86ab35f564f21e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94edc994_e88c507a",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-13T23:53:35Z",
+      "side": 1,
+      "message": "Also this is almost identical to \nhttps://github.com/openbmc/dbus-sensors/blob/master/src/HwmonTempMain.cpp#L590\nHow about move it to utils and it can be shared by multiple services",
+      "parentUuid": "edec3b82_3fc29df8",
+      "range": {
+        "startLine": 1193,
+        "startChar": 0,
+        "endLine": 1198,
+        "endChar": 0
+      },
+      "revId": "0b430bce9c244f3cc695be6a6f86ab35f564f21e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
