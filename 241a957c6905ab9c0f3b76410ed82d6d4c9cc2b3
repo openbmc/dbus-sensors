@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d5b2ff9_7f72a709",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-06-13T22:45:04Z",
+      "side": 1,
+      "message": "Looks like there are some changes to the body of the function too (i.e. it\u0027s not just a pure code-move as implied here).  It\u0027d be nice to explain what those are and why they\u0027re needed (or if they\u0027re not strictly part of the generalization to accommodate use outside of hwmontempsensor, maybe separate that out into an independent patch).",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ad7243ad_faa9488a",
@@ -14,6 +37,40 @@
       "writtenOn": "2023-06-12T22:52:26Z",
       "side": 1,
       "message": "lgtm",
+      "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17b61cab_f684248c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-06-13T22:45:04Z",
+      "side": 1,
+      "message": "Looks like a good improvement to me overall...a few points to address though.",
+      "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e93085a_69ccd910",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-06-13T22:45:04Z",
+      "side": 1,
+      "message": "Might be good to include `name` and/or `path` here to aid in fixing malformed E-M configs I think...",
       "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

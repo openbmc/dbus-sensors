@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dad1c4c_f8fb5f82",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-06-13T22:45:04Z",
+      "side": 0,
+      "message": "I think it\u0027d be worth preserving this comment explaining the semantics of the return value (or updating it if it\u0027s changed, but AFAICT it hasn\u0027t).",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 74
+      },
+      "revId": "88a32137fb8173970e2bda25c41561b837f89f7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
