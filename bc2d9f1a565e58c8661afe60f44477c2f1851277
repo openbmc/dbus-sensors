@@ -72,6 +72,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9ab7795_31760586",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-06-13T23:58:11Z",
+      "side": 1,
+      "message": "No concern, consistency feels like the expected approach. But perhaps it\u0027s best to make that argument in the commit message before talking about the bug? \"We saw the bug below as a result of this inconsistency\" is fair enough after talking about the consistency problem. Saying \"solves a bug\" without talking about consistency immediately rings alarm bells because of the disconnect between the problem and the fix, and lack of explanation of the root cause.",
+      "parentUuid": "62ac73b5_8b1ff47b",
+      "revId": "bc2d9f1a565e58c8661afe60f44477c2f1851277",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d9b4061b_2f91f018",
