@@ -16,6 +16,23 @@
       "message": "Hi!\nI think I resolved all the comments. Is anything still missing?",
       "revId": "e713adebb068388247441f67a850471ceba17e3c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "204e8983_195e4ae4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2023-06-14T06:22:58Z",
+      "side": 1,
+      "message": "Patch series tested on IBM/SBP1. It exposes the temperature sensors of 4 CPUs and 64 DIMMs.",
+      "revId": "e713adebb068388247441f67a850471ceba17e3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
