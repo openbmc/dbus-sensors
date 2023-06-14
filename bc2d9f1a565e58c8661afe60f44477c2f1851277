@@ -92,6 +92,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5c99d896_5432e370",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-14T19:42:10Z",
+      "side": 1,
+      "message": "That is a good point. Updating patch to focus on making it consistent.",
+      "parentUuid": "d9ab7795_31760586",
+      "revId": "bc2d9f1a565e58c8661afe60f44477c2f1851277",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d9b4061b_2f91f018",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
