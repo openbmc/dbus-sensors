@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d0ecdb_51fa17eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-06-14T22:20:30Z",
+      "side": 1,
+      "message": "I agree with the adding args to the libraries. But not sure if intelcpusensor is still a special case - if not, can we clean up the old uring_args?",
+      "revId": "60cb252105661fc9751dbfac50fc636e67735f3b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf43a412_53352019",
+        "filename": "meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-06-14T22:20:30Z",
+      "side": 1,
+      "message": "Is there still an issue with intelcpusensor+io_uring as noted in the comment above?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 46
+      },
+      "revId": "60cb252105661fc9751dbfac50fc636e67735f3b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
