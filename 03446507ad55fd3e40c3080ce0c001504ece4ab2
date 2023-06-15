@@ -16,6 +16,24 @@
       "message": "Can we use 1 fstream file to read/write Hwmon file? I see that you are using 2 ifstream/ofstream file to read/write hwmon file",
       "revId": "03446507ad55fd3e40c3080ce0c001504ece4ab2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7035d4a3_f91b1d89",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-06-15T08:16:35Z",
+      "side": 1,
+      "message": "I don\u0027t know why it didn\u0027t fail when I forgott to close the ifstream before constructing the ofstream (it did fail when the file is a normal file, not a sysfs file). Changed to use fstream for cleaner code.",
+      "parentUuid": "274224cb_000d62e7",
+      "revId": "03446507ad55fd3e40c3080ce0c001504ece4ab2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
