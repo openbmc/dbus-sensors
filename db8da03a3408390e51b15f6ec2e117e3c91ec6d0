@@ -230,6 +230,24 @@
       "parentUuid": "91306de8_9c3c662c",
       "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c999d19_cbe94126",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-06-15T02:45:43Z",
+      "side": 1,
+      "message": "Thanks a lot for your review.",
+      "parentUuid": "83dc112e_243d52fb",
+      "revId": "db8da03a3408390e51b15f6ec2e117e3c91ec6d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
