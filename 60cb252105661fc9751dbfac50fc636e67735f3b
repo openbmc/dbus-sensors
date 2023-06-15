@@ -39,6 +39,30 @@
       },
       "revId": "60cb252105661fc9751dbfac50fc636e67735f3b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b62ede1f_395e5db5",
+        "filename": "meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-15T00:29:55Z",
+      "side": 1,
+      "message": "Since intelcpusensor has not been converted to random_access_file, I have tested it works fine with these flags. If we keep two \"flavor\" services, we might have to build two flavors static libraries to go with. So I opted to test this approach. No issues were found.\n\nYes, agree with clean up the old uring_args. Will update",
+      "parentUuid": "cf43a412_53352019",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 46
+      },
+      "revId": "60cb252105661fc9751dbfac50fc636e67735f3b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
