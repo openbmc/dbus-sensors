@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f86b4915_5d5cbf1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-06-16T17:59:59Z",
+      "side": 1,
+      "message": "I think based off the name and spirit of this change I\u0027ll make any changes in another patch.  The point of this change is just to move the function so other sensor classes can use it.",
+      "parentUuid": "3d5b2ff9_7f72a709",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ad7243ad_faa9488a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -71,6 +95,24 @@
       "writtenOn": "2023-06-13T22:45:04Z",
       "side": 1,
       "message": "Might be good to include `name` and/or `path` here to aid in fixing malformed E-M configs I think...",
+      "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb54968f_f13098c4",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-06-16T17:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e93085a_69ccd910",
       "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
