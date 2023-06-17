@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ac711f1_87905e17",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-06-17T08:12:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "578a98f2_0b26e8fb",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 14
+      },
+      "revId": "5e5c96d0c86c856da608ae42da249cce5de8dd5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a8cf7bc_35bc0f08",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "068abfb6_1541e853",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-06-17T08:12:52Z",
+      "side": 1,
+      "message": "\u003e for the const consider use constexpr\nDone. Set const parameters here, it can not use constexpr in initial structure.",
+      "parentUuid": "0a8cf7bc_35bc0f08",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 50
+      },
+      "revId": "5e5c96d0c86c856da608ae42da249cce5de8dd5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d839d8f_64f5ce22",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-06-15T01:02:25Z",
       "side": 1,
       "message": "maybe changed it\nif (dirType \u003d\u003d \"/sys/class/hwmon\")\n{\n...\nreturn true;\n}\nif (dirType \u003d\u003d \"/sys/bus/iio/devices\")\n{\n...\nreturn true;\n}\nreturn false;",
+      "range": {
+        "startLine": 129,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 16
+      },
+      "revId": "5e5c96d0c86c856da608ae42da249cce5de8dd5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ab190ea_de3c6a48",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-06-17T08:12:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d839d8f_64f5ce22",
       "range": {
         "startLine": 129,
         "startChar": 1,
