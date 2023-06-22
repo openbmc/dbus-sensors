@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04d8f38e_dd35fae7",
+        "filename": "src/PSUSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-22T00:49:55Z",
+      "side": 1,
+      "message": "maybe HWMON is better than PSU - IMO",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "48f17a940f9cf9bfcbe3ceed0d37df3184abeb99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aa207b6_599b9297",
+        "filename": "src/PSUSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-22T00:49:55Z",
+      "side": 1,
+      "message": "Can be moved to PSUSensorMain.cpp",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "48f17a940f9cf9bfcbe3ceed0d37df3184abeb99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9e0118c_1c93517f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-22T00:49:55Z",
+      "side": 1,
+      "message": "instead of keep updating this devParam as it loop through the found paths, how about use:\n\nconst map \u003cdevType, string, regex\u003e MatchParams\n{\nHWMON, R\"(\\w\\d+_input$)\", \"([A-Za-z]+)[0-9]*_\")\nIIO, ....\n}",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 0
+      },
+      "revId": "48f17a940f9cf9bfcbe3ceed0d37df3184abeb99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
