@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2fdd1de_0bfc3b1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-27T23:03:35Z",
+      "side": 1,
+      "message": "What is the motivation for this cleanup? This function is only called in one place.",
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "204f8160_57ca6562",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-27T23:03:35Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f169ec_80f85a3f",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-27T23:03:35Z",
+      "side": 1,
+      "message": "if (findSensor \u003d\u003d sensors.end() || findSensor-\u003esecond\u003d\u003dnullptr) return false;",
+      "range": {
+        "startLine": 82,
+        "startChar": 19,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9855c05_403ad6b8",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-27T23:03:35Z",
+      "side": 1,
+      "message": "this does not need to be in the parameter list",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 18
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44048df3_49dc1f15",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-27T23:03:35Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 87,
+        "startChar": 16,
+        "endLine": 87,
+        "endChar": 34
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b1faf72_e89182b3",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-27T23:03:35Z",
+      "side": 1,
+      "message": "return true;",
+      "range": {
+        "startLine": 91,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 22
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e564706f_3b9f1bd0",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-27T23:03:35Z",
+      "side": 1,
+      "message": "Remove the first scan from parameter list\nif (!firstScan) {\nfindAndEraseSensor\n}",
+      "range": {
+        "startLine": 207,
+        "startChar": 12,
+        "endLine": 208,
+        "endChar": 47
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
