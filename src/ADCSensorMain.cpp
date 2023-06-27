@@ -69,6 +69,33 @@ bool isAdc(const fs::path& parentPath)
     return name == "iio_hwmon";
 }
 
+bool findAndEraseSensor(
+    boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>>&
+        sensors,
+    const std::shared_ptr<boost::container::flat_set<std::string>>&
+        sensorsChanged,
+    std::string& sensorName, bool firstScan)
+{
+    bool found = false;
+
+    auto findSensor = sensors.find(sensorName);
+    if (!firstScan && findSensor != sensors.end())
+    {
+        for (auto it = sensorsChanged->begin(); it != sensorsChanged->end();
+             it++)
+        {
+            if (findSensor->second && it->ends_with(findSensor->second->name))
+            {
+                sensorsChanged->erase(it);
+                findSensor->second = nullptr;
+                found = true;
+                break;
+            }
+        }
+    }
+    return found;
+}
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>>&
@@ -176,26 +203,10 @@ void createSensors(
                 std::get<std::string>(findSensorName->second);
 
             // on rescans, only update sensors we were signaled by
-            auto findSensor = sensors.find(sensorName);
-            if (!firstScan && findSensor != sensors.end())
+            if (!findAndEraseSensor(sensors, sensorsChanged, sensorName,
+                                    firstScan))
             {
-                bool found = false;
-                for (auto it = sensorsChanged->begin();
-                     it != sensorsChanged->end(); it++)
-                {
-                    if (findSensor->second &&
-                        it->ends_with(findSensor->second->name))
-                    {
-                        sensorsChanged->erase(it);
-                        findSensor->second = nullptr;
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
-                {
-                    continue;
-                }
+                continue;
             }
 
             auto findCPU = baseConfiguration->second.find("CPURequired");
