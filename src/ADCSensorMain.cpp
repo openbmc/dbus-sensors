@@ -69,6 +69,32 @@ bool isAdc(const fs::path& parentPath)
     return name == "iio_hwmon";
 }
 
+static bool findAndEraseSensor(
+    boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>>&
+        sensors,
+    const std::shared_ptr<boost::container::flat_set<std::string>>&
+        sensorsChanged,
+    std::string& sensorName)
+{
+    auto findSensor = sensors.find(sensorName);
+    if (findSensor == sensors.end() || findSensor->second == nullptr)
+    {
+        return false;
+    }
+
+    for (auto it = sensorsChanged->begin(); it != sensorsChanged->end(); it++)
+    {
+        if (it->ends_with(findSensor->second->name))
+        {
+            sensorsChanged->erase(it);
+            findSensor->second = nullptr;
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>>&
@@ -82,7 +108,6 @@ void createSensors(
         dbusConnection,
         [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
          updateType](const ManagedObjectType& sensorConfigurations) {
-        bool firstScan = sensorsChanged == nullptr;
         std::vector<fs::path> paths;
         if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)", paths))
         {
@@ -176,26 +201,9 @@ void createSensors(
                 std::get<std::string>(findSensorName->second);
 
             // on rescans, only update sensors we were signaled by
-            auto findSensor = sensors.find(sensorName);
-            if (!firstScan && findSensor != sensors.end())
+            if (!findAndEraseSensor(sensors, sensorsChanged, sensorName))
             {
-                bool found = false;
-                for (auto it = sensorsChanged->begin();
-                     it != sensorsChanged->end(); it++)
-                {
-                    if (findSensor->second &&
-                        it->ends_with(findSensor->second->name))
-                    {
-                        sensorsChanged->erase(it);
-                        findSensor->second = nullptr;
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
-                {
-                    continue;
-                }
+                continue;
             }
 
             auto findCPU = baseConfiguration->second.find("CPURequired");
