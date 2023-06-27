@@ -63,6 +63,30 @@
       },
       "revId": "0b430bce9c244f3cc695be6a6f86ab35f564f21e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d69928a_d0659174",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-06-27T08:20:48Z",
+      "side": 1,
+      "message": "Sorry for the late, I was working on other issue a few days ago.\n\n\u003e There could be other reasons for the this to happen. Have you noticed during your test?\n\nI found that smbios-mdr would trigger a lot of this match condition when I set another value and then set the original value.\nPerhaps it is because of we are using old version of smbios-mdr(SHA 949f634).\n\n\u003e Also this is almost identical to\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/HwmonTempMain.cpp#L590\n\nActually, the code in this PR is copied from there and remove the function parameter \"sensors\" because this is a global variable in PSUSensor.\n\n\u003e How about move it to utils and it can be shared by multiple services\n\nThe function interfaceRemoved for HwmonTempSensor and IpmbSensor is the same, but different from NVMESensor due to the different type of sensor map.\n\nAnd I found that this change cannot handle the sensor of NameX, for example, Name1.\nI will try to fix this situation.\n\nI think this function might be better to be sensor specific.",
+      "parentUuid": "94edc994_e88c507a",
+      "range": {
+        "startLine": 1193,
+        "startChar": 0,
+        "endLine": 1198,
+        "endChar": 0
+      },
+      "revId": "0b430bce9c244f3cc695be6a6f86ab35f564f21e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
