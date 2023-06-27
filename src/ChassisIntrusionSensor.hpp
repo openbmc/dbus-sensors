@@ -27,7 +27,7 @@ class ChassisIntrusionSensor
   private:
     // intrusion status. 0: not intruded, 1: intruded
     std::string mValue = "unknown";
-    std::string mOldValue = "unknown";
+    std::string mOldValue = "Normal";
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
     sdbusplus::asio::object_server& mObjServer;
     bool mOverridenState = false;
