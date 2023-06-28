@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc6eca16_3fa8eec0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-28T20:00:48Z",
+      "side": 1,
+      "message": "Please provide details - how did you test it?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "60704885f1b0e2eb4eabc02d3c7ec97cce109163",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0d8aeef_2f00f941",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-06-28T20:00:48Z",
+      "side": 1,
+      "message": "The behavior is changed here:\nFor firstScan \u003d\u003d false, findSensor \u003d\u003d sensors.end(), i.e. sensorName is not in existing sensors, \nold code: fails at line 180 and goto line 201\nnew code: returns false at line82, pass check in 204 and calls continue at line 206 to go back to line 120",
+      "revId": "60704885f1b0e2eb4eabc02d3c7ec97cce109163",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
