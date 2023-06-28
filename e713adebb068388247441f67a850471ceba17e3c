@@ -73,6 +73,30 @@
       },
       "revId": "e713adebb068388247441f67a850471ceba17e3c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be19e606_8ad7bd1d",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-06-28T12:11:00Z",
+      "side": 1,
+      "message": "A magic character rather. And it\u0027s parsed by this function in Linux: https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L348 . I\u0027ll amend the patch with whatever the maintainers prefer.",
+      "parentUuid": "4280f79a_ed18c17c",
+      "range": {
+        "startLine": 520,
+        "startChar": 30,
+        "endLine": 520,
+        "endChar": 33
+      },
+      "revId": "e713adebb068388247441f67a850471ceba17e3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
