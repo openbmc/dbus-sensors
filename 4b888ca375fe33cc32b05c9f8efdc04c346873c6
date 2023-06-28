@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "746605a0_95cca681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T10:41:13Z",
+      "side": 1,
+      "message": "it*",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "4b888ca375fe33cc32b05c9f8efdc04c346873c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f269fcdb_c3fab836",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -49,6 +72,23 @@
       "writtenOn": "2023-05-16T15:40:55Z",
       "side": 1,
       "message": "@Andrew Jeffery, @Ed Tanous; just checking in on this patch to see if it would be a useful contribution to the dbus-sensors project.",
+      "revId": "4b888ca375fe33cc32b05c9f8efdc04c346873c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85bf60e5_613dca7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T10:41:13Z",
+      "side": 1,
+      "message": "Minor spelling mistake in commit msg, otherwise looks good to me.",
       "revId": "4b888ca375fe33cc32b05c9f8efdc04c346873c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
