@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32908df9_ff28206b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-06-28T10:53:18Z",
+      "side": 1,
+      "message": "To make createSensor function more readable.",
+      "parentUuid": "d2fdd1de_0bfc3b1e",
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "204f8160_57ca6562",
