@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6bb2ad8_effc12e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T11:13:43Z",
+      "side": 1,
+      "message": "Looks good to me expect some minor comments.",
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb6c4c07_74f066fe",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T11:13:43Z",
+      "side": 1,
+      "message": "Suggestion: To print the exception too.",
+      "range": {
+        "startLine": 346,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 41
+      },
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1be6653_7c675c95",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T11:13:43Z",
+      "side": 1,
+      "message": "This can also throw. rt?",
+      "range": {
+        "startLine": 380,
+        "startChar": 38,
+        "endLine": 380,
+        "endChar": 64
+      },
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b9518ca_3e21ee69",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T11:13:43Z",
+      "side": 1,
+      "message": "Suggestion: To add exception details also to log.",
+      "range": {
+        "startLine": 390,
+        "startChar": 4,
+        "endLine": 390,
+        "endChar": 41
+      },
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8263a6be_d0ef39f9",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T11:13:43Z",
+      "side": 1,
+      "message": "findInventoryPath can return null string. \nIs it fine to initialize HwmonTempSensor object in this case?\nOr should it be treated as error?",
+      "range": {
+        "startLine": 635,
+        "startChar": 43,
+        "endLine": 635,
+        "endChar": 56
+      },
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
