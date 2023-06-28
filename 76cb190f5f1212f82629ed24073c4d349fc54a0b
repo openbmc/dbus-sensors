@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74cb9ba5_d3ee3154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T12:11:42Z",
+      "side": 1,
+      "message": "enabled*",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "76cb190f5f1212f82629ed24073c4d349fc54a0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b0fbf6e_4f8fae86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T12:11:42Z",
+      "side": 1,
+      "message": "does not*",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "76cb190f5f1212f82629ed24073c4d349fc54a0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "886eed8c_f1acd015",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T12:11:42Z",
+      "side": 1,
+      "message": "enabled*",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "76cb190f5f1212f82629ed24073c4d349fc54a0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "221c30bd_9257666f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T12:11:42Z",
+      "side": 1,
+      "message": "Tested?",
+      "revId": "76cb190f5f1212f82629ed24073c4d349fc54a0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "637ea755_ac07cae0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T12:11:42Z",
+      "side": 1,
+      "message": "Fix merge conflict.",
+      "revId": "76cb190f5f1212f82629ed24073c4d349fc54a0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4f64ade_584667e3",
+        "filename": "src/NVMeSubsys.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T12:11:42Z",
+      "side": 1,
+      "message": "Follow coding standard for variable naming. \nSuggestion: use numOfIdentifiers as variable name.",
+      "range": {
+        "startLine": 194,
+        "startChar": 20,
+        "endLine": 194,
+        "endChar": 39
+      },
+      "revId": "76cb190f5f1212f82629ed24073c4d349fc54a0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
