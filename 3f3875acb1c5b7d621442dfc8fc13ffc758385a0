@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5617ce0b_fa8367a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001049
+      },
+      "writtenOn": "2023-06-28T11:55:58Z",
+      "side": 1,
+      "message": "Fix build failure.",
+      "revId": "3f3875acb1c5b7d621442dfc8fc13ffc758385a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aed672ef_d4bd4a80",
