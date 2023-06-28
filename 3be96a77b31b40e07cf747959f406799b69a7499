@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0affdfc5_d2542490",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-06-28T05:13:24Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "204f8160_57ca6562",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d6f169ec_80f85a3f",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 1
@@ -89,6 +113,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc24987f_8776c663",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-06-28T05:13:24Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d6f169ec_80f85a3f",
+      "range": {
+        "startLine": 82,
+        "startChar": 19,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "754861e6_b7404d31",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-06-28T05:13:24Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f9855c05_403ad6b8",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 18
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44048df3_49dc1f15",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 1
@@ -100,6 +172,30 @@
       "writtenOn": "2023-06-27T23:03:35Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 87,
+        "startChar": 16,
+        "endLine": 87,
+        "endChar": 34
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "265234eb_f9abb019",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-06-28T05:13:24Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "44048df3_49dc1f15",
       "range": {
         "startLine": 87,
         "startChar": 16,
@@ -135,6 +231,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8aa58458_8b6a3c76",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-06-28T05:13:24Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0b1faf72_e89182b3",
+      "range": {
+        "startLine": 91,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 22
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e564706f_3b9f1bd0",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 1
@@ -146,6 +266,30 @@
       "writtenOn": "2023-06-27T23:03:35Z",
       "side": 1,
       "message": "Remove the first scan from parameter list\nif (!firstScan) {\nfindAndEraseSensor\n}",
+      "range": {
+        "startLine": 207,
+        "startChar": 12,
+        "endLine": 208,
+        "endChar": 47
+      },
+      "revId": "3be96a77b31b40e07cf747959f406799b69a7499",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ec1f80_0fc51113",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-06-28T05:13:24Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e564706f_3b9f1bd0",
       "range": {
         "startLine": 207,
         "startChar": 12,
