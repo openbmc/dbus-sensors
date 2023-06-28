@@ -57,6 +57,30 @@
       },
       "revId": "d3d6dbbfe0fc10bc9f7419343d4551e6ba279bc3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ccb0e1_d64a86e6",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-06-28T18:04:47Z",
+      "side": 1,
+      "message": "Good catch, it\u0027s not used anymore.  I\u0027ve deleted it now.",
+      "parentUuid": "3c463958_0964b6f9",
+      "range": {
+        "startLine": 288,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 55
+      },
+      "revId": "d3d6dbbfe0fc10bc9f7419343d4551e6ba279bc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
