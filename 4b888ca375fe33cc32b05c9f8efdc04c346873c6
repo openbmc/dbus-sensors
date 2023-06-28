@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "262e0a4a_39aec5f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-06-28T10:31:30Z",
+      "side": 1,
+      "message": "Hello Andrew, apologies for the delayed response. As rightly pointed out, it doesn\u0027t hide the existence of a state, but it prevents the state from being edited in code. This change was suggested in a previous commit (https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/60962/comment/1fce70fa_1550d67f/) Making the variable(s) `const` would also work if we are initializing the variable at the time of declaration, but we have to go get the value of the variable(s) from the configurations exposed by entity-manager.",
+      "parentUuid": "f269fcdb_c3fab836",
+      "revId": "4b888ca375fe33cc32b05c9f8efdc04c346873c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "64a4449a_c22b785e",
