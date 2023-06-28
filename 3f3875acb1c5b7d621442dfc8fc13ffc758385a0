@@ -58,6 +58,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c16636d2_7889602c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-06-28T18:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aed672ef_d4bd4a80",
+      "range": {
+        "startLine": 921,
+        "startChar": 36,
+        "endLine": 921,
+        "endChar": 51
+      },
+      "revId": "3f3875acb1c5b7d621442dfc8fc13ffc758385a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ade18b20_b28928d5",
@@ -71,6 +95,30 @@
       "writtenOn": "2023-06-28T11:55:31Z",
       "side": 1,
       "message": "magic number?",
+      "range": {
+        "startLine": 924,
+        "startChar": 47,
+        "endLine": 924,
+        "endChar": 48
+      },
+      "revId": "3f3875acb1c5b7d621442dfc8fc13ffc758385a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b729371c_3b3a6a5c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-06-28T18:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ade18b20_b28928d5",
       "range": {
         "startLine": 924,
         "startChar": 47,
@@ -104,6 +152,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37452c80_4889724f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-06-28T18:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80ab6a75_ef5b215e",
+      "range": {
+        "startLine": 932,
+        "startChar": 4,
+        "endLine": 932,
+        "endChar": 35
+      },
+      "revId": "3f3875acb1c5b7d621442dfc8fc13ffc758385a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "519d9549_ccb87848",
@@ -117,6 +189,30 @@
       "writtenOn": "2023-06-28T11:55:31Z",
       "side": 1,
       "message": "Suggestion: Can we add the exception also into log?",
+      "range": {
+        "startLine": 957,
+        "startChar": 8,
+        "endLine": 957,
+        "endChar": 39
+      },
+      "revId": "3f3875acb1c5b7d621442dfc8fc13ffc758385a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a59d975d_9b718234",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-06-28T18:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "519d9549_ccb87848",
       "range": {
         "startLine": 957,
         "startChar": 8,
