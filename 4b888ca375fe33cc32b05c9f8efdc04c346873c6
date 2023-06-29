@@ -83,6 +83,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf21ff9_4c5e60d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-06-29T23:53:56Z",
+      "side": 1,
+      "message": "\u003e it prevents the state from being edited in code.\n\nBut it doesn\u0027t? Instead of writing the variable, any code that wanted to do that can call the set*() methods? I think this just adds more boilerplate code for no tangible benefit, provides no further abstraction over the state, nor any guarantees that might be built on top of immutability.\n\nDespite that, the patch has received a +1. I\u0027ll merge it because people seem to have some reason for it being a good idea and at this point I feel it has taken more energy discussing it than its impact.\n\nFor future patches, please establish their merit on the grounds above: they must provide a proper abstraction. I will be applying a CR-2 to future patches that simply add getters and setters.",
+      "parentUuid": "262e0a4a_39aec5f1",
+      "revId": "4b888ca375fe33cc32b05c9f8efdc04c346873c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "64a4449a_c22b785e",
