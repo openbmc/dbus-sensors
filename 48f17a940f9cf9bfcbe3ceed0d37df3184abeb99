@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "adce5860_ac7e2b7a",
+        "filename": "src/PSUSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-06-29T08:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04d8f38e_dd35fae7",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "48f17a940f9cf9bfcbe3ceed0d37df3184abeb99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4aa207b6_599b9297",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc56f7ad_d5b67b78",
+        "filename": "src/PSUSensor.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-06-29T08:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4aa207b6_599b9297",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "48f17a940f9cf9bfcbe3ceed0d37df3184abeb99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9e0118c_1c93517f",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-06-22T00:49:55Z",
       "side": 1,
       "message": "instead of keep updating this devParam as it loop through the found paths, how about use:\n\nconst map \u003cdevType, string, regex\u003e MatchParams\n{\nHWMON, R\"(\\w\\d+_input$)\", \"([A-Za-z]+)[0-9]*_\")\nIIO, ....\n}",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 0
+      },
+      "revId": "48f17a940f9cf9bfcbe3ceed0d37df3184abeb99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af639816_19a8633a",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2023-06-29T08:08:13Z",
+      "side": 1,
+      "message": "\u003e instead of keep updating this devParam as it loop through the found paths, how about use:\n\u003e \n\u003e const map \u003cdevType, string, regex\u003e MatchParams\n\u003e {\n\u003e HWMON, R\"(\\w\\d+_input$)\", \"([A-Za-z]+)[0-9]*_\")\n\u003e IIO, ....\n\u003e }\n\nSet all `regex` parameters to map and reset `nameRegex` to string type.\n\nDo you want to adjust it like this? Or am I misunderstanding something?",
+      "parentUuid": "f9e0118c_1c93517f",
       "range": {
         "startLine": 120,
         "startChar": 0,
