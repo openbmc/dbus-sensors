@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f289ca_259b30e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-06-29T06:49:58Z",
+      "side": 1,
+      "message": "Thanks for the catch. Fixed in new commit.",
+      "parentUuid": "746605a0_95cca681",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "4b888ca375fe33cc32b05c9f8efdc04c346873c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f269fcdb_c3fab836",
