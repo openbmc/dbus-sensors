@@ -87,6 +87,30 @@
       },
       "revId": "0b430bce9c244f3cc695be6a6f86ab35f564f21e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6c7d5b9_9b3b6b8e",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-06-30T06:54:12Z",
+      "side": 1,
+      "message": "\u003e Sorry for the late, I was working on other issue a few days ago.\n\u003e \n\u003e \u003e There could be other reasons for the this to happen. Have you noticed during your test?\n\u003e \n\u003e I found that smbios-mdr would trigger a lot of this match condition when I set another value and then set the original value.\n\u003e Perhaps it is because of we are using old version of smbios-mdr(SHA 949f634).\n\u003e \n\u003e \u003e Also this is almost identical to\n\u003e https://github.com/openbmc/dbus-sensors/blob/master/src/HwmonTempMain.cpp#L590\n\u003e \n\u003e Actually, the code in this PR is copied from there and remove the function parameter \"sensors\" because this is a global variable in PSUSensor.\n\u003e \n\u003e \u003e How about move it to utils and it can be shared by multiple services\n\u003e \n\u003e The function interfaceRemoved for HwmonTempSensor and IpmbSensor is the same, but different from NVMESensor due to the different type of sensor map.\n\u003e \n\u003e And I found that this change cannot handle the sensor of NameX, for example, Name1.\n\u003e I will try to fix this situation.\n\u003e \n\u003e I think this function might be better to be sensor specific.\n\nI use the wrong config in that test.\nThis patch works as expected.\n\nCreate PR https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/64563/2.",
+      "parentUuid": "3d69928a_d0659174",
+      "range": {
+        "startLine": 1193,
+        "startChar": 0,
+        "endLine": 1198,
+        "endChar": 0
+      },
+      "revId": "0b430bce9c244f3cc695be6a6f86ab35f564f21e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
