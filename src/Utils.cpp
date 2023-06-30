@@ -740,7 +740,6 @@ static void handleSpecialModeChange(const std::string& manufacturingModeStatus)
 
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
 {
-    namespace rules = sdbusplus::bus::match::rules;
     static constexpr const char* specialModeInterface =
         "xyz.openbmc_project.Security.SpecialMode";
 
@@ -811,6 +810,15 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         "/xyz/openbmc_project/security/special_mode",
         "org.freedesktop.DBus.Properties", "Get", specialModeInterface,
         "SpecialMode");
+}
+
+void setupIfaceRemoveMatch(sdbusplus::asio::connection& conn,
+    const std::function<void(sdbusplus::message_t&)>& handler)
+{
+    const std::string ifaceRemovedRules =
+        rules::interfacesRemoved() + rules::argNpath(0, std::string(inventoryPath) + "/");
+    static auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
+        conn, ifaceRemovedRules, handler);
 }
 
 bool getManufacturingMode()
