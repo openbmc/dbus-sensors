@@ -16,6 +16,24 @@
       "message": "Please address the clang-tidy issues if you wish to pursue this change:\n\n```\n/data0/jenkins/workspace/ci-repository/openbmc/dbus-sensors/src/NVMeSensor.hpp:24:17: error: parameter \u0027busNumber\u0027 is const-qualified in the function declaration; const-qualification of parameters only has an effect in function definitions [readability-avoid-const-params-in-decls,-warnings-as-errors]\n    void setBus(const int busNumber);\n                ^~~~~~\n/data0/jenkins/workspace/ci-repository/openbmc/dbus-sensors/src/NVMeSensor.hpp:25:21: error: parameter \u0027slaveAddr\u0027 is const-qualified in the function declaration; const-qualification of parameters only has an effect in function definitions [readability-avoid-const-params-in-decls,-warnings-as-errors]\n    void setAddress(const uint8_t slaveAddr);\n                    ^~~~~~\nSuppressed 78578 warnings (78508 in non-user code, 70 NOLINT).\nUse -header-filter\u003d.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.\n2 warnings treated as errors\n79104 warnings generated.\nSuppressed 79174 warnings (79104 in non-user code, 70 NOLINT).\nUse -header-filter\u003d.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.\n29911 warnings generated.\nSuppressed 29911 warnings (29911 in non-user code).\nUse -header-filter\u003d.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.\n78513 warnings generated.\n../src/NVMeSensor.cpp:24:1: error: constructor does not initialize these fields: bus, address [cppcoreguidelines-pro-type-member-init,-warnings-as-errors]\nNVMeSensor::NVMeSensor(sdbusplus::asio::object_server\u0026 objectServer,\n^\n../src/NVMeSensor.cpp:71:17: error: method \u0027getBus\u0027 can be made const [readability-make-member-function-const,-warnings-as-errors]\nint NVMeSensor::getBus()\n                ^\n                         const\n../src/NVMeSensor.cpp:76:21: error: method \u0027getAddress\u0027 can be made const [readability-make-member-function-const,-warnings-as-errors]\nuint8_t NVMeSensor::getAddress()\n                    ^\n                                 const\n```",
       "revId": "c1d356fcfe8a367fc4fd8d69f4f627bfbcbf090b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db46a431_24f018cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-06-30T14:31:06Z",
+      "side": 1,
+      "message": "I have refactored the commit to remove the get*() and set*() methods and just make the variables const.",
+      "parentUuid": "1a4af1d2_63ec9705",
+      "revId": "c1d356fcfe8a367fc4fd8d69f4f627bfbcbf090b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

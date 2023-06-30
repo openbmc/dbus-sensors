@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bec53808_8fe79f11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001717
+      },
+      "writtenOn": "2023-06-30T14:31:06Z",
+      "side": 1,
+      "message": "Hello Andrew, thanks for the suggestions, I have refactored the commit to just make the variables const.",
+      "revId": "c54f6c5b923f18d118f31fbfb8bb016812a7a29f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
