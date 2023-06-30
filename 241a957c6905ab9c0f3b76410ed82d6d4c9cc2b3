@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4e57886_e4ae7a3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-06-30T21:12:35Z",
+      "side": 1,
+      "message": "I think templatizing and passing in `sensorTypes` as an argument are fine to happen as part of the code move, though there\u0027s also still some other differences in how `sensorName` gets set -- it\u0027s not obvious to me if (or why) that makes sense as part of the code-move though, so I think it should either be mentioned in the commit message or done as part of the other functionality-change commit(s).",
+      "parentUuid": "82118676_50221331",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ad7243ad_faa9488a",
