@@ -45,6 +45,8 @@ using GetSubTreeType = std::vector<
               std::vector<std::pair<std::string, std::vector<std::string>>>>>;
 using Association = std::tuple<std::string, std::string, std::string>;
 
+namespace rules = sdbusplus::bus::match::rules;
+
 inline std::string escapeName(const std::string& sensorName)
 {
     return boost::replace_all_copy(sensorName, " ", "_");
@@ -382,6 +384,19 @@ std::optional<std::tuple<std::string, std::string, std::string>>
 std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);
+
+// Watch for entity-manager to remove configuration interfaces
+// so the corresponding sensors can be removed.
+inline sdbusplus::bus::match_t setupInventoryRemoveMatch(
+    sdbusplus::asio::connection& conn,
+    const sdbusplus::bus::match_t::callback_t& handler)
+{
+    const std::string ifaceRemovedRules =
+        rules::interfacesRemoved() +
+        rules::argNpath(0, std::string(inventoryPath) + "/");
+    sdbusplus::bus::match_t removeMatch(conn, ifaceRemovedRules, handler);
+    return removeMatch;
+}
 bool getManufacturingMode();
 std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     setupPropertiesChangedMatches(

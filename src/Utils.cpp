@@ -740,7 +740,6 @@ static void handleSpecialModeChange(const std::string& manufacturingModeStatus)
 
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
 {
-    namespace rules = sdbusplus::bus::match::rules;
     static constexpr const char* specialModeInterface =
         "xyz.openbmc_project.Security.SpecialMode";
 
