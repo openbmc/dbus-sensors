@@ -283,16 +283,9 @@ int main()
             *systemBus, std::to_array<const char*>({NVMeSensor::sensorType}),
             eventHandler);
 
-    // Watch for entity-manager to remove configuration interfaces
-    // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',member='InterfacesRemoved',arg0path='" +
-            std::string(inventoryPath) + "/'",
-        [](sdbusplus::message_t& msg) {
+    auto matchRemove = setupInventoryRemoveMatch(*systemBus, [](sdbusplus::message_t& msg) {
         interfaceRemoved(msg, nvmeDeviceMap);
-        });
-
+    });
     setupManufacturingModeMatch(*systemBus);
     io.run();
 }
