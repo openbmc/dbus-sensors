@@ -119,6 +119,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "aafeaf0b_a93419d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-07-03T00:58:52Z",
+      "side": 1,
+      "message": "Thanks, I think that makes the change a tangible improvement. Let me put it through CI.",
+      "parentUuid": "20a55236_55f2fbf9",
+      "revId": "4b888ca375fe33cc32b05c9f8efdc04c346873c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "64a4449a_c22b785e",
