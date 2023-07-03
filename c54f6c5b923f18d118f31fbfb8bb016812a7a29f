@@ -16,6 +16,23 @@
       "message": "Hello Andrew, thanks for the suggestions, I have refactored the commit to just make the variables const.",
       "revId": "c54f6c5b923f18d118f31fbfb8bb016812a7a29f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f20ad0_4a842eb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-07-03T01:38:02Z",
+      "side": 1,
+      "message": "Thanks Nnamdi.",
+      "revId": "c54f6c5b923f18d118f31fbfb8bb016812a7a29f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
