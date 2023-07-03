@@ -34,6 +34,24 @@
       "parentUuid": "ca9107f8_7c7d7b43",
       "revId": "6dfb6f8da2a2d9b85dd79a233745887844f14101",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6daa2c06_f3aa21ab",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-07-03T06:13:31Z",
+      "side": 1,
+      "message": "Ugh, it\u0027s probably cleaning up in the destructor of the object.\n\nThis is all pretty awful, but I guess I don\u0027t have an immediate suggestion for doing something better.",
+      "parentUuid": "5110daae_7b504571",
+      "revId": "6dfb6f8da2a2d9b85dd79a233745887844f14101",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
