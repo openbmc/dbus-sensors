@@ -592,9 +592,8 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
         {
             std::cout << config.name << ", state: " << config.state << "\n";
         }
+        peci_Unlock(peciFd);
     }
-
-    peci_Unlock(peciFd);
 
     if (rescanDelaySeconds != 0U)
     {
