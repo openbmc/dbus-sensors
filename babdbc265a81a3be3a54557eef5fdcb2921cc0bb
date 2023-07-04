@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "aed6c05b_f6feabfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-04T08:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2cc1aab_473247e8",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "babdbc265a81a3be3a54557eef5fdcb2921cc0bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6d156126_e5ef6811",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
@@ -71,6 +95,30 @@
       "writtenOn": "2023-06-28T11:19:48Z",
       "side": 1,
       "message": "Suggestion: Add error also to log.",
+      "range": {
+        "startLine": 432,
+        "startChar": 8,
+        "endLine": 432,
+        "endChar": 15
+      },
+      "revId": "babdbc265a81a3be3a54557eef5fdcb2921cc0bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f850951_8cf626d6",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-04T08:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f4368f9_f65752df",
       "range": {
         "startLine": 432,
         "startChar": 8,
