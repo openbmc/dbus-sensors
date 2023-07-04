@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "61f4acd7_58985558",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-04T07:25:17Z",
+      "side": 1,
+      "message": "Added. I also removed this line 9 since it\u0027s a little bit confusing people.",
+      "parentUuid": "3bdf5ab5_6fcce19e",
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c6bb2ad8_effc12e1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -58,6 +76,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f950eb98_d2384ccb",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-04T07:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb6c4c07_74f066fe",
+      "range": {
+        "startLine": 346,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 41
+      },
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1be6653_7c675c95",
@@ -71,6 +113,30 @@
       "writtenOn": "2023-06-28T11:13:43Z",
       "side": 1,
       "message": "This can also throw. rt?",
+      "range": {
+        "startLine": 380,
+        "startChar": 38,
+        "endLine": 380,
+        "endChar": 64
+      },
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22f4979_a0e84f8e",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-04T07:25:17Z",
+      "side": 1,
+      "message": "Right, put it in the try..catch",
+      "parentUuid": "d1be6653_7c675c95",
       "range": {
         "startLine": 380,
         "startChar": 38,
@@ -104,6 +170,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3d541b8_2877f458",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-04T07:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b9518ca_3e21ee69",
+      "range": {
+        "startLine": 390,
+        "startChar": 4,
+        "endLine": 390,
+        "endChar": 41
+      },
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8263a6be_d0ef39f9",
@@ -117,6 +207,30 @@
       "writtenOn": "2023-06-28T11:13:43Z",
       "side": 1,
       "message": "findInventoryPath can return null string. \nIs it fine to initialize HwmonTempSensor object in this case?\nOr should it be treated as error?",
+      "range": {
+        "startLine": 635,
+        "startChar": 43,
+        "endLine": 635,
+        "endChar": 56
+      },
+      "revId": "f65591fe3b5f6c2a56a4ed1f4f789a4d0bccebf6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfcc2274_3b98e8b4",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-04T07:25:17Z",
+      "side": 1,
+      "message": "Empty string is okay.\nWe handle this case in `HwmonTempSensor.cpp` (https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/60031/9/src/HwmonTempSensor.cpp#80)",
+      "parentUuid": "8263a6be_d0ef39f9",
       "range": {
         "startLine": 635,
         "startChar": 43,
