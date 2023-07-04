@@ -16,6 +16,24 @@
       "message": "Can you revert this change?",
       "revId": "83209bfafe21cd9ce81d4c0281a039c98d10248f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6753a044_462552e6",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2023-07-04T04:05:18Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "28e0ad89_6541dfeb",
+      "revId": "83209bfafe21cd9ce81d4c0281a039c98d10248f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
