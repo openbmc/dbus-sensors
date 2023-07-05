@@ -52,6 +52,24 @@
       "parentUuid": "5110daae_7b504571",
       "revId": "6dfb6f8da2a2d9b85dd79a233745887844f14101",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4406a82a_3a00ea6e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2023-07-05T05:31:27Z",
+      "side": 1,
+      "message": "This assumes only one match and only match the inventory path.\nBut the function name \"reads\" like a generic interface removed match, and it could support multiple matches.\n\nMaybe rename the function to make it specific for the use case?",
+      "parentUuid": "6daa2c06_f3aa21ab",
+      "revId": "6dfb6f8da2a2d9b85dd79a233745887844f14101",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
