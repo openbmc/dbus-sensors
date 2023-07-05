@@ -16,6 +16,23 @@
       "message": "Makes sense to me. Thank you for finding and fixing this.",
       "revId": "2c7b3a3c0225fb84de446e928649d3f05ad7634c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd675ff1_a111cd9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001371
+      },
+      "writtenOn": "2023-07-05T05:52:52Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "2c7b3a3c0225fb84de446e928649d3f05ad7634c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
