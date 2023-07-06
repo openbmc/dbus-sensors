@@ -549,6 +549,7 @@ struct Sensor
     // optional.
     void fillMissingThresholds()
     {
+        std::vector<thresholds::Threshold> newThresholds;
         for (thresholds::Threshold& thisThreshold : thresholds)
         {
             bool foundOpposite = false;
@@ -574,9 +575,12 @@ struct Sensor
             {
                 continue;
             }
-            thresholds.emplace_back(thisThreshold.level, opposite,
-                                    std::numeric_limits<double>::quiet_NaN());
+            newThresholds.emplace_back(
+                thisThreshold.level, opposite,
+                std::numeric_limits<double>::quiet_NaN());
         }
+        std::copy(newThresholds.cbegin(), newThresholds.cend(),
+                  std::back_inserter(thresholds));
     }
 
     void updateValueProperty(const double& newValue)
