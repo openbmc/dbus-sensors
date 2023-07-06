@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8cdf577_4c556e1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-06T21:38:23Z",
+      "side": 1,
+      "message": "Please provide more detail here. People should be able to follow and perform the same test",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "5e815529305b80c03bca0afeb4d9ad2bcaee602c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16bc6d9f_33123871",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-06T21:38:23Z",
+      "side": 1,
+      "message": "The latest patch looks like just reverted back to the first patch in many places. Please revisit comments for first patch and address those again",
+      "revId": "5e815529305b80c03bca0afeb4d9ad2bcaee602c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
