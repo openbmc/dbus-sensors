@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "19ded500_725aecae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-07-06T18:13:38Z",
+      "side": 1,
+      "message": "std::get can throw an exception, but I\u0027ll add that in another commit",
+      "parentUuid": "f4e57886_e4ae7a3d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "241a957c6905ab9c0f3b76410ed82d6d4c9cc2b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ad7243ad_faa9488a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4

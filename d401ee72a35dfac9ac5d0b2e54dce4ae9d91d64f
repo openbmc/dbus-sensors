@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8636fb9_7a86d472",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-07-06T18:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bf10615_4909aefc",
+      "revId": "d401ee72a35dfac9ac5d0b2e54dce4ae9d91d64f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3c0032d_0cce034c",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-30T21:12:35Z",
       "side": 1,
       "message": "As a minor consistency nitpick, it looks like the rest of the codebase just uses a raw `\\n` literal instead of `std::endl`, FWIW.",
+      "revId": "d401ee72a35dfac9ac5d0b2e54dce4ae9d91d64f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4454a95e_1ec91281",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-07-06T18:13:38Z",
+      "side": 1,
+      "message": "I\u0027ll fix in other commits",
+      "parentUuid": "d3c0032d_0cce034c",
       "revId": "d401ee72a35dfac9ac5d0b2e54dce4ae9d91d64f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
