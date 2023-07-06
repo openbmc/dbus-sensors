@@ -549,8 +549,10 @@ struct Sensor
     // optional.
     void fillMissingThresholds()
     {
-        for (thresholds::Threshold& thisThreshold : thresholds)
+        const std::size_t thresholdsLen = thresholds.size();
+        for (std::size_t index = 0; index < thresholdsLen; ++index)
         {
+            const thresholds::Threshold& thisThreshold = thresholds[index];
             bool foundOpposite = false;
             thresholds::Direction opposite = thresholds::Direction::HIGH;
             if (thisThreshold.direction == thresholds::Direction::HIGH)
