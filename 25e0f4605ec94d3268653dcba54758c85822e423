@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a281ee7_dd5a19a7",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-06T08:01:01Z",
+      "side": 1,
+      "message": "lambda and functions are technically different types, meaning you’re doing a type conversion here, which could be more expensive. Maybe the compiler optimizes it away, but to me `auto` would be better.\n\nI guess the eventual constructor to match takes a function so there will be a conversion eventually anyhow. If you want to be explicit about the type, maybe `sdbusplus::bus::match_t::callback_t`?",
+      "revId": "25e0f4605ec94d3268653dcba54758c85822e423",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6b90b9d_7e9ccf41",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-06T08:01:01Z",
+      "side": 1,
+      "message": "Ideally the function would return a match directly rather than unique_ptr. is that not working?",
+      "revId": "25e0f4605ec94d3268653dcba54758c85822e423",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0344d44d_e3a404ea",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-06T08:01:01Z",
+      "side": 1,
+      "message": "should we inline / template (or auto) this in the header?",
+      "revId": "25e0f4605ec94d3268653dcba54758c85822e423",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
