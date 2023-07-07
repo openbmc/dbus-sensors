@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "73f0e658_4adb6863",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-07T01:14:15Z",
+      "side": 1,
+      "message": "The code change make sense, but the commit message is a little confusing to me.\nIs it actual avoid peci fd left locked?\nWhy mentioning power off, is it because it shows an issue in power off state?\nPlease describe the issue and what test was done for the code change",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "2c7b3a3c0225fb84de446e928649d3f05ad7634c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "53b00393_b10d20e4",
