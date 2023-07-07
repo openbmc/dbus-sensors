@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62aa7be1_9a6e6721",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-07T16:31:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c36ce74_3ce54bdf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "aba34ff5a92ece19005e065b3768e0976672ea3b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1a732f8_9ed91780",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-07T01:26:28Z",
       "side": 1,
       "message": "I might be missing something, but from reviewing code change, looks like the association looks for ncsi cable specifically. Please make it clear that currently the association only adds ncsi cable association",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "aba34ff5a92ece19005e065b3768e0976672ea3b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1746061_d02fe741",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-07-07T16:31:40Z",
+      "side": 1,
+      "message": "I added a bit more description (at the end of the first paragraph) to specify this patch currently supports NCSI cable only.",
+      "parentUuid": "b1a732f8_9ed91780",
       "range": {
         "startLine": 21,
         "startChar": 0,
