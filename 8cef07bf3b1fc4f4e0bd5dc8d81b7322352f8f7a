@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "669bf21a_91de6a46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-07T00:59:33Z",
+      "side": 1,
+      "message": "I think this is close. Couple minors thing in the latest patch",
+      "revId": "8cef07bf3b1fc4f4e0bd5dc8d81b7322352f8f7a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95545afe_0cad6efd",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-07T00:59:33Z",
+      "side": 1,
+      "message": "The comment and code is confusing to me - looks like we want make sure space equals underscore. Is this correct?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 0
+      },
+      "revId": "8cef07bf3b1fc4f4e0bd5dc8d81b7322352f8f7a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3fc5765_3ed270d5",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-07T00:59:33Z",
+      "side": 1,
+      "message": "use std::get_if() is better than try-catch here",
+      "range": {
+        "startLine": 105,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 13
+      },
+      "revId": "8cef07bf3b1fc4f4e0bd5dc8d81b7322352f8f7a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
