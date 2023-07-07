@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ffaa0f2_1b8035af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-07T01:03:18Z",
+      "side": 1,
+      "message": "Depends on https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/64563, right?",
+      "revId": "011c7f62412359abe3c0f30dc23ed5f049461850",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
