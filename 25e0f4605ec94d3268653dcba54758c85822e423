@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9d4296c_31156daf",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-07-10T06:04:41Z",
+      "side": 1,
+      "message": "Got it and thanks for the advice.",
+      "parentUuid": "0a281ee7_dd5a19a7",
+      "revId": "25e0f4605ec94d3268653dcba54758c85822e423",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6b90b9d_7e9ccf41",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "333c192a_1206759f",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-07-10T06:04:41Z",
+      "side": 1,
+      "message": "It works good.\nDone.",
+      "parentUuid": "e6b90b9d_7e9ccf41",
+      "revId": "25e0f4605ec94d3268653dcba54758c85822e423",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0344d44d_e3a404ea",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-07-06T08:01:01Z",
       "side": 1,
       "message": "should we inline / template (or auto) this in the header?",
+      "revId": "25e0f4605ec94d3268653dcba54758c85822e423",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a8f22b8_1cc3397a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-07-10T06:04:41Z",
+      "side": 1,
+      "message": "I prefer to declare the type of parameter to make it looks straightforward.\nIf there is any benefit from using template?",
+      "parentUuid": "0344d44d_e3a404ea",
       "revId": "25e0f4605ec94d3268653dcba54758c85822e423",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
