@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a069592_5c25bcb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2023-07-10T19:43:06Z",
+      "side": 1,
+      "message": "Can you explain a bit more how sensing this cable association is could be considered an intrusion sensor?  I didn\u0027t see obvious in the CableStatus inventory item interface (just an interface name).\n\nIs something monitoring the link state of the cable?  Is it snooping the kernel polling and async notifications of the link state?  Is it just confirming the same adapter is supplying the connection?  Or is there some other state being monitored.",
+      "revId": "622eab0addecaa2247c5316c3197a838efba0c13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
