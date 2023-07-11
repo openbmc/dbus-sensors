@@ -22,6 +22,30 @@
       },
       "revId": "22af40eac8bbd1501b170e0f50f77818c0bdab2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db7842bc_7bd17a35",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2023-07-11T08:45:37Z",
+      "side": 1,
+      "message": "nice idea, saves extra vector.\nI am using a variable rather than direct threshold.size() since threshold.size() will change after insertion and we don\u0027t need to go through newly inserted elements in vector.",
+      "parentUuid": "7b4eab0a_745e1459",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 63
+      },
+      "revId": "22af40eac8bbd1501b170e0f50f77818c0bdab2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
