@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a56306_13683fc3",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-07-12T00:06:17Z",
+      "side": 1,
+      "message": "Only question is whether it\u0027s better to put these functions (isActive and getI2CDevice) in the base Sensor class interface rather than relying on duck-typing? Then I think we could avoid templating this function. But I suppose both approaches have pros and cons.",
+      "range": {
+        "startLine": 100,
+        "startChar": 36,
+        "endLine": 104,
+        "endChar": 69
+      },
+      "revId": "cd29c883942568ea57b9779cc62d748c374d9bfc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
