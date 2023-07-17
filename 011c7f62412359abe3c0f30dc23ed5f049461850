@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eadacac_d7af579a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-17T23:22:31Z",
+      "side": 1,
+      "message": "Does the EffectiveModel change during runtime? If not, I would expect the following sequence work:\n1. Wait until EffectiveModel is available\n2. If EffectiveModel \u003d\u003d CPUType1, load config for Type1\n3. If EffectiveModel \u003d\u003d CPUType2, load config for Type2\n\nIn this case, remove config is not needed.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "011c7f62412359abe3c0f30dc23ed5f049461850",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1ffaa0f2_1b8035af",
@@ -32,6 +55,24 @@
       "side": 1,
       "message": "No, that pull request depends on this change.\nThis PR add the match object in PSUSensor and then PR 64563 move the common initialization to utils.",
       "parentUuid": "1ffaa0f2_1b8035af",
+      "revId": "011c7f62412359abe3c0f30dc23ed5f049461850",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2157e8e_82a09a41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-17T23:22:31Z",
+      "side": 1,
+      "message": "ACK. You are adding this first and refactor, which is OK also. \nBut if you refactor first and then add, it would be one less file to make the change for the refactor.",
+      "parentUuid": "c1890f56_989d049d",
       "revId": "011c7f62412359abe3c0f30dc23ed5f049461850",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
