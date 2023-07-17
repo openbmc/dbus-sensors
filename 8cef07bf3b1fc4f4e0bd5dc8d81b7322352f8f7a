@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48196abc_f186b312",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-17T21:50:53Z",
+      "side": 1,
+      "message": "nit: please clarify that in the comments",
+      "parentUuid": "6839e584_47d27de7",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 0
+      },
+      "revId": "8cef07bf3b1fc4f4e0bd5dc8d81b7322352f8f7a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3fc5765_3ed270d5",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 22

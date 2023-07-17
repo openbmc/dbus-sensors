@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e24c6c_76ceb040",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-17T21:50:53Z",
+      "side": 1,
+      "message": "lgtm and it is good to go after a minor clarification on a comment",
+      "revId": "60c9ff637a1a2a8c3516e22e7b2b7c640e216c97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
