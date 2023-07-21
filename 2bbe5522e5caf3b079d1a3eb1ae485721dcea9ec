@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac0dcce3_d91fd73b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-07-21T18:24:48Z",
+      "side": 1,
+      "message": "The solution turns out to be a little more complex than hoped for.\n\nI got pulled in some other directions for a bit, but I\u0027m still looking into and working on solving this (likely) future-issue.",
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a60b5341_85f3c37f",
@@ -55,6 +72,30 @@
       "side": 1,
       "message": "Suggestion #1 sounds like good to me. I\u0027ll take a look at sensor.hpp and see what makes sense.",
       "parentUuid": "a60b5341_85f3c37f",
+      "range": {
+        "startLine": 126,
+        "startChar": 30,
+        "endLine": 126,
+        "endChar": 61
+      },
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ad2cdfc_51ae9290",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-07-21T18:24:48Z",
+      "side": 1,
+      "message": "After further investigation, it appears that at the time and place where \u0027parseThresholdsFromAttr()\u0027 is called from in Intel code, we don\u0027t have access to any objects with access to the high/low thresholds values to import for use here (no referenceable sensor object exists yet at this stage).\n\nIn the \u0027standard\u0027 path for handling these thresholds (ie, not going through \u0027parseThreshodlsFromAttr\u0027), a \u0027private fillMissingThresholds()\u0027 gets called after sensor instantiation to set unset threshold values (like the \u0027hysteresis\u0027 field being focused on here). \n\nI\u0027m thinking about adding a new public function to the sensor class that would do something similar to the existing \u0027set unset thresholds\u0027 , but have it only affect we\u0027re concerned about being set when \u0027parseThresholdsFromAttr\u0027 is used to define thresholds. It would be up to uses of \u0027parseThresholdsFromAttr()\u0027 to make sure to call it after the sensor object has been created (which happens after parseThresholdsFromAttr() is finished).\n\nIf that sounds alright, I\u0027ll likely submit it as an amendment to this change once I\u0027ve got some code that looks viable.",
+      "parentUuid": "77bf9186_2bc60fbe",
       "range": {
         "startLine": 126,
         "startChar": 30,
