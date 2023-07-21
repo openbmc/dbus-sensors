@@ -758,7 +758,6 @@ int main()
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
         [](sdbusplus::message_t& msg) {
-        std::cerr << " InterfacesRemoved  called test.." << std::endl;
         interfaceRemoved(msg, sensors);
         });
 
