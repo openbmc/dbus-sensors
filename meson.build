@@ -1,10 +1,10 @@
 project(
     'dbus-sensors',
     'cpp',
-    default_options: ['warning_level=3', 'werror=true', 'cpp_std=c++20'],
+    default_options: ['warning_level=3', 'werror=true', 'cpp_std=c++23'],
     license: 'Apache-2.0',
     version: '0.1',
-    meson_version: '>=1.1',
+    meson_version: '>=1.1.1',
 )
 
 # Enable io_uring for all daemons with below flags.
