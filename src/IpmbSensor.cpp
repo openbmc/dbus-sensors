@@ -757,10 +757,7 @@ int main()
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
-        [](sdbusplus::message_t& msg) {
-        std::cerr << " InterfacesRemoved  called test.." << std::endl;
-        interfaceRemoved(msg, sensors);
-        });
+        [](sdbusplus::message_t& msg) { interfaceRemoved(msg, sensors); });
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
