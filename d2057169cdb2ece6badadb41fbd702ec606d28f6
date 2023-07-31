@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a778d82f_5498e1ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-31T22:18:27Z",
+      "side": 1,
+      "message": "fix \"PECI device failed to unlock\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "d2057169cdb2ece6badadb41fbd702ec606d28f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a266e3f6_35311c0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-31T22:18:27Z",
+      "side": 1,
+      "message": "Currently, intelcpusensor loops through all configs, locks and polls peci status for every dev path.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 117
+      },
+      "revId": "d2057169cdb2ece6badadb41fbd702ec606d28f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f98b9b37_4fc1fad5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-31T22:18:27Z",
+      "side": 1,
+      "message": "But peciFd unlock is only done outside this for loop causing \"PECI device failed to unlock\". Move the unlock inside the loop so every peci dev is unlocked after use.\n\nTested:\nintelcpusensor journallog does not have below error message anymore\n\"intelcpusensor[31213]: PECI device failed to unlock.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "d2057169cdb2ece6badadb41fbd702ec606d28f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6e9891f_42b6ddd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-07-31T22:18:27Z",
+      "side": 1,
+      "message": "please wrap the line at 72",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "d2057169cdb2ece6badadb41fbd702ec606d28f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
