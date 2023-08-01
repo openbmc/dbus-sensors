@@ -97,6 +97,30 @@
       },
       "revId": "e713adebb068388247441f67a850471ceba17e3c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9ca178c_6e22ea4a",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-01T00:27:19Z",
+      "side": 1,
+      "message": "I am ok with adding a comment on the source of the magic char",
+      "parentUuid": "be19e606_8ad7bd1d",
+      "range": {
+        "startLine": 520,
+        "startChar": 30,
+        "endLine": 520,
+        "endChar": 33
+      },
+      "revId": "e713adebb068388247441f67a850471ceba17e3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
