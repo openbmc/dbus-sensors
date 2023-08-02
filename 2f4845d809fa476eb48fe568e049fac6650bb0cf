@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa40ba6d_78ab14ff",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-02T04:46:41Z",
+      "side": 1,
+      "message": "is the location going to be unique?",
+      "range": {
+        "startLine": 353,
+        "startChar": 39,
+        "endLine": 353,
+        "endChar": 47
+      },
+      "revId": "2f4845d809fa476eb48fe568e049fac6650bb0cf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
