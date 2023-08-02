@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "659065ec_c69e040c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-02T01:12:12Z",
+      "side": 1,
+      "message": "Lookin forward to your update",
+      "parentUuid": "ac0dcce3_d91fd73b",
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a60b5341_85f3c37f",
