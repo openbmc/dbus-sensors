@@ -22,6 +22,30 @@
       },
       "revId": "b2feb8eb5890d2ef3b75b919c9ab76320a50d234",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5208c659_8fb2b7e8",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-08-03T07:18:45Z",
+      "side": 1,
+      "message": "looking into ibm-cffps.c\n\n544 |       |       /* Set the client name to include the version number. */\n545 |       |       snprintf(client-\u003ename, I2C_NAME_SIZE, \"cffps%d\", vs + 1); \n\nvariable \u0027vs\u0027 is set in a switch statement above to be from following enum.\n\nenum versions { cffps1, cffps2, cffps_unknown };    \n\nfrom my experience it only concerns the \u0027name\u0027 file in hwmon directory which is what the first entry is about.\n\nso the first entry will have to include that number. i included \u0027cffps\u0027 without that number in case they ever change that behavior.",
+      "parentUuid": "0b68fd26_174d78d4",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 45
+      },
+      "revId": "b2feb8eb5890d2ef3b75b919c9ab76320a50d234",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
