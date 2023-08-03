@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9bb41c0_9c504ade",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-03T00:31:37Z",
+      "side": 1,
+      "message": "please wrap commit message at 72",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 227
+      },
+      "revId": "e097818efe436be798925ed59b5cf9f54405614e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44cedaf7_896909f1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -14,6 +37,24 @@
       "writtenOn": "2023-06-28T12:05:22Z",
       "side": 1,
       "message": "Tested section?",
+      "revId": "e097818efe436be798925ed59b5cf9f54405614e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b80b2223_a11d846b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-03T00:31:37Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "44cedaf7_896909f1",
       "revId": "e097818efe436be798925ed59b5cf9f54405614e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -94,6 +135,24 @@
       "writtenOn": "2023-06-08T04:04:53Z",
       "side": 1,
       "message": "I\u0027d prefer we don\u0027t use `friend` and instead have a e.g. a `transition()` method that takes the new power state as an argument. `transition()` then iterates over the internal listed invoking the callbacks.\n\nOtherwise we have to open-code the loops, and that\u0027s not an abstraction so much as a band-aid.",
+      "revId": "e097818efe436be798925ed59b5cf9f54405614e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbfa5ecb_076f7b0c",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-03T00:31:37Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "70064a49_f18a2f69",
       "revId": "e097818efe436be798925ed59b5cf9f54405614e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
