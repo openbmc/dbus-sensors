@@ -121,6 +121,30 @@
       },
       "revId": "e713adebb068388247441f67a850471ceba17e3c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfa61cc5_72d78dc7",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-08-03T10:22:36Z",
+      "side": 1,
+      "message": "\u003e I am ok with adding a comment on the source of the magic char\n\nI added a link to the official kernel API documentation by Iwona, hope that\u0027s what you wanted.\n\nI\u0027ll repush after the CI issues with formatting are fixed by the maintainers.",
+      "parentUuid": "b9ca178c_6e22ea4a",
+      "range": {
+        "startLine": 520,
+        "startChar": 30,
+        "endLine": 520,
+        "endChar": 33
+      },
+      "revId": "e713adebb068388247441f67a850471ceba17e3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
