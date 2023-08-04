@@ -39,6 +39,23 @@
       "message": "The latest patch looks like just reverted back to the first patch in many places. Please revisit comments for first patch and address those again",
       "revId": "5e815529305b80c03bca0afeb4d9ad2bcaee602c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8417749_d939716a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-08-04T08:35:22Z",
+      "side": 1,
+      "message": "De-prioritizing this change due to other priority items.\nDropping the commit.",
+      "revId": "5e815529305b80c03bca0afeb4d9ad2bcaee602c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
