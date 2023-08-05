@@ -169,6 +169,30 @@
       },
       "revId": "e713adebb068388247441f67a850471ceba17e3c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7f5c52a_92430775",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-08-05T06:03:17Z",
+      "side": 1,
+      "message": "Thank you.\nLooks like reuploading is not needed since CI was rerun successfully, and Verified is +1 now.",
+      "parentUuid": "1b15e040_6aae71ef",
+      "range": {
+        "startLine": 520,
+        "startChar": 30,
+        "endLine": 520,
+        "endChar": 33
+      },
+      "revId": "e713adebb068388247441f67a850471ceba17e3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
