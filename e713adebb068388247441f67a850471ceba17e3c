@@ -145,6 +145,30 @@
       },
       "revId": "e713adebb068388247441f67a850471ceba17e3c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b15e040_6aae71ef",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-05T00:25:41Z",
+      "side": 1,
+      "message": "CI build is fixed",
+      "parentUuid": "cfa61cc5_72d78dc7",
+      "range": {
+        "startLine": 520,
+        "startChar": 30,
+        "endLine": 520,
+        "endChar": 33
+      },
+      "revId": "e713adebb068388247441f67a850471ceba17e3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
