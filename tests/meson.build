@@ -13,8 +13,8 @@ if not gtest_dep.found() or not gmock_dep.found()
         gmock_dep = gtest_proj.dependency('gmock')
     else
         assert(
-            not get_option('tests').enabled(),
-            'Googletest is required if tests are enabled'
+            not get_option('tests').allowed(),
+            'Googletest is required if tests are allowed'
         )
     endif
 endif
