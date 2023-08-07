@@ -39,7 +39,6 @@ add_project_arguments(
 
 cpp = meson.get_compiler('cpp')
 
-build_tests = get_option('tests')
 gpiodcxx = dependency('libgpiodcxx',
     default_options: ['bindings=cxx'],
 )
@@ -94,6 +93,6 @@ default_deps = [
 subdir('service_files')
 subdir('src')
 
-if not build_tests.disabled()
+if get_option('tests').allowed()
     subdir('tests')
 endif
