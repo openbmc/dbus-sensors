@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee9936b1_897fa5d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-08-08T06:22:00Z",
+      "side": 1,
+      "message": "Why? How?",
+      "revId": "66095449356c242703e22ff34e7485625f353967",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1157a163_53ab0492",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-08-08T06:22:00Z",
+      "side": 1,
+      "message": "Honestly I think this makes it harder to read, but maybe I\u0027m in the minority.",
+      "revId": "66095449356c242703e22ff34e7485625f353967",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
