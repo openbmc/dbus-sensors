@@ -520,8 +520,10 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
                                      rank, 4, &pkgConfig[0],
                                      &cc) == PECI_CC_SUCCESS)
                 {
-                    if ((pkgConfig[0] != 0U) || (pkgConfig[1] != 0U) ||
-                        (pkgConfig[2] != 0U))
+                    // Depending on CPU generation, both 0 and 0xFF can be used
+                    // to indicate no DIMM presence
+                    if (((pkgConfig[0] != 0xFF) && (pkgConfig[0] != 0U)) ||
+                        ((pkgConfig[1] != 0xFF) && (pkgConfig[1] != 0U)))
                     {
                         dimmReady = true;
                         break;
