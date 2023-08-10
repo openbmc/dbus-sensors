@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24f0f301_aea98cc7",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-08-10T02:55:53Z",
+      "side": 1,
+      "message": "So the trailing number in the map key reflects the number of pages?",
+      "revId": "63c33cb61c7770bb29b3712c7a955bd3a14f81f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
