@@ -34,6 +34,24 @@
       "parentUuid": "24f0f301_aea98cc7",
       "revId": "63c33cb61c7770bb29b3712c7a955bd3a14f81f8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b6ebd52_2d5135c9",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-08-10T08:02:07Z",
+      "side": 1,
+      "message": "The first string is the contents\nof the \u0027name\u0027 file in hwmon. \u0027pmbus\u0027 entry has lowercase here aswell.\n\nThe second string is used to write to \u0027new_device\u0027 and create the driver instance.\n\nAs to the value of \u0027name\u0027 property, consider \n\nlinux/drivers/hwmon/pmbus/ibm-cffps.c\n544:\t\t/* Set the client name to include the version number. */\n545:\t\tsnprintf(client-\u003ename, I2C_NAME_SIZE, \"cffps%d\", vs + 1);\n\nwhere its appears that it should be \u003e\u003d 1. Regardless i added \u0027cffps\u0027 \nkey to be consistent and in case they change their mind.",
+      "parentUuid": "b42e640c_5996f827",
+      "revId": "63c33cb61c7770bb29b3712c7a955bd3a14f81f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
