@@ -108,6 +108,29 @@
       "message": "I would also suggest underlining in commit message that the issue is not only about logs in journal, but this also may cause kernel issues.\nIf the driver is unbound and application keeps the file open (since peci_unlock is not called it keeps) - the kernel structures remain in memory. Which means, that on application stop (during reboot or for any reason) the kernel warnings/errors will appear.\nMost of kernel drivers are not resistant to such scenarios and we don\u0027t want to put quite a big effor to significant changes in peci-legacy from which we are going to resign once.",
       "revId": "d2057169cdb2ece6badadb41fbd702ec606d28f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d9de68c_03bf3592",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2023-08-10T05:27:11Z",
+      "side": 1,
+      "message": "For each cpuConfig we are locking and unlocking. What about locking before beginning of loop that is iterating through cpuConfig and unlocking after end of lopp ?",
+      "range": {
+        "startLine": 595,
+        "startChar": 1,
+        "endLine": 596,
+        "endChar": 5
+      },
+      "revId": "d2057169cdb2ece6badadb41fbd702ec606d28f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
