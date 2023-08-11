@@ -22,6 +22,30 @@
       },
       "revId": "a0c6b5b75aaf67e060d8f01787434954355c84e5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "899ebd22_f57b3ad0",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-08-11T16:12:22Z",
+      "side": 0,
+      "message": "I removed this check because bits 23:16 are reserved.  I\u0027ll add this to the commit message.",
+      "parentUuid": "9aec3406_4ec3f52f",
+      "range": {
+        "startLine": 524,
+        "startChar": 24,
+        "endLine": 524,
+        "endChar": 45
+      },
+      "revId": "a0c6b5b75aaf67e060d8f01787434954355c84e5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
