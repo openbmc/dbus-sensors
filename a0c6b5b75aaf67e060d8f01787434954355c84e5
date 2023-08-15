@@ -46,6 +46,23 @@
       },
       "revId": "a0c6b5b75aaf67e060d8f01787434954355c84e5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff641dc_9317a255",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2023-08-15T17:40:46Z",
+      "side": 0,
+      "message": "excuse my ignorance, but what happened to pkgConfig[2] in the new conditional?\n\nThe new conditional only uses pkgConfig[0] and pkgConfig[1].",
+      "revId": "a0c6b5b75aaf67e060d8f01787434954355c84e5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
