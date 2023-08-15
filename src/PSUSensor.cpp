@@ -177,6 +177,16 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
         std::cerr << "Bad file descriptor for " << path << "\n";
         return;
     }
+    if (err || bytesRead == 0)
+    {
+        if (readingStateGood())
+        {
+            std::cerr << name << " read failed\n";
+        }
+        restartRead();
+        return;
+    }
+
     // null terminate the string so we don't walk off the end
     std::array<char, 128>& bufferRef = *buffer;
     bufferRef[bytesRead] = '\0';
