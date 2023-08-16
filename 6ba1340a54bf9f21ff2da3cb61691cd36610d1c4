@@ -57,6 +57,30 @@
       "parentUuid": "887da32e_48f16cf6",
       "revId": "6ba1340a54bf9f21ff2da3cb61691cd36610d1c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efe52fd5_0f8535a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-16T00:11:04Z",
+      "side": 1,
+      "message": "+1\nPlease clarify on why need support \"auto\"? How does it compare with \"enabled\"?",
+      "parentUuid": "5f600867_2cff863a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "6ba1340a54bf9f21ff2da3cb61691cd36610d1c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
