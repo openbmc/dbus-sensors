@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23b7e664_76f62ddf",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-16T00:41:11Z",
+      "side": 1,
+      "message": "can we move this initialization to the constructor? That way we don\u0027t have the same string defined in two different places",
+      "revId": "147fff2a3f6f0dd96b0394a328cc298c83f722b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
