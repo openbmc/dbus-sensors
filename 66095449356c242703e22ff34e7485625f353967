@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "143c72ef_9f332260",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-16T00:44:07Z",
+      "side": 1,
+      "message": "On second thought, I am agreeing with Andrew, the original form is easier to read",
+      "parentUuid": "1157a163_53ab0492",
+      "revId": "66095449356c242703e22ff34e7485625f353967",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "788dcff6_734e3898",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-08-14T21:40:03Z",
       "side": 1,
       "message": "Also consider renaming this file to meson.options, which is the new preferred name for meson \u003e\u003d 1.1",
+      "revId": "66095449356c242703e22ff34e7485625f353967",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10feb957_39070eda",
+        "filename": "meson_options.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-16T00:44:07Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "788dcff6_734e3898",
       "revId": "66095449356c242703e22ff34e7485625f353967",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
