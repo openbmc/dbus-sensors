@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "765f9f05_2c5493ef",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-08-16T19:15:20Z",
+      "side": 0,
+      "message": "This looks like it\u0027s just a bug.  I suspect this should\u0027ve been std::numeric_limits\u003cdouble\u003e::quiet_NaN()",
+      "range": {
+        "startLine": 519,
+        "startChar": 73,
+        "endLine": 519,
+        "endChar": 74
+      },
+      "revId": "9a472e8ed1a0da677d2e28446db87b55677b8d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
