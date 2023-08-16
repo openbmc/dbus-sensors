@@ -81,6 +81,30 @@
       },
       "revId": "6ba1340a54bf9f21ff2da3cb61691cd36610d1c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d59fa8_2420072c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2023-08-16T00:36:44Z",
+      "side": 1,
+      "message": "Thanks @Ed, @Zhikui\n\nI have explained it here https://gerrit.openbmc.org/c/openbmc/bmcweb/+/65757/1//COMMIT_MSG#14\n\nOf course, for the current logic, there is no problem for us to use `enabled`, because we currently do not support `auto`.\nBut if we support auto in the future and want to use the `feature.disable_if()`, `feature.enable_auto_if()`, `feature.enable_if()` and other functions, we should use `allowed` instead of `enabled`.\nSo I think using `allowed` is the right direction, and I\u0027ve made updates in some repositories.\n\nIf the maintainer insists, I will abandon this commit.",
+      "parentUuid": "efe52fd5_0f8535a8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "6ba1340a54bf9f21ff2da3cb61691cd36610d1c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
