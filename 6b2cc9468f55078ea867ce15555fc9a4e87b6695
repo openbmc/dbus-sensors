@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cb6a7fd_f92ea10a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-16T20:45:21Z",
+      "side": 1,
+      "message": "Looks like there are build errors need to be fixed before switching to c++23",
+      "revId": "6b2cc9468f55078ea867ce15555fc9a4e87b6695",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
