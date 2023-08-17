@@ -105,6 +105,30 @@
       },
       "revId": "6ba1340a54bf9f21ff2da3cb61691cd36610d1c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "040ba564_661fa24e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-17T23:22:01Z",
+      "side": 1,
+      "message": "I am OK with going forward to use allowed. I leave it up to George and @Ed to decide whether to make the change now or later when these is a need to support auto",
+      "parentUuid": "14d59fa8_2420072c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "6ba1340a54bf9f21ff2da3cb61691cd36610d1c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
