@@ -173,3 +173,53 @@ TEST_F(TestUtils, findFiles_in_sub_peci_match)
     EXPECT_TRUE(ret);
     EXPECT_EQ(foundPaths.size(), 3U);
 }
+
+TEST(GetI2cBusAddrTest, DevNameInvalid)
+{
+    size_t bus = 0;
+    size_t addr = 0;
+    std::string devName;
+
+    auto ret = getI2cBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+
+    devName = "NoHyphen";
+    ret = getI2cBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+
+    devName = "pwm-fan";
+    ret = getI2cBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+}
+
+TEST(GetI2cBusAddrTest, BusInvalid)
+{
+    size_t bus = 0;
+    size_t addr = 0;
+    std::string devName = "FF-00FF";
+
+    auto ret = getI2cBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+}
+
+TEST(GetI2cBusAddrTest, AddrInvalid)
+{
+    size_t bus = 0;
+    size_t addr = 0;
+    std::string devName = "12-fan";
+
+    auto ret = getI2cBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+}
+
+TEST(GetI2cBusAddrTest, AllValid)
+{
+    size_t bus = 0;
+    size_t addr = 0;
+    std::string devName = "12-00af";
+
+    auto ret = getI2cBusAddr(devName, bus, addr);
+    EXPECT_TRUE(ret);
+    EXPECT_EQ(bus, 12);
+    EXPECT_EQ(addr, 0xaf);
+}
