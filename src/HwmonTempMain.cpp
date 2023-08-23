@@ -298,27 +298,10 @@ void createSensors(
                 device = directory / "device";
                 deviceName = fs::canonical(device).stem();
             }
-            auto findHyphen = deviceName.find('-');
-            if (findHyphen == std::string::npos)
-            {
-                std::cerr << "found bad device " << deviceName << "\n";
-                continue;
-            }
-            std::string busStr = deviceName.substr(0, findHyphen);
-            std::string addrStr = deviceName.substr(findHyphen + 1);
 
-            uint64_t bus = 0;
-            uint64_t addr = 0;
-            std::from_chars_result res{};
-            res = std::from_chars(busStr.data(), busStr.data() + busStr.size(),
-                                  bus);
-            if (res.ec != std::errc{})
-            {
-                continue;
-            }
-            res = std::from_chars(addrStr.data(),
-                                  addrStr.data() + addrStr.size(), addr, 16);
-            if (res.ec != std::errc{})
+            size_t bus = 0;
+            size_t addr = 0;
+            if (!getI2cBusAddr(deviceName, &bus, &addr))
             {
                 continue;
             }
