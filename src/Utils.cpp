@@ -850,3 +850,34 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     }
     return setupPropertiesChangedMatches(bus, {types}, handler);
 }
+
+bool getI2cBusAddr(std::string devPath, size_t* bus, size_t* addr)
+{
+    std::regex i2cDevRegex(R"((\d+)-([a-fA-F0-9]+))");
+    std::smatch match;
+
+    std::regex_search(devPath, match, i2cDevRegex);
+
+    if (match.empty() || (match.size() != 3))
+    {
+        std::cerr << "found bad device path " << devPath << "\n";
+        return false;
+    }
+
+    std::string busStr = match[1];
+    std::string addrStr = match[2];
+
+    try
+    {
+        *bus = (size_t)std::stoi(busStr);
+        *addr = (size_t)std::stoi(addrStr, nullptr, 16);
+    }
+    catch (std::invalid_argument&)
+    {
+        std::cerr << "Error parsing bus " << busStr << " addr " << addrStr
+                  << "\n";
+        return false;
+    }
+
+    return true;
+}
