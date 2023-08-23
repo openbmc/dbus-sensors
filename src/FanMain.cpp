@@ -338,14 +338,10 @@ void createSensors(
                     std::string link =
                         fs::read_symlink(directory / "device").filename();
 
-                    size_t findDash = link.find('-');
-                    if (findDash == std::string::npos ||
-                        link.size() <= findDash + 1)
+                    if (!getI2cBusAddr(link, &bus, &address))
                     {
-                        std::cerr << "Error finding device from symlink";
+                        continue;
                     }
-                    bus = std::stoi(link.substr(0, findDash));
-                    address = std::stoi(link.substr(findDash + 1), nullptr, 16);
 
                     auto findBus = baseConfiguration->second.find("Bus");
                     auto findAddress =
