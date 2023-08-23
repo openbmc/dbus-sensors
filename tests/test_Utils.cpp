@@ -173,3 +173,53 @@ TEST_F(TestUtils, findFiles_in_sub_peci_match)
     EXPECT_TRUE(ret);
     EXPECT_EQ(foundPaths.size(), 3U);
 }
+
+TEST(GetDeviceBusAddrTest, DevNameInvalid)
+{
+    size_t bus = 0;
+    size_t addr = 0;
+    std::string devName;
+
+    auto ret = getDeviceBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+
+    devName = "NoHyphen";
+    ret = getDeviceBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+
+    devName = "pwm-fan";
+    ret = getDeviceBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+}
+
+TEST(GetDeviceBusAddrTest, BusInvalid)
+{
+    size_t bus = 0;
+    size_t addr = 0;
+    std::string devName = "FF-00FF";
+
+    auto ret = getDeviceBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+}
+
+TEST(GetDeviceBusAddrTest, AddrInvalid)
+{
+    size_t bus = 0;
+    size_t addr = 0;
+    std::string devName = "12-fan";
+
+    auto ret = getDeviceBusAddr(devName, bus, addr);
+    EXPECT_FALSE(ret);
+}
+
+TEST(GetDeviceBusAddrTest, AllValid)
+{
+    size_t bus = 0;
+    size_t addr = 0;
+    std::string devName = "12-00af";
+
+    auto ret = getDeviceBusAddr(devName, bus, addr);
+    EXPECT_TRUE(ret);
+    EXPECT_EQ(bus, 12);
+    EXPECT_EQ(addr, 0xaf);
+}
