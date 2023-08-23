@@ -387,3 +387,4 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     setupPropertiesChangedMatches(
         sdbusplus::asio::connection& bus, std::span<const char* const> types,
         const std::function<void(sdbusplus::message_t&)>& handler);
+bool getDeviceBusAddr(const std::string& deviceName, size_t& bus, size_t& addr);

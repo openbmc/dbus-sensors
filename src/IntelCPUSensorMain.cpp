@@ -195,23 +195,10 @@ bool createSensors(boost::asio::io_context& io,
         fs::path::iterator it = hwmonNamePath.begin();
         std::advance(it, 6); // pick the 6th part for a PECI client device name
         std::string deviceName = *it;
-        auto findHyphen = deviceName.find('-');
-        if (findHyphen == std::string::npos)
-        {
-            std::cerr << "found bad device " << deviceName << "\n";
-            continue;
-        }
-        std::string busStr = deviceName.substr(0, findHyphen);
-        std::string addrStr = deviceName.substr(findHyphen + 1);
 
         size_t bus = 0;
         size_t addr = 0;
-        try
-        {
-            bus = std::stoi(busStr);
-            addr = std::stoi(addrStr, nullptr, 16);
-        }
-        catch (const std::invalid_argument&)
+        if (!getDeviceBusAddr(deviceName, bus, addr))
         {
             continue;
         }

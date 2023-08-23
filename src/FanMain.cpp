@@ -332,20 +332,15 @@ void createSensors(
                 }
                 if (fanType == FanTypes::i2c)
                 {
-                    size_t bus = 0;
-                    size_t address = 0;
-
-                    std::string link =
+                    std::string deviceName =
                         fs::read_symlink(directory / "device").filename();
 
-                    size_t findDash = link.find('-');
-                    if (findDash == std::string::npos ||
-                        link.size() <= findDash + 1)
+                    size_t bus = 0;
+                    size_t addr = 0;
+                    if (!getDeviceBusAddr(deviceName, bus, addr))
                     {
-                        std::cerr << "Error finding device from symlink";
+                        continue;
                     }
-                    bus = std::stoi(link.substr(0, findDash));
-                    address = std::stoi(link.substr(findDash + 1), nullptr, 16);
 
                     auto findBus = baseConfiguration->second.find("Bus");
                     auto findAddress =
@@ -362,7 +357,7 @@ void createSensors(
                     unsigned int configAddress = std::visit(
                         VariantToUnsignedIntVisitor(), findAddress->second);
 
-                    if (configBus == bus && configAddress == address)
+                    if (configBus == bus && configAddress == addr)
                     {
                         sensorData = &cfgData;
                         break;
