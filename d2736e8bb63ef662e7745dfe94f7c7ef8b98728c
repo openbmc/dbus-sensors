@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a29b1515_ed07e42a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-08-23T22:27:15Z",
+      "side": 1,
+      "message": "What were the actual strings the caused the crash? How did they come to appear in your system? In what manner did the process crash?\n\nPlease provide more details here in the commit message.",
+      "revId": "d2736e8bb63ef662e7745dfe94f7c7ef8b98728c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fde09b40_0ea4b560",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-08-23T22:27:15Z",
+      "side": 1,
+      "message": "Please fix the line wrapping throughout the commit message. More on how commit messages should be written and formatted here:\n\nhttps://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html",
+      "revId": "d2736e8bb63ef662e7745dfe94f7c7ef8b98728c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68fd4f66_c88df728",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-08-23T22:27:15Z",
+      "side": 1,
+      "message": "Hi Akshit, I have a couple of comments on your commit message.\n\nAlso, please avoid setting CR+1 on your own changes. If you were trying to indicate it was ready for review, then pushing it to Gerrit is enough. If you wish to push patches to Gerrit that shouldn\u0027t yet be reviewed, please use Gerrit\u0027s Work-in-Progress feature to mark them as such.",
+      "revId": "d2736e8bb63ef662e7745dfe94f7c7ef8b98728c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
