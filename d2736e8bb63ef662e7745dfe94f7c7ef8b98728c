@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a40689a5_a07e4207",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-08-23T23:17:58Z",
+      "side": 1,
+      "message": "Outlined in the commit.",
+      "parentUuid": "a29b1515_ed07e42a",
+      "revId": "d2736e8bb63ef662e7745dfe94f7c7ef8b98728c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fde09b40_0ea4b560",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-23T22:27:15Z",
       "side": 1,
       "message": "Please fix the line wrapping throughout the commit message. More on how commit messages should be written and formatted here:\n\nhttps://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html",
+      "revId": "d2736e8bb63ef662e7745dfe94f7c7ef8b98728c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8f00512_c8fdfbba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-08-23T23:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fde09b40_0ea4b560",
       "revId": "d2736e8bb63ef662e7745dfe94f7c7ef8b98728c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
