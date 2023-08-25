@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "099c7c04_b58778c8",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-08-25T22:13:50Z",
+      "side": 1,
+      "message": "This does not look right since keepPinging is not per config.\nI suspect the logic should be: \nif any of the configState is not READY, keepPinging \u003d true;\nelse if all of the configState are READY, keepPinging \u003d false;",
+      "range": {
+        "startLine": 592,
+        "startChar": 12,
+        "endLine": 592,
+        "endChar": 23
+      },
+      "revId": "aa5ff97198aac6423620d08f8167f8a5fc134374",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
