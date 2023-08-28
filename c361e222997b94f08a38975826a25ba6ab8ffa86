@@ -22,6 +22,30 @@
       },
       "revId": "c361e222997b94f08a38975826a25ba6ab8ffa86",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a260f180_a8a6ccfe",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-08-28T17:23:48Z",
+      "side": 1,
+      "message": "GXP and GXPFan were some of the original names used, but it was advised that the other types are generally named after their companies @\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62008/comment/6a84c6c3_7ff0ee89/\n\nFor my own future reference- other than getting comments in reviews on Gerrit, would asking things like naming questions in Discord, then just checking back over a course of days/weeks be the best avenue for getting input on this kind of thing? Or is there a mailing list, or other discussion forum I might be missing out on?\n\nAs always, thanks for the comments, your experience is very helpful and appreciated!",
+      "parentUuid": "2351bc99_196a3d8f",
+      "range": {
+        "startLine": 45,
+        "startChar": 43,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "c361e222997b94f08a38975826a25ba6ab8ffa86",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
