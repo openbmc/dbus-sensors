@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69e0610d_f84206ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-08-28T16:14:29Z",
+      "side": 1,
+      "message": "The number 2.55 was pulled from a value that gets applied during Sensor object init if no other hysteresis value is specified. That said, I can agree with looking to avoid magic numbers here.\n\nI\u0027m currently looking at the idea of using \u0027NaN\u0027 as a default value, then having the Sensor \u0027update\u0027 function *not* overwrite existing threshold fields with NaN when encountered.",
+      "parentUuid": "ea9b7e5c_1e70c939",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be238324_737b7ae7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-16T19:15:20Z",
       "side": 1,
       "message": "but doesn\u0027t this change behavior for existing systems?\n\nAs-is, there\u0027s already some hysteresis defaults specified in the Sensor implementation of 1% of sensor range.  That seems better than a hardcoded value.\n\nhttps://github.com/openbmc/dbus-sensors/blob/38857578d7243fb60f2b266d291526b5b97d0fc5/src/sensor.hpp#L72",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f80c5e6_efed704a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-08-28T16:14:29Z",
+      "side": 1,
+      "message": "As I understand it, only Intel code uses parseThresholdFromAttr at this time, and that \u00270\u0027 value hardcoded in now is a semi-recent addition in response to an Intel-specific issue @ https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/61744/\n\nI believe the issue is that (originally, before the Intel \u00270\u0027 fix)\n1) parseThresholdFromAttr didn\u0027t get a hysteresis value passed in, and in turn, didn\u0027t specify a value for Hysteresis in the vector that it created. \n\n2) the Sensor Update function (I believe only called from Intel code- by passing it a vector returned by parseThresholdFromAttr) would encounter the \u0027unspecified\u0027 field and would write \u0027NaN\u0027 as an update for the field to the Sensor, (likely) overwriting a \u00272.55\u0027 value that\u0027s applied to the hysteresis field during Sensor object init steps.\n\nAfter the Intel fix was accepted, a HW-specific hysteresis value of \u00270\u0027 will be always written when Sensor update() is called with the return from parseThresholdFromAttr().\n\nRight now, only Intel is using this pathway, so there aren\u0027t any conflicts I\u0027m aware of. This fix discussion here is aimed at removing anything HW-specific if possible, just since I happened to notice it while looking through reviews at the time.",
+      "parentUuid": "be238324_737b7ae7",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -95,6 +143,23 @@
       "side": 1,
       "message": "Lookin forward to your update",
       "parentUuid": "ac0dcce3_d91fd73b",
+      "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3730130_cce5f375",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-08-28T16:14:29Z",
+      "side": 1,
+      "message": "se",
       "revId": "2bbe5522e5caf3b079d1a3eb1ae485721dcea9ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
