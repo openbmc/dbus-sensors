@@ -6,7 +6,7 @@ from hwmon, d-bus, or direct driver access to provide readings. Some advance
 non-sensor features such as fan presence, pwm control, and automatic cpu
 detection (x86) are also supported.
 
-## key features
+## key features (test change)
 
 - runtime re-configurable from d-bus (entity-manager or the like)
 
