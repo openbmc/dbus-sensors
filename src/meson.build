@@ -63,11 +63,8 @@ endif
 if get_option('intel-cpu').enabled()
     peci_dep = meson.get_compiler('cpp').find_library('libpeci', required : false)
     if not peci_dep.found()
-      cmake = import('cmake')
-      opt = cmake.subproject_options()
-      opt.append_compile_args('c', '-Wno-pedantic')
-      peci_proj = cmake.subproject('libpeci', options : opt)
-      peci_dep = peci_proj.dependency('peci')
+      peci_proj = subproject('libpeci', required: true)
+      peci_dep = peci_proj.get_variable('libpeci_dep')
     endif
 endif
 
