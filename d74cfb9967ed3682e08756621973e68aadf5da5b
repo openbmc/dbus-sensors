@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d71ff480_731e1801",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-09-07T22:02:43Z",
+      "side": 1,
+      "message": "Fansensor daemon didn\u0027t have try catch around stoi() and hence it crashed. I didn\u0027t realize regex is slower and would impact significant performance. Changed it to fin()",
+      "parentUuid": "eba20eaf_edcd4548",
+      "range": {
+        "startLine": 859,
+        "startChar": 0,
+        "endLine": 859,
+        "endChar": 51
+      },
+      "revId": "d74cfb9967ed3682e08756621973e68aadf5da5b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1f1c0a8_4174bd09",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-07T19:55:17Z",
       "side": 1,
       "message": "For new code that\u0027s immediately catching the exception, this should really be using std::from_chars which handles under/overflow properly, and doesn\u0027t require a c-style cast (which would normally fail clang-tidy.  There\u0027s lots of examples of how to do that around.  bmcweb has a bunch if you need one.",
+      "range": {
+        "startLine": 872,
+        "startChar": 0,
+        "endLine": 873,
+        "endChar": 56
+      },
+      "revId": "d74cfb9967ed3682e08756621973e68aadf5da5b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbdcf11a_46395b06",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-09-07T22:02:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1f1c0a8_4174bd09",
       "range": {
         "startLine": 872,
         "startChar": 0,
