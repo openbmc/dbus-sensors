@@ -68,3 +68,4 @@ for complete list.
 
 - [ExternalSensor](https://github.com/openbmc/docs/blob/master/designs/external-sensor.md)
   virtual sensor
+
