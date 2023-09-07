@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb2d2c4c_f2e07068",
+        "filename": "src/meson.build",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-09-07T18:52:11Z",
+      "side": 1,
+      "message": "This can be simplified. I\u0027d recommend copying the wrap from smbios-mdr: https://github.com/openbmc/smbios-mdr/blob/master/subprojects/libpeci.wrap (which only differs in the [provides] name). Then this whole block can be deleted and replaced with `peci_dep \u003d dependency(\u0027libpeci\u0027)` down at line 87.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "9e0724a170b3ffb692d5237b511e39fe7da95b9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
