@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f8951f4_f317aec7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-09-07T16:21:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee2482dc_2ab14e2a",
+      "revId": "6d0e0394b7c15594c80faf3c677cf909dd81df62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a1d0201_59e09059",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b9273c3_bee4406c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-09-07T16:21:46Z",
+      "side": 1,
+      "message": "No this is part of nuvoton\u0027s fan type and it is added here - https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/63150",
+      "parentUuid": "1a1d0201_59e09059",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "6d0e0394b7c15594c80faf3c677cf909dd81df62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0086de28_d0eb8044",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-09-07T00:14:18Z",
       "side": 1,
       "message": "there are multiple sensor services do similar function, it would be nice to use the same function.\nmaybe base function from this section:\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/HwmonTempMain.cpp#L301\nor here:\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/PSUSensorMain.cpp#L371",
+      "revId": "6d0e0394b7c15594c80faf3c677cf909dd81df62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f30ac4_0b6f71b1",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-09-07T16:21:46Z",
+      "side": 1,
+      "message": "Changed for other services as well.",
+      "parentUuid": "0086de28_d0eb8044",
       "revId": "6d0e0394b7c15594c80faf3c677cf909dd81df62",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
