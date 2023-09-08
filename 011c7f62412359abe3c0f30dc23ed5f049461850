@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f74da4f_a802273e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-09-08T07:02:49Z",
+      "side": 1,
+      "message": "Yes, if I move the flash from machine with CPU A to machine with CPU B, this property will change from A to B when smbios table is updated.\nI think it is because /var/lib/smbios/smbios2 will not be removed after bmc shout donw.\nHowever, we have another way to know cpu type, so the use case is not exist anymore.",
+      "parentUuid": "6eadacac_d7af579a",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "011c7f62412359abe3c0f30dc23ed5f049461850",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1ffaa0f2_1b8035af",
