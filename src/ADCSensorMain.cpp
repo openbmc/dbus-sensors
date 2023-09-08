@@ -35,6 +35,7 @@
 #include <variant>
 #include <vector>
 
+static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
 static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
@@ -153,8 +154,11 @@ void createSensors(
             }
             if (sensorData == nullptr)
             {
-                std::cerr << "failed to find match for " << path.string()
-                          << "\n";
+                if constexpr (debug)
+                {
+                    std::cerr << "failed to find match for " << path.string()
+                              << "\n";
+                }
                 continue;
             }
 
