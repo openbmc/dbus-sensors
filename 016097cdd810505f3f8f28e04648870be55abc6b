@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa0f42dd_3a066931",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000937
+      },
+      "writtenOn": "2023-09-11T06:04:06Z",
+      "side": 1,
+      "message": "Do we prefer to add flag here or in the meson config?\nAdding flag here means we need to change source code instead of changing the build argument to enable the debug log.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "016097cdd810505f3f8f28e04648870be55abc6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
