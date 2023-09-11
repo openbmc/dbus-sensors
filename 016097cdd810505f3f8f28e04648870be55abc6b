@@ -22,6 +22,30 @@
       },
       "revId": "016097cdd810505f3f8f28e04648870be55abc6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f39fa06_795debd1",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2023-09-11T06:12:13Z",
+      "side": 1,
+      "message": "I suspect that add flag in each sensor is preferred for most of the people because the flag exist in most of the sensor for a long time and there is no PR try to add debug option in meson config.",
+      "parentUuid": "fa0f42dd_3a066931",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "016097cdd810505f3f8f28e04648870be55abc6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
