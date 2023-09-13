@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9ea4690_b3eab81e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-09-13T19:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15f1e935_664a0950",
+      "revId": "95ac8ee8dee383b9a1f221817a5de88161a57575",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b111d08_89b81c9b",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-09-07T22:07:35Z",
       "side": 1,
       "message": "Can we get a unit test for this function?  Doesn\u0027t have to be extensive.",
+      "range": {
+        "startLine": 854,
+        "startChar": 0,
+        "endLine": 881,
+        "endChar": 1
+      },
+      "revId": "95ac8ee8dee383b9a1f221817a5de88161a57575",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b81f4d4_794ed428",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-09-13T19:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b111d08_89b81c9b",
       "range": {
         "startLine": 854,
         "startChar": 0,
