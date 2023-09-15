@@ -16,6 +16,24 @@
       "message": "As I currently understand it, there\u0027s no way to make use of the hysteresis calculating formulas in Sensor.hpp at the point where parseThresholdFromAttr() is called.\n\nWhen updateThresholds() is called from Thresholds.cpp with the results from the parseThresholdFromAttr() call, the hysteresis values calculated at Sensor() object creation are overwritten by any hysteresis value that\u0027s set in parseThresholdFromAttr\n\nAs different devices may require different hysteresis values, I think it makes sense to add comments to let callers know how the value is normally set in Sensor.hpp at Sensor() around object creation time.\n\nOne alternative to this would be to modify updateThresholds() so that it doesn\u0027t overwrite threshold when it encounters \u0027NaN\u0027 values-- but I\u0027m not sure what the impact would be. At the moment, only Intel makes use of updateThreholds, but I don\u0027t know if they have situations where they\u0027d *want* that function to overwrite existing Sensor object thresholds with \u0027NaN\u0027",
       "revId": "1d399962e6cbdc7134dd049bec6ef8e04e3eb908",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a7c364d_e445fcf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-09-15T21:42:51Z",
+      "side": 1,
+      "message": "Marking as \u0027unresolved\u0027",
+      "parentUuid": "4b323b3f_fa0bdff5",
+      "revId": "1d399962e6cbdc7134dd049bec6ef8e04e3eb908",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
