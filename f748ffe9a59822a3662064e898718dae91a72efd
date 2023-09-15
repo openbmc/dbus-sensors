@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25154aba_58dbb865",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-09-15T20:54:01Z",
+      "side": 1,
+      "message": "It occurs to me that while there\u0027s still some debate to be had over the best default value to use for \u0027hysteresis,\u0027 if we just set the value to NaN for now, that will let the function header explicitly reflect what was implicitly happening before the Intel-specific \u00270\u0027 value was hardcoded into the function body, while giving caller a chance to set their own value.\n\nI\u0027m thinking I\u0027ll submit a \u0027follow-up\u0027 change to this one that tries to define the \u003d2.55 value again and see if folks care to engage and push that discussion forward, or just leave it like this (which at least avoids some previous pitfalls).\n\nEither way, I don\u0027t think that discussion should get in the way of adding a new parameter so that we don\u0027t have a \u0027hidden\u0027 Intel-specific value coded in for hysteresis for anyone who might decide to call ParseThesholdsFromAttr() in the future.",
+      "revId": "f748ffe9a59822a3662064e898718dae91a72efd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
