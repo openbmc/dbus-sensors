@@ -33,6 +33,24 @@
       "message": "Can `bus` and `addr` instead be references? I think that would be a nice constraint and make e.g. 866 and 872 a little less messy wrt type wrangling.",
       "revId": "fdc57584f08631c58bc69e02bb515a48c9525492",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fffdbdbb_646e1060",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1001600
+      },
+      "writtenOn": "2023-09-19T15:12:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "088f588c_94dd840b",
+      "revId": "fdc57584f08631c58bc69e02bb515a48c9525492",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
