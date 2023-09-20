@@ -43,6 +43,7 @@
 static constexpr bool debug = false;
 
 static const I2CDeviceTypeMap sensorTypes{
+    {"ADC128D818", I2CDeviceType{"adc128d818", true}},
     {"ADM1266", I2CDeviceType{"adm1266", true}},
     {"ADM1272", I2CDeviceType{"adm1272", true}},
     {"ADM1275", I2CDeviceType{"adm1275", true}},
@@ -59,6 +60,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"DPS800", I2CDeviceType{"dps800", true}},
     {"INA219", I2CDeviceType{"ina219", true}},
     {"INA230", I2CDeviceType{"ina230", true}},
+    {"INA233", I2CDeviceType{"ina233", true}},
     {"IPSPS1", I2CDeviceType{"ipsps1", true}},
     {"IR38060", I2CDeviceType{"ir38060", true}},
     {"IR38164", I2CDeviceType{"ir38164", true}},
@@ -734,7 +736,7 @@ static void createSensorsCallback(
                 try
                 {
                     psuProperty->sensorScaleFactor = std::visit(
-                        VariantToUnsignedIntVisitor(), findCustomScale->second);
+                        VariantToDoubleVisitor(), findCustomScale->second);
                 }
                 catch (const std::invalid_argument&)
                 {
@@ -865,7 +867,7 @@ static void createSensorsCallback(
             // Similarly, if sensor scaling factor is being customized,
             // then the below power-of-10 constraint becomes unnecessary,
             // as config should be able to specify an arbitrary divisor.
-            unsigned int factor = psuProperty->sensorScaleFactor;
+            double factor = psuProperty->sensorScaleFactor;
             if (!customizedScale)
             {
                 // Preserve existing usage of hardcoded labelMatch table below
