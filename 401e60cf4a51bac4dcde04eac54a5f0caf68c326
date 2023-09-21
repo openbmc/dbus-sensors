@@ -50,6 +50,24 @@
       "message": "Can you please split this refactoring out to a separate commit also?\n\nFurther, isn\u0027t this adjusting the local type for another type on a DBus interface? I feel like that\u0027s sketchy territory, and the interface itself should be adjusted? Where\u0027s that change?",
       "revId": "401e60cf4a51bac4dcde04eac54a5f0caf68c326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15c5b2a6_546dac9b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-09-21T16:33:14Z",
+      "side": 1,
+      "message": "+1 Please separate the commit",
+      "parentUuid": "340eb1ae_46219d4b",
+      "revId": "401e60cf4a51bac4dcde04eac54a5f0caf68c326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
