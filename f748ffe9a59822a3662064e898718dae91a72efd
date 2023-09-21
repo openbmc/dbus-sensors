@@ -34,6 +34,24 @@
       "parentUuid": "25154aba_58dbb865",
       "revId": "f748ffe9a59822a3662064e898718dae91a72efd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39ee29cc_969c7459",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-09-21T18:58:01Z",
+      "side": 1,
+      "message": "Additional note re: picking hysteresis default \u003d NaN; the parseThresholdsFromConfig() function also sets a default value of NaN for hysteresis, but then attempts to replace the value with data from config (if hysteresis is defined). -FromAttrib() appears to have no access to hysteresis data unless a value is explicitly passed  to it.",
+      "parentUuid": "7ed9b5d7_d60032bc",
+      "revId": "f748ffe9a59822a3662064e898718dae91a72efd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
