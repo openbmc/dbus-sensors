@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e01d001_8d5b698e",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-09-21T16:46:05Z",
+      "side": 1,
+      "message": "Since the parseThresholdFromAttr() update process will result in an overwrite to a Sensor\u0027s hysteresis value, and leaving the value as NaN can result in issues with hysteresis triggers for sensors that need the value defined, I think it makes sense to leave a note on \u0027how\u0027 hysteresis values are normally calculated for anyone looking to make use of this function.\n\n------\n\nBackground: Initially, parseThresholdsFromAttr() didn\u0027t have a param for hysteresis, and its implicit behavior was to write NaN over any hysteresis value that had been set at Sensor object init. \n\nThat \u0027always NaN\u0027 behavior caused an issue with Intel devices (the only ones making use of parseThresholdsFromAttr). The merged solution was to hardcode \u00270\u0027 (an Intel-specific value) for hysteresis into the body of parseThresholdsFromAttr().\n\nThe Gerrit change this one is relation-chained under proposes adding a hysteresis param with default value \u003d NaN. This way Intel can pass in a \u00270\u0027 value (already handled in another \u0027chained\u0027 Gerrit review), and the parseThresholdsFromAttr() behavior around hysteresis is now explicit and modifiable.",
+      "parentUuid": "1b2982ab_cf7a9558",
+      "range": {
+        "startLine": 122,
+        "startChar": 20,
+        "endLine": 122,
+        "endChar": 27
+      },
+      "revId": "daebb80234f04dedac7e5a491af44a61c1020b35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a2913c4_8fde40ad",
         "filename": "src/Thresholds.hpp",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-21T15:53:44Z",
       "side": 1,
       "message": "nit: why an empty line?",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 2
+      },
+      "revId": "daebb80234f04dedac7e5a491af44a61c1020b35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64cf1e48_736260d7",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2023-09-21T16:46:05Z",
+      "side": 1,
+      "message": "I just did it to make the formula for \u0027hysteresis\u0027 visually separate from the explanation for it. Sounds like I should consider taking it out (assuming we move forward with this)?",
+      "parentUuid": "2a2913c4_8fde40ad",
       "range": {
         "startLine": 125,
         "startChar": 0,
