@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "455d04fd_ca106535",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-21T02:36:17Z",
+      "side": 1,
+      "message": "There\u0027s a bit going on here even though it\u0027s a small patch. I\u0027ve left some comments inline.",
+      "revId": "401e60cf4a51bac4dcde04eac54a5f0caf68c326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fc783d4_734fd551",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-21T02:36:17Z",
+      "side": 1,
+      "message": "Can you please make separate commits for each device type?",
+      "revId": "401e60cf4a51bac4dcde04eac54a5f0caf68c326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340eb1ae_46219d4b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-21T02:36:17Z",
+      "side": 1,
+      "message": "Can you please split this refactoring out to a separate commit also?\n\nFurther, isn\u0027t this adjusting the local type for another type on a DBus interface? I feel like that\u0027s sketchy territory, and the interface itself should be adjusted? Where\u0027s that change?",
+      "revId": "401e60cf4a51bac4dcde04eac54a5f0caf68c326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
