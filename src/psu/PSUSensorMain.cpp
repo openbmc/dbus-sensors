@@ -837,8 +837,8 @@ static void createSensorsCallback(
             {
                 try
                 {
-                    sensorScaleFactor = std::visit(
-                        VariantToUnsignedIntVisitor(), findCustomScale->second);
+                    sensorScaleFactor = std::visit(VariantToDoubleVisitor(),
+                                                   findCustomScale->second);
                 }
                 catch (const std::invalid_argument&)
                 {
@@ -847,7 +847,8 @@ static void createSensorsCallback(
                 }
 
                 // Avoid later division by zero
-                if (sensorScaleFactor > 0)
+                if (sensorScaleFactor != 0.0 &&
+                    std::isfinite(sensorScaleFactor))
                 {
                     customizedScale = true;
                 }
@@ -969,7 +970,7 @@ static void createSensorsCallback(
             // Similarly, if sensor scaling factor is being customized,
             // then the below power-of-10 constraint becomes unnecessary,
             // as config should be able to specify an arbitrary divisor.
-            unsigned int factor = sensorScaleFactor;
+            double factor = sensorScaleFactor;
             if (!customizedScale)
             {
                 // Preserve existing usage of hardcoded labelMatch table below
@@ -986,8 +987,12 @@ static void createSensorsCallback(
                 auto findScaleFactor = baseConfig->find(strScaleFactor);
                 if (findScaleFactor != baseConfig->end())
                 {
-                    factor = std::visit(VariantToIntVisitor(),
-                                        findScaleFactor->second);
+                    double newFactor = std::visit(VariantToDoubleVisitor(),
+                                                  findScaleFactor->second);
+                    if (newFactor != 0.0 && std::isfinite(newFactor))
+                    {
+                        factor = newFactor;
+                    }
                 }
 
                 lg2::debug(
