@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8506248_9a3022bc",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-09-22T02:03:28Z",
+      "side": 1,
+      "message": "It has been seperated, thank you for the suggestion.",
+      "parentUuid": "5fc783d4_734fd551",
+      "revId": "401e60cf4a51bac4dcde04eac54a5f0caf68c326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "340eb1ae_46219d4b",
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "+1 Please separate the commit",
       "parentUuid": "340eb1ae_46219d4b",
+      "revId": "401e60cf4a51bac4dcde04eac54a5f0caf68c326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b67af24_3d0ec218",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-09-22T02:03:28Z",
+      "side": 1,
+      "message": "It has been seperated, thank you for the suggestion.\n\nAs I know, dbus limit the most properties just can be got and tranformed from variant type.\nIn this case, the scale factor comes from entity-manager config, and was defined as \"number\", but before this change, the value was parsing into unsigned int which may cause error once 0 \u003c value \u003c 1.",
+      "parentUuid": "15c5b2a6_546dac9b",
       "revId": "401e60cf4a51bac4dcde04eac54a5f0caf68c326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
