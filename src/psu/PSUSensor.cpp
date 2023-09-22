@@ -52,7 +52,7 @@ PSUSensor::PSUSensor(
     boost::asio::io_context& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, const PowerState& powerState,
-    const std::string_view sensorUnits, unsigned int factor, double max,
+    const std::string_view sensorUnits, double factor, double max,
     double min, double offset, const std::string& label, size_t tSize,
     double pollRate, const std::shared_ptr<I2CDevice>& i2cDevice) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
