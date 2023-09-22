@@ -736,7 +736,7 @@ static void createSensorsCallback(
                 try
                 {
                     psuProperty->sensorScaleFactor = std::visit(
-                        VariantToUnsignedIntVisitor(), findCustomScale->second);
+                        VariantToDoubleVisitor(), findCustomScale->second);
                 }
                 catch (const std::invalid_argument&)
                 {
@@ -867,7 +867,7 @@ static void createSensorsCallback(
             // Similarly, if sensor scaling factor is being customized,
             // then the below power-of-10 constraint becomes unnecessary,
             // as config should be able to specify an arbitrary divisor.
-            unsigned int factor = psuProperty->sensorScaleFactor;
+            double factor = psuProperty->sensorScaleFactor;
             if (!customizedScale)
             {
                 // Preserve existing usage of hardcoded labelMatch table below
