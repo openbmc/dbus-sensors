@@ -43,6 +43,7 @@
 static constexpr bool debug = false;
 
 static const I2CDeviceTypeMap sensorTypes{
+    {"ADC128D818", I2CDeviceType{"adc128d818", true}},
     {"ADM1266", I2CDeviceType{"adm1266", true}},
     {"ADM1272", I2CDeviceType{"adm1272", true}},
     {"ADM1275", I2CDeviceType{"adm1275", true}},
