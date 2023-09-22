@@ -1,0 +1,36 @@
+From c5fbeeebbaa5ad0af97a1a098b6196c93af12b0a Mon Sep 17 00:00:00 2001
+From: Eric <Eric_LC_Chen@wiwynn.com>
+Date: Wed, 3 Jan 2024 16:17:47 +0800
+Subject: [PATCH] test
+
+---
+ src/PSUSensorMain.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/PSUSensorMain.cpp b/src/PSUSensorMain.cpp
+index 16109c1..1490659 100644
+--- a/src/PSUSensorMain.cpp
++++ b/src/PSUSensorMain.cpp
+@@ -735,7 +735,9 @@ static void createSensorsCallback(
+                 }
+ 
+                 // Avoid later division by zero
+-                if (psuProperty->sensorScaleFactor > 0)
++                if (psuProperty->sensorScaleFactor > 0
++                    && !std::isnan(psuProperty->sensorScaleFactor)
++                    && std::isfinite(psuProperty->sensorScaleFactor))
+                 {
+                     customizedScale = true;
+                 }
+@@ -874,7 +876,7 @@ static void createSensorsCallback(
+                 auto findScaleFactor = baseConfig->find(strScaleFactor);
+                 if (findScaleFactor != baseConfig->end())
+                 {
+-                    factor = std::visit(VariantToIntVisitor(),
++                    factor = std::visit(VariantToDoubleVisitor(),
+                                         findScaleFactor->second);
+                 }
+ 
+-- 
+2.25.1
+
