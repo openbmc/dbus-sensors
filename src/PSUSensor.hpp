@@ -23,7 +23,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
               const PowerState& powerState, const std::string& sensorUnits,
-              unsigned int factor, double max, double min, double offset,
+              double factor, double max, double min, double offset,
               const std::string& label, size_t tSize, double pollRate,
               const std::shared_ptr<I2CDevice>& i2cDevice);
     ~PSUSensor() override;
@@ -48,7 +48,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
     std::string path;
-    unsigned int sensorFactor;
+    double sensorFactor;
     double sensorOffset;
     thresholds::ThresholdTimer thresholdTimer;
     void restartRead();
@@ -67,7 +67,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 class PSUProperty
 {
   public:
-    PSUProperty(std::string name, double max, double min, unsigned int factor,
+    PSUProperty(std::string name, double max, double min, double factor,
                 double offset) :
         labelTypeName(std::move(name)),
         maxReading(max), minReading(min), sensorScaleFactor(factor),
@@ -78,6 +78,6 @@ class PSUProperty
     std::string labelTypeName;
     double maxReading;
     double minReading;
-    unsigned int sensorScaleFactor;
+    double sensorScaleFactor;
     double sensorOffset;
 };
