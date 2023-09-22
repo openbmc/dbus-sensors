@@ -726,7 +726,7 @@ static void createSensorsCallback(
                 try
                 {
                     psuProperty.sensorScaleFactor = std::visit(
-                        VariantToUnsignedIntVisitor(), findCustomScale->second);
+                        VariantToDoubleVisitor(), findCustomScale->second);
                 }
                 catch (const std::invalid_argument&)
                 {
@@ -735,7 +735,8 @@ static void createSensorsCallback(
                 }
 
                 // Avoid later division by zero
-                if (psuProperty.sensorScaleFactor > 0)
+                if (psuProperty.sensorScaleFactor != 0.0 &&
+                    std::isfinite(psuProperty.sensorScaleFactor))
                 {
                     customizedScale = true;
                 }
@@ -857,7 +858,7 @@ static void createSensorsCallback(
             // Similarly, if sensor scaling factor is being customized,
             // then the below power-of-10 constraint becomes unnecessary,
             // as config should be able to specify an arbitrary divisor.
-            unsigned int factor = psuProperty.sensorScaleFactor;
+            double factor = psuProperty.sensorScaleFactor;
             if (!customizedScale)
             {
                 // Preserve existing usage of hardcoded labelMatch table below
@@ -874,8 +875,12 @@ static void createSensorsCallback(
                 auto findScaleFactor = baseConfig->find(strScaleFactor);
                 if (findScaleFactor != baseConfig->end())
                 {
-                    factor = std::visit(VariantToIntVisitor(),
-                                        findScaleFactor->second);
+                    double newFactor = std::visit(VariantToDoubleVisitor(),
+                                                  findScaleFactor->second);
+                    if (newFactor != 0.0 && std::isfinite(newFactor))
+                    {
+                        factor = newFactor;
+                    }
                 }
 
                 if constexpr (debug)
