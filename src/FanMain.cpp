@@ -554,9 +554,9 @@ void createSensors(
                 (pwmSensors.count(pwmPath) == 0U))
             {
                 pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
-			boost::replace_all_copy(pwmName, " ", "_"), pwmPath,
-			dbusConnection, objectServer, *interfacePath, "Fan",
-			isValueMutable);
+                    boost::replace_all_copy(pwmName, " ", "_"), pwmPath,
+                    dbusConnection, objectServer, *interfacePath, "Fan",
+                    isValueMutable);
             }
         }
 
