@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7c5b140_66dbc43e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-28T01:10:05Z",
+      "side": 1,
+      "message": "Your commit message needs to refer to the interface definition for the field, the interface implementation, and also demonstrate the impact of the changes in the data presented on D-Bus (e.g. using `busctl`). What\u0027s currently written is not sufficient to evaluate whether this change is reasonable.",
+      "revId": "bf4913cbf901407544912521c3c93ca7915ca57a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feb68e6d_8f572241",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-28T01:10:05Z",
+      "side": 1,
+      "message": "Hi Delphine, I feel this change needs a more compelling argument regarding the interfaces involved.",
+      "revId": "bf4913cbf901407544912521c3c93ca7915ca57a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
