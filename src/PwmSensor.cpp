@@ -36,7 +36,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
                      const std::string& sensorConfiguration,
                      const std::string& sensorType, bool isValueMutable) :
     sysPath(sysPath),
-    objectServer(objectServer), name(name)
+    objectServer(objectServer), name(boost::replace_all_copy(name, " ", "_"))
 {
     // add interface under sensor and Control.FanPwm as Control is used
     // in obmc project, also add sensor so it can be viewed as a sensor
