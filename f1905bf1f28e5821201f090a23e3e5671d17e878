@@ -16,6 +16,24 @@
       "message": "This device is supported neither in upstream Linux nor the openbmc/linux fork. Please get the driver merged before enabling support in PSUSensor.",
       "revId": "f1905bf1f28e5821201f090a23e3e5671d17e878",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "810f9b72_d09d4997",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-09-28T02:58:52Z",
+      "side": 1,
+      "message": "Thank you the your reviewing, we having already contributed and will resolve the reviewers feedback soon.",
+      "parentUuid": "ad3bf021_f68739e7",
+      "revId": "f1905bf1f28e5821201f090a23e3e5671d17e878",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
