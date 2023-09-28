@@ -205,10 +205,11 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
     }
     if (err || bytesRead == 0)
     {
-        if (readingStateGood())
+        if (readingStateGood() && errCount < errorThreshold)
         {
             std::cerr << name << " read failed\n";
         }
+        incrementError();
         restartRead();
         return;
     }
