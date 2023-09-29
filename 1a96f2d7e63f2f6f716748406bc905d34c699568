@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ca0f1b6_f446ca2e",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-09-29T18:24:49Z",
+      "side": 1,
+      "message": "Should this be called only when readingStateGood()?",
+      "revId": "1a96f2d7e63f2f6f716748406bc905d34c699568",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e97a92d4_0d8bc81f",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-09-29T18:24:49Z",
+      "side": 1,
+      "message": "What about this: \nif (readingStateGood())\n{\nincrementError(); \u003c-- this logs error message\n}",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 0
+      },
+      "revId": "1a96f2d7e63f2f6f716748406bc905d34c699568",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
