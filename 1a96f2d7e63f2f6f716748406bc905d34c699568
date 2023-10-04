@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d906d93_db0fdac5",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-10-04T07:51:37Z",
+      "side": 1,
+      "message": "Yes, the printing of the error message and incrementing the error counter should go together. Adjusted the patch.",
+      "parentUuid": "8ca0f1b6_f446ca2e",
+      "revId": "1a96f2d7e63f2f6f716748406bc905d34c699568",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e97a92d4_0d8bc81f",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-09-29T18:24:49Z",
       "side": 1,
       "message": "What about this: \nif (readingStateGood())\n{\nincrementError(); \u003c-- this logs error message\n}",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 0
+      },
+      "revId": "1a96f2d7e63f2f6f716748406bc905d34c699568",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ccdf504_8c923d1f",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-10-04T07:51:37Z",
+      "side": 1,
+      "message": "adjusted the patch",
+      "parentUuid": "e97a92d4_0d8bc81f",
       "range": {
         "startLine": 208,
         "startChar": 0,
