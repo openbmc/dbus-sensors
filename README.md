@@ -68,3 +68,60 @@ for complete list.
 
 - [ExternalSensor](https://github.com/openbmc/docs/blob/master/designs/external-sensor.md)
   virtual sensor
+
+# Sensor Type Documentation
+
+## ADC Sensors
+
+ADC sensors are sensors based on an Analog to Digital Converter. They are read
+via the Linux kernel Industrial I/O subsystem (IIO).
+
+One of the more common use cases within OpenBMC is for reading these sensors
+from the ADC on the Aspeed ASTXX cards.
+
+To utilize ADC sensors feature within OpenBMC you must first define and enable
+it within the kernel device tree.
+
+When using a common OpenBMC device like the AST2600 you will find a "adc0" and
+"adc1" section in the aspeed-g6.dtsi file. These are disabled by default so in
+your system-specific dts you would enable and configure what you want with
+something like this:
+
+```
+iio-hwmon {
+    compatible = "iio-hwmon";
+    io-channels = <&adc0 0>;
+    ...
+}
+
+&adc0 {
+    status = "okay";
+    ...
+};
+
+&adc1 {
+    status = "okay";
+    ...
+};
+```
+
+**Note** that this is not meant to be an exhaustive list on the nuances of
+configuring a device tree but really to point users in the general direction.
+
+You will then create an entity-manager configuration file that is of type "ADC"
+A very simple example would like look this:
+
+```
+            "Index": 0,
+            "Name": "P12V",
+            "PowerState": "Always",
+            "ScaleFactor": 1.0,
+            "Type": "ADC"
+```
+
+When your system is booted, a "in0_input" file will be created within the hwmon
+subsystem (/sys/class/hwmon/hwmonX). The adcsensor application will scan d-bus
+for any ADC entity-manager objects, look up their "Index" value, and try to
+match that with the hwmon inY_input files. When it finds a match it will create
+a d-bus sensor under the xyz.openbmc_project.ADCSensor service. The sensor will
+be periodically updated based on readings from the hwmon file.
