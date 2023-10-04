@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "633ec6bc_2dc434c5",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-04T16:23:20Z",
+      "side": 1,
+      "message": "We probably want to change https://github.com/openbmc/dbus-sensors/blob/master/src/PwmSensor.cpp#L39 to be the same as other sensors, like https://github.com/openbmc/dbus-sensors/blob/master/src/sensor.hpp#L67",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
