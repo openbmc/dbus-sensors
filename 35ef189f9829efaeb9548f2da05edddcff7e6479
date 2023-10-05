@@ -3,6 +3,74 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2032a106_b295ff2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-05T00:37:49Z",
+      "side": 1,
+      "message": "What is the bug? Can you please try to be more descriptive (but also succinct) in the one-line description here?",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "293294e0_a05b7b05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-05T00:37:49Z",
+      "side": 1,
+      "message": "What are the symptoms of not fixing this? How did you find it?\n\nPlease add a lot more detail about why this change is correct.",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8b2c0d1_5a461099",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-05T00:37:49Z",
+      "side": 1,
+      "message": "How does this convince us that the change is correct?",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e03a3a4e_287c28b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-05T00:37:49Z",
+      "side": 1,
+      "message": "Hi Delphine, I don\u0027t think there\u0027s nearly enough information in the commit message. I\u0027ve left some comments there.",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "633ec6bc_2dc434c5",
         "filename": "src/FanMain.cpp",
         "patchSetId": 4
