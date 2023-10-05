@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db2bfd74_b494ba0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-10-05T09:27:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e55f68c0_64a98abd",
+      "revId": "f18555f719aa96e41783be2e77c3f4e8ab8969b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "164e32c0_d5f2e65c",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-10-04T16:12:55Z",
       "side": 1,
       "message": "Because incrementError() (https://github.com/openbmc/dbus-sensors/blob/master/src/sensor.hpp#L456) also checks reading state and prints error message,  i think we can simplify the logic by just call incrementError() here.",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 9
+      },
+      "revId": "f18555f719aa96e41783be2e77c3f4e8ab8969b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb3c5cea_c190ca8b",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2023-10-05T09:27:42Z",
+      "side": 1,
+      "message": "In that case, the error will just be printed once, and only if we adjust the condition to \u0027\u003c\u003d\u0027. Also, it would not be printed the first time around.\n\nI would prefer that it would be obvious in the logs that the reading has failed multiple times before the error logs are stopped.\n\nOne failed reading already is something that can be investigated.",
+      "parentUuid": "164e32c0_d5f2e65c",
       "range": {
         "startLine": 208,
         "startChar": 0,
