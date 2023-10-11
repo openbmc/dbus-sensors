@@ -3,4 +3,4 @@ url = https://github.com/openbmc/libpeci.git
 revision = HEAD
 
 [provide]
-libpeci = peci_dep
+libpeci = libpeci_dep
