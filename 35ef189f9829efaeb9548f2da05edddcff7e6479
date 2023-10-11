@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d139560a_24c6ab6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-11T10:26:37Z",
+      "side": 1,
+      "message": "Most sensors\u0027 name with \" \" should be replaced to \"_\" when goes into helper find function as below: \nhttps://github.com/openbmc/dbus-sensors/blob/436c5bdb25c775138c901dc707f203c076adcb97/src/DeviceMgmt.hpp#L69\n\nbut pwmName didn\u0027t goes to it before entering constructer, cause service fansensor terminated with error \"Invalid argument\"",
+      "parentUuid": "2032a106_b295ff2d",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "293294e0_a05b7b05",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec3a6ad7_861a3a24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-11T10:26:37Z",
+      "side": 1,
+      "message": "The symptoms described as above.\nWe find it when using pwmName \"FANBOARD0 FAN0_PWM\".",
+      "parentUuid": "293294e0_a05b7b05",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8b2c0d1_5a461099",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-10-05T00:37:49Z",
       "side": 1,
       "message": "How does this convince us that the change is correct?",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6fb2cb5_b1e250d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-11T10:26:37Z",
+      "side": 1,
+      "message": "We tree the service by busctl, pwm sensors show successfully with chnaged name.\nroot@bmc:~# busctl tree xyz.openbmc_project.FanSensor\n`- /xyz\n  `- /xyz/openbmc_project\n    |- /xyz/openbmc_project/control\n    | `- /xyz/openbmc_project/control/fanpwm\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD0_FAN0_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD0_FAN1_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD0_FAN2_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD0_FAN3_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD0_FAN4_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD0_FAN5_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD1_FAN0_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD1_FAN1_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD1_FAN2_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD1_FAN3_PWM\n    |   |- /xyz/openbmc_project/control/fanpwm/FANBOARD1_FAN4_PWM\n    |   `- /xyz/openbmc_project/control/fanpwm/FANBOARD1_FAN5_PWM\n    |- /xyz/openbmc_project/inventory\n    `- /xyz/openbmc_project/sensors\n      |- /xyz/openbmc_project/sensors/fan_pwm\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD0_FAN0_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD0_FAN1_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD0_FAN2_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD0_FAN3_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD0_FAN4_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD0_FAN5_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD1_FAN0_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD1_FAN1_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD1_FAN2_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD1_FAN3_PWM\n      | |- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD1_FAN4_PWM\n      | `- /xyz/openbmc_project/sensors/fan_pwm/FANBOARD1_FAN5_PWM\nWithout this change, xyz.openbmc_project.FanSensor crashed and didn\u0027t show under busctl",
+      "parentUuid": "b8b2c0d1_5a461099",
       "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
