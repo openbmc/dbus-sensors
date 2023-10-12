@@ -31,16 +31,20 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
+#include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <cstdint>
+#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <optional>
 #include <regex>
@@ -83,6 +87,73 @@ bool isAdc(const fs::path& parentPath)
     std::getline(nameFile, name);
 
     return name == "iio_hwmon";
+}
+
+static void
+    getPresentCpus(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    static const int depth = 2;
+    static const int numKeys = 1;
+    GetSubTreeType cpuSubTree;
+
+    try
+    {
+        auto getItems = dbusConnection->new_method_call(
+            mapper::busName, mapper::path, mapper::interface, mapper::subtree);
+        getItems.append(cpuInventoryPath, static_cast<int32_t>(depth),
+                        std::array<const char*, numKeys>{
+                            "xyz.openbmc_project.Inventory.Item"});
+        auto getItemsResp = dbusConnection->call(getItems);
+        getItemsResp.read(cpuSubTree);
+    }
+    catch (sdbusplus::exception_t& e)
+    {
+        std::cerr << "error getting inventory item subtree: " << e.what()
+                  << "\n";
+        return;
+    }
+
+    for (const auto& [path, objDict] : cpuSubTree)
+    {
+        auto obj = sdbusplus::message::object_path(path).filename();
+        boost::to_lower(obj);
+        if (!obj.starts_with("cpu") || objDict.empty())
+        {
+            continue;
+        }
+        const std::string& owner = objDict.begin()->first;
+
+        std::variant<bool> respValue;
+        try
+        {
+            auto getPresence = dbusConnection->new_method_call(
+                owner.c_str(), path.c_str(), "org.freedesktop.DBus.Properties",
+                "Get");
+            getPresence.append("xyz.openbmc_project.Inventory.Item", "Present");
+            auto resp = dbusConnection->call(getPresence);
+            resp.read(respValue);
+        }
+        catch (sdbusplus::exception_t& e)
+        {
+            std::cerr << "Error in getting CPU presence: " << e.what() << "\n";
+            continue;
+        }
+        auto* present = std::get_if<bool>(&respValue);
+        if (present != nullptr && *present)
+        {
+            int cpuIndex = 0;
+            try
+            {
+                cpuIndex = std::stoi(obj.substr(obj.size() - 1));
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "Error converting CPU index, " << e.what() << '\n';
+                continue;
+            }
+            cpuPresence[cpuIndex] = *present;
+        }
+    }
 }
 
 void createSensors(
@@ -385,12 +456,71 @@ int main()
         std::string objectName;
         boost::container::flat_map<std::string, BasicVariantType> values;
         message.read(objectName, values);
-        auto findPresence = values.find("Present");
+        const auto& findPresence = values.find("Present");
+
         if (findPresence == values.end())
         {
             return;
         }
+
         cpuPresence[index] = std::get<bool>(findPresence->second);
+        // this implicitly cancels the timer
+        cpuFilterTimer.expires_after(std::chrono::seconds(1));
+
+        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                /* we were canceled*/
+                return;
+            }
+            if (ec)
+            {
+                std::cerr << "timer error\n";
+                return;
+            }
+            createSensors(io, objectServer, sensors, systemBus, nullptr,
+                          UpdateType::cpuPresenceChange);
+        });
+    };
+
+    std::function<void(sdbusplus::message_t&)> addCpuPresenceHandler =
+        [&](sdbusplus::message_t& message) {
+        sdbusplus::message::object_path cpuPath;
+        std::map<std::string, std::map<std::string, BasicVariantType>>
+            interfaces;
+        message.read(cpuPath, interfaces);
+        std::string cpuName = cpuPath.filename();
+        boost::to_lower(cpuName);
+
+        if (!cpuName.starts_with("cpu"))
+        {
+            return; // not interested
+        }
+        size_t index = 0;
+        try
+        {
+            index = std::stoi(cpuName.substr(cpuName.size() - 1));
+        }
+        catch (const std::invalid_argument&)
+        {
+            std::cerr << "Found invalid path " << cpuInventoryPath << "/"
+                      << cpuName << "\n";
+            return;
+        }
+
+        /* This message is sent by application that include Inventory.Item
+         * interface, therefore We don't have to check finding Inventory.Item
+         * interface is success or not */
+        const auto& values = interfaces[inventoryItemIntf];
+        const auto& findPresence = values.find("Present");
+
+        if (findPresence == values.end())
+        {
+            return;
+        }
+
+        cpuPresence[index] = std::get<bool>(findPresence->second);
+
         // this implicitly cancels the timer
         cpuFilterTimer.expires_after(std::chrono::seconds(1));
 
@@ -415,9 +545,15 @@ int main()
     matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
-            std::string(cpuInventoryPath) +
-            "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
+            std::string(cpuInventoryPath) + "',arg0namespace='" +
+            std::string(inventoryItemIntf) + "'",
         cpuPresenceHandler));
+    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        sdbusplus::bus::match::rules::interfacesAdded(inventoryPath),
+        addCpuPresenceHandler));
+
+    getPresentCpus(systemBus);
 
     setupManufacturingModeMatch(*systemBus);
     io.run();

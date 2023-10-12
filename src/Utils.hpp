@@ -28,6 +28,7 @@ const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
 
 constexpr const char* cpuInventoryPath =
     "/xyz/openbmc_project/inventory/system/chassis/motherboard";
+constexpr const char* inventoryItemIntf = "xyz.openbmc_project.Inventory.Item";
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
 
 using BasicVariantType =
