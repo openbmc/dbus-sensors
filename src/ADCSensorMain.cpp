@@ -396,6 +396,63 @@ int main()
         });
     };
 
+    std::function<void(sdbusplus::message_t&)> addCpuPresenceHandler =
+        [&](sdbusplus::message_t& message) {
+        sdbusplus::message::object_path cpuPath;
+        std::map<std::string,
+                 std::map<std::string, std::variant<bool, std::string>>>
+            interfaces;
+        message.read(cpuPath, interfaces);
+        std::string cpuName = cpuPath.filename();
+        boost::to_lower(cpuName);
+
+        if (!cpuName.starts_with("cpu"))
+        {
+            return; // not interested
+        }
+        size_t index = 0;
+        try
+        {
+            index = std::stoi(cpuName.substr(cpuName.size() - 1));
+        }
+        catch (const std::invalid_argument&)
+        {
+            std::cerr << "Found invalid path " << cpuInventoryPath << "/"
+                      << cpuName << "\n";
+            return;
+        }
+
+        for (const auto& [intfName, values] : interfaces)
+        {
+            if (intfName == "xyz.openbmc_project.Inventory.Item")
+            {
+                auto findPresence = values.find("Present");
+                if (findPresence != values.end())
+                {
+                    cpuPresence[index] = std::get<bool>(findPresence->second);
+                }
+            }
+        }
+
+        // this implicitly cancels the timer
+        cpuFilterTimer.expires_after(std::chrono::seconds(1));
+
+        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                /* we were canceled*/
+                return;
+            }
+            if (ec)
+            {
+                std::cerr << "timer error\n";
+                return;
+            }
+            createSensors(io, objectServer, sensors, systemBus, nullptr,
+                          UpdateType::cpuPresenceChange);
+        });
+    };
+
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
     matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
@@ -404,6 +461,10 @@ int main()
             std::string(cpuInventoryPath) +
             "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
         cpuPresenceHandler));
+    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        sdbusplus::bus::match::rules::interfacesAdded(inventoryPath),
+        addCpuPresenceHandler));
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
