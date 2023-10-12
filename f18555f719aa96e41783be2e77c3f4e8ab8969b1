@@ -81,6 +81,30 @@
       },
       "revId": "f18555f719aa96e41783be2e77c3f4e8ab8969b1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3892bc2_cf3eaa56",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-12T22:08:35Z",
+      "side": 1,
+      "message": "I think if that is a preference, incrementError() should be changed. \nIf we don\u0027t want change the default behavior for everyone, an optional logCount can be passed to incrementError(). \nBut errorThreshold is default to 5, should be ok for all sensors.",
+      "parentUuid": "bb3c5cea_c190ca8b",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 9
+      },
+      "revId": "f18555f719aa96e41783be2e77c3f4e8ab8969b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
