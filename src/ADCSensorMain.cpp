@@ -51,6 +51,8 @@ enum class UpdateType
     init,
     cpuPresenceChange
 };
+boost::asio::io_context io;
+boost::asio::steady_timer cpuFilterTimer(io);
 
 // filter out adc from any other voltage sensor
 bool isAdc(const fs::path& parentPath)
@@ -300,9 +302,35 @@ void createSensors(
         std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()});
 }
 
+void cpuPresentDbusSignalHandler(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>>&
+        sensors,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    const std::shared_ptr<boost::container::flat_set<std::string>>&
+        sensorsChanged,
+    UpdateType updateType)
+{
+    cpuFilterTimer.expires_after(std::chrono::seconds(1));
+
+    cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            /* we were canceled*/
+            return;
+        }
+        if (ec)
+        {
+            std::cerr << "timer error\n";
+            return;
+        }
+        createSensors(io, objectServer, sensors, dbusConnection, sensorsChanged,
+                      updateType);
+    });
+}
+
 int main()
 {
-    boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");
@@ -345,7 +373,6 @@ int main()
         });
     };
 
-    boost::asio::steady_timer cpuFilterTimer(io);
     std::function<void(sdbusplus::message_t&)> cpuPresenceHandler =
         [&](sdbusplus::message_t& message) {
         std::string path = message.get_path();
@@ -377,23 +404,50 @@ int main()
             cpuPresence[index] = std::get<bool>(findPresence->second);
         }
 
-        // this implicitly cancels the timer
-        cpuFilterTimer.expires_after(std::chrono::seconds(1));
+        cpuPresentDbusSignalHandler(io, objectServer, sensors, systemBus,
+                                    nullptr, UpdateType::cpuPresenceChange);
+    };
 
-        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
+    std::function<void(sdbusplus::message_t&)> addCpuPresenceHandler =
+        [&](sdbusplus::message_t& message) {
+        sdbusplus::message::object_path cpuPath;
+        std::map<std::string,
+                 std::map<std::string, std::variant<bool, std::string>>>
+            interfaces;
+        message.read(cpuPath, interfaces);
+        std::string cpuName = cpuPath.filename();
+        boost::to_lower(cpuName);
+
+        if (!cpuName.starts_with("cpu"))
+        {
+            return; // not interested
+        }
+        size_t index = 0;
+        try
+        {
+            index = std::stoi(cpuName.substr(cpuName.size() - 1));
+        }
+        catch (const std::invalid_argument&)
+        {
+            std::cerr << "Found invalid path " << cpuInventoryPath << "/"
+                      << cpuName << "\n";
+            return;
+        }
+
+        for (const auto& [intfName, values] : interfaces)
+        {
+            if (intfName == inventoryItemIntf)
             {
-                /* we were canceled*/
-                return;
+                auto findPresence = values.find("Present");
+                if (findPresence != values.end())
+                {
+                    cpuPresence[index] = std::get<bool>(findPresence->second);
+                }
             }
-            if (ec)
-            {
-                std::cerr << "timer error\n";
-                return;
-            }
-            createSensors(io, objectServer, sensors, systemBus, nullptr,
-                          UpdateType::cpuPresenceChange);
-        });
+        }
+
+        cpuPresentDbusSignalHandler(io, objectServer, sensors, systemBus,
+                                    nullptr, UpdateType::cpuPresenceChange);
     };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
@@ -401,9 +455,13 @@ int main()
     matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
-            std::string(cpuInventoryPath) +
-            "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
+            std::string(cpuInventoryPath) + "',arg0namespace='" +
+            std::string(inventoryItemIntf) + "'",
         cpuPresenceHandler));
+    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        sdbusplus::bus::match::rules::interfacesAdded(inventoryPath),
+        addCpuPresenceHandler));
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
