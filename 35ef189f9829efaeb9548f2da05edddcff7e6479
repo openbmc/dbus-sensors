@@ -156,6 +156,24 @@
       "parentUuid": "633ec6bc_2dc434c5",
       "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f2b99c_71eb50b0",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-16T05:14:10Z",
+      "side": 1,
+      "message": "Failed with using function escapePathForDbus()\nSpace character \u0027 \u0027 is not part of the character set listed in the regex.",
+      "parentUuid": "dbf58a2a_e99a627b",
+      "revId": "35ef189f9829efaeb9548f2da05edddcff7e6479",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
