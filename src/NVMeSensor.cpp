@@ -54,6 +54,9 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
         association::interface);
 
     setInitialProperties(sensor_paths::unitDegreesC);
+    // Mark as unavailable until the first packet has been received over NVMe
+    // MI.
+    markAvailable(false);
 }
 
 NVMeSensor::~NVMeSensor()
