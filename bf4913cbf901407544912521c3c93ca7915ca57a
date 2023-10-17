@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "67ee2139_226d3a34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-17T06:16:48Z",
+      "side": 1,
+      "message": "this customized scale factor declaration come from schemas as below:\nhttps://github.com/openbmc/entity-manager/blob/0422a24bb6033605ce75479f675fedc76abb1167/schemas/legacy.json#L557C33-L557C33\n\nlike \"CurrScaleFactor\" for current using, \"iout1_Scale\" for iout using\nThey are declared as type of \"number\".\nIf there\u0027s a number 2.9 used in PSUsensor, it will lost the decimal part when trasform the value from variant to unsigned int and calculate to the wrong result.\n\nfor example, one sensor named \"FANBOARD_ADC_48V_AUX_VOLT_V\" set as below:\n{\n                \"Address\": 31,\n                \"Bus\": 31,\n                \"Labels\": [\n                    \"in6\"\n                ],\n                \"Name\": \"FANBOARD_ADC\",\n                \"Type\": \"ADC128D818\",\n                \"in6_Name\": \"FANBOARD_ADC_48V_AUX_VOLT_V\",\n                \"in6_Scale\": 31.9458,\n            }\n\nbut scale factor in debug print is 31, not 31.9458:\nJul 28 22:50:36 bmc psusensor[788]: DEBUG_FACTOR:31, name:FANBOARD_ADC_48V_AUX_VOLT_V\n\nThe more reasonable way to resolve the problem is that using variant to float or double, as adc sensor doing so far:\nhttps://github.com/openbmc/dbus-sensors/blob/436c5bdb25c775138c901dc707f203c076adcb97/src/ADCSensorMain.cpp#L237",
+      "parentUuid": "d7c5b140_66dbc43e",
+      "revId": "bf4913cbf901407544912521c3c93ca7915ca57a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "feb68e6d_8f572241",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
