@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb000575_f34dacbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T00:45:01Z",
+      "side": 1,
+      "message": "Why though? What\u0027s the motivation?",
+      "revId": "d36ebd858c8816acb753857fc2b16302c2cb4f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
