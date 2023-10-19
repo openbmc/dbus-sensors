@@ -16,6 +16,24 @@
       "message": "Why though? What\u0027s the motivation?",
       "revId": "d36ebd858c8816acb753857fc2b16302c2cb4f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "394d9e10_83e5e60b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-10-19T03:22:39Z",
+      "side": 1,
+      "message": "It\u0027s for the hwmon driver which reports many power and temp readings.\nex: AMD implemented sbrmi driver to report temp and power of DIMMs.",
+      "parentUuid": "eb000575_f34dacbd",
+      "revId": "d36ebd858c8816acb753857fc2b16302c2cb4f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
