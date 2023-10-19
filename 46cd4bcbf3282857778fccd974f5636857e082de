@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0f34088_0552d638",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-19T03:49:06Z",
+      "side": 1,
+      "message": "Exactly.\nThe commit message has been revised, thank you for the correction.",
+      "parentUuid": "dd5be79f_d3c9e518",
+      "revId": "46cd4bcbf3282857778fccd974f5636857e082de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "848466f3_3764cedb",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "043672c7_a83734da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-19T03:49:06Z",
+      "side": 1,
+      "message": "Revised, thank you for the correction.",
+      "parentUuid": "848466f3_3764cedb",
+      "revId": "46cd4bcbf3282857778fccd974f5636857e082de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d238d023_10b9da76",
@@ -48,6 +84,30 @@
       "writtenOn": "2023-10-19T02:32:45Z",
       "side": 1,
       "message": "Can you please put this in a markdown code block and add some indenting to make it readable?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "46cd4bcbf3282857778fccd974f5636857e082de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af53a28e_159f96b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-19T03:49:06Z",
+      "side": 1,
+      "message": "Revised, thank you for the correction.",
+      "parentUuid": "d238d023_10b9da76",
       "range": {
         "startLine": 16,
         "startChar": 0,
