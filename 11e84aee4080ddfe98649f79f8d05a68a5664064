@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e1396c3_8a8dddd6",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T02:45:37Z",
+      "side": 1,
+      "message": "Hmm, so spot-checking e.g. PSUSensor it doesn\u0027t seem to do this. The fix feels like it\u0027s sensible, but do we need to apply this more broadly? Or perhaps even flip the initial value from `true` to `false` in `setInitialProperties()`?\n\nhttps://github.com/openbmc/dbus-sensors/blob/b886bfc5dbb3633a21e1a25df89951a56647d194/src/sensor.hpp#L361",
+      "revId": "11e84aee4080ddfe98649f79f8d05a68a5664064",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
