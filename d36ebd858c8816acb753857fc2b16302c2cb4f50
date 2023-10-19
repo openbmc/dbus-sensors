@@ -34,6 +34,41 @@
       "parentUuid": "eb000575_f34dacbd",
       "revId": "d36ebd858c8816acb753857fc2b16302c2cb4f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac5b13e_6f1adaf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T03:30:18Z",
+      "side": 1,
+      "message": "Okay - can you please call that out in the commit message, and add a link to the relevant driver in the upstream kernel?\n\nConcretely, commit messages are for explaining why, not what. You need to add words about the motivation and discuss any relevant context and trade-offs.",
+      "parentUuid": "394d9e10_83e5e60b",
+      "revId": "d36ebd858c8816acb753857fc2b16302c2cb4f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf16b6c_078f951a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T03:30:18Z",
+      "side": 1,
+      "message": "Hi Cosmo - can you please update the commit message in line with the comments I\u0027ve made there? I\u0027m scoring this as -1 to indicate that changes are required.",
+      "revId": "d36ebd858c8816acb753857fc2b16302c2cb4f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
