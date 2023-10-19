@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06c8e318_8c1022dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T01:01:07Z",
+      "side": 1,
+      "message": "Can you please make sure your commit messages are formatted appropriately? Here\u0027s a good description of the expectations:\n\nhttps://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html\n\nThe first line should be 50 characters or less in length. You need to find a way to reduce the number of words. Maybe:\n\n```\nfansensor: Make PWM name conform to naming constraints\n```",
+      "revId": "7c02577926826a1e219ce19236ca1027c8eb144f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e049a288_6d8a0ab9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T01:01:07Z",
+      "side": 1,
+      "message": "You\u0027re no-longer using `replace_all()`, so this sentence should be reworked.\n\nAlso these lines also need to be wrapped appropriately (at 70 characters).",
+      "revId": "7c02577926826a1e219ce19236ca1027c8eb144f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ad805f4_23fafcdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T01:01:07Z",
+      "side": 1,
+      "message": "Hi Delphine, I have a couple of minor requests on the commit message. Otherwise this makes sense now.",
+      "revId": "7c02577926826a1e219ce19236ca1027c8eb144f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
