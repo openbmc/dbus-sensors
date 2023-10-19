@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d63ee1cc_ec9a1b2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-19T05:57:48Z",
+      "side": 1,
+      "message": "Revised, thank you for the correction.",
+      "parentUuid": "06c8e318_8c1022dc",
+      "revId": "7c02577926826a1e219ce19236ca1027c8eb144f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e049a288_6d8a0ab9",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-19T01:01:07Z",
       "side": 1,
       "message": "You\u0027re no-longer using `replace_all()`, so this sentence should be reworked.\n\nAlso these lines also need to be wrapped appropriately (at 70 characters).",
+      "revId": "7c02577926826a1e219ce19236ca1027c8eb144f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ee3b4b0_81f649cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-19T05:57:48Z",
+      "side": 1,
+      "message": "Revised, thank you for the correction.",
+      "parentUuid": "e049a288_6d8a0ab9",
       "revId": "7c02577926826a1e219ce19236ca1027c8eb144f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
