@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd5be79f_d3c9e518",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T02:32:45Z",
+      "side": 1,
+      "message": "Based on your description isn\u0027t this in-fact any non-integer value?",
+      "revId": "46cd4bcbf3282857778fccd974f5636857e082de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "848466f3_3764cedb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T02:32:45Z",
+      "side": 1,
+      "message": "Okay, so the type in the EM interface is the type specified in the JSON configuration as inferred by nlohman::json. Which is kinda terrible. Oh well.\n\nSeparately, the expectation is you style your commit messages as described here:\n\nhttps://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html\n\nPlease wrap the lines at appropriate widths.",
+      "revId": "46cd4bcbf3282857778fccd974f5636857e082de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d238d023_10b9da76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T02:32:45Z",
+      "side": 1,
+      "message": "Can you please put this in a markdown code block and add some indenting to make it readable?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "46cd4bcbf3282857778fccd974f5636857e082de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43450d64_a4bb32e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T02:32:45Z",
+      "side": 1,
+      "message": "Perhaps. I guess we\u0027re just trading-off where the quantisation occurs in the number space. Maybe it\u0027s more sensible that it happens at the extremes rather than around zero.",
+      "revId": "46cd4bcbf3282857778fccd974f5636857e082de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "472935b5_3d53be8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-19T02:32:45Z",
+      "side": 1,
+      "message": "Hi Delphine, I think I understand the issues now. I have a couple of small requests on the commit message.",
+      "revId": "46cd4bcbf3282857778fccd974f5636857e082de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
