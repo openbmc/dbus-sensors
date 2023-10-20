@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d1364c8_1b6ed52e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-20T05:04:35Z",
+      "side": 1,
+      "message": "Is this the actual driver you care about, or a driver that happened to provide a higher number of attributes? I want this to be a relevant link, not something semi-arbitrary. Also I\u0027d prefer the link be via git.kernel.org so we\u0027re confident this is an upstream driver.",
+      "revId": "0bbb938498ac804f73108148949950c9d098ce1c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
