@@ -34,6 +34,24 @@
       "parentUuid": "8e1396c3_8a8dddd6",
       "revId": "11e84aee4080ddfe98649f79f8d05a68a5664064",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e2e006_5ff0f212",
+        "filename": "src/NVMeSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-20T05:13:27Z",
+      "side": 1,
+      "message": "Yes, checking PSUSensor was more of a question of whether this was a specific oversight in NVMeSensor or whether it was a broader code-pattern. And the answer is the problem is a broader code-pattern but generally it doesn\u0027t matter for the reasons you outlined.",
+      "parentUuid": "f2ec9739_e1ae0e8a",
+      "revId": "11e84aee4080ddfe98649f79f8d05a68a5664064",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
