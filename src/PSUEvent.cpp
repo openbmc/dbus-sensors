@@ -214,7 +214,7 @@ void PSUSubEvent::setupRead(void)
         {
             self->handleResponse(ec, bytesTransferred);
         }
-        });
+    });
 }
 
 void PSUSubEvent::restartRead()

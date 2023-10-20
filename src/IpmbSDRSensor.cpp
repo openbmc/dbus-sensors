@@ -69,7 +69,7 @@ void IpmbSDRDevice::getSDRRepositoryInfo()
                                data[recordCountLSB];
 
         self->reserveSDRRepository(recordCount);
-        },
+    },
         ipmbService, ipmbDbusPath, ipmbInterface, ipmbMethod, commandAddress,
         sdr::netfnStorageReq, lun, sdr::cmdStorageGetSdrInfo, sdrCommandData);
 }
@@ -107,7 +107,7 @@ void IpmbSDRDevice::reserveSDRRepository(uint16_t recordCount)
         uint8_t resrvIDMSB = data[1];
 
         self->getSDRSensorData(recordCount, resrvIDLSB, resrvIDMSB);
-        },
+    },
         ipmbService, ipmbDbusPath, ipmbInterface, ipmbMethod, commandAddress,
         sdr::netfnStorageReq, lun, sdr::cmdStorageReserveSdr, sdrCommandData);
 }
@@ -150,7 +150,7 @@ void IpmbSDRDevice::getSDRSensorData(uint16_t recordCount, uint8_t resrvIDLSB,
         }
 
         self->handleSDRData(data, recordCount, resrvIDLSB, resrvIDMSB);
-        },
+    },
         ipmbService, ipmbDbusPath, ipmbInterface, ipmbMethod, commandAddress,
         sdr::netfnStorageReq, lun, sdr::cmdStorageGetSdr, commandData);
 }

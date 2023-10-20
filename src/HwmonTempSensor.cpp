@@ -136,7 +136,7 @@ void HwmonTempSensor::setupRead(void)
         {
             self->handleResponse(ec, bytesRead);
         }
-        });
+    });
 }
 
 void HwmonTempSensor::restartRead()

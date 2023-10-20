@@ -491,7 +491,7 @@ void createSensors(
                 configMap.erase(findSensorCfg);
             }
         }
-        });
+    });
     std::vector<std::string> types(sensorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
     {
@@ -620,7 +620,7 @@ int main()
             std::string(inventoryPath) + "/'",
         [&sensors](sdbusplus::message_t& msg) {
         interfaceRemoved(msg, sensors);
-        });
+    });
 
     matches.emplace_back(std::move(ifaceRemovedMatch));
 

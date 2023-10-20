@@ -155,7 +155,7 @@ void IpmbSensor::runInitCmd()
         [weakRef{weak_from_this()}](const boost::system::error_code& ec,
                                     const IpmbMethodType& response) {
         initCmdCb(weakRef, ec, response);
-        },
+    },
         "xyz.openbmc_project.Ipmi.Channel.Ipmb",
         "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
         "sendRequest", commandAddress, netfn, lun, *initCommand, initData);
@@ -436,7 +436,7 @@ void IpmbSensor::sendIpmbRequest()
             return;
         }
         self->ipmbRequestCompletionCb(ec, response);
-        },
+    },
         "xyz.openbmc_project.Ipmi.Channel.Ipmb",
         "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
         "sendRequest", commandAddress, netfn, lun, command, commandData);
@@ -597,7 +597,7 @@ void createSensors(
                 sensor->init();
             }
         }
-        },
+    },
         entityManagerName, "/xyz/openbmc_project/inventory",
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
@@ -749,7 +749,7 @@ int main()
             configInterfaceName(sdrInterface) + "'",
         [&systemBus](sdbusplus::message_t& msg) {
         sdrHandler(msg, systemBus);
-        });
+    });
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.

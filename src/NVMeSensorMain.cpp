@@ -206,9 +206,9 @@ void createSensors(boost::asio::io_context& io,
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection, [&io, &objectServer, &dbusConnection](
                             const ManagedObjectType& sensorConfigurations) {
-            handleSensorConfigurations(io, objectServer, dbusConnection,
-                                       sensorConfigurations);
-        });
+        handleSensorConfigurations(io, objectServer, dbusConnection,
+                                   sensorConfigurations);
+    });
     getter->getConfiguration(std::vector<std::string>{NVMeSensor::sensorType});
 }
 
@@ -291,7 +291,7 @@ int main()
             std::string(inventoryPath) + "/'",
         [](sdbusplus::message_t& msg) {
         interfaceRemoved(msg, nvmeDeviceMap);
-        });
+    });
 
     setupManufacturingModeMatch(*systemBus);
     io.run();

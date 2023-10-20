@@ -130,7 +130,7 @@ void ADCSensor::setupRead(void)
                         self->readBuf = buffer;
                         self->handleResponse(ec);
                     }
-                    });
+                });
             }
         });
     }
@@ -146,7 +146,7 @@ void ADCSensor::setupRead(void)
                 self->readBuf = buffer;
                 self->handleResponse(ec);
             }
-            });
+        });
     }
 }
 

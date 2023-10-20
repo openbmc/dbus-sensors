@@ -267,8 +267,8 @@ struct Sensor
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
             "Value", value, [this](const double& newValue, double& oldValue) {
-                return setSensorValue(newValue, oldValue);
-            });
+            return setSensorValue(newValue, oldValue);
+        });
 
         fillMissingThresholds();
 
@@ -317,7 +317,7 @@ struct Sensor
                 // using updateValue(), which can check conditions like
                 // poweron, etc., before raising any event.
                 return 1;
-                });
+            });
             iface->register_property(alarm, false);
         }
         if (!sensorInterface->initialize())
@@ -359,17 +359,17 @@ struct Sensor
                     availableInterfaceName);
             availableInterface->register_property(
                 "Available", true, [this](const bool propIn, bool& old) {
-                    if (propIn == old)
-                    {
-                        return 1;
-                    }
-                    old = propIn;
-                    if (!propIn)
-                    {
-                        updateValue(std::numeric_limits<double>::quiet_NaN());
-                    }
+                if (propIn == old)
+                {
                     return 1;
-                });
+                }
+                old = propIn;
+                if (!propIn)
+                {
+                    updateValue(std::numeric_limits<double>::quiet_NaN());
+                }
+                return 1;
+            });
             availableInterface->initialize();
         }
         if (!operationalInterface)

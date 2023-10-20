@@ -120,7 +120,7 @@ void TachSensor::setupRead()
         {
             self->handleResponse(ec, bytesRead);
         }
-        });
+    });
 }
 
 void TachSensor::restartRead(size_t pollTime)

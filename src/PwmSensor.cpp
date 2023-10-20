@@ -91,7 +91,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         controlInterface->signal_property("Target");
 
         return 1;
-        },
+    },
         [this](double& curVal) {
         double currScaled = (curVal / 100.0) * pwmMax;
         auto currInt = static_cast<uint32_t>(std::round(currScaled));
@@ -134,7 +134,7 @@ PwmSensor::PwmSensor(const std::string& name, const std::string& sysPath,
         sensorInterface->signal_property("Value");
 
         return 1;
-        },
+    },
         [this](uint64_t& curVal) {
         auto getInt = getValue();
         auto scaledValue = static_cast<double>(getInt) / pwmMax;

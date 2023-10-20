@@ -252,7 +252,7 @@ void createSensors(
                 sensor->init();
             }
         }
-        },
+    },
         entityManagerName, "/xyz/openbmc_project/inventory",
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }

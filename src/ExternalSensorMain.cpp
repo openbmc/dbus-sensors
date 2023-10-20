@@ -325,7 +325,7 @@ void createSensors(
                 std::cerr << "ExternalSensor " << sensorName << " created\n";
             }
         }
-        });
+    });
 
     getter->getConfiguration(std::vector<std::string>{sensorType});
 }

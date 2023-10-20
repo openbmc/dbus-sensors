@@ -140,15 +140,15 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                         std::cerr << "Error setting pid class\n";
                         return;
                     }
-                    },
+                },
                     owner, path, "org.freedesktop.DBus.Properties", "Set",
                     pidConfigurationType, "OutLimitMax",
                     std::variant<double>(value));
-                },
+            },
                 owner, path, "org.freedesktop.DBus.Properties", "Get",
                 pidConfigurationType, "Class");
         }
-        },
+    },
         mapper::busName, mapper::path, mapper::interface, mapper::subtree, "/",
         0, std::array<std::string, 1>{pidConfigurationType});
 }
@@ -210,7 +210,7 @@ void CFMSensor::setupMatches()
         {
             self->updateReading();
         }
-        });
+    });
 
     dbusConnection->async_method_call(
         [weakRef](const boost::system::error_code ec,
@@ -233,7 +233,7 @@ void CFMSensor::setupMatches()
         self->pwmLimitIface->register_property("Limit", maxRpm);
         self->pwmLimitIface->initialize();
         setMaxPWM(self->dbusConnection, maxRpm);
-        },
+    },
         settingsDaemon, cfmSettingPath, "org.freedesktop.DBus.Properties",
         "Get", cfmSettingIface, "Limit");
 
@@ -313,7 +313,7 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
         double min = loadVariant<double>(data, "MinValue");
         self->tachRanges[path] = std::make_pair(min, max);
         self->updateReading();
-        },
+    },
         serviceName, path, "org.freedesktop.DBus.Properties", "GetAll",
         "xyz.openbmc_project.Sensor.Value");
 }
@@ -404,10 +404,9 @@ bool CFMSensor::calculate(double& value)
         auto findReading = std::find_if(
             tachReadings.begin(), tachReadings.end(),
             [&](const auto& item) { return item.first.ends_with(tachName); });
-        auto findRange = std::find_if(tachRanges.begin(), tachRanges.end(),
-                                      [&](const auto& item) {
-            return item.first.ends_with(tachName);
-        });
+        auto findRange = std::find_if(
+            tachRanges.begin(), tachRanges.end(),
+            [&](const auto& item) { return item.first.ends_with(tachName); });
         if (findReading == tachReadings.end())
         {
             if constexpr (debug)
@@ -571,7 +570,7 @@ void ExitAirTempSensor::setupMatches(void)
             return;
         }
         self->inletTemp = std::visit(VariantToDoubleVisitor(), value);
-        },
+    },
         "xyz.openbmc_project.HwmonTempSensor",
         std::string("/xyz/openbmc_project/sensors/") + inletTemperatureSensor,
         properties::interface, properties::get, sensorValueInterface, "Value");
@@ -622,12 +621,12 @@ void ExitAirTempSensor::setupMatches(void)
                         std::cerr << cbPath << "Reading " << reading << "\n";
                     }
                     self->powerReadings[cbPath] = reading;
-                    },
+                },
                     matches[0].first, cbPath, properties::interface,
                     properties::get, sensorValueInterface, "Value");
             }
         }
-        },
+    },
         mapper::busName, mapper::path, mapper::interface, mapper::subtree,
         "/xyz/openbmc_project/sensors/power", 0,
         std::array<const char*, 1>{sensorValueInterface});
@@ -860,9 +859,8 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         return;
     }
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        [&objectServer, &dbusConnection,
-         &exitAirSensor](const ManagedObjectType& resp) {
+        dbusConnection, [&objectServer, &dbusConnection,
+                         &exitAirSensor](const ManagedObjectType& resp) {
         cfmSensors.clear();
         for (const auto& [path, interfaces] : resp)
         {
@@ -918,7 +916,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
             exitAirSensor->setupMatches();
             exitAirSensor->updateReading();
         }
-        });
+    });
     getter->getConfiguration(
         std::vector<std::string>(monitorTypes.begin(), monitorTypes.end()));
 }
