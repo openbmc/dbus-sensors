@@ -16,6 +16,24 @@
       "message": "Is this the actual driver you care about, or a driver that happened to provide a higher number of attributes? I want this to be a relevant link, not something semi-arbitrary. Also I\u0027d prefer the link be via git.kernel.org so we\u0027re confident this is an upstream driver.",
       "revId": "0bbb938498ac804f73108148949950c9d098ce1c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdbba8c1_8edc3986",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-10-20T07:31:31Z",
+      "side": 1,
+      "message": "Is this link OK?\nhttps://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/tree/drivers/hwmon/aquacomputer_d5next.c",
+      "parentUuid": "5d1364c8_1b6ed52e",
+      "revId": "0bbb938498ac804f73108148949950c9d098ce1c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
