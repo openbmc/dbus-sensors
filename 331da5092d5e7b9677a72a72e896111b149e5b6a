@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1def19d_e3bfd78e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-24T19:09:30Z",
+      "side": 1,
+      "message": "remove duplication",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "331da5092d5e7b9677a72a72e896111b149e5b6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "985a29eb_8010ce34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-24T19:09:30Z",
+      "side": 1,
+      "message": "nit: please remove the extra space",
+      "range": {
+        "startLine": 9,
+        "startChar": 70,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "331da5092d5e7b9677a72a72e896111b149e5b6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec8eae5_61947f32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-24T19:09:30Z",
+      "side": 1,
+      "message": "Code change looks good. Some minor clean up in commit message is need, then it is good to go.",
+      "revId": "331da5092d5e7b9677a72a72e896111b149e5b6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
