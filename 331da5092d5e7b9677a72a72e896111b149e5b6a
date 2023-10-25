@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af7465e_cde759eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-25T03:10:27Z",
+      "side": 1,
+      "message": "The duplication has benn revised, thank you for the correction.",
+      "parentUuid": "f1def19d_e3bfd78e",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "331da5092d5e7b9677a72a72e896111b149e5b6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "985a29eb_8010ce34",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-24T19:09:30Z",
       "side": 1,
       "message": "nit: please remove the extra space",
+      "range": {
+        "startLine": 9,
+        "startChar": 70,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "331da5092d5e7b9677a72a72e896111b149e5b6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52b8b300_b77d3520",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-25T03:10:27Z",
+      "side": 1,
+      "message": "The space char seems auto be added when I add newline line by using \"git commit --amend\", commit message has been re-format for newline.",
+      "parentUuid": "985a29eb_8010ce34",
       "range": {
         "startLine": 9,
         "startChar": 70,
