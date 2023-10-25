@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d6f1e1_e2f03d44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-10-25T06:38:08Z",
+      "side": 1,
+      "message": "Clang-format cause the CI test failed, but it doesn\u0027t change in this commit.",
+      "revId": "d5564da810b6a310e814856c251c8f79aefcf24c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
