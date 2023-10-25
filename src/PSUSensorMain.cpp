@@ -425,9 +425,12 @@ static void createSensorsCallback(
 
             if ((*confBus != bus) || (*confAddr != addr))
             {
-                std::cerr << "Configuration skipping " << *confBus << "-"
-                          << *confAddr << " because not " << bus << "-" << addr
-                          << "\n";
+                if constexpr (debug)
+                {
+                    std::cerr << "Configuration skipping " << *confBus << "-"
+                              << *confAddr << " because not " << bus << "-"
+                              << addr << "\n";
+                }
                 continue;
             }
 
