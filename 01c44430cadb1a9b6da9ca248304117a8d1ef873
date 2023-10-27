@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7d5a7df_1a410a32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-27T23:10:00Z",
+      "side": 1,
+      "message": "Please add \"Tested\" section",
+      "revId": "01c44430cadb1a9b6da9ca248304117a8d1ef873",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a43d3606_12b2cc5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-27T23:10:00Z",
+      "side": 1,
+      "message": "Overall, I think it is a good improvement. Code change makes sense to me. I will give this a try and report the result",
+      "revId": "01c44430cadb1a9b6da9ca248304117a8d1ef873",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
