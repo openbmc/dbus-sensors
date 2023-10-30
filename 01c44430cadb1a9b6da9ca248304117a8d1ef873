@@ -58,6 +58,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62cbe573_9f2bfb56",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-10-30T01:31:30Z",
+      "side": 1,
+      "message": "nameIndex is only used in non-customizedName cases.\nIn customizedName cases, the customized Names (from entity-manager) are used instead of psuProperty-\u003elabelTypeName.",
+      "parentUuid": "0f004903_cd4f4e63",
+      "range": {
+        "startLine": 807,
+        "startChar": 19,
+        "endLine": 807,
+        "endChar": 28
+      },
+      "revId": "01c44430cadb1a9b6da9ca248304117a8d1ef873",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82f5b2e9_bc076ab3",
