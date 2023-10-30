@@ -82,6 +82,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a0959b5_f43b63c4",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-10-30T03:55:04Z",
+      "side": 1,
+      "message": "And it\u0027s only for labelTypeName of \"fan\", e.g. \"Fan Speed 1\", \"Fan Speed 2\", \"Fan Speed 3\" ..., not used on other sensors.",
+      "parentUuid": "62cbe573_9f2bfb56",
+      "range": {
+        "startLine": 807,
+        "startChar": 19,
+        "endLine": 807,
+        "endChar": 28
+      },
+      "revId": "01c44430cadb1a9b6da9ca248304117a8d1ef873",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82f5b2e9_bc076ab3",
