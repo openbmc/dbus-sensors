@@ -150,6 +150,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b049a51_0183bb88",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-10-31T02:26:53Z",
+      "side": 1,
+      "message": "\u003e nameIndex is only used in non-customizedName cases.\n\nBased on the code, and the fact that the variable now needs declared outside the \"if (customizedName)\" branch, that doesn\u0027t seem correct.\n\n\u003e And it\u0027s only for labelTypeName of \"fan\",\n\nright.... but it\u0027s still incorrect for fans that don\u0027t customize their name?",
+      "parentUuid": "963a8877_8a0cbe8e",
+      "range": {
+        "startLine": 807,
+        "startChar": 19,
+        "endLine": 807,
+        "endChar": 28
+      },
+      "revId": "01c44430cadb1a9b6da9ca248304117a8d1ef873",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82f5b2e9_bc076ab3",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 2
