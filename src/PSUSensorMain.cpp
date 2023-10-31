@@ -115,6 +115,10 @@ struct DevParams
 
 namespace fs = std::filesystem;
 
+using EventList =
+    boost::container::flat_map<std::string, std::vector<std::string>>;
+using EventPathList = boost::container::flat_map<std::string, EventList>;
+
 static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
     sensors;
 static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
@@ -124,14 +128,9 @@ static boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
 static boost::container::flat_map<std::string, std::string> sensorTable;
 static boost::container::flat_map<std::string, PSUProperty> labelMatch;
 static boost::container::flat_map<std::string, std::string> pwmTable;
-static boost::container::flat_map<std::string, std::vector<std::string>>
-    eventMatch;
-static boost::container::flat_map<
-    std::string,
-    boost::container::flat_map<std::string, std::vector<std::string>>>
-    groupEventMatch;
-static boost::container::flat_map<std::string, std::vector<std::string>>
-    limitEventMatch;
+static EventList eventMatch;
+static EventPathList groupEventMatch;
+static EventList limitEventMatch;
 
 static std::vector<PSUProperty> psuProperties;
 static boost::container::flat_map<size_t, bool> cpuPresence;
@@ -140,12 +139,8 @@ static boost::container::flat_map<DevTypes, DevParams> devParamMap;
 // Function CheckEvent will check each attribute from eventMatch table in the
 // sysfs. If the attributes exists in sysfs, then store the complete path
 // of the attribute into eventPathList.
-void checkEvent(
-    const std::string& directory,
-    const boost::container::flat_map<std::string, std::vector<std::string>>&
-        eventMatch,
-    boost::container::flat_map<std::string, std::vector<std::string>>&
-        eventPathList)
+void checkEvent(const std::string& directory, const EventList& eventMatch,
+                EventList& eventPathList)
 {
     for (const auto& match : eventMatch)
     {
@@ -170,24 +165,15 @@ void checkEvent(
 
 // Check Group Events which contains more than one targets in each combine
 // events.
-void checkGroupEvent(
-    const std::string& directory,
-    const boost::container::flat_map<
-        std::string,
-        boost::container::flat_map<std::string, std::vector<std::string>>>&
-        groupEventMatch,
-    boost::container::flat_map<
-        std::string,
-        boost::container::flat_map<std::string, std::vector<std::string>>>&
-        groupEventPathList)
+void checkGroupEvent(const std::string& directory,
+                     const EventPathList& groupEventMatch,
+                     EventPathList& groupEventPathList)
 {
     for (const auto& match : groupEventMatch)
     {
         const std::string& groupEventName = match.first;
-        const boost::container::flat_map<std::string, std::vector<std::string>>
-            events = match.second;
-        boost::container::flat_map<std::string, std::vector<std::string>>
-            pathList;
+        const EventList events = match.second;
+        EventList pathList;
         for (const auto& match : events)
         {
             const std::string& eventName = match.first;
@@ -214,12 +200,9 @@ void checkGroupEvent(
 // in sysfs to see if xxx_crit_alarm xxx_lcrit_alarm xxx_max_alarm
 // xxx_min_alarm exist, then store the existing paths of the alarm attributes
 // to eventPathList.
-void checkEventLimits(
-    const std::string& sensorPathStr,
-    const boost::container::flat_map<std::string, std::vector<std::string>>&
-        limitEventMatch,
-    boost::container::flat_map<std::string, std::vector<std::string>>&
-        eventPathList)
+void checkEventLimits(const std::string& sensorPathStr,
+                      const EventList& limitEventMatch,
+                      EventList& eventPathList)
 {
     auto attributePartPos = sensorPathStr.find_last_of('_');
     if (attributePartPos == std::string::npos)
@@ -321,12 +304,8 @@ static void createSensorsCallback(
     boost::container::flat_set<std::string> directories;
     for (const auto& pmbusPath : pmbusPaths)
     {
-        boost::container::flat_map<std::string, std::vector<std::string>>
-            eventPathList;
-        boost::container::flat_map<
-            std::string,
-            boost::container::flat_map<std::string, std::vector<std::string>>>
-            groupEventPathList;
+        EventList eventPathList;
+        EventPathList groupEventPathList;
 
         std::ifstream nameFile(pmbusPath);
         if (!nameFile.good())
