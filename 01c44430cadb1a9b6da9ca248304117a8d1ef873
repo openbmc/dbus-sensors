@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d23d416a_f948d097",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-10-31T01:36:30Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "e7d5a7df_1a410a32",
+      "revId": "01c44430cadb1a9b6da9ca248304117a8d1ef873",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a43d3606_12b2cc5d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -129,6 +147,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91ae962e_096765e9",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-10-31T01:36:30Z",
+      "side": 1,
+      "message": "I just made a change to support it.",
+      "parentUuid": "82f5b2e9_bc076ab3",
+      "range": {
+        "startLine": 1106,
+        "startChar": 0,
+        "endLine": 1109,
+        "endChar": 35
+      },
+      "revId": "01c44430cadb1a9b6da9ca248304117a8d1ef873",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3cc32be_82c76dcc",
@@ -142,6 +184,30 @@
       "writtenOn": "2023-10-28T21:06:59Z",
       "side": 1,
       "message": "Same thing with this table?",
+      "range": {
+        "startLine": 1119,
+        "startChar": 0,
+        "endLine": 1123,
+        "endChar": 67
+      },
+      "revId": "01c44430cadb1a9b6da9ca248304117a8d1ef873",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ead7ffb0_db9a8c8c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-10-31T01:36:30Z",
+      "side": 1,
+      "message": "I just made a change to support it.",
+      "parentUuid": "d3cc32be_82c76dcc",
       "range": {
         "startLine": 1119,
         "startChar": 0,
