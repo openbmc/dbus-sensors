@@ -30,6 +30,10 @@
 #include <string>
 #include <vector>
 
+using EventList =
+    boost::container::flat_map<std::string, std::vector<std::string>>;
+using EventPathList = boost::container::flat_map<std::string, EventList>;
+
 class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
 {
   public:
@@ -78,18 +82,12 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
 class PSUCombineEvent
 {
   public:
-    PSUCombineEvent(
-        sdbusplus::asio::object_server& objectServer,
-        std::shared_ptr<sdbusplus::asio::connection>& conn,
-        boost::asio::io_context& io, const std::string& psuName,
-        const PowerState& powerState,
-        boost::container::flat_map<std::string, std::vector<std::string>>&
-            eventPathList,
-        boost::container::flat_map<
-            std::string,
-            boost::container::flat_map<std::string, std::vector<std::string>>>&
-            groupEventPathList,
-        const std::string& combineEventName, double pollRate);
+    PSUCombineEvent(sdbusplus::asio::object_server& objectServer,
+                    std::shared_ptr<sdbusplus::asio::connection>& conn,
+                    boost::asio::io_context& io, const std::string& psuName,
+                    const PowerState& powerState, EventList& eventPathList,
+                    EventPathList& groupEventPathList,
+                    const std::string& combineEventName, double pollRate);
     ~PSUCombineEvent();
 
     sdbusplus::asio::object_server& objServer;
