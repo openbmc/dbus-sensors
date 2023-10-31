@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "678db234_444766e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-31T18:54:48Z",
+      "side": 1,
+      "message": "Why \"can never\" change?\nThis would depends how present is discovered. If a GPIO is used, maybe true. But if it requires chassis power on to detect, it can change when BMC boots with chassis power off.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "a34c26193e605e90a0ad6443cc8b86d0498b2e5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d986cba_a6634982",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-31T18:54:48Z",
+      "side": 1,
+      "message": "Was the test performed and what is the actual result?",
+      "range": {
+        "startLine": 18,
+        "startChar": 19,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "a34c26193e605e90a0ad6443cc8b86d0498b2e5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5df9ff1c_0b506a0a",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 1
