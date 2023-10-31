@@ -10,25 +10,27 @@
 #include <memory>
 #include <string>
 
-class ChassisIntrusionSensor
+class ChassisIntrusionSensor :
+    public std::enable_shared_from_this<ChassisIntrusionSensor>
 {
   public:
-    explicit ChassisIntrusionSensor(bool autoRearm,
+    explicit ChassisIntrusionSensor(bool autoRearm, boost::asio::io_context& io,
                                     sdbusplus::asio::object_server& objServer);
 
     virtual ~ChassisIntrusionSensor();
 
-    void start();
+    virtual void start();
 
   protected:
     virtual int readSensor() = 0;
-    virtual void pollSensorStatus() = 0;
+    virtual void pollSensorStatus();
     void updateValue(const size_t& value);
 
   private:
     std::string mValue;
     // If this sensor uses automatic rearm method. Otherwise, manually rearm it
     bool mAutoRearm;
+    boost::asio::steady_timer mPollTimer;
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
     sdbusplus::asio::object_server& mObjServer;
     bool mOverridenState = false;
@@ -38,9 +40,7 @@ class ChassisIntrusionSensor
     int setSensorValue(const std::string& req, std::string& propertyValue);
 };
 
-class ChassisIntrusionPchSensor :
-    public ChassisIntrusionSensor,
-    public std::enable_shared_from_this<ChassisIntrusionPchSensor>
+class ChassisIntrusionPchSensor : public ChassisIntrusionSensor
 {
   public:
     ChassisIntrusionPchSensor(bool autoRearm, boost::asio::io_context& io,
@@ -52,14 +52,10 @@ class ChassisIntrusionPchSensor :
   private:
     int mBusFd{-1};
     int mSlaveAddr{-1};
-    boost::asio::steady_timer mPollTimer;
     int readSensor() override;
-    void pollSensorStatus() override;
 };
 
-class ChassisIntrusionGpioSensor :
-    public ChassisIntrusionSensor,
-    public std::enable_shared_from_this<ChassisIntrusionGpioSensor>
+class ChassisIntrusionGpioSensor : public ChassisIntrusionSensor
 {
   public:
     ChassisIntrusionGpioSensor(bool autoRearm, boost::asio::io_context& io,
@@ -67,6 +63,8 @@ class ChassisIntrusionGpioSensor :
                                bool gpioInverted);
 
     ~ChassisIntrusionGpioSensor() override;
+
+    void start() override;
 
   private:
     bool mGpioInverted{false};
@@ -77,21 +75,17 @@ class ChassisIntrusionGpioSensor :
     void pollSensorStatus() override;
 };
 
-class ChassisIntrusionHwmonSensor :
-    public ChassisIntrusionSensor,
-    public std::enable_shared_from_this<ChassisIntrusionHwmonSensor>
+class ChassisIntrusionHwmonSensor : public ChassisIntrusionSensor
 {
   public:
     ChassisIntrusionHwmonSensor(bool autoRearm, boost::asio::io_context& io,
                                 sdbusplus::asio::object_server& objServer,
                                 std::string hwmonName);
 
-    ~ChassisIntrusionHwmonSensor() override;
+    ~ChassisIntrusionHwmonSensor() override = default;
 
   private:
     std::string mHwmonName;
     std::string mHwmonPath;
-    boost::asio::steady_timer mPollTimer;
     int readSensor() override;
-    void pollSensorStatus() override;
 };
