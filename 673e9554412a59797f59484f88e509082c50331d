@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2666fbb9_b617b256",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-31T20:22:54Z",
+      "side": 1,
+      "message": "Build failed due to formatting issue",
+      "revId": "673e9554412a59797f59484f88e509082c50331d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea6159d4_534ce3c0",
+        "filename": "src/PSUEvent.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-31T20:22:54Z",
+      "side": 1,
+      "message": "EventPathList",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 15
+      },
+      "revId": "673e9554412a59797f59484f88e509082c50331d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eb7e3d8_d47749c0",
+        "filename": "src/PSUEvent.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-31T20:22:54Z",
+      "side": 1,
+      "message": "GroupEventPathList or EventPathListGroup or EventPathListMap",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 19
+      },
+      "revId": "673e9554412a59797f59484f88e509082c50331d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b8b81ce_0aef432c",
+        "filename": "src/PSUEvent.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-10-31T20:22:54Z",
+      "side": 1,
+      "message": "This is a bit confusing, maybe rename the type in using statements above",
+      "range": {
+        "startLine": 88,
+        "startChar": 50,
+        "endLine": 89,
+        "endChar": 54
+      },
+      "revId": "673e9554412a59797f59484f88e509082c50331d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
