@@ -149,44 +149,6 @@ int ChassisIntrusionPchSensor::readSensor()
     return value;
 }
 
-void ChassisIntrusionPchSensor::pollSensorStatus()
-{
-    std::weak_ptr<ChassisIntrusionPchSensor> weakRef = weak_from_this();
-
-    // setting a new experation implicitly cancels any pending async wait
-    mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
-
-    mPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        // case of being canceled
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            lg2::error("Timer of intrusion sensor is cancelled");
-            return;
-        }
-
-        std::shared_ptr<ChassisIntrusionPchSensor> self = weakRef.lock();
-        if (!self)
-        {
-            lg2::error("ChassisIntrusionSensor no self");
-            return;
-        }
-
-        int value = self->readSensor();
-        if (value < 0)
-        {
-            intrusionSensorPollSec = sensorFailedPollSec;
-        }
-        else
-        {
-            intrusionSensorPollSec = defaultPollSec;
-            self->updateValue(value);
-        }
-
-        // trigger next polling
-        self->pollSensorStatus();
-    });
-}
-
 int ChassisIntrusionGpioSensor::readSensor()
 {
     mGpioLine.event_read();
@@ -223,6 +185,19 @@ void ChassisIntrusionGpioSensor::pollSensorStatus()
                 pollSensorStatus();
             }
         });
+}
+
+void ChassisIntrusionGpioSensor::start()
+{
+    pollSensorStatus();
+
+    // Initial sensor value update for GPIO class which uses interrupts.
+    // This is placed after the polling to Fd to avoid missing of events.
+    auto value = mGpioLine.get_value();
+    if (value >= 0)
+    {
+        updateValue(value);
+    }
 }
 
 int ChassisIntrusionHwmonSensor::readSensor()
@@ -264,42 +239,41 @@ int ChassisIntrusionHwmonSensor::readSensor()
     return value;
 }
 
-void ChassisIntrusionHwmonSensor::pollSensorStatus()
+void ChassisIntrusionSensor::pollSensorStatus()
 {
-    std::weak_ptr<ChassisIntrusionHwmonSensor> weakRef = weak_from_this();
-
     // setting a new experation implicitly cancels any pending async wait
     mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
 
-    mPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        // case of being canceled
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            lg2::error("Timer of intrusion sensor is cancelled");
-            return;
-        }
+    mPollTimer.async_wait(
+        [weakRef{weak_from_this()}](const boost::system::error_code& ec) {
+            // case of being canceled
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                lg2::error("Timer of intrusion sensor is cancelled\n");
+                return;
+            }
 
-        std::shared_ptr<ChassisIntrusionHwmonSensor> self = weakRef.lock();
-        if (!self)
-        {
-            lg2::error("ChassisIntrusionSensor no self");
-            return;
-        }
+            auto self = weakRef.lock();
+            if (!self)
+            {
+                lg2::error("ChassisIntrusionSensor no self\n");
+                return;
+            }
 
-        int value = self->readSensor();
-        if (value < 0)
-        {
-            intrusionSensorPollSec = sensorFailedPollSec;
-        }
-        else
-        {
-            intrusionSensorPollSec = defaultPollSec;
-            self->updateValue(value);
-        }
+            int value = self->readSensor();
+            if (value < 0)
+            {
+                intrusionSensorPollSec = sensorFailedPollSec;
+            }
+            else
+            {
+                intrusionSensorPollSec = defaultPollSec;
+                self->updateValue(value);
+            }
 
-        // trigger next polling
-        self->pollSensorStatus();
-    });
+            // trigger next polling
+            self->pollSensorStatus();
+        });
 }
 
 int ChassisIntrusionSensor::setSensorValue(const std::string& req,
@@ -348,6 +322,17 @@ int ChassisIntrusionSensor::setSensorValue(const std::string& req,
 
 void ChassisIntrusionSensor::start()
 {
+    pollSensorStatus();
+}
+
+ChassisIntrusionSensor::ChassisIntrusionSensor(
+    bool autoRearm, boost::asio::io_context& io,
+    sdbusplus::asio::object_server& objServer) :
+    mValue(normalValStr), mAutoRearm(autoRearm), mPollTimer(io),
+    mObjServer(objServer)
+{
+    mIface = mObjServer.add_interface("/xyz/openbmc_project/Chassis/Intrusion",
+                                      "xyz.openbmc_project.Chassis.Intrusion");
     mIface->register_property(
         "Status", mValue,
         [&](const std::string& req, std::string& propertyValue) {
@@ -356,21 +341,12 @@ void ChassisIntrusionSensor::start()
     std::string rearmStr = mAutoRearm ? autoRearmStr : manualRearmStr;
     mIface->register_property("Rearm", rearmStr);
     mIface->initialize();
-    pollSensorStatus();
-}
-
-ChassisIntrusionSensor::ChassisIntrusionSensor(
-    bool autoRearm, sdbusplus::asio::object_server& objServer) :
-    mValue(normalValStr), mAutoRearm(autoRearm), mObjServer(objServer)
-{
-    mIface = mObjServer.add_interface("/xyz/openbmc_project/Chassis/Intrusion",
-                                      "xyz.openbmc_project.Chassis.Intrusion");
 }
 
 ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
     bool autoRearm, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objServer, int busId, int slaveAddr) :
-    ChassisIntrusionSensor(autoRearm, objServer), mPollTimer(io)
+    ChassisIntrusionSensor(autoRearm, io, objServer)
 {
     if (busId < 0 || slaveAddr <= 0)
     {
@@ -413,8 +389,8 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
 ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
     bool autoRearm, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objServer, bool gpioInverted) :
-    ChassisIntrusionSensor(autoRearm, objServer), mGpioInverted(gpioInverted),
-    mGpioFd(io)
+    ChassisIntrusionSensor(autoRearm, io, objServer),
+    mGpioInverted(gpioInverted), mGpioFd(io)
 {
     mGpioLine = gpiod::find_line(mPinName);
     if (!mGpioLine)
@@ -438,8 +414,8 @@ ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
 ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
     bool autoRearm, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objServer, std::string hwmonName) :
-    ChassisIntrusionSensor(autoRearm, objServer),
-    mHwmonName(std::move(hwmonName)), mPollTimer(io)
+    ChassisIntrusionSensor(autoRearm, io, objServer),
+    mHwmonName(std::move(hwmonName))
 {
     std::vector<std::filesystem::path> paths;
 
@@ -474,12 +450,12 @@ ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
 
 ChassisIntrusionSensor::~ChassisIntrusionSensor()
 {
+    mPollTimer.cancel();
     mObjServer.remove_interface(mIface);
 }
 
 ChassisIntrusionPchSensor::~ChassisIntrusionPchSensor()
 {
-    mPollTimer.cancel();
     if (close(mBusFd) < 0)
     {
         lg2::error("Failed to close fd '{FD}'", "FD", mBusFd);
@@ -493,9 +469,4 @@ ChassisIntrusionGpioSensor::~ChassisIntrusionGpioSensor()
     {
         mGpioLine.release();
     }
-}
-
-ChassisIntrusionHwmonSensor::~ChassisIntrusionHwmonSensor()
-{
-    mPollTimer.cancel();
 }
