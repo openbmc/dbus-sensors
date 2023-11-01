@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2957c5c_1864a057",
+        "filename": "src/PSUEvent.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2023-11-01T00:51:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea6159d4_534ce3c0",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 15
+      },
+      "revId": "673e9554412a59797f59484f88e509082c50331d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eb7e3d8_d47749c0",
@@ -64,6 +88,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d632aa2f_ffcaedd4",
+        "filename": "src/PSUEvent.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2023-11-01T00:51:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6eb7e3d8_d47749c0",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 19
+      },
+      "revId": "673e9554412a59797f59484f88e509082c50331d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b8b81ce_0aef432c",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-10-31T20:22:54Z",
       "side": 1,
       "message": "This is a bit confusing, maybe rename the type in using statements above",
+      "range": {
+        "startLine": 88,
+        "startChar": 50,
+        "endLine": 89,
+        "endChar": 54
+      },
+      "revId": "673e9554412a59797f59484f88e509082c50331d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f6f465e_1d1f83ea",
+        "filename": "src/PSUEvent.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2023-11-01T00:51:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b8b81ce_0aef432c",
       "range": {
         "startLine": 88,
         "startChar": 50,
