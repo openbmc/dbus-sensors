@@ -46,6 +46,23 @@
       },
       "revId": "1f73ea1d77b5c3a876e65b472f13b546cd9411a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4bd5717_a0e6a3bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-11-01T02:51:10Z",
+      "side": 1,
+      "message": "The change in GPIO reading from event to polling looks good for me. It is the sensor, not the signal, therefore, we don\u0027t have to monitor the GPIO\u0027s events.",
+      "revId": "1f73ea1d77b5c3a876e65b472f13b546cd9411a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
