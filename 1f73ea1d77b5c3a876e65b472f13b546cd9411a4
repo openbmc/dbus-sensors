@@ -22,6 +22,30 @@
       },
       "revId": "1f73ea1d77b5c3a876e65b472f13b546cd9411a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adab4ae1_0cb18313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-11-01T02:09:31Z",
+      "side": 1,
+      "message": "We can, but I see that it makes this type stand out from the others because they should all be able to call readSensor() as their own way to read. Moreover, I think let them 3 all use timer polling will make pollSensorStatus() to be implemented by the base class instead of being overriden by the 3 and also get rid of the need to read the intial state.\n\nI\u0027m not sure if there will be other types coming that prefer another method to poll over using timer. Do you suggest that I should leave it like that and just read the initial state for this type in its constructor?",
+      "parentUuid": "80d9502a_aa649b66",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "1f73ea1d77b5c3a876e65b472f13b546cd9411a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
