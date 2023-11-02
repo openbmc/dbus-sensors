@@ -107,6 +107,12 @@ FanTypes getFanType(const fs::path& parentPath)
 }
 void enablePwm(const fs::path& filePath)
 {
+    if (!std::filesystem::exists(filePath))
+    {
+        // some drivers do not expose this file, e.g.
+        // https://docs.kernel.org/hwmon/aspeed-pwm-tacho.html
+        return;
+    }
     std::fstream enableFile(filePath, std::ios::in | std::ios::out);
     if (!enableFile.good())
     {
