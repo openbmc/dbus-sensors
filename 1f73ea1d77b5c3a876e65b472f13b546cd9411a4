@@ -63,6 +63,23 @@
       "message": "The change in GPIO reading from event to polling looks good for me. It is the sensor, not the signal, therefore, we don\u0027t have to monitor the GPIO\u0027s events.",
       "revId": "1f73ea1d77b5c3a876e65b472f13b546cd9411a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "485f0630_93af7fc3",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1001496
+      },
+      "writtenOn": "2023-11-03T16:13:02Z",
+      "side": 1,
+      "message": "Please remove commented code",
+      "revId": "1f73ea1d77b5c3a876e65b472f13b546cd9411a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
