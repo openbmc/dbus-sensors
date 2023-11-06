@@ -485,6 +485,7 @@ int main()
     createSensorsFromConfig(io, objServer, systemBus, intrusionSensor);
 
     // callback to handle configuration change
+    boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
         if (message.is_method_error())
@@ -492,9 +493,17 @@ int main()
             std::cerr << "callback method error\n";
             return;
         }
-
-        std::cout << "rescan due to configuration change \n";
-        createSensorsFromConfig(io, objServer, systemBus, intrusionSensor);
+        // this implicitly cancels the timer
+        filterTimer.expires_after(std::chrono::seconds(1));
+        filterTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                // timer was cancelled
+                return;
+            }
+            std::cout << "rescan due to configuration change \n";
+            createSensorsFromConfig(io, objServer, systemBus, intrusionSensor);
+        });
     };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
