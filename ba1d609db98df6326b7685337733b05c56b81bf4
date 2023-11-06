@@ -118,6 +118,30 @@
       },
       "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c722e73_157c1256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001140
+      },
+      "writtenOn": "2023-11-06T23:59:16Z",
+      "side": 1,
+      "message": "I have to admit I\u0027m not really sure, I may have jumped too quickly to a conclusion there. Something appears to be racing in the callback and this patch appears to fix that, though it might be more of a sweeping under the rug than fixing.\n\nStill, I think that having something like this is likely the correct approach, especially given that other sensor daemons take similar approaches.",
+      "parentUuid": "5f803834_76b5b5b1",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
