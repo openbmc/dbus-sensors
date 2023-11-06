@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68102a08_db27314e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-06T22:52:15Z",
+      "side": 1,
+      "message": "Can you please add some more words here about the history? Further, this seems like a fix. If so, it would be good to identify the commits that this is fixing explicitly with a `Fixes:` tag in the footer.\n\nHere\u0027s an excellent description of the expectations of a commit message, including how to go about adding `Fixes:` tags:\n\nhttps://docs.kernel.org/process/submitting-patches.html#describe-your-changes",
+      "revId": "24096c6eaa99506ad286439e33efe8771f8745c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0c6d765_b257efda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-06T22:52:15Z",
+      "side": 1,
+      "message": "Why add the others if you can only verify the I2C case?",
+      "revId": "24096c6eaa99506ad286439e33efe8771f8745c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c4b129b_f19a92ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-06T22:52:15Z",
+      "side": 1,
+      "message": "Ideally this would be your legal name in alignment with your entry in AMI\u0027s CLA. Can you please fix your git username?",
+      "revId": "24096c6eaa99506ad286439e33efe8771f8745c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "008f13dd_cb69a37b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-06T22:52:15Z",
+      "side": 1,
+      "message": "Hi Krishna, thanks for the patch. I\u0027d like to see more description in the commit message. I\u0027ve left some comments there to that effect. I\u0027ve also left a query on the code change.",
+      "revId": "24096c6eaa99506ad286439e33efe8771f8745c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb60200f_8c246777",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-06T22:52:15Z",
+      "side": 1,
+      "message": "Isn\u0027t this now all the fan types? Can you add a comment about what this is trying to achieve? Why guard the assignment at all?",
+      "revId": "24096c6eaa99506ad286439e33efe8771f8745c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
