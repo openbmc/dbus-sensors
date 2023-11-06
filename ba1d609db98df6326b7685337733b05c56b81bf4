@@ -94,6 +94,30 @@
       },
       "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f803834_76b5b5b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-06T22:40:34Z",
+      "side": 1,
+      "message": "How does that get us to a race in libgpiod though? Could this not be a concurrency issue with manipulating some other data structure internal to the intrusion sensor?",
+      "parentUuid": "1fb5e618_2bde7731",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
