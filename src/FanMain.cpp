@@ -444,7 +444,8 @@ void createSensors(
                 }
             }
             std::optional<RedundancySensor>* redundancy = nullptr;
-            if (fanType == FanTypes::aspeed)
+            if (fanType == FanTypes::aspeed || fanType == FanTypes::i2c ||
+                fanType == FanTypes::nuvoton || fanType == FanTypes::hpe)
             {
                 redundancy = &systemRedundancy;
             }
