@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bc2f1b2_7168897b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-11-06T18:53:05Z",
+      "side": 1,
+      "message": "I\u0027d be curious to hear more on that...is there a bug we should be fixing there instead?",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
