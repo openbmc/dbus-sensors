@@ -22,6 +22,30 @@
       },
       "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "501be32c_0be64f33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001140
+      },
+      "writtenOn": "2023-11-06T19:07:30Z",
+      "side": 1,
+      "message": "Maybe? Is libgpiod even thread (context?) safe?\n\nI didn\u0027t look into it too much once I realized the issue was only occurring at system boot when there were a number of configuration changes each triggering a callback. I stole the timer idea here from Entity Manager, but then realized a lot of other dbus-sensor daemons have them as well. I think reducing the amount of work done for a quick succession of configuration changes is always going to be correct.",
+      "parentUuid": "1bc2f1b2_7168897b",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
