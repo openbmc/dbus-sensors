@@ -443,11 +443,7 @@ void createSensors(
                     }
                 }
             }
-            std::optional<RedundancySensor>* redundancy = nullptr;
-            if (fanType == FanTypes::aspeed)
-            {
-                redundancy = &systemRedundancy;
-            }
+            std::optional<RedundancySensor>* redundancy = &systemRedundancy;
 
             PowerState powerState = getPowerState(baseConfiguration->second);
 
