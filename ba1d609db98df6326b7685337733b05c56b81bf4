@@ -142,6 +142,30 @@
       },
       "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27e33afb_8e75dc3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-07T02:14:50Z",
+      "side": 1,
+      "message": "Perhaps then it\u0027s worth dropping the argument about races in libgpiod and using the consistency argument instead?",
+      "parentUuid": "2c722e73_157c1256",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ba1d609db98df6326b7685337733b05c56b81bf4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
