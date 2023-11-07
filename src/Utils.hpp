@@ -132,7 +132,7 @@ const static constexpr char* busname = "xyz.openbmc_project.State.Chassis";
 const static constexpr char* interface = "xyz.openbmc_project.State.Chassis";
 const static constexpr char* path = "/xyz/openbmc_project/state/chassis0";
 const static constexpr char* property = "CurrentPowerState";
-const static constexpr char* sOn = "On";
+const static constexpr char* sOn = ".On";
 } // namespace chassis
 
 namespace post
