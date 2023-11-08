@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9ab4458_62a552ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-08T00:09:35Z",
+      "side": 1,
+      "message": "This is not a `Fixes:` tag as mentioned in the documentation at https://docs.kernel.org/process/submitting-patches.html#describe-your-changes\n\nExamples of `Fixes:` tags can be found in the following:\n\n1. https://github.com/openbmc/dbus-sensors/commit/39963226535a\n2. https://github.com/openbmc/dbus-sensors/commit/ea148ec6f913\n3. https://github.com/openbmc/dbus-sensors/commit/a7afacc4fa5e\n\nIt also needs to go in the \"trailer\" of the commit message, down by the `Change-Id:` and `Signed-off-by:` tags. Here\u0027s some more information on why tags in the trailer are useful:\n\nhttps://git-scm.com/docs/git-interpret-trailers",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "60f822d35c1cb738f787ec1703da8a7b14f3cf2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ab69bfc_9a168409",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-08T00:09:35Z",
+      "side": 1,
+      "message": "Thanks for fixing this.",
+      "revId": "60f822d35c1cb738f787ec1703da8a7b14f3cf2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

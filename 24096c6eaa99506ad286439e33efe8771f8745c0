@@ -174,6 +174,24 @@
       "parentUuid": "cb60200f_8c246777",
       "revId": "24096c6eaa99506ad286439e33efe8771f8745c0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43dca8d7_ed86fa78",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-08T00:09:35Z",
+      "side": 1,
+      "message": "But the condition on 325 is not the same because it excludes `FanTypes::i2c`. Why do we need this condition at all if we\u0027re allowing all fan types to pass it? Why not instead write:\n\n```\nstd::optional\u003cRedundancySensor\u003e* redundancy \u003d \u0026systemRedundancy;\n```\n\nAlso I\u0027m not convinced by needing a pointer to a `std::optional`, but that problem already existed...",
+      "parentUuid": "ae4b0f1e_5112943a",
+      "revId": "24096c6eaa99506ad286439e33efe8771f8745c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
