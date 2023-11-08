@@ -22,6 +22,30 @@
       },
       "revId": "b4fc8392bd1051a8759e5e03d4f57c2358e33bac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8600503_e0be547e",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-11-08T08:11:34Z",
+      "side": 1,
+      "message": "This case seems isn\u0027t enteded when scale factor is customized (#887)\nso I think that it\u0027s no need with this commit.",
+      "parentUuid": "9f674569_2af6ac26",
+      "range": {
+        "startLine": 887,
+        "startChar": 40,
+        "endLine": 887,
+        "endChar": 59
+      },
+      "revId": "b4fc8392bd1051a8759e5e03d4f57c2358e33bac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
