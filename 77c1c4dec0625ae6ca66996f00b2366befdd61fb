@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba13b406_b2aafa10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-11-09T00:13:44Z",
+      "side": 1,
+      "message": "Code change looks OK, consistent with other daemons",
+      "revId": "77c1c4dec0625ae6ca66996f00b2366befdd61fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
