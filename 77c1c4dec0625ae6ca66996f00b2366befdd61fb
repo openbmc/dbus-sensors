@@ -16,6 +16,23 @@
       "message": "Code change looks OK, consistent with other daemons",
       "revId": "77c1c4dec0625ae6ca66996f00b2366befdd61fb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5837a4e_d9747a11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-11-09T08:02:15Z",
+      "side": 1,
+      "message": "Tested on Ampere\u0027s Mitchell platform.",
+      "revId": "77c1c4dec0625ae6ca66996f00b2366befdd61fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
