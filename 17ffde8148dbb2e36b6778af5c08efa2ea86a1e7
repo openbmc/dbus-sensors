@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70b6a3b0_b1b92ac5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-10T02:41:17Z",
+      "side": 1,
+      "message": "This is still missing the `Fixes:` tag I asked for on PS3?",
+      "revId": "17ffde8148dbb2e36b6778af5c08efa2ea86a1e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c561cfd4_bcbb63c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-10T02:41:17Z",
+      "side": 1,
+      "message": "Hi Krishna, there are still a couple of unaddressed comments from PS3. Can you please address them?",
+      "revId": "17ffde8148dbb2e36b6778af5c08efa2ea86a1e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46564c60_7e5a8327",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-10T02:41:17Z",
+      "side": 1,
+      "message": "Why are we first setting it to `nullptr` only to immediately reassign it to `\u0026systemRedundancy`? We can assign the pointer directly like I suggested in my comments on PS3.",
+      "range": {
+        "startLine": 446,
+        "startChar": 12,
+        "endLine": 447,
+        "endChar": 43
+      },
+      "revId": "17ffde8148dbb2e36b6778af5c08efa2ea86a1e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
