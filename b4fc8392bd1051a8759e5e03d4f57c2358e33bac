@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1660925c_68a8a9f3",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-11-15T18:57:21Z",
+      "side": 1,
+      "message": "you need more checks here.  Now that this is a double, you need to check that it\u0027s not NAN, is a valid value, etc.",
+      "range": {
+        "startLine": 747,
+        "startChar": 47,
+        "endLine": 748,
+        "endChar": 16
+      },
+      "revId": "b4fc8392bd1051a8759e5e03d4f57c2358e33bac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6cd950c_41354df8",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-11-15T18:57:21Z",
+      "side": 1,
+      "message": "Doesn\u0027t this now need to be std::powl now?  std::pow truncates.",
+      "range": {
+        "startLine": 874,
+        "startChar": 30,
+        "endLine": 874,
+        "endChar": 33
+      },
+      "revId": "b4fc8392bd1051a8759e5e03d4f57c2358e33bac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f674569_2af6ac26",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 6
@@ -62,6 +108,30 @@
       "side": 1,
       "message": "ACK",
       "parentUuid": "b8600503_e0be547e",
+      "range": {
+        "startLine": 887,
+        "startChar": 40,
+        "endLine": 887,
+        "endChar": 59
+      },
+      "revId": "b4fc8392bd1051a8759e5e03d4f57c2358e33bac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b002e1a5_5188577f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-11-15T18:57:21Z",
+      "side": 1,
+      "message": "\u003e This case seems isn\u0027t enteded when scale factor is customized \n\nI\u0027m not sure I understand this.  You\u0027ve changed the variable for BOTH customized scale and non-customized scale, so this likely needs changed, otherwise it will now truncate?",
+      "parentUuid": "a85afadd_52d9a3c7",
       "range": {
         "startLine": 887,
         "startChar": 40,
