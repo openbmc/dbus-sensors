@@ -119,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15baeb3c_f39f5204",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-11-20T01:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "919e931a_3397f59b",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 18
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "069a1718_3d0c832b",
@@ -142,6 +166,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e410a3e_53a4826a",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-11-20T01:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "069a1718_3d0c832b",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 18
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40bba5f0_11fd4297",
@@ -155,6 +203,30 @@
       "writtenOn": "2023-05-02T00:39:15Z",
       "side": 1,
       "message": "should error condition return na?",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 23
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49d95d04_ee723801",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-11-20T01:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40bba5f0_11fd4297",
       "range": {
         "startLine": 239,
         "startChar": 0,
