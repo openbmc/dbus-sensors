@@ -118,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3228af8a_39f76cc3",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6449b25_c753ebec",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7db5d07c_4ef6ab44",
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "Shouldn\u0027t the delay time cover that?",
       "parentUuid": "66e6ee39_3f0d47dd",
+      "range": {
+        "startLine": 43,
+        "startChar": 21,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f2a857f_6c9de2e3",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "I agree",
+      "parentUuid": "10cb7f6b_4166bbaa",
       "range": {
         "startLine": 43,
         "startChar": 21,
@@ -297,6 +345,30 @@
       "side": 1,
       "message": "This isn\u0027t modifying the status though, it\u0027s saying the fan got unplugged.  I would expect this to be a shutdown.",
       "parentUuid": "6e6a3b74_34fa8082",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 28
+      },
+      "revId": "63cc693663f5e6168bf813ea8db9ea40891579ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ac4ed7c_48747bb0",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "This is the same behavior as the original event driven code. The event driven code will not call monitorPresence() in that state.  This polling code will continue calling monitorPresence(), so it could potentially recover.\nNot sure what you mean by \"expect this to be a shutdown\". If a fan is not present, that would not not necessarily mean the system is not safe. Some fans could be redundant and/or other fans could compensate.\n(presence sensors are optional according to FanMain.cpp)",
+      "parentUuid": "f2525420_c30ef49a",
       "range": {
         "startLine": 322,
         "startChar": 0,

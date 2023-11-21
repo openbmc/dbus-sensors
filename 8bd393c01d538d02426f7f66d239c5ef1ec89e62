@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c36955_abe26ac8",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "Yes, this throw triggers the creation of the PollingPresenceSensor",
+      "parentUuid": "6326bec3_3820148e",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 55
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0de91e8_425bd893",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-26T11:11:46Z",
       "side": 1,
       "message": "Since function has multiple places to fail. Return error or true/false",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 5
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08af6a6c_25542f22",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "I think the fanInserted is intended in providing the status.  If there is a failure, the fanInserted would be false (fan not present).",
+      "parentUuid": "b0de91e8_425bd893",
       "range": {
         "startLine": 300,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35d902dd_2bc3acf8",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "See above comment",
+      "parentUuid": "3eebe34b_c1f94289",
+      "range": {
+        "startLine": 328,
+        "startChar": 4,
+        "endLine": 328,
+        "endChar": 46
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb12afdd_e19d70cd",
@@ -93,6 +165,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a411910c_69bf4546",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "fb12afdd_e19d70cd",
+      "range": {
+        "startLine": 355,
+        "startChar": 14,
+        "endLine": 355,
+        "endChar": 27
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "731227d8_a8cbf7d5",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-10-26T11:11:46Z",
       "side": 1,
       "message": "Give better function names.",
+      "range": {
+        "startLine": 375,
+        "startChar": 28,
+        "endLine": 375,
+        "endChar": 36
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa1ee82_3253fc58",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "This is the same function name as the existing PresenseSensor.\nThe function is returning the value of the PollingPresenceSensor, so seems logical to me.",
+      "parentUuid": "731227d8_a8cbf7d5",
       "range": {
         "startLine": 375,
         "startChar": 28,

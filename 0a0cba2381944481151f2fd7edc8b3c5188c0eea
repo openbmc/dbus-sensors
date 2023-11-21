@@ -425,6 +425,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f107c9f5_50bb71fe",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-21T23:34:48Z",
+      "side": 1,
+      "message": "I think the problem with using weak_ptr, is that the original PresenceSensor object is a unique_ptr and it gets moved to the TachSensor object (line 61). My understanding is that that would immediately invalidate the weak_ptr.\nIs usage of the weak_ptr required when the object is already a unique_ptr?",
+      "parentUuid": "b3407057_174044f2",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
