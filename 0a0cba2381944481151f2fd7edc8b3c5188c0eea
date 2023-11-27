@@ -497,6 +497,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3be4db4e_5218a96e",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-27T23:38:06Z",
+      "side": 1,
+      "message": "I\u0027m not super familiar with the TachSensor code so would have to invest some time to estimate the intent of the object lifetimes vs what\u0027s implemented. Hopefully Zhikui has a better grip on it and can answer your questions.",
+      "parentUuid": "db3cbb22_f9a6c5d4",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
