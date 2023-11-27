@@ -473,6 +473,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db3cbb22_f9a6c5d4",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-27T23:34:01Z",
+      "side": 1,
+      "message": "Would this also be an issue for the original PresenceSensor object? (line 259)\nBoth constructors call monitorPresence() and then within monitorPresence, it recursively calls itself.\nI have to do more research on lambda functions and pointers. In FanMain.cpp the presence object is created (which calls monitorPresence) and then the object is moved to the TachSensor object which is what is causing the weak_ptr to fail.",
+      "parentUuid": "34def084_34233124",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
