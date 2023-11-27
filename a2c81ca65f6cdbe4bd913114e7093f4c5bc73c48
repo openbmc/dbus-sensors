@@ -16,6 +16,24 @@
       "message": "This isn\u0027t what I asked for either 😞 I linked to three commits that provide examples of what I was after on PS6, including the documentation defining how it looks. I don\u0027t know what more I can do other than give you what I was after directly. It looks like it was this, which matches your link:\n\n```\nFixes: 95b079b785b5 (\"Fansensor: Add psu fan support\")\n```",
       "revId": "a2c81ca65f6cdbe4bd913114e7093f4c5bc73c48",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53e26a23_1d4ee761",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001223
+      },
+      "writtenOn": "2023-11-27T07:12:50Z",
+      "side": 1,
+      "message": "Hi Andrew,\nI apologize for the confusion. Thank you for suggestions.\nwill make sure to follow your suggestion in future .",
+      "parentUuid": "78381d16_cc35b305",
+      "revId": "a2c81ca65f6cdbe4bd913114e7093f4c5bc73c48",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
