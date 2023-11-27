@@ -449,6 +449,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34def084_34233124",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-11-27T01:10:24Z",
+      "side": 1,
+      "message": "If you\u0027re holding a reference to an object in a lambda that\u0027s used as a callback for some IO then you need to either:\n\n1. Define object lifetimes so you can guarantee there\u0027s no outstanding IO operation concurrent to the destruction of the object\n2. Use `shared_ptr` / `weak_ptr` to punt on lifetimes and let reference counting handle destruction.\n\nI can\u0027t see how `unique_ptr` helps there unless we\u0027re moving it through the callback lambda and back out to some other live object when the lambda is invoked.",
+      "parentUuid": "f107c9f5_50bb71fe",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
