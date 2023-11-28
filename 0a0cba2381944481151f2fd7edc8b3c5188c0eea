@@ -521,6 +521,30 @@
       },
       "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc6e64f5_cb632e32",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2023-11-28T04:11:46Z",
+      "side": 1,
+      "message": "I found a solution using shared_ptr/weak_ptr. I moved the call to monitorPresence() from the constructor of the PresenceSensor objects to the constructor of the TachSensor object. Since the PresenceSensor object is moved into the TachSensor, this change will allow the weak_ptr to be used in the monitorPresence functions.",
+      "parentUuid": "3be4db4e_5218a96e",
+      "range": {
+        "startLine": 289,
+        "startChar": 9,
+        "endLine": 289,
+        "endChar": 13
+      },
+      "revId": "0a0cba2381944481151f2fd7edc8b3c5188c0eea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
