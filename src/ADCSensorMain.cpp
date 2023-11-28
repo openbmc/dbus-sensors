@@ -53,6 +53,7 @@ enum class UpdateType
 };
 boost::asio::io_context io;
 boost::asio::steady_timer cpuFilterTimer(io);
+bool cpuPresentUpdated = false;
 
 // filter out adc from any other voltage sensor
 bool isAdc(const fs::path& parentPath)
@@ -72,6 +73,73 @@ bool isAdc(const fs::path& parentPath)
     return name == "iio_hwmon";
 }
 
+static void
+    getPresentCpus(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    static const int depth = 2;
+    static const int numKeys = 1;
+    GetSubTreeType cpuSubTree;
+
+    try
+    {
+        auto getItems = dbusConnection->new_method_call(
+            mapper::busName, mapper::path, mapper::interface, mapper::subtree);
+        getItems.append(cpuInventoryPath, static_cast<int32_t>(depth),
+                        std::array<const char*, numKeys>{
+                            "xyz.openbmc_project.Inventory.Item"});
+        auto getItemsResp = dbusConnection->call(getItems);
+        getItemsResp.read(cpuSubTree);
+    }
+    catch (sdbusplus::exception_t& e)
+    {
+        std::cerr << "error getting inventory item subtree: " << e.what()
+                  << "\n";
+        return;
+    }
+
+    for (const auto& [path, objDict] : cpuSubTree)
+    {
+        auto obj = sdbusplus::message::object_path(path).filename();
+        boost::to_lower(obj);
+        if (!obj.starts_with("cpu") || objDict.empty())
+        {
+            continue;
+        }
+        const std::string& owner = objDict.begin()->first;
+
+        std::variant<bool> respValue;
+        try
+        {
+            auto getPresence = dbusConnection->new_method_call(
+                owner.c_str(), path.c_str(), "org.freedesktop.DBus.Properties",
+                "Get");
+            getPresence.append("xyz.openbmc_project.Inventory.Item", "Present");
+            auto resp = dbusConnection->call(getPresence);
+            resp.read(respValue);
+        }
+        catch (sdbusplus::exception_t& e)
+        {
+            std::cerr << "Error in getting CPU presence: " << e.what() << "\n";
+            continue;
+        }
+        auto* present = std::get_if<bool>(&respValue);
+        if (present != nullptr && *present)
+        {
+            int cpuIndex = 0;
+            try
+            {
+                cpuIndex = std::stoi(obj.substr(obj.size() - 1));
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "Error converting CPU index, " << e.what() << '\n';
+                continue;
+            }
+            cpuPresence[cpuIndex] = *present;
+        }
+    }
+}
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<ADCSensor>>&
@@ -81,6 +149,10 @@ void createSensors(
         sensorsChanged,
     UpdateType updateType)
 {
+    if (cpuPresence.empty())
+    {
+        cpuPresentUpdated = false;
+    }
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
         [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
@@ -207,6 +279,15 @@ void createSensors(
             auto findCPU = baseConfiguration->second.find("CPURequired");
             if (findCPU != baseConfiguration->second.end())
             {
+                /*
+                 * CPU present is not updated.
+                 * Check the present of CPU Present DBus interface once.
+                 */
+                if (!cpuPresentUpdated)
+                {
+                    cpuPresentUpdated = true;
+                    getPresentCpus(dbusConnection);
+                }
                 size_t index = std::visit(VariantToIntVisitor(),
                                           findCPU->second);
                 auto presenceFind = cpuPresence.find(index);
@@ -401,6 +482,7 @@ int main()
         auto findPresence = values.find("Present");
         if (findPresence != values.end())
         {
+            cpuPresentUpdated = true;
             cpuPresence[index] = std::get<bool>(findPresence->second);
         }
 
@@ -441,6 +523,7 @@ int main()
                 auto findPresence = values.find("Present");
                 if (findPresence != values.end())
                 {
+                    cpuPresentUpdated = true;
                     cpuPresence[index] = std::get<bool>(findPresence->second);
                 }
             }
