@@ -475,6 +475,7 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
     {
         if (config.state == State::READY)
         {
+            keepPinging = false;
             continue;
         }
 
