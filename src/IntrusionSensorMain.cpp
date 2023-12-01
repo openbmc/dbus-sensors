@@ -131,7 +131,7 @@ static void createSensorsFromConfig(
                         (std::get<std::string>(findGpioPolarity->second) ==
                          "Low");
                     pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
-                        autoRearm, io, objServer, gpioInverted);
+                        autoRearm, io, path, objServer, gpioInverted);
                     pSensor->start();
                     if (debug)
                     {
@@ -171,7 +171,7 @@ static void createSensorsFromConfig(
                 try
                 {
                     pSensor = std::make_shared<ChassisIntrusionHwmonSensor>(
-                        autoRearm, io, objServer, hwmonName);
+                        autoRearm, io, path, objServer, hwmonName);
                     pSensor->start();
                     return;
                 }
@@ -197,7 +197,7 @@ static void createSensorsFromConfig(
                     int busId = std::get<uint64_t>(findBus->second);
                     int slaveAddr = std::get<uint64_t>(findAddress->second);
                     pSensor = std::make_shared<ChassisIntrusionPchSensor>(
-                        autoRearm, io, objServer, busId, slaveAddr);
+                        autoRearm, io, path, objServer, busId, slaveAddr);
                     pSensor->start();
                     if (debug)
                     {
