@@ -141,7 +141,8 @@ static void createSensorsFromConfig(
                         (std::get<std::string>(findGpioPolarity->second) ==
                          "Low");
                     pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
-                        sensorName, autoRearm, io, objServer, gpioInverted);
+                        sensorName, autoRearm, io, path, objServer,
+                        gpioInverted);
                     pSensor->start();
                     if (debug)
                     {
