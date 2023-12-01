@@ -61,6 +61,8 @@ static constexpr const char* manualRearmStr =
     "xyz.openbmc_project.Chassis.Intrusion.RearmMode.Manual";
 static constexpr const char* autoRearmStr =
     "xyz.openbmc_project.Chassis.Intrusion.RearmMode.Automatic";
+static constexpr const char* dbusObjPathStr =
+    "/xyz/openbmc_project/Chassis/Intrusion";
 
 // SMLink Status Register
 const static constexpr size_t pchStatusRegIntrusion = 0x04;
@@ -311,12 +313,12 @@ void ChassisIntrusionSensor::start()
 }
 
 ChassisIntrusionSensor::ChassisIntrusionSensor(
-    bool autoRearm, boost::asio::io_context& io,
+    bool autoRearm, boost::asio::io_context& io, const std::string& confPath,
     sdbusplus::asio::object_server& objServer) :
     mValue(normalValStr),
     mAutoRearm(autoRearm), mPollTimer(io), mObjServer(objServer)
 {
-    mIface = mObjServer.add_interface("/xyz/openbmc_project/Chassis/Intrusion",
+    mIface = mObjServer.add_interface(dbusObjPathStr,
                                       "xyz.openbmc_project.Chassis.Intrusion");
     mIface->register_property(
         "Status", mValue,
@@ -326,12 +328,24 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
     std::string rearmStr = mAutoRearm ? autoRearmStr : manualRearmStr;
     mIface->register_property("Rearm", rearmStr);
     mIface->initialize();
+    mAssocIface = mObjServer.add_interface(dbusObjPathStr,
+                                           association::interface);
+    if (mAssocIface)
+    {
+        fs::path path(confPath);
+
+        std::vector<Association> associations;
+        associations.emplace_back("monitoring", "monitored_by",
+                                  path.parent_path().string());
+        mAssocIface->register_property("Associations", associations);
+        mAssocIface->initialize();
+    }
 }
 
 ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
-    bool autoRearm, boost::asio::io_context& io,
+    bool autoRearm, boost::asio::io_context& io, const std::string& confPath,
     sdbusplus::asio::object_server& objServer, int busId, int slaveAddr) :
-    ChassisIntrusionSensor(autoRearm, io, objServer)
+    ChassisIntrusionSensor(autoRearm, io, confPath, objServer)
 {
     if (busId < 0 || slaveAddr <= 0)
     {
@@ -372,9 +386,9 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
 }
 
 ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
-    bool autoRearm, boost::asio::io_context& io,
+    bool autoRearm, boost::asio::io_context& io, const std::string& confPath,
     sdbusplus::asio::object_server& objServer, bool gpioInverted) :
-    ChassisIntrusionSensor(autoRearm, io, objServer),
+    ChassisIntrusionSensor(autoRearm, io, confPath, objServer),
     mGpioInverted(gpioInverted), mGpioFd(io)
 {
     mGpioLine = gpiod::find_line(mPinName);
@@ -405,9 +419,9 @@ ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
 }
 
 ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
-    bool autoRearm, boost::asio::io_context& io,
+    bool autoRearm, boost::asio::io_context& io, const std::string& confPath,
     sdbusplus::asio::object_server& objServer, std::string hwmonName) :
-    ChassisIntrusionSensor(autoRearm, io, objServer),
+    ChassisIntrusionSensor(autoRearm, io, confPath, objServer),
     mHwmonName(std::move(hwmonName))
 {
     std::vector<fs::path> paths;
@@ -444,6 +458,7 @@ ChassisIntrusionSensor::~ChassisIntrusionSensor()
 {
     mPollTimer.cancel();
     mObjServer.remove_interface(mIface);
+    mObjServer.remove_interface(mAssocIface);
 }
 
 ChassisIntrusionPchSensor::~ChassisIntrusionPchSensor()
