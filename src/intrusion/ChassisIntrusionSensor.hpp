@@ -14,9 +14,9 @@ class ChassisIntrusionSensor :
     public std::enable_shared_from_this<ChassisIntrusionSensor>
 {
   public:
-    explicit ChassisIntrusionSensor(const std::string& name, bool autoRearm,
-                                    boost::asio::io_context& io,
-                                    sdbusplus::asio::object_server& objServer);
+    explicit ChassisIntrusionSensor(
+        const std::string& name, bool autoRearm, boost::asio::io_context& io,
+        const std::string& confPath, sdbusplus::asio::object_server& objServer);
 
     virtual ~ChassisIntrusionSensor();
 
@@ -33,6 +33,7 @@ class ChassisIntrusionSensor :
     bool mAutoRearm;
     boost::asio::steady_timer mPollTimer;
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> mAssocIface;
     sdbusplus::asio::object_server& mObjServer;
     bool mOverridenState = false;
     bool mInternalSet = false;
@@ -44,10 +45,10 @@ class ChassisIntrusionSensor :
 class ChassisIntrusionPchSensor : public ChassisIntrusionSensor
 {
   public:
-    ChassisIntrusionPchSensor(const std::string& name, bool autoRearm,
-                              boost::asio::io_context& io,
-                              sdbusplus::asio::object_server& objServer,
-                              int busId, int slaveAddr);
+    ChassisIntrusionPchSensor(
+        const std::string& name, bool autoRearm, boost::asio::io_context& io,
+        const std::string& confPath, sdbusplus::asio::object_server& objServer,
+        int busId, int slaveAddr);
 
     ~ChassisIntrusionPchSensor() override;
 
@@ -60,10 +61,10 @@ class ChassisIntrusionPchSensor : public ChassisIntrusionSensor
 class ChassisIntrusionGpioSensor : public ChassisIntrusionSensor
 {
   public:
-    ChassisIntrusionGpioSensor(const std::string& name, bool autoRearm,
-                               boost::asio::io_context& io,
-                               sdbusplus::asio::object_server& objServer,
-                               bool gpioInverted);
+    ChassisIntrusionGpioSensor(
+        const std::string& name, bool autoRearm, boost::asio::io_context& io,
+        const std::string& confPath, sdbusplus::asio::object_server& objServer,
+        bool gpioInverted);
 
     ~ChassisIntrusionGpioSensor() override;
 
@@ -83,7 +84,8 @@ class ChassisIntrusionHwmonSensor : public ChassisIntrusionSensor
   public:
     ChassisIntrusionHwmonSensor(
         const std::string& name, bool autoRearm, boost::asio::io_context& io,
-        sdbusplus::asio::object_server& objServer, std::string hwmonName);
+        const std::string& confPath, sdbusplus::asio::object_server& objServer,
+        std::string hwmonName);
 
     ~ChassisIntrusionHwmonSensor() override = default;
 
