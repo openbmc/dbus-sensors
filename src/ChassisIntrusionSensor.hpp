@@ -15,6 +15,7 @@ class ChassisIntrusionSensor :
 {
   public:
     explicit ChassisIntrusionSensor(bool autoRearm, boost::asio::io_context& io,
+                                    const std::string& confPath,
                                     sdbusplus::asio::object_server& objServer);
 
     virtual ~ChassisIntrusionSensor();
@@ -32,6 +33,7 @@ class ChassisIntrusionSensor :
     bool mAutoRearm;
     boost::asio::steady_timer mPollTimer;
     std::shared_ptr<sdbusplus::asio::dbus_interface> mIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> mAssocIface;
     sdbusplus::asio::object_server& mObjServer;
     bool mOverridenState = false;
     bool mInternalSet = false;
@@ -44,6 +46,7 @@ class ChassisIntrusionPchSensor : public ChassisIntrusionSensor
 {
   public:
     ChassisIntrusionPchSensor(bool autoRearm, boost::asio::io_context& io,
+                              const std::string& confPath,
                               sdbusplus::asio::object_server& objServer,
                               int busId, int slaveAddr);
 
@@ -59,6 +62,7 @@ class ChassisIntrusionGpioSensor : public ChassisIntrusionSensor
 {
   public:
     ChassisIntrusionGpioSensor(bool autoRearm, boost::asio::io_context& io,
+                               const std::string& confPath,
                                sdbusplus::asio::object_server& objServer,
                                bool gpioInverted);
 
@@ -77,6 +81,7 @@ class ChassisIntrusionHwmonSensor : public ChassisIntrusionSensor
 {
   public:
     ChassisIntrusionHwmonSensor(bool autoRearm, boost::asio::io_context& io,
+                                const std::string& confPath,
                                 sdbusplus::asio::object_server& objServer,
                                 std::string hwmonName);
 
