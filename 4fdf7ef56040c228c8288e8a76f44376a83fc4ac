@@ -152,6 +152,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49ed56fb_f438d65a",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:32:50Z",
+      "side": 1,
+      "message": "Put this timer last in the declaration of this class, and you no longer need the shared_ptr stuff.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 42
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "15e92d94_b875308c",
         "filename": "src/TachSensor.hpp",
         "patchSetId": 22
@@ -193,6 +216,23 @@
         "endLine": 65,
         "endChar": 65
       },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36ce26c9_dc50da9b",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:32:50Z",
+      "side": 1,
+      "message": "This interface class is only called in two places.  I\u0027m not sure if that really justifies the added complexity of doing the shared/weak_pointer trick for this individually, as well as defining an opaque interface, when TachSensor itself is already tracked by a shared_ptr.\n\nShould we just host two values here instead of an opaque interface?\n\nSomething like:\n\nstd::optional\u003cPolledPresence\u003e\nstd::optional\u003cEventPresence\u003e\n\nThat seems a lot simpler to me, even if it results in a couple extra branches.\n\nother option would be to store this as a\n\nstd::variant\u003cstd::monotonic, PolledPresence, EventPresence\u003e",
       "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
