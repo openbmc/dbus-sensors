@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "621a252e_cf2b91ca",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:16:16Z",
+      "side": 1,
+      "message": "This code doesn\u0027t look right to me.\n\nI\u0027m reading it as \"Attempt to make an event driven presence sensor, then if it fails for any reason, build a polling presence sensor.\"\n\nWe should be looking at some kind of capabilities flag to know which type of these to init, not just blindly falling back to polling.  A platform might support gpio interrupts on a device, but fail for a different reason (missing gpio, hardware failure, etc). in that case falling back to polling will cover up the error in a bad way.  Worst case, we should be keying off the Type flag in the EM config to know what type of polling we support.",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 447,
+        "endChar": 25
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a557c3d_36039d35",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:16:16Z",
+      "side": 1,
+      "message": "This is doubling up the map lookup.  Use staticGpioMap.find()\n\n\nalso, isn\u0027t this making a copy of gpioLine?  That doesn\u0027t seem like what you intended.",
+      "range": {
+        "startLine": 298,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 43
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82ad502e_4443d067",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:16:16Z",
+      "side": 1,
+      "message": "For presence sensors that have shared this entry, won\u0027t this erase them for all, even if only one is destroyed?  Maybe the map needs to be a list of weak_ptrs?",
+      "range": {
+        "startLine": 340,
+        "startChar": 0,
+        "endLine": 340,
+        "endChar": 34
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e22ad077_2b211eeb",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:16:16Z",
+      "side": 1,
+      "message": "nit, auto makes it difficult to determine the type here.  I\u0027m assuming it\u0027s int based on the line below, but that\u0027s a guess.",
+      "range": {
+        "startLine": 346,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 8
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fed6df1_265192d6",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:16:16Z",
+      "side": 1,
+      "message": "check your error codes.  If the timer errored out, this shouldn\u0027t be restarting, it should be stopping and logging the error.",
+      "range": {
+        "startLine": 362,
+        "startChar": 37,
+        "endLine": 362,
+        "endChar": 69
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bc82cbe_49c6c40d",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:16:16Z",
+      "side": 1,
+      "message": "Does PollingPresenceSensor and Psensor need their own hpp/cpp files?  throwing them into tach sensor doesn\u0027t seem right now that they\u0027re opaque interfaces.",
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e92d94_b875308c",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-04T23:16:16Z",
+      "side": 1,
+      "message": "can you clean up the formatting on this please?  trailing line comments don\u0027t make a ton of sense if they drop the variable definition to the next line.\n\n\nAlso, unordered_map here would be better",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 65
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
