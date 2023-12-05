@@ -16,6 +16,23 @@
       "message": "We have changed the design for adding the fan zone layer.\nWould like to ask is there any concern about this commit?",
       "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09125606_dc15c05a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-12-05T10:35:10Z",
+      "side": 1,
+      "message": "This looks clean, but I don\u0027t see the need for this, other than a convenience feature of being able to get/set all fans in the zone by using a single object that represents the entire zone. Is there a use case for having a unified sensor like this, versus simply setting each individual fan in the zone individually?",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
