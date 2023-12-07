@@ -11,7 +11,7 @@ project(
     meson_version: '>=0.58.0',
 )
 
-# Enable io_uring for all daemons with below flags. 
+# Enable io_uring for all daemons with below flags.
 #    '-DBOOST_ASIO_HAS_IO_URING',
 #    '-DBOOST_ASIO_DISABLE_EPOLL',
 #    '-DBOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT',
@@ -55,12 +55,7 @@ if not sdbusplus.found()
 endif
 
 phosphor_logging_dep = dependency('phosphor-logging')
-
-if cpp.has_header('nlohmann/json.hpp')
-    nlohmann_json = declare_dependency()
-else
-    nlohmann_json = dependency('nlohmann_json')
-endif
+nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 
 systemd = dependency('systemd')
 systemd_system_unit_dir = systemd.get_variable(
@@ -85,7 +80,7 @@ endif
 
 default_deps = [
     boost,
-    nlohmann_json,
+    nlohmann_json_dep,
     phosphor_logging_dep,
     sdbusplus,
     uring,
