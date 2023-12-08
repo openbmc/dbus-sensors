@@ -46,6 +46,30 @@
       },
       "revId": "ab570a60f3db27d778a7634459a74241368e19eb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e26a358_1e7f4867",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-08T00:57:21Z",
+      "side": 1,
+      "message": "Okay, so no basis for that original approach really, given I don\u0027t think we\u0027re 5 years into using meson in the project. Oh well.",
+      "parentUuid": "d9b17515_d256b12c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "ab570a60f3db27d778a7634459a74241368e19eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
