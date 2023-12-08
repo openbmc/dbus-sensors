@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95c10b0b_6493b921",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-12-08T04:17:56Z",
+      "side": 1,
+      "message": "Updated commit message and commit title.",
+      "parentUuid": "678db234_444766e8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "a34c26193e605e90a0ad6443cc8b86d0498b2e5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2d986cba_a6634982",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-31T18:54:48Z",
       "side": 1,
       "message": "Was the test performed and what is the actual result?",
+      "range": {
+        "startLine": 18,
+        "startChar": 19,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "a34c26193e605e90a0ad6443cc8b86d0498b2e5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51dcfd6c_00122a40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-12-08T04:17:56Z",
+      "side": 1,
+      "message": "Yes, I tested ADC sensors with the CPU Present object path which created by phosphor-multi-gpio-presence.\nWhen the `InterfaceAdded` signals are matched by the ADC service, the ADC sensors created correctly corresponding with the `Present` state of CPU_x object path.\n\nBUT, Event we set the ADC sensor run before the service create the CPU Present Object path. When we stress BMC reboot with the host is on, sometime the ADC service still misss the `InterfaceAdd` signal.\nThe possible cause is the `InterfaceAdded` signal is only created once time at the early boot state of BMC when there is many `InterfaceAdded` signal so for some reason ADC missed CPU Present signal.\nThis cause the second patch set to cover this case.",
+      "parentUuid": "2d986cba_a6634982",
       "range": {
         "startLine": 18,
         "startChar": 19,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a30e8f86_4a50de0b",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-12-08T04:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5df9ff1c_0b506a0a",
+      "range": {
+        "startLine": 427,
+        "startChar": 28,
+        "endLine": 427,
+        "endChar": 64
+      },
+      "revId": "a34c26193e605e90a0ad6443cc8b86d0498b2e5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56fa00a8_9d879bfc",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-10-31T18:48:34Z",
       "side": 1,
       "message": "These are identical to this other handler. Please abstract it out into a common function",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 11
+      },
+      "revId": "a34c26193e605e90a0ad6443cc8b86d0498b2e5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a1f6da4_f665d43a",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-12-08T04:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56fa00a8_9d879bfc",
       "range": {
         "startLine": 437,
         "startChar": 0,
