@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4973388d_9c4e6497",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-08T03:49:22Z",
+      "side": 1,
+      "message": "Applied to `hwmon-next`:\n\nhttps://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/commit/?h\u003dhwmon-next\u0026id\u003d0814b07876b4f8752e0d5bd8e15e07426385f35f\n\nBased on the review here:\n\nhttps://lore.kernel.org/all/20231031075806.400872-1-tmaimon77@gmail.com/\n\nAnd has been applied to the OpenBMC kernel tree here:\n\nhttps://github.com/openbmc/linux/commit/8e37e1bf54022e941061a95dc37c4eecb337cbc6",
+      "revId": "d37e1db52d10b49186561ee930086722bbbdce37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
