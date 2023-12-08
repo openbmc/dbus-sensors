@@ -22,6 +22,30 @@
       },
       "revId": "ab570a60f3db27d778a7634459a74241368e19eb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9b17515_d256b12c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-08T00:56:03Z",
+      "side": 1,
+      "message": "nlohmann-json has supplied a package config for 5 years.\n\nhttps://github.com/nlohmann/json/commit/ffe08983dd419c17aab44d9d02faaf5a372e0438\n\nWe had a lot of copy-paste variants of the dependency code spread across the organization, most of which was not necessary.\n\nNothing outside the organization enabled this, unless we\u0027re looking back that far into the past.",
+      "parentUuid": "bb2e5699_5bbbee40",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "ab570a60f3db27d778a7634459a74241368e19eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
