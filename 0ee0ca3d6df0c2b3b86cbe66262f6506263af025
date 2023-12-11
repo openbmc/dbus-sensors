@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d48a575_dfb71dec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-12-11T12:40:36Z",
+      "side": 1,
+      "message": "I\u0027ve just rebased this commit. Any thoughts or concerns about this commit? Thanks!",
+      "revId": "0ee0ca3d6df0c2b3b86cbe66262f6506263af025",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
