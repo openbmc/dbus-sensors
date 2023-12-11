@@ -46,6 +46,30 @@
       },
       "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dfd2fc9_72648109",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-11T02:46:52Z",
+      "side": 1,
+      "message": "Right, my concern is that we might have other software depending on the property of reliable signal delivery and it seems we\u0027re failing at that? Fixing adcsensor specifically doesn\u0027t address the class of error 😞\n\nMaybe that\u0027s not your problem to resolve, but if you\u0027ve got a method to reproduce the symptoms it would be great to have more information about how it manifests.",
+      "parentUuid": "7c7b2333_92407ebe",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
