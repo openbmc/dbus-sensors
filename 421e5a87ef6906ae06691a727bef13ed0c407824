@@ -22,6 +22,30 @@
       },
       "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c7b2333_92407ebe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-12-11T02:42:00Z",
+      "side": 1,
+      "message": "I\u0027m sure that ADC service missed the signal. I tried to add the debug message to CPU the `propertyChanged` and `InterfaceAdded` match functional, some time there is no debug message and in that case, the ADC sensors with `CPURequired` configuration are not created.\nI don\u0027t know the cause, just know how to fix that.\nThe issue is not always happens, In my stress BMC reboot testing, the failed rate is about 1%.",
+      "parentUuid": "4ecec8a5_8960e0c2",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
