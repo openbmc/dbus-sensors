@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ecec8a5_8960e0c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-11T00:06:43Z",
+      "side": 1,
+      "message": "This seems a bit vague to me. How does it get missed? Do we have a bus capture (pcap) that demonstrates the problem?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
