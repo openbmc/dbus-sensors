@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "866ac52e_64c4d197",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-11T23:51:56Z",
+      "side": 1,
+      "message": "Still waiting for driver. Is there an update on the driver review status",
+      "revId": "f7a8797107c3f7851951723754d3c65f358e7c25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
