@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfa317b7_f140adc3",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "\u003e We found that the redfish sensors URI didn\u0027t show up another sensor for it. \n\nThis is only because there was no association added to a chassis.  The sensors are likely still returning in the subtree result, but bmcweb doesn\u0027t know what to do with them, and excludes them when doing the chassis scan.  This design needs rethought, because there\u0027s nothing stopping this new PWM from getting added to the non-chassis driven APIs (IPMI).",
+      "parentUuid": "5507b58d_22d63e88",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 566,
+        "endChar": 9
+      },
+      "revId": "abbc0e5c1a307c9ec949cd538438bc4e03d65ff3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "919e931a_3397f59b",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 7

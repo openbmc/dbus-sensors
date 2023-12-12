@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46ac978_5af55e3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "A one sentence description is rarely enough for a completely new feature.\n\nFrom which user-facing interface is this feature used?\nHow is a user expected to use it?\nWhat other features exist that already use the term \"Zone\" and how do they relate?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3707284e_ef913d7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right.  A PID loop would be attached to a Zone, not a fan.  A pwm might exist in multiple zones at once.  Attaching a zone value to a fan would imply that we\u0027re changing things at the wrong level, or we need to invent new vernacular other than \"zone\".\n\n\nWhat I suspect is that your system takes a 1:1 zone -\u003e fan mapping.  Unfortunately, that\u0027s not all system designs, so we\u0027ll need to come up with a new object here.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef1bd70c_7a217b8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "This path doesn\u0027t exist in PDI, and is unlikely how we would model this type of API, as these paths would now show up in subtree results when scanning for sensors.\n\nIn Dbus we would generally come up with another type, outside of the sensors namespace to hold the idea of a \"Zone\".",
+      "range": {
+        "startLine": 66,
+        "startChar": 20,
+        "endLine": 66,
+        "endChar": 69
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "778f0248_022cb477",
@@ -85,6 +154,298 @@
       "side": 1,
       "message": "Does this change only act as a convenience for \"manual mode\" setting of all the fans in a zone, or is it also intended to be used by phosphor-pid-control to ensure there is a single value applied across all the fans in a zone?\n\nIf this is only for \"manual mode\", I don\u0027t think it is all that beneficial.\nIf this is useful to simplify the calculation complexity by the fan control algorithm in phosphor-pid-control it seems useful.",
       "parentUuid": "f7c52557_aa3618ca",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "961a6558_1e571389",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "Overall, this feature needs to:\n\nDocument why it\u0027s needed from a user perspective.  What user-facing APIs are we adding?  How are they used?  If this is only for dbus-based debug, we need to state that explicitly.\n\nResolve the Dbus interfacing issues.  This patch is creating objects at paths that aren\u0027t correct (zone-named sub folders within the sensors subsystem) and likely need a new Dbus interface to store the idea of a collection of fans/pwms, or a set of fans.\n\nDocument why the existing control interfaces don\u0027t work for this use case.  PID/Stepwise control loops already have a Zone concept (example below [1]).  I suspect that:\n\nA. This code should\u0027ve extended the existing Zone concept, and the author just wasn\u0027t aware it already existed.  Keep in mind, setting OutLimitMin and OutLimitMax to the same value will effectively give you the same result (I think?).  It would be pretty trivial to wrap that into its own property.\nOr\nB. This code should\u0027ve picked a term other than Zone (possibly FanGroup?) to describe something different.\n\nWhen you extend the user-facing behavior statement in the commit message, it will make it much more clear if you intend A or B, and we can work on interfacing from there.\n\nResolve the coding issues.  As is this is:\n- Reading from sysfs for every property read and for in-process communication, which is an anti-pattern and leads to deadlocks on hardware/driver problems.  If the PWMs within a process need to cooperate, we shouldn\u0027t be using sysfs to do it.\n- Duplicating PWM sensors without any interface-facing way to determine that this is a group of PWMs, and not an individual PWM.  This is a problem for user-facing interfaces like Redfish that need to differentiate between outputs that physically exist, and ones that only logically exist.\n- Extending the /xyz/openbmc_project/sensors namespace to include the new \"zone\" concept, without any documentation or justification as to why we didn\u0027t follow the more common dbus conventions (coming up with a new grouping object separate from sensors).  If this is really the best path, that needs documented.\n- Extending already way too long lambda functions to make them even longer, without any sort of refactoring.\n\nThe above will all need to be resolved before this can merge.\n\n\nWas there any prior discussions about this feature?  If so, can you link them?\n\n[1] https://github.com/openbmc/entity-manager/blob/9bac6409d4bd684f058517f41de33ba1d17e5666/configurations/a2ul16riser.json#L43",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec0cb89e_2f0e5663",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "This lambda is already insanely long, and needs refactored.  Just adding more code to it makes the already bad problem worse.\n\nPlease refactor in a commit ahead of adding this new feature, or refactor your code in such a way that this lambda doesn\u0027t get longer.",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1fc1b17_c6c22d3c",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "Why are we clearing pwmPaths here?  I suspect we just need to declare PWMPaths in the appropriate scope so that it only applies to where we intend it to.  There\u0027s lots of branches outside of this.",
+      "range": {
+        "startLine": 565,
+        "startChar": 0,
+        "endLine": 565,
+        "endChar": 33
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d0d01d7_1c5ac8a8",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "why generic string?",
+      "range": {
+        "startLine": 573,
+        "startChar": 60,
+        "endLine": 573,
+        "endChar": 74
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "135d53c3_ee052443",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "This is redundant.  If zoneSet is empty the loop on 585 won\u0027t execute.",
+      "range": {
+        "startLine": 583,
+        "startChar": 28,
+        "endLine": 583,
+        "endChar": 29
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f141db9_337b10a5",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "This doesn\u0027t look like the right abstraction.  We shouldn\u0027t be creating yet another PWM sensor, which includes a lot of things that I suspect we don\u0027t want in a group of sensors (min/max calculations, etc)\n\n\nI suspect we want a new object that ONLY implements the         /xyz/openbmc_project/control/fanpwm objects?",
+      "range": {
+        "startLine": 587,
+        "startChar": 52,
+        "endLine": 587,
+        "endChar": 61
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec087e76_34f3a3e4",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "Unrelated #include change?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 18
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8581745_e7d158ca",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "Why is this static?",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 6
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9b392c1_44fe62f5",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "If the iostream isn\u0027t good, we no longer return an error?  0 might be valid for some of these interfaces?",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "110350e4_430f4e87",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "Same here?",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbc6e0ed_ea9ebe47",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "This is now going to sysfs for every value chance, which is a generalized anti pattern, and causes the dbus APIs to be very slow.",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e45dc73d_0a85aacb",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "uint32_t doesn\u0027t have a NAN value.  I\u0027m a little surprised this compiles.  Notice the documentation:\n\nhttps://en.cppreference.com/w/cpp/types/numeric_limits/quiet_NaN\n\n\n\"Only meaningful if std::numeric_limits\u003cT\u003e::has_quiet_NaN \u003d\u003d true.\"\n\nI suspect std::numeric_limits\u003cuint32_t\u003e::has_quiet_NaN returns false, and therefore this value shouldn\u0027t be used.  Maybe you meant min here?",
+      "range": {
+        "startLine": 240,
+        "startChar": 52,
+        "endLine": 240,
+        "endChar": 61
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e08fa990_5dc9796f",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "Missing error handling.  You\u0027ve changed the results to return 0, but don\u0027t handle if it\u0027s 0.",
+      "range": {
+        "startLine": 244,
+        "startChar": 13,
+        "endLine": 244,
+        "endChar": 21
+      },
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "101c1543_bb460758",
+        "filename": "src/PwmSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2023-12-12T20:25:34Z",
+      "side": 1,
+      "message": "the Sensor subclass already has a sensorType property, so this is effectively shadowing it.  WHy?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 27
+      },
       "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
