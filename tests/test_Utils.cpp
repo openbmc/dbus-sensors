@@ -212,6 +212,18 @@ TEST(GetDeviceBusAddrTest, AddrInvalid)
     EXPECT_FALSE(ret);
 }
 
+TEST(GetDeviceBusAddrTest, I3CBusAddrValid)
+{
+    uint64_t bus = 0;
+    uint64_t provisionedId = 0;
+    std::string devName = "0-22400000001";
+
+    auto ret = getDeviceBusAddr(devName, bus, provisionedId);
+    EXPECT_TRUE(ret);
+    EXPECT_EQ(bus, 0);
+    EXPECT_EQ(provisionedId, 0x22400000001);
+}
+
 TEST(GetDeviceBusAddrTest, AllValid)
 {
     size_t bus = 0;
