@@ -16,6 +16,75 @@
       "message": "I\u0027ve just rebased this commit. Any thoughts or concerns about this commit? Thanks!",
       "revId": "0ee0ca3d6df0c2b3b86cbe66262f6506263af025",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc08edfd_6bd253e3",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T19:08:06Z",
+      "side": 1,
+      "message": "Do we still need this if eventPaths is from findFiles()?",
+      "range": {
+        "startLine": 209,
+        "startChar": 20,
+        "endLine": 213,
+        "endChar": 21
+      },
+      "revId": "0ee0ca3d6df0c2b3b86cbe66262f6506263af025",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec06fdf_b5421f7d",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T19:08:06Z",
+      "side": 1,
+      "message": "why is this changed?",
+      "range": {
+        "startLine": 691,
+        "startChar": 48,
+        "endLine": 691,
+        "endChar": 64
+      },
+      "revId": "0ee0ca3d6df0c2b3b86cbe66262f6506263af025",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0254ce81_8dc45dab",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T19:08:06Z",
+      "side": 1,
+      "message": "this need to be updated to sensorNameSubStr",
+      "range": {
+        "startLine": 697,
+        "startChar": 33,
+        "endLine": 697,
+        "endChar": 42
+      },
+      "revId": "0ee0ca3d6df0c2b3b86cbe66262f6506263af025",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
