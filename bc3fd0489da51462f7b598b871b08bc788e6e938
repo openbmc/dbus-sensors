@@ -51,6 +51,24 @@
       "parentUuid": "09125606_dc15c05a",
       "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7c52557_aa3618ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-12-12T06:07:34Z",
+      "side": 1,
+      "message": "As Josh said, this is a convenience feature of being able to get/set all fans in the zone by using a single object that represents the entire zone.\n\nIf you think that there is no need for this, we can discuss with Patrick if we still need this feature.",
+      "parentUuid": "1db228e7_15fc2030",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
