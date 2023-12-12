@@ -94,6 +94,30 @@
       },
       "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f429d08_cb68f577",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T22:02:18Z",
+      "side": 1,
+      "message": "I think the logic in the main function should be:\n1. setup interfaceAdded and propertyChanged match with handler\n2. get current cpuPresence status \nI see the current code is not doing #2. Once added, the startup race condition should be resolved.",
+      "parentUuid": "a161718e_104aed37",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
