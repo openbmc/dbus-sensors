@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "405aab05_92e42e20",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T05:32:32Z",
+      "side": 1,
+      "message": "Move before use at line 436",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 0
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b092ff31_b251eef6",
+        "filename": "src/GpioPresence.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T05:32:32Z",
+      "side": 1,
+      "message": "remove empty line",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41caa628_9b755e33",
+        "filename": "src/GpioPresence.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T05:32:32Z",
+      "side": 1,
+      "message": "To be more consistent with the rest of code, please change it to:\n\nif (error)\n{\n  log error msg;\n  return;\n}\nif (!self)\n{\n  log error msg;\n  return;\n}\nself-\u003emonitor",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 9
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d12009b8_e80c999a",
+        "filename": "src/GpioPresence.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T05:32:32Z",
+      "side": 1,
+      "message": "Change the filename to be PresenceSensor.hpp/cpp",
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46ba0de1_955cbb08",
+        "filename": "src/GpioPresence.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T05:32:32Z",
+      "side": 1,
+      "message": "nit: Can we name this PresenceSensor.\nActually, I expect PresenceSensor and PollingPresenceSensor share most code. with only monitorPresence being different",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "513b5b54_d88c80a5",
+        "filename": "src/GpioPresence.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T05:32:32Z",
+      "side": 1,
+      "message": "use the same variable \"status\" as in Presence sensor",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 28
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
