@@ -387,4 +387,32 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     setupPropertiesChangedMatches(
         sdbusplus::asio::connection& bus, std::span<const char* const> types,
         const std::function<void(sdbusplus::message_t&)>& handler);
-bool getDeviceBusAddr(const std::string& deviceName, size_t& bus, size_t& addr);
+
+template <typename T>
+bool getDeviceBusAddr(const std::string& deviceName, T& bus, T& addr)
+{
+    auto findHyphen = deviceName.find('-');
+    if (findHyphen == std::string::npos)
+    {
+        std::cerr << "found bad device " << deviceName << "\n";
+        return false;
+    }
+    std::string busStr = deviceName.substr(0, findHyphen);
+    std::string addrStr = deviceName.substr(findHyphen + 1);
+
+    std::from_chars_result res{};
+    res = std::from_chars(&*busStr.begin(), &*busStr.end(), bus);
+    if (res.ec != std::errc{} || res.ptr != &*busStr.end())
+    {
+        std::cerr << "Error finding bus for " << deviceName << "\n";
+        return false;
+    }
+    res = std::from_chars(&*addrStr.begin(), &*addrStr.end(), addr, 16);
+    if (res.ec != std::errc{} || res.ptr != &*addrStr.end())
+    {
+        std::cerr << "Error finding addr for " << deviceName << "\n";
+        return false;
+    }
+
+    return true;
+}
