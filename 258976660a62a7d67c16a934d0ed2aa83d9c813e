@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a7be429_47ba676e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2023-12-12T18:23:07Z",
+      "side": 1,
+      "message": "There\u0027s a lot of people, especially testers performing thermal tuning with ovens and chambers, who might be unfamiliar with Object Mapper and are relying on example `busctl` command lines given to them by the software developers. There\u0027s probably a lot of scripts also in the field. I am concerned about changing everybody\u0027s paths suddenly.",
+      "parentUuid": "387f29bb_d0d744f9",
+      "revId": "258976660a62a7d67c16a934d0ed2aa83d9c813e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f03d227c_13f0ac9a",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 5
