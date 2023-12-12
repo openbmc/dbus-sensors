@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dd605e6_228f6922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-12-12T08:38:13Z",
+      "side": 1,
+      "message": "You don\u0027t have to break the link in to sub-string, it can be greater than 73 characters each line. Please refer to https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/67653 for more information",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 72
+      },
+      "revId": "87d3c2aaec48ee4083b0832f0e2d7b63795916d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a018b87_ac23df4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-12-12T08:38:13Z",
+      "side": 1,
+      "message": "Please add the result of this command\n`busctl get-property xyz.openbmc_project.IntrusionSensor /xyz/openbmc_project/Chassis/Intrusion xyz.openbmc_project.Association.Definitions Associations`",
+      "revId": "87d3c2aaec48ee4083b0832f0e2d7b63795916d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "470e0d1d_580863d2",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-12-12T08:38:13Z",
+      "side": 1,
+      "message": "I think you should define a variable for this object path",
+      "range": {
+        "startLine": 322,
+        "startChar": 9,
+        "endLine": 322,
+        "endChar": 48
+      },
+      "revId": "87d3c2aaec48ee4083b0832f0e2d7b63795916d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fbc1132_7d7450b1",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-12-12T08:38:13Z",
+      "side": 1,
+      "message": "Missing remove mAssocIface in the de-constructor",
+      "revId": "87d3c2aaec48ee4083b0832f0e2d7b63795916d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a2d5a5b_6169216f",
+        "filename": "src/ChassisIntrusionSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2023-12-12T08:38:13Z",
+      "side": 1,
+      "message": "It seems the intfPath is not a correct name, could you update it?",
+      "revId": "87d3c2aaec48ee4083b0832f0e2d7b63795916d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
