@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "387f29bb_d0d744f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-12T18:17:46Z",
+      "side": 1,
+      "message": "Can you be more specific on the concern with object_paths changing?  Shouldn\u0027t everyone be using mapper?  Or are there some config files in openbmc/openbmc pointing to \"old\" paths that may also need to be updated?",
+      "parentUuid": "fce9f0e5_451f4f30",
+      "revId": "258976660a62a7d67c16a934d0ed2aa83d9c813e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f03d227c_13f0ac9a",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 5

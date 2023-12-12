@@ -69,6 +69,24 @@
       "parentUuid": "1db228e7_15fc2030",
       "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b92b40d_5454adb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-12T18:17:46Z",
+      "side": 1,
+      "message": "Does this change only act as a convenience for \"manual mode\" setting of all the fans in a zone, or is it also intended to be used by phosphor-pid-control to ensure there is a single value applied across all the fans in a zone?\n\nIf this is only for \"manual mode\", I don\u0027t think it is all that beneficial.\nIf this is useful to simplify the calculation complexity by the fan control algorithm in phosphor-pid-control it seems useful.",
+      "parentUuid": "f7c52557_aa3618ca",
+      "revId": "bc3fd0489da51462f7b598b871b08bc788e6e938",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
