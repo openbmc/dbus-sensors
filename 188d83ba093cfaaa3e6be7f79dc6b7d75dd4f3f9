@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a98d10a0_fbe48de1",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-12T00:19:42Z",
+      "side": 1,
+      "message": "I think the logic should be if all cpuConfigs state are ready, keepPinging is false. If one of the configs not in Ready state yet, keepPinging should stay true. \nSetting it false here does not work this way.",
+      "revId": "188d83ba093cfaaa3e6be7f79dc6b7d75dd4f3f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
