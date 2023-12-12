@@ -302,8 +302,8 @@ void createSensors(
                 deviceName = fs::canonical(device).stem();
             }
 
-            size_t bus = 0;
-            size_t addr = 0;
+            uint64_t bus = 0;
+            uint64_t addr = 0;
             if (!getDeviceBusAddr(deviceName, bus, addr))
             {
                 continue;
