@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4238e90_7201f683",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-12-12T15:04:06Z",
+      "side": 1,
+      "message": "I would say \"The `Present` property in the CPU object path under Inventory Manager service will not change after it is set and phosphor-multi-gpio-presence daemon which registers that property does not signal `PropertyChanged` when it calls the Notify method. In this case, there is only one `InterfaceAdded` signal in the beginning\"",
+      "revId": "21b9c9e111ff7476286b410ea8cfd84bd94681ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
