@@ -873,6 +873,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                     parseThresholdsFromConfig(interfaces, sensorThresholds);
 
                     std::string name = loadVariant<std::string>(cfg, "Name");
+                    exitAirSensor = nullptr;
                     exitAirSensor = std::make_shared<ExitAirTempSensor>(
                         dbusConnection, name, path.str, objectServer,
                         std::move(sensorThresholds));
