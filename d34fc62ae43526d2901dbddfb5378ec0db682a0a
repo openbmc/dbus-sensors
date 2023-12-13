@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "69b2a030_321356cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-13T01:34:22Z",
+      "side": 1,
+      "message": "Okay, so I set about updating my understanding of I3C to understand why this statement is true. What\u0027s going on is that I3C devices are uniquely identified by a 48-bit Provisioned ID (MIPI I3C Basic, v1.1.1, section 5.1.4.1.1). Linux in-turn uses this Provisioned ID to identify the device, and exposes the Provisioned ID in the device name:\n\nhttps://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/i3c/master.c?h\u003dv6.6#n1521\n\nCan we make some mention of all of this in the commit message? Because we\u0027re essentially parsing different things here now (I2C device address vs I3C provisioned ID).",
+      "revId": "d34fc62ae43526d2901dbddfb5378ec0db682a0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b6112135_6219eed2",
@@ -14,6 +31,23 @@
       "writtenOn": "2023-12-13T00:40:24Z",
       "side": 1,
       "message": "lgtm",
+      "revId": "d34fc62ae43526d2901dbddfb5378ec0db682a0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f40b9e7_9bcbdcf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-13T01:34:22Z",
+      "side": 1,
+      "message": "Hi Tom, thanks for identifying the problem. I have a request for the commit message.",
       "revId": "d34fc62ae43526d2901dbddfb5378ec0db682a0a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
