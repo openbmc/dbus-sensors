@@ -66,6 +66,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"MAX6581", I2CDeviceType{"max6581", true}},
     {"MAX6654", I2CDeviceType{"max6654", true}},
     {"MAX6639", I2CDeviceType{"max6639", true}},
+    {"MCP9600", I2CDeviceType{"mcp9600", false}},
     {"NCT6779", I2CDeviceType{"nct6779", true}},
     {"NCT7802", I2CDeviceType{"nct7802", true}},
     {"SBTSI", I2CDeviceType{"sbtsi", true}},
