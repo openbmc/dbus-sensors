@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c207ceb_82a6e366",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-12-13T12:44:19Z",
+      "side": 1,
+      "message": "Thanks for catching this. Removed it.",
+      "parentUuid": "fc08edfd_6bd253e3",
+      "range": {
+        "startLine": 209,
+        "startChar": 20,
+        "endLine": 213,
+        "endChar": 21
+      },
+      "revId": "0ee0ca3d6df0c2b3b86cbe66262f6506263af025",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ec06fdf_b5421f7d",
@@ -64,6 +88,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db82a7d7_8eaa72c1",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-12-13T12:44:19Z",
+      "side": 1,
+      "message": "sensorNameSubStr is to match the \"new\" labelMatch table. e.g.\nsensorNameSubStr: temp; labelHead: temp1, temp2, ...\nsensorNameSubStr: power; labelHead: power1, power2, ...",
+      "parentUuid": "5ec06fdf_b5421f7d",
+      "range": {
+        "startLine": 691,
+        "startChar": 48,
+        "endLine": 691,
+        "endChar": 64
+      },
+      "revId": "0ee0ca3d6df0c2b3b86cbe66262f6506263af025",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0254ce81_8dc45dab",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-12-12T19:08:06Z",
       "side": 1,
       "message": "this need to be updated to sensorNameSubStr",
+      "range": {
+        "startLine": 697,
+        "startChar": 33,
+        "endLine": 697,
+        "endChar": 42
+      },
+      "revId": "0ee0ca3d6df0c2b3b86cbe66262f6506263af025",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fe755e7_d0081642",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2023-12-13T12:44:19Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0254ce81_8dc45dab",
       "range": {
         "startLine": 697,
         "startChar": 33,
