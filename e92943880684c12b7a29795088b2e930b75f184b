@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56ed8794_0d86c695",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-12-14T18:40:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fb345b1_cb8ea5c0",
+      "revId": "e92943880684c12b7a29795088b2e930b75f184b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6c41402_ec0e83c1",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-12-14T17:50:37Z",
       "side": 1,
       "message": "I don\u0027t think the check is needed.",
+      "revId": "e92943880684c12b7a29795088b2e930b75f184b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81b94ca7_4c05e007",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-12-14T18:40:23Z",
+      "side": 1,
+      "message": "Personally I like the check since it makes it more clear what the purpose of the change is, but I agree it\u0027s technically not needed.",
+      "parentUuid": "e6c41402_ec0e83c1",
       "revId": "e92943880684c12b7a29795088b2e930b75f184b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
