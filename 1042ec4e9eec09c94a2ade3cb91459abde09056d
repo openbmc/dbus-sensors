@@ -34,6 +34,24 @@
       "parentUuid": "3a6a83bf_1f0941dd",
       "revId": "1042ec4e9eec09c94a2ade3cb91459abde09056d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b94114db_5f7190d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-14T22:50:44Z",
+      "side": 1,
+      "message": "Okay, it\u0027s helpful to point that out in the commit message if it\u0027s yet to make its way into an upstream release.\n\nIt\u0027s in Jonathan\u0027s tree here, presumably queued for the v6.8 merge window. Greg doesn\u0027t appear to have pulled into char-misc.git yet:\n\nhttps://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h\u003dtogreg\u0026id\u003d3f6b9598b6df604a7c556873de18fcc97919b81c",
+      "parentUuid": "10a710f4_4eed0d57",
+      "revId": "1042ec4e9eec09c94a2ade3cb91459abde09056d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
