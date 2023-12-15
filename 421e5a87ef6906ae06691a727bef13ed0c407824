@@ -142,6 +142,30 @@
       },
       "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f260b3b5_3094ed6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-12-15T06:32:06Z",
+      "side": 1,
+      "message": "The problem of #2 is if the CPUPresent is not available at the time we call `get current cpuPresence status` and for some reason the #1 is missed the `interfaceAdded` and `propertyChanged` signal (Actually it happened in my stress testing then we will never get the CPUPresent again. The logic of the current patch set just change #2. When the CPUPresent is include in the configuration and the CPU Present variable in ADC service is not updated then try to check the CPU Present.",
+      "parentUuid": "233a76a6_8504be48",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "421e5a87ef6906ae06691a727bef13ed0c407824",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
