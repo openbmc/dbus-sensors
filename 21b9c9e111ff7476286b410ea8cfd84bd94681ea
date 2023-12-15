@@ -39,6 +39,30 @@
       },
       "revId": "21b9c9e111ff7476286b410ea8cfd84bd94681ea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e3f34ed_2790229e",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2023-12-15T06:28:04Z",
+      "side": 1,
+      "message": "I try to add cpuFilterTimer as input parameter of `cpuPresentDbusSignalHandler()` but it does not work. That why I move those variable out side of main.",
+      "parentUuid": "041b8d44_80390301",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 45
+      },
+      "revId": "21b9c9e111ff7476286b410ea8cfd84bd94681ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
