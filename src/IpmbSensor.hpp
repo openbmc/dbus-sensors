@@ -20,7 +20,8 @@ enum class IpmbType
     PXE1410CVR,
     IR38363VR,
     ADM1278HSC,
-    mpsVR
+    mpsVR,
+    SMPro
 };
 
 enum class IpmbSubType
@@ -37,9 +38,12 @@ enum class ReadingFormat
 {
     byte0,
     byte3,
+    nineBit,
+    tenBit,
     elevenBit,
     elevenBitShift,
-    linearElevenBit
+    linearElevenBit,
+    fifteenBit
 };
 
 namespace ipmi
