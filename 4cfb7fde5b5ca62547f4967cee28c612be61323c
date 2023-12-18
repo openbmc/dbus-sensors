@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ac078fbe_d2da1668",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-12-18T23:23:41Z",
+      "side": 1,
+      "message": "I removed the check since it wasn\u0027t necessary.  I\u0027ve updated the commit message to better reflect the change.",
+      "parentUuid": "b04d886d_4116dcf8",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cf233980_29649c1a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -54,6 +78,24 @@
       "writtenOn": "2023-12-18T21:45:05Z",
       "side": 1,
       "message": "Can you unpack for me the mechanics of why this is correct? Ideally in a comment in the code?",
+      "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9250c5e3_d29e4976",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-12-18T23:23:41Z",
+      "side": 1,
+      "message": "This is done is most of the sensor classes. Setting the sensor to nullptr will call the deconstructor which will remove the dbus interfaces.  We need this to happen first otherwise when we make the new ExitAirTempSensor object we\u0027ll create interface properties that already exist causing the service to crash.",
+      "parentUuid": "af7be1d8_5790f72c",
       "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
