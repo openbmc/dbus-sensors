@@ -247,6 +247,31 @@ void IpmbSensor::loadDefaults()
                     0x02,          0x00, 0x00, 0x00};
         readingFormat = ReadingFormat::byte3;
     }
+    else if (type == IpmbType::SMPro)
+    {
+        // This is an Ampere SMPro reachable via a BMC.
+        // For example, this architecture is used on
+        // ADLINK Ampere Altra systems.
+        commandAddress = 0;
+        netfn = 0x30;
+        command = 0x31;
+        commandData = {0x9e, deviceAddress};
+        switch (subType)
+        {
+            case IpmbSubType::temp:
+                readingFormat = ReadingFormat::nineBit;
+                break;
+            case IpmbSubType::power:
+                readingFormat = ReadingFormat::tenBit;
+                break;
+            case IpmbSubType::curr:
+            case IpmbSubType::volt:
+                readingFormat = ReadingFormat::fifteenBit;
+                break;
+            default:
+                throw std::runtime_error("Invalid sensor type");
+        }
+    }
     else
     {
         throw std::runtime_error("Invalid sensor type");
@@ -291,6 +316,47 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
                 return false;
             }
             resp = data[3];
+            return true;
+        }
+        case (ReadingFormat::nineBit):
+        {
+            if (data.size() != 2)
+            {
+                if (errCount == 0U)
+                {
+                    std::cerr << "Invalid data length returned for " << name
+                              << "\n";
+                }
+                return false;
+            }
+
+            int16_t value = ((data[1] & 0x1) << 8) + data[0];
+            // 9-bit values are used for reading temperatures from the SMPro.
+            // Occasionally, bogus values such as 127 or 255 are returned.
+            // Log them and carry on.
+            if (value > 120)
+            {
+                std::cerr
+                    << "Warning: likely bogus temperature read from SMPro: "
+                    << std::to_string(value) << "\n";
+            }
+            resp = value;
+            return true;
+        }
+        case (ReadingFormat::tenBit):
+        {
+            if (data.size() != 2)
+            {
+                if (errCount == 0U)
+                {
+                    std::cerr << "Invalid data length returned for " << name
+                              << "\n";
+                }
+                return false;
+            }
+
+            uint16_t value = ((data[1] & 0x3) << 8) + data[0];
+            resp = value;
             return true;
         }
         case (ReadingFormat::elevenBit):
@@ -340,6 +406,22 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             constexpr const size_t shift = 16 - 11; // 11bit into 16bit
             value <<= shift;
             value >>= shift;
+            resp = value;
+            return true;
+        }
+        case (ReadingFormat::fifteenBit):
+        {
+            if (data.size() != 2)
+            {
+                if (errCount == 0U)
+                {
+                    std::cerr << "Invalid data length returned for " << name
+                             << "\n";
+                }
+                return false;
+            }
+
+            uint16_t value = ((data[1] & 0x7F) << 8) + data[0];
             resp = value;
             return true;
         }
@@ -463,6 +545,10 @@ bool IpmbSensor::sensorClassType(const std::string& sensorClass)
     else if (sensorClass == "METemp" || sensorClass == "MESensor")
     {
         type = IpmbType::meSensor;
+    }
+    else if (sensorClass == "SMPro")
+    {
+        type = IpmbType::SMPro;
     }
     else
     {
