@@ -98,6 +98,24 @@
       "parentUuid": "af7be1d8_5790f72c",
       "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7637afe_8bf0e4e7",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-19T22:44:47Z",
+      "side": 1,
+      "message": "\u003e Setting the sensor to nullptr will call the deconstructor which will remove the dbus interfaces.\n\nGiven exitAirSensor is a `std::shared_ptr\u003cExitAirTempSensor\u003e` there\u0027s additional reasoning required to demonstrate that the destructor is guaranteed to be called here, right? Can you add some comments covering that reasoning?\n\n\u003e We need this to happen first otherwise when we make the new ExitAirTempSensor object we\u0027ll create interface properties that already exist causing the service to crash.\n\nIn the commit message you mention:\n\n\u003e Tested: Added two ExitAirTempSensor in entity-manager configuration to\n\u003e simulate two sensors getting created.  Without fix I observed a crash\n\u003e with the error: \"exitairtempsensor:   what():  sd_bus_add_object_vtable:\n\u003e org.freedesktop.DBus.Error.FileExists: File exists\".  With the fix the\n\u003e service doesn\u0027t crash and a new sensor is created.\n\nI\u0027m stuck at an assumption that if there are two configurations exposed EM then we should be hosting two ExitAirTempSensor D-Bus objects concurrently. If that\u0027s the case then why are we trying to destroy one of them?\n\nAre both configurations specified with the same `Name` property, causing a collision? Isn\u0027t the configuration wrong in that case? If so, shouldn\u0027t ExitAirTempSensor log the problem and skip the colliding configuration rather than destroy the original sensor?",
+      "parentUuid": "9250c5e3_d29e4976",
+      "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
