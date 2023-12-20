@@ -116,6 +116,24 @@
       "parentUuid": "9250c5e3_d29e4976",
       "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04879288_8e4f07f6",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2023-12-20T01:01:40Z",
+      "side": 1,
+      "message": "\u003e \n\u003e I\u0027m stuck at an assumption that if there are two configurations exposed EM then we should be hosting two ExitAirTempSensor D-Bus objects concurrently. If that\u0027s the case then why are we trying to destroy one of them?\n\u003e \n\nCurrently, exitAirSensor is a one global variable, it does not support two. The issue being fixed here is if the exitAirSensor config is updated, it needs to be reinitialized. Before the new one can be created on the bus, the old one needs to be destroyed, which is accomplished here by the new line of code.",
+      "parentUuid": "f7637afe_8bf0e4e7",
+      "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
