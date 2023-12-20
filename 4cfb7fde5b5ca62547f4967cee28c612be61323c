@@ -134,6 +134,24 @@
       "parentUuid": "f7637afe_8bf0e4e7",
       "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "107dcc0d_26b0807d",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-20T03:34:44Z",
+      "side": 1,
+      "message": "\u003e The issue being fixed here is if the exitAirSensor config is updated, it needs to be reinitialized. \n\nOkay, can we say as much in the commit message then? Currently it says:\n\n\u003e Tested: Added two ExitAirTempSensor in entity-manager configuration to\nsimulate two sensors getting created.\n\nIt seems like these are descriptions of two distinct problems, and the patch as it stands can only address the one that isn\u0027t in the commit message.",
+      "parentUuid": "04879288_8e4f07f6",
+      "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
