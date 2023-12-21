@@ -152,6 +152,24 @@
       "parentUuid": "04879288_8e4f07f6",
       "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b03d5ed_a8defb61",
+        "filename": "src/ExitAirTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1001023
+      },
+      "writtenOn": "2023-12-21T20:08:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "107dcc0d_26b0807d",
+      "revId": "4cfb7fde5b5ca62547f4967cee28c612be61323c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
