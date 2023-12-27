@@ -1293,9 +1293,14 @@ int main()
         }
 
         std::string objectName;
-        boost::container::flat_map<std::string, std::variant<bool>> values;
+        boost::container::flat_map<std::string, BasicVariantType> values;
         message.read(objectName, values);
         auto findPresence = values.find("Present");
+        if (findPresence == values.end())
+        {
+            return;
+        }
+
         try
         {
             cpuPresence[index] = std::get<bool>(findPresence->second);
