@@ -383,14 +383,14 @@ int main()
         }
 
         std::string objectName;
-        boost::container::flat_map<std::string, std::variant<bool>> values;
+        boost::container::flat_map<std::string, BasicVariantType> values;
         message.read(objectName, values);
         auto findPresence = values.find("Present");
-        if (findPresence != values.end())
+        if (findPresence == values.end())
         {
-            cpuPresence[index] = std::get<bool>(findPresence->second);
+            return;
         }
-
+        cpuPresence[index] = std::get<bool>(findPresence->second);
         // this implicitly cancels the timer
         cpuFilterTimer.expires_after(std::chrono::seconds(1));
 
