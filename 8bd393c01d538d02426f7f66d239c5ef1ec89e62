@@ -95,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51ea8987_d869df12",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-12-29T08:44:49Z",
+      "side": 1,
+      "message": "Got it. Thanks.",
+      "parentUuid": "08af6a6c_25542f22",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 5
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3eebe34b_c1f94289",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "See above comment",
       "parentUuid": "3eebe34b_c1f94289",
+      "range": {
+        "startLine": 328,
+        "startChar": 4,
+        "endLine": 328,
+        "endChar": 46
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52823ec4_d10a4457",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-12-29T08:44:49Z",
+      "side": 1,
+      "message": "Checked.",
+      "parentUuid": "35d902dd_2bc3acf8",
       "range": {
         "startLine": 328,
         "startChar": 4,
@@ -226,6 +274,30 @@
       "side": 1,
       "message": "This is the same function name as the existing PresenseSensor.\nThe function is returning the value of the PollingPresenceSensor, so seems logical to me.",
       "parentUuid": "731227d8_a8cbf7d5",
+      "range": {
+        "startLine": 375,
+        "startChar": 28,
+        "endLine": 375,
+        "endChar": 36
+      },
+      "revId": "8bd393c01d538d02426f7f66d239c5ef1ec89e62",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc3f8241_46c8b557",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2023-12-29T08:44:49Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "afa1ee82_3253fc58",
       "range": {
         "startLine": 375,
         "startChar": 28,
