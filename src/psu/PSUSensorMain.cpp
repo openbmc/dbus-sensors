@@ -70,7 +70,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"ADM1275", I2CDeviceType{"adm1275", true}},
     {"ADM1278", I2CDeviceType{"adm1278", true}},
     {"ADM1293", I2CDeviceType{"adm1293", true}},
-    {"ADS1015", I2CDeviceType{"ads1015", true}},
+    {"ADS1015", I2CDeviceType{"ads1015", false}},
     {"ADS7830", I2CDeviceType{"ads7830", true}},
     {"AHE50DC_FAN", I2CDeviceType{"ahe50dc_fan", true}},
     {"BMR490", I2CDeviceType{"bmr490", true}},
