@@ -16,6 +16,23 @@
       "message": "LGTM",
       "revId": "8969687c7238cb04b82577aa4eb1597cc7758ef3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5af83ade_093421c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-01-02T02:59:28Z",
+      "side": 1,
+      "message": "Friendly ping. Hi, can this somehow continue so I can proceed with my bmcweb patch that needs this?",
+      "revId": "8969687c7238cb04b82577aa4eb1597cc7758ef3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
