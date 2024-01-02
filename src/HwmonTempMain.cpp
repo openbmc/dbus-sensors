@@ -292,15 +292,28 @@ void createSensors(
             fs::path device;
 
             std::string deviceName;
+            std::error_code ec;
             if (pathStr.starts_with("/sys/bus/iio/devices"))
             {
-                device = fs::canonical(directory);
+                device = fs::canonical(directory, ec);
+                if (ec)
+                {
+                    std::cerr << "Fail to find device in path [" << pathStr
+                              << "]\n";
+                    continue;
+                }
                 deviceName = device.parent_path().stem();
             }
             else
             {
-                device = directory / "device";
-                deviceName = fs::canonical(device).stem();
+                device = fs::canonical(directory / "device", ec);
+                if (ec)
+                {
+                    std::cerr << "Fail to find device in path [" << pathStr
+                              << "]\n";
+                    continue;
+                }
+                deviceName = device.stem();
             }
 
             uint64_t bus = 0;
