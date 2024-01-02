@@ -300,6 +300,11 @@ void createSensors(
             else
             {
                 device = directory / "device";
+                if (!fs::exists(device))
+                {
+                    std::cerr << "path [" << device << "] not found.\n";
+                    continue;
+                }
                 deviceName = fs::canonical(device).stem();
             }
 
@@ -494,7 +499,7 @@ void createSensors(
                 configMap.erase(findSensorCfg);
             }
         }
-    });
+        });
     std::vector<std::string> types(sensorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
     {
@@ -623,7 +628,7 @@ int main()
             std::string(inventoryPath) + "/'",
         [&sensors](sdbusplus::message_t& msg) {
         interfaceRemoved(msg, sensors);
-    });
+        });
 
     matches.emplace_back(std::move(ifaceRemovedMatch));
 
