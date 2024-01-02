@@ -300,6 +300,11 @@ void createSensors(
             else
             {
                 device = directory / "device";
+                if (!fs::exists(device))
+                {
+                    std::cerr << "path [" << device << "] not found.\n";
+                    continue;
+                }
                 deviceName = fs::canonical(device).stem();
             }
 
