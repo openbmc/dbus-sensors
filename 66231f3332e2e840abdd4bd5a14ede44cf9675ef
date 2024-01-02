@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ef5196_5b242381",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-02T22:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "405aab05_92e42e20",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 0
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b092ff31_b251eef6",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77e36be0_0090d26b",
+        "filename": "src/GpioPresence.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-02T22:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b092ff31_b251eef6",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41caa628_9b755e33",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-12-12T05:32:32Z",
       "side": 1,
       "message": "To be more consistent with the rest of code, please change it to:\n\nif (error)\n{\n  log error msg;\n  return;\n}\nif (!self)\n{\n  log error msg;\n  return;\n}\nself-\u003emonitor",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 9
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ea7639_138ac4f9",
+        "filename": "src/GpioPresence.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-02T22:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41caa628_9b755e33",
       "range": {
         "startLine": 203,
         "startChar": 0,
@@ -105,6 +177,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef5abaf9_ac220d2b",
+        "filename": "src/GpioPresence.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-02T22:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bbcc697_bd3a914a",
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46ba0de1_955cbb08",
@@ -128,6 +218,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eccafd0_a79f570d",
+        "filename": "src/GpioPresence.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-02T22:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46ba0de1_955cbb08",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "513b5b54_d88c80a5",
@@ -141,6 +255,30 @@
       "writtenOn": "2023-12-12T05:32:32Z",
       "side": 1,
       "message": "use the same variable \"status\" as in Presence sensor",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 28
+      },
+      "revId": "66231f3332e2e840abdd4bd5a14ede44cf9675ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bba5f132_0774d260",
+        "filename": "src/GpioPresence.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-02T22:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "513b5b54_d88c80a5",
       "range": {
         "startLine": 62,
         "startChar": 0,
