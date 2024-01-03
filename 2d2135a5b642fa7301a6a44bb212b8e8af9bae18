@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f8d351c_f0174f18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2024-01-03T15:54:45Z",
+      "side": 1,
+      "message": "We hit this too on a sensor that wasn\u0027t even configured for hwmontempsensor and I had put up basically the same fix awhile ago: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/60543",
+      "revId": "2d2135a5b642fa7301a6a44bb212b8e8af9bae18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
