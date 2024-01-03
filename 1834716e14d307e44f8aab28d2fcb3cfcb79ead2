@@ -105,6 +105,24 @@
       "parentUuid": "ae56aa0a_cf8caea1",
       "revId": "1834716e14d307e44f8aab28d2fcb3cfcb79ead2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb759109_5c389e4a",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-03T16:14:10Z",
+      "side": 1,
+      "message": "\u003e it\u0027s unlikely that we\u0027d actually solve anything if we\u0027re out of memory, and we\u0027re certainly not solving OOM by continuing the loop\n\nThat is fair. I will revise and update",
+      "parentUuid": "2e28236d_a34df35a",
+      "revId": "1834716e14d307e44f8aab28d2fcb3cfcb79ead2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
