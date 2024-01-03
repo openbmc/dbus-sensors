@@ -14,6 +14,7 @@
 #include <fstream>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <regex>
 #include <stdexcept>
 #include <string>
@@ -231,6 +232,15 @@ void createSensors(
                 continue;
             }
 
+            std::optional<double> optInitialValue = std::nullopt;
+            // InitialValue is an optional numeric parameter
+            auto initialValueFound = baseConfigMap.find("InitialValue");
+            if (initialValueFound != baseConfigMap.end())
+            {
+                optInitialValue = std::visit(VariantToDoubleVisitor(),
+                                             initialValueFound->second);
+            }
+
             std::string sensorName;
             std::string sensorUnits;
 
@@ -313,7 +323,7 @@ void createSensors(
             sensorEntry = std::make_shared<ExternalSensor>(
                 sensorType, objectServer, dbusConnection, sensorName,
                 sensorUnits, std::move(sensorThresholds), interfacePath,
-                maxValue, minValue, timeoutSecs, readState);
+                maxValue, minValue, timeoutSecs, readState, optInitialValue);
             sensorEntry->initWriteHook(
                 [&sensors, &reaperTimer](
                     const std::chrono::steady_clock::time_point& now) {

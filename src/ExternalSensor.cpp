@@ -23,7 +23,8 @@ ExternalSensor::ExternalSensor(
     const std::string& sensorName, const std::string& sensorUnits,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, double maxReading,
-    double minReading, double timeoutSecs, const PowerState& powerState) :
+    double minReading, double timeoutSecs, const PowerState& powerState,
+    std::optional<double> optInitialValue) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, true, true, maxReading, minReading, conn, powerState),
     objServer(objectServer), writeLast(std::chrono::steady_clock::now()),
@@ -58,6 +59,11 @@ ExternalSensor::ExternalSensor(
     association = objectServer.add_interface(objectPath,
                                              association::interface);
     setInitialProperties(sensorUnits);
+
+    if (optInitialValue.has_value())
+    {
+        updateValue(optInitialValue.value());
+    }
 
     if constexpr (debug)
     {

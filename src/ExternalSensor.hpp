@@ -6,6 +6,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <chrono>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -22,7 +23,8 @@ class ExternalSensor :
                    std::vector<thresholds::Threshold>&& thresholdsIn,
                    const std::string& sensorConfiguration, double maxReading,
                    double minReading, double timeoutSecs,
-                   const PowerState& powerState);
+                   const PowerState& powerState,
+                   std::optional<double> optInitialValue);
     ~ExternalSensor() override;
 
     // Call this immediately after calling the constructor
