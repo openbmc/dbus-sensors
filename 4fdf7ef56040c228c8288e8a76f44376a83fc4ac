@@ -457,6 +457,24 @@
       "parentUuid": "36ce26c9_dc50da9b",
       "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1e271b0_89bba7c3",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-03T16:51:29Z",
+      "side": 1,
+      "message": "I don\u0027t think the issue with the shared/weak pointers is related to having a opaque interface. Even if we kept them as two separate classes, the object is created in FanMain.cpp (based on config) and it would still need the std:move() call that is done in TachSensor constructor. \nThe restartRead() function would still be the same in that case (async_wait call/lambda on waitTimer).",
+      "parentUuid": "7c4a7229_0e830060",
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
