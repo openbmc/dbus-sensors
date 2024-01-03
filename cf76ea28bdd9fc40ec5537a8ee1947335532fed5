@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "880f2d60_75c88421",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-03T19:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f963761_e9b0d7d3",
+      "range": {
+        "startLine": 206,
+        "startChar": 53,
+        "endLine": 206,
+        "endChar": 71
+      },
+      "revId": "cf76ea28bdd9fc40ec5537a8ee1947335532fed5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "514fdeb6_cbe18959",
