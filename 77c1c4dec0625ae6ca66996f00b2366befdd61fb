@@ -33,6 +33,23 @@
       "message": "Tested on Ampere\u0027s Mitchell platform.",
       "revId": "77c1c4dec0625ae6ca66996f00b2366befdd61fb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "497a5dad_570c1863",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001140
+      },
+      "writtenOn": "2024-01-03T20:46:54Z",
+      "side": 1,
+      "message": "I realized this is still hanging around. The commit message has been updated to resolve the comment thread.",
+      "revId": "77c1c4dec0625ae6ca66996f00b2366befdd61fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
