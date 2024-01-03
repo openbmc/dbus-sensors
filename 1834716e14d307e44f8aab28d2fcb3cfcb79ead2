@@ -51,6 +51,24 @@
       "parentUuid": "540d09d9_c5115bae",
       "revId": "1834716e14d307e44f8aab28d2fcb3cfcb79ead2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97c76cea_4f6f037b",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-03T00:39:01Z",
+      "side": 1,
+      "message": "We should just be using the appropriate version of Canonical\n\npath canonical( const std::filesystem::path\u0026 p,\n                std::error_code\u0026 ec );\n                \n#2 here: https://en.cppreference.com/w/cpp/filesystem/canonical\n                \nand checking for the error if we don\u0027t want an exception thrown here.  That has the added benefit of avoiding the potential race Andrew points out.\n\nAlso, FWIW, std::filesystem::exists as used above also can throw an exception, so as written the patchset doesn\u0027t fully fix the problem.",
+      "parentUuid": "dbb14bfc_6a4110d1",
+      "revId": "1834716e14d307e44f8aab28d2fcb3cfcb79ead2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
