@@ -69,6 +69,24 @@
       "parentUuid": "dbb14bfc_6a4110d1",
       "revId": "1834716e14d307e44f8aab28d2fcb3cfcb79ead2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae56aa0a_cf8caea1",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-03T00:57:24Z",
+      "side": 1,
+      "message": "\"Exceptions\nAny overload not marked noexcept may throw std::bad_alloc if memory allocation fails.\" https://en.cppreference.com/w/cpp/filesystem/canonical\n\nIt is unlikely we hit the memory issue, but try-catch still seems little more robust. Any thoughts, Ed?",
+      "parentUuid": "97c76cea_4f6f037b",
+      "revId": "1834716e14d307e44f8aab28d2fcb3cfcb79ead2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
