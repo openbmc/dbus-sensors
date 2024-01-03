@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2586782f_dee4c46d",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-01-03T08:54:23Z",
+      "side": 1,
+      "message": "Revised, thank you for correction.",
+      "parentUuid": "1660925c_68a8a9f3",
+      "range": {
+        "startLine": 747,
+        "startChar": 47,
+        "endLine": 748,
+        "endChar": 16
+      },
+      "revId": "b4fc8392bd1051a8759e5e03d4f57c2358e33bac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6cd950c_41354df8",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-15T18:57:21Z",
       "side": 1,
       "message": "Doesn\u0027t this now need to be std::powl now?  std::pow truncates.",
+      "range": {
+        "startLine": 874,
+        "startChar": 30,
+        "endLine": 874,
+        "endChar": 33
+      },
+      "revId": "b4fc8392bd1051a8759e5e03d4f57c2358e33bac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d59e36a_0b5d3b1e",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-01-03T08:54:23Z",
+      "side": 1,
+      "message": "Build failed with err \"\u0027powl\u0027 is not a member of \u0027std\u0027\"\nstd::pow will do overload with double as I surveyed",
+      "parentUuid": "e6cd950c_41354df8",
       "range": {
         "startLine": 874,
         "startChar": 30,
@@ -156,6 +204,30 @@
       "side": 1,
       "message": "We are using customize cases only in yosemite4\nis there any verification on your platform that side effect has occurred without this change?",
       "parentUuid": "b002e1a5_5188577f",
+      "range": {
+        "startLine": 887,
+        "startChar": 40,
+        "endLine": 887,
+        "endChar": 59
+      },
+      "revId": "b4fc8392bd1051a8759e5e03d4f57c2358e33bac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b82bdc97_2c186b17",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-01-03T08:54:23Z",
+      "side": 1,
+      "message": "Revised, thank your for correction",
+      "parentUuid": "50572267_e9567598",
       "range": {
         "startLine": 887,
         "startChar": 40,
