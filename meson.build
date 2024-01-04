@@ -44,16 +44,29 @@ gpiodcxx = dependency('libgpiodcxx',
 # i2c-tools doesn't ship a pkg-config file for libi2c
 i2c = meson.get_compiler('cpp').find_library('i2c')
 
-sdbusplus = dependency('sdbusplus', fallback: 'sdbusplus', include_type: 'system')
+sdbusplus = dependency('sdbusplus',
+                       fallback: 'sdbusplus',
+                       include_type: 'system',
+                       default_options: [ 'werror=false' ])
 
-phosphor_logging_dep = dependency('phosphor-logging')
-nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
+phosphor_logging_dep = dependency('phosphor-logging',
+                                  default_options: [ 'werror=false' ])
+nlohmann_json_dep = dependency('nlohmann_json',
+                               include_type: 'system',
+                               default_options: [ 'werror=false' ])
 
 threads = dependency('threads')
 
-boost = dependency('boost', version: '>=1.83.0', fallback: 'boost', include_type: 'system')
+boost = dependency('boost',
+                   version: '>=1.83.0',
+                   fallback: 'boost',
+                   include_type: 'system',
+                   default_options: [ 'werror=false' ])
 
-uring = dependency('liburing', fallback: ['liburing', 'uring'], include_type: 'system')
+uring = dependency('liburing',
+                   fallback: ['liburing', 'uring'],
+                   include_type: 'system',
+                   default_options: [ 'werror=false' ])
 
 default_deps = [
     boost,
