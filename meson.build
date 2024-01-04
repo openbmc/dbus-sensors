@@ -59,7 +59,7 @@ gpiodcxx = dependency(
 
 boost = dependency(
     'boost',
-    version: '>=1.79.0',
+    version: '>=1.83.0',
     include_type: 'system',
 )
 
