@@ -1,3 +1,9 @@
+systemd = dependency('systemd')
+systemd_system_unit_dir = systemd.get_variable(
+    'systemdsystemunitdir',
+    pkgconfig_define: ['prefix', get_option('prefix')],
+)
+
 unit_files = [
     ['adc', 'xyz.openbmc_project.adcsensor.service'],
     ['intel-cpu', 'xyz.openbmc_project.intelcpusensor.service'],
