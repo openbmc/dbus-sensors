@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "193f4055_872f06a6",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-04T12:49:48Z",
+      "side": 1,
+      "message": "Should be unneeded.  Rest of the change looks like a good cleanup.",
+      "range": {
+        "startLine": 47,
+        "startChar": 36,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "33c3adca31dedbd833ec0abba9e8cb2f9be7b0f1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
