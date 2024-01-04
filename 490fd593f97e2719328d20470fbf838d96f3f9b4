@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06d27910_25aa6d63",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-04T13:02:44Z",
+      "side": 1,
+      "message": "There are two calls like this in the repo that could have been simplified had they used the cpp variable that was previously there, but that seems like maybe a micro-optimization.",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "490fd593f97e2719328d20470fbf838d96f3f9b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
