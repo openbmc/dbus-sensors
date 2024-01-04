@@ -51,7 +51,7 @@ nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 
 threads = dependency('threads')
 
-boost = dependency('boost', version: '>=1.79.0', fallback: 'boost', include_type: 'system')
+boost = dependency('boost', version: '>=1.83.0', fallback: 'boost', include_type: 'system')
 
 uring = dependency('liburing', fallback: ['liburing', 'uring'], include_type: 'system')
 

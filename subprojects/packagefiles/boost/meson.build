@@ -1,6 +1,6 @@
 project('boost',
     'cpp',
-    version : '1.79.0',
+    version : '1.83.0',
     license : 'Boost'
 )
 
