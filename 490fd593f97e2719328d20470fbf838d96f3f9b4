@@ -22,6 +22,30 @@
       },
       "revId": "490fd593f97e2719328d20470fbf838d96f3f9b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a617538_18e4bb3a",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-04T23:31:58Z",
+      "side": 1,
+      "message": "I prefer to minimise the coupling between the `meson.build` files. It would actually be nice if you could specify a variable as local to the `meson.build` file in which it was instantiated (not inherited across `subdir()` calls).",
+      "parentUuid": "06d27910_25aa6d63",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "490fd593f97e2719328d20470fbf838d96f3f9b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
