@@ -16,6 +16,24 @@
       "message": "You could change this to `get_option(\u0027tests\u0027).allowed` at the same time if you want.  No worries if not.\n\n(instead of \"not disabled\")",
       "revId": "e35eff085f595151e214dc760c9b522b77c66a77",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f76fde06_5b4c0200",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-04T22:49:50Z",
+      "side": 1,
+      "message": "I was actually planning to circle back and switch tests to a `boolean` instead of a `feature`",
+      "parentUuid": "e744b791_477d7b40",
+      "revId": "e35eff085f595151e214dc760c9b522b77c66a77",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
