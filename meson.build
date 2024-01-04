@@ -51,13 +51,7 @@ nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 
 threads = dependency('threads')
 
-boost = dependency('boost',version : '>=1.79.0', required : false, include_type: 'system')
-if not boost.found()
-  subproject('boost', required: false)
-  boost_inc = include_directories('subprojects/boost_1_79_0/', is_system:true)
-  boost  = declare_dependency(include_directories : boost_inc)
-  boost = boost.as_system('system')
-endif
+boost = dependency('boost', version: '>=1.79.0', include_type: 'system')
 
 uring = dependency('liburing', include_type: 'system')
 
