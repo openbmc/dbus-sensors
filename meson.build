@@ -54,10 +54,6 @@ endif
 phosphor_logging_dep = dependency('phosphor-logging')
 nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 
-systemd = dependency('systemd')
-systemd_system_unit_dir = systemd.get_variable(
-    'systemdsystemunitdir',
-    pkgconfig_define: ['prefix', get_option('prefix')])
 threads = dependency('threads')
 
 boost = dependency('boost',version : '>=1.79.0', required : false, include_type: 'system')
