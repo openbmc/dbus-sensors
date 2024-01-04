@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee367521_71a209c1",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-04T12:53:40Z",
+      "side": 1,
+      "message": "Do we really need to do this for all our own recipes?  I\u0027m generally of the opinion that we should try to keep the meson configs rather minimal and the same across the repositories.\n\nIf we want to start a general practice that all dependencies have this default_options, I guess I\u0027m relatively ok with it.",
+      "revId": "b945b865dbd7e0db802a3f3a0cab67ed4c5d567e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
