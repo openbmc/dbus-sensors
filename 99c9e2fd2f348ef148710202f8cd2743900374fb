@@ -16,6 +16,24 @@
       "message": "I\u0027m a little stumped why this would be needed.  The wrap file has:\n\n```\n[provide]\nuring \u003d uring\n```\n\nAnd the wrap file is named \u0027liburing.wrap\u0027.  This wrap file should be implied without the fallback and the provide statement says ... oh.\n\nWe need:\n\n```\n[provide]\nliburing \u003d uring\n```\n\nThis seems like a bug in the upstream meson wrap file?\n\nThe pkgconfig on my system is:\n\n```\n$ ls /usr/lib64/pkgconfig/*uring*      \n/usr/lib64/pkgconfig/liburing.pc\n```\n\nSo, I believe \u0027liburing\u0027 is the right first parameter to dependency.  I think the wrap file is just missing the right variable redirection.",
       "revId": "99c9e2fd2f348ef148710202f8cd2743900374fb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f24144c8_7519d511",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-04T23:04:48Z",
+      "side": 1,
+      "message": "The problem is fixed by https://github.com/mesonbuild/wrapdb/commit/af29310a780e0 so I\u0027ll switch this change to a bump of the dependency and the wrap.",
+      "parentUuid": "8b7456e3_eba8b741",
+      "revId": "99c9e2fd2f348ef148710202f8cd2743900374fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
