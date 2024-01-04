@@ -44,12 +44,7 @@ gpiodcxx = dependency('libgpiodcxx',
 # i2c-tools doesn't ship a pkg-config file for libi2c
 i2c = meson.get_compiler('cpp').find_library('i2c')
 
-sdbusplus = dependency('sdbusplus', required : false, include_type: 'system')
-if not sdbusplus.found()
-  sdbusplus_proj = subproject('sdbusplus', required: true)
-  sdbusplus = sdbusplus_proj.get_variable('sdbusplus_dep')
-  sdbusplus = sdbusplus.as_system('system')
-endif
+sdbusplus = dependency('sdbusplus', fallback: 'sdbusplus', include_type: 'system')
 
 phosphor_logging_dep = dependency('phosphor-logging')
 nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
