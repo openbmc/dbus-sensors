@@ -33,24 +33,15 @@ add_project_arguments(
     language: 'cpp',
 )
 
-gpiodcxx = dependency(
-    'libgpiodcxx',
-    default_options: ['bindings=cxx'],
-)
-
+threads = dependency('threads')
 # i2c-tools doesn't ship a pkg-config file for libi2c
 i2c = meson.get_compiler('cpp').find_library('i2c')
-
-sdbusplus = dependency('sdbusplus', include_type: 'system')
-
-phosphor_logging_dep = dependency('phosphor-logging')
-nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
-
-threads = dependency('threads')
-
-boost = dependency('boost', version: '>=1.79.0', include_type: 'system')
-
 uring = dependency('liburing', include_type: 'system')
+nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
+gpiodcxx = dependency('libgpiodcxx', default_options: ['bindings=cxx'])
+boost = dependency('boost', version: '>=1.79.0', include_type: 'system')
+sdbusplus = dependency('sdbusplus', include_type: 'system')
+phosphor_logging_dep = dependency('phosphor-logging')
 
 default_deps = [
     boost,
