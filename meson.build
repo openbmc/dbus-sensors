@@ -69,12 +69,7 @@ if not boost.found()
     boost = boost.as_system('system')
 endif
 
-uring = dependency('liburing', required: false, include_type: 'system')
-if not uring.found()
-    uring_proj = subproject('liburing', required: true)
-    uring = uring_proj.get_variable('uring')
-    uring = uring.as_system('system')
-endif
+uring = dependency('liburing', include_type: 'system')
 
 default_deps = [
     boost,
