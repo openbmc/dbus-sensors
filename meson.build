@@ -33,8 +33,6 @@ add_project_arguments(
     language: 'cpp',
 )
 
-cpp = meson.get_compiler('cpp')
-
 build_tests = get_option('tests')
 gpiodcxx = dependency(
     'libgpiodcxx',
