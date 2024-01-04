@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e744b791_477d7b40",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-04T13:03:35Z",
+      "side": 1,
+      "message": "You could change this to `get_option(\u0027tests\u0027).allowed` at the same time if you want.  No worries if not.\n\n(instead of \"not disabled\")",
+      "revId": "e35eff085f595151e214dc760c9b522b77c66a77",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
