@@ -33,7 +33,6 @@ add_project_arguments(
     language: 'cpp',
 )
 
-build_tests = get_option('tests')
 gpiodcxx = dependency(
     'libgpiodcxx',
     default_options: ['bindings=cxx'],
@@ -93,6 +92,6 @@ default_deps = [
 subdir('service_files')
 subdir('src')
 
-if not build_tests.disabled()
+if not get_option('tests').disabled()
     subdir('tests')
 endif
