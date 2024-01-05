@@ -16,6 +16,24 @@
       "message": "Could we just automate the style with tooling?\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/68636",
       "revId": "c0c52705f923a9a1d66b94790e396537c52e0364",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0f11a29_65702699",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-05T16:48:38Z",
+      "side": 1,
+      "message": "One thing to note, because the dependency declarations aren\u0027t \u003e 80 characters, muon leaves them on one line, unlike what this patchset does.   My only strong opinion here is that we should use tooling to manage style, not manage it by hand.  I have almost zero worries about what the style actually is, I just picked whatever the tool defaults were.",
+      "parentUuid": "acdc1b48_f4f35d1e",
+      "revId": "c0c52705f923a9a1d66b94790e396537c52e0364",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
