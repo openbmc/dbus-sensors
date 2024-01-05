@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acdc1b48_f4f35d1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-05T16:44:20Z",
+      "side": 1,
+      "message": "Could we just automate the style with tooling?\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/68636",
+      "revId": "c0c52705f923a9a1d66b94790e396537c52e0364",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
