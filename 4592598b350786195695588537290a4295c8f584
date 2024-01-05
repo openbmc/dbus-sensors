@@ -57,6 +57,30 @@
       },
       "revId": "4592598b350786195695588537290a4295c8f584",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7f17460_a9c36b3c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-05T18:07:31Z",
+      "side": 1,
+      "message": "Also, if we parse out a non-finite number, should we just log it, fail and continue to the next config?  Right now this code just accepts a default.",
+      "parentUuid": "7d2dc32a_be0e6893",
+      "range": {
+        "startLine": 737,
+        "startChar": 20,
+        "endLine": 738,
+        "endChar": 65
+      },
+      "revId": "4592598b350786195695588537290a4295c8f584",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
