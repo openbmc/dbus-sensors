@@ -46,6 +46,30 @@
       },
       "revId": "490fd593f97e2719328d20470fbf838d96f3f9b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1a9becb_486829b1",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-05T16:27:34Z",
+      "side": 1,
+      "message": "Does the coupling between meson files in the same repo ever cause a problem?",
+      "parentUuid": "8a617538_18e4bb3a",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "490fd593f97e2719328d20470fbf838d96f3f9b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
