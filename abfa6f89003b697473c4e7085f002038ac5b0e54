@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80aa260b_f78ae84e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-07T23:04:28Z",
+      "side": 1,
+      "message": "The SMPro _is_ the processor. I\u0027m actually not sure the MMC should be referred to as another BMC, but it responds to some IPMI commands. I\u0027ll change it.\n\nOtherwise, that\u0027s correct.",
+      "parentUuid": "d6f390e4_d0b47776",
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "395d0e8a_c02ab4e7",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
@@ -31,6 +49,30 @@
       "writtenOn": "2024-01-07T22:51:05Z",
       "side": 1,
       "message": "Can we get more clarity on this?  Are values of 127 or 255 special in the smpro spec?  If so, we should handle them explicitly.  This makes me think that smpro is setting an \"error\" bit that we should be checking (bit 7 or bit8 on byte 0 it looks like), rather than comparing explicit values.",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 37
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3123fb5e_1e64122c",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-07T23:04:28Z",
+      "side": 1,
+      "message": "I\u0027ll check with my colleagues. The BMC Interface Specification at https://amperecomputing.com/customer-connect/products/altra-family-software---firmware doesn\u0027t mention an error bit, but hopefully that\u0027s what\u0027s happening.",
+      "parentUuid": "395d0e8a_c02ab4e7",
       "range": {
         "startLine": 335,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8ec0f61_cfaefbf5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-07T23:04:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "17f236ab_d26ac358",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 13
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c76a872_bfcf7580",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-01-07T22:51:05Z",
       "side": 1,
       "message": "Are you certain this isn\u0027t signed 16 bit LSB first?  Usually these kinds of APIs do have to handle negative numbers.",
+      "range": {
+        "startLine": 412,
+        "startChar": 29,
+        "endLine": 412,
+        "endChar": 39
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "966890ef_749506a0",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-07T23:04:28Z",
+      "side": 1,
+      "message": "It\u0027s listed in the specification as \"15-bit voltage in mV\".",
+      "parentUuid": "9c76a872_bfcf7580",
       "range": {
         "startLine": 412,
         "startChar": 29,
