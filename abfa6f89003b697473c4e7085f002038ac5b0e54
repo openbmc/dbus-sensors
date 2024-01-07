@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f390e4_d0b47776",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-07T22:51:05Z",
+      "side": 1,
+      "message": "To clarify, your architecture is\n\nOpenBMC -\u003e IPMB -\u003e Other BMC -\u003e SMPro -\u003e Processor?",
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "395d0e8a_c02ab4e7",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-07T22:51:05Z",
+      "side": 1,
+      "message": "Can we get more clarity on this?  Are values of 127 or 255 special in the smpro spec?  If so, we should handle them explicitly.  This makes me think that smpro is setting an \"error\" bit that we should be checking (bit 7 or bit8 on byte 0 it looks like), rather than comparing explicit values.",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 37
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17f236ab_d26ac358",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-07T22:51:05Z",
+      "side": 1,
+      "message": "Please remove.  There\u0027s nowhere else that tries to identify a \"bogus\" value and log it.  Also, this will spam logs if that value ever occurs.",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 13
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c76a872_bfcf7580",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-07T22:51:05Z",
+      "side": 1,
+      "message": "Are you certain this isn\u0027t signed 16 bit LSB first?  Usually these kinds of APIs do have to handle negative numbers.",
+      "range": {
+        "startLine": 412,
+        "startChar": 29,
+        "endLine": 412,
+        "endChar": 39
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
