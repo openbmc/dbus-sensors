@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a4fd327_dab61c63",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-08T18:53:57Z",
+      "side": 1,
+      "message": "Looks like your implementation also missed this section:\n\n\"• It is not present (such as a missing DIMM) or if the sensor is not supported by the (replaceable) device (such as lack of\nsupport by the DIMM type for temperature reading). Reading this sensor returns the value 0xFFFF.\"\n\n\n...\n\n\"If the sensor is supported, 0xFFFF value of the corresponding sensor register indicates whether the\nvalue is valid (0) or invalid (1).\"",
+      "parentUuid": "9d5ad012_861191a3",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 37
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17f236ab_d26ac358",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
