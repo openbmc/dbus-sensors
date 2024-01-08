@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d5ad012_861191a3",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-08T18:52:17Z",
+      "side": 1,
+      "message": "Reading the spec, it looks like the value is signed?  \n\n\"9-bit temperature in °C, ranging from -255 to +256.\"\n\nLooking at your code, it doesn\u0027t handle that signing correctly.  that might be part of the issue?  The spec doesn\u0027t specify if it\u0027s twos complement or something else for negative values.  We can probably assume twos complement for the moment, as I think that\u0027s what lm75s do, and this spec was based on lm75.",
+      "parentUuid": "3123fb5e_1e64122c",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 37
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17f236ab_d26ac358",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
