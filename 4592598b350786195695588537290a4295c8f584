@@ -81,6 +81,30 @@
       },
       "revId": "4592598b350786195695588537290a4295c8f584",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5045d3d7_ea1429e8",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-01-09T10:38:00Z",
+      "side": 1,
+      "message": "Revised, thank you for correction.\n\nThe failed case seems didn\u0027t changed with this commit, service will print error log, ignore the invalid value then continue to the next config, is there any additional action should be added as your expectation?",
+      "parentUuid": "b7f17460_a9c36b3c",
+      "range": {
+        "startLine": 737,
+        "startChar": 20,
+        "endLine": 738,
+        "endChar": 65
+      },
+      "revId": "4592598b350786195695588537290a4295c8f584",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
