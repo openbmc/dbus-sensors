@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a4d7b6a_1aa12330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-10T22:25:17Z",
+      "side": 1,
+      "message": "Can we please be as specific as possible in the subject? \"Fixed case error\" is quite vague. Much better is something like:\n\n```\ntachsensor: Fix \u0027Associations\u0027 capitalization to register associations\n```",
+      "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0ecce40_527efc6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-10T22:25:17Z",
+      "side": 1,
+      "message": "It\u0027s helpful to substantiate these kinds of statements. Including output from introspecting the tachsensor and the mapper via `busctl` would help demonstrate that it does what is necessary.",
+      "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
