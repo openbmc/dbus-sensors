@@ -85,7 +85,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
         itemAssoc = objectServer.add_interface(
             "/xyz/openbmc_project/inventory/" + name, association::interface);
         itemAssoc->register_property(
-            "associations",
+            "Associations",
             std::vector<Association>{
                 {"sensors", "inventory",
                  "/xyz/openbmc_project/sensors/fan_tach/" + name}});
