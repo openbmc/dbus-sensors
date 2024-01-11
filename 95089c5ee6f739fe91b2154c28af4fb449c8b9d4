@@ -69,6 +69,24 @@
       "parentUuid": "e0ecce40_527efc6e",
       "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "859bf49c_9004d18e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-11T23:16:08Z",
+      "side": 1,
+      "message": "Can you add a mapper query that demonstrates it has registered the associations? That\u0027s really what I was after - introspecting the tachsensor object shows what we see in the diff here - really the effect we\u0027re after is the impact on the mapper results.",
+      "parentUuid": "155f606b_9854b1e6",
+      "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
