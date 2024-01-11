@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5997d983_5017c6c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001210
+      },
+      "writtenOn": "2024-01-11T07:32:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a4d7b6a_1aa12330",
+      "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0ecce40_527efc6e",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-01-10T22:25:17Z",
       "side": 1,
       "message": "It\u0027s helpful to substantiate these kinds of statements. Including output from introspecting the tachsensor and the mapper via `busctl` would help demonstrate that it does what is necessary.",
+      "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "155f606b_9854b1e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001210
+      },
+      "writtenOn": "2024-01-11T07:32:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0ecce40_527efc6e",
       "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
