@@ -105,6 +105,24 @@
       "parentUuid": "859bf49c_9004d18e",
       "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cc2e3a5_5e40e360",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-12T03:51:30Z",
+      "side": 1,
+      "message": "The mapper hosts DBus objects with the same path prefix that host the association information under the association name. There\u0027s some examples here:\n\nhttps://github.com/openbmc/docs/blob/a8fff53a66656f884632322841d697c89bdba871/designs/physical-topology.md#inventory-consumers\n\nIf association objects appear in the mapper with the fan sensor object path prefix (`busctl tree xyz.openbmc_project.ObjectMapper`) then the patch has probably done the right thing. You could confirm that by inspecting the mapper state prior to the change.",
+      "parentUuid": "591b61f1_406ee416",
+      "revId": "95089c5ee6f739fe91b2154c28af4fb449c8b9d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
