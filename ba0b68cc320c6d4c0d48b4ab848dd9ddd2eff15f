@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5534f97b_b5859a03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-16T22:45:32Z",
+      "side": 1,
+      "message": "Your title is still 62 characters long.  A limit of 50 is what the developing guide says.  If it were just that, I probably wouldn\u0027t mention in a comment, but just for your information, that\u0027s what the 50 in 50/72 means.\n\nYour commit message formatting is what CI is failing on right now.",
+      "parentUuid": "80020001_8d4a667d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "ba0b68cc320c6d4c0d48b4ab848dd9ddd2eff15f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9ed7c6a_42dc6c5a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
