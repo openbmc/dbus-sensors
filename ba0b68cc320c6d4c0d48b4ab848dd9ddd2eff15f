@@ -41,6 +41,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "882ea526_b192e32c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-01-16T22:11:22Z",
+      "side": 1,
+      "message": "You are correct. \n\nOriginally the function in question had no parameter for hysteresis, and was (in the body) implicitly applying hysteresis\u003d0 to any sensors relying on the function. This caused an issue for Intel platforms, which are currently the only ones making use of the function in question.\n\nSomeone from Intel corrected the \u0027hysteresis\u003d0 always\u0027 issue by hardcoding the function so that it would always use \u00271\u0027 for hysteresis-- but that\u0027s an Intel-specific value, and wouldn\u0027t likely make sense for other platforms.\n\nThere was another Gerrit issue open where there\u0027s an attempt to add a Hysteresis parameter and set a value of \u0027NaN\u0027 but there\u0027s a level of complexity re: making sure some of the code changes required to use \u0027NaN\u0027 there wouldn\u0027t break other things.\n\nThis Gerrit submission attempts to sidestep that last bit of uncertainty by adding a parameter for hysteresis and setting default hysteresis\u003d0 in the function header in hopes of making the implicit (and overridable) behavior of the function more apparent to future users without the added complexity of changing how things work today.",
+      "parentUuid": "a9ed7c6a_42dc6c5a",
+      "revId": "ba0b68cc320c6d4c0d48b4ab848dd9ddd2eff15f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "68863051_26ef8fe9",
