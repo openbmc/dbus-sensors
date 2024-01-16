@@ -83,6 +83,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "195b3d72_434a75df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-01-16T22:29:21Z",
+      "side": 1,
+      "message": "Sorry -I\u0027ve just realized I\u0027d mixed up which parseThresholdsFromAttr() Gerrit entry I was replying to.\n\nI thought I was needing to justify using \u0027hysteresis\u003d0\u0027 in praseThresholdsFromAttr header-- but it turns out you\u0027ve actually caught a typo I made in the Intel calls to parseThresholdsFromAttr\n\nYou are absolutely correct that \u003d0 is not the correct default hysteresis value for Intel platforms. I\u0027ll submit a new version with the fix.",
+      "parentUuid": "882ea526_b192e32c",
+      "revId": "ba0b68cc320c6d4c0d48b4ab848dd9ddd2eff15f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "68863051_26ef8fe9",
