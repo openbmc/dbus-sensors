@@ -101,6 +101,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6eb029e_34663f89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-01-16T22:35:12Z",
+      "side": 1,
+      "message": "Actually after refreshing myself on this topic further, it looks like Intel *is* explicitly using Hysteresis\u003d0 as their value.\n\nThe original version of parseThresholdsFromAttr() implicitly set hysteresis\u003dNaN, which caused issues for Intel, who changed it so that parseThresholdsFromAttr() now implicitly sets hysteresis\u003d0 for all callers.\n\nThis changes turns the implicit setting into something explicit and overridable.\n\nThis is the accepted intel fix that changed the implicit hysteresis\u003dNAN to hysteresis\u003d0 : https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/61744/comments/38f6a221_58a39817",
+      "parentUuid": "195b3d72_434a75df",
+      "revId": "ba0b68cc320c6d4c0d48b4ab848dd9ddd2eff15f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "68863051_26ef8fe9",
