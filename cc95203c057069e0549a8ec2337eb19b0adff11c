@@ -16,6 +16,23 @@
       "message": "This commit start from my question on Discord https://discord.com/channels/775381525260664832/1187158775438778408/1191629649189544006. Please help me to review this commit",
       "revId": "cc95203c057069e0549a8ec2337eb19b0adff11c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11a08976_5c78ebb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-01-17T09:36:09Z",
+      "side": 1,
+      "message": "Instead of using 3 time_point variables,\nwould it be possible to just set a single std::optional\u003c...::time_point\u003e\nwhen the sensor is enabled and then set it to std::nullopt when it\u0027s disabled? Then the \u0027good to read\u0027 function could perhaps check the elapsed time.\n\nOr the check could happen in the code that emits the threshold events. Since the sensor might be technically \u0027good to read\u0027 but not yet arrived at a stable reading.\n\n\nEven if it works now I\u0027m afraid the feature could break in the future due to lack of unit tests. But it\u0027s definitely needed to avoid the unwanted threshold events.",
+      "revId": "cc95203c057069e0549a8ec2337eb19b0adff11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
