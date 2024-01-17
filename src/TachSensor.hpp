@@ -74,7 +74,7 @@ class TachSensor :
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration,
                const std::pair<double, double>& limits,
-               const PowerState& powerState,
+               const PowerState& powerState, uint32_t& delayMs,
                const std::optional<std::string>& led);
     ~TachSensor() override;
     void setupRead();

@@ -451,6 +451,7 @@ void createSensors(
             }
 
             PowerState powerState = getPowerState(baseConfiguration->second);
+            uint32_t delayMs = getDelayMs(baseConfiguration->second);
 
             constexpr double defaultMaxReading = 25000;
             constexpr double defaultMinReading = 0;
@@ -543,7 +544,7 @@ void createSensors(
                 path.string(), baseType, objectServer, dbusConnection,
                 std::move(presenceSensor), redundancy, io, sensorName,
                 std::move(sensorThresholds), *interfacePath, limits, powerState,
-                led);
+                delayMs, led);
             tachSensor->setupRead();
 
             if (!pwmPath.empty() && fs::exists(pwmPath) &&
