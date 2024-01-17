@@ -93,7 +93,7 @@ void createAssociation(
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
 
-bool readingStateGood(const PowerState& powerState);
+bool readingStateGood(const PowerState& powerState, uint32_t delayMs = 0);
 
 constexpr const char* configInterfacePrefix =
     "xyz.openbmc_project.Configuration.";
@@ -224,6 +224,18 @@ inline float getPollRate(const SensorBaseConfigMap& cfg, float dflt)
         }
     }
     return pollRate;
+}
+
+inline uint32_t getDelayMs(const SensorBaseConfigMap& cfg)
+{
+    uint32_t delayMs = 0;
+    auto findDelayMs = cfg.find("DelayMs");
+    if (findDelayMs != cfg.end())
+    {
+        delayMs = std::visit(VariantToUnsignedIntVisitor(),
+                             findDelayMs->second);
+    }
+    return delayMs;
 }
 
 inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
