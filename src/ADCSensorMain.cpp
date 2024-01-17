@@ -246,6 +246,7 @@ void createSensors(
             float pollRate = getPollRate(baseConfiguration->second,
                                          pollRateDefault);
             PowerState readState = getPowerState(baseConfiguration->second);
+            uint32_t delayMs = getDelayMs(baseConfiguration->second);
 
             auto& sensor = sensors[sensorName];
             sensor = nullptr;
@@ -291,7 +292,7 @@ void createSensors(
             sensor = std::make_shared<ADCSensor>(
                 path.string(), objectServer, dbusConnection, io, sensorName,
                 std::move(sensorThresholds), scaleFactor, pollRate, readState,
-                *interfacePath, std::move(bridgeGpio));
+                delayMs, *interfacePath, std::move(bridgeGpio));
             sensor->setupRead();
         }
     });

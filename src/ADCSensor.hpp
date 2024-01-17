@@ -72,7 +72,7 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
               boost::asio::io_context& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
               double scaleFactor, float pollRate, PowerState readState,
-              const std::string& sensorConfiguration,
+              uint32_t delayMs, const std::string& sensorConfiguration,
               std::optional<BridgeGpio>&& bridgeGpio);
     ~ADCSensor() override;
     void setupRead(void);
