@@ -26,6 +26,7 @@
 #include <sdbusplus/bus/match.hpp>
 
 #include <charconv>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <memory>
@@ -37,6 +38,7 @@
 #include <vector>
 
 namespace fs = std::filesystem;
+using sysClock = std::chrono::system_clock;
 
 static bool powerStatusOn = false;
 static bool biosHasPost = false;
@@ -46,6 +48,10 @@ static bool chassisStatusOn = false;
 static std::unique_ptr<sdbusplus::bus::match_t> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> postMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> chassisMatch = nullptr;
+
+static sysClock::time_point powerOnTimePoint;
+static sysClock::time_point chassisOnTimePoint;
+static sysClock::time_point biosHasPostTimePoint;
 
 /**
  * return the contents of a file
@@ -317,19 +323,35 @@ bool isChassisOn(void)
     return chassisStatusOn;
 }
 
-bool readingStateGood(const PowerState& powerState)
+bool readingStateGood(const PowerState& powerState, uint32_t delayMs)
 {
-    if (powerState == PowerState::on && !isPowerOn())
+    if (powerState == PowerState::on)
     {
-        return false;
+        auto diffTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+            sysClock::now() - powerOnTimePoint);
+        if (!isPowerOn() || (diffTime < std::chrono::milliseconds(delayMs)))
+        {
+            return false;
+        }
     }
-    if (powerState == PowerState::biosPost && (!hasBiosPost() || !isPowerOn()))
+    else if (powerState == PowerState::biosPost)
     {
-        return false;
+        auto diffTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+            sysClock::now() - biosHasPostTimePoint);
+        if (!hasBiosPost() || !isPowerOn() ||
+            (diffTime < std::chrono::milliseconds(delayMs)))
+        {
+            return false;
+        }
     }
-    if (powerState == PowerState::chassisOn && !isChassisOn())
+    else if (powerState == PowerState::chassisOn)
     {
-        return false;
+        auto diffTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+            sysClock::now() - chassisOnTimePoint);
+        if (!isPowerOn() || (diffTime < std::chrono::milliseconds(delayMs)))
+        {
+            return false;
+        }
     }
 
     return true;
@@ -361,7 +383,15 @@ static void
             std::cerr << "error getting power status " << ec.message() << "\n";
             return;
         }
-        powerStatusOn = std::get<std::string>(state).ends_with(".Running");
+        if (std::get<std::string>(state).ends_with(".Running"))
+        {
+            powerStatusOn = true;
+            powerOnTimePoint = sysClock::now();
+        }
+        else
+        {
+            powerStatusOn = false;
+        }
     },
         power::busname, power::path, properties::interface, properties::get,
         power::interface, power::property);
@@ -396,6 +426,11 @@ static void
         biosHasPost = (value != "Inactive") &&
                       (value != "xyz.openbmc_project.State.OperatingSystem."
                                 "Status.OSStatus.Inactive");
+
+        if (biosHasPost)
+        {
+            biosHasPostTimePoint = sysClock::now();
+        }
     },
         post::busname, post::path, properties::interface, properties::get,
         post::interface, post::property);
@@ -429,6 +464,11 @@ static void
             return;
         }
         chassisStatusOn = std::get<std::string>(state).ends_with(chassis::sOn);
+
+        if (chassisStatusOn)
+        {
+            chassisOnTimePoint = sysClock::now();
+        }
     },
         chassis::busname, chassis::path, properties::interface, properties::get,
         chassis::interface, chassis::property);
@@ -483,6 +523,7 @@ void setupPowerMatchCallback(
                     return;
                 }
                 powerStatusOn = true;
+                powerOnTimePoint = sysClock::now();
                 hostStatusCallback(PowerState::on, powerStatusOn);
             });
         }
@@ -505,6 +546,11 @@ void setupPowerMatchCallback(
             biosHasPost = (value != "Inactive") &&
                           (value != "xyz.openbmc_project.State.OperatingSystem."
                                     "Status.OSStatus.Inactive");
+            if (biosHasPost)
+            {
+                biosHasPostTimePoint = sysClock::now();
+            }
+
             hostStatusCallback(PowerState::biosPost, biosHasPost);
         }
     });
@@ -545,6 +591,8 @@ void setupPowerMatchCallback(
                     return;
                 }
                 chassisStatusOn = true;
+                chassisOnTimePoint = sysClock::now();
+
                 hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
             });
         }
