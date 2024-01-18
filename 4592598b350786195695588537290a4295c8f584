@@ -59,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba71d753_5def20b1",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-01-18T10:01:53Z",
+      "side": 1,
+      "message": "Revised, thank you for the correction.",
+      "parentUuid": "0c77c24b_84669faf",
+      "range": {
+        "startLine": 736,
+        "startChar": 51,
+        "endLine": 736,
+        "endChar": 52
+      },
+      "revId": "4592598b350786195695588537290a4295c8f584",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d2dc32a_be0e6893",
@@ -144,6 +168,30 @@
       "side": 1,
       "message": "\u003e The failed case seems didn\u0027t changed with this commit,\n\nThe failed case didn\u0027t exist before this commit.  Yes, I think we should log an error and continue (similar to line 731) if there\u0027s a bad value.",
       "parentUuid": "5045d3d7_ea1429e8",
+      "range": {
+        "startLine": 737,
+        "startChar": 20,
+        "endLine": 738,
+        "endChar": 65
+      },
+      "revId": "4592598b350786195695588537290a4295c8f584",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c507cf0c_7317e611",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-01-18T10:01:53Z",
+      "side": 1,
+      "message": "The failed case starts from line 471,\nI just revise the condition to meet changes.",
+      "parentUuid": "ae69d0e6_373aacfe",
       "range": {
         "startLine": 737,
         "startChar": 20,
