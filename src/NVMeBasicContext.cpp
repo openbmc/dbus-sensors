@@ -273,7 +273,7 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         {
             std::cerr << "Got error writing basic query: " << ec << "\n";
         }
-    });
+        });
 
     auto response = std::make_shared<boost::asio::streambuf>();
     response->prepare(1);
@@ -316,7 +316,7 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
 
         response->prepare(len);
         return len;
-    },
+        },
         [weakSelf{weak_from_this()}, sensor, response](
             const boost::system::error_code& ec, std::size_t length) mutable {
         if (ec)

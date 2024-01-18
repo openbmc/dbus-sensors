@@ -294,7 +294,7 @@ void createSensors(
                 *interfacePath, std::move(bridgeGpio));
             sensor->setupRead();
         }
-    });
+        });
 
     getter->getConfiguration(
         std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()});

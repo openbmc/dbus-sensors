@@ -342,7 +342,7 @@ void ChassisIntrusionSensor::start()
         "Status", mValue,
         [&](const std::string& req, std::string& propertyValue) {
         return setSensorValue(req, propertyValue);
-    });
+        });
     std::string rearmStr = mAutoRearm ? autoRearmStr : manualRearmStr;
     mIface->register_property("Rearm", rearmStr);
     mIface->initialize();

@@ -235,7 +235,7 @@ inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
         {
             std::cerr << "Failed to set LED " << name << "\n";
         }
-    },
+        },
         "xyz.openbmc_project.LED.GroupManager",
         "/xyz/openbmc_project/led/groups/" + name, properties::interface,
         properties::set, "xyz.openbmc_project.Led.Group", "Asserted",
@@ -293,7 +293,7 @@ struct GetSensorConfiguration :
             }
 
             self->respData[path][interface] = std::move(data);
-        },
+            },
             owner, path, "org.freedesktop.DBus.Properties", "GetAll",
             interface);
     }
@@ -353,14 +353,14 @@ struct GetSensorConfiguration :
                     if (std::find_if(interfaces.begin(), interfaces.end(),
                                      [interface](const std::string& possible) {
                         return interface.starts_with(possible);
-                    }) == interfaces.end())
+                        }) == interfaces.end())
                     {
                         continue;
                     }
                     self->getPath(path, interface, owner);
                 }
             }
-        },
+            },
             mapper::busName, mapper::path, mapper::interface, mapper::subtree,
             "/", 0, interfaces);
     }

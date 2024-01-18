@@ -362,7 +362,7 @@ static void
             return;
         }
         powerStatusOn = std::get<std::string>(state).ends_with(".Running");
-    },
+        },
         power::busname, power::path, properties::interface, properties::get,
         power::interface, power::property);
 }
@@ -396,7 +396,7 @@ static void
         biosHasPost = (value != "Inactive") &&
                       (value != "xyz.openbmc_project.State.OperatingSystem."
                                 "Status.OSStatus.Inactive");
-    },
+        },
         post::busname, post::path, properties::interface, properties::get,
         post::interface, post::property);
 }
@@ -429,7 +429,7 @@ static void
             return;
         }
         chassisStatusOn = std::get<std::string>(state).ends_with(chassis::sOn);
-    },
+        },
         chassis::busname, chassis::path, properties::interface, properties::get,
         chassis::interface, chassis::property);
 }
@@ -486,7 +486,7 @@ void setupPowerMatchCallback(
                 hostStatusCallback(PowerState::on, powerStatusOn);
             });
         }
-    });
+        });
 
     postMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
@@ -507,7 +507,7 @@ void setupPowerMatchCallback(
                                     "Status.OSStatus.Inactive");
             hostStatusCallback(PowerState::biosPost, biosHasPost);
         }
-    });
+        });
 
     chassisMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
@@ -548,7 +548,7 @@ void setupPowerMatchCallback(
                 hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
             });
         }
-    });
+        });
     getPowerStatus(conn);
     getPostStatus(conn);
     getChassisStatus(conn);
@@ -673,7 +673,7 @@ void createInventoryAssoc(
         setInventoryAssociation(
             association, parent,
             findContainingChassis(parent, subtree).value_or(parent));
-    },
+        },
         mapper::busName, mapper::path, mapper::interface, "GetSubTree",
         "/xyz/openbmc_project/inventory/system", 2, allInterfaces);
 }
@@ -749,8 +749,9 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         rules::interfacesAdded() +
         rules::argNpath(0, "/xyz/openbmc_project/security/special_mode");
     static std::unique_ptr<sdbusplus::bus::match_t> specialModeIntfMatch =
-        std::make_unique<sdbusplus::bus::match_t>(
-            conn, filterSpecialModeIntfAdd, [](sdbusplus::message_t& m) {
+        std::make_unique<sdbusplus::bus::match_t>(conn,
+                                                  filterSpecialModeIntfAdd,
+                                                  [](sdbusplus::message_t& m) {
         sdbusplus::message::object_path path;
         using PropertyMap =
             boost::container::flat_map<std::string, std::variant<std::string>>;
@@ -771,7 +772,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         }
         auto* manufacturingModeStatus = std::get_if<std::string>(&itr->second);
         handleSpecialModeChange(*manufacturingModeStatus);
-    });
+        });
 
     const std::string filterSpecialModeChange =
         rules::type::signal() + rules::member("PropertiesChanged") +
@@ -792,7 +793,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         }
         auto* manufacturingModeStatus = std::get_if<std::string>(&itr->second);
         handleSpecialModeChange(*manufacturingModeStatus);
-    });
+        });
 
     conn.async_method_call(
         [](const boost::system::error_code ec,
@@ -806,7 +807,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         const auto* manufacturingModeStatus =
             std::get_if<std::string>(&getManufactMode);
         handleSpecialModeChange(*manufacturingModeStatus);
-    },
+        },
         "xyz.openbmc_project.SpecialMode",
         "/xyz/openbmc_project/security/special_mode",
         "org.freedesktop.DBus.Properties", "Get", specialModeInterface,

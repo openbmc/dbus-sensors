@@ -1064,9 +1064,9 @@ void createSensors(
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged,
                          activateOnly](const ManagedObjectType& sensorConfigs) {
-        createSensorsCallback(io, objectServer, dbusConnection, sensorConfigs,
-                              sensorsChanged, activateOnly);
-    });
+            createSensorsCallback(io, objectServer, dbusConnection,
+                                  sensorConfigs, sensorsChanged, activateOnly);
+        });
     std::vector<std::string> types(sensorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
     {
@@ -1241,8 +1241,8 @@ int main()
 
     propertyInitialize();
 
-    auto powerCallBack = [&io, &objectServer, &systemBus](PowerState type,
-                                                          bool state) {
+    auto powerCallBack =
+        [&io, &objectServer, &systemBus](PowerState type, bool state) {
         powerStateChanged(type, state, sensors, io, objectServer, systemBus);
     };
 
