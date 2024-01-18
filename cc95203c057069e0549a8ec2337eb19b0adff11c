@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "040438d4_28d4cc24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-18T19:08:17Z",
+      "side": 1,
+      "message": "The PowerState parameter it intended to solve host-owned sensors.  Does that not work in this case?\n\nNeeding a delay here implies that the device driver is wrong and needs corrected.  Which sensors specifically are you applying this to?\n\nI really suspect this doesn\u0027t need to be a config item, but would be based on the device itself.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "cc95203c057069e0549a8ec2337eb19b0adff11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9419c98_7012a7ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
