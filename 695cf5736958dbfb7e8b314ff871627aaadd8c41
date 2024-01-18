@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d0a65a5_5c7ca6a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-01-18T17:06:56Z",
+      "side": 1,
+      "message": "Reformatted commit message using \u0027fold\u0027 to wrap the body at column 72.\n\n(Links longer than 72 characters have been excluding from wrapping at this time)",
+      "revId": "695cf5736958dbfb7e8b314ff871627aaadd8c41",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
