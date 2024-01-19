@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "974c4509_724861fd",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-01-19T03:21:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "fefb3326_f520fb9f",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 43
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8752b32a_92466180",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-18T19:08:17Z",
       "side": 1,
       "message": "Please don\u0027t add more global variables.  I suspect these need to be in each sensor.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d775287_c3035ee7",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-01-19T03:21:51Z",
+      "side": 1,
+      "message": "I think those variables are created only once in each application, therefore it still be ok to create 3 more global variables.",
+      "parentUuid": "8752b32a_92466180",
       "range": {
         "startLine": 51,
         "startChar": 0,
@@ -95,6 +143,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1522ae82_5582fb8d",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-01-19T03:21:51Z",
+      "side": 1,
+      "message": "I will update this one after finished discussion.",
+      "parentUuid": "0ba8445c_7e43aa8d",
+      "range": {
+        "startLine": 66,
+        "startChar": 54,
+        "endLine": 66,
+        "endChar": 62
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cc67800_e0807cd4",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-01-19T03:21:51Z",
+      "side": 1,
+      "message": "When I start this commit, I considered 2 options:\n- Option 1: Add `delayMs` property to `Sensor` class (current implementation).\n- Option 2: Call `setupPowerMatchCallback` function in `ADCSensorMain.cpp` and `FanMain.cpp` files to get the time_point when `PowerState` is changed. Before reading a sensor, it shall checks Power State and Delay is expired or not.\n\nIn both options, I need to add `delayMs` property to calculate the delay time. But I think that the `delayMs` property can be a common property, other sensors may need this property, therefore I choose first option to implement.\n\nWhat do you think about this 2 options.",
+      "parentUuid": "a9a238d5_0cc6d623",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 74
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "05a6e91f_8bc3ead6",
         "filename": "src/sensor.hpp",
         "patchSetId": 2
@@ -106,6 +202,30 @@
       "writtenOn": "2024-01-18T19:08:17Z",
       "side": 1,
       "message": "Putting this in readingStateGood seems a little odd to me.  It\u0027s going to result in the sensor being polled, but the thresholds ignored.\n\nWouldn\u0027t we rather just use delayMs as the initial value on waitTimer.asyncWait (it would replace sensorPollMs on the initial read?).\n\nThat way, we\u0027re not reading the sensor until it\u0027s ready.",
+      "range": {
+        "startLine": 429,
+        "startChar": 17,
+        "endLine": 429,
+        "endChar": 33
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012e0618_0d202fa1",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-01-19T03:21:51Z",
+      "side": 1,
+      "message": "It seems your suggestion as the option 2 which I mentioned above.",
+      "parentUuid": "05a6e91f_8bc3ead6",
       "range": {
         "startLine": 429,
         "startChar": 17,

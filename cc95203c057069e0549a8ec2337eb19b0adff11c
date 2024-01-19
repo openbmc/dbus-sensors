@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c475f243_882c290f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-01-19T03:21:51Z",
+      "side": 1,
+      "message": "\u003e The PowerState parameter it intended to solve host-owned sensors.  Does that not work in this case?\n\nSometime the sensors do not take enough time to initialize after Chassis is On or Host is Running.\n\u003e \n\u003e Needing a delay here implies that the device driver is wrong and needs corrected.  Which sensors specifically are you applying this to?\n\nIn the 1 Socket system, I did not get the ADC sensors lower threshold event issue, but in the 2 Socket system, some ADC sensors of Socket2 are not ready after Host is running -\u003e lower threshold events are logged.\nAbout the FAN sensors issue: We are using SUNON FAN controller, it needs time to initialize FAN speed after Power is turned on, if the Chassis state changes to On before FAN controller is completely initialized, lower threshold events are logged.\n\u003e \n\u003e I really suspect this doesn\u0027t need to be a config item, but would be based on the device itself.\n\nI hope that, but that are the limitation of devices, we can not change or update them now.",
+      "parentUuid": "040438d4_28d4cc24",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "cc95203c057069e0549a8ec2337eb19b0adff11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9419c98_7012a7ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
