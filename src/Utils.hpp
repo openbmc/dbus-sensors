@@ -128,7 +128,7 @@ const static constexpr char* property = "CurrentHostState";
 
 namespace chassis
 {
-const static constexpr char* busname = "xyz.openbmc_project.State.Chassis";
+const static constexpr char* busname = "xyz.openbmc_project.State.Chassis0";
 const static constexpr char* interface = "xyz.openbmc_project.State.Chassis";
 const static constexpr char* path = "/xyz/openbmc_project/state/chassis0";
 const static constexpr char* property = "CurrentPowerState";
