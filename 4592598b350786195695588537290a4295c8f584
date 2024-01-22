@@ -200,6 +200,30 @@
       },
       "revId": "4592598b350786195695588537290a4295c8f584",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a447c56_87bf4af9",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-01-22T02:05:02Z",
+      "side": 1,
+      "message": "Sorry for description, line 471 above should be line 741",
+      "parentUuid": "c507cf0c_7317e611",
+      "range": {
+        "startLine": 737,
+        "startChar": 20,
+        "endLine": 738,
+        "endChar": 65
+      },
+      "revId": "4592598b350786195695588537290a4295c8f584",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
