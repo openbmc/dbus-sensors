@@ -183,8 +183,15 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
         }
         else
         {
-            incrementError();
-            pollTime = sensorFailedPollTimeMs;
+            if (err == boost::system::errc::timed_out)
+            {
+                updateValue(0);
+            }
+            else
+            {
+                incrementError();
+                pollTime = sensorFailedPollTimeMs;
+            }
         }
     }
 
