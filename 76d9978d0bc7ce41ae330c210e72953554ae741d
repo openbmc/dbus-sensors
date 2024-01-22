@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6dbdaaf5_6d3349a1",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-01-22T18:57:48Z",
+      "side": 1,
+      "message": "if they are only created once for each application, how will this work with a multi-host setup?",
+      "parentUuid": "6d775287_c3035ee7",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ba8445c_7e43aa8d",
         "filename": "src/sensor.hpp",
         "patchSetId": 2
