@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc09d771_1f936852",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-22T21:44:15Z",
+      "side": 1,
+      "message": "This change depends on [add StartupDelay to legacy json schema](https://gerrit.openbmc.org/c/openbmc/entity-manager/+/68926) being merged.",
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fefb3326_f520fb9f",
         "filename": "src/Utils.cpp",
         "patchSetId": 2
