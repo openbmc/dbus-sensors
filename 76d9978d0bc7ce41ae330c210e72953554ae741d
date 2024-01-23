@@ -274,6 +274,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a6a517fb_0b63942b",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-23T23:24:05Z",
+      "side": 1,
+      "message": "The delayMs is used with PowerState, one option is to create a struct for PowerState or ReadState that has delayMs in it. ReadState Good \u003d\u003d PowerState Always or power State On for more than delayMs.",
+      "parentUuid": "4cc67800_e0807cd4",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 74
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "05a6e91f_8bc3ead6",
         "filename": "src/sensor.hpp",
         "patchSetId": 2
