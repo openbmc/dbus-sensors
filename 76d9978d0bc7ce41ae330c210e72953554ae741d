@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73fc13d8_9954be37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-01-23T02:59:27Z",
+      "side": 1,
+      "message": "yes, I will update this commit when I finished the solution with @Ed",
+      "parentUuid": "dc09d771_1f936852",
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fefb3326_f520fb9f",
         "filename": "src/Utils.cpp",
         "patchSetId": 2
@@ -126,6 +144,30 @@
       "side": 1,
       "message": "if they are only created once for each application, how will this work with a multi-host setup?",
       "parentUuid": "6d775287_c3035ee7",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea89444_58830d54",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-01-23T02:59:27Z",
+      "side": 1,
+      "message": "As I see, the dbus-sensor did not support multi-host system now. If we want to support multi-host system, we have to make more changes to update other variables as\n ```\nstatic bool powerStatusOn \u003d false;\nstatic bool biosHasPost \u003d false;\nstatic bool manufacturingMode \u003d false;\nstatic bool chassisStatusOn \u003d false;\n\nstatic std::unique_ptr\u003csdbusplus::bus::match_t\u003e powerMatch \u003d nullptr;\nstatic std::unique_ptr\u003csdbusplus::bus::match_t\u003e postMatch \u003d nullptr;\nstatic std::unique_ptr\u003csdbusplus::bus::match_t\u003e chassisMatch \u003d nullptr;\n```",
+      "parentUuid": "6dbdaaf5_6d3349a1",
       "range": {
         "startLine": 51,
         "startChar": 0,
