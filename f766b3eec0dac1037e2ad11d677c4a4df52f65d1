@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b4ac0a_e7e2568f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2024-01-23T15:53:27Z",
+      "side": 1,
+      "message": "OK. Thanks for the recommendation.",
+      "parentUuid": "31b0eda8_a2c7ed1a",
+      "range": {
+        "startLine": 273,
+        "startChar": 20,
+        "endLine": 273,
+        "endChar": 31
+      },
+      "revId": "f766b3eec0dac1037e2ad11d677c4a4df52f65d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6f49386_e3ee886f",
@@ -64,6 +88,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98921a57_4bc37960",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2024-01-23T15:53:27Z",
+      "side": 1,
+      "message": "OK. Thanks for the recommendation.",
+      "parentUuid": "b6f49386_e3ee886f",
+      "range": {
+        "startLine": 1127,
+        "startChar": 0,
+        "endLine": 1127,
+        "endChar": 33
+      },
+      "revId": "f766b3eec0dac1037e2ad11d677c4a4df52f65d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51ded33e_f9f31476",
@@ -77,6 +125,30 @@
       "writtenOn": "2024-01-17T18:30:32Z",
       "side": 1,
       "message": "Same here.  Can this table just be removed?",
+      "range": {
+        "startLine": 1137,
+        "startChar": 0,
+        "endLine": 1137,
+        "endChar": 68
+      },
+      "revId": "f766b3eec0dac1037e2ad11d677c4a4df52f65d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c959210a_674d19cb",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2024-01-23T15:53:27Z",
+      "side": 1,
+      "message": "OK. Thanks for the recommendation.",
+      "parentUuid": "51ded33e_f9f31476",
       "range": {
         "startLine": 1137,
         "startChar": 0,
