@@ -416,3 +416,57 @@ bool getDeviceBusAddr(const std::string& deviceName, T& bus, T& addr)
 
     return true;
 }
+
+class UtilBiosPostDbusInfo
+{
+  public:
+    UtilBiosPostDbusInfo(
+        const std::shared_ptr<sdbusplus::asio::connection>& conn) :
+        busName(post::busname),
+        objPath(post::path)
+    {
+        GetSubTreeType subtree;
+
+        try
+        {
+            auto getItems = conn->new_method_call(mapper::busName, mapper::path,
+                                                  mapper::interface,
+                                                  mapper::subtree);
+            getItems.append("/", 0,
+                            std::array<std::string, 1>{post::interface});
+            auto getItemsResp = conn->call(getItems);
+            getItemsResp.read(subtree);
+        }
+        catch (sdbusplus::exception_t& e)
+        {
+            std::cerr << "error getting inventory item subtree: " << e.what()
+                      << "\n";
+            return;
+        }
+
+        for (const auto& [path, matches] : subtree)
+        {
+            if (matches.empty())
+            {
+                continue;
+            }
+
+            busName = matches.begin()->first;
+            objPath = path;
+            break;
+        }
+    }
+    virtual ~UtilBiosPostDbusInfo() = default;
+    const std::string& getBusName() const
+    {
+        return busName;
+    }
+    const std::string& getObjPath() const
+    {
+        return objPath;
+    }
+
+  protected:
+    std::string busName;
+    std::string objPath;
+};
