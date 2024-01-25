@@ -369,11 +369,11 @@ static void
 
 static void
     getPostStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                  size_t retries = 2)
+                  const UtilBiosPostDbusInfo& biospost, size_t retries = 2)
 {
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
-                        const std::variant<std::string>& state) {
+        [conn, &biospost, retries](boost::system::error_code ec,
+                                   const std::variant<std::string>& state) {
         if (ec)
         {
             if (retries != 0U)
@@ -381,9 +381,9 @@ static void
                 auto timer = std::make_shared<boost::asio::steady_timer>(
                     conn->get_io_context());
                 timer->expires_after(std::chrono::seconds(15));
-                timer->async_wait(
-                    [timer, conn, retries](boost::system::error_code) {
-                    getPostStatus(conn, retries - 1);
+                timer->async_wait([timer, conn, &biospost,
+                                   retries](boost::system::error_code) {
+                    getPostStatus(conn, biospost, retries - 1);
                 });
                 return;
             }
@@ -397,8 +397,8 @@ static void
                       (value != "xyz.openbmc_project.State.OperatingSystem."
                                 "Status.OSStatus.Inactive");
     },
-        post::busname, post::path, properties::interface, properties::get,
-        post::interface, post::property);
+        biospost.getBusName(), biospost.getObjPath(), properties::interface,
+        properties::get, post::interface, post::property);
 }
 
 static void
@@ -488,10 +488,11 @@ void setupPowerMatchCallback(
         }
     });
 
+    UtilBiosPostDbusInfo biospost(conn);
     postMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(post::path) + "',arg0='" +
+            "',path='" + biospost.getObjPath() + "',arg0='" +
             std::string(post::interface) + "'",
         [hostStatusCallback](sdbusplus::message_t& message) {
         std::string objectName;
@@ -550,7 +551,7 @@ void setupPowerMatchCallback(
         }
     });
     getPowerStatus(conn);
-    getPostStatus(conn);
+    getPostStatus(conn, biospost);
     getChassisStatus(conn);
 }
 
