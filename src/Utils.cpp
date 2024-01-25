@@ -47,6 +47,9 @@ static std::unique_ptr<sdbusplus::bus::match_t> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> postMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> chassisMatch = nullptr;
 
+static std::string biosPostBusName;
+static std::string biosPostObjPath;
+
 /**
  * return the contents of a file
  * @param[in] hwmonFile - the path to the file to read
@@ -368,6 +371,42 @@ static void
 }
 
 static void
+    setupPostDbusInfo(const std::shared_ptr<sdbusplus::asio::connection>& conn)
+{
+    GetSubTreeType subtree;
+    try
+    {
+        auto getItems = conn->new_method_call(
+            mapper::busName, mapper::path, mapper::interface, mapper::subtree);
+        getItems.append("/", 0, std::array<std::string, 1>{post::interface});
+        auto getItemsResp = conn->call(getItems);
+        getItemsResp.read(subtree);
+    }
+    catch (sdbusplus::exception_t& e)
+    {
+        std::cerr << "error getting inventory item subtree: " << e.what()
+                  << "\n";
+        return;
+    }
+
+    for (const auto& [path, matches] : subtree)
+    {
+        if (matches.empty())
+        {
+            continue;
+        }
+
+        biosPostBusName = matches.begin()->first;
+        biosPostObjPath = path;
+        return;
+    }
+
+    // use default post::busname and post::path if no match in subtree
+    biosPostBusName = post::busname;
+    biosPostObjPath = post::path;
+}
+
+static void
     getPostStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                   size_t retries = 2)
 {
@@ -397,8 +436,8 @@ static void
                       (value != "xyz.openbmc_project.State.OperatingSystem."
                                 "Status.OSStatus.Inactive");
     },
-        post::busname, post::path, properties::interface, properties::get,
-        post::interface, post::property);
+        biosPostBusName, biosPostObjPath, properties::interface,
+        properties::get, post::interface, post::property);
 }
 
 static void
@@ -488,10 +527,11 @@ void setupPowerMatchCallback(
         }
     });
 
+    setupPostDbusInfo(conn);
     postMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(post::path) + "',arg0='" +
+            "',path='" + biosPostObjPath + "',arg0='" +
             std::string(post::interface) + "'",
         [hostStatusCallback](sdbusplus::message_t& message) {
         std::string objectName;
