@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79c8ffe6_81e4edcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-26T22:05:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1b71b81f_faddd082",
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa710e8e_2a510105",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-01-24T01:57:01Z",
       "side": 1,
       "message": "@Chris\nDoes here need to add multiple confirmations to avoid signal disturbance?",
+      "range": {
+        "startLine": 174,
+        "startChar": 7,
+        "endLine": 174,
+        "endChar": 34
+      },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bed85d2_4e429427",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-01-26T22:05:00Z",
+      "side": 1,
+      "message": "The GPIO is being polled every second already (line 186), so I wouldn\u0027t think that would be necessary.",
+      "parentUuid": "aa710e8e_2a510105",
       "range": {
         "startLine": 174,
         "startChar": 7,
