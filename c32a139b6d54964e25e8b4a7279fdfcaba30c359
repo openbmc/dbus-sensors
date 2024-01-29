@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19aaa58f_bd8889f5",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-29T17:40:10Z",
+      "side": 1,
+      "message": "The old code on the left didn\u0027t use incrementError().  Any idea why it needs to change.  In terms of keeping the old behavior as much as possible, why would we change it in this commit? (not saying it shouldn\u0027t be changed at some point).",
+      "parentUuid": "37033c7b_d8eee5e9",
+      "revId": "c32a139b6d54964e25e8b4a7279fdfcaba30c359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58115f98_8c556359",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 10
@@ -54,6 +72,24 @@
       "writtenOn": "2024-01-29T17:13:37Z",
       "side": 1,
       "message": "errCount will get cleared in updateValue() https://github.com/openbmc/dbus-sensors/blob/master/src/sensor.hpp#L513",
+      "revId": "c32a139b6d54964e25e8b4a7279fdfcaba30c359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b39ce2_e2eaecd9",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-29T17:40:10Z",
+      "side": 1,
+      "message": "it was cleared before on line 266.  Any idea why?",
+      "parentUuid": "58115f98_8c556359",
       "revId": "c32a139b6d54964e25e8b4a7279fdfcaba30c359",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
