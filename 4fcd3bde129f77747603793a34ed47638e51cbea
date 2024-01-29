@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ae55957_32d91d68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T16:26:06Z",
+      "side": 1,
+      "message": "Overall a good simplification. I don\u0027t have any additional comments. +1",
+      "revId": "4fcd3bde129f77747603793a34ed47638e51cbea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
