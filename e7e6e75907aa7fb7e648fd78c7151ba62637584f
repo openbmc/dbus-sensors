@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bc0bd7a_ffa813da",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T17:34:54Z",
+      "side": 1,
+      "message": "Not part of this patch, but there are two different ways to customize the scalefactor from baseConfig (line 873 and line 721)",
+      "range": {
+        "startLine": 856,
+        "startChar": 0,
+        "endLine": 860,
+        "endChar": 33
+      },
+      "revId": "e7e6e75907aa7fb7e648fd78c7151ba62637584f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5c0db5c_c07b58fb",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T17:34:54Z",
+      "side": 1,
+      "message": "not part of this patch, but this can be moved  into else {} of line 874",
+      "range": {
+        "startLine": 862,
+        "startChar": 0,
+        "endLine": 863,
+        "endChar": 48
+      },
+      "revId": "e7e6e75907aa7fb7e648fd78c7151ba62637584f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
