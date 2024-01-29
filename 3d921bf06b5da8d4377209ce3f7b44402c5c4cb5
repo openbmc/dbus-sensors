@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b7266450_923eb8b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T16:49:55Z",
+      "side": 1,
+      "message": "logged",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "3d921bf06b5da8d4377209ce3f7b44402c5c4cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68f688f7_8bc33753",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T16:49:55Z",
+      "side": 1,
+      "message": "This depends on https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/68873",
+      "revId": "3d921bf06b5da8d4377209ce3f7b44402c5c4cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8c92202_58297953",
         "filename": "src/TachSensor.hpp",
         "patchSetId": 3
