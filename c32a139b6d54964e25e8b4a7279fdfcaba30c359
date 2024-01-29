@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83fdb54d_51e0fd95",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T20:16:34Z",
+      "side": 1,
+      "message": "Fair point, it probably should be a separate commit to cleanup the errCount handling. \nCommit https://github.com/openbmc/dbus-sensors/commit/961bf09a2c89585601175e74ec3cb2590b911aa8 was implemented after the original checkin here\nhttps://github.com/openbmc/dbus-sensors/commit/58b2b53e6f065bfb2b470d8f616d3fef67179fcb",
+      "parentUuid": "19aaa58f_bd8889f5",
+      "revId": "c32a139b6d54964e25e8b4a7279fdfcaba30c359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58115f98_8c556359",
         "filename": "src/PSUEvent.cpp",
         "patchSetId": 10
