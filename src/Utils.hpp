@@ -80,11 +80,6 @@ bool getSensorConfiguration(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     ManagedObjectType& resp, bool useCache);
 
-bool getSensorConfiguration(
-    const std::string& type,
-    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    ManagedObjectType& resp);
-
 void createAssociation(
     std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
     const std::string& path);
