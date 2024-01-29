@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e8ba98_36b838e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T21:54:34Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this reintroduce the issue that threshold can not get de-asserted with NaN hysteresis?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cdea7c3_6e74984d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T21:54:34Z",
+      "side": 1,
+      "message": "What is this referring to?",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "142823c1_c9ac3da1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-29T21:54:34Z",
+      "side": 1,
+      "message": "Test done?",
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
