@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f222398_6c504e2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-01-29T22:40:50Z",
+      "side": 1,
+      "message": "The idea here is callers *should* override the hysteresis value -- but if they do not specify a hysteresis, the function will behave the same way it did before the \u0027Intel Fix\u0027 was accepted. \n\nThe \u0027Intel Fix\u0027 solved their hysteresis NaN issue by hardcoding hysteresis\u003d0 into the function body, but that value doesn\u0027t make sense for other hardware, and finding a different sensible number to use default hysteresis value has a fair number of challenges.\n\nBasically, this fix aims to make pre-existing behavior explicit + mutable, rather than using hardcoded values with implicit behavior (ie always setting hysteresis to NaN behind the scenes, or always using \u0027hysteresis\u003d0\u0027 when the function is called)",
+      "parentUuid": "10e8ba98_36b838e8",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cdea7c3_6e74984d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c203c5a_53bf3117",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-01-29T22:40:50Z",
+      "side": 1,
+      "message": "I\u0027m specifically referring to this fix: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/61744/comments/38f6a?tab\u003dcomments\n\nThe original behavior was that the function always implicitly set hysteresis\u003dNaN, and there was no way to change that value.\n\nThe \u0027Intel Fix\u0027 was to implicitly set hysteresis\u003d0 by hardcoding it into the function body.\n\nThis fix is to set hysteresis\u003dNaN in the header and have it be overridable. This effectively rollbacks the hardcoded Intel Fix and make the original behavior explicit instead of implicit. \n\nThis fix comes with a sister-fix so that existing Intel calls to the function will now explicitly specify hysteresis\u003d0, instead of relying on hardcoded Intel-specific behavior in the function (https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62826/12)",
+      "parentUuid": "9cdea7c3_6e74984d",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "142823c1_c9ac3da1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -60,6 +108,24 @@
       "writtenOn": "2024-01-29T21:54:34Z",
       "side": 1,
       "message": "Test done?",
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19fb373_f3a29ec5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-01-29T22:40:50Z",
+      "side": 1,
+      "message": "In theory we\u0027d probably like to get someone from Intel with access to Intel HW to take a look -- especially if I can get the original \u0027Intel Fix\u0027 engineer\u0027s attention.\n\nThat said, using Hysteresis\u003dNaN as a default value is the old behavior from before hysteresis\u003d0 was hardcoded in for the Intel Fix.\n\nIn practice, I\u0027m not sure heavy testing is needed, since this pair of relationship-chained fixes (in practice) simply moves where the hysteresis value is being set -- moving it from being hardcoded in the body of parseThresholdsFromAttr() and instead setting it through a function parameter when the function is called.\n\nIn practice, nothing is actually calling parseThresholdsFromAttr() and using the default Hysteresis\u003dNaN value.",
+      "parentUuid": "142823c1_c9ac3da1",
       "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
