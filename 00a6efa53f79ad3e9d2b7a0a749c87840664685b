@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c38150aa_d3a95642",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-01-29T06:44:01Z",
+      "side": 1,
+      "message": "When sensor update value, it will also update the Available property in xyz.openbmc_project.State.Decorator.Availability based on the result of readingStateGood().\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/sensor.hpp#L482-L516\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/Utils.cpp#L320-L336\n\nSo the Available property will set to true if the OS status is \"Standby\" (BIOS Post completed), and set to false if OS status is \"Inactive\".",
+      "parentUuid": "006ee197_9bf4b15d",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "00a6efa53f79ad3e9d2b7a0a749c87840664685b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10a6d01b_8aaf5153",
         "filename": "src/Utils.cpp",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2024-01-29T05:05:43Z",
       "side": 1,
       "message": "Can we please not add yet more globals? Perhaps make a class with methods instead?",
+      "revId": "00a6efa53f79ad3e9d2b7a0a749c87840664685b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46501332_828ccfae",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-01-29T06:44:01Z",
+      "side": 1,
+      "message": "Got it, I will check the source code and update it in next version.",
+      "parentUuid": "10a6d01b_8aaf5153",
       "revId": "00a6efa53f79ad3e9d2b7a0a749c87840664685b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
