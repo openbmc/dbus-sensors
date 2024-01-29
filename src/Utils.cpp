@@ -137,14 +137,6 @@ std::set<std::string> getPermitSet(const SensorBaseConfigMap& config)
 bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    ManagedObjectType& resp)
-{
-    return getSensorConfiguration(type, dbusConnection, resp, false);
-}
-
-bool getSensorConfiguration(
-    const std::string& type,
-    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     ManagedObjectType& resp, bool useCache)
 {
     static ManagedObjectType managedObj;
