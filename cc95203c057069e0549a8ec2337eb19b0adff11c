@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8bc3a981_1b52ff9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-29T17:00:51Z",
+      "side": 1,
+      "message": "\u003e \u003e The PowerState parameter it intended to solve host-owned sensors.  Does that not work in this case?\n\u003e \n\u003e Sometime the sensors do not take enough time to initialize after Chassis is On or Host is Running.\n\nRight, then why don\u0027t the drivers handle that case?  Things like the peci driver specifically poll the device to wait for it to become available.\n\n\u003e \u003e \n\u003e \u003e Needing a delay here implies that the device driver is wrong and needs corrected.  Which sensors specifically are you applying this to?\n\u003e \n\u003e In the 1 Socket system, I did not get the ADC sensors lower threshold event issue, but in the 2 Socket system, some ADC sensors of Socket2 are not ready after Host is running -\u003e lower threshold events are logged.\n\nSo the ADC devices are up, and have power, but just require some delay while we wait for the lines to charge?  This makes sense to have a parameter for, as the time to wait before the voltage lines come up is a property of the board.\n\nWe already have a similar delay for the bridge GPIO, can we just use that parameter in this ADC case?\n\n\u003e About the FAN sensors issue: We are using SUNON FAN controller, it needs time to initialize FAN speed after Power is turned on, if the Chassis state changes to On before FAN controller is completely initialized, lower threshold events are logged.\n\nThen why doesn\u0027t the linux driver handle that?  If the driver is expected to initialize the device at runtime, it should be capable of doing that.\n\n\u003e \u003e \n\u003e \u003e I really suspect this doesn\u0027t need to be a config item, but would be based on the device itself.\n\u003e \n\u003e I hope that, but that are the limitation of devices, we can not change or update them now.\n\nRight, it\u0027s a limitation of drivers.  Just go fix the drivers.",
+      "parentUuid": "c475f243_882c290f",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "cc95203c057069e0549a8ec2337eb19b0adff11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9419c98_7012a7ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

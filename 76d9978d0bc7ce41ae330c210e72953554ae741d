@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95daed53_8101534c",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-29T17:00:51Z",
+      "side": 1,
+      "message": "Please don\u0027t resolve things that aren\u0027t completed.",
+      "parentUuid": "974c4509_724861fd",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 43
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8752b32a_92466180",
         "filename": "src/Utils.cpp",
         "patchSetId": 2
@@ -168,6 +192,30 @@
       "side": 1,
       "message": "As I see, the dbus-sensor did not support multi-host system now. If we want to support multi-host system, we have to make more changes to update other variables as\n ```\nstatic bool powerStatusOn \u003d false;\nstatic bool biosHasPost \u003d false;\nstatic bool manufacturingMode \u003d false;\nstatic bool chassisStatusOn \u003d false;\n\nstatic std::unique_ptr\u003csdbusplus::bus::match_t\u003e powerMatch \u003d nullptr;\nstatic std::unique_ptr\u003csdbusplus::bus::match_t\u003e postMatch \u003d nullptr;\nstatic std::unique_ptr\u003csdbusplus::bus::match_t\u003e chassisMatch \u003d nullptr;\n```",
       "parentUuid": "6dbdaaf5_6d3349a1",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6de9c13_63646206",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-29T17:00:51Z",
+      "side": 1,
+      "message": "My comment has nothing to do with multi host.  Global variables, per the coding standard, need to be avoided.  Considering these are definitely per-sensor variables, they shouldn\u0027t be globals, regardless of whether or not multi-host would need them to be.\n\nAlso, if we account for multi-host, that design doc was approved long before this patch existed, so we don\u0027t want to go backward from the eventual goal.",
+      "parentUuid": "9ea89444_58830d54",
       "range": {
         "startLine": 51,
         "startChar": 0,
@@ -322,6 +370,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec172202_228956e5",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-29T17:00:51Z",
+      "side": 1,
+      "message": "Understood.",
+      "parentUuid": "508817ab_0127bd86",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 74
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "05a6e91f_8bc3ead6",
         "filename": "src/sensor.hpp",
         "patchSetId": 2
@@ -357,6 +429,30 @@
       "side": 1,
       "message": "It seems your suggestion as the option 2 which I mentioned above.",
       "parentUuid": "05a6e91f_8bc3ead6",
+      "range": {
+        "startLine": 429,
+        "startChar": 17,
+        "endLine": 429,
+        "endChar": 33
+      },
+      "revId": "76d9978d0bc7ce41ae330c210e72953554ae741d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f2870ed_c5b057bc",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-29T17:00:51Z",
+      "side": 1,
+      "message": "it is not.  It involves only delaying the polling of the sensor, not changing when we set up the power match.\n\nThere\u0027s already a delay timer.  For the moment we scan the sensor as soon as boot happens, but your parameter could invoke a startup delay.",
+      "parentUuid": "012e0618_0d202fa1",
       "range": {
         "startLine": 429,
         "startChar": 17,
