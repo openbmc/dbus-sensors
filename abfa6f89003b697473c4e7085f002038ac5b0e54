@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c6f1f9b_8b88de49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-30T19:25:24Z",
+      "side": 1,
+      "message": "I agree that adding unit tests would be good, but I\u0027m not sure where to start given the size of `main()` in src/IpmbSensor.cpp and how much setup appears to be needed. It doesn\u0027t help that I\u0027m most familiar with C, and very unfamiliar with Boost and modern C++.\n\nIs there anybody who might be able to help?",
+      "parentUuid": "d6483023_05541c2f",
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "395d0e8a_c02ab4e7",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
