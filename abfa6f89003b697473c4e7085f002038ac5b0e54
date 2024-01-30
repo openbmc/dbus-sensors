@@ -89,6 +89,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f67673_59278f7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-30T22:58:50Z",
+      "side": 1,
+      "message": "Also, it looks like src/IpmbSensor.cpp would need quite a bit of restructuring to be able to be unit tested - so if it\u0027s okay I\u0027d prefer to leave that to someone who\u0027s more familiar with dbus-sensors.",
+      "parentUuid": "3c6f1f9b_8b88de49",
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "395d0e8a_c02ab4e7",
@@ -184,6 +202,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f8c70f9_37252484",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-30T22:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a4fd327_dab61c63",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 37
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17f236ab_d26ac358",
@@ -268,6 +310,30 @@
       "side": 1,
       "message": "It\u0027s listed in the specification as \"15-bit voltage in mV\".",
       "parentUuid": "9c76a872_bfcf7580",
+      "range": {
+        "startLine": 412,
+        "startChar": 29,
+        "endLine": 412,
+        "endChar": 39
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45fd68d_7fb5cecc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-30T22:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966890ef_749506a0",
       "range": {
         "startLine": 412,
         "startChar": 29,
