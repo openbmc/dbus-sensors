@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7346e477_de15a95d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-30T23:55:08Z",
+      "side": 1,
+      "message": "Good point.\nI\u0027ve been trying to instantiate an instance of IpmbSensor, but that\u0027s the wrong approach. It\u0027s been far too long since I did unit testing - so it\u0027ll be a good exercise to remind myself how it works.",
+      "parentUuid": "c5409b75_3bec7057",
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "395d0e8a_c02ab4e7",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
@@ -376,6 +394,30 @@
       "side": 1,
       "message": "Then why is it being read out in volts then?  I would expect handing the millivolt to volt conversion in this code?\n\nACK on the fact that it is truly unsigned.",
       "parentUuid": "d45fd68d_7fb5cecc",
+      "range": {
+        "startLine": 412,
+        "startChar": 29,
+        "endLine": 412,
+        "endChar": 39
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca3c7e0a_2ce04e85",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1001967
+      },
+      "writtenOn": "2024-01-30T23:55:08Z",
+      "side": 1,
+      "message": "I\u0027m scaling it in the entity-manager, which I now realize is the wrong way to do it.",
+      "parentUuid": "b1d686db_e8546c5a",
       "range": {
         "startLine": 412,
         "startChar": 29,
