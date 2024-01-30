@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5409b75_3bec7057",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-30T23:46:28Z",
+      "side": 1,
+      "message": "processReading() looks like it only takes arguments that would be representative in a unit test.  I\u0027m not following why it would require significant restructuring?\n\n\u003e so if it\u0027s okay I\u0027d prefer to leave that to someone who\u0027s more familiar with dbus-sensors.\n\nWith respect, nobody else likely has an smpro system, so it\u0027s unlikely they could craft a unit test that isn\u0027t just reverse engineering your code, and writing unit tests so the code passes isn\u0027t a great strategy.  Ideally we\u0027d be pulling values that you actually saw in hardware and put it into the unit test.\n\nPlease at least make an attempt.  If you need help, there\u0027s lots of help available.",
+      "parentUuid": "c2f67673_59278f7c",
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "395d0e8a_c02ab4e7",
         "filename": "src/IpmbSensor.cpp",
         "patchSetId": 4
@@ -334,6 +352,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "966890ef_749506a0",
+      "range": {
+        "startLine": 412,
+        "startChar": 29,
+        "endLine": 412,
+        "endChar": 39
+      },
+      "revId": "abfa6f89003b697473c4e7085f002038ac5b0e54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1d686db_e8546c5a",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-01-30T23:46:28Z",
+      "side": 1,
+      "message": "Then why is it being read out in volts then?  I would expect handing the millivolt to volt conversion in this code?\n\nACK on the fact that it is truly unsigned.",
+      "parentUuid": "d45fd68d_7fb5cecc",
       "range": {
         "startLine": 412,
         "startChar": 29,
