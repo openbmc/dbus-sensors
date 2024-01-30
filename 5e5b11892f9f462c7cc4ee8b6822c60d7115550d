@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2337555c_bf574795",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2024-01-30T02:47:34Z",
+      "side": 1,
+      "message": "Yes, I tested with Ampere systems.",
+      "parentUuid": "c3b21e2b_1a231e41",
+      "revId": "5e5b11892f9f462c7cc4ee8b6822c60d7115550d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d6b5987d_ce9fed4d",
