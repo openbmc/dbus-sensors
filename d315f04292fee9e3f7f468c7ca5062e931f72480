@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55300e08_f0bf720e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-30T23:12:58Z",
+      "side": 1,
+      "message": "Hi Potin, thanks for updating the commit message. I have another concern about mixing asynchronous and synchronous calls. I\u0027ve left a comment inline.",
+      "revId": "d315f04292fee9e3f7f468c7ca5062e931f72480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d94bfb84_9dd69d76",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-01-30T23:12:58Z",
+      "side": 1,
+      "message": "dbus-sensors is written around the sdbusplus::asio bindings, which are async. However, you have a synchronous call here. There\u0027s some concern that combining asynchronous and synchronous calls leads to unpredictable behaviour:\n\n[asio: Add async match](https://gerrit.openbmc.org/c/openbmc/sdbusplus/+/68860)\n\nI expect we need this to be async.",
+      "revId": "d315f04292fee9e3f7f468c7ca5062e931f72480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
