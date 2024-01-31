@@ -101,6 +101,10 @@ if get_option('ipmb').allowed()
     subdir('ipmb')
 endif
 
+if get_option('mctp').allowed()
+    subdir('mctp')
+endif
+
 if get_option('mcu').allowed()
     subdir('mcu')
 endif
