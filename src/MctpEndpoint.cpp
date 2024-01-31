@@ -48,10 +48,8 @@ void MctpdDevice::setup(
 
             if (auto self = weak.lock())
             {
-                using namespace sdbusplus::bus::match;
-                const auto matchSpec = rules::type::signal() +
-                                       rules::member("InterfacesRemoved") +
-                                       rules::argNpath(0, objpath);
+                const auto matchSpec =
+                        sdbusplus::bus::match::rules::interfacesRemoved(objpath);
                 self->removeMatch = std::make_unique<sdbusplus::bus::match_t>(
                     *self->connection, matchSpec,
                     [weak{self->weak_from_this()},
