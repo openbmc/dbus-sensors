@@ -36,3 +36,16 @@ test(
         include_directories: '../src',
     ),
 )
+
+test(
+    'MCTPReactor',
+    executable(
+        'test_MCTPReactor',
+        'test_MCTPReactor.cpp',
+        '../src/MCTPReactor.cpp',
+        '../src/MCTPEndpoint.cpp',
+        dependencies: [ ut_deps_list, gmock_dep ],
+        implicit_include_directories: false,
+        include_directories: '../src',
+    ),
+)
