@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3159421d_18ad0a39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-31T20:53:47Z",
+      "side": 1,
+      "message": "I agree that this is better way than hardcode inside the function. Is there a real issue/failure this change is to address? Or you are trying to fix the same issue with a better approach? I don\u0027t think we want to introduce a regression.  Pass 0.0 at https://github.com/openbmc/dbus-sensors/blob/16d6f17bec38b6c095dfb6bed224f17d941fb9b3/src/IntelCPUSensor.cpp#L291 would avoid the regression",
+      "parentUuid": "4f222398_6c504e2f",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cdea7c3_6e74984d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -126,6 +150,24 @@
       "side": 1,
       "message": "In theory we\u0027d probably like to get someone from Intel with access to Intel HW to take a look -- especially if I can get the original \u0027Intel Fix\u0027 engineer\u0027s attention.\n\nThat said, using Hysteresis\u003dNaN as a default value is the old behavior from before hysteresis\u003d0 was hardcoded in for the Intel Fix.\n\nIn practice, I\u0027m not sure heavy testing is needed, since this pair of relationship-chained fixes (in practice) simply moves where the hysteresis value is being set -- moving it from being hardcoded in the body of parseThresholdsFromAttr() and instead setting it through a function parameter when the function is called.\n\nIn practice, nothing is actually calling parseThresholdsFromAttr() and using the default Hysteresis\u003dNaN value.",
       "parentUuid": "142823c1_c9ac3da1",
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c87680b5_b2b8fc3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-01-31T20:53:47Z",
+      "side": 1,
+      "message": "Please add test section in the commit message. Refer https://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#testing",
+      "parentUuid": "b19fb373_f3a29ec5",
       "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
