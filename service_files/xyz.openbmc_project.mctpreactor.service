@@ -1,0 +1,17 @@
+[Unit]
+Description=MCTP device configuration
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
+Requires=mctpd.service
+After=mctpd.service
+
+[Service]
+Type=dbus
+BusName=xyz.openbmc_project.MCTPReactor
+
+Restart=always
+RestartSec=5
+ExecStart=/usr/bin/mctpreactor
+
+[Install]
+WantedBy=multi-user.target

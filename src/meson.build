@@ -179,6 +179,17 @@ if get_option('ipmb').allowed()
     )
 endif
 
+if get_option('mctp').allowed()
+    executable(
+        'mctpreactor',
+        'MCTPReactorMain.cpp',
+        'MCTPReactor.cpp',
+        'MCTPEndpoint.cpp',
+        dependencies: [ default_deps, utils_dep ],
+        install: true
+    )
+endif
+
 if get_option('mcu').allowed()
     executable(
         'mcutempsensor',

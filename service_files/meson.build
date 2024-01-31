@@ -12,6 +12,7 @@ unit_files = [
     ['hwmon-temp', 'xyz.openbmc_project.hwmontempsensor.service'],
     ['ipmb', 'xyz.openbmc_project.ipmbsensor.service'],
     ['intrusion', 'xyz.openbmc_project.intrusionsensor.service'],
+    ['mctp', 'xyz.openbmc_project.mctpreactor.service'],
     ['mcu', 'xyz.openbmc_project.mcutempsensor.service'],
     ['nvme', 'xyz.openbmc_project.nvmesensor.service'],
     ['psu', 'xyz.openbmc_project.psusensor.service'],
