@@ -96,26 +96,10 @@ boost::container::flat_map<std::string,
                 continue;
             }
 
-            auto findSensorName = cfg.find("Name");
-            if (findSensorName == cfg.end())
-            {
-                continue;
-            }
-
-            const auto* sensorName =
-                std::get_if<std::string>(&findSensorName->second);
-            if (sensorName == nullptr)
-            {
-                std::cerr << "Unable to find sensor name " << name
-                          << " on path " << path.str << "\n";
-                continue;
-            }
-
             std::shared_ptr<T> findSensor(nullptr);
             for (const auto& sensor : sensors)
             {
-                if (sensorNameFind(sensor.first, *sensorName) !=
-                    std::string::npos)
+                if (path.str == sensor.second->configurationPath)
                 {
                     findSensor = sensor.second;
                     break;
