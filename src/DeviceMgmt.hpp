@@ -115,8 +115,8 @@ boost::container::flat_map<std::string,
             std::shared_ptr<T> findSensor(nullptr);
             for (const auto& sensor : sensors)
             {
-                if (sensorNameFind(sensor.first, *sensorName) !=
-                    std::string::npos)
+                if (sensorNameFind(sensor.second->configurationPath,
+                                   *sensorName) != std::string::npos)
                 {
                     findSensor = sensor.second;
                     break;
