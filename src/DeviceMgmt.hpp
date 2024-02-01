@@ -101,26 +101,11 @@ boost::container::flat_map<std::string,
                 continue;
             }
 
-            auto findSensorName = cfg.find("Name");
-            if (findSensorName == cfg.end())
-            {
-                continue;
-            }
-
-            const auto* sensorName =
-                std::get_if<std::string>(&findSensorName->second);
-            if (sensorName == nullptr)
-            {
-                lg2::info("Unable to find '{NAME}' on '{PATH}'", "NAME", name,
-                          "PATH", path.str);
-                continue;
-            }
-
             std::shared_ptr<T> findSensor(nullptr);
             for (const auto& sensor : sensors)
             {
-                if (sensorNameFind(sensor.first, *sensorName) !=
-                    std::string::npos)
+                if (sensor.second &&
+                    path.str == sensor.second->configurationPath)
                 {
                     findSensor = sensor.second;
                     break;
@@ -131,7 +116,7 @@ boost::container::flat_map<std::string,
                 devices.emplace(
                     path.str,
                     std::make_pair(findSensor->getI2CDevice(), false));
-                continue;
+                break;
             }
 
             std::optional<I2CDeviceParams> params =
@@ -159,6 +144,7 @@ boost::container::flat_map<std::string,
                         path.str,
                         std::make_pair(std::make_shared<I2CDevice>(*params),
                                        true));
+                    break;
                 }
                 catch (std::runtime_error&)
                 {
