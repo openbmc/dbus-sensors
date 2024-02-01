@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa587b4_ff010d9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-02-01T21:38:30Z",
+      "side": 1,
+      "message": "Patchset now includes comments about setting hysteresis param when calling parseThresholdsFromAttr(), and updates the IntelCPU calls to the funct to specify hysteresis \u003d 0 \n\nThe comments and Intel code change were separate Gerrit-relation-chained patches before this update.",
+      "revId": "f129cdf49fadcf40083776dc4bd939d258c8d0a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

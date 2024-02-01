@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "efdd4575_5087cc24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-02-01T21:38:30Z",
+      "side": 1,
+      "message": "This patchset now has Intel calls pass in hysteresis\u003d0.\n\nThere\u0027s no active failures at this time, this is an attempt to head off issues with a fix I saw get accepted a little while back. Without this change, if anyone other than Intel makes use of this function, the hysteresis will be incorrectly set for the non-Intel HW.\n\nI originally attached myself to the (now merged) issue @ https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/61744/comments/38f6a to gain some experience helping with other people\u0027s projects. \n\nI dug into the code and posted a comment about an issue I found with the fix-- but by coincidence, the fix was accepted maybe minutes before my comment was posted.\n\nI\u0027m mostly just pushing on this \nA) for the experience with helping with OBMC stuff outside my own projects\nB) I happened to notice an issue I think will likely cause issues in the future (IF this function ever sees use outside of Intel\u0027s usage), and I\u0027m willing to keep pushing on it if folks agree that\u0027s the right way to go.",
+      "parentUuid": "3159421d_18ad0a39",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cdea7c3_6e74984d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -168,6 +192,24 @@
       "side": 1,
       "message": "Please add test section in the commit message. Refer https://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#testing",
       "parentUuid": "b19fb373_f3a29ec5",
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a86947a3_1778dbe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2024-02-01T21:38:30Z",
+      "side": 1,
+      "message": "The new Tested section states\n\n\"Tested: Confirmed the code builds and doesn\u0027t throw errors with OBMC\n\u0027local CI\u0027 testing. I believe heavier testing with actual Intel HW\nisn\u0027t needed because this change simple moves where a value is specified\n(from hardcode in function body to passed-in parameter) without\naffecting any existing in-use functionality.\"\n\nWill this work, or do you feel more \u0027actual\u0027 testing should be required here?",
+      "parentUuid": "c87680b5_b2b8fc3d",
       "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
