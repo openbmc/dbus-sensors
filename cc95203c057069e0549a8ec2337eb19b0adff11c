@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e04f3fec_cf40eecf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-02-02T03:42:17Z",
+      "side": 1,
+      "message": "Thank you for your comments, I will close this commit and update ADC sensor instead.\nI checked the `SetupTime` property of `BridgeGpio`, this property is using to start a delay after assert a GPIO, it does not mean to check how long from Chassis is On/Host is running. Therefore, I use `PowerStatePost` property (https://gerrit.openbmc.org/c/openbmc/entity-manager/+/68926) to update ADC sensor.\nAbout FAN sensor, I will check is this hardware limitation or driver issue.\n\nThanks",
+      "parentUuid": "8bc3a981_1b52ff9f",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "cc95203c057069e0549a8ec2337eb19b0adff11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9419c98_7012a7ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
