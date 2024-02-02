@@ -411,3 +411,17 @@ bool getDeviceBusAddr(const std::string& deviceName, T& bus, T& addr)
 
     return true;
 }
+
+inline void getSubTree(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                       const std::string& path, int32_t depth,
+                       std::span<const std::string_view> interfaces,
+                       std::function<void(const boost::system::error_code&,
+                                          const GetSubTreeType&)>&& callback)
+{
+    conn->async_method_call(
+        [callback{std::move(callback)}](
+            const boost::system::error_code& ec,
+            const GetSubTreeType& subtree) { callback(ec, subtree); },
+        mapper::busName, mapper::path, mapper::interface, mapper::subtree, path,
+        depth, interfaces);
+}
