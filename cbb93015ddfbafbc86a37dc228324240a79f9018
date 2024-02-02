@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "154d8743_4eb5d13c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2024-02-02T07:32:13Z",
+      "side": 1,
+      "message": "The pull request https://github.com/CodeConstruct/mctp/pull/17/files#diff-222eb3ffb54581db6e3d72a6efa39bf25a8145a7f8eab9b7f4474ea184675da9R2993 also create the Association interface.\nThis interface will be used in the patch set:\nhttps://gerrit.openbmc.org/c/openbmc/pldm/+/68347/4/requester/mctp_endpoint_discovery.cpp#29\n\nI don\u0027t see the mctpReactor support this association.",
+      "revId": "cbb93015ddfbafbc86a37dc228324240a79f9018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
