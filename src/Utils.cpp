@@ -295,7 +295,10 @@ bool hasBiosPost(void)
 {
     if (!postMatch)
     {
-        throw std::runtime_error("Post Match Not Created");
+        // postMatch is registed at async callback, which might not assigned
+        // initially, We assuming OS status is not Standby and return false here
+        // if postMatch is not registed yet.
+        return false;
     }
     return biosHasPost;
 }
@@ -359,13 +362,40 @@ static void
         power::interface, power::property);
 }
 
+static void setupPostMatch(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::string& path,
+    const std::function<void(PowerState type, bool state)>& hostStatusCallback)
+{
+    postMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*conn),
+        "type='signal',interface='" + std::string(properties::interface) +
+            "',path='" + path + "',arg0='" + std::string(post::interface) + "'",
+        [hostStatusCallback](sdbusplus::message_t& message) {
+        std::string objectName;
+        boost::container::flat_map<std::string, std::variant<std::string>>
+            values;
+        message.read(objectName, values);
+        auto findState = values.find(post::property);
+        if (findState != values.end())
+        {
+            auto& value = std::get<std::string>(findState->second);
+            biosHasPost = (value != "Inactive") &&
+                          (value != "xyz.openbmc_project.State.OperatingSystem."
+                                    "Status.OSStatus.Inactive");
+            hostStatusCallback(PowerState::biosPost, biosHasPost);
+        }
+    });
+}
+
 static void
     getPostStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                  const std::string& busname, const std::string& path,
                   size_t retries = 2)
 {
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
-                        const std::variant<std::string>& state) {
+        [conn, busname, path, retries](boost::system::error_code ec,
+                                       const std::variant<std::string>& state) {
         if (ec)
         {
             if (retries != 0U)
@@ -373,9 +403,9 @@ static void
                 auto timer = std::make_shared<boost::asio::steady_timer>(
                     conn->get_io_context());
                 timer->expires_after(std::chrono::seconds(15));
-                timer->async_wait(
-                    [timer, conn, retries](boost::system::error_code) {
-                    getPostStatus(conn, retries - 1);
+                timer->async_wait([timer, conn, busname, path,
+                                   retries](boost::system::error_code) {
+                    getPostStatus(conn, busname, path, retries - 1);
                 });
                 return;
             }
@@ -389,8 +419,56 @@ static void
                       (value != "xyz.openbmc_project.State.OperatingSystem."
                                 "Status.OSStatus.Inactive");
     },
-        post::busname, post::path, properties::interface, properties::get,
-        post::interface, post::property);
+        busname, path, properties::interface, properties::get, post::interface,
+        post::property);
+}
+
+static void getPostDbusInfo(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::function<void(PowerState type, bool state)>& hostStatusCallback,
+    size_t retries, const boost::system::error_code& ec,
+    const GetSubTreeType& subtree)
+{
+    std::string biosPostBusName = post::busname;
+    std::string biosPostObjPath = post::path;
+
+    if (ec)
+    {
+        if (retries != 0U)
+        {
+            auto timer = std::make_shared<boost::asio::steady_timer>(
+                conn->get_io_context());
+            timer->expires_after(std::chrono::seconds(10));
+            timer->async_wait([timer, conn, hostStatusCallback,
+                               retries](boost::system::error_code) {
+                getSubTree(conn, "/", 0,
+                           std::array<std::string_view, 1>{post::interface},
+                           std::bind_front(getPostDbusInfo, conn,
+                                           hostStatusCallback, retries - 1));
+            });
+            return;
+        }
+
+        std::cerr << "error calling mapper " << ec.message() << "\n";
+        std::cerr << "post match setup with default busname and path\n";
+    }
+    else
+    {
+        for (const auto& [path, matches] : subtree)
+        {
+            if (matches.empty())
+            {
+                continue;
+            }
+
+            biosPostBusName = matches.begin()->first;
+            biosPostObjPath = path;
+            break;
+        }
+    }
+
+    setupPostMatch(conn, biosPostObjPath, hostStatusCallback);
+    getPostStatus(conn, biosPostBusName, biosPostObjPath);
 }
 
 static void
@@ -480,27 +558,6 @@ void setupPowerMatchCallback(
         }
     });
 
-    postMatch = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*conn),
-        "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(post::path) + "',arg0='" +
-            std::string(post::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
-        std::string objectName;
-        boost::container::flat_map<std::string, std::variant<std::string>>
-            values;
-        message.read(objectName, values);
-        auto findState = values.find(post::property);
-        if (findState != values.end())
-        {
-            auto& value = std::get<std::string>(findState->second);
-            biosHasPost = (value != "Inactive") &&
-                          (value != "xyz.openbmc_project.State.OperatingSystem."
-                                    "Status.OSStatus.Inactive");
-            hostStatusCallback(PowerState::biosPost, biosHasPost);
-        }
-    });
-
     chassisMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
@@ -542,8 +599,11 @@ void setupPowerMatchCallback(
         }
     });
     getPowerStatus(conn);
-    getPostStatus(conn);
     getChassisStatus(conn);
+
+    // setup post match and init post status by async method
+    getSubTree(conn, "/", 0, std::array<std::string_view, 1>{post::interface},
+               std::bind_front(getPostDbusInfo, conn, hostStatusCallback, 2));
 }
 
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
