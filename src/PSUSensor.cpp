@@ -119,6 +119,11 @@ void PSUSensor::activate(const std::string& newPath,
 {
     path = newPath;
     i2cDevice = newI2CDevice;
+    activate();
+}
+
+void PSUSensor::activate()
+{
     inputDev.open(path, boost::asio::random_access_file::read_only);
     markAvailable(true);
     setupRead();
@@ -130,8 +135,6 @@ void PSUSensor::deactivate()
     // close the input dev to cancel async operations
     inputDev.close();
     waitTimer.cancel();
-    i2cDevice = nullptr;
-    path = "";
 }
 
 void PSUSensor::setupRead(void)

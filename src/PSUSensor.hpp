@@ -30,6 +30,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     void setupRead(void);
     void activate(const std::string& newPath,
                   const std::shared_ptr<I2CDevice>& newI2CDevice);
+    void activate(void);
     void deactivate(void);
     bool isActive(void);
 
