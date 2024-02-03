@@ -923,7 +923,7 @@ static void createSensorsCallback(
 
             if (sensor != nullptr)
             {
-                sensor->activate(sensorPathStr, i2cDev);
+                sensor->activate();
             }
             else
             {
@@ -1182,13 +1182,17 @@ void propertyInitialize(void)
 static void powerStateChanged(
     PowerState type, bool newState,
     boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>&
-        sensors,
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+        sensors)
 {
     if (newState)
     {
-        createSensors(io, objectServer, dbusConnection, nullptr, true);
+        for (auto& [path, sensor] : sensors)
+        {
+            if (sensor != nullptr && sensor->readState == type)
+            {
+                sensor->activate();
+            }
+        }
     }
     else
     {
@@ -1216,9 +1220,8 @@ int main()
 
     propertyInitialize();
 
-    auto powerCallBack = [&io, &objectServer, &systemBus](PowerState type,
-                                                          bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+    auto powerCallBack = [](PowerState type, bool state) {
+        powerStateChanged(type, state, sensors);
     };
 
     setupPowerMatchCallback(systemBus, powerCallBack);
