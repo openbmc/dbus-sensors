@@ -923,6 +923,10 @@ static void createSensorsCallback(
 
             if (sensor != nullptr)
             {
+                if (sensor->isActive())
+                {
+                    sensor->deactivate();
+                }
                 sensor->activate(sensorPathStr, i2cDev);
             }
             else
