@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe462c82_1d9237f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T04:12:59Z",
+      "side": 1,
+      "message": "Can you please provide at least one concrete example of this case in the commit message?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c405074c_1e700107",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T04:12:59Z",
+      "side": 1,
+      "message": "Typo: \"crashed\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6fede9f_16507c75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T04:12:59Z",
+      "side": 1,
+      "message": "Can you unpack the reasoning for the crash a bit more? Also, can you include crash output in the journal in the commit message so people know what to look for?",
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01f52f1a_9800826f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T04:12:59Z",
+      "side": 1,
+      "message": "Can you please provide an example of this as well?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 42
+      },
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eafeee25_3c5b75b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T04:12:59Z",
+      "side": 1,
+      "message": "Hi Potin, I have some requests on the commit message to help me understand the patch.",
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
