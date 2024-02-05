@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99ee2507_e946e66d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T04:08:52Z",
+      "side": 1,
+      "message": "Hi Potin, I think some more justification of the strategy is required. Otherwise I\u0027ve made a suggestion that feels cleaner to me.",
+      "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dde5cc3_d61999df",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T04:08:52Z",
+      "side": 1,
+      "message": "Why is it necessary to deactivate the sensor first? Can we not do this:\n\n```\nif (sensor !\u003d nullptr \u0026\u0026 !sensor-\u003eisActive())\n{\n    sensor-\u003eactivate(sensorPathStr, i2cDev);\n}\n```",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 930,
+        "endChar": 24
+      },
+      "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
