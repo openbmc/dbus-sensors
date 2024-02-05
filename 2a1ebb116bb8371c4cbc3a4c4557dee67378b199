@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e76d459_a72de81e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T05:20:48Z",
+      "side": 1,
+      "message": "I\u0027d prefer the lambda be fixed, and would like a follow-up patch to clean up the signal match.",
+      "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16de32c4_1efd36b6",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T05:20:48Z",
+      "side": 1,
+      "message": "I realise that it\u0027s the norm in dbus-sensors to just hack the signal constraints together, but can we instead make use of the helpers in `sdbusplus::bus::match::rules`?\n\nThis could be `sdbusplus::bus::match::rules::propertiesChanged(path, post::interface)`\n\nThough I\u0027ve also just realised that you\u0027ve moved the existing code, so ... I dunno. I\u0027d prefer you don\u0027t _change_ it in this patch as that makes code motion harder to comprehend. But a follow-up patch would be nice.",
+      "range": {
+        "startLine": 369,
+        "startChar": 0,
+        "endLine": 370,
+        "endChar": 80
+      },
+      "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d59d657_0664a345",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-05T05:20:48Z",
+      "side": 1,
+      "message": "The lambda isn\u0027t monstrous, but we do have an anti-pattern that covers it:\n\nhttps://github.com/openbmc/docs/blob/master/anti-patterns.md#very-long-lambda-callbacks",
+      "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
