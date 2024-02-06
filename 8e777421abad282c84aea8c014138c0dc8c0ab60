@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "173a8345_bbdceaf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-06T01:56:05Z",
+      "side": 1,
+      "message": "Done, add MB_ADC0 in harma_mb.json as an example.",
+      "parentUuid": "fe462c82_1d9237f3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c405074c_1e700107",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-05T04:12:59Z",
       "side": 1,
       "message": "Typo: \"crashed\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47d050dd_f848c01a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-06T01:56:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c405074c_1e700107",
       "range": {
         "startLine": 11,
         "startChar": 49,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ae97269_0bbbcc9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-06T01:56:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6fede9f_16507c75",
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01f52f1a_9800826f",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-02-05T04:12:59Z",
       "side": 1,
       "message": "Can you please provide an example of this as well?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 42
+      },
+      "revId": "8e777421abad282c84aea8c014138c0dc8c0ab60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7603f613_3f102d16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-06T01:56:05Z",
+      "side": 1,
+      "message": "Because sensor\u0027s configurationPath does not show on dbus, so I cann\u0027t provide example from command.\nI added more description and hope it helps.",
+      "parentUuid": "01f52f1a_9800826f",
       "range": {
         "startLine": 14,
         "startChar": 0,
