@@ -22,6 +22,30 @@
       },
       "revId": "a2820fc3b77cf27b608e0e3a0d4a75d83fcc3056",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de321002_e6f18db3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-07T08:54:17Z",
+      "side": 1,
+      "message": "The \"sensorName\" in code is the Name field of config, which is \"MB_ADC0\" in this example. And the \"sensor.first\" in code will be the customized name from inX_Name. For example, there are will have 5 sensors from this config in psusensor as below.\n- MB_PVDD11_S3_VOLT_V\n- MB_P3V3_STBY_VOLT_V\n- MB_PVDD18_S5_VOLT_V\n- MB_P12V_AUX_VOLT_V\n- MB_P12V_STBY_VOLT_V\n\n\nWhen the name is not matched with Name field in sensor config, the devices will add a new device base on the config, but the is_new is set to true.\nLink: https://github.com/openbmc/dbus-sensors/blob/master/src/DeviceMgmt.hpp#L154-L157\n\n\npsusensor will decide whether to activate the sensor based on the device list returned by instantiateDevices().\n\n- \"is_new\" equal to false\nit is a sensor actived already, so skip the rest sensor setup actions.\nLink: https://github.com/openbmc/dbus-sensors/blob/master/src/PSUSensorMain.cpp#L442-L445 \n\n- \"is_new\" equal to true\nit means a new sensor or sensor needs activate, then it will calling \"sensor-\u003eactivate()\" again. (PS: activateOnly will be ture if it is the callback from PowerSate change match)\nLink: https://github.com/openbmc/dbus-sensors/blob/master/src/PSUSensorMain.cpp#L926\n\n\nTake \"MB_PVDD11_S3_VOLT_V\" sensor as example, \"MB_PVDD11_S3_VOLT_V\" is create and activate at psusensor starts, and then a Host PowerState change (from off to on) triggered, the createSensorsCallback() will be called, \"MB_PVDD11_S3_VOLT_V\" will be activate again due to \"is_new\" is equal to true (name not match), then causing psusensor crashed.",
+      "parentUuid": "77df5894_49d80528",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "a2820fc3b77cf27b608e0e3a0d4a75d83fcc3056",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
