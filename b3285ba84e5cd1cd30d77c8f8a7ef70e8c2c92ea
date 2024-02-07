@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e13d2440_c35f10f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-07T12:06:36Z",
+      "side": 1,
+      "message": "Can you elaborate what the different paths are?  Maybe this is as simple as making them consistent?",
+      "revId": "b3285ba84e5cd1cd30d77c8f8a7ef70e8c2c92ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
