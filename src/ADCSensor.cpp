@@ -47,14 +47,14 @@ ADCSensor::ADCSensor(const std::string& path,
                      const double scaleFactor, const float pollRate,
                      PowerState readState,
                      const std::string& sensorConfiguration,
-                     std::optional<BridgeGpio>&& bridgeGpio) :
+                     std::optional<BridgeGpio>&& bridgeGpio, bool isBattery) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            "ADC", false, false, maxVoltageReading / scaleFactor,
-           minVoltageReading / scaleFactor, conn, readState),
+           minVoltageReading / scaleFactor, conn, readState, isBattery),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     scaleFactor(scaleFactor),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
-    bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io)
+    bridgeGpio(std::move(bridgeGpio)), isBattery(isBattery), thresholdTimer(io)
 {
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(path.c_str(), O_RDONLY);
@@ -92,6 +92,10 @@ ADCSensor::~ADCSensor()
     }
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
+    if (isBattery)
+    {
+        objServer.remove_interface(batteryStatusInterface);
+    }
 }
 
 void ADCSensor::setupRead(void)
