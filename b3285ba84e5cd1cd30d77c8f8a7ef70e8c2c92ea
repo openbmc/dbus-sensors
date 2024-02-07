@@ -52,6 +52,24 @@
       "parentUuid": "32ab745f_26e4bfbe",
       "revId": "b3285ba84e5cd1cd30d77c8f8a7ef70e8c2c92ea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "373d198d_a6b39d7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-07T23:46:46Z",
+      "side": 1,
+      "message": "\u003e x86-power-control takes multiple busnames (for some odd reason).  The Host0 should already be exposed.\n\u003e \n\u003e phosphor-state-manager is also claiming Host0 as a busname.  That should be the preferred way going forward.\n\u003e \n\u003e We should, for the time being, get x86-power-control to also expose the interface at state/host0 instead of state/os.  Most of the code using state/os is Intel specific and we can then port them to use the preferred one.\n\u003e \n\u003e \"state/os\" was never documented anywhere.  I don\u0027t think it should be preserved.\n\nI\u0027m not even sure where state/os is used.  It was added after the initial x86-power-control was created.\n\n+1 to your intent.  Lets just fix x86-power-control to be consistent.",
+      "parentUuid": "74028497_21fe6a0b",
+      "revId": "b3285ba84e5cd1cd30d77c8f8a7ef70e8c2c92ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e6dcee4_c019bfd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-07T23:46:46Z",
+      "side": 1,
+      "message": "\u003e I assign busname \u0026 objpath by the first result we get from GetSubTree command.\n\nHow do you know the first result is the correct one?  We have this same problem in bmcweb, and we explicitly check that there is only 1 implementation, and error out if there isn\u0027t (size() \u003d\u003d 1).  I suspect we need to do the same thing here.\n\n\u003e The implementation in this commit does not consider if there are multiple OperatingSystem interfaces.\n\nit needs to at least log an error if that happens.  \"does not consider\" doesn\u0027t really help when we\u0027re relying on undefined behavior from the mapper.\n\n\u003e \n\u003e This commit will work with single host system if sensors have PowerState set to biosPost, but not for multi-host system.\n\u003e \n\u003e For multi-host system, there is no rule to define sensor belong to which host, so I think it needs more discussion at design level.\n\nWhat do sensors have to do with it?",
+      "parentUuid": "303e38fe_a14ec561",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "d315f04292fee9e3f7f468c7ca5062e931f72480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "55300e08_f0bf720e",
