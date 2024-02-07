@@ -46,6 +46,30 @@
       },
       "revId": "5a9120340d6ebe6209bd95f88c1e572eefa2d059",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca1e7873_ab194566",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-07T23:25:30Z",
+      "side": 1,
+      "message": "As a test, can we just make sure sensors (any sensor) still scan and provide a value to dbus?  For history, this flag was originally enabled because of a bug that was fixed in boost::any_executor a while ago and caused a compile error.  If it fails, it\u0027s going to fail immediately on the async_read the first time it tries to read any sensor.  More than likely it\u0027s going to work fine (assuming it compiles).\n\n\n\u003e I don\u0027t think I\u0027m boost enough \n\nNobody is boost enough.",
+      "parentUuid": "19142366_c422327d",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 75
+      },
+      "revId": "5a9120340d6ebe6209bd95f88c1e572eefa2d059",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
