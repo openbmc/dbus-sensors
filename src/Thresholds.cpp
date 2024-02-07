@@ -463,6 +463,8 @@ void assertThresholds(Sensor* sensor, double assertValue,
             msg.append(sensor->name, interface->get_interface_name(), property,
                        assert, assertValue);
             msg.signal_send();
+            sensor->currAssert = assert;
+            sensor->updateBatteryStatus();
         }
         catch (const sdbusplus::exception_t& e)
         {

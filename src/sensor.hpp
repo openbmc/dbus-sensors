@@ -25,6 +25,8 @@ constexpr const char* valueMutabilityInterfaceName =
     "xyz.openbmc_project.Sensor.ValueMutability";
 constexpr const char* availableInterfaceName =
     "xyz.openbmc_project.State.Decorator.Availability";
+constexpr const char* batteryInterfaceName =
+    "xyz.openbmc_project.BatteryStatus";
 constexpr const char* operationalInterfaceName =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
 constexpr const size_t errorThreshold = 5;
@@ -63,7 +65,7 @@ struct Sensor
            const std::string& configurationPath, const std::string& objectType,
            bool isSettable, bool isMutable, const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
-           PowerState readState = PowerState::always) :
+           PowerState readState = PowerState::always, bool isBattery = false) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath),
         configInterface(configInterfaceName(objectType)),
@@ -71,7 +73,7 @@ struct Sensor
         minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
-        readState(readState),
+        readState(readState), isBatterySensor(isBattery),
         instrumentation(enableInstrumentation
                             ? std::make_unique<SensorInstrumentation>()
                             : nullptr)
@@ -97,6 +99,7 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> valueMutabilityInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> batteryStatusInterface;
     double value = std::numeric_limits<double>::quiet_NaN();
     double rawValue = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
@@ -105,6 +108,10 @@ struct Sensor
     double hysteresisPublish;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
+    bool isBatterySensor;
+    bool currAvailable = true;
+    bool currFunctional = true;
+    bool currAssert = false;
     size_t errCount{0};
     std::unique_ptr<SensorInstrumentation> instrumentation;
 
@@ -364,6 +371,7 @@ struct Sensor
                     return 1;
                 }
                 old = propIn;
+                this->currAvailable = old;
                 if (!propIn)
                 {
                     updateValue(std::numeric_limits<double>::quiet_NaN());
@@ -378,8 +386,27 @@ struct Sensor
                 std::make_shared<sdbusplus::asio::dbus_interface>(
                     dbusConnection, sensorInterface->get_object_path(),
                     operationalInterfaceName);
-            operationalInterface->register_property("Functional", true);
+            operationalInterface->register_property("Functional", true,
+                [this](const bool propIn, bool& old) {
+                if(propIn != old)
+                {
+                    old = propIn;
+                    this->currFunctional = old;
+                }
+                return 1;
+            });
             operationalInterface->initialize();
+        }
+
+        if(isBatterySensor)
+        {
+            batteryStatusInterface =
+                std::make_shared<sdbusplus::asio::dbus_interface>(
+                    dbusConnection, sensorInterface->get_object_path(),
+                    batteryInterfaceName);
+            batteryStatusInterface->register_property("Name", name);
+            batteryStatusInterface->register_property("Status", true);
+            batteryStatusInterface->initialize();
         }
     }
 
@@ -428,6 +455,15 @@ struct Sensor
         return ::readingStateGood(readState);
     }
 
+    void updateBatteryStatus()
+    {
+        if (batteryStatusInterface)
+        {
+            bool status = currFunctional & currAvailable & !currAssert;
+            batteryStatusInterface->set_property("Status", status);
+        }
+    }
+
     void markFunctional(bool isFunctional)
     {
         if (operationalInterface)
@@ -442,6 +478,7 @@ struct Sensor
         {
             updateValue(std::numeric_limits<double>::quiet_NaN());
         }
+        updateBatteryStatus();
     }
 
     void markAvailable(bool isAvailable)
@@ -451,6 +488,7 @@ struct Sensor
             availableInterface->set_property("Available", isAvailable);
             errCount = 0;
         }
+        updateBatteryStatus();
     }
 
     void incrementError()
