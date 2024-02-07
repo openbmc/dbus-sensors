@@ -241,6 +241,30 @@
       },
       "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea1e92ab_989836ee",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-07T23:52:08Z",
+      "side": 1,
+      "message": "SGTM!",
+      "parentUuid": "fa7ad9b5_dc8b1b4a",
+      "range": {
+        "startLine": 464,
+        "startChar": 38,
+        "endLine": 464,
+        "endChar": 53
+      },
+      "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
