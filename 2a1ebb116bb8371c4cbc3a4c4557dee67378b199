@@ -193,6 +193,30 @@
       },
       "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f70b2107_8115d87e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-07T23:13:46Z",
+      "side": 1,
+      "message": "You could do what the `mapper wait` command does:\n\nhttps://github.com/openbmc/phosphor-objmgr/blob/master/libmapper/mapper.c#L319\n\nBasically, add a match on `InterfacesAdded` for the mapper and call `GetObject` to test the path of interest.\n\nOtherwise, I\u0027m not sure.",
+      "parentUuid": "f120af6b_25b30167",
+      "range": {
+        "startLine": 464,
+        "startChar": 38,
+        "endLine": 464,
+        "endChar": 53
+      },
+      "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
