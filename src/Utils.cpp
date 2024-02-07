@@ -369,8 +369,7 @@ static void setupPostMatch(
 {
     postMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
-        "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + path + "',arg0='" + std::string(post::interface) + "'",
+        sdbusplus::bus::match::rules::propertiesChanged(path, post::interface),
         [hostStatusCallback](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
@@ -519,9 +518,8 @@ void setupPowerMatchCallback(
 
     powerMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
-        "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(power::path) + "',arg0='" +
-            std::string(power::interface) + "'",
+        sdbusplus::bus::match::rules::propertiesChanged(power::path,
+                                                        power::interface),
         [hostStatusCallback](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
@@ -560,9 +558,8 @@ void setupPowerMatchCallback(
 
     chassisMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
-        "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(chassis::path) + "',arg0='" +
-            std::string(chassis::interface) + "'",
+        sdbusplus::bus::match::rules::propertiesChanged(chassis::path,
+                                                        chassis::interface),
         [hostStatusCallback](sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
