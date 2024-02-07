@@ -73,7 +73,7 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
               std::vector<thresholds::Threshold>&& thresholds,
               double scaleFactor, float pollRate, PowerState readState,
               const std::string& sensorConfiguration,
-              std::optional<BridgeGpio>&& bridgeGpio);
+              std::optional<BridgeGpio>&& bridgeGpio, bool isBattery);
     ~ADCSensor() override;
     void setupRead(void);
 
@@ -86,6 +86,7 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
     double scaleFactor;
     unsigned int sensorPollMs;
     std::optional<BridgeGpio> bridgeGpio;
+    bool isBattery;
     thresholds::ThresholdTimer thresholdTimer;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds(void) override;
