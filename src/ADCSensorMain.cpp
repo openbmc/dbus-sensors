@@ -41,7 +41,8 @@ static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
 namespace fs = std::filesystem;
 
-static constexpr auto sensorTypes{std::to_array<const char*>({"ADC"})};
+static constexpr auto sensorTypes{
+    std::to_array<const char*>({"ADC", "BATTERY"})};
 static std::regex inputRegex(R"(in(\d+)_input)");
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
@@ -113,6 +114,7 @@ void createSensors(
             const std::string* interfacePath = nullptr;
             const std::pair<std::string, SensorBaseConfigMap>*
                 baseConfiguration = nullptr;
+            std::string sensorType = std::string();
             for (const auto& [path, cfgData] : sensorConfigurations)
             {
                 // clear it out each loop
@@ -125,6 +127,7 @@ void createSensors(
                     if (sensorBase != cfgData.end())
                     {
                         baseConfiguration = &(*sensorBase);
+                        sensorType = type;
                         break;
                     }
                 }
@@ -242,6 +245,7 @@ void createSensors(
                     scaleFactor = 1.0;
                 }
             }
+            bool isBattery = sensorType == "BATTERY";
 
             float pollRate = getPollRate(baseConfiguration->second,
                                          pollRateDefault);
@@ -291,7 +295,7 @@ void createSensors(
             sensor = std::make_shared<ADCSensor>(
                 path.string(), objectServer, dbusConnection, io, sensorName,
                 std::move(sensorThresholds), scaleFactor, pollRate, readState,
-                *interfacePath, std::move(bridgeGpio));
+                *interfacePath, std::move(bridgeGpio), isBattery);
             sensor->setupRead();
         }
     });
