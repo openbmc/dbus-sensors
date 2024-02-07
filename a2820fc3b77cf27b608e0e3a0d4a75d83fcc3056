@@ -46,6 +46,30 @@
       },
       "revId": "a2820fc3b77cf27b608e0e3a0d4a75d83fcc3056",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04ca22d2_2f48ff35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-07T23:16:44Z",
+      "side": 1,
+      "message": "Please integrate that explanation into the commit message.",
+      "parentUuid": "de321002_e6f18db3",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "a2820fc3b77cf27b608e0e3a0d4a75d83fcc3056",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
