@@ -87,6 +87,30 @@
       },
       "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b42da75_950029bd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-08T00:21:31Z",
+      "side": 1,
+      "message": "IMO, the core problem stems from the commit below going waaaaaay beyond what it should, destroying sensor objects on a power cycle:\n\nhttps://github.com/openbmc/dbus-sensors/commit/cafd72f6b9ebb6d3be02a8733489a7221d339e18\n\nThe sensor object itself, and the dbus entries should ALWAYS instantiate, regardless of the power state.  Turning the power on/off shouldn\u0027t create/destroy the sensor itself, it should only modify the underlying interfaces on the activate() call.  If we need an activate() call, it needs to be handled from within the sensor object, so that when we destroy it on a config change, it does the right thing.\n\n\nThis code needs to be\n\n// destroy the old sensor\nsensor \u003d nullptr;\n\n// Create the new sensor.\nsensors[sensorName] \u003d std::make_shared\u003cPSUSensor\u003e(...)\n\n\nThis line needs to go away, and become just \"sensor-\u003eactivate()\"\nhttps://github.com/openbmc/dbus-sensors/blame/16d6f17bec38b6c095dfb6bed224f17d941fb9b3/src/PSUSensorMain.cpp#L1191\n\nThen PSUSensor itself should be internally consistent that it can cancel outstanding operations and restart them (including if it require reiniting the device).",
+      "parentUuid": "fb76e890_84f9d2db",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 930,
+        "endChar": 24
+      },
+      "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
