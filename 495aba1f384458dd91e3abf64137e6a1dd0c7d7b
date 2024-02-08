@@ -22,6 +22,30 @@
       },
       "revId": "495aba1f384458dd91e3abf64137e6a1dd0c7d7b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3115b5d_d300c805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-08T18:40:21Z",
+      "side": 1,
+      "message": "Yeah, that is the default temperatures of all the drivers.  It matches the hwmon values.\n\nI\u0027ve tried to do some qom stuff and I can\u0027t get it to work to show up on even hwmon.\n\n```\n(qemu) qom-get /machine/soc/i2c/bus[0]/aspeed.i2c.bus.0/child[1] temperature0\n47\n```",
+      "parentUuid": "0c202434_a32303c6",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 56
+      },
+      "revId": "495aba1f384458dd91e3abf64137e6a1dd0c7d7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
