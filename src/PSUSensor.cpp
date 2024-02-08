@@ -42,9 +42,10 @@ PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
                      std::vector<thresholds::Threshold>&& thresholdsIn,
                      const std::string& sensorConfiguration,
                      const PowerState& powerState,
-                     const std::string& sensorUnits, unsigned int factor,
-                     double max, double min, double offset,
-                     const std::string& label, size_t tSize, double pollRate,
+                     const std::string& sensorUnits,
+                     volatile unsigned int factor, double max, double min,
+                     double offset, const std::string& label, size_t tSize,
+                     double pollRate,
                      const std::shared_ptr<I2CDevice>& i2cDevice) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState),
@@ -166,7 +167,7 @@ void PSUSensor::setupRead(void)
         }
 
         self->handleResponse(ec, bytesRead);
-    });
+        });
 }
 
 void PSUSensor::restartRead(void)
@@ -219,7 +220,8 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
 
     try
     {
-        rawValue = std::stod(bufferRef.data());
+        volatile double psuRawValue = std::stod(bufferRef.data());
+        rawValue = psuRawValue;
         updateValue((rawValue / sensorFactor) + sensorOffset);
     }
     catch (const std::invalid_argument&)
