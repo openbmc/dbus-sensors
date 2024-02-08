@@ -70,6 +70,30 @@
       },
       "revId": "495aba1f384458dd91e3abf64137e6a1dd0c7d7b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a95d6f7_d95d9224",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-08T21:55:26Z",
+      "side": 1,
+      "message": "I guess we\u0027ll wait for any screams",
+      "parentUuid": "5b48e516_c431dd46",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 56
+      },
+      "revId": "495aba1f384458dd91e3abf64137e6a1dd0c7d7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
