@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d23dfc5_5768caf1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-08T15:12:12Z",
+      "side": 1,
+      "message": "let’s get more details on what this patch thinks it’s fixing.  it’s possible changing these to volatile changes some optimizations enough that it LOOKS like it fixed a bug, but really it just moved the bug somewhere else.\n\nwe’re not accessing memory attached hardware here, so there’s no reason we should be using volatile.  for multi threading we should be using std::atomic, but this application isn’t multi threaded, so I’m not really sure where to go from here without more details.",
+      "revId": "dfa03746698822bf541d4374465508195c20221e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f7f1136c_9fc214a8",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 2
