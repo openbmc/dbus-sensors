@@ -96,6 +96,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee28d6be_2f1c8451",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-09T01:57:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "efdd4575_5087cc24",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cdea7c3_6e74984d",
@@ -210,6 +234,24 @@
       "side": 1,
       "message": "The new Tested section states\n\n\"Tested: Confirmed the code builds and doesn\u0027t throw errors with OBMC\n\u0027local CI\u0027 testing. I believe heavier testing with actual Intel HW\nisn\u0027t needed because this change simple moves where a value is specified\n(from hardcode in function body to passed-in parameter) without\naffecting any existing in-use functionality.\"\n\nWill this work, or do you feel more \u0027actual\u0027 testing should be required here?",
       "parentUuid": "c87680b5_b2b8fc3d",
+      "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11818a6c_302fc6dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-09T01:57:07Z",
+      "side": 1,
+      "message": "That is fair",
+      "parentUuid": "a86947a3_1778dbe9",
       "revId": "156f165189cdd029f4a951a653cf388592b4cba6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
