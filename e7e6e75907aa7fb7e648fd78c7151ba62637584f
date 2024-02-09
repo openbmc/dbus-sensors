@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cb21726_d75f4e7a",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-09T18:39:26Z",
+      "side": 1,
+      "message": "I am trying to understand the difference between the two ways to customize and which one you use and why.",
+      "parentUuid": "ab6f01ce_6a0a37e8",
+      "range": {
+        "startLine": 856,
+        "startChar": 0,
+        "endLine": 860,
+        "endChar": 33
+      },
+      "revId": "e7e6e75907aa7fb7e648fd78c7151ba62637584f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5c0db5c_c07b58fb",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "It sounds like another logical change, would you like to change them in a new seperate commit?",
       "parentUuid": "a5c0db5c_c07b58fb",
+      "range": {
+        "startLine": 862,
+        "startChar": 0,
+        "endLine": 863,
+        "endChar": 48
+      },
+      "revId": "e7e6e75907aa7fb7e648fd78c7151ba62637584f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e288699_8cc1d72d",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-09T18:39:26Z",
+      "side": 1,
+      "message": "Yes, I am ok with leave it to a separate change",
+      "parentUuid": "be1e85e8_e0f195ad",
       "range": {
         "startLine": 862,
         "startChar": 0,
