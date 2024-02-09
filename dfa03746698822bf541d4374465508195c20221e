@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ffe8ed4_5fca2502",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-09T01:32:43Z",
+      "side": 1,
+      "message": "Agreed. There was an issue with the old async read call get stuck. But that issue was addressed by using io_uring. How do you know that sensor value is not getting updated and what do you think the reason is?",
+      "parentUuid": "83fbf53a_21cfa5f9",
+      "revId": "dfa03746698822bf541d4374465508195c20221e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f7f1136c_9fc214a8",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 2
