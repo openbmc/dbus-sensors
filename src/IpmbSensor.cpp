@@ -39,9 +39,6 @@
 
 constexpr const bool debug = false;
 
-constexpr const char* sensorType = "IpmbSensor";
-constexpr const char* sdrInterface = "IpmbDevice";
-
 static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
 
@@ -52,11 +49,6 @@ static constexpr uint8_t ipmbBusIndexDefault = 0;
 static constexpr float pollRateDefault = 1; // in seconds
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
-
-boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>> sensors;
-boost::container::flat_map<uint8_t, std::shared_ptr<IpmbSDRDevice>> sdrsensor;
-
-std::unique_ptr<boost::asio::steady_timer> initCmdTimer;
 
 IpmbSensor::IpmbSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                        boost::asio::io_context& io,
@@ -265,7 +257,9 @@ void IpmbSensor::checkThresholds(void)
     thresholds::checkThresholds(this);
 }
 
-bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
+bool IpmbSensor::processReading(ReadingFormat readingFormat, uint8_t command,
+                                const std::vector<uint8_t>& data, double& resp,
+                                size_t errCount)
 {
     switch (readingFormat)
     {
@@ -285,8 +279,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    std::cerr << "Invalid data length returned\n";
                 }
                 return false;
             }
@@ -299,8 +292,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    std::cerr << "Invalid data length returned\n";
                 }
                 return false;
             }
@@ -315,8 +307,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    std::cerr << "Invalid data length returned\n";
                 }
                 return false;
             }
@@ -330,8 +321,7 @@ bool IpmbSensor::processReading(const std::vector<uint8_t>& data, double& resp)
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned for " << name
-                              << "\n";
+                    std::cerr << "Invalid data length returned\n";
                 }
                 return false;
             }
@@ -377,7 +367,7 @@ void IpmbSensor::ipmbRequestCompletionCb(const boost::system::error_code& ec,
 
     double value = 0;
 
-    if (!processReading(data, value))
+    if (!processReading(readingFormat, command, data, value, errCount))
     {
         incrementError();
         read();
@@ -544,8 +534,7 @@ void createSensors(
                 std::vector<thresholds::Threshold> sensorThresholds;
                 if (!parseThresholdsFromConfig(interfaces, sensorThresholds))
                 {
-                    std::cerr << "error populating thresholds for " << name
-                              << "\n";
+                    std::cerr << "error populating thresholds\n";
                 }
                 uint8_t deviceAddress = loadVariant<uint8_t>(cfg, "Address");
 
@@ -602,69 +591,6 @@ void createSensors(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
-void sdrHandler(sdbusplus::message_t& message,
-                std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
-{
-    std::string objectName;
-    SensorBaseConfigMap values;
-    message.read(objectName, values);
-
-    auto findBus = values.find("Bus");
-    if (findBus == values.end())
-    {
-        return;
-    }
-
-    uint8_t busIndex = loadVariant<uint8_t>(values, "Bus");
-
-    auto& sdrsen = sdrsensor[busIndex];
-    sdrsen = nullptr;
-    sdrsen = std::make_shared<IpmbSDRDevice>(dbusConnection, busIndex);
-    sdrsen->getSDRRepositoryInfo();
-}
-
-void reinitSensors(sdbusplus::message_t& message)
-{
-    constexpr const size_t reinitWaitSeconds = 2;
-    std::string objectName;
-    boost::container::flat_map<std::string, std::variant<std::string>> values;
-    message.read(objectName, values);
-
-    auto findStatus = values.find(power::property);
-    if (findStatus != values.end())
-    {
-        bool powerStatus =
-            std::get<std::string>(findStatus->second).ends_with(".Running");
-        if (powerStatus)
-        {
-            if (!initCmdTimer)
-            {
-                // this should be impossible
-                return;
-            }
-            // we seem to send this command too fast sometimes, wait before
-            // sending
-            initCmdTimer->expires_after(
-                std::chrono::seconds(reinitWaitSeconds));
-
-            initCmdTimer->async_wait([](const boost::system::error_code ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
-
-                for (const auto& [name, sensor] : sensors)
-                {
-                    if (sensor)
-                    {
-                        sensor->runInitCmd();
-                    }
-                }
-            });
-        }
-    }
-}
-
 void interfaceRemoved(
     sdbusplus::message_t& message,
     boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
@@ -697,69 +623,4 @@ void interfaceRemoved(
             sensorIt++;
         }
     }
-}
-
-int main()
-{
-    boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    systemBus->request_name("xyz.openbmc_project.IpmbSensor");
-
-    initCmdTimer = std::make_unique<boost::asio::steady_timer>(io);
-
-    boost::asio::post(
-        io, [&]() { createSensors(io, objectServer, sensors, systemBus); });
-
-    boost::asio::steady_timer configTimer(io);
-
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t&) {
-        configTimer.expires_after(std::chrono::seconds(1));
-        // create a timer because normally multiple properties change
-        configTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                return; // we're being canceled
-            }
-            createSensors(io, objectServer, sensors, systemBus);
-            if (sensors.empty())
-            {
-                std::cout << "Configuration not detected\n";
-            }
-        });
-    };
-
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
-
-    sdbusplus::bus::match_t powerChangeMatch(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(power::path) + "',arg0='" +
-            std::string(power::interface) + "'",
-        reinitSensors);
-
-    auto matchSignal = std::make_shared<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',member='PropertiesChanged',path_namespace='" +
-            std::string(inventoryPath) + "',arg0namespace='" +
-            configInterfaceName(sdrInterface) + "'",
-        [&systemBus](sdbusplus::message_t& msg) {
-        sdrHandler(msg, systemBus);
-    });
-
-    // Watch for entity-manager to remove configuration interfaces
-    // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_shared<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',member='InterfacesRemoved',arg0path='" +
-            std::string(inventoryPath) + "/'",
-        [](sdbusplus::message_t& msg) { interfaceRemoved(msg, sensors); });
-
-    setupManufacturingModeMatch(*systemBus);
-    io.run();
-    return 0;
 }
