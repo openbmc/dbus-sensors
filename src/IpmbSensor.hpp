@@ -10,6 +10,9 @@
 #include <string>
 #include <vector>
 
+constexpr const char* sensorType = "IpmbSensor";
+constexpr const char* sdrInterface = "IpmbDevice";
+
 enum class IpmbType
 {
     none,
@@ -97,7 +100,9 @@ struct IpmbSensor :
     std::string getSubTypeUnits() const;
     void loadDefaults();
     void runInitCmd();
-    bool processReading(const std::vector<uint8_t>& data, double& resp);
+    static bool processReading(ReadingFormat readingFormat, uint8_t command,
+                               const std::vector<uint8_t>& data, double& resp,
+                               size_t errCount);
     void parseConfigValues(const SensorBaseConfigMap& entry);
     bool sensorClassType(const std::string& sensorClass);
     void sensorSubType(const std::string& sensorTypeName);
@@ -126,3 +131,14 @@ struct IpmbSensor :
     void ipmbRequestCompletionCb(const boost::system::error_code& ec,
                                  const IpmbMethodType& response);
 };
+
+void createSensors(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
+        sensors,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection);
+
+void interfaceRemoved(
+    sdbusplus::message_t& message,
+    boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
+        sensors);
