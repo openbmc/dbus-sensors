@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32d091cb_91aa17e0",
+        "filename": "subprojects/phosphor-dbus-interfaces.wrap",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-10T01:17:42Z",
+      "side": 1,
+      "message": "Why redirect and not a direct dependency? Meson will de-duplicate multiple dependencies on the same project.",
+      "revId": "23c3a899bb3645147eb9455eee8ed3cafc46b28c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ],
   "submitRequirementResults": []
 }
