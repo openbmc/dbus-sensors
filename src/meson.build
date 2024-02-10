@@ -166,6 +166,7 @@ endif
 if get_option('ipmb').allowed()
     executable(
         'ipmbsensor',
+        'IpmbSensorMain.cpp',
         'IpmbSensor.cpp',
         'IpmbSDRSensor.cpp',
         dependencies: [
