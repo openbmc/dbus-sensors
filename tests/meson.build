@@ -36,3 +36,22 @@ test(
         include_directories: '../src',
     ),
 )
+
+test(
+    'test_ipmb',
+    executable(
+        'test_ipmb',
+        '../src/IpmbSensor.cpp',
+        '../src/Utils.cpp',
+        '../src/IpmbSDRSensor.cpp',
+        'test_IpmbSensor.cpp',
+        dependencies: ut_deps_list,
+        link_with: [
+            utils_a,
+            thresholds_a,
+            devicemgmt_a
+        ],
+        implicit_include_directories: false,
+        include_directories: '../src',
+    ),
+)
