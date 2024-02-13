@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02471503_4b010d56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-13T16:08:07Z",
+      "side": 1,
+      "message": "Just so I understand, why are we putting ADCs in PSUSensor?  Shouldn\u0027t they go into ADCSensor?",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 23
+      },
+      "revId": "e7e6e75907aa7fb7e648fd78c7151ba62637584f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0bc0bd7a_ffa813da",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 12
@@ -138,6 +161,29 @@
         "startChar": 0,
         "endLine": 863,
         "endChar": 48
+      },
+      "revId": "e7e6e75907aa7fb7e648fd78c7151ba62637584f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a92c51bb_7e20a99b",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-13T16:08:07Z",
+      "side": 1,
+      "message": "This now needs all the same checks you did on line 736",
+      "range": {
+        "startLine": 876,
+        "startChar": 0,
+        "endLine": 877,
+        "endChar": 65
       },
       "revId": "e7e6e75907aa7fb7e648fd78c7151ba62637584f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
