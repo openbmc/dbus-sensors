@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe1edd0c_b4535b31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-15T06:34:04Z",
+      "side": 1,
+      "message": "Done, update the commit message.",
+      "parentUuid": "04ca22d2_2f48ff35",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "a2820fc3b77cf27b608e0e3a0d4a75d83fcc3056",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dccde938_62db37c4",
@@ -85,6 +109,30 @@
       "writtenOn": "2024-02-09T22:05:06Z",
       "side": 1,
       "message": "will this always work? In other words, do we need both check, can this check simply replace the old one?",
+      "range": {
+        "startLine": 120,
+        "startChar": 21,
+        "endLine": 121,
+        "endChar": 71
+      },
+      "revId": "a2820fc3b77cf27b608e0e3a0d4a75d83fcc3056",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c0cee6_333c8092",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-15T06:34:04Z",
+      "side": 1,
+      "message": "Done, change to just find from configurationPath.",
+      "parentUuid": "dccde938_62db37c4",
       "range": {
         "startLine": 120,
         "startChar": 21,
