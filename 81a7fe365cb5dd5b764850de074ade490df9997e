@@ -34,6 +34,24 @@
       "parentUuid": "83e54f7c_2e42efa5",
       "revId": "81a7fe365cb5dd5b764850de074ade490df9997e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac8fbac3_f5f17b87",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-15T16:56:08Z",
+      "side": 1,
+      "message": "I suspect they\u0027re pointing out that at this point, the value is not a signed temperature value, it\u0027s a series of two bytes.  this code then turns it into an int16 on line 341, and that it might be better two have two separate variables for this, a uint16_t.",
+      "parentUuid": "72f30c0a_d5a53985",
+      "revId": "81a7fe365cb5dd5b764850de074ade490df9997e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

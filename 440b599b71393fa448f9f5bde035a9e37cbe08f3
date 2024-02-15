@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0902a26f_b52acad5",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-15T16:56:08Z",
+      "side": 1,
+      "message": "can we do something like\n\n// If the sign bit is set\n```\nif ((value \u003e\u003e 8) \u0026 0x1){\n   value \u003d| 0xFE00;\n}\n```\n\nThat breaks this up, and makes it more clear what operation is going on.\n\n\nAlternatively, maybe we just do it all in one step?\n\n```\nint16_t value \u003d data[0];\nif (data[1] \u0026 0x1){\n   value \u0026\u003d 0XFE00;\n}\n```\n\nNot sure I got all the above math right, but you get the idea.",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 78
+      },
+      "revId": "440b599b71393fa448f9f5bde035a9e37cbe08f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44f52538_a7ca50cc",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-15T16:56:08Z",
+      "side": 1,
+      "message": "nit, make this 1000.0 so there\u0027s no double promotion going on.  Once it\u0027s that, you might be able to avoid the cast entirely.",
+      "range": {
+        "startLine": 353,
+        "startChar": 39,
+        "endLine": 353,
+        "endChar": 43
+      },
+      "revId": "440b599b71393fa448f9f5bde035a9e37cbe08f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d79869f_2febe510",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-15T16:56:08Z",
+      "side": 1,
+      "message": "please use static_cast\u003cdouble\u003e(value).  C style casts are discouraged in the coding standard.",
+      "range": {
+        "startLine": 353,
+        "startChar": 23,
+        "endLine": 353,
+        "endChar": 31
+      },
+      "revId": "440b599b71393fa448f9f5bde035a9e37cbe08f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
