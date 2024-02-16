@@ -41,6 +41,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76f2230b_3dea6ceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-16T21:17:55Z",
+      "side": 1,
+      "message": "With https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/68873 abandoned, delayMs is not used",
+      "revId": "3d921bf06b5da8d4377209ce3f7b44402c5c4cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8c92202_58297953",
@@ -54,6 +71,30 @@
       "writtenOn": "2024-01-18T19:14:23Z",
       "side": 1,
       "message": "Pass int types by value, not reference.",
+      "range": {
+        "startLine": 77,
+        "startChar": 45,
+        "endLine": 77,
+        "endChar": 53
+      },
+      "revId": "3d921bf06b5da8d4377209ce3f7b44402c5c4cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f89bee6_93794544",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-16T21:17:55Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e8c92202_58297953",
       "range": {
         "startLine": 77,
         "startChar": 45,
