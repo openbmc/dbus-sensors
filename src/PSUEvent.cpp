@@ -22,6 +22,7 @@
 #include <boost/asio/read_until.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -32,6 +33,8 @@
 #include <utility>
 #include <variant>
 #include <vector>
+
+using namespace phosphor::logging;
 
 PSUCombineEvent::PSUCombineEvent(
     sdbusplus::asio::object_server& objectServer,
@@ -51,7 +54,7 @@ PSUCombineEvent::PSUCombineEvent(
 
     if (!eventInterface->initialize())
     {
-        std::cerr << "error initializing event interface\n";
+        log<level::ERR>("error initializing event interface");
     }
 
     std::shared_ptr<std::set<std::string>> combineEvent =
@@ -195,7 +198,7 @@ void PSUSubEvent::setupRead(void)
     }
     if (!buffer)
     {
-        std::cerr << "Buffer was invalid?";
+        log<level::ERR>("Buffer was invalid?");
         return;
     }
 
@@ -244,7 +247,7 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
     }
     if (!buffer)
     {
-        std::cerr << "Buffer was invalid?";
+        log<level::ERR>("Buffer was invalid?");
         return;
     }
     // null terminate the string so we don't walk off the end
@@ -273,7 +276,8 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
     {
         if (errCount == warnAfterErrorCount)
         {
-            std::cerr << "Failure to read event at " << path << "\n";
+            log<level::ERR>(
+                std::format("Failure to read event at {}", path).c_str());
         }
         updateValue(0);
         errCount++;
@@ -342,7 +346,7 @@ void PSUSubEvent::updateValue(const int& newValue)
     }
     else
     {
-        std::cerr << "PSUSubEvent asserted by " << path << "\n";
+        log<level::ERR>(std::format("PSUSubEvent asserted by {}", path));
 
         if ((!*assertState) && ((*asserts).empty()))
         {
