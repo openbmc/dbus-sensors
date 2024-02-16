@@ -158,6 +158,30 @@
       },
       "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4b54d8a_ee7a8198",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1001425
+      },
+      "writtenOn": "2024-02-16T02:56:39Z",
+      "side": 1,
+      "message": "If a sensor is already activated. Why deactivate and then activate it again?\n\nThe deactive() task should be powerStateChanged responsible for, right?\n\nThe powerStateChanged() callback will deactivate a sensor if it\u0027s not in their power state.\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/PSUSensorMain.cpp#L1199",
+      "parentUuid": "fd488918_e3bc655a",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 930,
+        "endChar": 56
+      },
+      "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
