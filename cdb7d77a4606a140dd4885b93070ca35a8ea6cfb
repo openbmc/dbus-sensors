@@ -39,6 +39,30 @@
       },
       "revId": "cdb7d77a4606a140dd4885b93070ca35a8ea6cfb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "972f75f4_47010533",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-18T23:47:00Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "bf44d1a2_f2aa2e05",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "cdb7d77a4606a140dd4885b93070ca35a8ea6cfb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
