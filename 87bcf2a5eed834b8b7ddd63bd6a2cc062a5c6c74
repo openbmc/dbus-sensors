@@ -22,6 +22,30 @@
       },
       "revId": "87bcf2a5eed834b8b7ddd63bd6a2cc062a5c6c74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84f36e05_f78a7a4c",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-21T06:11:07Z",
+      "side": 1,
+      "message": "Hi @Andrew, I am not folloing your question, could you explain it in more detail? thank you.",
+      "parentUuid": "12c09674_ddcc934a",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 69
+      },
+      "revId": "87bcf2a5eed834b8b7ddd63bd6a2cc062a5c6c74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
