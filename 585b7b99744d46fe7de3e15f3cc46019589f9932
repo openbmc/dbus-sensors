@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d8871c1_dd536d97",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "name is from the base class, so can not be in derived class initialization list",
+      "parentUuid": "dd884629_f0d7955b",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebd60181_34f3f45a",
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "205da642_f7205fbc",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebd60181_34f3f45a",
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53b75d55_c450db63",
@@ -71,6 +113,30 @@
       "writtenOn": "2024-01-29T21:37:07Z",
       "side": 1,
       "message": "also use weakref here",
+      "range": {
+        "startLine": 85,
+        "startChar": 23,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7736b69_4684c2dc",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53b75d55_c450db63",
       "range": {
         "startLine": 85,
         "startChar": 23,
@@ -104,6 +170,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1893d74_02848fb9",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "name from base class cant be in derived class initialization list",
+      "parentUuid": "6e440ac7_5c42530c",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 17
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b776f8c8_29915df4",
@@ -117,6 +207,30 @@
       "writtenOn": "2024-01-29T21:37:07Z",
       "side": 1,
       "message": "test self before use",
+      "range": {
+        "startLine": 191,
+        "startChar": 61,
+        "endLine": 191,
+        "endChar": 65
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77390326_5cb0d3a1",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b776f8c8_29915df4",
       "range": {
         "startLine": 191,
         "startChar": 61,
@@ -150,6 +264,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52b347a5_01c117da",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244a8231_5da165e6",
+      "range": {
+        "startLine": 198,
+        "startChar": 25,
+        "endLine": 198,
+        "endChar": 35
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17dde4fb_6ef88b80",
@@ -163,6 +301,30 @@
       "writtenOn": "2024-01-29T21:37:07Z",
       "side": 1,
       "message": "Why is this needed here? Only used by pollpresencesensor",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 70
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26705bde_201c280a",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17dde4fb_6ef88b80",
       "range": {
         "startLine": 23,
         "startChar": 0,
@@ -196,6 +358,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91323882_1b779255",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8074e9c_5de5e020",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 29
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d9b79f8_d2b16d25",
@@ -209,6 +395,30 @@
       "writtenOn": "2024-01-29T21:37:07Z",
       "side": 1,
       "message": "nit: pollTimer",
+      "range": {
+        "startLine": 76,
+        "startChar": 30,
+        "endLine": 76,
+        "endChar": 36
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "991a210f_f49ffbfb",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d9b79f8_d2b16d25",
       "range": {
         "startLine": 76,
         "startChar": 30,
@@ -242,6 +452,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6705b760_5a5d3272",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "605faee3_c20f2579",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 0
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "312c7c17_71863a6b",
@@ -255,6 +489,30 @@
       "writtenOn": "2024-01-29T21:37:07Z",
       "side": 1,
       "message": "why is this changed to shared_ptr?",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 71,
+        "endChar": 19
+      },
+      "revId": "585b7b99744d46fe7de3e15f3cc46019589f9932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edde6e1a_d8a02420",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-02-21T17:52:22Z",
+      "side": 1,
+      "message": "See discussion from patch set 4:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/54740/4..30/src/TachSensor.cpp#b289",
+      "parentUuid": "312c7c17_71863a6b",
       "range": {
         "startLine": 71,
         "startChar": 9,
