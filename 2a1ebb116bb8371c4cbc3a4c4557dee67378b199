@@ -265,6 +265,30 @@
       },
       "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f329611_446a1010",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-02-23T04:15:16Z",
+      "side": 1,
+      "message": "@Ed, @Andrew \u0026 @Patrick,\nI submit a commit to make x86-power-control\u0027s os state consistent with phosphor-state-manager.\nhttps://gerrit.openbmc.org/c/openbmc/x86-power-control/+/69589\n\nAlso a new commit for updating the busname \u0026 objpath of OS state (postcode) only.\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/69595\n\nPlease kindly have review over there, and I will abandon this one.",
+      "parentUuid": "ea1e92ab_989836ee",
+      "range": {
+        "startLine": 464,
+        "startChar": 38,
+        "endLine": 464,
+        "endChar": 53
+      },
+      "revId": "2a1ebb116bb8371c4cbc3a4c4557dee67378b199",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
