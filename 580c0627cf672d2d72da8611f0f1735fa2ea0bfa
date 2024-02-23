@@ -206,6 +206,30 @@
       },
       "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54851182_a8f65e2c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-23T21:40:51Z",
+      "side": 1,
+      "message": "\u003e We\u0027re passing activateOnly as true, so what should be happening in createSensors is just another activate.\n\nIt may need to be refactored not to use createSensors() API to do activateOnly. But call sensor-\u003eactivate explicitly. \n\nActivate still need to be updated to prevent crash when it is called twice.",
+      "parentUuid": "19bb7279_9c62dbab",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 930,
+        "endChar": 24
+      },
+      "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
