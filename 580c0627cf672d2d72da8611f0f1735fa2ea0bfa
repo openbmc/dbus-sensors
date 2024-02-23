@@ -182,6 +182,30 @@
       },
       "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ada974e1_b6b7e5dd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-23T21:32:11Z",
+      "side": 1,
+      "message": "@Yung-sheng can you explain your comment. My suggestion was to make activate() more  robust, i.e. do not crash if it is called more than once.",
+      "parentUuid": "c4b54d8a_ee7a8198",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 930,
+        "endChar": 56
+      },
+      "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
