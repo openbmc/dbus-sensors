@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "569af2d1_42290919",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:02:50Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 18,
+        "startChar": 38,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "340e3c65ee62816d9d88962131f9a42fa13e5aa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88c924ff_e25be5b6",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:02:50Z",
+      "side": 1,
+      "message": "What is the difference between name and sensorType?",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "340e3c65ee62816d9d88962131f9a42fa13e5aa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1c57e42_207cb402",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:02:50Z",
+      "side": 1,
+      "message": "this can be in base class constructor",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "340e3c65ee62816d9d88962131f9a42fa13e5aa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "897976dd_7ec66f19",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:02:50Z",
+      "side": 1,
+      "message": "this can be base class constructor",
+      "range": {
+        "startLine": 175,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 29
+      },
+      "revId": "340e3c65ee62816d9d88962131f9a42fa13e5aa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1193c339_f9b3c169",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:02:50Z",
+      "side": 1,
+      "message": "why pick true as default?",
+      "range": {
+        "startLine": 36,
+        "startChar": 18,
+        "endLine": 36,
+        "endChar": 22
+      },
+      "revId": "340e3c65ee62816d9d88962131f9a42fa13e5aa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
