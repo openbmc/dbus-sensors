@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b86f8590_289fe6de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:41:51Z",
+      "side": 1,
+      "message": "nit: IpmbSensor",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "0fd029ef988dbb9ae43d208d77c681d10f0810ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4df228b_0526b8ec",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:41:51Z",
+      "side": 1,
+      "message": "it is nice to be able to log the sensor name for the error. \nMaybe this function can return error code and have the caller log the error with sensor name.",
+      "range": {
+        "startLine": 282,
+        "startChar": 20,
+        "endLine": 282,
+        "endChar": 55
+      },
+      "revId": "0fd029ef988dbb9ae43d208d77c681d10f0810ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c9eaec9_510aea4d",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:41:51Z",
+      "side": 1,
+      "message": "Why is name removed from here",
+      "range": {
+        "startLine": 537,
+        "startChar": 19,
+        "endLine": 537,
+        "endChar": 65
+      },
+      "revId": "0fd029ef988dbb9ae43d208d77c681d10f0810ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08ec423d_ba78d6e2",
+        "filename": "src/IpmbSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-02-24T00:41:51Z",
+      "side": 1,
+      "message": "size_t\u0026 to make the unit test meaningful?",
+      "range": {
+        "startLine": 105,
+        "startChar": 31,
+        "endLine": 105,
+        "endChar": 47
+      },
+      "revId": "0fd029ef988dbb9ae43d208d77c681d10f0810ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
