@@ -426,6 +426,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cab66910_375317f2",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-24T01:26:28Z",
+      "side": 1,
+      "message": "Please answer questions.  Don\u0027t just mark things \"Done\"",
+      "parentUuid": "988f0cae_a3933006",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 65
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36ce26c9_dc50da9b",
         "filename": "src/TachSensor.hpp",
         "patchSetId": 22
@@ -473,6 +497,24 @@
       "side": 1,
       "message": "I don\u0027t think the issue with the shared/weak pointers is related to having a opaque interface. Even if we kept them as two separate classes, the object is created in FanMain.cpp (based on config) and it would still need the std:move() call that is done in TachSensor constructor. \nThe restartRead() function would still be the same in that case (async_wait call/lambda on waitTimer).",
       "parentUuid": "7c4a7229_0e830060",
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80af73cf_4a30af83",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-24T01:26:28Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think the issue with the shared/weak pointers is related to having a opaque interface. \n\nSo we\u0027ve taken out the opaque interface?",
+      "parentUuid": "c1e271b0_89bba7c3",
       "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

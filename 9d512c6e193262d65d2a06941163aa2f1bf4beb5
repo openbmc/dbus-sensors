@@ -38,6 +38,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02315fa0_cdf00a11",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-24T01:26:28Z",
+      "side": 1,
+      "message": "Need to do more verification here.  As written this will accept\n\nPollin, Poll,  and all manner of other enums that were typos.  This should accept only two enums:\n\nPolled and Interrupt.\n\n\nJust to clarify did you check to see if this could be determined via sysfs?",
+      "range": {
+        "startLine": 438,
+        "startChar": 0,
+        "endLine": 439,
+        "endChar": 76
+      },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa710e8e_2a510105",
         "filename": "src/PresenceSensor.cpp",
         "patchSetId": 26
@@ -79,6 +102,86 @@
         "endLine": 174,
         "endChar": 34
       },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da262638_28174723",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-24T01:26:28Z",
+      "side": 1,
+      "message": "No non trivial lambdas please.  Wrap this into a method.",
+      "range": {
+        "startLine": 187,
+        "startChar": 27,
+        "endLine": 202,
+        "endChar": 5
+      },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c12ce11_22b6cfa9",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-24T01:26:28Z",
+      "side": 1,
+      "message": "You marked my comment done, but the gpio is still being erased from the static map.",
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36e783c5_7e862ded",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-24T01:26:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these logs go in their own file?",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 1
+      },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0056405a_a66fc036",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-24T01:26:28Z",
+      "side": 1,
+      "message": "Doesn\u0027t look used here?",
       "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
