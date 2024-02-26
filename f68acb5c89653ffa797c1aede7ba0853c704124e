@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03a53128_3685cd34",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "nit: This could go for the previous commit and all the functions as well.  I thought generally if we had an acronym we keep it as an acronym.\n\nBMC or bmc not Bmc.\nMCTP or mctp not Mctp.\n\n(You can do whatever you want on this.)",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edec2224_94292a07",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "This class feels like a lot of code to pretty trivially wrap a map...\n\nMaybe it can be moved to a header file to reduce the noise in this file?  125 lines into the file and I\u0027m still not to anything interesting.",
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e24f562_b4332a83",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "nit: almost anywhere you use begin/end to the std algorithms you can do `std::ranges:algo(container...`.",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 55
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2011e38d_5d50e94f",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "Isn\u0027t there only one of these?  I\u0027m not understanding the value of the extra code to put it in a shared_ptr instead of it being a reference.",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 128,
+        "endChar": 1
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b47f068_6d56eb5a",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "Isn\u0027t this application purely a dbus client?  Why add a manager (or even claim a busname)?\n\nOh... later on I see it has associations.",
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85b66240_4cb4776b",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "`auto toSetup \u003d std::exchange(deferred, {});`",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 21
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2067f52_f0b8c0e8",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the naming conventions for dbus associations.\n\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/requirements.md#associations",
+      "range": {
+        "startLine": 285,
+        "startChar": 55,
+        "endLine": 285,
+        "endChar": 69
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccf092ff_240b7510",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "Why is this implied to be a chassis?  What if it is a NIC or an expansion board?",
+      "range": {
+        "startLine": 285,
+        "startChar": 44,
+        "endLine": 285,
+        "endChar": 51
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1102bf7c_7f99593d",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T13:28:08Z",
+      "side": 1,
+      "message": "nit: I\u0027d prefer this to be MCTPReactor.  The amount of inconsistencies we have is super annoying when trying to debug anything.",
+      "range": {
+        "startLine": 561,
+        "startChar": 49,
+        "endLine": 561,
+        "endChar": 60
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
