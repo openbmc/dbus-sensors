@@ -1,0 +1,393 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0ea032b_3cb215ac",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "nit:\n\n```\nauto path \u003d msg.unpack\u003cobject_path\u003e();\n```\n\nThis avoids a pointless construction and allows potential RVO from the `read` path (which saves a copy/move).",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 19
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94a4238c_1205460a",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "If you read this as a `set\u003cstring\u003e` you can use `contains` on line 50, since you don\u0027t seem to need the results.",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd0b2ccc_eb236804",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "nit: same unpack usage.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f88e86_76a0fc1c",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "nit: `std::ranges::find(removedInterfaces,`",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 69
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abcc0905_de63dc26",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "There\u0027s never really any documentation on what this is intended to do.\n\nIt looks like it:\n- Registers a remove match.\n- Calls \u0027added\u0027.\n\nIt isn\u0027t clear why this is \"correct\".",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b464293a_4d2dac3f",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "I wonder why the mctp APIs use a string for an object_path?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 30
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9902053_ac57ac00",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "It isn\u0027t clear to me why parts of this flow belong in a lambda and parts of it belong in `finaliseEndpoint`.",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e956a786_4ce17894",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "Any reason to not use lg2 interfaces?",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73135b2c_4cedb9f9",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "Can we use `std::format` for this?  It seems like it would be more readable (and from my experiments, likely smaller code).",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5611e367_b9979da6",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "Any reason to not put this in the header at the definition point?  Doesn\u0027t seem like it really does anything and 70% of the lines are duplicated.",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d4cfd1c_8655dc94",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "These can also be a single unpack call (or 3 if you prefer the readability of that).",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 26
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "604feff9_274eba4a",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "Would std::format be more readable here?",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c1df996_ea05db6a",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "Since every method is \"virtual\" this seems like an \"interface class\" (in the Java sense).  You should also create a virtual destructor.\n\n```\nvirtual ~MctpDevice() \u003d default;\n```\n\nI have to say though, I don\u0027t really understand the point of the virtual class when there is only one implementation.  Is there really ever going to be more than one?",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ae092ab_18ae5efc",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "nit: Can you create a using alias for these function types (and the one on line 122)?",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 67
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5792e11c_52db9066",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "nit: setMTU ?",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 14
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa47915_ddd8d432",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "Do you want this to be the shared_ptr or a weak_ptr?  Not clear what this is used for because there aren\u0027t any users.",
+      "range": {
+        "startLine": 149,
+        "startChar": 17,
+        "endLine": 149,
+        "endChar": 27
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be4fc2ff_83e227a0",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "Virtual destructor needed.",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f227aa82_8fbc5abc",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "There is no MctpdDevice::removed though?\n\nI\u0027m not a big fan of \u0027remove\u0027 and \u0027removed\u0027.  I don\u0027t really know which does what.\n\nWhy can\u0027t the destructor handle \u0027removed\u0027?",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6daa6eb_c852f662",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-26T12:39:52Z",
+      "side": 1,
+      "message": "This was written by someone using en-gb. 😄",
+      "range": {
+        "startLine": 312,
+        "startChar": 9,
+        "endLine": 312,
+        "endChar": 25
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
