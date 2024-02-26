@@ -132,6 +132,30 @@
       },
       "revId": "87bcf2a5eed834b8b7ddd63bd6a2cc062a5c6c74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a38cb8_7c567ee4",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-26T03:53:25Z",
+      "side": 1,
+      "message": "`sensor` is the cursor in the iteration over the `sensors` parameter to `instantiateDevices()`. `sensors` is the set of sensors we\u0027re already tracking. However, we\u0027re also iterating over `sensorConfigs`, which is the result of the DBus query, where the outer map is keyed by the sensor\u0027s object path. Where `sensor.second-\u003econfigurationPath` and `path` are equivalent they should represent the same sensor, which is what you\u0027re also testing here but more indirectly with `sensorNameFind()`?",
+      "parentUuid": "84f36e05_f78a7a4c",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 69
+      },
+      "revId": "87bcf2a5eed834b8b7ddd63bd6a2cc062a5c6c74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
