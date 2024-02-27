@@ -273,6 +273,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7abb425_1e141a47",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-27T03:01:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the response was in reference to, but my comment was that this seems like a flaw in the mctpd implementation (and a common one that I see often).  If something is an object_path, it should be returned as an object_path and not a string.  We have the same problem in mapper though where originally all the dbus interfaces were specified as object_path but then the mapperx implementation only used strings.  They end up being roughly equivalent but obvious express intent poorer.",
+      "parentUuid": "000b71e9_8d656d9a",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 30
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9902053_ac57ac00",
         "filename": "src/MctpEndpoint.cpp",
         "patchSetId": 8
@@ -372,6 +396,24 @@
       "side": 1,
       "message": "From my experiments `std::format` lacked support for formatting vectors in `c++20`.",
       "parentUuid": "73135b2c_4cedb9f9",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0123beea_9fa5e83b",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-27T03:01:25Z",
+      "side": 1,
+      "message": "Agreed on the vectors piece.  stringstream doesn\u0027t really either though.  In both cases you\u0027d need a for-loop + string concatenation.  I still think `std::format` tends to be more readable, especially with stuff like line 162.",
+      "parentUuid": "a8becbf9_3d641609",
       "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
