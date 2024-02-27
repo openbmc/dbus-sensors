@@ -337,6 +337,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ff97b6a_3ab8c6fa",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-27T01:09:26Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/phosphor-dbus-interfaces/blob/806f178675aa6499e31a4a0f4b57e6f8f2f2d1ff/yaml/xyz/openbmc_project/Inventory/Item/README.md#L21\n\nWe have a number of documented associations to Items already.  I don\u0027t know if \u0027connected\u0027 is appropriate or \u0027managed\u0027.  We just need to come up with a verb that expresses the relationship.  It can be a verb already in use (I actually prefer we keep the set smaller than trying to make every verb unique).\n\nQuick and dirty set of all association names (though \"inventory\" is a bad one): https://gist.github.com/williamspatrick/22b4940091a212cb5b9538973119e453",
+      "parentUuid": "7a5d5691_031cf348",
+      "range": {
+        "startLine": 285,
+        "startChar": 44,
+        "endLine": 285,
+        "endChar": 51
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1102bf7c_7f99593d",
         "filename": "src/MctpReactor.cpp",
         "patchSetId": 10
