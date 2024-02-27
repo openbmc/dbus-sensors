@@ -43,6 +43,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e427a3e7_267d92b8",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-27T00:55:45Z",
+      "side": 1,
+      "message": "I\u0027ll use upper-case acronyms throughout for consistency.",
+      "parentUuid": "03a53128_3685cd34",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c6449cb_08eb46fd",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-27T00:55:45Z",
+      "side": 1,
+      "message": "It would be great if there was a bi-directional map in `std`, however there isn\u0027t (that I could find). I wrote the class to separate out the logic of the reverse map lookups from the business logic of the `MctpReactor` class. This was a trade-off to avoid a dependency on yet more `boost`.\n\nI\u0027ll take your suggestion of moving it to a header to de-clutter the rest of the implementation here.",
+      "parentUuid": "edec2224_94292a07",
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e24f562_b4332a83",
         "filename": "src/MctpReactor.cpp",
         "patchSetId": 10
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cfa2226_678b1315",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-27T00:55:45Z",
+      "side": 1,
+      "message": "Nice, thanks. I\u0027ll look at how I can clean this up.",
+      "parentUuid": "7e24f562_b4332a83",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 55
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2011e38d_5d50e94f",
         "filename": "src/MctpReactor.cpp",
         "patchSetId": 10
@@ -77,6 +143,30 @@
       "writtenOn": "2024-02-26T13:28:08Z",
       "side": 1,
       "message": "Isn\u0027t there only one of these?  I\u0027m not understanding the value of the extra code to put it in a shared_ptr instead of it being a reference.",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 128,
+        "endChar": 1
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b38d14b8_8619966c",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-27T00:55:45Z",
+      "side": 1,
+      "message": "So maybe I\u0027ve cargo-culted this a bit. There is only one instance, but its object is referenced by jobs in the boost IO context. To ensure that there can\u0027t be any potential lifetime issues I leaned on a shared pointer. Happy to be reasoned out of that though.",
+      "parentUuid": "2011e38d_5d50e94f",
       "range": {
         "startLine": 127,
         "startChar": 18,
@@ -117,6 +207,30 @@
       "writtenOn": "2024-02-26T13:28:08Z",
       "side": 1,
       "message": "`auto toSetup \u003d std::exchange(deferred, {});`",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 21
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1ba14d5_042c381c",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-27T00:55:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "85b66240_4cb4776b",
       "range": {
         "startLine": 188,
         "startChar": 0,
@@ -175,6 +289,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a5d5691_031cf348",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-27T00:55:45Z",
+      "side": 1,
+      "message": "Sure, it needs fixing. I\u0027ll need to get a better grasp on how we make it correct though. Do you have references I can lean on?\n\nRegardless, it was just a direct reimplementation of what was proposed here:\n\nhttps://github.com/CodeConstruct/mctp/pull/17/files#diff-222eb3ffb54581db6e3d72a6efa39bf25a8145a7f8eab9b7f4474ea184675da9R1216-R1221",
+      "parentUuid": "ccf092ff_240b7510",
+      "range": {
+        "startLine": 285,
+        "startChar": 44,
+        "endLine": 285,
+        "endChar": 51
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53556dec_40d52f79",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-27T00:55:45Z",
+      "side": 1,
+      "message": "Right, it was just a direct reimplementation of what was proposed here:\n\nhttps://github.com/CodeConstruct/mctp/pull/17/files#diff-222eb3ffb54581db6e3d72a6efa39bf25a8145a7f8eab9b7f4474ea184675da9R1216-R1221",
+      "parentUuid": "d2067f52_f0b8c0e8",
+      "range": {
+        "startLine": 285,
+        "startChar": 55,
+        "endLine": 285,
+        "endChar": 69
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1102bf7c_7f99593d",
         "filename": "src/MctpReactor.cpp",
         "patchSetId": 10
@@ -186,6 +348,30 @@
       "writtenOn": "2024-02-26T13:28:08Z",
       "side": 1,
       "message": "nit: I\u0027d prefer this to be MCTPReactor.  The amount of inconsistencies we have is super annoying when trying to debug anything.",
+      "range": {
+        "startLine": 561,
+        "startChar": 49,
+        "endLine": 561,
+        "endChar": 60
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "955f6d46_740aec30",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-27T00:55:45Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "1102bf7c_7f99593d",
       "range": {
         "startLine": 561,
         "startChar": 49,
