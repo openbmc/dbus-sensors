@@ -83,6 +83,48 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f2bc6bc_88b0adc5",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T06:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e427a3e7_267d92b8",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c924be6_53bc9eab",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T06:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c6449cb_08eb46fd",
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e24f562_b4332a83",
@@ -120,6 +162,30 @@
       "side": 1,
       "message": "Nice, thanks. I\u0027ll look at how I can clean this up.",
       "parentUuid": "7e24f562_b4332a83",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 55
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4504534e_923a642d",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T06:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cfa2226_678b1315",
       "range": {
         "startLine": 69,
         "startChar": 11,
@@ -241,6 +307,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "238526c5_6cec6f69",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T06:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1ba14d5_042c381c",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 21
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2067f52_f0b8c0e8",
@@ -349,6 +439,54 @@
       "side": 1,
       "message": "https://github.com/openbmc/phosphor-dbus-interfaces/blob/806f178675aa6499e31a4a0f4b57e6f8f2f2d1ff/yaml/xyz/openbmc_project/Inventory/Item/README.md#L21\n\nWe have a number of documented associations to Items already.  I don\u0027t know if \u0027connected\u0027 is appropriate or \u0027managed\u0027.  We just need to come up with a verb that expresses the relationship.  It can be a verb already in use (I actually prefer we keep the set smaller than trying to make every verb unique).\n\nQuick and dirty set of all association names (though \"inventory\" is a bad one): https://gist.github.com/williamspatrick/22b4940091a212cb5b9538973119e453",
       "parentUuid": "7a5d5691_031cf348",
+      "range": {
+        "startLine": 285,
+        "startChar": 44,
+        "endLine": 285,
+        "endChar": 51
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "916a4940_ae96d063",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T06:51:05Z",
+      "side": 1,
+      "message": "Going to punt this for now so I can address the other comments.",
+      "parentUuid": "53556dec_40d52f79",
+      "range": {
+        "startLine": 285,
+        "startChar": 55,
+        "endLine": 285,
+        "endChar": 69
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84d536e0_744c46ff",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T06:51:05Z",
+      "side": 1,
+      "message": "I\u0027m going to punt on this for the moment pending more discussion.",
+      "parentUuid": "2ff97b6a_3ab8c6fa",
       "range": {
         "startLine": 285,
         "startChar": 44,
