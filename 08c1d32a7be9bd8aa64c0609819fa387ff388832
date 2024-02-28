@@ -297,6 +297,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e385665a_1dbf11e6",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T02:37:30Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure what the response was in reference to, but my comment was that this seems like a flaw in the mctpd implementation (and a common one that I see often).\n\nSorry, yes, I see what you mean now. That had occurred to me also but I haven\u0027t thought about fixing it yet.",
+      "parentUuid": "c7abb425_1e141a47",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 30
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9902053_ac57ac00",
         "filename": "src/MctpEndpoint.cpp",
         "patchSetId": 8
