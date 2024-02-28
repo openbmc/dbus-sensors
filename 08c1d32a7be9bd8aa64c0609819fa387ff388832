@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "246e61f1_7a65084e",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "629aff47_658dc15c",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 19
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94a4238c_1205460a",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "94a4238c_1205460a",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce146fc9_153db6cf",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daec2145_a495bc21",
       "range": {
         "startLine": 47,
         "startChar": 9,
@@ -142,6 +190,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a536f9f8_248798a6",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576f25ab_dc67eee1",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21f88e86_76a0fc1c",
@@ -189,6 +261,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38b9bab7_6d62c920",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cf877dd_84f47097",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 69
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abcc0905_de63dc26",
@@ -220,6 +316,24 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "abcc0905_de63dc26",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17eaf7d0_fc544bc9",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "I\u0027ve added some documentation for the method to the header. However, I\u0027m unclear whether your concern is that the method is too miscellaneous and there\u0027s a better abstraction that I\u0027ve missed, or if it was just a lack of documentation to measure the implementation against.\n\nLet me know if your concern is the former, as adding documentation won\u0027t fix it.",
+      "parentUuid": "dd95c3a2_fe9293b7",
       "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -356,6 +470,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e6ded4f_d8bebc28",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "I\u0027ve added a comment. I\u0027m not sure it will be satisfactory, so let me know if you have a preference for an alternative approach. I guess I\u0027ve been inconsistent, e.g. `std::bind_front(MctpdDevice::onEndpointInterfacesRemoved, ...)`. Do you prefer that approach instead?",
+      "parentUuid": "64a75918_a48aacb0",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e956a786_4ce17894",
         "filename": "src/MctpEndpoint.cpp",
         "patchSetId": 8
@@ -385,6 +517,24 @@
       "side": 1,
       "message": "No, that was an oversight. I iterated a fair bit on all this. lg2 was one of the later additions, and my conversion was clearly incomplete.",
       "parentUuid": "e956a786_4ce17894",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb4fa000_53ee0123",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aba477fa_7c66296a",
       "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -442,6 +592,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "138e5a04_0b83a154",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0123beea_9fa5e83b",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5611e367_b9979da6",
@@ -473,6 +641,24 @@
       "side": 1,
       "message": "Sure, I can put it in the header instead. Just wary of compile times, but at least it\u0027s not templated.",
       "parentUuid": "5611e367_b9979da6",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e7d4c06_a1a14f6a",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1cf695_39dd2f86",
       "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -524,6 +710,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f394b29_8e6a0c53",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a0c9a8_9a1d8f35",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 26
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "604feff9_274eba4a",
@@ -559,6 +769,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ad8f0b1_41bc86f3",
+        "filename": "src/MctpEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05a7026d_a6f23284",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c1df996_ea05db6a",
@@ -590,6 +818,24 @@
       "side": 1,
       "message": "Ack to the virtual destructor, that was an oversight.\n\nAnyway, yes, you\u0027re right to question its existence. My intent was that it will help with separation of concerns for the purpose of testing. I\u0027ll address that by adding some tests.",
       "parentUuid": "0c1df996_ea05db6a",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "162bf206_f61f1439",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef520cbd_19e2a66a",
       "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -641,6 +887,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22b5b35_d4fceff8",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "986f6e37_a706e59f",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 67
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5792e11c_52db9066",
@@ -654,6 +924,30 @@
       "writtenOn": "2024-02-26T12:39:52Z",
       "side": 1,
       "message": "nit: setMTU ?",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 14
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b9f99d_0555f3f8",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "It\u0027s not required for what I\u0027m proposing here anyway, so I\u0027ll remove it for now.",
+      "parentUuid": "5792e11c_52db9066",
       "range": {
         "startLine": 121,
         "startChar": 8,
@@ -746,6 +1040,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac7d0ed_11699284",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b12bf537_674dff6d",
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f227aa82_8fbc5abc",
@@ -793,6 +1105,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "571ad26c_ba179ebd",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d2eb431_bdff9b67",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6daa6eb_c852f662",
@@ -806,6 +1142,30 @@
       "writtenOn": "2024-02-26T12:39:52Z",
       "side": 1,
       "message": "This was written by someone using en-gb. 😄",
+      "range": {
+        "startLine": 312,
+        "startChar": 9,
+        "endLine": 312,
+        "endChar": 25
+      },
+      "revId": "08c1d32a7be9bd8aa64c0609819fa387ff388832",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c27168cc_6ce34ca9",
+        "filename": "src/MctpEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-28T04:50:39Z",
+      "side": 1,
+      "message": "Is this a request for `en-us`?",
+      "parentUuid": "b6daa6eb_c852f662",
       "range": {
         "startLine": 312,
         "startChar": 9,
