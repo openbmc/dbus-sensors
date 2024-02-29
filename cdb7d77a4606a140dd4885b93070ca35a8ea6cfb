@@ -63,6 +63,53 @@
       },
       "revId": "cdb7d77a4606a140dd4885b93070ca35a8ea6cfb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60ca875f_91b8b8bb",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-29T20:05:14Z",
+      "side": 1,
+      "message": "+1\n\n\nAlso, if we\u0027re going to do this, we could just blanket search for all the instances of std::cerr, and fix all of them in a couple patches.  No sense in having PSU sensor do something different than everything else.",
+      "parentUuid": "972f75f4_47010533",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "cdb7d77a4606a140dd4885b93070ca35a8ea6cfb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20682bf4_cd293296",
+        "filename": "src/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-29T20:05:14Z",
+      "side": 1,
+      "message": "Against the coding standard.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 34
+      },
+      "revId": "cdb7d77a4606a140dd4885b93070ca35a8ea6cfb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
