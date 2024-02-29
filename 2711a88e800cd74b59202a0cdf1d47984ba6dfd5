@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "368acc66_a04350a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-29T19:21:42Z",
+      "side": 1,
+      "message": "\u003e need to be generated only when battery is good\n\nThere is nothing that generates a file when the battery is good, and not when the battery is not.  Those files are static at build time.",
+      "parentUuid": "a16e7fc1_55d2f09e",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "2711a88e800cd74b59202a0cdf1d47984ba6dfd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "02ba2d5a_1698ed8e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -155,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea8b3f84_afc05033",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-29T19:21:42Z",
+      "side": 1,
+      "message": "You can already do that without writing any new code.  make a new EM config file for your battery.",
+      "parentUuid": "b929f94a_f0155f46",
+      "revId": "2711a88e800cd74b59202a0cdf1d47984ba6dfd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e6db7ae_27baf8a5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -201,6 +243,24 @@
       "side": 1,
       "message": "\u003e Before you start making fixes, lets get a discussion about what you\u0027re trying to accomplish.  Your commit message mentions writing files, and exposing something that\u0027s a \"Battery\", but makes no mention as to WHY.  I suspect there\u0027s a far simpler solution.\n\nWe have a coin battery on motherboard and we want to display the coin battery in redfish depend on the validity of coin battery sensor.\n\nThat is, we only want to make /redfish/v1/Chassis/coin_batter can display the information in redfish when battery sensor have normal reading. And make this url in redfish return not found when battery sensor trigger the threshold or the sensor reading is not available.\n\nThus, I modify the basic sensor class to record the current available, functional and threshold event is trigger or not and update to the property \"Status\" in interface \"xyz.openbmc_project.BatteryStatus\".\n\nThe config of battery sensor \u0027mobo_battery_p3v\u0027 is added in motherboard\u0027s config.\nAnd add a new coin battery\u0027s config with \"Probe\": ```\"xyz.openbmc_project.BatteryStatus({\u0027Name\u0027: \u0027mobo_battery_p3v\u0027, \u0027Status\u0027: true})\"``` to meet the requirement.\n\n\u003e Note, there are LOTS of examples of batteries in openbmc ADC entries already, most of which can be found by searching for the BridgeGPIO stanza in the EM configs.  I\u0027m not against having a unique \"battery\" entry for EM that\u0027s unique from ADC, because it\u0027s more descriptive, but the rest of the changes making heavy changes to the base class need to go in the subclass, and we need to document what we\u0027re actually trying to accomplish.\n\nGot it, I\u0027m not sure if BridgeGPIO is only for battery before.\nI think the new sensor type BATTERY is not need anymore.\n\n\u003e To reiterate what I said earlier, there is no such thing as a \"Battery\" sensor type.  There is a sensor that produces a voltage.  If it\u0027s monitoring a battery, it needs to be attached to a Battery entry which can be added using a new EM file with Probe \u003d Found(\"My baseboard\").\n\nI will remove the Battery sensor type and use BridgeGPIO to know whether this sensor is for battery.",
       "parentUuid": "1e6db7ae_27baf8a5",
+      "revId": "2711a88e800cd74b59202a0cdf1d47984ba6dfd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "271c59d4_ef168efa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-29T19:21:42Z",
+      "side": 1,
+      "message": "\u003e \u003e Before you start making fixes, lets get a discussion about what you\u0027re trying to accomplish.  Your commit message mentions writing files, and exposing something that\u0027s a \"Battery\", but makes no mention as to WHY.  I suspect there\u0027s a far simpler solution.\n\u003e \n\u003e We have a coin battery on motherboard and we want to display the coin battery in redfish depend on the validity of coin battery sensor.\n\u003e \n\u003e That is, we only want to make /redfish/v1/Chassis/coin_batter can display the information in redfish when battery sensor have normal reading. And make this url in redfish return not found when battery sensor trigger the threshold or the sensor reading is not available.\n\nWith respect, that\u0027s against Redfish best practices for how trees should be structured and how the API should work.  If the battery is unavailable, it needs to be returning a value of null, not returning \"not found\".  That behavior is already available in the existing code.\n\nYou\u0027re free to do whatever you like in your code tree, but I\u0027m personally not going to support features that go against best practices.\n\n\u003e \n\u003e Thus, I modify the basic sensor class to record the current available, functional and threshold event is trigger or not and update to the property \"Status\" in interface \"xyz.openbmc_project.BatteryStatus\".\n\u003e \n\u003e The config of battery sensor \u0027mobo_battery_p3v\u0027 is added in motherboard\u0027s config.\n\u003e And add a new coin battery\u0027s config with \"Probe\": ```\"xyz.openbmc_project.BatteryStatus({\u0027Name\u0027: \u0027mobo_battery_p3v\u0027, \u0027Status\u0027: true})\"``` to meet the requirement.\n\u003e \n\u003e \u003e Note, there are LOTS of examples of batteries in openbmc ADC entries already, most of which can be found by searching for the BridgeGPIO stanza in the EM configs.  I\u0027m not against having a unique \"battery\" entry for EM that\u0027s unique from ADC, because it\u0027s more descriptive, but the rest of the changes making heavy changes to the base class need to go in the subclass, and we need to document what we\u0027re actually trying to accomplish.\n\u003e \n\u003e Got it, I\u0027m not sure if BridgeGPIO is only for battery before.\n\u003e I think the new sensor type BATTERY is not need anymore.\n\u003e \n\u003e \u003e To reiterate what I said earlier, there is no such thing as a \"Battery\" sensor type.  There is a sensor that produces a voltage.  If it\u0027s monitoring a battery, it needs to be attached to a Battery entry which can be added using a new EM file with Probe \u003d Found(\"My baseboard\").\n\u003e \n\u003e I will remove the Battery sensor type and use BridgeGPIO to know whether this sensor is for battery.\n\nYou\u0027ve missed the point a little.  To be clear, most batteries have ADC sensors that use BridgeGPIO.  BridgeGPIO does not itself indicate that it\u0027s a battery.  indicating that a device is a battery would be done by declaring a new EM file for the battery itself, and setting up a sensor within it.",
+      "parentUuid": "5c96eca3_82e4a5e1",
       "revId": "2711a88e800cd74b59202a0cdf1d47984ba6dfd5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
