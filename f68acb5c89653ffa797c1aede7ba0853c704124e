@@ -499,6 +499,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17e9d7e8_545543b9",
+        "filename": "src/MctpReactor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-29T02:58:18Z",
+      "side": 1,
+      "message": "Bikeshedding this some more, how about `configures` and `configured_by` for the relationship between the `MCTPDevice` exposes object and the `mctpd` endpoint object? There\u0027s also an opportunity for a `connects` / `connected_by` association between the `MCTPInterface` exposes object and the `mctpd` endpoint object.",
+      "parentUuid": "84d536e0_744c46ff",
+      "range": {
+        "startLine": 285,
+        "startChar": 44,
+        "endLine": 285,
+        "endChar": 51
+      },
+      "revId": "f68acb5c89653ffa797c1aede7ba0853c704124e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1102bf7c_7f99593d",
         "filename": "src/MctpReactor.cpp",
         "patchSetId": 10
