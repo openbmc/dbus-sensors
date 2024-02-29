@@ -33,6 +33,24 @@
       "message": "Hi Ed and All,\n\nIs there any recommendation?\n\nThanks",
       "revId": "4fcd3bde129f77747603793a34ed47638e51cbea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12383250_7f61fa04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-02-29T20:03:24Z",
+      "side": 1,
+      "message": "At some point I\u0027d like to see propertyInitialize moved to just a set of constexpr tables.  There\u0027s no need to be constructing that table at runtime, but this patchset looks fine now.",
+      "parentUuid": "4e457c39_6ca447b2",
+      "revId": "4fcd3bde129f77747603793a34ed47638e51cbea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
