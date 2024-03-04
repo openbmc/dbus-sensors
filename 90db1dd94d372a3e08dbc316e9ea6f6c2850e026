@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e00d1a3b_432c4427",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-03-04T17:18:58Z",
+      "side": 1,
+      "message": "First off, exists() as you\u0027ve used it throws an exception if the parent folder doesn\u0027t exist that this patch hasn\u0027t caught.\n\nSecond, can\u0027t we just use the line on 119 to handle this?  Why is this line needed?",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 5
+      },
+      "revId": "90db1dd94d372a3e08dbc316e9ea6f6c2850e026",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
