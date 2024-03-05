@@ -34,6 +34,23 @@
       "parentUuid": "f2457cea_94d4d74d",
       "revId": "5736fb633a20d97e56b7947b969132cfa13c296b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fd06f46_1899ff10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-05T01:57:24Z",
+      "side": 1,
+      "message": "Latest patch lgtm",
+      "revId": "5736fb633a20d97e56b7947b969132cfa13c296b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
