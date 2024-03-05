@@ -278,6 +278,30 @@
       },
       "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b6cf7b_7d4b6826",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1001425
+      },
+      "writtenOn": "2024-03-05T00:31:35Z",
+      "side": 1,
+      "message": "@Zhikui Ren\nI think the activate/deactivate is base on the power state.\nhttps://github.com/openbmc/dbus-sensors/blob/43847a8c61887dba6f0904e5cfb148e3fb360c1d/src/Utils.hpp#L53\n\nAnd a psusensor is activate() at createSensors(base on its power state config):\n1. boost::asio::post()\nhttps://github.com/openbmc/dbus-sensors/blob/43847a8c61887dba6f0904e5cfb148e3fb360c1d/src/PSUSensorMain.cpp#L1228\n2. powerStateChanged()\n\nIf a sensor\u0027s power state equals power off, powerStateChanged() will deactivate it.\nAnd after hit power on, the powerStateChanged() will activate it again.\n\nIs there any probability a sensor in activate state and we want to activate it again?",
+      "parentUuid": "9556035d_d64ef136",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 930,
+        "endChar": 56
+      },
+      "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
