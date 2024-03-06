@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PresenceSensor.hpp"
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
@@ -15,24 +16,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-
-class PresenceSensor
-{
-  public:
-    PresenceSensor(const std::string& gpioName, bool inverted,
-                   boost::asio::io_context& io, const std::string& name);
-    ~PresenceSensor();
-
-    void monitorPresence(void);
-    void read(void);
-    bool getValue(void) const;
-
-  private:
-    bool status = true;
-    gpiod::line gpioLine;
-    boost::asio::posix::stream_descriptor gpioFd;
-    std::string name;
-};
 
 namespace redundancy
 {
