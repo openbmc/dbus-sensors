@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "PresenceSensor.hpp"
 #include "PwmSensor.hpp"
 #include "TachSensor.hpp"
 #include "Thresholds.hpp"
