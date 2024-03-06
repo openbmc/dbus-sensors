@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "PresenceGpio.hpp"
 #include "PwmSensor.hpp"
 #include "TachSensor.hpp"
 #include "Thresholds.hpp"
@@ -274,8 +275,8 @@ void createSensors(
         tachSensors,
     boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>&
         pwmSensors,
-    boost::container::flat_map<std::string, std::weak_ptr<PresenceSensor>>&
-        presenceSensors,
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>&
+        presenceGpios,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged,
@@ -283,7 +284,7 @@ void createSensors(
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
-        [&io, &objectServer, &tachSensors, &pwmSensors, &presenceSensors,
+        [&io, &objectServer, &tachSensors, &pwmSensors, &presenceGpios,
          &dbusConnection,
          sensorsChanged](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
@@ -435,7 +436,7 @@ void createSensors(
                 auto presenceConfig =
                     sensorData->find(cfgIntf + std::string(".Presence"));
 
-                std::shared_ptr<PresenceSensor> presenceSensor(nullptr);
+                std::shared_ptr<PresenceGpio> presenceGpio(nullptr);
 
                 // presence sensors are optional
                 if (presenceConfig != sensorData->end())
@@ -457,22 +458,23 @@ void createSensors(
 
                         if (pinName != nullptr)
                         {
-                            auto findPresenceSensor =
-                                presenceSensors.find(*pinName);
-                            if (findPresenceSensor != presenceSensors.end())
+                            auto findPresenceGpio =
+                                presenceGpios.find(*pinName);
+                            if (findPresenceGpio != presenceGpios.end())
                             {
-                                auto p = findPresenceSensor->second.lock();
+                                auto p = findPresenceGpio->second.lock();
                                 if (p)
                                 {
-                                    presenceSensor = p;
+                                    presenceGpio = p;
                                 }
                             }
-                            if (!presenceSensor)
+                            if (!presenceGpio)
                             {
-                                presenceSensor =
-                                    std::make_shared<PresenceSensor>(
-                                        *pinName, inverted, io, sensorName);
-                                presenceSensors[*pinName] = presenceSensor;
+                                presenceGpio =
+                                    std::make_shared<EventPresenceGpio>(
+                                        "Fan", sensorName, *pinName, inverted,
+                                        io);
+                                presenceGpios[*pinName] = presenceGpio;
                             }
                         }
                         else
@@ -582,7 +584,7 @@ void createSensors(
                 tachSensor = nullptr;
                 tachSensor = std::make_shared<TachSensor>(
                     path.string(), baseType, objectServer, dbusConnection,
-                    presenceSensor, redundancy, io, sensorName,
+                    presenceGpio, redundancy, io, sensorName,
                     std::move(sensorThresholds), *interfacePath, limits,
                     powerState, led);
                 tachSensor->setupRead();
@@ -617,14 +619,14 @@ int main()
         tachSensors;
     boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
         pwmSensors;
-    boost::container::flat_map<std::string, std::weak_ptr<PresenceSensor>>
-        presenceSensors;
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>
+        presenceGpios;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, tachSensors, pwmSensors,
-                      presenceSensors, systemBus, nullptr);
+        createSensors(io, objectServer, tachSensors, pwmSensors, presenceGpios,
+                      systemBus, nullptr);
     });
 
     boost::asio::steady_timer filterTimer(io);
@@ -651,7 +653,7 @@ int main()
                     return;
                 }
                 createSensors(io, objectServer, tachSensors, pwmSensors,
-                              presenceSensors, systemBus, sensorsChanged, 5);
+                              presenceGpios, systemBus, sensorsChanged, 5);
             });
         };
 

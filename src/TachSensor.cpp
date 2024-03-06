@@ -16,6 +16,7 @@
 
 #include "TachSensor.hpp"
 
+#include "PresenceGpio.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -24,9 +25,7 @@
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/posix/stream_descriptor.hpp>
 #include <boost/asio/random_access_file.hpp>
-#include <gpiod.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -48,7 +47,7 @@ TachSensor::TachSensor(
     const std::string& path, const std::string& objectType,
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
-    std::shared_ptr<PresenceSensor>& presenceSensor,
+    std::shared_ptr<PresenceGpio>& presenceGpio,
     std::optional<RedundancySensor>* redundancy, boost::asio::io_context& io,
     const std::string& fanName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
@@ -58,7 +57,7 @@ TachSensor::TachSensor(
     Sensor(escapeName(fanName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, limits.second, limits.first, conn,
            powerState),
-    objServer(objectServer), redundancy(redundancy), presence(presenceSensor),
+    objServer(objectServer), redundancy(redundancy), presence(presenceGpio),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), led(ledIn)
 {
@@ -158,7 +157,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
     size_t pollTime = pwmPollMs;
     if (presence)
     {
-        if (!presence->getValue())
+        if (!presence->isPresent())
         {
             markAvailable(false);
             missing = true;
@@ -211,91 +210,6 @@ void TachSensor::checkThresholds()
         ledState = curLed;
         setLed(dbusConnection, *led, curLed);
     }
-}
-
-PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
-                               boost::asio::io_context& io,
-                               const std::string& name) :
-    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name)
-{
-    if (!gpioLine)
-    {
-        std::cerr << "Error requesting gpio: " << gpioName << "\n";
-        status = false;
-        return;
-    }
-
-    try
-    {
-        gpioLine.request({"FanSensor", gpiod::line_request::EVENT_BOTH_EDGES,
-                          inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
-        status = (gpioLine.get_value() != 0);
-
-        int gpioLineFd = gpioLine.event_get_fd();
-        if (gpioLineFd < 0)
-        {
-            std::cerr << "Failed to get " << gpioName << " fd\n";
-            return;
-        }
-
-        gpioFd.assign(gpioLineFd);
-    }
-    catch (const std::system_error&)
-    {
-        std::cerr << "Error reading gpio: " << gpioName << "\n";
-        status = false;
-        return;
-    }
-
-    monitorPresence();
-}
-
-PresenceSensor::~PresenceSensor()
-{
-    gpioFd.close();
-    gpioLine.release();
-}
-
-void PresenceSensor::monitorPresence()
-{
-    gpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
-                      [this](const boost::system::error_code& ec) {
-                          if (ec == boost::system::errc::bad_file_descriptor)
-                          {
-                              return; // we're being destroyed
-                          }
-                          if (ec)
-                          {
-                              std::cerr << "Error on presence sensor " << name
-                                        << " \n";
-                              ;
-                          }
-                          else
-                          {
-                              read();
-                          }
-                          monitorPresence();
-                      });
-}
-
-void PresenceSensor::read()
-{
-    gpioLine.event_read();
-    status = (gpioLine.get_value() != 0);
-    // Read is invoked when an edge event is detected by monitorPresence
-    if (status)
-    {
-        logFanInserted(name);
-    }
-    else
-    {
-        logFanRemoved(name);
-    }
-}
-
-bool PresenceSensor::getValue() const
-{
-    return status;
 }
 
 RedundancySensor::RedundancySensor(size_t count,
