@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "PresenceSensor.hpp"
 #include "PwmSensor.hpp"
 #include "TachSensor.hpp"
 #include "Thresholds.hpp"
@@ -465,8 +466,9 @@ void createSensors(
                         }
                         if (!presenceSensor)
                         {
-                            presenceSensor = std::make_shared<PresenceSensor>(
-                                *pinName, inverted, io, sensorName);
+                            presenceSensor =
+                                std::make_shared<EventPresenceSensor>(
+                                    "Fan", sensorName, *pinName, inverted, io);
                             presenceSensors[*pinName] = presenceSensor;
                         }
                     }
