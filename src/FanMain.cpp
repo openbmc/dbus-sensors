@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "PresenceSensor.hpp"
 #include "PwmSensor.hpp"
 #include "TachSensor.hpp"
 #include "Thresholds.hpp"
@@ -449,8 +450,8 @@ void createSensors(
                     if (const auto* pinName =
                             std::get_if<std::string>(&findPinName->second))
                     {
-                        presenceSensor = std::make_unique<PresenceSensor>(
-                            *pinName, inverted, io, sensorName);
+                        presenceSensor = std::make_unique<EventPresenceSensor>(
+                            "Fan", sensorName, *pinName, inverted, io);
                     }
                     else
                     {
