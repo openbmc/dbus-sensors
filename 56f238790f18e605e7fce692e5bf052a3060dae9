@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54b2fec6_f9acd725",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-06T20:42:11Z",
+      "side": 1,
+      "message": "@Zhikui Ren - I tried moving the base class variables to the initialization list, but could not get it to compile.  Do you have any suggestions on how I can fix this?\n\nAdding this line \"PresenceSensor(iSensorType, iSensorName) :\" gives the following error:\nPresenceSensor.cpp:27:44: error: no matching function for call to \u0027boost::asio::posix::basic_stream_descriptor\u003c\u003e::basic_stream_descriptor()\u0027\n|    27 |     PresenceSensor(iSensorType, iSensorName) :\n|       |                                            ^\n\nI assume that is referring to the derived class boost::asio::io_context parameter,but I do already have that in the initialization list: gpioFd(io)",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "56f238790f18e605e7fce692e5bf052a3060dae9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
