@@ -61,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10640b74_61fd83de",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-06T20:34:15Z",
+      "side": 1,
+      "message": "Ack.  Not aware if this can be determine via sysfs, but will investigate.",
+      "parentUuid": "02315fa0_cdf00a11",
+      "range": {
+        "startLine": 438,
+        "startChar": 0,
+        "endLine": 439,
+        "endChar": 76
+      },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa710e8e_2a510105",
         "filename": "src/PresenceSensor.cpp",
         "patchSetId": 26
@@ -129,6 +153,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c95fa9c_d94357d0",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-06T20:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da262638_28174723",
+      "range": {
+        "startLine": 187,
+        "startChar": 27,
+        "endLine": 202,
+        "endChar": 5
+      },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c12ce11_22b6cfa9",
@@ -146,6 +194,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02149ba4_2e2f0637",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-06T20:34:15Z",
+      "side": 1,
+      "message": "Done. Added count for number of users before removing gpio.",
+      "parentUuid": "3c12ce11_22b6cfa9",
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36e783c5_7e862ded",
@@ -159,6 +225,30 @@
       "writtenOn": "2024-02-24T01:26:28Z",
       "side": 1,
       "message": "Shouldn\u0027t these logs go in their own file?",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 1
+      },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b8b270f_7afbc9c8",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-06T20:34:15Z",
+      "side": 1,
+      "message": "The FanRedundancy logs were moved to TachSensor.hpp and I made the logInserted / logRemoved generic and they are on line 37 of patch set 31 (since they are relevant to the presence detection).",
+      "parentUuid": "36e783c5_7e862ded",
       "range": {
         "startLine": 79,
         "startChar": 0,

@@ -22,6 +22,30 @@
       },
       "revId": "d37e1db52d10b49186561ee930086722bbbdce37",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7272a6e4_a77b7ad0",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-06T20:34:15Z",
+      "side": 0,
+      "message": "I moved these to a different commit:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/69897",
+      "parentUuid": "4b7c6238_03a91dea",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 2
+      },
+      "revId": "d37e1db52d10b49186561ee930086722bbbdce37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

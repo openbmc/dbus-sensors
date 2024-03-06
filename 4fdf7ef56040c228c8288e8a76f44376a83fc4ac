@@ -448,6 +448,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a90ddc_2c5cbcac",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-06T20:34:15Z",
+      "side": 1,
+      "message": "I did move this to PresenceSensor.hpp and made it static (patch set 31 line 82)",
+      "parentUuid": "cab66910_375317f2",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 65
+      },
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36ce26c9_dc50da9b",
