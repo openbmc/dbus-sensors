@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09aee4e3_8da55eba",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-07T00:11:28Z",
+      "side": 1,
+      "message": "Why are these changes, there could be new sensors need to be created when powerState changed to be on",
+      "range": {
+        "startLine": 1189,
+        "startChar": 0,
+        "endLine": 1195,
+        "endChar": 9
+      },
+      "revId": "e88e0227aef34feadbcb50504ff9e1c9217be1e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

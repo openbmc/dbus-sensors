@@ -302,6 +302,30 @@
       },
       "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "554a2f61_98e47836",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-07T00:11:28Z",
+      "side": 1,
+      "message": "\u003e \n\u003e If a sensor\u0027s power state equals power off, powerStateChanged() will deactivate it.\n\u003e And after hit power on, the powerStateChanged() will activate it again.\n\u003e\n\u003e Is there any probability a sensor in activate state and we want to activate it again? \n\nFrom  API usage perspective, your description is correct. But from an API design perspective, the function activate/deactivate should be handle being called more than once in a row gracefully.",
+      "parentUuid": "97b6cf7b_7d4b6826",
+      "range": {
+        "startLine": 926,
+        "startChar": 0,
+        "endLine": 930,
+        "endChar": 56
+      },
+      "revId": "580c0627cf672d2d72da8611f0f1735fa2ea0bfa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
