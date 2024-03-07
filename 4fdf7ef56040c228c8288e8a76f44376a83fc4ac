@@ -541,6 +541,24 @@
       "parentUuid": "c1e271b0_89bba7c3",
       "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6930ff71_6acfb1b9",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-07T23:29:38Z",
+      "side": 1,
+      "message": "Consolidating some of the discussion for clarity. I picked up this change and began addressing comments starting with patchset 19.\n\nOriginally, presence was a unique_ptr, but it was pointed out that there is a lambda/callback (now in PresenceSensor), so if the object gets destroyed before the callback we have a problem.\n\nThe solution was to make it a shared ptr and use weak_ptr for the callback. (see https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/54740/4..31/src/TachSensor.cpp#b289)\n\nI am not sure what you mean by an opaque interface.\nThe ptr is already abstracted by using the PresenseSensor base class (which can be either Polling or Event). The shared_ptr is used to handle the issue with callback (not so it can handle Polling vs Event).",
+      "parentUuid": "80af73cf_4a30af83",
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

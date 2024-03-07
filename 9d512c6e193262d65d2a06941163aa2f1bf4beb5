@@ -83,6 +83,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6ed04c4_ed6ad5ba",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-07T23:29:38Z",
+      "side": 1,
+      "message": "I could not find any other way to determine if GPIO supports events/interrupts.\nUpdated to check for the unique names.",
+      "parentUuid": "10640b74_61fd83de",
+      "range": {
+        "startLine": 438,
+        "startChar": 0,
+        "endLine": 439,
+        "endChar": 76
+      },
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa710e8e_2a510105",
@@ -272,6 +296,24 @@
       "writtenOn": "2024-02-24T01:26:28Z",
       "side": 1,
       "message": "Doesn\u0027t look used here?",
+      "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63755b23_887b0551",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-07T23:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0056405a_a66fc036",
       "revId": "9d512c6e193262d65d2a06941163aa2f1bf4beb5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
