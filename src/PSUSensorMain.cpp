@@ -307,6 +307,7 @@ static void createSensorsCallback(
     }
 
     boost::container::flat_set<std::string> directories;
+    psuProperties.clear();
     for (const auto& pmbusPath : pmbusPaths)
     {
         EventPathList eventPathList;
