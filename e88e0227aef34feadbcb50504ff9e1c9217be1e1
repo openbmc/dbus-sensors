@@ -22,6 +22,30 @@
       },
       "revId": "e88e0227aef34feadbcb50504ff9e1c9217be1e1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c02fd501_a4a731da",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-03-07T01:29:38Z",
+      "side": 1,
+      "message": "Hi Zhikui, I added the modification here base on Ed\u0027s comment.\n\n\u003e This line needs to go away, and become just \"sensor-\u003eactivate()\"\n\u003e https://github.com/openbmc/dbus-sensors/blame/16d6f17bec38b6c095dfb6bed224f17d941fb9b3/src/PSUSensorMain.cpp#L1191\n\u003e\n\u003eThen PSUSensor itself should be internally consistent that it can cancel outstanding operations and restart them (including if it require reiniting the device).\n\n\nDid I misunderstand the meaning?",
+      "parentUuid": "09aee4e3_8da55eba",
+      "range": {
+        "startLine": 1189,
+        "startChar": 0,
+        "endLine": 1195,
+        "endChar": 9
+      },
+      "revId": "e88e0227aef34feadbcb50504ff9e1c9217be1e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
