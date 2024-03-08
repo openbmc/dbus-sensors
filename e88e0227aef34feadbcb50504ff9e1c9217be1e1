@@ -46,6 +46,30 @@
       },
       "revId": "e88e0227aef34feadbcb50504ff9e1c9217be1e1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f283f51c_0d5e10f3",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-08T18:09:44Z",
+      "side": 1,
+      "message": "But that is only when all the changes Ed mentioned are done.\n\n\u003e IMO, the core problem stems from the commit below going waaaaaay beyond what it should, destroying sensor objects on a power cycle:\n\u003e\n\u003e https://github.com/openbmc/dbus-sensors/commit/cafd72f6b9ebb6d3be02a8733489a7221d339e18\n\u003e\n\u003e The sensor object itself, and the dbus entries should ALWAYS instantiate, regardless of the power state. Turning the power on/off shouldn\u0027t create/destroy the sensor itself, it should only modify the underlying interfaces on the activate() call. If we need an activate() call, it needs to be handled from within the sensor object, so that when we destroy it on a config change, it does the right thing.\n\u003e\n\u003e This code needs to be\n\u003e\n\u003e // destroy the old sensor\n\u003e sensor \u003d nullptr;\n\u003e\n\u003e // Create the new sensor.\n\u003e sensors[sensorName] \u003d std::make_shared\u003cPSUSensor\u003e(...)\n\nAll these need to be done before this line can just be activate",
+      "parentUuid": "c02fd501_a4a731da",
+      "range": {
+        "startLine": 1189,
+        "startChar": 0,
+        "endLine": 1195,
+        "endChar": 9
+      },
+      "revId": "e88e0227aef34feadbcb50504ff9e1c9217be1e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
