@@ -22,6 +22,30 @@
       },
       "revId": "56f238790f18e605e7fce692e5bf052a3060dae9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2c24270_d3f65f54",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-08T17:10:01Z",
+      "side": 1,
+      "message": "\u003e \"PresenceSensor(iSensorType, iSensorName) :\" \nIt should not be colon here, but a comma, please check other example like\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/TachSensor.cpp#L53",
+      "parentUuid": "54b2fec6_f9acd725",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "56f238790f18e605e7fce692e5bf052a3060dae9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

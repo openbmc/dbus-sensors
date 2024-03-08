@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee5e0747_15a78b3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-08T17:10:01Z",
+      "side": 1,
+      "message": "I think the idea is to separate refactor into a separate review, i.e. keep the same functionality. Please leave the additional functionality into a follow up review.",
+      "revId": "61f6519259586a6e4450645d77c4ce536920f6e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
