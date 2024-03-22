@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b96de36d_cfb37f59",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T23:18:59Z",
+      "side": 1,
+      "message": "Add to log message the following info: supported type: Polling, Event. default type Event is used.",
+      "range": {
+        "startLine": 447,
+        "startChar": 0,
+        "endLine": 450,
+        "endChar": 25
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff78b8f8_a9132365",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T23:18:59Z",
+      "side": 1,
+      "message": "nit: use positive logic, i.e. if (polling) {} else {}",
+      "range": {
+        "startLine": 455,
+        "startChar": 24,
+        "endLine": 455,
+        "endChar": 37
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a778848c_f83b91a9",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T23:18:59Z",
+      "side": 1,
+      "message": "this is meant to only called once since the log does not check for status change?\nIf yes, may just make this part of a initStatus() call.",
+      "range": {
+        "startLine": 23,
+        "startChar": 21,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a75b9fd7_e7796419",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T23:18:59Z",
+      "side": 1,
+      "message": "is this needed?",
+      "range": {
+        "startLine": 250,
+        "startChar": 26,
+        "endLine": 250,
+        "endChar": 28
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5acaadae_5cab5ea9",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T23:18:59Z",
+      "side": 1,
+      "message": "Naming convention: SharedGpio",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 7
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9edb6824_cfa6cbdf",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T23:18:59Z",
+      "side": 1,
+      "message": "GpioUsers",
+      "range": {
+        "startLine": 72,
+        "startChar": 11,
+        "endLine": 72,
+        "endChar": 12
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ea4f03_05cdf8a5",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T23:18:59Z",
+      "side": 1,
+      "message": "Why inventing your own reference counting class. I think std::shared_ptr can be used instead.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 2
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1796051c_a0aaa161",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T23:18:59Z",
+      "side": 1,
+      "message": "can we call this pollTimerHandler?",
+      "range": {
+        "startLine": 108,
+        "startChar": 23,
+        "endLine": 108,
+        "endChar": 44
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
