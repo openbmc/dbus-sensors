@@ -94,6 +94,30 @@
       },
       "revId": "e88e0227aef34feadbcb50504ff9e1c9217be1e1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06742a9a_64fe7b50",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T15:59:37Z",
+      "side": 1,
+      "message": "\u003e The sensor object itself, and the dbus entries should ALWAYS instantiate, regardless of the power state.\n\nThis is the key and precondition of only doing activate/deactivate for power state change in @Ed suggestion. The patchset still does not do this because sensors are only created if the hwmonPath is created, i.e. the driver is activated. \nPlease see:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/69162/7/src/PSUSensorMain.cpp#b300\nSo if there are devices requires power state to be on, this patchset will break them causing those sensors not created sometime.",
+      "parentUuid": "aed69a16_5be42d92",
+      "range": {
+        "startLine": 1189,
+        "startChar": 0,
+        "endLine": 1195,
+        "endChar": 9
+      },
+      "revId": "e88e0227aef34feadbcb50504ff9e1c9217be1e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
