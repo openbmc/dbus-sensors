@@ -44,12 +44,20 @@ IntelCPUSensor::IntelCPUSensor(
     double dtsOffset) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, 0, 0, conn, PowerState::on),
-    objServer(objectServer), inputDev(io), waitTimer(io),
-    nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
+    objServer(objectServer), inputDev(io), waitTimer(io), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show), pollTime(IntelCPUSensor::sensorPollMs)
 
 {
+    if (cpuId == -1)
+    {
+        nameTcontrol = "Tcontrol";
+    }
+    else
+    {
+        nameTcontrol = "Tcontrol CPU" + std::to_string(cpuId);
+    }
+
     if (show)
     {
         if (auto fileParts = splitFileName(path))
