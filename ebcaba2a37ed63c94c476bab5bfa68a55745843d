@@ -33,6 +33,24 @@
       "message": "Hmm...looking at it a bit further, I\u0027m kind of mystified as to why `psuProperties` needs to exist at all.\n\nStarting around line 655:\n\n1. We look up `findProperty` from `labelMatch`\n1. We append a copy to `psuProperties` and save a local reference as `psuProperty`\n1. `psuProperty` then gets tweaked a bit in place according to the sensor\u0027s specific customizations\n1. Its various members then get pulled out (copied) and used to instantiate the sensor\n\nI can\u0027t see any other uses of `psuProperty` in that loop or the `psuProperties` vector anywhere else, so why can\u0027t we drop `psuProperties` and just have `psuProperty` be a temporary local object?  Is there something I\u0027m missing?",
       "revId": "ebcaba2a37ed63c94c476bab5bfa68a55745843d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "343b90ce_e2d1ca4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-03-22T02:58:34Z",
+      "side": 1,
+      "message": "I agree - I will update this patch",
+      "parentUuid": "70b96434_1c2d6431",
+      "revId": "ebcaba2a37ed63c94c476bab5bfa68a55745843d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
