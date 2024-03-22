@@ -111,7 +111,10 @@ std::string createSensorName(const std::string& label, const std::string& item,
     {
         sensorName += " " + item;
     }
-    sensorName += " CPU" + std::to_string(cpuId);
+    if (cpuId >= 0)
+    {
+        sensorName += " CPU" + std::to_string(cpuId);
+    }
     // converting to Upper Camel case whole name
     bool isWordEnd = true;
     std::transform(sensorName.begin(), sensorName.end(), sensorName.begin(),
