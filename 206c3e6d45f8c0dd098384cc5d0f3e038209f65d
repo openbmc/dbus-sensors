@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0288c3b_207c6e9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2024-03-23T11:56:26Z",
+      "side": 1,
+      "message": "I have also found\n```\n./src/IntelCPUSensor.hpp:    static constexpr const char* labelTcontrol \u003d \"Tcontrol\";\n```\nthis helped to simplify code a little bit",
+      "revId": "206c3e6d45f8c0dd098384cc5d0f3e038209f65d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
