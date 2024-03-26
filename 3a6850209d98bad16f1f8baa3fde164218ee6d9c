@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57a1111d_ac14b847",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-26T14:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c21deb36_1ad01757",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 0
+      },
+      "revId": "3a6850209d98bad16f1f8baa3fde164218ee6d9c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a13d05ec_2a9b3f2a",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-03-22T04:57:04Z",
       "side": 1,
       "message": "this is not needed",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "3a6850209d98bad16f1f8baa3fde164218ee6d9c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adf1181e_7cfffefc",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-03-26T14:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a13d05ec_2a9b3f2a",
       "range": {
         "startLine": 69,
         "startChar": 0,
