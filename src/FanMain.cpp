@@ -451,6 +451,7 @@ void createSensors(
             }
 
             PowerState powerState = getPowerState(baseConfiguration->second);
+            uint32_t startupDelay = getStartupDelay(baseConfiguration->second);
 
             constexpr double defaultMaxReading = 25000;
             constexpr double defaultMinReading = 0;
@@ -544,7 +545,7 @@ void createSensors(
                 std::move(presenceSensor), redundancy, io, sensorName,
                 std::move(sensorThresholds), *interfacePath, limits, powerState,
                 led);
-            tachSensor->setupRead();
+            tachSensor->waitAndRead(startupDelay);
 
             if (!pwmPath.empty() && fs::exists(pwmPath) &&
                 (pwmSensors.count(pwmPath) == 0U))
