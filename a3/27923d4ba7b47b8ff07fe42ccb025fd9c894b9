@@ -1,0 +1,10 @@
+Code-Review+1: Jeff Lin <JeffLin2@quantatw.com>
+Code-Review+2: Zhikui Ren <zhikui.ren@intel.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Christopher Sides <christopher.sides@hpe.com>
+Submitted-at: Wed, 27 Mar 2024 15:26:53 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/62825
+Comments-Total: 35
+Comments-Unresolved: 5
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
