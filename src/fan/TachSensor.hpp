@@ -77,6 +77,7 @@ class TachSensor :
                const std::optional<std::string>& led);
     ~TachSensor() override;
     void setupRead();
+    void waitAndRead(size_t waitTimeMs);
 
   private:
     // Ordering is important here; readBuf is first so that it's not destroyed

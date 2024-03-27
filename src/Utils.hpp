@@ -231,6 +231,18 @@ inline float getPollRate(const SensorBaseConfigMap& cfg, float dflt)
     return pollRate;
 }
 
+inline uint32_t getStartupDelay(const SensorBaseConfigMap& cfg)
+{
+    uint32_t startupDelayMs = 0;
+    auto findStartupDelay = cfg.find("StartupDelay");
+    if (findStartupDelay != cfg.end())
+    {
+        startupDelayMs = std::visit(VariantToUnsignedIntVisitor(),
+                                    findStartupDelay->second);
+    }
+    return startupDelayMs;
+}
+
 inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                    const std::string& name, bool on)
 {
