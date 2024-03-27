@@ -123,10 +123,10 @@ void TachSensor::setupRead()
     });
 }
 
-void TachSensor::restartRead(size_t pollTime)
+void TachSensor::waitAndRead(size_t waitTimeMs)
 {
     std::weak_ptr<TachSensor> weakRef = weak_from_this();
-    waitTimer.expires_after(std::chrono::milliseconds(pollTime));
+    waitTimer.expires_after(std::chrono::milliseconds(waitTimeMs));
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
@@ -188,7 +188,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
         }
     }
 
-    restartRead(pollTime);
+    waitAndRead(pollTime);
 }
 
 void TachSensor::checkThresholds()
