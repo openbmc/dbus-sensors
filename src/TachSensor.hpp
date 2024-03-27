@@ -78,6 +78,7 @@ class TachSensor :
                const std::optional<std::string>& led);
     ~TachSensor() override;
     void setupRead();
+    void waitAndRead(size_t waitTime);
 
   private:
     // Ordering is important here; readBuf is first so that it's not destroyed
@@ -95,7 +96,6 @@ class TachSensor :
     bool ledState = false;
 
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
-    void restartRead(size_t pollTime);
     void checkThresholds(void) override;
 };
 
