@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b682320d_678dade9",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2024-03-28T06:09:03Z",
+      "side": 1,
+      "message": "Destructor is marked as pure virtual in header but defined as default here. There is destructor in EventPresenceSensor so shouldn\u0027t this is pure virtual only ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 44
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87a2217c_1b7edaa4",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2024-03-28T06:09:03Z",
+      "side": 1,
+      "message": "I think if gpioLine.event_get_fd fails then we have unusable EventPrenceSensor. object. It will be better to throw exception rather than continuing with improper object and fail later.",
+      "range": {
+        "startLine": 51,
+        "startChar": 1,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43ed31ff_4a52da80",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2024-03-28T06:09:03Z",
+      "side": 1,
+      "message": "I think this constructor is not needed. Can you please tell if there was any reason for keeping default constructor.",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62093faa_a7533efc",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2024-03-28T06:09:03Z",
+      "side": 1,
+      "message": "since gpioLine is member of PresenceSensor shouldn\u0027t it\u0027s destruction should be taken by same class too. Here we are putting mandate for every child class of PresenceSensor to release for something that belongs to parent class.",
+      "range": {
+        "startLine": 61,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d4c307f_fb0783a7",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2024-03-28T06:09:03Z",
+      "side": 1,
+      "message": "This class\u0027s object will have to take care of copy constructor and copy assignment operator, Rule of three. https://en.cppreference.com/w/cpp/language/rule_of_three",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
