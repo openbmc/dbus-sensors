@@ -39,6 +39,30 @@
       },
       "revId": "6583e78a4e6eaac43ce0e5f319fd5644133ac7f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82429b2f_e2d1726f",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001588
+      },
+      "writtenOn": "2024-03-28T15:49:40Z",
+      "side": 1,
+      "message": "This change would only set the wait time of the first poll to what you configured in entity-manager yaml. The subsequent wait time would be set in handleResponse to \"pwmPollMs\" which is 500ms by default, and the flow for polling would go in circle between waitAndRead -\u003e setupRead - \u003e handleReseponse -\u003e waitAndRead. \n\nI have tested this patch on my unit and observed only the initial poll of each fan sensor has been set to the configured wait time, and the subsequent poll intervals are 500ms.\n\nI see the poll time might be set to \"sensorFailedPollTimeMs(5000ms)\" if poll fail occurs, is that the case?",
+      "parentUuid": "bab0c7e3_7eb54cac",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 65
+      },
+      "revId": "6583e78a4e6eaac43ce0e5f319fd5644133ac7f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
