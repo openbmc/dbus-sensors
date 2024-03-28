@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d82a8fba_995a541a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2024-03-28T05:17:31Z",
+      "side": 1,
+      "message": "May be we can have waitedSetupRead method or something equivalent that can be called in place of setup and handleResponse can continue to use restartRead with normal pollTime.",
+      "revId": "6583e78a4e6eaac43ce0e5f319fd5644133ac7f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bab0c7e3_7eb54cac",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2024-03-28T05:17:31Z",
+      "side": 1,
+      "message": "Will this not cause time gap between two polls for fan to become startUpDelay time. We may want to keep start up delay of 5 seconds for fans to come up to right speed and then start polling for their values once every second. Current patch will make both 5 seconds.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 65
+      },
+      "revId": "6583e78a4e6eaac43ce0e5f319fd5644133ac7f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
