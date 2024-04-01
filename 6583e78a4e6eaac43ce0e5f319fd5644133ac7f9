@@ -63,6 +63,30 @@
       },
       "revId": "6583e78a4e6eaac43ce0e5f319fd5644133ac7f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f115f401_8b602139",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001286
+      },
+      "writtenOn": "2024-04-01T05:04:30Z",
+      "side": 1,
+      "message": "Thanks for explanation. Now understood this comment is not a problem.\n\n\u003e I see the poll time might be set to \"sensorFailedPollTimeMs(5000ms)\" if poll fail occurs, is that the case?\n\nI didn\u0027t mean for this.",
+      "parentUuid": "82429b2f_e2d1726f",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 65
+      },
+      "revId": "6583e78a4e6eaac43ce0e5f319fd5644133ac7f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
