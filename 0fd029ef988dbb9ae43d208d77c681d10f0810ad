@@ -119,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d7ec56_276aa7dd",
+        "filename": "src/IpmbSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-02T01:19:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5adbe9e3_e997be9e",
+      "range": {
+        "startLine": 282,
+        "startChar": 20,
+        "endLine": 282,
+        "endChar": 55
+      },
+      "revId": "0fd029ef988dbb9ae43d208d77c681d10f0810ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c9eaec9_510aea4d",
@@ -275,6 +299,30 @@
       "side": 1,
       "message": "I was referring the test line here:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/69331/11/tests/test_IpmbSensor.cpp#18\n\nThis needs to have errCount as an output",
       "parentUuid": "af2a8a6d_099f12cd",
+      "range": {
+        "startLine": 105,
+        "startChar": 31,
+        "endLine": 105,
+        "endChar": 47
+      },
+      "revId": "0fd029ef988dbb9ae43d208d77c681d10f0810ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6cf1cfd_50b470b4",
+        "filename": "src/IpmbSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-02T01:19:58Z",
+      "side": 1,
+      "message": "Removed the EXPECT_EQ.",
+      "parentUuid": "9650af37_cb08e044",
       "range": {
         "startLine": 105,
         "startChar": 31,
