@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1915439d_5d63872f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "and yet..... it already does implement openbmc specific logic, and claims an openbmc dbus name.\n\nhttps://github.com/CodeConstruct/mctp/blob/69ed224ff9b5206ca7f3a5e047a9da61377d2ca7/README.md?plain\u003d1#L72\n\nCan that be fixed?  if it\u0027s a generic tool, it needs to claim a codeconstruct name, if it\u0027s an openbmc tool, it should be in an openbmc repository.  It really shouldn\u0027t be both?",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 71
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7b40b679_a4a1f23d",
@@ -32,6 +55,155 @@
       "side": 1,
       "message": "Let me reconsider the log levels.\n\nJust as a note, given the discussion on the schema patch I\u0027ve ended up chopping a chunk out of the implementation. I was hoping to push updated patches late last week, but got side-tracked.",
       "parentUuid": "7b40b679_a4a1f23d",
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68adfee_c3b05677",
+        "filename": "service_files/xyz.openbmc_project.mctpreactor.service",
+        "patchSetId": 16
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "Would it be possible to get the boilerplate (service file, meson config, empty main() function) into its own review?  I suspect that can merge basically immediately and make this patset more reviewable.",
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2df0669_bea8b355",
+        "filename": "src/MCTPDeviceRepository.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "maybe std::vector\u003cMCTPDevice\u003e ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0619e614_b2b99cd9",
+        "filename": "src/MCTPDeviceRepository.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "we hit this same problem in other sensors on a config replacement.\n\nThe old device exists, and we can\u0027t really create a new device until the old device (and the resources it uses) are destroyed.\n\nthat\u0027s why in most of the other sensors you\u0027ll see something like\n\ndevices[inventory] \u003d nullptr;\ndevices.emplace(...);\n\n\nI suspect we need the same thing here.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27013532_97d5b56a",
+        "filename": "src/MCTPDeviceRepository.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "I see a lot of these operations throw, but nowhere that they\u0027re caught?  Admittedly, using exceptions properly in a callback-based async daemon is a challenge, but we should try to make it so a single failure doesn\u0027t cause the whole application to crash.  Such behavior in other places (entity-manager mainly) has caused many... many lost debugging cycles.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41ba3446_a6db0d81",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "huh?  What\u0027s claiming this name?\n\n(answers own question)\n\n\nhttps://github.com/CodeConstruct/mctp/blob/69ed224ff9b5206ca7f3a5e047a9da61377d2ca7/README.md?plain\u003d1#L72\n\nso.......  what\u0027s the plan here?  I thought the whole point was that the CodeConstuct app doesn\u0027t have OpenBMC specific stuff in it?  If it already has openbmc specific stuff in it, why are we writing this app in the first place?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdba439d_978ba8ec",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "This check isn\u0027t needed, right?  We already match on interfaces changed at path.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 5
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8a30ddc_2f8ebff9",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "else log that we weren\u0027t able to do the capture.  In theory the only time this should happen is shutdown.  In practice, having the log saves people writing bugs.",
       "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -173,6 +345,305 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "494ee9df_f4226c6d",
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4509bad0_ac8eaea1",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "async_method_call doesn\u0027t throw, it returns an error to the callback.  I suspect this can be removed.",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 5
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b67f1b5_106d735b",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "std::move?",
+      "range": {
+        "startLine": 224,
+        "startChar": 27,
+        "endLine": 224,
+        "endChar": 35
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83891050_86601b45",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "same here, async_method_call will return an error code, not an exception.",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 55
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58449de0_934ae9f2",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "Does this have an effect on the code?",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 38
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e319c285_34e6a99b",
+        "filename": "src/MCTPEndpoint.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "Do these need explicit values?  Maybe just let them be enums without value, to avoid implying that they\u0027re a direct map to something else?",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 16
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05dcebd3_62728b15",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "at least log these conditions?",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 52
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a2a7b47_0ffa7f0a",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "Why?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 73
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81775481_6fe94621",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "non trivial lambda needs rolled into a method.",
+      "range": {
+        "startLine": 85,
+        "startChar": 15,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "891c8a66_f6a3df6c",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "this either returns 0 or 1 entry?  Wouldn\u0027t std::optional\u003cuint8_t\u003e be a better choice?",
+      "range": {
+        "startLine": 108,
+        "startChar": 7,
+        "endLine": 108,
+        "endChar": 27
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c151ab7_dc041154",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "don\u0027t we want VariantToUnsignedIntVisitor?  I think that also removes the need for encodeDeviceAddress()",
+      "range": {
+        "startLine": 176,
+        "startChar": 30,
+        "endLine": 176,
+        "endChar": 52
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2a6c79c_3c80e118",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "same as above.",
+      "range": {
+        "startLine": 194,
+        "startChar": 31,
+        "endLine": 194,
+        "endChar": 53
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce220cd9_619a2b88",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "this is doing a redundant map lookup.\n\nDo you just want to separate your deviceFor into two methods,\n\ndeviceFor (which returns nullptr if the device doesn\u0027t exist)\ndeviceAt (which throws if the device doesn\u0027t exist).\n\nThis code looks like it\u0027s just handling the case where we would otherwise throw.\n\n\n\nnit, might also want to log that this happened.  in theory should never happen.",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 5
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53864d15_28da080a",
+        "filename": "src/MCTPReactorMain.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-03T17:04:15Z",
+      "side": 1,
+      "message": "The fact that we need to do something every 5 seconds is a little scary.  The expectation for reactors is that if there\u0027s no config, we\u0027re not taking any resources aside from starting and realizing there\u0027s no config.\n\nIt seems a little odd that this timer is in main.  Couldn\u0027t it go in MCTPDevice itself?  That way adding/removing won\u0027t have any impact on existing devices, and we won\u0027t see blocking behavior where all devices run their logic at the same time.",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 6
+      },
       "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
