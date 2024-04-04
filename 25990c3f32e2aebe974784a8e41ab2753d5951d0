@@ -16,6 +16,24 @@
       "message": "Does this global actually get used anywhere?\n\nI see it pushed back on line 671, but then it\u0027s never read anywhere.  I suspect we can just declare a PsuProperty object on line 671 and remove the global entirely?",
       "revId": "25990c3f32e2aebe974784a8e41ab2753d5951d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5fdcfaf_1ee64d1c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-04T21:20:36Z",
+      "side": 1,
+      "message": "Looks like you already did that here:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/70621\n\n?",
+      "parentUuid": "a3be32a4_b3745340",
+      "revId": "25990c3f32e2aebe974784a8e41ab2753d5951d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
