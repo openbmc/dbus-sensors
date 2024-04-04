@@ -5,8 +5,8 @@
 #include <unistd.h>
 
 #include <FileHandle.hpp>
+#include <boost/asio/buffer.hpp>
 #include <boost/asio/read.hpp>
-#include <boost/asio/streambuf.hpp>
 #include <boost/asio/write.hpp>
 
 #include <cassert>
@@ -275,38 +275,37 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         }
     });
 
-    auto response = std::make_shared<boost::asio::streambuf>();
-    response->prepare(1);
+    auto response = std::make_shared<std::vector<uint8_t>>();
+    boost::asio::dynamic_vector_buffer buffer(*response);
 
     /* Gather the response and dispatch for parsing */
     boost::asio::async_read(
-        respStream, *response,
-        [response](const boost::system::error_code& ec, std::size_t n) {
+        respStream, std::move(buffer),
+        [response](const boost::system::error_code& ec,
+                   std::size_t n) -> size_t {
         if (ec)
         {
             std::cerr << "Got error completing basic query: " << ec << "\n";
-            return static_cast<std::size_t>(0);
+            return 0U;
         }
 
         if (n == 0)
         {
-            return static_cast<std::size_t>(1);
+            return 1U;
         }
-
-        std::istream is(response.get());
-        size_t len = static_cast<std::size_t>(is.peek());
+        size_t len = (*response)[0];
 
         if (n > len + 1)
         {
             std::cerr << "Query stream has become unsynchronised: "
                       << "n: " << n << ", "
                       << "len: " << len << "\n";
-            return static_cast<std::size_t>(0);
+            return 0U;
         }
 
         if (n == len + 1)
         {
-            return static_cast<std::size_t>(0);
+            return 0U;
         }
 
         if (n > 1)
@@ -314,7 +313,6 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
             return len + 1 - n;
         }
 
-        response->prepare(len);
         return len;
     },
         [weakSelf{weak_from_this()}, sensor, response](
@@ -334,13 +332,12 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         if (auto self = weakSelf.lock())
         {
             /* Deserialise the response */
-            response->consume(1); /* Drop the length byte */
-            std::istream is(response.get());
-            std::vector<char> data(response->size());
-            is.read(data.data(), response->size());
+            /* Drop the length byte */
+            std::span<uint8_t> spanWithoutData =
+                std::span(*response).subspan(1);
 
             /* Update the sensor */
-            self->processResponse(sensor, data.data(), data.size());
+            self->processResponse(sensor, spanWithoutData);
 
             /* Enqueue processing of the next sensor */
             self->readAndProcessNVMeSensor();
@@ -387,15 +384,13 @@ static double getTemperatureReading(int8_t reading)
 }
 
 void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
-                                       void* msg, size_t len)
+                                       std::span<uint8_t> messageData)
 {
-    if (msg == nullptr || len < 6)
+    if (messageData.size() < 6)
     {
         sensor->incrementError();
         return;
     }
-
-    uint8_t* messageData = static_cast<uint8_t*>(msg);
 
     uint8_t status = messageData[0];
     if (((status & NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY) != 0) ||
