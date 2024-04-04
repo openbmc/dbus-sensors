@@ -253,7 +253,6 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
 
     if (!err)
     {
-        std::string response;
         try
         {
             int nvalue = std::stoi(bufferRef.data());
