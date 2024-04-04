@@ -506,7 +506,8 @@ void setupPowerMatchCallback(
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(chassis::path) + "',arg0='" +
             std::string(chassis::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
+        [hostStatusCallback = std::move(hostStatusCallback)](
+            sdbusplus::message_t& message) {
         std::string objectName;
         boost::container::flat_map<std::string, std::variant<std::string>>
             values;
