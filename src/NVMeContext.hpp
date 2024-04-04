@@ -94,8 +94,8 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 
     virtual void readAndProcessNVMeSensor() = 0;
 
-    virtual void processResponse(std::shared_ptr<NVMeSensor>& sensor, void* msg,
-                                 size_t len) = 0;
+    virtual void processResponse(std::shared_ptr<NVMeSensor>& sensor,
+                                 std::span<uint8_t> messageData) = 0;
 
   protected:
     boost::asio::steady_timer scanTimer;
