@@ -105,7 +105,6 @@ void createSensors(
             std::regex_search(pathStr, match, inputRegex);
             std::string indexStr = *(match.begin() + 1);
 
-            auto directory = path.parent_path();
             // convert to 0 based
             size_t index = std::stoul(indexStr) - 1;
 
