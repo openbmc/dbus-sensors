@@ -17,20 +17,26 @@
 #include "PSUEvent.hpp"
 
 #include "SensorPaths.hpp"
+#include "Utils.hpp"
 
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/read_until.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <array>
+#include <chrono>
+#include <cstddef>
 #include <iostream>
 #include <memory>
+#include <set>
 #include <stdexcept>
 #include <string>
 #include <utility>
-#include <variant>
 #include <vector>
 
 PSUCombineEvent::PSUCombineEvent(

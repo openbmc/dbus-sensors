@@ -1,20 +1,39 @@
 #include "NVMeBasicContext.hpp"
 
+#include "NVMeContext.hpp"
+#include "NVMeSensor.hpp"
+
 #include <endian.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
 #include <FileHandle.hpp>
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/error.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/read.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/asio/write.hpp>
 
-#include <cassert>
+#include <array>
 #include <cerrno>
-#include <cinttypes>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <filesystem>
+#include <ios>
+#include <iostream>
+#include <iterator>
+#include <limits>
+#include <memory>
+#include <stdexcept>
+#include <string>
 #include <system_error>
+#include <thread>
+#include <utility>
+#include <vector>
 
 extern "C"
 {
