@@ -395,7 +395,7 @@ void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
         return;
     }
 
-    uint8_t* messageData = static_cast<uint8_t*>(msg);
+    std::span<uint8_t> messageData(static_cast<uint8_t*>(msg), len);
 
     uint8_t status = messageData[0];
     if (((status & NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY) != 0) ||
