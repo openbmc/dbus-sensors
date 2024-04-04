@@ -1,18 +1,22 @@
 #include "ExternalSensor.hpp"
 
 #include "SensorPaths.hpp"
-
-#include <unistd.h>
+#include "Thresholds.hpp"
+#include "Utils.hpp"
+#include "sensor.hpp"
 
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <chrono>
+#include <cstddef>
+#include <functional>
 #include <iostream>
-#include <istream>
 #include <limits>
 #include <memory>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 static constexpr bool debug = false;

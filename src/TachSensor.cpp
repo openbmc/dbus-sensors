@@ -16,24 +16,29 @@
 
 #include "TachSensor.hpp"
 
+#include "SensorPaths.hpp"
+#include "Thresholds.hpp"
 #include "Utils.hpp"
+#include "sensor.hpp"
 
-#include <unistd.h>
-
-#include <boost/asio/read_until.hpp>
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/error.hpp>
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/posix/stream_descriptor.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <charconv>
-#include <fstream>
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
 #include <iostream>
-#include <istream>
-#include <limits>
 #include <memory>
 #include <optional>
-#include <stdexcept>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
 

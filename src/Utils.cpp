@@ -19,19 +19,39 @@
 #include "dbus-sensor_config.h"
 
 #include "DeviceMgmt.hpp"
+#include "VariantVisitors.hpp"
 
+#include <boost/asio/error.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
+#include <sdbusplus/exception.hpp>
+#include <sdbusplus/message.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
-#include <charconv>
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <cstddef>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <functional>
+#include <iostream>
+#include <iterator>
 #include <memory>
+#include <optional>
 #include <regex>
+#include <set>
+#include <span>
 #include <stdexcept>
 #include <string>
+#include <string_view>
+#include <system_error>
+#include <tuple>
 #include <utility>
 #include <variant>
 #include <vector>
