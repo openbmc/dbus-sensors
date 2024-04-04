@@ -93,7 +93,7 @@ static std::optional<int> deriveRootBus(std::optional<int> busNumber)
 
     if (!std::filesystem::is_symlink(muxPath))
     {
-        return *busNumber;
+        return busNumber;
     }
 
     std::string rootName = std::filesystem::read_symlink(muxPath).filename();
