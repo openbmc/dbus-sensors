@@ -34,6 +34,24 @@
       "parentUuid": "e2a5828b_d0e7cea3",
       "revId": "e891674b49e21aeb2c5dbd46c15c4cfeb324b7fd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaeba553_fa3035c8",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-04-04T23:37:01Z",
+      "side": 1,
+      "message": "Wait, don\u0027t we _want_ a copy, for the reasons described in the comment above it?",
+      "parentUuid": "67fada03_f355050f",
+      "revId": "e891674b49e21aeb2c5dbd46c15c4cfeb324b7fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
