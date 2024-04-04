@@ -77,7 +77,7 @@ struct Sensor
                             : nullptr)
     {}
     virtual ~Sensor() = default;
-    virtual void checkThresholds(void) = 0;
+    virtual void checkThresholds() = 0;
     std::string name;
     std::string configurationPath;
     std::string configInterface;

@@ -68,9 +68,9 @@ bool findFiles(const std::filesystem::path& dirPath,
                std::string_view matchString,
                std::vector<std::filesystem::path>& foundPaths,
                int symlinkDepth = 1);
-bool isPowerOn(void);
-bool hasBiosPost(void);
-bool isChassisOn(void);
+bool isPowerOn();
+bool hasBiosPost();
+bool isChassisOn();
 void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::function<void(PowerState type, bool state)>&& callback);

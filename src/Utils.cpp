@@ -282,7 +282,7 @@ bool findFiles(const fs::path& dirPath, std::string_view matchString,
     return true;
 }
 
-bool isPowerOn(void)
+bool isPowerOn()
 {
     if (!powerMatch)
     {
@@ -291,7 +291,7 @@ bool isPowerOn(void)
     return powerStatusOn;
 }
 
-bool hasBiosPost(void)
+bool hasBiosPost()
 {
     if (!postMatch)
     {
@@ -300,7 +300,7 @@ bool hasBiosPost(void)
     return biosHasPost;
 }
 
-bool isChassisOn(void)
+bool isChassisOn()
 {
     if (!chassisMatch)
     {

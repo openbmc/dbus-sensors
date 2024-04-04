@@ -23,9 +23,9 @@ class PresenceSensor
                    boost::asio::io_context& io, const std::string& name);
     ~PresenceSensor();
 
-    void monitorPresence(void);
-    void read(void);
-    bool getValue(void) const;
+    void monitorPresence();
+    void read();
+    bool getValue() const;
 
   private:
     bool status = true;
@@ -96,7 +96,7 @@ class TachSensor :
 
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void restartRead(size_t pollTime);
-    void checkThresholds(void) override;
+    void checkThresholds() override;
 };
 
 inline void logFanInserted(const std::string& device)
@@ -113,13 +113,13 @@ inline void logFanRemoved(const std::string& device)
                device);
 }
 
-inline void logFanRedundancyLost(void)
+inline void logFanRedundancyLost()
 {
     const auto* msg = "OpenBMC.0.1.FanRedundancyLost";
     lg2::error("Fan Inserted", "REDFISH_MESSAGE_ID", msg);
 }
 
-inline void logFanRedundancyRestored(void)
+inline void logFanRedundancyRestored()
 {
     const auto* msg = "OpenBMC.0.1.FanRedundancyRegained";
     lg2::error("Fan Removed", "REDFISH_MESSAGE_ID", msg);

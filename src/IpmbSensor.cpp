@@ -98,7 +98,7 @@ IpmbSensor::~IpmbSensor()
     objectServer.remove_interface(association);
 }
 
-std::string IpmbSensor::getSubTypeUnits(void) const
+std::string IpmbSensor::getSubTypeUnits() const
 {
     switch (subType)
     {
@@ -117,7 +117,7 @@ std::string IpmbSensor::getSubTypeUnits(void) const
     }
 }
 
-void IpmbSensor::init(void)
+void IpmbSensor::init()
 {
     loadDefaults();
     setInitialProperties(getSubTypeUnits());
@@ -260,7 +260,7 @@ void IpmbSensor::loadDefaults()
     }
 }
 
-void IpmbSensor::checkThresholds(void)
+void IpmbSensor::checkThresholds()
 {
     thresholds::checkThresholds(this);
 }
@@ -401,7 +401,7 @@ void IpmbSensor::ipmbRequestCompletionCb(const boost::system::error_code& ec,
     read();
 }
 
-void IpmbSensor::read(void)
+void IpmbSensor::read()
 {
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(

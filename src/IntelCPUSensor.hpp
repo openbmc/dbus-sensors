@@ -34,7 +34,7 @@ class IntelCPUSensor :
     static constexpr unsigned int sensorPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
     static constexpr const char* labelTcontrol = "Tcontrol";
-    void setupRead(void);
+    void setupRead();
 
   private:
     sdbusplus::asio::object_server& objServer;
@@ -51,9 +51,9 @@ class IntelCPUSensor :
     uint8_t minMaxReadCounter{0};
     int fd{};
     void handleResponse(const boost::system::error_code& err);
-    void checkThresholds(void) override;
-    void updateMinMaxValues(void);
-    void restartRead(void);
+    void checkThresholds() override;
+    void updateMinMaxValues();
+    void restartRead();
 };
 
 extern boost::container::flat_map<std::string, std::shared_ptr<IntelCPUSensor>>

@@ -34,8 +34,8 @@ struct I2CDeviceParams
     uint64_t bus;
     uint64_t address;
 
-    bool devicePresent(void) const;
-    bool deviceStatic(void) const;
+    bool devicePresent() const;
+    bool deviceStatic() const;
 };
 
 std::optional<I2CDeviceParams>
@@ -51,8 +51,8 @@ class I2CDevice
   private:
     I2CDeviceParams params;
 
-    int create(void) const;
-    int destroy(void) const;
+    int create() const;
+    int destroy() const;
 };
 
 // HACK: this declaration "should" live in Utils.hpp, but that leads to a

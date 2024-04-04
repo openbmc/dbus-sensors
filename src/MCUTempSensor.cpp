@@ -89,13 +89,13 @@ MCUTempSensor::~MCUTempSensor()
     objectServer.remove_interface(association);
 }
 
-void MCUTempSensor::init(void)
+void MCUTempSensor::init()
 {
     setInitialProperties(sensor_paths::unitDegreesC);
     read();
 }
 
-void MCUTempSensor::checkThresholds(void)
+void MCUTempSensor::checkThresholds()
 {
     thresholds::checkThresholds(this);
 }
@@ -150,7 +150,7 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int32_t* pu32data) const
     return 0;
 }
 
-void MCUTempSensor::read(void)
+void MCUTempSensor::read()
 {
     static constexpr size_t pollTime = 1; // in seconds
 

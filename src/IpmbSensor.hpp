@@ -91,12 +91,12 @@ struct IpmbSensor :
                std::string& sensorTypeName);
     ~IpmbSensor() override;
 
-    void checkThresholds(void) override;
-    void read(void);
-    void init(void);
-    std::string getSubTypeUnits(void) const;
-    void loadDefaults(void);
-    void runInitCmd(void);
+    void checkThresholds() override;
+    void read();
+    void init();
+    std::string getSubTypeUnits() const;
+    void loadDefaults();
+    void runInitCmd();
     bool processReading(const std::vector<uint8_t>& data, double& resp);
     void parseConfigValues(const SensorBaseConfigMap& entry);
     bool sensorClassType(const std::string& sensorClass);
@@ -120,7 +120,7 @@ struct IpmbSensor :
     ReadingFormat readingFormat = ReadingFormat::byte0;
 
   private:
-    void sendIpmbRequest(void);
+    void sendIpmbRequest();
     sdbusplus::asio::object_server& objectServer;
     boost::asio::steady_timer waitTimer;
     void ipmbRequestCompletionCb(const boost::system::error_code& ec,

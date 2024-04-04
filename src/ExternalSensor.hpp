@@ -31,7 +31,7 @@ class ExternalSensor :
             writeHookIn);
 
     // Returns true if sensor has external Value that is subject to timeout
-    bool isAliveAndPerishable(void) const;
+    bool isAliveAndPerishable() const;
 
     // Returns true if AliveAndPerishable and timeout has not yet happened
     bool
@@ -41,7 +41,7 @@ class ExternalSensor :
     void writeBegin(const std::chrono::steady_clock::time_point& now);
 
     // Marks sensor as timed out, replacing Value with floating-point "NaN"
-    void writeInvalidate(void);
+    void writeInvalidate();
 
     // Returns amount of time elapsed since last writeBegin() happened
     std::chrono::steady_clock::duration
@@ -61,6 +61,6 @@ class ExternalSensor :
     std::function<void(const std::chrono::steady_clock::time_point& now)>
         writeHook;
 
-    void checkThresholds(void) override;
-    void externalSetTrigger(void);
+    void checkThresholds() override;
+    void externalSetTrigger();
 };

@@ -106,4 +106,4 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 
 using NVMEMap = boost::container::flat_map<int, std::shared_ptr<NVMeContext>>;
 
-NVMEMap& getNVMEMap(void);
+NVMEMap& getNVMEMap();

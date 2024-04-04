@@ -35,11 +35,11 @@ class HwmonTempSensor :
                     PowerState powerState,
                     const std::shared_ptr<I2CDevice>& i2cDevice);
     ~HwmonTempSensor() override;
-    void setupRead(void);
+    void setupRead();
     void activate(const std::string& newPath,
                   const std::shared_ptr<I2CDevice>& newI2CDevice);
-    void deactivate(void);
-    bool isActive(void);
+    void deactivate();
+    bool isActive();
 
     std::shared_ptr<I2CDevice> getI2CDevice() const
     {
@@ -61,5 +61,5 @@ class HwmonTempSensor :
 
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void restartRead();
-    void checkThresholds(void) override;
+    void checkThresholds() override;
 };

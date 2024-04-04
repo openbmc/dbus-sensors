@@ -85,7 +85,7 @@ bool NVMeSensor::sample()
     return scanDelay == 0;
 }
 
-void NVMeSensor::checkThresholds(void)
+void NVMeSensor::checkThresholds()
 {
     thresholds::checkThresholds(this);
 }

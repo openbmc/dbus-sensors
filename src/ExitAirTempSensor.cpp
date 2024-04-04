@@ -286,7 +286,7 @@ CFMSensor::~CFMSensor()
     objServer.remove_interface(pwmLimitIface);
 }
 
-void CFMSensor::createMaxCFMIface(void)
+void CFMSensor::createMaxCFMIface()
 {
     cfmLimitIface->register_property("Limit", c2 * maxCFM * tachs.size());
     cfmLimitIface->initialize();
@@ -318,12 +318,12 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
         "xyz.openbmc_project.Sensor.Value");
 }
 
-void CFMSensor::checkThresholds(void)
+void CFMSensor::checkThresholds()
 {
     thresholds::checkThresholds(this);
 }
 
-void CFMSensor::updateReading(void)
+void CFMSensor::updateReading()
 {
     double val = 0.0;
     if (calculate(val))
@@ -524,7 +524,7 @@ ExitAirTempSensor::~ExitAirTempSensor()
     objServer.remove_interface(association);
 }
 
-void ExitAirTempSensor::setupMatches(void)
+void ExitAirTempSensor::setupMatches()
 {
     constexpr const auto matchTypes{
         std::to_array<const char*>({"power", inletTemperatureSensor})};
@@ -632,7 +632,7 @@ void ExitAirTempSensor::setupMatches(void)
         std::array<const char*, 1>{sensorValueInterface});
 }
 
-void ExitAirTempSensor::updateReading(void)
+void ExitAirTempSensor::updateReading()
 {
     double val = 0.0;
     if (calculate(val))
@@ -646,7 +646,7 @@ void ExitAirTempSensor::updateReading(void)
     }
 }
 
-double ExitAirTempSensor::getTotalCFM(void)
+double ExitAirTempSensor::getTotalCFM()
 {
     double sum = 0;
     for (auto& sensor : cfmSensors)
@@ -825,7 +825,7 @@ bool ExitAirTempSensor::calculate(double& val)
     return true;
 }
 
-void ExitAirTempSensor::checkThresholds(void)
+void ExitAirTempSensor::checkThresholds()
 {
     thresholds::checkThresholds(this);
 }

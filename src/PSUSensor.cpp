@@ -134,7 +134,7 @@ void PSUSensor::deactivate()
     path = "";
 }
 
-void PSUSensor::setupRead(void)
+void PSUSensor::setupRead()
 {
     if (!readingStateGood())
     {
@@ -169,7 +169,7 @@ void PSUSensor::setupRead(void)
     });
 }
 
-void PSUSensor::restartRead(void)
+void PSUSensor::restartRead()
 {
     std::weak_ptr<PSUSensor> weakRef = weak_from_this();
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
@@ -231,7 +231,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
     restartRead();
 }
 
-void PSUSensor::checkThresholds(void)
+void PSUSensor::checkThresholds()
 {
     if (!readingStateGood())
     {

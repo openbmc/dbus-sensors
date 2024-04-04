@@ -29,11 +29,11 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
     ~CFMSensor() override;
 
     bool calculate(double& /*value*/);
-    void updateReading(void);
-    void setupMatches(void);
-    void createMaxCFMIface(void);
+    void updateReading();
+    void setupMatches();
+    void createMaxCFMIface();
     void addTachRanges(const std::string& serviceName, const std::string& path);
-    void checkThresholds(void) override;
+    void checkThresholds() override;
     uint64_t getMaxRpm(uint64_t cfmMax) const;
 
   private:
@@ -65,9 +65,9 @@ struct ExitAirTempSensor :
                       std::vector<thresholds::Threshold>&& thresholdData);
     ~ExitAirTempSensor() override;
 
-    void checkThresholds(void) override;
-    void updateReading(void);
-    void setupMatches(void);
+    void checkThresholds() override;
+    void updateReading();
+    void setupMatches();
 
   private:
     double lastReading = 0.0;
@@ -78,6 +78,6 @@ struct ExitAirTempSensor :
 
     sdbusplus::asio::object_server& objServer;
     std::chrono::time_point<std::chrono::steady_clock> lastTime;
-    static double getTotalCFM(void);
+    static double getTotalCFM();
     bool calculate(double& val);
 };

@@ -53,7 +53,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     std::shared_ptr<std::set<std::string>> asserts;
     std::shared_ptr<std::set<std::string>> combineEvent;
     std::shared_ptr<bool> assertState;
-    void setupRead(void);
+    void setupRead();
 
   private:
     int value = 0;

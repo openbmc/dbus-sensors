@@ -111,7 +111,7 @@ IntelCPUSensor::~IntelCPUSensor()
     }
 }
 
-void IntelCPUSensor::restartRead(void)
+void IntelCPUSensor::restartRead()
 {
     std::weak_ptr<IntelCPUSensor> weakRef = weak_from_this();
     waitTimer.expires_after(std::chrono::milliseconds(pollTime));
@@ -130,7 +130,7 @@ void IntelCPUSensor::restartRead(void)
     });
 }
 
-void IntelCPUSensor::setupRead(void)
+void IntelCPUSensor::setupRead()
 {
     if (readingStateGood())
     {
@@ -166,7 +166,7 @@ void IntelCPUSensor::setupRead(void)
     });
 }
 
-void IntelCPUSensor::updateMinMaxValues(void)
+void IntelCPUSensor::updateMinMaxValues()
 {
     const boost::container::flat_map<
         std::string,
@@ -322,7 +322,7 @@ void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
     restartRead();
 }
 
-void IntelCPUSensor::checkThresholds(void)
+void IntelCPUSensor::checkThresholds()
 {
     if (show)
     {

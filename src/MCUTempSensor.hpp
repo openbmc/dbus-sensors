@@ -19,9 +19,9 @@ struct MCUTempSensor : public Sensor
                   uint8_t busId, uint8_t mcuAddress, uint8_t tempReg);
     ~MCUTempSensor() override;
 
-    void checkThresholds(void) override;
-    void read(void);
-    void init(void);
+    void checkThresholds() override;
+    void read();
+    void init();
 
     uint8_t busId;
     uint8_t mcuAddress;

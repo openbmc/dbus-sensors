@@ -1053,7 +1053,7 @@ void createSensors(
     getter->getConfiguration(types);
 }
 
-void propertyInitialize(void)
+void propertyInitialize()
 {
     sensorTable = {{"power", sensor_paths::unitWatts},
                    {"curr", sensor_paths::unitAmperes},

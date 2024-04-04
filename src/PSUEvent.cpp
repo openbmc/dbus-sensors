@@ -184,7 +184,7 @@ PSUSubEvent::~PSUSubEvent()
     inputDev.close();
 }
 
-void PSUSubEvent::setupRead(void)
+void PSUSubEvent::setupRead()
 {
     if (!readingStateGood(readState))
     {

@@ -94,7 +94,7 @@ ADCSensor::~ADCSensor()
     objServer.remove_interface(association);
 }
 
-void ADCSensor::setupRead(void)
+void ADCSensor::setupRead()
 {
     std::shared_ptr<boost::asio::streambuf> buffer =
         std::make_shared<boost::asio::streambuf>();
@@ -225,7 +225,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
     });
 }
 
-void ADCSensor::checkThresholds(void)
+void ADCSensor::checkThresholds()
 {
     if (!readingStateGood())
     {

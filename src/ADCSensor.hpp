@@ -75,7 +75,7 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
               const std::string& sensorConfiguration,
               std::optional<BridgeGpio>&& bridgeGpio);
     ~ADCSensor() override;
-    void setupRead(void);
+    void setupRead();
 
   private:
     sdbusplus::asio::object_server& objServer;
@@ -88,5 +88,5 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
     std::optional<BridgeGpio> bridgeGpio;
     thresholds::ThresholdTimer thresholdTimer;
     void handleResponse(const boost::system::error_code& err);
-    void checkThresholds(void) override;
+    void checkThresholds() override;
 };
