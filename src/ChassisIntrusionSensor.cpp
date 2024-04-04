@@ -17,22 +17,30 @@
 #include "ChassisIntrusionSensor.hpp"
 
 #include <fcntl.h>
+#include <linux/i2c.h>
 #include <sys/ioctl.h>
+#include <sys/syslog.h>
 #include <systemd/sd-journal.h>
 #include <unistd.h>
 
 #include <Utils.hpp>
+#include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
+#include <boost/asio/posix/stream_descriptor.hpp>
+#include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
-#include <cerrno>
 #include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
-#include <thread>
 #include <utility>
+#include <vector>
 
 extern "C"
 {

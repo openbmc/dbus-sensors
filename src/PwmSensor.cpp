@@ -16,12 +16,18 @@
 
 #include "PwmSensor.hpp"
 
+#include "SensorPaths.hpp"
 #include "Utils.hpp"
+#include "sensor.hpp"
 
+#include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cmath>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <string>
 
