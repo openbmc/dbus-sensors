@@ -6,8 +6,8 @@
 
 #include <FileHandle.hpp>
 #include <boost/asio/read.hpp>
-#include <boost/asio/streambuf.hpp>
 #include <boost/asio/write.hpp>
+#include <boost/beast/core/flat_buffer.hpp>
 
 #include <cassert>
 #include <cerrno>
@@ -275,7 +275,7 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         }
     });
 
-    auto response = std::make_shared<boost::asio::streambuf>();
+    auto response = std::make_shared<boost::beast::flat_buffer>();
     response->prepare(1);
 
     /* Gather the response and dispatch for parsing */
@@ -292,9 +292,6 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         {
             return static_cast<std::size_t>(1);
         }
-
-        std::istream is(response.get());
-        size_t len = static_cast<std::size_t>(is.peek());
 
         if (n > len + 1)
         {
@@ -335,12 +332,9 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         {
             /* Deserialise the response */
             response->consume(1); /* Drop the length byte */
-            std::istream is(response.get());
-            std::vector<char> data(response->size());
-            is.read(data.data(), response->size());
 
             /* Update the sensor */
-            self->processResponse(sensor, data.data(), data.size());
+            self->processResponse(sensor, response->data());
 
             /* Enqueue processing of the next sensor */
             self->readAndProcessNVMeSensor();
@@ -387,15 +381,13 @@ static double getTemperatureReading(int8_t reading)
 }
 
 void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
-                                       void* msg, size_t len)
+                                       std::span<uint8_t> messageData)
 {
-    if (msg == nullptr || len < 6)
+    if (msg == nullptr || messageData.size() < 6)
     {
         sensor->incrementError();
         return;
     }
-
-    uint8_t* messageData = static_cast<uint8_t*>(msg);
 
     uint8_t status = messageData[0];
     if (((status & NVME_MI_BASIC_SFLGS_DRIVE_NOT_READY) != 0) ||

@@ -414,8 +414,8 @@ static bool initializeLanStatus(
         const int pos = fileStr.find("eth");
         const std::string& ethNumStr = fileStr.substr(pos + 3);
         int ethNum = 0;
-        std::from_chars_result r = std::from_chars(
-            ethNumStr.data(), ethNumStr.data() + ethNumStr.size(), ethNum);
+        std::from_chars_result r = std::from_chars(&*ethNumStr.begin(),
+                                                   &*ethNumStr.end(), ethNum);
         if (r.ec != std::errc())
         {
             std::cerr << "invalid ethNum string: " << ethNumStr << "\n";
