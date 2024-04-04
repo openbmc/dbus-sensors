@@ -226,9 +226,9 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_context& io, int rootBus) :
 
     thread = std::jthread([streamIn{std::move(streamIn)},
                            streamOut{std::move(streamOut)}]() mutable {
-        ssize_t rc = 0;
+        ssize_t rc = processBasicQueryStream(streamIn, streamOut);
 
-        if ((rc = processBasicQueryStream(streamIn, streamOut)) < 0)
+        if (rc < 0)
         {
             std::cerr << "Failure while processing query stream: "
                       << strerror(static_cast<int>(-rc)) << "\n";

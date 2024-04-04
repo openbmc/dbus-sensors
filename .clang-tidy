@@ -2,6 +2,7 @@ Checks: '
 -*,
 boost-use-to-string,
 bugprone-argument-comment,
+bugprone-assignment-in-if-condition,
 bugprone-assert-side-effect,
 bugprone-bad-signal-to-kill-thread,
 bugprone-bool-pointer-implicit-conversion,
