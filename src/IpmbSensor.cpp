@@ -386,12 +386,12 @@ void IpmbSensor::ipmbRequestCompletionCb(const boost::system::error_code& ec,
 
     // rawValue only used in debug logging
     // up to 5th byte in data are used to derive value
-    size_t end = std::min(sizeof(uint64_t), data.size());
     uint64_t rawData = 0;
+    size_t end = std::max(sizeof(rawData), data.size());
     for (size_t i = 0; i < end; i++)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-        reinterpret_cast<uint8_t*>(&rawData)[i] = data[i];
+        uint64_t datau64 = static_cast<uint64_t>(data[i]);
+        rawData |= datau64 << ((sizeof(rawData) - i - 1U) * 8U);
     }
     rawValue = static_cast<double>(rawData);
 
