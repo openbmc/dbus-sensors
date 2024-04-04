@@ -95,7 +95,7 @@ class IpmbSDRDevice : public std::enable_shared_from_this<IpmbSDRDevice>
     uint8_t nextRecordIDLSB = 0;
     uint8_t nextRecordIDMSB = 0;
 
-    std::vector<uint8_t> sdrCommandData = {};
+    std::vector<uint8_t> sdrCommandData;
 
     void getSDRRepositoryInfo();
 
