@@ -16,18 +16,27 @@
 
 #include "HwmonTempSensor.hpp"
 
-#include <unistd.h>
+#include "DeviceMgmt.hpp"
+#include "Thresholds.hpp"
+#include "Utils.hpp"
+#include "sensor.hpp"
 
-#include <boost/asio/read_until.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/error.hpp>
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <charconv>
+#include <chrono>
+#include <cstddef>
 #include <iostream>
-#include <istream>
 #include <limits>
 #include <memory>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
 

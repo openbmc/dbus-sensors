@@ -17,28 +17,33 @@
 #include "ChassisIntrusionSensor.hpp"
 #include "Utils.hpp"
 
+#include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
-#include <sdbusplus/exception.hpp>
-#include <sdbusplus/server.hpp>
-#include <sdbusplus/timer.hpp>
+#include <sdbusplus/message.hpp>
 
 #include <array>
 #include <charconv>
 #include <chrono>
+#include <cstdint>
 #include <ctime>
+#include <exception>
+#include <filesystem>
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <memory>
-#include <stdexcept>
 #include <string>
+#include <system_error>
 #include <utility>
+#include <variant>
 #include <vector>
 
 static constexpr bool debug = false;

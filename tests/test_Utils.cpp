@@ -1,8 +1,15 @@
 #include "Utils.hpp"
 
 #include <array>
+#include <cstddef>
+#include <cstdint>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
+#include <new>
+#include <string>
+#include <vector>
 
 #include <gtest/gtest.h>
 
