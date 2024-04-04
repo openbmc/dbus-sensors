@@ -545,7 +545,7 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
                 // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
                 if (peci_RdPkgConfig(config.addr, PECI_MBX_INDEX_DDR_DIMM_TEMP,
-                                     rank, 4, &pkgConfig[0],
+                                     rank, 4, pkgConfig.data(),
                                      &cc) == PECI_CC_SUCCESS)
                 {
                     // Depending on CPU generation, both 0 and 0xFF can be used
@@ -583,7 +583,7 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
                     uint8_t cc = 0;
 
                     if (peci_RdPkgConfig(config.addr, PECI_MBX_INDEX_CPU_ID, 0,
-                                         4, &pkgConfig[0],
+                                         4, pkgConfig.data(),
                                          &cc) == PECI_CC_SUCCESS)
                     {
                         std::cout << config.name << " is detected\n";
