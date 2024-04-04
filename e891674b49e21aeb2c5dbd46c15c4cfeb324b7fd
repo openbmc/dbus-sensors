@@ -16,6 +16,24 @@
       "message": "I think writing this as `PSUProperty` explicitly instead of `auto` would be slightly preferable -- it\u0027s not a particularly long, verbose type name, and makes it clearer that we\u0027re storing a local temporary copy of the object and not a reference or something.",
       "revId": "e891674b49e21aeb2c5dbd46c15c4cfeb324b7fd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67fada03_f355050f",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-04T22:56:38Z",
+      "side": 1,
+      "message": "looking at it, that looks like a bug.\n\nThis should be auto\u0026, right?\n\nClearly the copy didn\u0027t matter, but yeah, agreed, should be PSUProperty\u0026",
+      "parentUuid": "e2a5828b_d0e7cea3",
+      "revId": "e891674b49e21aeb2c5dbd46c15c4cfeb324b7fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
