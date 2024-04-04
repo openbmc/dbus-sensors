@@ -3,8 +3,10 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <filesystem>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 FileHandle::FileHandle(const std::filesystem::path& name,
                        std::ios_base::openmode mode) :

@@ -16,24 +16,38 @@
 
 #include "PwmSensor.hpp"
 #include "TachSensor.hpp"
+#include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
 
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/asio/error.hpp>
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/post.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
+#include <sdbusplus/message.hpp>
 
 #include <array>
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <ios>
+#include <iostream>
+#include <map>
 #include <memory>
 #include <optional>
 #include <regex>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <variant>
 #include <vector>

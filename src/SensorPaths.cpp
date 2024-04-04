@@ -1,6 +1,5 @@
 #include "SensorPaths.hpp"
 
-#include <cstring>
 #include <regex>
 #include <string>
 
