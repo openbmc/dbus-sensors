@@ -52,6 +52,24 @@
       "parentUuid": "85090dfb_f4524199",
       "revId": "8d00c55b21bad7de92e03bcafe497d9a616ba459",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5819c2f4_8c3fbeaa",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-05T01:06:45Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "237f0a8c_60c9972b",
+      "revId": "8d00c55b21bad7de92e03bcafe497d9a616ba459",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
