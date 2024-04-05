@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a8ab87b_d779df0a",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-05T00:56:38Z",
+      "side": 1,
+      "message": "It\u0027s not wrong, but I\u0027m not sure it improves anything given the use of `operator[]` below (but we have already determined it\u0027s okay above, so :shrug:).",
+      "revId": "8d00c55b21bad7de92e03bcafe497d9a616ba459",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
