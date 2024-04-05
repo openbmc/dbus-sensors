@@ -16,6 +16,24 @@
       "message": "Seems okay for the nvmesensor bits, though it does seem to affect only `.cpp` files and not clean anything out of `.hpp`s. Any thoughts there?",
       "revId": "41aa448f55639bd7f4123beee2bb3954b1c6c2a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2ef98b3_abb62cf1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-05T00:55:20Z",
+      "side": 1,
+      "message": "HeaderFilterRegex might be broken in the clang config in this repo (and it doesn\u0027t match what I have in bmcweb).  I think that\u0027s just because we\u0027re missing the addtion of as_system() to keep it from trying to format dependency headers.  I\u0027ll take a look, but I think this patch is still a baseline improvement, and at least keeps cpp files correct.",
+      "parentUuid": "f38ce32b_cbe1759a",
+      "revId": "41aa448f55639bd7f4123beee2bb3954b1c6c2a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
