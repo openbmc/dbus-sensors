@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7ac0572_5ad3a6b8",
+        "filename": ".clang-tidy",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-05T01:02:56Z",
+      "side": 1,
+      "message": "Lol, but, my escape hatches!",
+      "revId": "5d0410deb70c8a002ce3413f85ccd4f42a9e27b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efaf83a7_e4dd108f",
+        "filename": ".clang-tidy",
+        "patchSetId": 3
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-05T01:02:56Z",
+      "side": 1,
+      "message": "Didn\u0027t we add this in an earlier patch? What happened?",
+      "revId": "5d0410deb70c8a002ce3413f85ccd4f42a9e27b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
