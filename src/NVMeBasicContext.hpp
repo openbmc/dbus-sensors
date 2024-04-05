@@ -2,10 +2,25 @@
 
 #include "NVMeContext.hpp"
 
+#include <boost/asio/experimental/concurrent_channel.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>
 
 #include <thread>
+
+struct MessageRequest
+{
+    int bus = 0;
+    uint8_t device = 0;
+    uint8_t offset = 0;
+    uint8_t len = 0;
+};
+
+struct MessageResponse
+{
+    std::span<uint8_t> validData;
+    std::array<uint8_t, UINT8_MAX + 1> buffer;
+};
 
 class NVMeBasicContext : public NVMeContext
 {
@@ -20,6 +35,8 @@ class NVMeBasicContext : public NVMeContext
   private:
     NVMeBasicContext(boost::asio::io_context& io, int rootBus, int cmdOut,
                      int streamIn, int streamOut, int cmdIn);
+    void startThreadReceive();
+
     boost::asio::io_context& io;
 
     // The IO thread must be destructed after the stream descriptors, so
@@ -33,12 +50,17 @@ class NVMeBasicContext : public NVMeContext
     // coerce it to exit and thus allow completion of the join().
     std::jthread thread;
 
+    boost::asio::io_context threadIo;
+
     // Destruction of the stream descriptors has the effect of issuing cancel(),
     // destroying the closure of the callback where we might be carrying
     // weak_ptrs to `this`.
-    // https://www.boost.org/doc/libs/1_79_0/doc/html/boost_asio/reference/posix__basic_descriptor/_basic_descriptor.html
-    boost::asio::posix::stream_descriptor reqStream;
-    boost::asio::posix::stream_descriptor respStream;
+    boost::asio::experimental::concurrent_channel<void(
+        boost::system::error_code, MessageRequest)>
+        toThread;
+    boost::asio::experimental::concurrent_channel<void(
+        boost::system::error_code, MessageResponse)>
+        fromThread;
 
     enum
     {

@@ -31,6 +31,11 @@ add_project_arguments(
     language: 'cpp',
 )
 
+add_project_arguments(
+    '-DSDBUSPLUS_DISABLE_BOOST_COROUTINES',
+    language: 'cpp',
+)
+
 threads = dependency('threads')
 # i2c-tools doesn't ship a pkg-config file for libi2c
 i2c = meson.get_compiler('cpp').find_library('i2c')
