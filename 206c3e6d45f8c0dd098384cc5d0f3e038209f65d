@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "806bd64b_6f09f0d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-06T00:15:52Z",
+      "side": 1,
+      "message": "Special meaning of \"-1\" in CpuId works, but it is not a super clean.\n+1 because this change would work. But I am also open to other more explicit alternative, like not define CpuId in config or CpuId: \u0027None\u0027",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "206c3e6d45f8c0dd098384cc5d0f3e038209f65d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b0288c3b_207c6e9f",
