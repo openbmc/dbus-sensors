@@ -331,6 +331,30 @@
       },
       "revId": "0fd029ef988dbb9ae43d208d77c681d10f0810ad",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9432167e_35b64254",
+        "filename": "src/IpmbSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-06T00:35:24Z",
+      "side": 1,
+      "message": "Why was the function changed to be static and added errCount as a parameter?\nWe do want the errCount of the sensor object to get updated, right?\nMaybe it returns the new errCount instead of bool?",
+      "parentUuid": "a6cf1cfd_50b470b4",
+      "range": {
+        "startLine": 105,
+        "startChar": 31,
+        "endLine": 105,
+        "endChar": 47
+      },
+      "revId": "0fd029ef988dbb9ae43d208d77c681d10f0810ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
