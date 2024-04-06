@@ -16,6 +16,24 @@
       "message": "Is this a case of we\u0027re moving the object in the last case because ... it\u0027s the last case, and the earlier lambdas take copies and so are unaffected? Feels like it\u0027s over-thinking things, but :shrug:. I\u0027m sure someone will figure it out if they add a subsequent lambda capture. Hopefully the compiler blows up.",
       "revId": "021b8ab28837e36918013dcff351f984ecf941e2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bfff3e2_d53b0ea6",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-06T16:45:18Z",
+      "side": 1,
+      "message": "\u003e Is this a case of we\u0027re moving the object in the last case because ... it\u0027s the last case, and the earlier lambdas take copies and so are unaffected? Feels like it\u0027s over-thinking things, but :shrug:. I\u0027m sure someone will figure it out if they add a subsequent lambda capture. Hopefully the compiler blows up.\n\nCompiler doesn\u0027t blow up, but clang-tidy flags it immediately (note the earlier patchset where I made this change wrong).  I agree it\u0027s a little weird to pass in a function object by rvalue reference, then make 3 copies of it.\n\nArguably we should probably have 3 callbacks, one for each of these, but oh well, that\u0027s something we can fix later.",
+      "parentUuid": "2ca1665f_740bf6f7",
+      "revId": "021b8ab28837e36918013dcff351f984ecf941e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
