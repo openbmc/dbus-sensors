@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a1c385_2e825768",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-09T12:06:26Z",
+      "side": 1,
+      "message": "Either `dataSpan` or `spanWithoutLength` would be preferable. `spanWithoutData` is misleading, as we want the data, and the length is becomes embedded in the span.",
+      "range": {
+        "startLine": 336,
+        "startChar": 31,
+        "endLine": 336,
+        "endChar": 46
+      },
+      "revId": "4bdaac12d802623cf92f0b452919e614942a06c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
