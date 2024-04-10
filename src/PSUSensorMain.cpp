@@ -1004,6 +1004,8 @@ static void
     for (const auto& [path, objDict] : cpuSubTree)
     {
         auto obj = sdbusplus::message::object_path(path).filename();
+        boost::to_lower(obj);
+
         if (!obj.starts_with("cpu") || objDict.empty())
         {
             continue;
@@ -1032,14 +1034,14 @@ static void
             int cpuIndex = 0;
             try
             {
-                cpuIndex = std::stoi(obj.substr(obj.find_last_of("cpu") + 1));
+                cpuIndex = std::stoi(obj.substr(obj.size() - 1));
             }
             catch (const std::exception& e)
             {
                 std::cerr << "Error converting CPU index, " << e.what() << '\n';
                 continue;
             }
-            cpuPresence[cpuIndex + 1] = *present;
+            cpuPresence[cpuIndex] = *present;
         }
     }
 }
