@@ -22,6 +22,30 @@
       },
       "revId": "4bdaac12d802623cf92f0b452919e614942a06c0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffe734e7_07e2d570",
+        "filename": "src/NVMeBasicContext.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-10T05:39:33Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "e6a1c385_2e825768",
+      "range": {
+        "startLine": 336,
+        "startChar": 31,
+        "endLine": 336,
+        "endChar": 46
+      },
+      "revId": "4bdaac12d802623cf92f0b452919e614942a06c0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
