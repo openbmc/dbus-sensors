@@ -1024,7 +1024,7 @@ static void
                 std::cerr << "Error converting CPU index, " << e.what() << '\n';
                 continue;
             }
-            cpuPresence[cpuIndex + 1] = *present;
+            cpuPresence[cpuIndex] = *present;
         }
     }
 }
