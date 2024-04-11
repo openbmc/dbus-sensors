@@ -22,6 +22,23 @@
       },
       "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44c0a039_357996b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-11T23:07:45Z",
+      "side": 1,
+      "message": "Can we write this commit message more clearly?\n\nIt should answer these questions:\n\nFor CPUs that define the value, what is the behavior?  Does it change with this patch (hint, it shouldn\u0027t unless this patch is coming with a bunch of others to fix all behavior)?\nFor CPUs that don\u0027t want to define the index value, how do they accomplish that?  What is the behavior if they do?",
+      "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
