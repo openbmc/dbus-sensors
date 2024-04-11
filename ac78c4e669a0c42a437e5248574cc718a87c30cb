@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2dbc272_13ae2a57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-11T21:34:06Z",
+      "side": 1,
+      "message": "I think cpu index is inconsistent across services in openbmc is more accurate.\nIt is zero based here:\nhttps://github.com/openbmc/smbios-mdr/blob/master/src/mdrv2.cpp#L539\nBut it is one based here: https://github.com/openbmc/entity-manager/blob/master/configurations/wft_baseboard.json#L234\n\nDropping +1 will break existing systems with one based configurations.\nPerhaps we should start making configuration file to be one based consistently.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
