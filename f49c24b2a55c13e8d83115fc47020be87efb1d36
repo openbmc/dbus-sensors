@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aff408c4_f586988b",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-11T23:14:07Z",
+      "side": 1,
+      "message": "waitTimeMs to make the unit clear",
+      "range": {
+        "startLine": 81,
+        "startChar": 28,
+        "endLine": 81,
+        "endChar": 36
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e1db54_5ac87f9b",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-11T23:14:07Z",
+      "side": 1,
+      "message": "startupDelayMs so the unit is clear",
+      "range": {
+        "startLine": 226,
+        "startChar": 13,
+        "endLine": 226,
+        "endChar": 25
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fcaba77_e25720c8",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-11T23:14:07Z",
+      "side": 1,
+      "message": "some range checking here?",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 20
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
