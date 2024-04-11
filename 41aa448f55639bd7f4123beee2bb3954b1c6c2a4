@@ -106,6 +106,24 @@
       "parentUuid": "f3e66670_8cc6ccfe",
       "revId": "41aa448f55639bd7f4123beee2bb3954b1c6c2a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2018290_fd4d7b7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-11T23:00:34Z",
+      "side": 1,
+      "message": "lgtm - just a little surprised where gpiod landed. Give my +1",
+      "parentUuid": "2279e77a_b6b57fa2",
+      "revId": "41aa448f55639bd7f4123beee2bb3954b1c6c2a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
