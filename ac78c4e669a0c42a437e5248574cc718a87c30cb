@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "462c75e7_e59cc9a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-04-12T06:35:56Z",
+      "side": 1,
+      "message": "Updated to commit message:\n- Dropped 0-based indices as boards use either 0-based or 1-based.\n- Made clear that it was inconsistent within dbus-sensors as well (that\u0027s what is being fixed here).\n- Made clear that the change allows to use both 0-based and 1-based configurations.",
+      "parentUuid": "4c048a6b_2970f987",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44c0a039_357996b4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -61,6 +85,24 @@
       "writtenOn": "2024-04-11T23:07:45Z",
       "side": 1,
       "message": "Can we write this commit message more clearly?\n\nIt should answer these questions:\n\nFor CPUs that define the value, what is the behavior?  Does it change with this patch (hint, it shouldn\u0027t unless this patch is coming with a bunch of others to fix all behavior)?\nFor CPUs that don\u0027t want to define the index value, how do they accomplish that?  What is the behavior if they do?",
+      "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0970d6ea_38535830",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-04-12T06:35:56Z",
+      "side": 1,
+      "message": "I tried to answer those questions, even though this change doesn\u0027t affect board that do not specify the CPURequired property.",
+      "parentUuid": "44c0a039_357996b4",
       "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
