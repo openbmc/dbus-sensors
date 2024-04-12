@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c048a6b_2970f987",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-04-12T06:14:34Z",
+      "side": 1,
+      "message": "It can\u0027t get worse since it\u0027s inconsistent within dbus-sensors already.\nIt works on 0 based and 1 based system when the inventory on those boards is also 0 based or 1 based. As long as inventory and entity-manager config are synced it\u0027s fine to drop the +1 on one of the code path used within dbus-sensors.",
+      "parentUuid": "a2dbc272_13ae2a57",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44c0a039_357996b4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
