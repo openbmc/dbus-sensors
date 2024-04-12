@@ -136,7 +136,7 @@ const static constexpr char* busname =
     "xyz.openbmc_project.State.OperatingSystem";
 const static constexpr char* interface =
     "xyz.openbmc_project.State.OperatingSystem.Status";
-const static constexpr char* path = "/xyz/openbmc_project/state/os";
+const static constexpr char* path = "/xyz/openbmc_project/state/host0";
 const static constexpr char* property = "OperatingSystemState";
 } // namespace post
 
