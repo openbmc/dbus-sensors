@@ -16,6 +16,24 @@
       "message": "So dbus-sensors is broken right now? We need to submit this ASAP?",
       "revId": "98a3bc8bca849c6d4024f3924433eb622a9b1a74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f266f3b_1e79d009",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-04-15T05:08:07Z",
+      "side": 1,
+      "message": "Well, I posted this after updating and finding my BIOSPost-enabled hwmontempsensor sensor broken, so yes...though after some gerrit spelunking I see Potin actually posted a (more thorough) version of this and got it approved about a month ago, but (sigh) no one hit submit: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/69595\n\nSo I guess I\u0027ll just give that one the nudge it needs and drop this.",
+      "parentUuid": "39bec562_1f487c6b",
+      "revId": "98a3bc8bca849c6d4024f3924433eb622a9b1a74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
