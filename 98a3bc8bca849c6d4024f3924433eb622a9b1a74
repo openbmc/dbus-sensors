@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39bec562_1f487c6b",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-15T04:57:10Z",
+      "side": 1,
+      "message": "So dbus-sensors is broken right now? We need to submit this ASAP?",
+      "revId": "98a3bc8bca849c6d4024f3924433eb622a9b1a74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
