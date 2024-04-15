@@ -1,0 +1,9 @@
+Code-Review+1: Patrick Williams <patrick@stwcx.xyz>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Zhikui Ren <zhikui.ren@intel.com>
+Submitted-by: Zev Weiss <zev@bewilderbeest.net>
+Submitted-at: Mon, 15 Apr 2024 05:08:27 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/69595
+Comments-Total: 5
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
