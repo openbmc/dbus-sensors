@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23a9aa75_d371960e",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001588
+      },
+      "writtenOn": "2024-04-16T22:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aff408c4_f586988b",
+      "range": {
+        "startLine": 81,
+        "startChar": 28,
+        "endLine": 81,
+        "endChar": 36
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e5e1db54_5ac87f9b",
         "filename": "src/Utils.hpp",
         "patchSetId": 6
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf32c13f_39c5e9e6",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001588
+      },
+      "writtenOn": "2024-04-16T22:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5e1db54_5ac87f9b",
+      "range": {
+        "startLine": 226,
+        "startChar": 13,
+        "endLine": 226,
+        "endChar": 25
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fcaba77_e25720c8",
         "filename": "src/Utils.hpp",
         "patchSetId": 6
@@ -60,6 +108,30 @@
       "writtenOn": "2024-04-11T23:14:07Z",
       "side": 1,
       "message": "some range checking here?",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 20
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb1519d4_f533b6e5",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1001588
+      },
+      "writtenOn": "2024-04-16T22:28:15Z",
+      "side": 1,
+      "message": "For now it\u0027s using uint and the default delay would be 0ms. Are you talking about the maximum delay time?",
+      "parentUuid": "0fcaba77_e25720c8",
       "range": {
         "startLine": 230,
         "startChar": 8,
