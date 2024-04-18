@@ -158,7 +158,6 @@ static EventPathList eventMatch;
 static GroupEventPathList groupEventMatch;
 static EventPathList limitEventMatch;
 
-static boost::container::flat_map<size_t, bool> cpuPresence;
 static boost::container::flat_map<DevTypes, DevParams> devParamMap;
 
 // Function CheckEvent will check each attribute from eventMatch table in the
@@ -483,15 +482,10 @@ static void createSensorsCallback(
             continue;
         }
 
-        auto findCPU = baseConfig->find("CPURequired");
-        if (findCPU != baseConfig->end())
+        auto cpuRequired = getCpuRequired(*baseConfig);
+        if (cpuRequired && !isCpuPresent(*cpuRequired))
         {
-            size_t index = std::visit(VariantToIntVisitor(), findCPU->second);
-            auto presenceFind = cpuPresence.find(index);
-            if (presenceFind == cpuPresence.end() || !presenceFind->second)
-            {
-                continue;
-            }
+            continue;
         }
 
         // on rescans, only update sensors we were signaled by
@@ -982,73 +976,6 @@ static void createSensorsCallback(
     }
 }
 
-static void
-    getPresentCpus(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
-{
-    static const int depth = 2;
-    static const int numKeys = 1;
-    GetSubTreeType cpuSubTree;
-
-    try
-    {
-        auto getItems = dbusConnection->new_method_call(
-            mapper::busName, mapper::path, mapper::interface, mapper::subtree);
-        getItems.append(cpuInventoryPath, static_cast<int32_t>(depth),
-                        std::array<const char*, numKeys>{
-                            "xyz.openbmc_project.Inventory.Item"});
-        auto getItemsResp = dbusConnection->call(getItems);
-        getItemsResp.read(cpuSubTree);
-    }
-    catch (sdbusplus::exception_t& e)
-    {
-        std::cerr << "error getting inventory item subtree: " << e.what()
-                  << "\n";
-        return;
-    }
-
-    for (const auto& [path, objDict] : cpuSubTree)
-    {
-        auto obj = sdbusplus::message::object_path(path).filename();
-        if (!obj.starts_with("cpu") || objDict.empty())
-        {
-            continue;
-        }
-        const std::string& owner = objDict.begin()->first;
-
-        std::variant<bool> respValue;
-        try
-        {
-            auto getPresence = dbusConnection->new_method_call(
-                owner.c_str(), path.c_str(), "org.freedesktop.DBus.Properties",
-                "Get");
-            getPresence.append("xyz.openbmc_project.Inventory.Item", "Present");
-            auto resp = dbusConnection->call(getPresence);
-            resp.read(respValue);
-        }
-        catch (sdbusplus::exception_t& e)
-        {
-            std::cerr << "Error in getting CPU presence: " << e.what() << "\n";
-            continue;
-        }
-
-        auto* present = std::get_if<bool>(&respValue);
-        if (present != nullptr && *present)
-        {
-            int cpuIndex = 0;
-            try
-            {
-                cpuIndex = std::stoi(obj.substr(obj.find_last_of("cpu") + 1));
-            }
-            catch (const std::exception& e)
-            {
-                std::cerr << "Error converting CPU index, " << e.what() << '\n';
-                continue;
-            }
-            cpuPresence[cpuIndex + 1] = *present;
-        }
-    }
-}
-
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -1269,72 +1196,12 @@ int main()
         });
     };
 
-    boost::asio::steady_timer cpuFilterTimer(io);
-    std::function<void(sdbusplus::message_t&)> cpuPresenceHandler =
-        [&](sdbusplus::message_t& message) {
-        std::string path = message.get_path();
-        boost::to_lower(path);
-
-        sdbusplus::message::object_path cpuPath(path);
-        std::string cpuName = cpuPath.filename();
-        if (!cpuName.starts_with("cpu"))
-        {
-            return;
-        }
-        size_t index = 0;
-        try
-        {
-            index = std::stoi(path.substr(path.size() - 1));
-        }
-        catch (const std::invalid_argument&)
-        {
-            std::cerr << "Found invalid path " << path << "\n";
-            return;
-        }
-
-        std::string objectName;
-        boost::container::flat_map<std::string, std::variant<bool>> values;
-        message.read(objectName, values);
-        auto findPresence = values.find("Present");
-        try
-        {
-            cpuPresence[index] = std::get<bool>(findPresence->second);
-        }
-        catch (const std::bad_variant_access& err)
-        {
-            return;
-        }
-
-        if (!cpuPresence[index])
-        {
-            return;
-        }
-        cpuFilterTimer.expires_after(std::chrono::seconds(1));
-        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                return;
-            }
-            if (ec)
-            {
-                std::cerr << "timer error\n";
-                return;
-            }
-            createSensors(io, objectServer, systemBus, nullptr, false);
-        });
-    };
-
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
-    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',member='PropertiesChanged',path_namespace='" +
-            std::string(cpuInventoryPath) +
-            "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
-        cpuPresenceHandler));
-
-    getPresentCpus(systemBus);
+    setupCpuMatchCallback(systemBus, [&]() {
+        createSensors(io, objectServer, systemBus, nullptr, false);
+    });
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
