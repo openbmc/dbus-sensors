@@ -112,6 +112,12 @@ boost::container::flat_map<std::string,
                 continue;
             }
 
+            auto cpuRequired = getCpuRequired(cfg);
+            if (cpuRequired && !isCpuPresent(*cpuRequired))
+            {
+                continue;
+            }
+
             std::shared_ptr<T> findSensor(nullptr);
             for (const auto& sensor : sensors)
             {
