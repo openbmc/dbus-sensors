@@ -796,6 +796,7 @@ int main()
 
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");
+    objectServer.add_manager("/xyz/openbmc_project/inventory");
     boost::asio::steady_timer pingTimer(io);
     boost::asio::steady_timer creationTimer(io);
     boost::asio::steady_timer filterTimer(io);
