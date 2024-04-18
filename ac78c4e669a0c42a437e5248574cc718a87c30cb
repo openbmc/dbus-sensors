@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46a8accb_5286a1fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-04-18T08:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "462c75e7_e59cc9a0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44c0a039_357996b4",
@@ -103,6 +127,24 @@
       "side": 1,
       "message": "I tried to answer those questions, even though this change doesn\u0027t affect board that do not specify the CPURequired property.",
       "parentUuid": "44c0a039_357996b4",
+      "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa3bddcb_486260fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-04-18T08:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0970d6ea_38535830",
       "revId": "ac78c4e669a0c42a437e5248574cc718a87c30cb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
