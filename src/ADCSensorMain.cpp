@@ -19,7 +19,6 @@
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
 
-#include <boost/algorithm/string/case_conv.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/post.hpp>
@@ -29,10 +28,8 @@
 #include <gpiod.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
-#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -44,7 +41,6 @@
 #include <memory>
 #include <optional>
 #include <regex>
-#include <stdexcept>
 #include <string>
 #include <utility>
 #include <variant>
@@ -58,8 +54,6 @@ namespace fs = std::filesystem;
 
 static constexpr auto sensorTypes{std::to_array<const char*>({"ADC"})};
 static std::regex inputRegex(R"(in(\d+)_input)");
-
-static boost::container::flat_map<size_t, bool> cpuPresence;
 
 enum class UpdateType
 {
@@ -216,19 +210,12 @@ void createSensors(
                 }
             }
 
-            auto findCPU = baseConfiguration->second.find("CPURequired");
-            if (findCPU != baseConfiguration->second.end())
+            auto cpuRequired = getCpuRequired(baseConfiguration->second);
+            if (cpuRequired)
             {
-                size_t index = std::visit(VariantToIntVisitor(),
-                                          findCPU->second);
-                auto presenceFind = cpuPresence.find(index);
-                if (presenceFind == cpuPresence.end())
+                if (!isCpuPresent(*cpuRequired))
                 {
-                    continue; // no such cpu
-                }
-                if (!presenceFind->second)
-                {
-                    continue; // cpu not installed
+                    continue;
                 }
             }
             else if (updateType == UpdateType::cpuPresenceChange)
@@ -359,65 +346,13 @@ int main()
         });
     };
 
-    boost::asio::steady_timer cpuFilterTimer(io);
-    std::function<void(sdbusplus::message_t&)> cpuPresenceHandler =
-        [&](sdbusplus::message_t& message) {
-        std::string path = message.get_path();
-        boost::to_lower(path);
-
-        sdbusplus::message::object_path cpuPath(path);
-        std::string cpuName = cpuPath.filename();
-        if (!cpuName.starts_with("cpu"))
-        {
-            return; // not interested
-        }
-        size_t index = 0;
-        try
-        {
-            index = std::stoi(path.substr(path.size() - 1));
-        }
-        catch (const std::invalid_argument&)
-        {
-            std::cerr << "Found invalid path " << path << "\n";
-            return;
-        }
-
-        std::string objectName;
-        boost::container::flat_map<std::string, std::variant<bool>> values;
-        message.read(objectName, values);
-        auto findPresence = values.find("Present");
-        if (findPresence != values.end())
-        {
-            cpuPresence[index] = std::get<bool>(findPresence->second);
-        }
-
-        // this implicitly cancels the timer
-        cpuFilterTimer.expires_after(std::chrono::seconds(1));
-
-        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                /* we were canceled*/
-                return;
-            }
-            if (ec)
-            {
-                std::cerr << "timer error\n";
-                return;
-            }
-            createSensors(io, objectServer, sensors, systemBus, nullptr,
-                          UpdateType::cpuPresenceChange);
-        });
-    };
-
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
-    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        "type='signal',member='PropertiesChanged',path_namespace='" +
-            std::string(cpuInventoryPath) +
-            "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
-        cpuPresenceHandler));
+
+    setupCpuMatchCallback(systemBus, [&]() {
+        createSensors(io, objectServer, sensors, systemBus, nullptr,
+                      UpdateType::cpuPresenceChange);
+    });
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
