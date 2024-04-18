@@ -36,7 +36,9 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
+#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -62,10 +64,12 @@ static bool powerStatusOn = false;
 static bool biosHasPost = false;
 static bool manufacturingMode = false;
 static bool chassisStatusOn = false;
+static boost::container::flat_map<size_t, bool> cpuPresence;
 
 static std::unique_ptr<sdbusplus::bus::match_t> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> postMatch = nullptr;
 static std::unique_ptr<sdbusplus::bus::match_t> chassisMatch = nullptr;
+static std::unique_ptr<sdbusplus::bus::match_t> cpuMatch = nullptr;
 
 /**
  * return the contents of a file
@@ -327,6 +331,22 @@ bool isChassisOn()
         throw std::runtime_error("Chassis On Match Not Created");
     }
     return chassisStatusOn;
+}
+
+bool isCpuPresent(size_t index)
+{
+    if (!cpuMatch)
+    {
+        throw std::runtime_error("CPU Presence Match Not Created");
+    }
+
+    const auto& presenceFind = cpuPresence.find(index);
+    if (presenceFind != cpuPresence.end())
+    {
+        return presenceFind->second;
+    }
+
+    return false;
 }
 
 bool readingStateGood(const PowerState& powerState)
@@ -862,4 +882,150 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
         types.push_back(type.data());
     }
     return setupPropertiesChangedMatches(bus, {types}, handler);
+}
+
+static void getPresentCpus(
+    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+{
+    static const int depth = 1;
+    static const int numKeys = 1;
+    GetSubTreeType cpuSubTree;
+
+    try
+    {
+        auto getItems = dbusConnection->new_method_call(
+            mapper::busName, mapper::path, mapper::interface, mapper::subtree);
+        getItems.append(cpuInventoryPath, static_cast<int32_t>(depth),
+                        std::array<const char*, numKeys>{
+                            "xyz.openbmc_project.Inventory.Item"});
+        auto getItemsResp = dbusConnection->call(getItems);
+        getItemsResp.read(cpuSubTree);
+    }
+    catch (sdbusplus::exception_t& e)
+    {
+        std::cerr << "error getting inventory item subtree: " << e.what()
+                  << "\n";
+        return;
+    }
+
+    for (const auto& [path, objDict] : cpuSubTree)
+    {
+        std::smatch indexMatch;
+        const auto& obj = sdbusplus::message::object_path(path).filename();
+        if (objDict.empty() || !std::regex_match(obj, indexMatch, cpuRegex))
+        {
+            continue;
+        }
+
+        std::variant<bool> respValue;
+        const std::string& owner = objDict.begin()->first;
+        try
+        {
+            auto getPresence = dbusConnection->new_method_call(
+                owner.c_str(), path.c_str(), "org.freedesktop.DBus.Properties",
+                "Get");
+            getPresence.append("xyz.openbmc_project.Inventory.Item", "Present");
+            auto resp = dbusConnection->call(getPresence);
+            resp.read(respValue);
+        }
+        catch (sdbusplus::exception_t& e)
+        {
+            std::cerr << "Error in getting CPU presence: " << e.what() << "\n";
+            continue;
+        }
+
+        auto* present = std::get_if<bool>(&respValue);
+        if (present != nullptr)
+        {
+            int cpuIndex = 0;
+            try
+            {
+                cpuIndex = std::stoi(indexMatch[1]);
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "Error converting CPU index, " << e.what() << '\n';
+                continue;
+            }
+            cpuPresence[cpuIndex] = *present;
+        }
+    }
+}
+
+void setupCpuMatchCallback(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    std::function<void(void)>&& cpuPresenceCallback)
+{
+    static boost::asio::steady_timer cpuFilterTimer(conn->get_io_context());
+    // create a match for CPU changes, first time do a method call to
+    // cache the correct value
+    if (cpuMatch)
+    {
+        return;
+    }
+
+    cpuMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*conn),
+        "type='signal',member='PropertiesChanged',path_namespace='" +
+            std::string(cpuInventoryPath) +
+            "',arg0='xyz.openbmc_project.Inventory.Item'",
+        [cpuPresenceCallback = std::move(cpuPresenceCallback)](
+            sdbusplus::message_t& message) {
+        const std::string& path = message.get_path();
+
+        std::smatch indexMatch;
+        const std::string& obj =
+            sdbusplus::message::object_path(path).filename();
+
+        if (!std::regex_match(obj, indexMatch, cpuRegex))
+        {
+            return;
+        }
+
+        std::string objectName;
+        boost::container::flat_map<std::string, std::variant<bool>> values;
+        message.read(objectName, values);
+        const auto& findPresence = values.find("Present");
+        if (findPresence == values.end())
+        {
+            return;
+        }
+
+        int cpuIndex = 0;
+        const auto* present = std::get_if<bool>(&findPresence->second);
+        if (present != nullptr)
+        {
+            try
+            {
+                cpuIndex = std::stoi(indexMatch[1]);
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "Error converting CPU index, " << e.what() << '\n';
+                return;
+            }
+
+            if (cpuPresence[cpuIndex] == *present)
+            {
+                return;
+            }
+
+            cpuPresence[cpuIndex] = *present;
+
+            cpuFilterTimer.expires_after(std::chrono::seconds(1));
+            cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return;
+                }
+                if (ec)
+                {
+                    std::cerr << "Timer error " << ec.message() << "\n";
+                    return;
+                }
+                cpuPresenceCallback();
+            });
+        }
+    });
+    getPresentCpus(conn);
 }
