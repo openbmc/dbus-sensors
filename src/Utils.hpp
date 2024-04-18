@@ -28,6 +28,8 @@ const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
 
 constexpr const char* cpuInventoryPath =
     "/xyz/openbmc_project/inventory/system/chassis/motherboard";
+constexpr const char* cpuIndexRegex = R"(cpu_?(\d+)$)";
+
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
 
 using BasicVariantType =
@@ -75,6 +77,9 @@ void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::function<void(PowerState type, bool state)>&& callback);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
+void setupCpuMatchCallback(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    std::function<void(void)>&& callback);
 bool getSensorConfiguration(
     const std::string& type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -89,6 +94,7 @@ void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
 
 bool readingStateGood(const PowerState& powerState);
+bool isCpuPresent(size_t cpuIndex);
 
 constexpr const char* configInterfacePrefix =
     "xyz.openbmc_project.Configuration.";
@@ -203,6 +209,17 @@ inline PowerState getPowerState(const SensorBaseConfigMap& cfg)
         setReadState(powerState, state);
     }
     return state;
+}
+
+inline std::optional<size_t> getCpuRequired(const SensorBaseConfigMap& cfg)
+{
+    std::optional<size_t> index;
+    auto findCPU = cfg.find("CPURequired");
+    if (findCPU != cfg.end())
+    {
+        index = std::visit(VariantToIntVisitor(), findCPU->second);
+    }
+    return index;
 }
 
 inline float getPollRate(const SensorBaseConfigMap& cfg, float dflt)
