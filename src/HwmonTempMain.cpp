@@ -166,7 +166,7 @@ static struct SensorParams
         // Relative Humidity are read in milli-percent, we need percent.
         tmpSensorParameters.scaleValue *= 0.001;
         tmpSensorParameters.typeName = "humidity";
-        tmpSensorParameters.units = "PercentRH";
+        tmpSensorParameters.units = sensor_paths::unitPercentRH;
     }
     else
     {
