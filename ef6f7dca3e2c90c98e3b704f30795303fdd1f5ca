@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "318577c5_4622b805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-19T16:04:06Z",
+      "side": 1,
+      "message": "I like the idea to make it consistent within the same config file. \nThere is still an issue for this change. Please see inline comments.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f236c376_48e83c2a",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-19T16:04:06Z",
+      "side": 1,
+      "message": "This is actually matching for xyz.openbmc_project.Inventory.Item Present property from smbios service, which has the 0 index:\n/xyz/openbmc_project/inventory/system/chassis/motherboard/cpu0\nhttps://github.com/openbmc/smbios-mdr/blob/master/src/cpu.cpp#L159\nhttps://github.com/openbmc/smbios-mdr/blob/master/src/cpu.cpp#L159\n\nintelcpusensor path is slightly different and does not match here:\n/xyz/openbmc_project/inventory/system/chassis/motherboard/CPU_1",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39774045_c3f3ac63",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-19T16:04:06Z",
+      "side": 1,
+      "message": "This line works for both interfaces from intelcpusensor and smbios - whoever is the last one wins. \nThe two handler should be made the same and use intelcpusensor interface to achieve what was said in commit message - consistent within one config file",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
