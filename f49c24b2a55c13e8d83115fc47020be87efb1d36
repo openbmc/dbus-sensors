@@ -140,6 +140,30 @@
       },
       "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34f3ede_3333213b",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-19T16:14:34Z",
+      "side": 1,
+      "message": "I realize it can be hard to define a good maximum. But at the same time not having any upper bound is problematic. Yes, I recommend to have a maximum defined.",
+      "parentUuid": "bb1519d4_f533b6e5",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 20
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
