@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67a22697_16f01472",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-04-24T08:47:06Z",
+      "side": 1,
+      "message": "Not sure what you want me to do here.\nChecking intelcpusensor the inventory path is read from entity-manager configuration and thus it might be 0based or 1based index. intelcpusensor doesn\u0027t make any asumptions about it.",
+      "parentUuid": "f236c376_48e83c2a",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39774045_c3f3ac63",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -54,6 +72,24 @@
       "writtenOn": "2024-04-19T16:04:06Z",
       "side": 1,
       "message": "This line works for both interfaces from intelcpusensor and smbios - whoever is the last one wins. \nThe two handler should be made the same and use intelcpusensor interface to achieve what was said in commit message - consistent within one config file",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ee7c29_071fd183",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-04-24T08:47:06Z",
+      "side": 1,
+      "message": "What is \"intelcpusensor interface\" and why would psusensors need to depend on it?",
+      "parentUuid": "39774045_c3f3ac63",
       "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
