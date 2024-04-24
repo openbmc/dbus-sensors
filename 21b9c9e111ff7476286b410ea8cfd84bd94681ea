@@ -87,6 +87,30 @@
       },
       "revId": "21b9c9e111ff7476286b410ea8cfd84bd94681ea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d562bc51_aa3e89c9",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-04-24T07:20:03Z",
+      "side": 1,
+      "message": "I moved those variables back to main function. Beside that, I request to read CPU presence object path when `matches` are created to avoid missing object paths that was created before ADCsensor is run.",
+      "parentUuid": "ca937ed2_d2ff12ba",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 45
+      },
+      "revId": "21b9c9e111ff7476286b410ea8cfd84bd94681ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
