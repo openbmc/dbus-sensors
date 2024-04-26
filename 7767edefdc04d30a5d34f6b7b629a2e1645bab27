@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f659c00_f2f4d747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-26T21:16:28Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/71090 covers this change , it also improves the CPU present detection feature by creating a common function for all sensor services to use.\n\n+1 this review since change is straightforward and does fix some of the existing issues.",
+      "revId": "7767edefdc04d30a5d34f6b7b629a2e1645bab27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f37bfdc_fdf41d5b",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-26T21:16:28Z",
+      "side": 1,
+      "message": "why this change is needed?",
+      "range": {
+        "startLine": 386,
+        "startChar": 48,
+        "endLine": 386,
+        "endChar": 72
+      },
+      "revId": "7767edefdc04d30a5d34f6b7b629a2e1645bab27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
