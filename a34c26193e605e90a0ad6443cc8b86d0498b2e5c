@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99b65e10_900f9e92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2024-04-26T07:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95c10b0b_6493b921",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "a34c26193e605e90a0ad6443cc8b86d0498b2e5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d986cba_a6634982",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Yes, I tested ADC sensors with the CPU Present object path which created by phosphor-multi-gpio-presence.\nWhen the `InterfaceAdded` signals are matched by the ADC service, the ADC sensors created correctly corresponding with the `Present` state of CPU_x object path.\n\nBUT, Event we set the ADC sensor run before the service create the CPU Present Object path. When we stress BMC reboot with the host is on, sometime the ADC service still misss the `InterfaceAdd` signal.\nThe possible cause is the `InterfaceAdded` signal is only created once time at the early boot state of BMC when there is many `InterfaceAdded` signal so for some reason ADC missed CPU Present signal.\nThis cause the second patch set to cover this case.",
       "parentUuid": "2d986cba_a6634982",
+      "range": {
+        "startLine": 18,
+        "startChar": 19,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "a34c26193e605e90a0ad6443cc8b86d0498b2e5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13cfb1c6_0e6b4c91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2024-04-26T07:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51dcfd6c_00122a40",
       "range": {
         "startLine": 18,
         "startChar": 19,
