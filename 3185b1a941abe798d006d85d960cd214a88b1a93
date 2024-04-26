@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e10b37f7_7e9151c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-04-26T21:04:07Z",
+      "side": 1,
+      "message": "Currently there are multiple reviews trying to fix the CPU present detection in different dbus sensor services.\nPlease take a look at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/71090\nRather than duplicate the code if multiple places, it makes more sense to abstract the common function into utilities and port all services to use the common function.",
+      "revId": "3185b1a941abe798d006d85d960cd214a88b1a93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
