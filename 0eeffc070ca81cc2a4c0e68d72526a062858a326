@@ -26,6 +26,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b93fe61d_355c12de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-04-29T08:49:24Z",
+      "side": 1,
+      "message": "I believe we shall not try to ensure consistent CPU indexing at dbus-sensor level.  As it was clarified in other review intelcpusensor uses indexes from json configurations. Hence I believe consistent CPU indexing shall be ensured at configuration level.\n\nWhat dbus-sensors apps can do is consistently parse Present property by not adding +1 to be compliant with smbios-mdrv2 which hardcodes index from 0.\n\nWith this change CpuID and Name property shall be updated across platform json configs.",
+      "parentUuid": "2315b028_67b3e766",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b56425b_8dec81f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-04-29T08:49:24Z",
+      "side": 1,
+      "message": "Appreciate feedback, added my comments.\n\nNote: will be on vacations this week, can resume work on this review staring ww19.1",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09aa57d1_5f159dc7",
         "filename": "src/ADCSensorMain.cpp",
         "patchSetId": 4
@@ -43,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c2e91a7_182e7079",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-04-29T08:49:24Z",
+      "side": 1,
+      "message": "That would change logic. Current implementation skips sensor creation when:\n1. CPU is not required and createSensors is triggered by CPU presence event.\n2. CPU is required but not present\n\nIf would change condition to be the same as in DeviveMgmt.hpp#115 then sensor creation would be incorrectly skipped when:\n1. CPU is required and present and createSensors is triggered by CPU presence event.",
+      "parentUuid": "09aa57d1_5f159dc7",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fb0aea9_339f04be",
         "filename": "src/Utils.cpp",
         "patchSetId": 4
@@ -54,6 +113,30 @@
       "writtenOn": "2024-04-26T22:04:16Z",
       "side": 1,
       "message": "This block can be moved to line 995 (after test at line 991)",
+      "range": {
+        "startLine": 978,
+        "startChar": 8,
+        "endLine": 985,
+        "endChar": 9
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c7ef583_37a46dc4",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-04-29T08:49:24Z",
+      "side": 1,
+      "message": "There is a lot of objects at inventory path (/xyz/openbmc_project/inventory/system/chassis/motherboard) implementing xyz.openbmc_project.Inventory.Item interface (e.g.: DIMMs). Idea was to continue parsing only objects starting with CPU.\n\nWon\u0027t insist on current approach if you believe it wastes more cycles.\n\nBest would be to add Present property, or equivalent, to xyz.openbmc_project.Inventory.Item.Cpu interface to match only signals from CPU objects.",
+      "parentUuid": "4fb0aea9_339f04be",
       "range": {
         "startLine": 978,
         "startChar": 8,
