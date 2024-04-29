@@ -317,9 +317,8 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
 
         if (n > len + 1)
         {
-            std::cerr << "Query stream has become unsynchronised: "
-                      << "n: " << n << ", "
-                      << "len: " << len << "\n";
+            std::cerr << "Query stream has become unsynchronised: " << "n: "
+                      << n << ", " << "len: " << len << "\n";
             return static_cast<std::size_t>(0);
         }
 

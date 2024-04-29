@@ -152,8 +152,7 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                         std::cerr << "Error setting pid class\n";
                         return;
                     }
-                },
-                    owner, path, "org.freedesktop.DBus.Properties", "Set",
+                }, owner, path, "org.freedesktop.DBus.Properties", "Set",
                     pidConfigurationType, "OutLimitMax",
                     std::variant<double>(value));
             },
@@ -638,8 +637,7 @@ void ExitAirTempSensor::setupMatches()
                     properties::get, sensorValueInterface, "Value");
             }
         }
-    },
-        mapper::busName, mapper::path, mapper::interface, mapper::subtree,
+    }, mapper::busName, mapper::path, mapper::interface, mapper::subtree,
         "/xyz/openbmc_project/sensors/power", 0,
         std::array<const char*, 1>{sensorValueInterface});
 }

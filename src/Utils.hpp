@@ -229,8 +229,7 @@ inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
         {
             std::cerr << "Failed to set LED " << name << "\n";
         }
-    },
-        "xyz.openbmc_project.LED.GroupManager",
+    }, "xyz.openbmc_project.LED.GroupManager",
         "/xyz/openbmc_project/led/groups/" + name, properties::interface,
         properties::set, "xyz.openbmc_project.Led.Group", "Asserted",
         std::variant<bool>(on));
@@ -247,8 +246,7 @@ struct GetSensorConfiguration :
     GetSensorConfiguration(
         std::shared_ptr<sdbusplus::asio::connection> connection,
         std::function<void(ManagedObjectType& resp)>&& callbackFunc) :
-        dbusConnection(std::move(connection)),
-        callback(std::move(callbackFunc))
+        dbusConnection(std::move(connection)), callback(std::move(callbackFunc))
     {}
 
     void getPath(const std::string& path, const std::string& interface,

@@ -778,8 +778,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         auto itr = propertyList.find("SpecialMode");
         if (itr == propertyList.end())
         {
-            std::cerr << "error getting  SpecialMode property "
-                      << "\n";
+            std::cerr << "error getting  SpecialMode property " << "\n";
             return;
         }
         auto* manufacturingModeStatus = std::get_if<std::string>(&itr->second);

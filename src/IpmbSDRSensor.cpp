@@ -21,8 +21,7 @@ static constexpr uint8_t lun = 0;
 IpmbSDRDevice::IpmbSDRDevice(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     uint8_t cmdAddr) :
-    commandAddress(cmdAddr << 2),
-    hostIndex(cmdAddr + 1), conn(dbusConnection)
+    commandAddress(cmdAddr << 2), hostIndex(cmdAddr + 1), conn(dbusConnection)
 {}
 
 bool validateStatus(boost::system::error_code ec,

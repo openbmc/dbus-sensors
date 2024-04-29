@@ -41,8 +41,8 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& sensorConfiguration,
                      const std::string& sensorType, bool isValueMutable) :
-    sysPath(sysPath),
-    objectServer(objectServer), name(sensor_paths::escapePathForDbus(pwmname))
+    sysPath(sysPath), objectServer(objectServer),
+    name(sensor_paths::escapePathForDbus(pwmname))
 {
     // add interface under sensor and Control.FanPwm as Control is used
     // in obmc project, also add sensor so it can be viewed as a sensor
@@ -66,9 +66,8 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
         setValue(pwmValue);
     }
     double fValue = 100.0 * (static_cast<double>(pwmValue) / pwmMax);
-    sensorInterface->register_property(
-        "Value", fValue,
-        [this](const double& req, double& resp) {
+    sensorInterface->register_property("Value", fValue,
+                                       [this](const double& req, double& resp) {
         if (!std::isfinite(req))
         {
             // Reject attempted change, if to NaN or other non-numeric
@@ -97,8 +96,7 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
         controlInterface->signal_property("Target");
 
         return 1;
-    },
-        [this](double& curVal) {
+    }, [this](double& curVal) {
         double currScaled = (curVal / 100.0) * pwmMax;
         auto currInt = static_cast<uint32_t>(std::round(currScaled));
         auto getInt = getValue();
@@ -140,8 +138,7 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
         sensorInterface->signal_property("Value");
 
         return 1;
-    },
-        [this](uint64_t& curVal) {
+    }, [this](uint64_t& curVal) {
         auto getInt = getValue();
         auto scaledValue = static_cast<double>(getInt) / pwmMax;
         auto roundValue = std::round(scaledValue * targetIfaceMax);

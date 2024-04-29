@@ -196,8 +196,7 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                 {
                     std::cerr << "Error setting threshold " << ec << "\n";
                 }
-            },
-                entityManagerName, path, "org.freedesktop.DBus.Properties",
+            }, entityManagerName, path, "org.freedesktop.DBus.Properties",
                 "Set", thresholdInterface, "Value", value);
         },
             entityManagerName, path, "org.freedesktop.DBus.Properties",

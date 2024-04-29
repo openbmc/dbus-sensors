@@ -359,8 +359,7 @@ void ChassisIntrusionSensor::start()
 
 ChassisIntrusionSensor::ChassisIntrusionSensor(
     bool autoRearm, sdbusplus::asio::object_server& objServer) :
-    mValue(normalValStr),
-    mAutoRearm(autoRearm), mObjServer(objServer)
+    mValue(normalValStr), mAutoRearm(autoRearm), mObjServer(objServer)
 {
     mIface = mObjServer.add_interface("/xyz/openbmc_project/Chassis/Intrusion",
                                       "xyz.openbmc_project.Chassis.Intrusion");
@@ -369,8 +368,7 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
 ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
     bool autoRearm, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objServer, int busId, int slaveAddr) :
-    ChassisIntrusionSensor(autoRearm, objServer),
-    mPollTimer(io)
+    ChassisIntrusionSensor(autoRearm, objServer), mPollTimer(io)
 {
     if (busId < 0 || slaveAddr <= 0)
     {
@@ -413,8 +411,8 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
 ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
     bool autoRearm, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objServer, bool gpioInverted) :
-    ChassisIntrusionSensor(autoRearm, objServer),
-    mGpioInverted(gpioInverted), mGpioFd(io)
+    ChassisIntrusionSensor(autoRearm, objServer), mGpioInverted(gpioInverted),
+    mGpioFd(io)
 {
     mGpioLine = gpiod::find_line(mPinName);
     if (!mGpioLine)

@@ -217,8 +217,7 @@ void TachSensor::checkThresholds()
 PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
                                boost::asio::io_context& io,
                                const std::string& name) :
-    gpioLine(gpiod::find_line(gpioName)),
-    gpioFd(io), name(name)
+    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name)
 {
     if (!gpioLine)
     {
@@ -303,10 +302,9 @@ RedundancySensor::RedundancySensor(size_t count,
                                    const std::vector<std::string>& children,
                                    sdbusplus::asio::object_server& objectServer,
                                    const std::string& sensorConfiguration) :
-    count(count),
-    iface(objectServer.add_interface(
-        "/xyz/openbmc_project/control/FanRedundancy/Tach",
-        "xyz.openbmc_project.Control.FanRedundancy")),
+    count(count), iface(objectServer.add_interface(
+                      "/xyz/openbmc_project/control/FanRedundancy/Tach",
+                      "xyz.openbmc_project.Control.FanRedundancy")),
     association(objectServer.add_interface(
         "/xyz/openbmc_project/control/FanRedundancy/Tach",
         association::interface)),

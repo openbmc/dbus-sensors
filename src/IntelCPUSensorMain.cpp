@@ -82,8 +82,7 @@ struct CPUConfig
 {
     CPUConfig(const uint64_t& bus, const uint64_t& addr,
               const std::string& name, const State& state) :
-        bus(bus),
-        addr(addr), name(name), state(state)
+        bus(bus), addr(addr), name(name), state(state)
     {}
     int bus;
     int addr;

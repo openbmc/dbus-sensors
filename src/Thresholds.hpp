@@ -36,8 +36,8 @@ struct Threshold
         const Level& lev, const Direction& dir, const double& val,
         const double hysteresis = std::numeric_limits<double>::quiet_NaN(),
         bool write = true) :
-        level(lev),
-        direction(dir), value(val), hysteresis(hysteresis), writeable(write)
+        level(lev), direction(dir), value(val), hysteresis(hysteresis),
+        writeable(write)
     {}
     Level level;
     Direction direction;
