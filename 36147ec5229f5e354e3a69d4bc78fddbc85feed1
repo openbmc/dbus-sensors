@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e7dcd24_2ad02fd4",
+        "filename": "src/ChassisIntrusionSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-04-29T16:48:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e99d2b2c_2cc29799",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "36147ec5229f5e354e3a69d4bc78fddbc85feed1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8172370_e6abd6e9",
