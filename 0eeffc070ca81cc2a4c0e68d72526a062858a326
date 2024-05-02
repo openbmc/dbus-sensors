@@ -65,6 +65,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "433ae847_ff5ab624",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "I just have some minor comments for this commit. Please take a look.",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09aa57d1_5f159dc7",
@@ -96,6 +113,138 @@
       "side": 1,
       "message": "That would change logic. Current implementation skips sensor creation when:\n1. CPU is not required and createSensors is triggered by CPU presence event.\n2. CPU is required but not present\n\nIf would change condition to be the same as in DeviveMgmt.hpp#115 then sensor creation would be incorrectly skipped when:\n1. CPU is required and present and createSensors is triggered by CPU presence event.",
       "parentUuid": "09aa57d1_5f159dc7",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c68e50a_1ffd745b",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "I saw that you did not modify this variable, Could you update this variable to `const auto\u0026 presenceFind`?",
+      "range": {
+        "startLine": 343,
+        "startChar": 9,
+        "endLine": 343,
+        "endChar": 21
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d067a324_18d5e124",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "Could you update the value of `depth` variable to 0? We can not ensure that all of services create CPU object path as `/xyz/openbmc_project/inventory/system/chassis/motherboard/cpu\u003cIdx\u003e`, they can create /xyz/openbmc_project/inventory/system/chassis/motherboard/**\u003csubpath\u003e**/cpu\u003cidx\u003e",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baffdd43_56d6fd9f",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "I think you can define those variables to global `static` variables, I saw that they are used in another function.",
+      "range": {
+        "startLine": 913,
+        "startChar": 8,
+        "endLine": 915,
+        "endChar": 0
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94dce9f2_fd0c0687",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "I saw that you did not modify this variable, Could you update this variable to `const auto\u0026 obj`?",
+      "range": {
+        "startLine": 916,
+        "startChar": 13,
+        "endLine": 916,
+        "endChar": 16
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94cf2fe1_42e3ecb8",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "I saw that you did not modify this variable, Could you update this variable to `const string\u0026 path`?",
+      "range": {
+        "startLine": 976,
+        "startChar": 20,
+        "endLine": 976,
+        "endChar": 24
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5baa74e_aed1464a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "Using global `static` variables that I mentioned above.",
+      "range": {
+        "startLine": 978,
+        "startChar": 8,
+        "endLine": 979,
+        "endChar": 72
+      },
       "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -143,6 +292,69 @@
         "endLine": 985,
         "endChar": 9
       },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5067260_1979d446",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "It seems that you did not modify this variable, I suggest to update it to `const auto\u0026 findPresence`.",
+      "range": {
+        "startLine": 990,
+        "startChar": 13,
+        "endLine": 990,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "877a5337_890ed2ea",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "I think `const auto\u0026 present` is enough, we don\u0027t have to define this is a pointer while using `auto`",
+      "range": {
+        "startLine": 997,
+        "startChar": 14,
+        "endLine": 997,
+        "endChar": 21
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f32a0b8b_7129a946",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-02T04:16:34Z",
+      "side": 1,
+      "message": "Could you update the input parameters of `callback` from `(void)` to `(size_t idx, bool state)` to indicate which CPU has been updated?",
       "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
