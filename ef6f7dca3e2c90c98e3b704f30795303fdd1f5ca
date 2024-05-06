@@ -109,6 +109,24 @@
       "parentUuid": "39774045_c3f3ac63",
       "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "788ae327_2edcd492",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-06T19:00:34Z",
+      "side": 1,
+      "message": "What I meant is that there are multiple service provide the dbus objects with different name cpuX (smbios-mdrv2) or CPU_X (intelcpusensor)\nIt is better to use the one from intelcpusensor since it use the index found in json config, where smbios-mdrv1 is currently hard coded to be 0 based.",
+      "parentUuid": "84ee7c29_071fd183",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
