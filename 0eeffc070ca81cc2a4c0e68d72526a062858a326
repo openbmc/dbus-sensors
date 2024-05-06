@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0372260f_b205cd47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-06T18:50:50Z",
+      "side": 1,
+      "message": "I believe we are saying the same thing. I was asking to update the comment here to say it is NOT matching smbios-mdrv2, but matching CPU_X, which is created by intelcpusensor and follows the index used in json config. And add JSON config needs to be self consistent.",
+      "parentUuid": "b93fe61d_355c12de",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b56425b_8dec81f4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -137,6 +161,42 @@
       "side": 1,
       "message": "That would change logic. Current implementation skips sensor creation when:\n1. CPU is not required and createSensors is triggered by CPU presence event.\n2. CPU is required but not present\n\nIf would change condition to be the same as in DeviveMgmt.hpp#115 then sensor creation would be incorrectly skipped when:\n1. CPU is required and present and createSensors is triggered by CPU presence event.",
       "parentUuid": "09aa57d1_5f159dc7",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48faea2a_58d94229",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-06T18:50:50Z",
+      "side": 1,
+      "message": "Got it.\n\nMaybe the following is more clear. I am ok with leave as is\n\n            auto cpuRequired \u003d getCpuRequired(cfg);\n            if ((cpuRequired \u0026\u0026 !isCpuPresent(*cpuRequired)) || \n               (!cpuRequired \u0026\u0026 updateType \u003d\u003d UpdateType::cpuPresenceChange))\n            {\n                continue;\n            }",
+      "parentUuid": "6c2e91a7_182e7079",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02e01eeb_c95b7838",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-06T18:50:50Z",
+      "side": 1,
+      "message": "auto cpuRequired \u003d getCpuRequired(cfg);\n            if (cpuRequired \u0026\u0026 !isCpuPresent(*cpuRequired))\n            {\n                continue;\n            }",
+      "parentUuid": "6c2e91a7_182e7079",
       "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -424,6 +484,30 @@
       "side": 1,
       "message": "There is a lot of objects at inventory path (/xyz/openbmc_project/inventory/system/chassis/motherboard) implementing xyz.openbmc_project.Inventory.Item interface (e.g.: DIMMs). Idea was to continue parsing only objects starting with CPU.\n\nWon\u0027t insist on current approach if you believe it wastes more cycles.\n\nBest would be to add Present property, or equivalent, to xyz.openbmc_project.Inventory.Item.Cpu interface to match only signals from CPU objects.",
       "parentUuid": "4fb0aea9_339f04be",
+      "range": {
+        "startLine": 978,
+        "startChar": 8,
+        "endLine": 985,
+        "endChar": 9
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3baadcf_2a3a66a1",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-06T18:50:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4c7ef583_37a46dc4",
       "range": {
         "startLine": 978,
         "startChar": 8,
