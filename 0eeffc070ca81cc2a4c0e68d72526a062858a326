@@ -140,6 +140,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06d0639b_d95ca84a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-06T14:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c68e50a_1ffd745b",
+      "range": {
+        "startLine": 343,
+        "startChar": 9,
+        "endLine": 343,
+        "endChar": 21
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d067a324_18d5e124",
@@ -159,6 +183,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "093e8e8a_f7b2a9cc",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-06T14:09:07Z",
+      "side": 1,
+      "message": "Are you aware of any configuration where it would be required?\nIntentionally used depth \u003d 1 to limit number of matches, it shall work well with smbios-mdrv2 and intelcpusensor.",
+      "parentUuid": "d067a324_18d5e124",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "baffdd43_56d6fd9f",
         "filename": "src/Utils.cpp",
         "patchSetId": 4
@@ -170,6 +212,30 @@
       "writtenOn": "2024-05-02T04:16:34Z",
       "side": 1,
       "message": "I think you can define those variables to global `static` variables, I saw that they are used in another function.",
+      "range": {
+        "startLine": 913,
+        "startChar": 8,
+        "endLine": 915,
+        "endChar": 0
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "497cf6cf_ebe1b0db",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-06T14:09:07Z",
+      "side": 1,
+      "message": "Made cpuRegex const global to be reused between setupCpuMatchCallback and getPresentCpus functions. I would leave indexMatch local to avoid possible issues of using matches from previous calls.",
+      "parentUuid": "baffdd43_56d6fd9f",
       "range": {
         "startLine": 913,
         "startChar": 8,
@@ -203,6 +269,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a36f38f_3607631a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-06T14:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94dce9f2_fd0c0687",
+      "range": {
+        "startLine": 916,
+        "startChar": 13,
+        "endLine": 916,
+        "endChar": 16
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94cf2fe1_42e3ecb8",
@@ -216,6 +306,30 @@
       "writtenOn": "2024-05-02T04:16:34Z",
       "side": 1,
       "message": "I saw that you did not modify this variable, Could you update this variable to `const string\u0026 path`?",
+      "range": {
+        "startLine": 976,
+        "startChar": 20,
+        "endLine": 976,
+        "endChar": 24
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7367b30c_022b7e63",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-06T14:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94cf2fe1_42e3ecb8",
       "range": {
         "startLine": 976,
         "startChar": 20,
@@ -319,6 +433,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c0d3447_907094d1",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-06T14:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5067260_1979d446",
+      "range": {
+        "startLine": 990,
+        "startChar": 13,
+        "endLine": 990,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "877a5337_890ed2ea",
@@ -344,6 +482,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8cfddf35_39f4f099",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-06T14:09:07Z",
+      "side": 1,
+      "message": "Made it const.\nRegarding removing \u0027*\u0027 from auto, I\u0027m following style of dbus-sensors and I do think it has better readability.",
+      "parentUuid": "877a5337_890ed2ea",
+      "range": {
+        "startLine": 997,
+        "startChar": 14,
+        "endLine": 997,
+        "endChar": 21
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f32a0b8b_7129a946",
         "filename": "src/Utils.hpp",
         "patchSetId": 4
@@ -355,6 +517,24 @@
       "writtenOn": "2024-05-02T04:16:34Z",
       "side": 1,
       "message": "Could you update the input parameters of `callback` from `(void)` to `(size_t idx, bool state)` to indicate which CPU has been updated?",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e4e180b_ba9194ec",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-06T14:09:07Z",
+      "side": 1,
+      "message": "Cannot do it with current implementation, callback is not being called for every matched CPU presence signal. There is 1 second \u0027filtering\u0027 timer, i.e.: it\u0027s possible (and common) to have single callback for multiple CPU presence signal matches.",
+      "parentUuid": "f32a0b8b_7129a946",
       "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
