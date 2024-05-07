@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53d01d0d_f959742f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-07T13:57:13Z",
+      "side": 1,
+      "message": "For sure having CpuID and CPURequired within single json file would help to prevent indexes mismatches. However there are cases when sensors are defined in separate file than CPU.\n\nDon\u0027t want to drop CPU presence signals from smbios-mdrv2.\nI\u0027m assuming not everybody is using intelcpusensor service.\nIf identified correctly examples of platforms not using intelcpusensor are:\nhttps://github.com/openbmc/entity-manager/blob/master/configurations/mtmitchell_mb.json\nhttps://github.com/openbmc/entity-manager/blob/master/configurations/mtjade.json\nMaybe Thang Tran can help to demystify these platforms.",
+      "parentUuid": "0372260f_b205cd47",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b56425b_8dec81f4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -197,6 +221,24 @@
       "side": 1,
       "message": "auto cpuRequired \u003d getCpuRequired(cfg);\n            if (cpuRequired \u0026\u0026 !isCpuPresent(*cpuRequired))\n            {\n                continue;\n            }",
       "parentUuid": "6c2e91a7_182e7079",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d9a4a7e_c327fe77",
+        "filename": "src/ADCSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-07T13:57:13Z",
+      "side": 1,
+      "message": "ACK, will change as suggested since intention is more readable.",
+      "parentUuid": "48faea2a_58d94229",
       "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
