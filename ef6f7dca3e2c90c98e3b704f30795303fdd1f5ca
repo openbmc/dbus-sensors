@@ -127,6 +127,24 @@
       "parentUuid": "84ee7c29_071fd183",
       "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71cbab7c_b143fee2",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-05-07T07:57:39Z",
+      "side": 1,
+      "message": "I cannot follow. I don\u0027t care who provides dbus objects, in my case it\u0027s neither smbios-mdrv2 nor intelcpusensor, and why should I? What JSON config? psusensor uses the entity-manager configuration.\n\nThis change is to make psusensor consistent within itself, not consistent with some other service using different configurations or hardcoding configurations and making different assumptions.",
+      "parentUuid": "788ae327_2edcd492",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
