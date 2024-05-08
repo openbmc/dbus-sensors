@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "816f2314_87e40b34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-08T02:52:48Z",
+      "side": 1,
+      "message": "In the old configuration, we are setting CPU presence via phosphor-multi-gpio-presence, and we configured CPU_1/2, but we updated to cpu0/1. https://github.com/openbmc/openbmc/commit/fda17ca3b11c191946d824623321bef8f820fe71#diff-5fe483251692b94a7b12ab3997ebc92932530f603f598f1a61317d926f28308aR6",
+      "parentUuid": "53d01d0d_f959742f",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b56425b_8dec81f4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -321,6 +345,24 @@
       "side": 1,
       "message": "Are you aware of any configuration where it would be required?\nIntentionally used depth \u003d 1 to limit number of matches, it shall work well with smbios-mdrv2 and intelcpusensor.",
       "parentUuid": "d067a324_18d5e124",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e968d049_8261f948",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-08T02:52:48Z",
+      "side": 1,
+      "message": "Currently, the phosphor-multi-gpio-presence is supporting to create object paths that detect the Items\u0027s status base on GPIOs. Users can define any the object path, therefore, I think we should set the depth\u003d0 to avoid unexpected issues. Please refer to https://github.com/openbmc/openbmc/commit/fda17ca3b11c191946d824623321bef8f820fe71#diff-5fe483251692b94a7b12ab3997ebc92932530f603f598f1a61317d926f28308aR6 for more information.",
+      "parentUuid": "093e8e8a_f7b2a9cc",
       "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -654,6 +696,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "358f478b_b446dc08",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-08T02:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cfddf35_39f4f099",
+      "range": {
+        "startLine": 997,
+        "startChar": 14,
+        "endLine": 997,
+        "endChar": 21
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f32a0b8b_7129a946",
@@ -685,6 +751,24 @@
       "side": 1,
       "message": "Cannot do it with current implementation, callback is not being called for every matched CPU presence signal. There is 1 second \u0027filtering\u0027 timer, i.e.: it\u0027s possible (and common) to have single callback for multiple CPU presence signal matches.",
       "parentUuid": "f32a0b8b_7129a946",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdde67c4_faba1bd0",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-05-08T02:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e4e180b_ba9194ec",
       "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
