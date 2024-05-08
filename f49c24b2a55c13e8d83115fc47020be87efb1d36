@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e7c9b81_649ab860",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001588
+      },
+      "writtenOn": "2024-05-08T14:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23a9aa75_d371960e",
+      "range": {
+        "startLine": 81,
+        "startChar": 28,
+        "endLine": 81,
+        "endChar": 36
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5e1db54_5ac87f9b",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e5e1db54_5ac87f9b",
+      "range": {
+        "startLine": 226,
+        "startChar": 13,
+        "endLine": 226,
+        "endChar": 25
+      },
+      "revId": "f49c24b2a55c13e8d83115fc47020be87efb1d36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9ab0c2_05eb1dc9",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001588
+      },
+      "writtenOn": "2024-05-08T14:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf32c13f_39c5e9e6",
       "range": {
         "startLine": 226,
         "startChar": 13,
