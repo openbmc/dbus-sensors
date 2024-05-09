@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f8c9d6bd_fbafe8e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-09T11:16:05Z",
+      "side": 1,
+      "message": "Thanks for explanation how it works on Ampere platforms.\nI had noticed that with above change phosphor-multi-gpio-presence is exposing CPU objects under the same path as smbios-mdrv2. Shouldn\u0027t objects path be unique to avoid issue with object mapper?\nAFAIK many services won\u0027t iterate over all entries in response from object mapper GetSubTree call and will use first entry, which could be smbios-mdrv2 or phosphor-multi-gpio-presence depending on boot/runtime flow.\nConfiguring phosphor-multi-gpio-presence to expose ...cpu_0 and cpu_1 sound safer to me. What do you think?",
+      "parentUuid": "816f2314_87e40b34",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b56425b_8dec81f4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -363,6 +387,24 @@
       "side": 1,
       "message": "Currently, the phosphor-multi-gpio-presence is supporting to create object paths that detect the Items\u0027s status base on GPIOs. Users can define any the object path, therefore, I think we should set the depth\u003d0 to avoid unexpected issues. Please refer to https://github.com/openbmc/openbmc/commit/fda17ca3b11c191946d824623321bef8f820fe71#diff-5fe483251692b94a7b12ab3997ebc92932530f603f598f1a61317d926f28308aR6 for more information.",
       "parentUuid": "093e8e8a_f7b2a9cc",
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9422719c_75a1c975",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-09T11:16:05Z",
+      "side": 1,
+      "message": "Will change depth to 0 since with proposed here regex we shall not have issue with decoding CPU index from incorrect objects, as it was done previously.\n\nAnyway I do think that it\u0027s not bullet proof to detect CPU presence based on object name and Present property in xyz.openbmc_project.Inventory.Item interface.\n\nBetter approach would be to add Present property to xyz.openbmc_project.Inventory.Item.Cpu interface which shall be implemented only by CPU objects. Additionally we would match only signals from CPU objects, not from DIMMs, etc. However that would require bigger refactor, also outside this repo.",
+      "parentUuid": "e968d049_8261f948",
       "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
