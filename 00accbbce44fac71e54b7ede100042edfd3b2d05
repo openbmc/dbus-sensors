@@ -95,6 +95,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "841efc2d_49a4e87a",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000411
+      },
+      "writtenOn": "2024-05-09T09:09:52Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "a75b9fd7_e7796419",
+      "range": {
+        "startLine": 250,
+        "startChar": 26,
+        "endLine": 250,
+        "endChar": 28
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5acaadae_5cab5ea9",
         "filename": "src/PresenceSensor.hpp",
         "patchSetId": 39
