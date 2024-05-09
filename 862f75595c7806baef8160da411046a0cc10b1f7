@@ -34,6 +34,23 @@
       "parentUuid": "4964cbba_14799aa3",
       "revId": "862f75595c7806baef8160da411046a0cc10b1f7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dde4fdd_c7b94975",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1001322
+      },
+      "writtenOn": "2024-05-09T16:50:59Z",
+      "side": 1,
+      "message": "nit: startupDelay is in ms? better to mention the unit as Zhikui also pointed",
+      "revId": "862f75595c7806baef8160da411046a0cc10b1f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
