@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47a5b758_1666b2ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-10T23:46:58Z",
+      "side": 1,
+      "message": "Thank you for bring in all existing examples. I don\u0027t see an easy and robust fix for all existing and future use cases. A new interface suggested in the other comment seems promising and I agree it is better to save that for a future patch.\nFocusing on the existing bug this patch is trying to fix, what about: 1) make the intelcpusensor also use cpu_0 and cpu_1 (0 based, same as smbios-mdrv2 and  phosphor-multi-gpio-presence) 2)assume CPURequired in json is one based?",
+      "parentUuid": "f8c9d6bd_fbafe8e5",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b56425b_8dec81f4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
