@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dec1269_bfd7147f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-10T22:53:50Z",
+      "side": 1,
+      "message": "use constexpr",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 47
+      },
+      "revId": "1e678e6e0c65187b33951af07296f8f7fbb0cca3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
