@@ -78,6 +78,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f8aabbe2_691e32f2",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-11T00:39:45Z",
+      "side": 1,
+      "message": "see the other comment",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39774045_c3f3ac63",
         "filename": "src/PSUSensorMain.cpp",
         "patchSetId": 4
@@ -143,6 +160,24 @@
       "side": 1,
       "message": "I cannot follow. I don\u0027t care who provides dbus objects, in my case it\u0027s neither smbios-mdrv2 nor intelcpusensor, and why should I? What JSON config? psusensor uses the entity-manager configuration.\n\nThis change is to make psusensor consistent within itself, not consistent with some other service using different configurations or hardcoding configurations and making different assumptions.",
       "parentUuid": "788ae327_2edcd492",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4348713_01ad99c4",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-11T00:39:45Z",
+      "side": 1,
+      "message": "This code has dependency on the service that host the present interface because it extracts cpu index from the path. Two different ways get the index from the path is the issue when multiple services provide this interface. The services include smbios, intelcpusensor and gpio_present.\n\n1. line 1020 \ncpuIndex \u003d std::stoi(obj.substr(obj.find_last_of(\"cpu\") + 1));\ncpuIndex will be 0 based because it only work with \"cpuX\" (smbios or gpio_present service)\n\n2. line 1267\nindex \u003d std::stoi(path.substr(path.size() - 1));\nindex can end up 0 based or 1 based because it works with both cpuX (smbios or gpio_present service) and \"cpu_X\" (intelcpusensor, 1 baes index)\n\nchange #2 to #1 will ensure the both places, index is 0 based and then it is consistent within psu sensor.",
+      "parentUuid": "71cbab7c_b143fee2",
       "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
