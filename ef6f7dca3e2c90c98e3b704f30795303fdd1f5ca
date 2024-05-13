@@ -180,6 +180,24 @@
       "parentUuid": "71cbab7c_b143fee2",
       "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f94d5239_db7aa685",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-05-13T07:26:28Z",
+      "side": 1,
+      "message": "OK, got it. You point is totally unrelated to the index (be it 0 based or 1 based), but is rather about parsing the index.",
+      "parentUuid": "b4348713_01ad99c4",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
