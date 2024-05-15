@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6cd33a05_064a1a57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000478
+      },
+      "writtenOn": "2024-05-15T15:25:33Z",
+      "side": 1,
+      "message": "ad 1) intelcpusensor take index from json, so it can be made 0-based by updating configs. Zhikui, do you have different solution in mind, without altering configs? If yes then we would need to firstly check all the sensors\u0027 CpuID (to assess if config is 0 or 1 based) and then expose objects on dbus. Sounds complex.\n\nad 2) there are json configs where CPURequired is 0 based.\n\nSimplest solution would be to update CPURequired and CpuID to be 0-based across all json configs in openbmc/openbmc repo. Being aware it could cause momentary regression though.",
+      "parentUuid": "47a5b758_1666b2ff",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b56425b_8dec81f4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
