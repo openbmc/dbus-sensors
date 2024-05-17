@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea75c5a2_ab27a996",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-17T16:21:54Z",
+      "side": 1,
+      "message": "What fan controller device is used? Which driver creates pwm-cpu dev node? \nIs \"PwmDev\" already defined in entity-manager\u0027s schema? If not, it needs to be added there.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "af91f1fabe1430f8061cb5ecc47540eb4ec1f660",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "083edaf5_d0a8d898",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-17T16:21:54Z",
+      "side": 1,
+      "message": "Current code requires \"Pwm\" to be found. The new code continues here if it is not found and both pwm and pwmname are not set. \nIt does not seem right.",
+      "range": {
+        "startLine": 493,
+        "startChar": 1,
+        "endLine": 493,
+        "endChar": 17
+      },
+      "revId": "af91f1fabe1430f8061cb5ecc47540eb4ec1f660",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c671f05_2b88a351",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-17T16:21:54Z",
+      "side": 1,
+      "message": "Can you explain what is the expected logic here?\nCurrent code first looks in directory for pwmX, if not found, it then search for \"pwm-fanX\". \nWhen \"PwmDev\" is defined, should it directly search for the customized name?",
+      "range": {
+        "startLine": 486,
+        "startChar": 0,
+        "endLine": 501,
+        "endChar": 18
+      },
+      "revId": "af91f1fabe1430f8061cb5ecc47540eb4ec1f660",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
