@@ -136,14 +136,11 @@ void enablePwm(const fs::path& filePath)
         enableFile << 1;
     }
 }
-bool findPwmfanPath(unsigned int configPwmfanIndex, fs::path& pwmPath)
+bool findPwmfanPath(const std::string pwmfanDevName, fs::path& pwmPath)
 {
     /* Search PWM since pwm-fan had separated
      * PWM from tach directory and 1 channel only*/
     std::vector<fs::path> pwmfanPaths;
-    std::string pwnfanDevName("pwm-fan");
-
-    pwnfanDevName += std::to_string(configPwmfanIndex);
 
     if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm\d+)", pwmfanPaths))
     {
@@ -162,7 +159,7 @@ bool findPwmfanPath(unsigned int configPwmfanIndex, fs::path& pwmPath)
             continue;
         }
 
-        if (link.filename().string() == pwnfanDevName)
+        if (link.filename().string() == pwmfanDevName)
         {
             pwmPath = path;
             return true;
@@ -187,7 +184,9 @@ bool findPwmPath(const fs::path& directory, unsigned int pwm, fs::path& pwmPath)
                       << ec.value() << ")\n";
         }
         /* try search form pwm-fanX directory */
-        return findPwmfanPath(pwm, pwmPath);
+        std::string pwmfanDevName("pwm-fan");
+        pwmfanDevName += std::to_string(pwm);
+        return findPwmfanPath(pwmfanDevName, pwmPath);
     }
 
     pwmPath = path;
@@ -480,54 +479,58 @@ void createSensors(
 
             // The Mutable parameter is optional, defaulting to false
             bool isValueMutable = false;
+            bool pwmPatchExists = false;
+            size_t pwm = 0;
             if (connector != sensorData->end())
             {
                 auto findPwm = connector->second.find("Pwm");
                 if (findPwm != connector->second.end())
                 {
-                    size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
-                                            findPwm->second);
-                    if (!findPwmPath(directory, pwm, pwmPath))
-                    {
-                        std::cerr << "Connector for " << sensorName
-                                  << " no pwm channel found!\n";
-                        continue;
-                    }
-
-                    fs::path pwmEnableFile = "pwm" + std::to_string(pwm + 1) +
-                                             "_enable";
-                    fs::path enablePath = pwmPath.parent_path() / pwmEnableFile;
-                    enablePwm(enablePath);
-
-                    /* use pwm name override if found in configuration else
-                     * use default */
-                    auto findOverride = connector->second.find("PwmName");
-                    if (findOverride != connector->second.end())
-                    {
-                        pwmName = std::visit(VariantToStringVisitor(),
-                                             findOverride->second);
-                    }
-                    else
-                    {
-                        pwmName = "Pwm_" + std::to_string(pwm + 1);
-                    }
-
-                    // Check PWM sensor mutability
-                    auto findMutable = connector->second.find("Mutable");
-                    if (findMutable != connector->second.end())
-                    {
-                        const auto* ptrMutable =
-                            std::get_if<bool>(&(findMutable->second));
-                        if (ptrMutable != nullptr)
-                        {
-                            isValueMutable = *ptrMutable;
-                        }
-                    }
+                    pwm = std::visit(VariantToUnsignedIntVisitor(),
+                                     findPwm->second);
+                    pwmPatchExists = findPwmPath(directory, pwm, pwmPath);
+                    pwmName = "Pwm_" + std::to_string(pwm + 1);
                 }
-                else
+                auto findPWMDev = connector->second.find("PwmDev");
+                if (findPWMDev != connector->second.end())
+                {
+                    auto pwmDev = std::visit(VariantToStringVisitor(),
+                                             findPWMDev->second);
+                    pwmPatchExists = pwmPatchExists ||
+                                     findPwmfanPath(pwmDev, pwmPath);
+                };
+
+                if (!pwmPatchExists)
                 {
                     std::cerr << "Connector for " << sensorName
-                              << " missing pwm!\n";
+                              << " no pwm channel found!\n";
+                    continue;
+                }
+
+                fs::path pwmEnableFile = "pwm" + std::to_string(pwm + 1) +
+                                         "_enable";
+                fs::path enablePath = pwmPath.parent_path() / pwmEnableFile;
+                enablePwm(enablePath);
+
+                /* use pwm name override if found in configuration else
+                 * use default */
+                auto findOverride = connector->second.find("PwmName");
+                if (findOverride != connector->second.end())
+                {
+                    pwmName = std::visit(VariantToStringVisitor(),
+                                         findOverride->second);
+                }
+
+                // Check PWM sensor mutability
+                auto findMutable = connector->second.find("Mutable");
+                if (findMutable != connector->second.end())
+                {
+                    const auto* ptrMutable =
+                        std::get_if<bool>(&(findMutable->second));
+                    if (ptrMutable != nullptr)
+                    {
+                        isValueMutable = *ptrMutable;
+                    }
                 }
 
                 auto findLED = connector->second.find("LED");
