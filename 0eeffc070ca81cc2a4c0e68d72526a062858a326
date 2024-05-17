@@ -218,6 +218,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0e68877_e195e7ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-17T16:32:27Z",
+      "side": 1,
+      "message": "\u003e Simplest solution would be to update CPURequired and CpuID to be 0-based across all json configs in openbmc/openbmc repo. Being aware it could cause momentary regression though.\n\nAgree, we should first go with the easiest and most straight forward way.\nI would like to see other peoples weigh in on this.",
+      "parentUuid": "6cd33a05_064a1a57",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "0eeffc070ca81cc2a4c0e68d72526a062858a326",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b56425b_8dec81f4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
