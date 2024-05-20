@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "431ea756_327b799f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001210
+      },
+      "writtenOn": "2024-05-20T07:53:54Z",
+      "side": 1,
+      "message": "I\u0027m using the \"pwm-fan\" driver.\nhttps://github.com/openbmc/linux/blob/dev-6.6/drivers/hwmon/pwm-fan.c\n\"PwmDev\" is not present in EM. Yes, I will add it.",
+      "parentUuid": "ea75c5a2_ab27a996",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "af91f1fabe1430f8061cb5ecc47540eb4ec1f660",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "083edaf5_d0a8d898",
         "filename": "src/FanMain.cpp",
         "patchSetId": 3
