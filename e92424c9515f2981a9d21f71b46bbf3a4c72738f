@@ -70,6 +70,24 @@
       "parentUuid": "0d4720e9_06ebe55d",
       "revId": "e92424c9515f2981a9d21f71b46bbf3a4c72738f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e356dc8f_aca0a11c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-05-20T16:03:06Z",
+      "side": 1,
+      "message": "Driver is merged, done.",
+      "parentUuid": "28ccffce_8ebde64b",
+      "revId": "e92424c9515f2981a9d21f71b46bbf3a4c72738f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
