@@ -93,6 +93,42 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d64ce4_0be45da8",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-05-21T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8aabbe2_691e32f2",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1612dc77_319e2f1c",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-05-21T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67a22697_16f01472",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39774045_c3f3ac63",
@@ -214,6 +250,24 @@
       "side": 1,
       "message": "Yes, there are currently multiple services supplying the interface and depend on how the parsing is done, one can end up with 0 based or 1 based index. \nSo my comment was to use the same parsing function within the same service.",
       "parentUuid": "f94d5239_db7aa685",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9525761a_f5bd98a1",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-05-21T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eac63bca_66288fc2",
       "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
