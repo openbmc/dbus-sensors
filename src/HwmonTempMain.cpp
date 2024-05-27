@@ -452,6 +452,10 @@ void createSensors(
                     sensor->setupRead();
                 }
             }
+            else
+            {
+                sensors.erase(sensorName);
+            }
             hwmonName.erase(
                 remove(hwmonName.begin(), hwmonName.end(), sensorName),
                 hwmonName.end());
