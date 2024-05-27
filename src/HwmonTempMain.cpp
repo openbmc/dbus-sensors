@@ -391,7 +391,7 @@ void createSensors(
                 std::get<std::string>(findSensorName->second);
             // on rescans, only update sensors we were signaled by
             auto findSensor = sensors.find(sensorName);
-            if (!firstScan && findSensor != sensors.end())
+            if (!firstScan && findSensor != sensors.end() && findSensor->second)
             {
                 bool found = false;
                 auto it = sensorsChanged->begin();
