@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc8e95d7_0858f93e",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-31T20:33:11Z",
+      "side": 1,
+      "message": "But \"Pwm\" is not just use to find path, it serves as an index and used in line 510.\nIf only \"PwmDev\" is defined and \"Pwm\" is not define, it should quit/continue to next config.",
+      "parentUuid": "9684465b_b985df2d",
+      "range": {
+        "startLine": 493,
+        "startChar": 1,
+        "endLine": 493,
+        "endChar": 17
+      },
+      "revId": "af91f1fabe1430f8061cb5ecc47540eb4ec1f660",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c671f05_2b88a351",
         "filename": "src/FanMain.cpp",
         "patchSetId": 3
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "My idea is that if both PwmDev and Pwm are specified, then the program will find the right PwmDev folder and look for the right pwn[] file in it",
       "parentUuid": "1c671f05_2b88a351",
+      "range": {
+        "startLine": 486,
+        "startChar": 0,
+        "endLine": 501,
+        "endChar": 18
+      },
+      "revId": "af91f1fabe1430f8061cb5ecc47540eb4ec1f660",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9672cb88_38d547d8",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-31T20:33:11Z",
+      "side": 1,
+      "message": "I would expect when PwmDev is defined, you know your driver and want to override the default behavior. \"PwmDev\" takes priority over the default pwm-fanX.",
+      "parentUuid": "e527f972_9f12296e",
       "range": {
         "startLine": 486,
         "startChar": 0,
