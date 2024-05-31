@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "547ce749_5b3bff08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-05-31T20:47:40Z",
+      "side": 1,
+      "message": "should the key be fixed also, i.e remove the key if no sensor is created?",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "04d64e84bcf9a6b78a9f5e76d12b73f3fd6d6199",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
