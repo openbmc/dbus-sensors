@@ -22,6 +22,30 @@
       },
       "revId": "04d64e84bcf9a6b78a9f5e76d12b73f3fd6d6199",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35c66d08_9de4dc1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002051
+      },
+      "writtenOn": "2024-06-04T07:58:57Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve changed the code so that it now deletes the key if the sensor is not successfully created, which prevents \"sensors.find(sensorName)\" function find incomplete flat_map.",
+      "parentUuid": "547ce749_5b3bff08",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "04d64e84bcf9a6b78a9f5e76d12b73f3fd6d6199",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
