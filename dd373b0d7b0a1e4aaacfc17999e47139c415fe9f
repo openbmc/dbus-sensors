@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de075187_876f18f1",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-06T23:52:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b682320d_678dade9",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 44
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87a2217c_1b7edaa4",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-03-28T06:09:03Z",
       "side": 1,
       "message": "I think if gpioLine.event_get_fd fails then we have unusable EventPrenceSensor. object. It will be better to throw exception rather than continuing with improper object and fail later.",
+      "range": {
+        "startLine": 51,
+        "startChar": 1,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "052a12f6_995c49da",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-06T23:52:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87a2217c_1b7edaa4",
       "range": {
         "startLine": 51,
         "startChar": 1,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e443ad2_c7c50ecf",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-06T23:52:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43ed31ff_4a52da80",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62093faa_a7533efc",
@@ -93,6 +165,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e80366e5_879c1623",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-06T23:52:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62093faa_a7533efc",
+      "range": {
+        "startLine": 61,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d4c307f_fb0783a7",
@@ -106,6 +202,30 @@
       "writtenOn": "2024-03-28T06:09:03Z",
       "side": 1,
       "message": "This class\u0027s object will have to take care of copy constructor and copy assignment operator, Rule of three. https://en.cppreference.com/w/cpp/language/rule_of_three",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "dd373b0d7b0a1e4aaacfc17999e47139c415fe9f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2d2cae0_676dda62",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-06T23:52:31Z",
+      "side": 1,
+      "message": "Isn\u0027t that only required if there are pointers or that the default copy/assignment operators would not work? If so, looks like I would need to save the other args that were not saved in the object to user in the assignment.",
+      "parentUuid": "5d4c307f_fb0783a7",
       "range": {
         "startLine": 53,
         "startChar": 0,
