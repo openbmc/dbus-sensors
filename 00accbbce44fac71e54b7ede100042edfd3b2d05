@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be3a8561_63353da7",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-07T21:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b96de36d_cfb37f59",
+      "range": {
+        "startLine": 447,
+        "startChar": 0,
+        "endLine": 450,
+        "endChar": 25
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff78b8f8_a9132365",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b53bdb9_198f5f9f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-07T21:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff78b8f8_a9132365",
+      "range": {
+        "startLine": 455,
+        "startChar": 24,
+        "endLine": 455,
+        "endChar": 37
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a778848c_f83b91a9",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-03-22T23:18:59Z",
       "side": 1,
       "message": "this is meant to only called once since the log does not check for status change?\nIf yes, may just make this part of a initStatus() call.",
+      "range": {
+        "startLine": 23,
+        "startChar": 21,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b86b3d4c_1447744f",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-07T21:21:33Z",
+      "side": 1,
+      "message": "No, it is also called on changes: EventPresenceSensor::read() and PollingPresenceSensor::monitorPresence()",
+      "parentUuid": "a778848c_f83b91a9",
       "range": {
         "startLine": 23,
         "startChar": 21,
@@ -140,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2a9cb8c_ed78ab56",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-07T21:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5acaadae_5cab5ea9",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 7
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9edb6824_cfa6cbdf",
@@ -153,6 +249,30 @@
       "writtenOn": "2024-03-22T23:18:59Z",
       "side": 1,
       "message": "GpioUsers",
+      "range": {
+        "startLine": 72,
+        "startChar": 11,
+        "endLine": 72,
+        "endChar": 12
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "870bfd2e_f678a2b6",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-07T21:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9edb6824_cfa6cbdf",
       "range": {
         "startLine": 72,
         "startChar": 11,
@@ -199,6 +319,30 @@
       "writtenOn": "2024-03-22T23:18:59Z",
       "side": 1,
       "message": "can we call this pollTimerHandler?",
+      "range": {
+        "startLine": 108,
+        "startChar": 23,
+        "endLine": 108,
+        "endChar": 44
+      },
+      "revId": "00accbbce44fac71e54b7ede100042edfd3b2d05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55fcc932_ddf05721",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-07T21:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1796051c_a0aaa161",
       "range": {
         "startLine": 108,
         "startChar": 23,
