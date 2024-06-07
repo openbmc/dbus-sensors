@@ -67,6 +67,7 @@ namespace fs = std::filesystem;
 static const I2CDeviceTypeMap sensorTypes{
     {"ADM1021", I2CDeviceType{"adm1021", true}},
     {"DPS310", I2CDeviceType{"dps310", false}},
+    {"EMC1403", I2CDeviceType{"emc1403", true}},
     {"EMC1412", I2CDeviceType{"emc1412", true}},
     {"EMC1413", I2CDeviceType{"emc1413", true}},
     {"EMC1414", I2CDeviceType{"emc1414", true}},
