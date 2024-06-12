@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4edeff9_3c1f21e0",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-06-12T22:33:29Z",
+      "side": 1,
+      "message": "NM - This is destructor.",
+      "parentUuid": "e1664051_d855d8d7",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 1
+      },
+      "revId": "f7a75fed3e34c1cc6dff94289fba63e9e1c2f9d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a319baa_12e43cc0",
