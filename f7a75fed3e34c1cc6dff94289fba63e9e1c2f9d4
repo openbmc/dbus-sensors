@@ -104,6 +104,30 @@
       },
       "revId": "f7a75fed3e34c1cc6dff94289fba63e9e1c2f9d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa27fdc2_896e2db0",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-13T14:06:29Z",
+      "side": 1,
+      "message": "This was to differentiate the sensor name from the GPIO pin name (see Event constructor)\n  presenceSensor \u003d std::make_shared\u003cPollingPresenceSensor\u003e(\"Fan\", sensorName, *pinName, inverted, io);",
+      "parentUuid": "9a319baa_12e43cc0",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 27
+      },
+      "revId": "f7a75fed3e34c1cc6dff94289fba63e9e1c2f9d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
