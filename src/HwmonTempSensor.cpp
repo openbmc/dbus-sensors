@@ -136,16 +136,24 @@ void HwmonTempSensor::setupRead()
         return;
     }
 
-    std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
-    inputDev.async_read_some_at(
-        0, boost::asio::buffer(readBuf),
-        [weakRef](const boost::system::error_code& ec, std::size_t bytesRead) {
-        std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
-        if (self)
-        {
-            self->handleResponse(ec, bytesRead);
-        }
-    });
+    if (isSensorEnabled)
+    {
+        std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
+        inputDev.async_read_some_at(
+            0, boost::asio::buffer(readBuf),
+            [weakRef](const boost::system::error_code& ec,
+                      std::size_t bytesRead) {
+            std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
+            if (self)
+            {
+                self->handleResponse(ec, bytesRead);
+            }
+        });
+    }
+    else
+    {
+        restartRead();
+    }
 }
 
 void HwmonTempSensor::restartRead()
