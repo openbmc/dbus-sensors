@@ -559,6 +559,24 @@
       "parentUuid": "80af73cf_4a30af83",
       "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "873777ee_e465bb6b",
+        "filename": "src/TachSensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-14T17:02:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6930ff71_6acfb1b9",
+      "revId": "4fdf7ef56040c228c8288e8a76f44376a83fc4ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
