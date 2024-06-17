@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a42032f8_12b3c745",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-06-17T05:09:47Z",
+      "side": 1,
+      "message": "Hi @Delphine,\nI think this patch is ready for review, adm1281 driver is appiled.\nhttps://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/commit/?id\u003d916300902725b362d5008ee10825a39056f0b095",
+      "revId": "718ebf70ff94c88abd4734d27d106639049aa66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
