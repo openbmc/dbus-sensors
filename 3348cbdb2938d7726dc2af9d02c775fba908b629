@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "913ef679_64e0df98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2024-06-18T01:50:58Z",
+      "side": 1,
+      "message": "Hi Ed \u0026 Delphine,\n\nSorry for update the patch without asking, because this patch is addressing the problem we are facing, but not been updated for few months.\n\nI submit the new patchset to address Ed\u0027s comment, \nPlease kindly have a review, thank you.",
+      "revId": "3348cbdb2938d7726dc2af9d02c775fba908b629",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
