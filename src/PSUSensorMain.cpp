@@ -546,6 +546,16 @@ static void createSensorsCallback(
             }
         }
 
+        /* read peak value in sysfs for in, curr, power, temp, ... */
+        if (!findFiles(directory, R"(\w\d+_(highest|input_highest)$)",
+                       sensorPaths, 0))
+        {
+            if constexpr (debug)
+            {
+                std::cerr << "No peak name in PSU \n";
+            }
+        }
+
         float pollRate = getPollRate(*baseConfig, PSUSensor::defaultSensorPoll);
 
         /* Find array of labels to be exposed if it is defined in config */
@@ -563,6 +573,7 @@ static void createSensorsCallback(
         for (const auto& sensorPath : sensorPaths)
         {
             bool maxLabel = false;
+            bool peakLabel = false;
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
@@ -597,11 +608,18 @@ static void createSensorsCallback(
                                                             "max", "label");
                         maxLabel = true;
                     }
+                    else if (sensorPathStrMax == "_input_highest" || sensorPathStrMax == "_highest")
+                    {
+                        labelPath = boost::replace_all_copy(sensorPathStr,
+                                                            sensorPathStrMax.substr(1), "label");
+                        peakLabel = true;
+                    }
                     else
                     {
                         labelPath = boost::replace_all_copy(sensorPathStr,
                                                             "input", "label");
                         maxLabel = false;
+                        peakLabel = false;
                     }
                 }
                 else
@@ -642,6 +660,12 @@ static void createSensorsCallback(
                 if (maxLabel)
                 {
                     labelHead.insert(0, "max");
+                }
+
+                /* append "peak" for labelMatch */
+                if (peakLabel)
+                {
+                    labelHead.insert(0, "peak");
                 }
 
                 checkPWMSensor(sensorPath, labelHead, *interfacePath,
@@ -1093,10 +1117,12 @@ void propertyInitialize()
         {"power3", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"power4", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
+        {"peakpin", PSUProperty("Peak Input Power", 3000, 0, 6, 0)},
         {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"vin1", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"vin2", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
+        {"peakvin", PSUProperty("Peak Input Voltage", 300, 0, 3, 0)},
         {"in_voltage0", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"in_voltage1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"in_voltage2", PSUProperty("Output Voltage", 255, 0, 3, 0)},
@@ -1133,6 +1159,7 @@ void propertyInitialize()
         {"vout30", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout31", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout32", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"peakvout1", PSUProperty("Peak Output Voltage", 255, 0, 3, 0)},
         {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3, 0)},
         {"in0", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"in1", PSUProperty("Output Voltage", 255, 0, 3, 0)},
@@ -1164,6 +1191,7 @@ void propertyInitialize()
         {"curr3", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"curr4", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"maxiout1", PSUProperty("Max Output Current", 255, 0, 3, 0)},
+        {"peakiout1", PSUProperty("Peak Output Current", 255, 0, 3, 0)},
         {"temp1", PSUProperty("Temperature", 127, -128, 3, 0)},
         {"temp2", PSUProperty("Temperature", 127, -128, 3, 0)},
         {"temp3", PSUProperty("Temperature", 127, -128, 3, 0)},
@@ -1171,6 +1199,7 @@ void propertyInitialize()
         {"temp5", PSUProperty("Temperature", 127, -128, 3, 0)},
         {"temp6", PSUProperty("Temperature", 127, -128, 3, 0)},
         {"maxtemp1", PSUProperty("Max Temperature", 127, -128, 3, 0)},
+        {"peaktemp1", PSUProperty("Peak Temperature", 127, -128, 3, 0)},
         {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
         {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)},
         {"fan3", PSUProperty("Fan Speed 3", 30000, 0, 0, 0)},
