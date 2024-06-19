@@ -16,6 +16,24 @@
       "message": "```\n    Running commit_spelling\nopenbmc-dictionary - misspelling count \u003e\u003e 0\ngeneric-dictionary - misspelling count \u003e\u003e /tmp/tmp.jtzVRogj4Q:5: registor \u003d\u003d\u003e register\n/tmp/tmp.jtzVRogj4Q:7: registor \u003d\u003d\u003e register\n```",
       "revId": "4a7f8fc0146b57a509876e47d0563d59542ba983",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "021d325e_40617cd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2024-06-19T01:59:48Z",
+      "side": 1,
+      "message": "\u003e ```\n\u003e     Running commit_spelling\n\u003e openbmc-dictionary - misspelling count \u003e\u003e 0\n\u003e generic-dictionary - misspelling count \u003e\u003e /tmp/tmp.jtzVRogj4Q:5: registor \u003d\u003d\u003e register\n\u003e /tmp/tmp.jtzVRogj4Q:7: registor \u003d\u003d\u003e register\n\u003e ```\n\nThanks for reminding.",
+      "parentUuid": "53bf793b_1327aceb",
+      "revId": "4a7f8fc0146b57a509876e47d0563d59542ba983",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
