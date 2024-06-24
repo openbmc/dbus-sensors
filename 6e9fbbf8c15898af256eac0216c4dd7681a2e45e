@@ -33,6 +33,23 @@
       "message": "Friendly ping",
       "revId": "6e9fbbf8c15898af256eac0216c4dd7681a2e45e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf9f78f8_0acfc8e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-06-24T09:33:58Z",
+      "side": 1,
+      "message": "Hi @Ed, @Vernon, @Andrew and @Jae,\n\nPlease take a little bit your time to help me review this commit.\n\nThanks",
+      "revId": "6e9fbbf8c15898af256eac0216c4dd7681a2e45e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
