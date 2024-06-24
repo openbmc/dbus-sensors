@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb628127_934acb40",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-06-24T06:46:09Z",
+      "side": 1,
+      "message": "The yv4 system is like `BMC \u003c-\u003e MCTP_device1 \u003c-\u003e MCTP_device2`. The `MCTP_device1` is served as a MCTP bridge and also a MCTP endpoint. In this situation, The `AssignEndpoint` cannot be send to MCTP_device2.\n\nWe observed that there is a command call `Allocate Endpoints` defined in DSP0236. However, it doesn\u0027t seem like we can allocate static endpoints.\n\nDo you have any suggestion on this kind of system?",
+      "range": {
+        "startLine": 104,
+        "startChar": 17,
+        "endLine": 104,
+        "endChar": 37
+      },
+      "revId": "92dd7e949bcf42b35a84fa2d3b93ad9bc9a728c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
