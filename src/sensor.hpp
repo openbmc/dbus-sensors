@@ -27,6 +27,8 @@ constexpr const char* availableInterfaceName =
     "xyz.openbmc_project.State.Decorator.Availability";
 constexpr const char* operationalInterfaceName =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
+constexpr const char* enabledInterfaceName =
+    "xyz.openbmc_project.Object.Enable";
 constexpr const size_t errorThreshold = 5;
 
 struct SensorInstrumentation
@@ -82,6 +84,7 @@ struct Sensor
     std::string configurationPath;
     std::string configInterface;
     bool isSensorSettable;
+    bool isSensorEnabled = true;
 
     /* A flag indicates if properties of xyz.openbmc_project.Sensor.Value
      * interface are mutable. If mutable, then
@@ -97,6 +100,7 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> valueMutabilityInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> enableInterface;
     double value = std::numeric_limits<double>::quiet_NaN();
     double rawValue = std::numeric_limits<double>::quiet_NaN();
     bool overriddenState = false;
@@ -380,6 +384,22 @@ struct Sensor
                     operationalInterfaceName);
             operationalInterface->register_property("Functional", true);
             operationalInterface->initialize();
+        }
+        if (!enableInterface)
+        {
+            enableInterface = std::make_shared<sdbusplus::asio::dbus_interface>(
+                dbusConnection, sensorInterface->get_object_path(),
+                enabledInterfaceName);
+            enableInterface->register_property(
+                "Enabled", true, [this](const bool propIn, bool& old) {
+                if (propIn != old)
+                {
+                    old = propIn;
+                    isSensorEnabled = propIn;
+                }
+                return 1;
+            });
+            enableInterface->initialize();
         }
     }
 
