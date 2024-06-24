@@ -22,6 +22,30 @@
       },
       "revId": "1f1bbaa9b15a29b21a21ff4e397d688ae53a3375",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1978916e_b2e8799c",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-06-24T07:50:31Z",
+      "side": 1,
+      "message": "My thought is to avoid unessasary variable assignment if the incoming value is equal to the original one, I think your suggestion is better, updated the code, thanks.\n\nReturn 1 means the value is successfully updated, the code in `object_servcer.hpp` will handle the same-value-updated scenario. I kept the return value 0/1 instead of true/false to keep the consistency of other existing dbus properties such as `Functional`.\n```\n    SetPropertyReturnValue operator()(const std::any\u0026 value)\n    {\n        const PropertyType\u0026 newValue \u003d std::any_cast\u003cPropertyType\u003e(value);\n        PropertyType oldValue \u003d *value_;\n        if (func_(newValue, *value_) \u003d\u003d false) \u003c\u003c return 0 would lead to fail\n        {\n            return SetPropertyReturnValue::fail;\n        }\n        if (oldValue \u003d\u003d *value_)\n        {\n            return SetPropertyReturnValue::sameValueUpdated;\n        }\n        return SetPropertyReturnValue::valueUpdated;\n    }\n```",
+      "parentUuid": "dc077a7e_3f4fa68f",
+      "range": {
+        "startLine": 395,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 25
+      },
+      "revId": "1f1bbaa9b15a29b21a21ff4e397d688ae53a3375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
