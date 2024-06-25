@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbf7248c_8a3ed9f5",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-06-25T21:15:38Z",
+      "side": 1,
+      "message": "EventPresenceSensor can be shared by fans also, like the pollingPresence",
+      "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af5cc224_87b789e5",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-06-25T21:15:38Z",
+      "side": 1,
+      "message": "Why is this reuse?",
+      "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf7abfa_48e87451",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-06-25T21:15:38Z",
+      "side": 1,
+      "message": "I expect there is a call to release the line and erase it from the staticGpioMap also, but I can\u0027t find it",
+      "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33492d26_f5831355",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-06-25T21:15:38Z",
+      "side": 1,
+      "message": "we want a copy here to leverage the shared_ptr ref count",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 38
+      },
+      "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
