@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08777bd5_7130c387",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-25T22:06:50Z",
+      "side": 1,
+      "message": "The existing event driven code did not use/require shared GPIOs, so I kept the original functionality as it was.",
+      "parentUuid": "bbf7248c_8a3ed9f5",
+      "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af5cc224_87b789e5",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f90da06e_5efcf5a8",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-25T22:06:50Z",
+      "side": 1,
+      "message": "There can be multiple fans using the same GPIO. This increments the usage count of the gpioLine. When all users are done, the GPIO line will be released.",
+      "parentUuid": "af5cc224_87b789e5",
+      "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bf7abfa_48e87451",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-06-25T21:15:38Z",
       "side": 1,
       "message": "I expect there is a call to release the line and erase it from the staticGpioMap also, but I can\u0027t find it",
+      "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "063e2990_becd495c",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-25T22:06:50Z",
+      "side": 1,
+      "message": "That happens in the PollingPresenceSensor destructor\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/54740/43/src/PresenceSensor.hpp#79",
+      "parentUuid": "7bf7abfa_48e87451",
       "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
