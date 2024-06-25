@@ -28,8 +28,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const std::shared_ptr<I2CDevice>& i2cDevice);
     ~PSUSensor() override;
     void setupRead();
-    void activate(const std::string& newPath,
-                  const std::shared_ptr<I2CDevice>& newI2CDevice);
+    void activate();
     void deactivate();
     bool isActive();
 
