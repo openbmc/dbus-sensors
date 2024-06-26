@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe0d5ec9_43981aef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-06-26T08:28:24Z",
+      "side": 1,
+      "message": "\u003e I like to understand the requirement/use case better.\n\n+1\n\n\u003e  the updating NIC would loss the connection to the BMC.\n\nThis sounds like a missing lock in your MCTP implementation.  If mctp is waiting for a reply, I\u0027d expect it to keep the mux locked during that time so that the device can reply.",
+      "parentUuid": "e9711400_f39ad1a5",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "fd0cbaa1a795af6be1615d0e142b2d131df0e1bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb15d3e0_6ab6bfd7",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 3
