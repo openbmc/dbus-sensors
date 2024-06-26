@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9ee8086_280c0a86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-06-26T08:25:14Z",
+      "side": 1,
+      "message": "This seems like a distributed design that needs a lot more documentation or examples of how it\u0027s intended to work.\n\nDisabling thermal sensors forever is dangerous, and has very bad effects in the case where an update crashes, or fails to apply.  We need to design around permanent failures, and I don\u0027t really see that in what\u0027s implemented here.\n\nI see no timeouts, or mentions of what implementations will be selecting these, nor configuration parameters for which sensors are allowed to be disabled.  2 sentences of commit message certainly isn\u0027t enough here.\n\nFWIW, there\u0027s already some precedence for this, where presence detect in some of the sensor daemons will disable scanning, and power state changes will disable scanning.  These are handled in a very different way, receiving signals about the state chance rather than method calls, which abstracts away the connection between an update/power daemon, and which devices need to be disabled during an update.  What\u0027s written here requires the update daemon to know all the sensors that need disabled, which at a design level duplicates a lot of config, especially when entity-manager already has all the sensors attached to a device.\n\nOverall, I\u0027d like to see more problem description before we jump into solutions.",
+      "revId": "33e38e42f87dcaaf13186b0ff751afe027d148fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
