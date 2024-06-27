@@ -127,6 +127,30 @@
       },
       "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8e76ec0_a656d599",
+        "filename": "src/TachSensor.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-06-27T16:28:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33492d26_f5831355",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 38
+      },
+      "revId": "66a0eee9fff01473924400ce3524b0cd193ef2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
