@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f6f3444_ecbc8f57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000941
+      },
+      "writtenOn": "2024-06-28T03:48:45Z",
+      "side": 1,
+      "message": "Hi ED,\n\nSure thing. Now we are discussing with Meta for all use cases. Let me mark it as WIP.",
+      "parentUuid": "fe0d5ec9_43981aef",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "fd0cbaa1a795af6be1615d0e142b2d131df0e1bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb15d3e0_6ab6bfd7",
         "filename": "src/HwmonTempSensor.cpp",
         "patchSetId": 3
