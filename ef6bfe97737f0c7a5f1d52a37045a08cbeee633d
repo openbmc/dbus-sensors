@@ -16,6 +16,24 @@
       "message": "whats the difference b/w peak and max levels?",
       "revId": "ef6bfe97737f0c7a5f1d52a37045a08cbeee633d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f811444_ea053f16",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1001312
+      },
+      "writtenOn": "2024-07-01T11:28:09Z",
+      "side": 1,
+      "message": "Hi ankita,\nTaking voltage input as an example, `in1_max` stores the value of the `PMBUS_VIN_OV_WARN_LIMIT` (0x57) registor in pmbus and records the high warning value.\nhttps://github.com/openbmc/linux/blob/57904291176fa16a981cefca5cbe1a0b50196792/drivers/hwmon/pmbus/pmbus_core.c#L1637  \n\n`in1_highest` stores the value of the `PMBUS_VIRT_READ_VIN_MAX` (0x107) registor.\nBut in the ADM1272 device, it uses the `PMBUS_VIRT_READ_VIN_MAX` as a parameter to store the value of `ADM1275_PEAK_VIN` (0xD1) registor, so if we want to get the peak value from the ADM1272, we need to read the exposed path, such as `*_highest` or `*_input_highest`.\nhttps://github.com/openbmc/linux/blob/57904291176fa16a981cefca5cbe1a0b50196792/drivers/hwmon/pmbus/adm1275.c#L312",
+      "parentUuid": "86fb0694_df474440",
+      "revId": "ef6bfe97737f0c7a5f1d52a37045a08cbeee633d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
