@@ -528,6 +528,16 @@ static void createSensorsCallback(
             }
         }
 
+        /* read peak value in sysfs for in, curr, power, temp, ... */
+        if (!findFiles(directory, R"(\w\d+_(highest|input_highest)$)",
+                       sensorPaths, 0))
+        {
+            if constexpr (debug)
+            {
+                std::cerr << "No peak name in PSU \n";
+            }
+        }
+
         float pollRate = getPollRate(*baseConfig, PSUSensor::defaultSensorPoll);
 
         /* Find array of labels to be exposed if it is defined in config */
@@ -545,6 +555,7 @@ static void createSensorsCallback(
         for (const auto& sensorPath : sensorPaths)
         {
             bool maxLabel = false;
+            bool peakLabel = false;
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
@@ -579,11 +590,19 @@ static void createSensorsCallback(
                                                             "max", "label");
                         maxLabel = true;
                     }
+                    else if (sensorPathStrMax == "_input_highest" ||
+                             sensorPathStrMax == "_highest")
+                    {
+                        labelPath = boost::replace_all_copy(
+                            sensorPathStr, sensorPathStrMax.substr(1), "label");
+                        peakLabel = true;
+                    }
                     else
                     {
                         labelPath = boost::replace_all_copy(sensorPathStr,
                                                             "input", "label");
                         maxLabel = false;
+                        peakLabel = false;
                     }
                 }
                 else
@@ -624,6 +643,12 @@ static void createSensorsCallback(
                 if (maxLabel)
                 {
                     labelHead.insert(0, "max");
+                }
+
+                /* append "peak" for labelMatch */
+                if (peakLabel)
+                {
+                    labelHead.insert(0, "peak");
                 }
 
                 checkPWMSensor(sensorPath, labelHead, *interfacePath,
@@ -1077,18 +1102,23 @@ void propertyInitialize()
         {"pout", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"power", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
+        {"peakpin", PSUProperty("Peak Input Power", 3000, 0, 6, 0)},
         {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
+        {"peakvin", PSUProperty("Peak Input Voltage", 300, 0, 3, 0)},
         {"in_voltage", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3, 0)},
+        {"peakvout", PSUProperty("Peak Output Voltage", 255, 0, 3, 0)},
         {"in", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
         {"iout", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"curr", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"maxiout", PSUProperty("Max Output Current", 255, 0, 3, 0)},
+        {"peakiout", PSUProperty("Peak Output Current", 255, 0, 3, 0)},
         {"temp", PSUProperty("Temperature", 127, -128, 3, 0)},
         {"maxtemp", PSUProperty("Max Temperature", 127, -128, 3, 0)},
+        {"peaktemp", PSUProperty("Peak Temperature", 127, -128, 3, 0)},
         {"fan", PSUProperty("Fan Speed ", 30000, 0, 0, 0)}};
 
     limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
