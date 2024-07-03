@@ -97,6 +97,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"LTC4287", I2CDeviceType{"ltc4287", true}},
     {"MAX5970", I2CDeviceType{"max5970", true}},
     {"MAX11607", I2CDeviceType{"max11607", false}},
+    {"MAX11617", I2CDeviceType{"max11617", false}},
     {"MAX16601", I2CDeviceType{"max16601", true}},
     {"MAX20710", I2CDeviceType{"max20710", true}},
     {"MAX20730", I2CDeviceType{"max20730", true}},
