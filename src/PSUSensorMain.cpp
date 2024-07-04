@@ -1080,7 +1080,7 @@ void propertyInitialize()
         {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
         {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
         {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
-        {"in_voltage", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"voltage", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vout", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3, 0)},
         {"in", PSUProperty("Output Voltage", 255, 0, 3, 0)},
