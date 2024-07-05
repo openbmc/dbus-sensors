@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bac40c98_c37ac7f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-07-05T12:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "318577c5_4622b805",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d8815ca_3d267f59",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-04-26T20:51:39Z",
       "side": 1,
       "message": "Don\u0027t want to steal this review but I\u0027ve encountered similar issue with CPU presence recently and not knowing about this review prepared alternative solution which additionally extracts common code to utils and doesn\u0027t create hwmon if required CPU is not needed.\nProposed change is at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/71090\nBeing open to discussion how to address all identified issues so far and merge common work.",
+      "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30539ad3_ff68b410",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-07-05T12:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d8815ca_3d267f59",
       "revId": "ef6f7dca3e2c90c98e3b704f30795303fdd1f5ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
