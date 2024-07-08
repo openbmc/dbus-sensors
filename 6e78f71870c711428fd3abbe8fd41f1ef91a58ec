@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e429e22_cc7f1854",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-07-08T19:28:36Z",
+      "side": 1,
+      "message": "use constexpr for \"DIMM\"",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 33
+      },
+      "revId": "6e78f71870c711428fd3abbe8fd41f1ef91a58ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861b423d_45546f0e",
+        "filename": "src/IntelCPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-07-08T19:28:36Z",
+      "side": 1,
+      "message": "add cpuStr \u003d \"CPU\" + std::to_string(cpuId) to remove code duplication",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 131,
+        "endChar": 50
+      },
+      "revId": "6e78f71870c711428fd3abbe8fd41f1ef91a58ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
