@@ -61,6 +61,7 @@
 #include <vector>
 
 static constexpr bool debug = false;
+static std::regex i2cDevRegex(R"((\/i2c\-\d+\/\d+-[a-fA-F0-9]{4,4})(\/|$))");
 
 static const I2CDeviceTypeMap sensorTypes{
     {"ADC128D818", I2CDeviceType{"adc128d818", true}},
@@ -124,6 +125,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"RAA229004", I2CDeviceType{"raa229004", true}},
     {"RAA229126", I2CDeviceType{"raa229126", true}},
     {"SBRMI", I2CDeviceType{"sbrmi", true}},
+    {"smpro_hwmon", I2CDeviceType{"smpro", false}},
     {"TDA38640", I2CDeviceType{"tda38640", true}},
     {"TPS53679", I2CDeviceType{"tps53679", true}},
     {"TPS546D24", I2CDeviceType{"tps546d24", true}},
@@ -352,7 +354,18 @@ static void createSensorsCallback(
         std::string deviceName;
         if (directory.parent_path() == "/sys/class/hwmon")
         {
-            deviceName = fs::canonical(directory / "device").stem();
+            std::string devicePath = fs::canonical(directory / "device");
+            std::smatch match;
+            // Find /i2c-<bus>/<bus>-<address> match in device path
+            std::regex_search(devicePath, match, i2cDevRegex);
+            if (match.empty())
+            {
+                std::cerr << "Found bad device path " << devicePath << "\n";
+                continue;
+            }
+            // Extract <bus>-<address>
+            std::string matchStr = match[1];
+            deviceName = matchStr.substr(matchStr.find_last_of('/') + 1);
         }
         else
         {
