@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9649d3bf_6525b704",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 45
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-07-12T20:27:20Z",
+      "side": 1,
+      "message": "std::shared_ptr\u003c\u003e",
+      "range": {
+        "startLine": 32,
+        "startChar": 33,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "c0c68253e04870461e7a0264d5afb3abaadb865d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbeddc2e_111c0e2b",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 45
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-07-12T20:27:20Z",
+      "side": 1,
+      "message": "Make a copy of the shared_ptr with\ngpioLine \u003d search-\u003esecond;",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 65
+      },
+      "revId": "c0c68253e04870461e7a0264d5afb3abaadb865d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7494a247_3e6ba3dd",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 45
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-07-12T20:27:20Z",
+      "side": 1,
+      "message": "gpioLine",
+      "range": {
+        "startLine": 175,
+        "startChar": 40,
+        "endLine": 175,
+        "endChar": 49
+      },
+      "revId": "c0c68253e04870461e7a0264d5afb3abaadb865d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
