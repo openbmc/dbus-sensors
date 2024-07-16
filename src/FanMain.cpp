@@ -274,15 +274,17 @@ void createSensors(
         tachSensors,
     boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>&
         pwmSensors,
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceSensor>>&
+        presenceSensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged,
     size_t retries = 0)
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        [&io, &objectServer, &tachSensors, &pwmSensors, &dbusConnection,
-         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
+        dbusConnection, [&io, &objectServer, &tachSensors, &pwmSensors,
+                         &presenceSensors, &dbusConnection, sensorsChanged](
+                            const ManagedObjectType& sensorConfigurations) {
         bool firstScan = sensorsChanged == nullptr;
         std::vector<fs::path> paths;
         if (!findFiles(fs::path("/sys/class/hwmon"), R"(fan\d+_input)", paths))
@@ -429,7 +431,7 @@ void createSensors(
             auto presenceConfig =
                 sensorData->find(cfgIntf + std::string(".Presence"));
 
-            std::unique_ptr<PresenceSensor> presenceSensor(nullptr);
+            std::shared_ptr<PresenceSensor> presenceSensor(nullptr);
 
             // presence sensors are optional
             if (presenceConfig != sensorData->end())
@@ -446,11 +448,27 @@ void createSensors(
                 {
                     bool inverted =
                         std::get<std::string>(findPolarity->second) == "Low";
-                    if (const auto* pinName =
-                            std::get_if<std::string>(&findPinName->second))
+                    const auto* pinName =
+                        std::get_if<std::string>(&findPinName->second);
+
+                    if (pinName != nullptr)
                     {
-                        presenceSensor = std::make_unique<PresenceSensor>(
-                            *pinName, inverted, io, sensorName);
+                        auto findPresenceSensor =
+                            presenceSensors.find(*pinName);
+                        if (findPresenceSensor != presenceSensors.end())
+                        {
+                            auto p = findPresenceSensor->second.lock();
+                            if (p)
+                            {
+                                presenceSensor = p;
+                            }
+                        }
+                        if (!presenceSensor)
+                        {
+                            presenceSensor = std::make_shared<PresenceSensor>(
+                                *pinName, inverted, io, sensorName);
+                            presenceSensors[*pinName] = presenceSensor;
+                        }
                     }
                     else
                     {
@@ -556,7 +574,7 @@ void createSensors(
             tachSensor = nullptr;
             tachSensor = std::make_shared<TachSensor>(
                 path.string(), baseType, objectServer, dbusConnection,
-                std::move(presenceSensor), redundancy, io, sensorName,
+                presenceSensor, redundancy, io, sensorName,
                 std::move(sensorThresholds), *interfacePath, limits, powerState,
                 led);
             tachSensor->setupRead();
@@ -591,12 +609,14 @@ int main()
         tachSensors;
     boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
         pwmSensors;
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceSensor>>
+        presenceSensors;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, tachSensors, pwmSensors, systemBus,
-                      nullptr);
+        createSensors(io, objectServer, tachSensors, pwmSensors,
+                      presenceSensors, systemBus, nullptr);
     });
 
     boost::asio::steady_timer filterTimer(io);
@@ -622,8 +642,8 @@ int main()
                 std::cerr << "timer error\n";
                 return;
             }
-            createSensors(io, objectServer, tachSensors, pwmSensors, systemBus,
-                          sensorsChanged, 5);
+            createSensors(io, objectServer, tachSensors, pwmSensors,
+                          presenceSensors, systemBus, sensorsChanged, 5);
         });
     };
 
