@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2bb1637_d9b1d727",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 45
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-07-17T22:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9649d3bf_6525b704",
+      "range": {
+        "startLine": 32,
+        "startChar": 33,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "c0c68253e04870461e7a0264d5afb3abaadb865d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbeddc2e_111c0e2b",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "273c1277_4b209784",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 45
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-07-17T22:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbeddc2e_111c0e2b",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 65
+      },
+      "revId": "c0c68253e04870461e7a0264d5afb3abaadb865d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7494a247_3e6ba3dd",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-07-12T20:27:20Z",
       "side": 1,
       "message": "gpioLine",
+      "range": {
+        "startLine": 175,
+        "startChar": 40,
+        "endLine": 175,
+        "endChar": 49
+      },
+      "revId": "c0c68253e04870461e7a0264d5afb3abaadb865d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1644fe4b_090b1ab6",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 45
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-07-17T22:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7494a247_3e6ba3dd",
       "range": {
         "startLine": 175,
         "startChar": 40,

@@ -22,6 +22,30 @@
       },
       "revId": "abbc013fec10d1580bf7e7851685c02f7fadfaf0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42ecb4e3_dc96bbff",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 45
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-07-17T22:09:15Z",
+      "side": 0,
+      "message": "The PresenceSensor is created in FanMain which does a std::move when it creates the TachSensor objects. This caused problems with the PollingPresenceSensor because the constructor got run (and monitorPresence() was being called) and then the object got moved which ended up unable to read the gpio.\nSee some history here: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/54740/4..30/src/TachSensor.cpp#b289",
+      "parentUuid": "8e78ce5c_30adbb98",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 22
+      },
+      "revId": "abbc013fec10d1580bf7e7851685c02f7fadfaf0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
