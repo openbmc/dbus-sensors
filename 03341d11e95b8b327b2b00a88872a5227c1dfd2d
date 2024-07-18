@@ -33,6 +33,23 @@
       "message": "Friendly ping for review.",
       "revId": "03341d11e95b8b327b2b00a88872a5227c1dfd2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e0956d_2ac81893",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-07-18T22:41:50Z",
+      "side": 1,
+      "message": "The higher level code calling this function doesn\u0027t really handle errors correctly, since I thought we wanted errors to show up as a specific value (NaN), but this 0 is at least better than what it was previously doing.",
+      "revId": "03341d11e95b8b327b2b00a88872a5227c1dfd2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
