@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84225663_57b4ebdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001266
+      },
+      "writtenOn": "2024-07-22T11:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8af8d3fe_7516b4ac",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "7806224c8e0922a502ee0f8e336305e4398964de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f8365fd_2f472010",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-12T19:28:40Z",
       "side": 1,
       "message": "Sounds like a regression. Can you add a link to the actual commit SHA here?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "7806224c8e0922a502ee0f8e336305e4398964de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a4fbb24_8c66e4ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001266
+      },
+      "writtenOn": "2024-07-22T11:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f8365fd_2f472010",
       "range": {
         "startLine": 10,
         "startChar": 0,
