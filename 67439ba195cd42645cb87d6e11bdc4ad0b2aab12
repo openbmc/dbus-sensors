@@ -22,6 +22,30 @@
       },
       "revId": "67439ba195cd42645cb87d6e11bdc4ad0b2aab12",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8975b65_5276a372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-07-22T04:33:55Z",
+      "side": 1,
+      "message": "I think this commit from Aspeed fixes this issue from the 2500-pwm-tacho driver https://github.com/AspeedTech-BMC/linux/commit/f327133365140ed3849e95a64a16218c62ed45b1 but has not been in OpenBMC/linux yet.",
+      "parentUuid": "59484b62_0f06ffb0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "67439ba195cd42645cb87d6e11bdc4ad0b2aab12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
