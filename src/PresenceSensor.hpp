@@ -8,10 +8,12 @@
 class PresenceSensor : private boost::noncopyable
 {
   public:
-    PresenceSensor(const std::string& type, const std::string& name) :
-        sensorType(type), sensorName(name) {};
+    PresenceSensor(const std::string& iSensorType,
+                   const std::string& iSensorName,
+                   const std::string& iGpioName);
     virtual ~PresenceSensor() = 0;
 
+    virtual void monitorPresence() = 0;
     bool isPresent() const
     {
         return status;
@@ -22,12 +24,11 @@ class PresenceSensor : private boost::noncopyable
     bool status = false;
     std::string sensorType;
     std::string sensorName;
-
-    virtual void monitorPresence() = 0;
+    std::string gpioName;
 
     void logPresent(const std::string& device)
     {
-        std::string summary = sensorType + " Inserted";
+        std::string summary = sensorType + " " + sensorName + " Inserted";
         std::string msg = "OpenBMC.0.1." + sensorType + "Inserted";
         lg2::info(summary.c_str(), "REDFISH_MESSAGE_ID", msg.c_str(),
                   "REDFISH_MESSAGE_ARGS", device);
@@ -35,7 +36,7 @@ class PresenceSensor : private boost::noncopyable
 
     void logRemoved(const std::string& device)
     {
-        std::string summary = sensorType + " Removed";
+        std::string summary = sensorType + " " + sensorName + " Removed";
         std::string msg = "OpenBMC.0.1." + sensorType + "Removed";
         lg2::error(summary.c_str(), "REDFISH_MESSAGE_ID", msg.c_str(),
                    "REDFISH_MESSAGE_ARGS", device);
@@ -51,17 +52,41 @@ class EventPresenceSensor :
   public:
     EventPresenceSensor(const std::string& iSensorType,
                         const std::string& iSensorName,
-                        const std::string& gpioName, bool inverted,
+                        const std::string& iGpioName, bool inverted,
                         boost::asio::io_context& io);
 
     ~EventPresenceSensor() override
     {
         gpioFd.close();
     }
+    void monitorPresence() override;
 
   private:
     boost::asio::posix::stream_descriptor gpioFd;
 
-    void monitorPresence() override;
     void read();
+};
+
+class PollingPresenceSensor :
+    public PresenceSensor,
+    public std::enable_shared_from_this<PollingPresenceSensor>
+{
+  public:
+    PollingPresenceSensor(const std::string& iSensorType,
+                          const std::string& iSensorName,
+                          const std::string& iGpioName, bool inverted,
+                          boost::asio::io_context& io);
+    ~PollingPresenceSensor() override
+    {
+        // GPIO no longer being used so release/remove
+        gpioLine.release();
+    }
+    void monitorPresence() override;
+
+  private:
+    boost::asio::steady_timer pollTimer;
+
+    static inline void
+        pollTimerHandler(const std::weak_ptr<PollingPresenceSensor>& weakRef,
+                         const boost::system::error_code& ec);
 };
