@@ -78,6 +78,7 @@ TachSensor::TachSensor(
 
     if (presence)
     {
+        presence->monitorPresence();
         itemIface =
             objectServer.add_interface("/xyz/openbmc_project/inventory/" + name,
                                        "xyz.openbmc_project.Inventory.Item");

@@ -20,6 +20,7 @@
 #include <boost/asio/posix/stream_descriptor.hpp>
 #include <gpiod.hpp>
 
+#include <chrono>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -53,7 +54,7 @@ EventPresenceSensor::EventPresenceSensor(
     if (!gpioLine)
     {
         std::cerr << "Error requesting gpio: " << gpioName << "\n";
-        return;
+        throw std::runtime_error("Failed to find GPIO " + gpioName);
     }
 
     try
@@ -76,10 +77,8 @@ EventPresenceSensor::EventPresenceSensor(
     {
         std::cerr << "Error reading gpio " << gpioName << ": " << e.what()
                   << "\n";
-        return;
+        throw std::runtime_error("Failed to read GPIO fd " + gpioName);
     }
-
-    monitorPresence();
 }
 
 void EventPresenceSensor::monitorPresence()
@@ -115,4 +114,77 @@ void EventPresenceSensor::read()
     // Read is invoked when an edge event is detected by monitorPresence
     gpioLine.event_read();
     updateAndTracePresence();
+}
+
+PollingPresenceSensor::PollingPresenceSensor(
+    const std::string& iSensorType, const std::string& iSensorName,
+    const std::string& iGpioName, bool inverted, boost::asio::io_context& io) :
+    PresenceSensor(iSensorType, iSensorName), gpioName(iGpioName), pollTimer(io)
+{
+    initGpio(inverted);
+}
+
+void PollingPresenceSensor::initGpio(bool inverted)
+{
+    gpioLine = gpiod::find_line(gpioName);
+    if (!gpioLine)
+    {
+        std::cerr << "Unable to find gpio " << gpioName << " (polling)\n";
+        status = false;
+        throw std::runtime_error("Failed to get Polling GPIO " + gpioName);
+    }
+
+    try
+    {
+        gpioLine.request(
+            {sensorType + "Sensor", gpiod::line_request::DIRECTION_INPUT,
+             inverted ? gpiod::line_request::FLAG_ACTIVE_LOW : 0});
+        updateAndTracePresence();
+    }
+    catch (const std::system_error& e)
+    {
+        std::cerr << "initGpio: Error reading gpio " << gpioName << ": "
+                  << e.what() << " (polling)\n";
+        status = false;
+        throw std::runtime_error("Failed to get Polling GPIO fd " + gpioName);
+    }
+}
+
+inline void PollingPresenceSensor::pollTimerHandler(
+    const std::weak_ptr<PollingPresenceSensor>& weakRef,
+    const boost::system::error_code& ec)
+{
+    std::shared_ptr<PollingPresenceSensor> self = weakRef.lock();
+    if (!self)
+    {
+        std::cerr << "Failed to get lock for pollingPresenceSensor: "
+                  << ec.message() << "\n";
+        return;
+    }
+    if (ec)
+    {
+        if (ec != boost::system::errc::bad_file_descriptor)
+        {
+            std::cerr << "GPIO polling timer failed for " << self->sensorName
+                      << ": " << ec.what() << ")\n";
+        }
+        return;
+    }
+    self->monitorPresence();
+}
+
+void PollingPresenceSensor::monitorPresence()
+{
+    // Determine if the value has changed
+    int statusTry = gpioLine.get_value();
+    if (static_cast<int>(status) != statusTry)
+    {
+        updateAndTracePresence();
+    }
+
+    std::weak_ptr<PollingPresenceSensor> weakRef = weak_from_this();
+    pollTimer.expires_after(std::chrono::seconds(1));
+    pollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        pollTimerHandler(weakRef, ec);
+    });
 }
