@@ -79,6 +79,7 @@ TachSensor::TachSensor(const std::string& path, const std::string& objectType,
 
     if (presence)
     {
+        presence->monitorPresence();
         itemIface =
             objectServer.add_interface("/xyz/openbmc_project/inventory/" + name,
                                        "xyz.openbmc_project.Inventory.Item");
