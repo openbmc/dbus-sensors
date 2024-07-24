@@ -8,12 +8,13 @@
 class PresenceGpio
 {
   public:
-    PresenceGpio(const std::string& type, const std::string& name) :
-        deviceType(type), deviceName(name) {};
+    PresenceGpio(const std::string& deviceType, const std::string& deviceName,
+                 const std::string& gpioName);
     PresenceGpio(const PresenceGpio&) = delete;
     PresenceGpio& operator=(const PresenceGpio&) = delete;
     virtual ~PresenceGpio() = 0;
 
+    virtual void monitorPresence() = 0;
     bool isPresent() const
     {
         return status;
@@ -24,8 +25,7 @@ class PresenceGpio
     bool status = false;
     std::string deviceType;
     std::string deviceName;
-
-    virtual void monitorPresence() = 0;
+    std::string gpioName;
 
     void logPresent(const std::string& device)
     {
@@ -43,7 +43,7 @@ class PresenceGpio
                    "REDFISH_MESSAGE_ARGS", device);
     }
 
-    void updateAndTracePresence();
+    void updateAndTracePresence(int newValue);
 };
 
 class EventPresenceGpio :
@@ -51,14 +51,39 @@ class EventPresenceGpio :
     public std::enable_shared_from_this<EventPresenceGpio>
 {
   public:
-    EventPresenceGpio(const std::string& iDeviceType,
-                      const std::string& iDeviceName,
+    EventPresenceGpio(const std::string& deviceType,
+                      const std::string& deviceName,
                       const std::string& gpioName, bool inverted,
                       boost::asio::io_context& io);
+
+    void monitorPresence() override;
 
   private:
     boost::asio::posix::stream_descriptor gpioFd;
 
-    void monitorPresence() override;
     void read();
+};
+
+class PollingPresenceGpio :
+    public PresenceGpio,
+    public std::enable_shared_from_this<PollingPresenceGpio>
+{
+  public:
+    PollingPresenceGpio(const std::string& deviceType,
+                        const std::string& deviceName,
+                        const std::string& gpioName, bool inverted,
+                        boost::asio::io_context& io);
+    ~PollingPresenceGpio() override
+    {
+        // GPIO no longer being used so release/remove
+        gpioLine.release();
+    }
+    void monitorPresence() override;
+
+  private:
+    boost::asio::steady_timer pollTimer;
+
+    static inline void
+        pollTimerHandler(const std::weak_ptr<PollingPresenceGpio>& weakRef,
+                         const boost::system::error_code& ec);
 };
