@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "553e81ef_681eead4",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-07-24T16:13:19Z",
+      "side": 1,
+      "message": "Is this correct - just noticed neighboring MAX116 devices have this set to false",
+      "range": {
+        "startLine": 100,
+        "startChar": 42,
+        "endLine": 100,
+        "endChar": 47
+      },
+      "revId": "51c50e97c0dd94c53d024ef46fc480ed0753789b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
