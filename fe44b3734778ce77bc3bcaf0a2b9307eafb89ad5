@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c9d1049_4516fc05",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-07-24T16:25:50Z",
+      "side": 1,
+      "message": "Why and when a presenceSensor might get destroyed from the presenceSensors?\nAny downside just keeps a copy of the shared_ptr like tachSensors",
+      "range": {
+        "startLine": 458,
+        "startChar": 0,
+        "endLine": 465,
+        "endChar": 25
+      },
+      "revId": "fe44b3734778ce77bc3bcaf0a2b9307eafb89ad5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
