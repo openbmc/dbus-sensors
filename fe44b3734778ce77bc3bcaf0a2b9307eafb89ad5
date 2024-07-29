@@ -46,6 +46,30 @@
       },
       "revId": "fe44b3734778ce77bc3bcaf0a2b9307eafb89ad5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e03e67cf_09a4b597",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2024-07-29T06:53:16Z",
+      "side": 1,
+      "message": "Should I drop the weak_ptr and thus drop the corner case described in 2?",
+      "parentUuid": "91708d11_3d7cc9a7",
+      "range": {
+        "startLine": 458,
+        "startChar": 0,
+        "endLine": 465,
+        "endChar": 25
+      },
+      "revId": "fe44b3734778ce77bc3bcaf0a2b9307eafb89ad5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
