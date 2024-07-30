@@ -69,9 +69,9 @@ for complete list.
 - [ExternalSensor](https://github.com/openbmc/docs/blob/master/designs/external-sensor.md)
   virtual sensor
 
-# Sensor Type Documentation
+## Sensor Type Documentation
 
-## ADC Sensors
+### ADC Sensors
 
 ADC sensors are sensors based on an Analog to Digital Converter. They are read
 via the Linux kernel Industrial I/O subsystem (IIO).
