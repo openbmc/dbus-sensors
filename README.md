@@ -22,7 +22,7 @@ detection (x86) are also supported.
 
 A typical dbus-sensors object support the following dbus interfaces:
 
-```
+```text
 Path        /xyz/openbmc_project/sensors/<type>/<sensor_name>
 
 Interfaces  xyz.openbmc_project.Sensor.Value
@@ -87,7 +87,7 @@ When using a common OpenBMC device like the AST2600 you will find a "adc0" and
 your system-specific dts you would enable and configure what you want with
 something like this:
 
-```
+```text
 iio-hwmon {
     compatible = "iio-hwmon";
     io-channels = <&adc0 0>;
@@ -111,7 +111,7 @@ configuring a device tree but really to point users in the general direction.
 You will then create an entity-manager configuration file that is of type "ADC"
 A very simple example would like look this:
 
-```
+```text
             "Index": 0,
             "Name": "P12V",
             "PowerState": "Always",
