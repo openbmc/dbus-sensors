@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a50c88_01c08a4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 48
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-08-15T18:00:17Z",
+      "side": 1,
+      "message": "Change in this patch looks good. Wait for dependent change to land",
+      "revId": "07ae6b7bbff849eca2973a97d8a52e1319369fbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
