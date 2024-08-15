@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2caddd3_bc25126c",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-08-15T18:40:33Z",
+      "side": 1,
+      "message": "Please take a look at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/72833\nI think  it has a better approach to support sharing presence GPIO from multiple fans.  Sorry, i did not suggest this earlier",
+      "revId": "ec6b27dfdbbdefa663564e8d808b7e81faadf756",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
