@@ -21,8 +21,7 @@ static constexpr uint8_t lun = 0;
 IpmbSDRDevice::IpmbSDRDevice(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     uint8_t cmdAddr) :
-    commandAddress(cmdAddr << 2),
-    hostIndex(cmdAddr + 1), conn(dbusConnection)
+    commandAddress(cmdAddr << 2), hostIndex(cmdAddr + 1), conn(dbusConnection)
 {}
 
 bool validateStatus(boost::system::error_code ec,
@@ -52,36 +51,37 @@ void IpmbSDRDevice::getSDRRepositoryInfo()
     conn->async_method_call(
         [weakRef](boost::system::error_code ec,
                   const IpmbMethodType& response) {
-        auto self = weakRef.lock();
-        if (!self)
-        {
-            return;
-        }
+            auto self = weakRef.lock();
+            if (!self)
+            {
+                return;
+            }
 
-        auto status = std::bind_front(validateStatus, ec, response);
-        if (!status(self->hostIndex))
-        {
-            return;
-        }
+            auto status = std::bind_front(validateStatus, ec, response);
+            if (!status(self->hostIndex))
+            {
+                return;
+            }
 
-        const std::vector<uint8_t>& data = std::get<5>(response);
-        const size_t sdrInfoDataSize = 14;
+            const std::vector<uint8_t>& data = std::get<5>(response);
+            const size_t sdrInfoDataSize = 14;
 
-        if (data.size() < sdrInfoDataSize)
-        {
-            std::cerr << " IPMB Get SDR Repository Info data is empty for host "
-                      << self->hostIndex << "\n";
-            return;
-        }
+            if (data.size() < sdrInfoDataSize)
+            {
+                std::cerr
+                    << " IPMB Get SDR Repository Info data is empty for host "
+                    << self->hostIndex << "\n";
+                return;
+            }
 
-        constexpr uint8_t recordCountLSB = 1;
-        constexpr uint8_t recordCountMSB = 2;
+            constexpr uint8_t recordCountLSB = 1;
+            constexpr uint8_t recordCountMSB = 2;
 
-        uint16_t recordCount = (data[recordCountMSB] << 8) |
-                               data[recordCountLSB];
+            uint16_t recordCount = (data[recordCountMSB] << 8) |
+                                   data[recordCountLSB];
 
-        self->reserveSDRRepository(recordCount);
-    },
+            self->reserveSDRRepository(recordCount);
+        },
         ipmbService, ipmbDbusPath, ipmbInterface, ipmbMethod, commandAddress,
         sdr::netfnStorageReq, lun, sdr::cmdStorageGetSdrInfo, sdrCommandData);
 }
@@ -94,32 +94,33 @@ void IpmbSDRDevice::reserveSDRRepository(uint16_t recordCount)
     conn->async_method_call(
         [weakRef, recordCount](boost::system::error_code ec,
                                const IpmbMethodType& response) {
-        auto self = weakRef.lock();
-        if (!self)
-        {
-            return;
-        }
+            auto self = weakRef.lock();
+            if (!self)
+            {
+                return;
+            }
 
-        auto status = std::bind_front(validateStatus, ec, response);
-        if (!status(self->hostIndex))
-        {
-            return;
-        }
+            auto status = std::bind_front(validateStatus, ec, response);
+            if (!status(self->hostIndex))
+            {
+                return;
+            }
 
-        const std::vector<uint8_t>& data = std::get<5>(response);
-        const size_t sdrReserveDataSize = 2;
+            const std::vector<uint8_t>& data = std::get<5>(response);
+            const size_t sdrReserveDataSize = 2;
 
-        if (data.size() < sdrReserveDataSize)
-        {
-            std::cerr << " IPMB SDR Reserve Repository data is empty for host "
-                      << self->hostIndex << "\n";
-            return;
-        }
-        uint8_t resrvIDLSB = data[0];
-        uint8_t resrvIDMSB = data[1];
+            if (data.size() < sdrReserveDataSize)
+            {
+                std::cerr
+                    << " IPMB SDR Reserve Repository data is empty for host "
+                    << self->hostIndex << "\n";
+                return;
+            }
+            uint8_t resrvIDLSB = data[0];
+            uint8_t resrvIDMSB = data[1];
 
-        self->getSDRSensorData(recordCount, resrvIDLSB, resrvIDMSB);
-    },
+            self->getSDRSensorData(recordCount, resrvIDLSB, resrvIDMSB);
+        },
         ipmbService, ipmbDbusPath, ipmbInterface, ipmbMethod, commandAddress,
         sdr::netfnStorageReq, lun, sdr::cmdStorageReserveSdr, sdrCommandData);
 }
@@ -139,30 +140,30 @@ void IpmbSDRDevice::getSDRSensorData(uint16_t recordCount, uint8_t resrvIDLSB,
     conn->async_method_call(
         [weakRef, recordCount, resrvIDLSB, resrvIDMSB](
             boost::system::error_code ec, const IpmbMethodType& response) {
-        auto self = weakRef.lock();
-        if (!self)
-        {
-            return;
-        }
+            auto self = weakRef.lock();
+            if (!self)
+            {
+                return;
+            }
 
-        auto status = std::bind_front(validateStatus, ec, response);
-        if (!status(self->hostIndex))
-        {
-            return;
-        }
+            auto status = std::bind_front(validateStatus, ec, response);
+            if (!status(self->hostIndex))
+            {
+                return;
+            }
 
-        const std::vector<uint8_t>& data = std::get<5>(response);
-        const size_t sdrSensorDataSize = 18;
+            const std::vector<uint8_t>& data = std::get<5>(response);
+            const size_t sdrSensorDataSize = 18;
 
-        if (data.size() < sdrSensorDataSize)
-        {
-            std::cerr << "IPMB SDR sensor data is empty for host "
-                      << self->hostIndex << "\n";
-            return;
-        }
+            if (data.size() < sdrSensorDataSize)
+            {
+                std::cerr << "IPMB SDR sensor data is empty for host "
+                          << self->hostIndex << "\n";
+                return;
+            }
 
-        self->handleSDRData(data, recordCount, resrvIDLSB, resrvIDMSB);
-    },
+            self->handleSDRData(data, recordCount, resrvIDLSB, resrvIDMSB);
+        },
         ipmbService, ipmbDbusPath, ipmbInterface, ipmbMethod, commandAddress,
         sdr::netfnStorageReq, lun, sdr::cmdStorageGetSdr, commandData);
 }
@@ -271,17 +272,17 @@ void IpmbSDRDevice::checkSDRType01Threshold(std::vector<uint8_t>& sdrDataBytes,
      * mDataByte    - Byte 28 - 8 bits LSB
      * mTolDataByte - Byte 29 - 2 bits MSB [7-6]
      */
-    uint16_t mData = ((sdrDataBytes[sdrtype01::mTolDataByte] & 0xC0)
-                      << bitShiftMsb) |
-                     sdrDataBytes[sdrtype01::mDataByte];
+    uint16_t mData =
+        ((sdrDataBytes[sdrtype01::mTolDataByte] & 0xC0) << bitShiftMsb) |
+        sdrDataBytes[sdrtype01::mDataByte];
 
     /* bData        - 10 bits
      * bDataByte    - Byte 30 - 8 bits LSB
      * bAcuDataByte - Byte 31 - 2 bits MSB [7-6]
      */
-    uint16_t bData = ((sdrDataBytes[sdrtype01::bAcuDataByte] & 0xC0)
-                      << bitShiftMsb) |
-                     sdrDataBytes[sdrtype01::bDataByte];
+    uint16_t bData =
+        ((sdrDataBytes[sdrtype01::bAcuDataByte] & 0xC0) << bitShiftMsb) |
+        sdrDataBytes[sdrtype01::bDataByte];
 
     /* rbExpDataByte (Byte 33) represents the exponent value
      *  Bit [3-0] - B Exponent 2's complement signed bit.

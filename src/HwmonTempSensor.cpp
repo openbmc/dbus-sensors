@@ -77,15 +77,15 @@ HwmonTempSensor::HwmonTempSensor(
     {
         std::string interface = thresholds::getInterface(threshold.level);
         thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface("/xyz/openbmc_project/sensors/" +
-                                           thisSensorParameters.typeName + "/" +
-                                           name,
-                                       interface);
+            objectServer.add_interface(
+                "/xyz/openbmc_project/sensors/" +
+                    thisSensorParameters.typeName + "/" + name,
+                interface);
     }
-    association = objectServer.add_interface("/xyz/openbmc_project/sensors/" +
-                                                 thisSensorParameters.typeName +
-                                                 "/" + name,
-                                             association::interface);
+    association = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName + "/" +
+            name,
+        association::interface);
     setInitialProperties(thisSensorParameters.units);
 }
 
@@ -140,12 +140,12 @@ void HwmonTempSensor::setupRead()
     inputDev.async_read_some_at(
         0, boost::asio::buffer(readBuf),
         [weakRef](const boost::system::error_code& ec, std::size_t bytesRead) {
-        std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
-        if (self)
-        {
-            self->handleResponse(ec, bytesRead);
-        }
-    });
+            std::shared_ptr<HwmonTempSensor> self = weakRef.lock();
+            if (self)
+            {
+                self->handleResponse(ec, bytesRead);
+            }
+        });
 }
 
 void HwmonTempSensor::restartRead()
@@ -181,8 +181,8 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err,
     {
         const char* bufEnd = readBuf.data() + bytesRead;
         int nvalue = 0;
-        std::from_chars_result ret = std::from_chars(readBuf.data(), bufEnd,
-                                                     nvalue);
+        std::from_chars_result ret =
+            std::from_chars(readBuf.data(), bufEnd, nvalue);
         if (ret.ec != std::errc())
         {
             incrementError();

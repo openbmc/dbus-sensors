@@ -104,27 +104,28 @@ int main()
 
     initCmdTimer = std::make_unique<boost::asio::steady_timer>(io);
 
-    boost::asio::post(
-        io, [&]() { createSensors(io, objectServer, sensors, systemBus); });
+    boost::asio::post(io, [&]() {
+        createSensors(io, objectServer, sensors, systemBus);
+    });
 
     boost::asio::steady_timer configTimer(io);
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t&) {
-        configTimer.expires_after(std::chrono::seconds(1));
-        // create a timer because normally multiple properties change
-        configTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                return; // we're being canceled
-            }
-            createSensors(io, objectServer, sensors, systemBus);
-            if (sensors.empty())
-            {
-                std::cout << "Configuration not detected\n";
-            }
-        });
-    };
+            configTimer.expires_after(std::chrono::seconds(1));
+            // create a timer because normally multiple properties change
+            configTimer.async_wait([&](const boost::system::error_code& ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return; // we're being canceled
+                }
+                createSensors(io, objectServer, sensors, systemBus);
+                if (sensors.empty())
+                {
+                    std::cout << "Configuration not detected\n";
+                }
+            });
+        };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(
@@ -143,8 +144,8 @@ int main()
             std::string(inventoryPath) + "',arg0namespace='" +
             configInterfaceName(sdrInterface) + "'",
         [&systemBus](sdbusplus::message_t& msg) {
-        sdrHandler(sdrsensor, msg, systemBus);
-    });
+            sdrHandler(sdrsensor, msg, systemBus);
+        });
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.

@@ -120,8 +120,8 @@ static struct SensorParams
     const std::string pathStr = path.string();
     if (pathStr.ends_with("_raw"))
     {
-        std::string pathOffsetStr = pathStr.substr(0, pathStr.size() - 4) +
-                                    "_offset";
+        std::string pathOffsetStr =
+            pathStr.substr(0, pathStr.size() - 4) + "_offset";
         std::optional<double> tmpOffsetValue = readFile(pathOffsetStr, 1.0);
         // In case there is nothing to read skip this device
         // This is not an error condition see lore
@@ -131,8 +131,8 @@ static struct SensorParams
             tmpSensorParameters.offsetValue = *tmpOffsetValue;
         }
 
-        std::string pathScaleStr = pathStr.substr(0, pathStr.size() - 4) +
-                                   "_scale";
+        std::string pathScaleStr =
+            pathStr.substr(0, pathStr.size() - 4) + "_scale";
         std::optional<double> tmpScaleValue = readFile(pathScaleStr, 1.0);
         // In case there is nothing to read skip this device
         // This is not an error condition see lore
@@ -276,229 +276,173 @@ void createSensors(
         dbusConnection,
         [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
          activateOnly](const ManagedObjectType& sensorConfigurations) {
-        bool firstScan = sensorsChanged == nullptr;
+            bool firstScan = sensorsChanged == nullptr;
 
-        SensorConfigMap configMap = buildSensorConfigMap(sensorConfigurations);
+            SensorConfigMap configMap =
+                buildSensorConfigMap(sensorConfigurations);
 
-        auto devices = instantiateDevices(sensorConfigurations, sensors,
-                                          sensorTypes);
+            auto devices =
+                instantiateDevices(sensorConfigurations, sensors, sensorTypes);
 
-        // IIO _raw devices look like this on sysfs:
-        //     /sys/bus/iio/devices/iio:device0/in_temp_raw
-        //     /sys/bus/iio/devices/iio:device0/in_temp_offset
-        //     /sys/bus/iio/devices/iio:device0/in_temp_scale
-        //
-        // Other IIO devices look like this on sysfs:
-        //     /sys/bus/iio/devices/iio:device1/in_temp_input
-        //     /sys/bus/iio/devices/iio:device1/in_pressure_input
-        std::vector<fs::path> paths;
-        fs::path root("/sys/bus/iio/devices");
-        findFiles(root, R"(in_temp\d*_(input|raw))", paths);
-        findFiles(root, R"(in_pressure\d*_(input|raw))", paths);
-        findFiles(root, R"(in_humidityrelative\d*_(input|raw))", paths);
-        findFiles(fs::path("/sys/class/hwmon"), R"(temp\d+_input)", paths);
+            // IIO _raw devices look like this on sysfs:
+            //     /sys/bus/iio/devices/iio:device0/in_temp_raw
+            //     /sys/bus/iio/devices/iio:device0/in_temp_offset
+            //     /sys/bus/iio/devices/iio:device0/in_temp_scale
+            //
+            // Other IIO devices look like this on sysfs:
+            //     /sys/bus/iio/devices/iio:device1/in_temp_input
+            //     /sys/bus/iio/devices/iio:device1/in_pressure_input
+            std::vector<fs::path> paths;
+            fs::path root("/sys/bus/iio/devices");
+            findFiles(root, R"(in_temp\d*_(input|raw))", paths);
+            findFiles(root, R"(in_pressure\d*_(input|raw))", paths);
+            findFiles(root, R"(in_humidityrelative\d*_(input|raw))", paths);
+            findFiles(fs::path("/sys/class/hwmon"), R"(temp\d+_input)", paths);
 
-        // iterate through all found temp and pressure sensors,
-        // and try to match them with configuration
-        for (auto& path : paths)
-        {
-            std::smatch match;
-            const std::string pathStr = path.string();
-            auto directory = path.parent_path();
-            fs::path device;
-
-            std::string deviceName;
-            std::error_code ec;
-            if (pathStr.starts_with("/sys/bus/iio/devices"))
+            // iterate through all found temp and pressure sensors,
+            // and try to match them with configuration
+            for (auto& path : paths)
             {
-                device = fs::canonical(directory, ec);
-                if (ec)
+                std::smatch match;
+                const std::string pathStr = path.string();
+                auto directory = path.parent_path();
+                fs::path device;
+
+                std::string deviceName;
+                std::error_code ec;
+                if (pathStr.starts_with("/sys/bus/iio/devices"))
                 {
-                    std::cerr << "Fail to find device in path [" << pathStr
-                              << "]\n";
-                    continue;
-                }
-                deviceName = device.parent_path().stem();
-            }
-            else
-            {
-                device = fs::canonical(directory / "device", ec);
-                if (ec)
-                {
-                    std::cerr << "Fail to find device in path [" << pathStr
-                              << "]\n";
-                    continue;
-                }
-                deviceName = device.stem();
-            }
-
-            uint64_t bus = 0;
-            uint64_t addr = 0;
-            if (!getDeviceBusAddr(deviceName, bus, addr))
-            {
-                continue;
-            }
-
-            auto thisSensorParameters = getSensorParameters(path);
-            auto findSensorCfg = configMap.find({bus, addr});
-            if (findSensorCfg == configMap.end())
-            {
-                continue;
-            }
-
-            const std::string& interfacePath = findSensorCfg->second.sensorPath;
-            auto findI2CDev = devices.find(interfacePath);
-
-            std::shared_ptr<I2CDevice> i2cDev;
-            if (findI2CDev != devices.end())
-            {
-                // If we're only looking to activate newly-instantiated i2c
-                // devices and this sensor's underlying device was already there
-                // before this call, there's nothing more to do here.
-                if (activateOnly && !findI2CDev->second.second)
-                {
-                    continue;
-                }
-                i2cDev = findI2CDev->second.first;
-            }
-
-            const SensorData& sensorData = findSensorCfg->second.sensorData;
-            std::string sensorType = findSensorCfg->second.interface;
-            auto pos = sensorType.find_last_of('.');
-            if (pos != std::string::npos)
-            {
-                sensorType = sensorType.substr(pos + 1);
-            }
-            const SensorBaseConfigMap& baseConfigMap =
-                findSensorCfg->second.config;
-            std::vector<std::string>& hwmonName = findSensorCfg->second.name;
-
-            // Temperature has "Name", pressure has "Name1"
-            auto findSensorName = baseConfigMap.find("Name");
-            int index = 1;
-            if (thisSensorParameters.typeName == "pressure" ||
-                thisSensorParameters.typeName == "humidity")
-            {
-                findSensorName = baseConfigMap.find("Name1");
-                index = 2;
-            }
-
-            if (findSensorName == baseConfigMap.end())
-            {
-                std::cerr << "could not determine configuration name for "
-                          << deviceName << "\n";
-                continue;
-            }
-            std::string sensorName =
-                std::get<std::string>(findSensorName->second);
-            // on rescans, only update sensors we were signaled by
-            auto findSensor = sensors.find(sensorName);
-            if (!firstScan && findSensor != sensors.end())
-            {
-                bool found = false;
-                auto it = sensorsChanged->begin();
-                while (it != sensorsChanged->end())
-                {
-                    if (it->ends_with(findSensor->second->name))
+                    device = fs::canonical(directory, ec);
+                    if (ec)
                     {
-                        it = sensorsChanged->erase(it);
-                        findSensor->second = nullptr;
-                        found = true;
-                        break;
+                        std::cerr << "Fail to find device in path [" << pathStr
+                                  << "]\n";
+                        continue;
                     }
-                    ++it;
-                }
-                if (!found)
-                {
-                    continue;
-                }
-            }
-
-            std::vector<thresholds::Threshold> sensorThresholds;
-
-            if (!parseThresholdsFromConfig(sensorData, sensorThresholds,
-                                           nullptr, &index))
-            {
-                std::cerr << "error populating thresholds for " << sensorName
-                          << " index " << index << "\n";
-            }
-
-            float pollRate = getPollRate(baseConfigMap, pollRateDefault);
-            PowerState readState = getPowerState(baseConfigMap);
-
-            auto permitSet = getPermitSet(baseConfigMap);
-            auto& sensor = sensors[sensorName];
-            if (!activateOnly)
-            {
-                sensor = nullptr;
-            }
-            auto hwmonFile = getFullHwmonFilePath(directory.string(), "temp1",
-                                                  permitSet);
-            if (pathStr.starts_with("/sys/bus/iio/devices"))
-            {
-                hwmonFile = pathStr;
-            }
-            if (hwmonFile)
-            {
-                if (sensor != nullptr)
-                {
-                    sensor->activate(*hwmonFile, i2cDev);
+                    deviceName = device.parent_path().stem();
                 }
                 else
                 {
-                    sensor = std::make_shared<HwmonTempSensor>(
-                        *hwmonFile, sensorType, objectServer, dbusConnection,
-                        io, sensorName, std::move(sensorThresholds),
-                        thisSensorParameters, pollRate, interfacePath,
-                        readState, i2cDev);
-                    sensor->setupRead();
+                    device = fs::canonical(directory / "device", ec);
+                    if (ec)
+                    {
+                        std::cerr << "Fail to find device in path [" << pathStr
+                                  << "]\n";
+                        continue;
+                    }
+                    deviceName = device.stem();
                 }
-            }
-            hwmonName.erase(
-                remove(hwmonName.begin(), hwmonName.end(), sensorName),
-                hwmonName.end());
 
-            // Looking for keys like "Name1" for temp2_input,
-            // "Name2" for temp3_input, etc.
-            int i = 0;
-            while (true)
-            {
-                ++i;
-                auto findKey = baseConfigMap.find("Name" + std::to_string(i));
-                if (findKey == baseConfigMap.end())
-                {
-                    break;
-                }
-                std::string sensorName = std::get<std::string>(findKey->second);
-                hwmonFile = getFullHwmonFilePath(directory.string(),
-                                                 "temp" + std::to_string(i + 1),
-                                                 permitSet);
-                if (pathStr.starts_with("/sys/bus/iio/devices"))
+                uint64_t bus = 0;
+                uint64_t addr = 0;
+                if (!getDeviceBusAddr(deviceName, bus, addr))
                 {
                     continue;
                 }
+
+                auto thisSensorParameters = getSensorParameters(path);
+                auto findSensorCfg = configMap.find({bus, addr});
+                if (findSensorCfg == configMap.end())
+                {
+                    continue;
+                }
+
+                const std::string& interfacePath =
+                    findSensorCfg->second.sensorPath;
+                auto findI2CDev = devices.find(interfacePath);
+
+                std::shared_ptr<I2CDevice> i2cDev;
+                if (findI2CDev != devices.end())
+                {
+                    // If we're only looking to activate newly-instantiated i2c
+                    // devices and this sensor's underlying device was already
+                    // there before this call, there's nothing more to do here.
+                    if (activateOnly && !findI2CDev->second.second)
+                    {
+                        continue;
+                    }
+                    i2cDev = findI2CDev->second.first;
+                }
+
+                const SensorData& sensorData = findSensorCfg->second.sensorData;
+                std::string sensorType = findSensorCfg->second.interface;
+                auto pos = sensorType.find_last_of('.');
+                if (pos != std::string::npos)
+                {
+                    sensorType = sensorType.substr(pos + 1);
+                }
+                const SensorBaseConfigMap& baseConfigMap =
+                    findSensorCfg->second.config;
+                std::vector<std::string>& hwmonName =
+                    findSensorCfg->second.name;
+
+                // Temperature has "Name", pressure has "Name1"
+                auto findSensorName = baseConfigMap.find("Name");
+                int index = 1;
+                if (thisSensorParameters.typeName == "pressure" ||
+                    thisSensorParameters.typeName == "humidity")
+                {
+                    findSensorName = baseConfigMap.find("Name1");
+                    index = 2;
+                }
+
+                if (findSensorName == baseConfigMap.end())
+                {
+                    std::cerr << "could not determine configuration name for "
+                              << deviceName << "\n";
+                    continue;
+                }
+                std::string sensorName =
+                    std::get<std::string>(findSensorName->second);
+                // on rescans, only update sensors we were signaled by
+                auto findSensor = sensors.find(sensorName);
+                if (!firstScan && findSensor != sensors.end())
+                {
+                    bool found = false;
+                    auto it = sensorsChanged->begin();
+                    while (it != sensorsChanged->end())
+                    {
+                        if (it->ends_with(findSensor->second->name))
+                        {
+                            it = sensorsChanged->erase(it);
+                            findSensor->second = nullptr;
+                            found = true;
+                            break;
+                        }
+                        ++it;
+                    }
+                    if (!found)
+                    {
+                        continue;
+                    }
+                }
+
+                std::vector<thresholds::Threshold> sensorThresholds;
+
+                if (!parseThresholdsFromConfig(sensorData, sensorThresholds,
+                                               nullptr, &index))
+                {
+                    std::cerr << "error populating thresholds for "
+                              << sensorName << " index " << index << "\n";
+                }
+
+                float pollRate = getPollRate(baseConfigMap, pollRateDefault);
+                PowerState readState = getPowerState(baseConfigMap);
+
+                auto permitSet = getPermitSet(baseConfigMap);
+                auto& sensor = sensors[sensorName];
+                if (!activateOnly)
+                {
+                    sensor = nullptr;
+                }
+                auto hwmonFile = getFullHwmonFilePath(directory.string(),
+                                                      "temp1", permitSet);
+                if (pathStr.starts_with("/sys/bus/iio/devices"))
+                {
+                    hwmonFile = pathStr;
+                }
                 if (hwmonFile)
                 {
-                    // To look up thresholds for these additional sensors,
-                    // match on the Index property in the threshold data
-                    // where the index comes from the sysfs file we're on,
-                    // i.e. index = 2 for temp2_input.
-                    int index = i + 1;
-                    std::vector<thresholds::Threshold> thresholds;
-
-                    if (!parseThresholdsFromConfig(sensorData, thresholds,
-                                                   nullptr, &index))
-                    {
-                        std::cerr << "error populating thresholds for "
-                                  << sensorName << " index " << index << "\n";
-                    }
-
-                    auto& sensor = sensors[sensorName];
-                    if (!activateOnly)
-                    {
-                        sensor = nullptr;
-                    }
-
                     if (sensor != nullptr)
                     {
                         sensor->activate(*hwmonFile, i2cDev);
@@ -508,22 +452,84 @@ void createSensors(
                         sensor = std::make_shared<HwmonTempSensor>(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
-                            std::move(thresholds), thisSensorParameters,
+                            std::move(sensorThresholds), thisSensorParameters,
                             pollRate, interfacePath, readState, i2cDev);
                         sensor->setupRead();
                     }
                 }
-
                 hwmonName.erase(
                     remove(hwmonName.begin(), hwmonName.end(), sensorName),
                     hwmonName.end());
+
+                // Looking for keys like "Name1" for temp2_input,
+                // "Name2" for temp3_input, etc.
+                int i = 0;
+                while (true)
+                {
+                    ++i;
+                    auto findKey =
+                        baseConfigMap.find("Name" + std::to_string(i));
+                    if (findKey == baseConfigMap.end())
+                    {
+                        break;
+                    }
+                    std::string sensorName =
+                        std::get<std::string>(findKey->second);
+                    hwmonFile = getFullHwmonFilePath(
+                        directory.string(), "temp" + std::to_string(i + 1),
+                        permitSet);
+                    if (pathStr.starts_with("/sys/bus/iio/devices"))
+                    {
+                        continue;
+                    }
+                    if (hwmonFile)
+                    {
+                        // To look up thresholds for these additional sensors,
+                        // match on the Index property in the threshold data
+                        // where the index comes from the sysfs file we're on,
+                        // i.e. index = 2 for temp2_input.
+                        int index = i + 1;
+                        std::vector<thresholds::Threshold> thresholds;
+
+                        if (!parseThresholdsFromConfig(sensorData, thresholds,
+                                                       nullptr, &index))
+                        {
+                            std::cerr
+                                << "error populating thresholds for "
+                                << sensorName << " index " << index << "\n";
+                        }
+
+                        auto& sensor = sensors[sensorName];
+                        if (!activateOnly)
+                        {
+                            sensor = nullptr;
+                        }
+
+                        if (sensor != nullptr)
+                        {
+                            sensor->activate(*hwmonFile, i2cDev);
+                        }
+                        else
+                        {
+                            sensor = std::make_shared<HwmonTempSensor>(
+                                *hwmonFile, sensorType, objectServer,
+                                dbusConnection, io, sensorName,
+                                std::move(thresholds), thisSensorParameters,
+                                pollRate, interfacePath, readState, i2cDev);
+                            sensor->setupRead();
+                        }
+                    }
+
+                    hwmonName.erase(
+                        remove(hwmonName.begin(), hwmonName.end(), sensorName),
+                        hwmonName.end());
+                }
+                if (hwmonName.empty())
+                {
+                    configMap.erase(findSensorCfg);
+                }
             }
-            if (hwmonName.empty())
-            {
-                configMap.erase(findSensorCfg);
-            }
-        }
-    });
+        });
     std::vector<std::string> types(sensorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
     {
@@ -615,30 +621,30 @@ int main()
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
-        if (message.is_method_error())
-        {
-            std::cerr << "callback method error\n";
-            return;
-        }
-        sensorsChanged->insert(message.get_path());
-        // this implicitly cancels the timer
-        filterTimer.expires_after(std::chrono::seconds(1));
+            if (message.is_method_error())
+            {
+                std::cerr << "callback method error\n";
+                return;
+            }
+            sensorsChanged->insert(message.get_path());
+            // this implicitly cancels the timer
+            filterTimer.expires_after(std::chrono::seconds(1));
 
-        filterTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                /* we were canceled*/
-                return;
-            }
-            if (ec)
-            {
-                std::cerr << "timer error\n";
-                return;
-            }
-            createSensors(io, objectServer, sensors, systemBus, sensorsChanged,
-                          false);
-        });
-    };
+            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    /* we were canceled*/
+                    return;
+                }
+                if (ec)
+                {
+                    std::cerr << "timer error\n";
+                    return;
+                }
+                createSensors(io, objectServer, sensors, systemBus,
+                              sensorsChanged, false);
+            });
+        };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
@@ -651,8 +657,8 @@ int main()
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
         [&sensors](sdbusplus::message_t& msg) {
-        interfaceRemoved(msg, sensors);
-    });
+            interfaceRemoved(msg, sensors);
+        });
 
     matches.emplace_back(std::move(ifaceRemovedMatch));
 

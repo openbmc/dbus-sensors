@@ -251,12 +251,11 @@ void checkEventLimits(const std::string& sensorPathStr,
     }
 }
 
-static void
-    checkPWMSensor(const fs::path& sensorPath, std::string& labelHead,
-                   const std::string& interfacePath,
-                   std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-                   sdbusplus::asio::object_server& objectServer,
-                   const std::string& psuName)
+static void checkPWMSensor(
+    const fs::path& sensorPath, std::string& labelHead,
+    const std::string& interfacePath,
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    sdbusplus::asio::object_server& objectServer, const std::string& psuName)
 {
     if (!labelHead.starts_with("fan"))
     {
@@ -265,8 +264,8 @@ static void
     std::string labelHeadIndex = labelHead.substr(3);
 
     const std::string& sensorPathStr = sensorPath.string();
-    const std::string& pwmPathStr = boost::replace_all_copy(sensorPathStr,
-                                                            "input", "target");
+    const std::string& pwmPathStr =
+        boost::replace_all_copy(sensorPathStr, "input", "target");
     std::ifstream pwmFile(pwmPathStr);
     if (!pwmFile.good())
     {
@@ -486,11 +485,11 @@ static void createSensorsCallback(
         if (!firstScan)
         {
             std::string psuNameStr = "/" + escapeName(*psuName);
-            auto it = std::find_if(sensorsChanged->begin(),
-                                   sensorsChanged->end(),
-                                   [psuNameStr](std::string& s) {
-                return s.ends_with(psuNameStr);
-            });
+            auto it =
+                std::find_if(sensorsChanged->begin(), sensorsChanged->end(),
+                             [psuNameStr](std::string& s) {
+                                 return s.ends_with(psuNameStr);
+                             });
 
             if (it == sensorsChanged->end())
             {
@@ -604,8 +603,8 @@ static void createSensorsCallback(
                     }
                     // hwmon *_input filename with number:
                     // temp1, temp2, temp3, ...
-                    labelHead = sensorNameStr.substr(0,
-                                                     sensorNameStr.find('_'));
+                    labelHead =
+                        sensorNameStr.substr(0, sensorNameStr.find('_'));
                 }
                 else
                 {
@@ -954,8 +953,8 @@ static void createSensorsCallback(
                 ++numCreated;
                 if constexpr (debug)
                 {
-                    std::cerr << "Created " << numCreated
-                              << " sensors so far\n";
+                    std::cerr
+                        << "Created " << numCreated << " sensors so far\n";
                 }
             }
         }
@@ -1057,9 +1056,9 @@ void createSensors(
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection, [&io, &objectServer, &dbusConnection, sensorsChanged,
                          activateOnly](const ManagedObjectType& sensorConfigs) {
-        createSensorsCallback(io, objectServer, dbusConnection, sensorConfigs,
-                              sensorsChanged, activateOnly);
-    });
+            createSensorsCallback(io, objectServer, dbusConnection,
+                                  sensorConfigs, sensorsChanged, activateOnly);
+        });
     std::vector<std::string> types(sensorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
     {
@@ -1148,8 +1147,8 @@ int main()
 
     propertyInitialize();
 
-    auto powerCallBack = [&io, &objectServer, &systemBus](PowerState type,
-                                                          bool state) {
+    auto powerCallBack = [&io, &objectServer,
+                          &systemBus](PowerState type, bool state) {
         powerStateChanged(type, state, sensors, io, objectServer, systemBus);
     };
 
@@ -1161,80 +1160,81 @@ int main()
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
-        if (message.is_method_error())
-        {
-            std::cerr << "callback method error\n";
-            return;
-        }
-        sensorsChanged->insert(message.get_path());
-        filterTimer.expires_after(std::chrono::seconds(3));
-        filterTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
+            if (message.is_method_error())
             {
+                std::cerr << "callback method error\n";
                 return;
             }
-            if (ec)
-            {
-                std::cerr << "timer error\n";
-            }
-            createSensors(io, objectServer, systemBus, sensorsChanged, false);
-        });
-    };
+            sensorsChanged->insert(message.get_path());
+            filterTimer.expires_after(std::chrono::seconds(3));
+            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return;
+                }
+                if (ec)
+                {
+                    std::cerr << "timer error\n";
+                }
+                createSensors(io, objectServer, systemBus, sensorsChanged,
+                              false);
+            });
+        };
 
     boost::asio::steady_timer cpuFilterTimer(io);
     std::function<void(sdbusplus::message_t&)> cpuPresenceHandler =
         [&](sdbusplus::message_t& message) {
-        std::string path = message.get_path();
-        boost::to_lower(path);
+            std::string path = message.get_path();
+            boost::to_lower(path);
 
-        sdbusplus::message::object_path cpuPath(path);
-        std::string cpuName = cpuPath.filename();
-        if (!cpuName.starts_with("cpu"))
-        {
-            return;
-        }
-        size_t index = 0;
-        try
-        {
-            index = std::stoi(path.substr(path.size() - 1));
-        }
-        catch (const std::invalid_argument&)
-        {
-            std::cerr << "Found invalid path " << path << "\n";
-            return;
-        }
-
-        std::string objectName;
-        boost::container::flat_map<std::string, std::variant<bool>> values;
-        message.read(objectName, values);
-        auto findPresence = values.find("Present");
-        try
-        {
-            cpuPresence[index] = std::get<bool>(findPresence->second);
-        }
-        catch (const std::bad_variant_access& err)
-        {
-            return;
-        }
-
-        if (!cpuPresence[index])
-        {
-            return;
-        }
-        cpuFilterTimer.expires_after(std::chrono::seconds(1));
-        cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
+            sdbusplus::message::object_path cpuPath(path);
+            std::string cpuName = cpuPath.filename();
+            if (!cpuName.starts_with("cpu"))
             {
                 return;
             }
-            if (ec)
+            size_t index = 0;
+            try
             {
-                std::cerr << "timer error\n";
+                index = std::stoi(path.substr(path.size() - 1));
+            }
+            catch (const std::invalid_argument&)
+            {
+                std::cerr << "Found invalid path " << path << "\n";
                 return;
             }
-            createSensors(io, objectServer, systemBus, nullptr, false);
-        });
-    };
+
+            std::string objectName;
+            boost::container::flat_map<std::string, std::variant<bool>> values;
+            message.read(objectName, values);
+            auto findPresence = values.find("Present");
+            try
+            {
+                cpuPresence[index] = std::get<bool>(findPresence->second);
+            }
+            catch (const std::bad_variant_access& err)
+            {
+                return;
+            }
+
+            if (!cpuPresence[index])
+            {
+                return;
+            }
+            cpuFilterTimer.expires_after(std::chrono::seconds(1));
+            cpuFilterTimer.async_wait([&](const boost::system::error_code& ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return;
+                }
+                if (ec)
+                {
+                    std::cerr << "timer error\n";
+                    return;
+                }
+                createSensors(io, objectServer, systemBus, nullptr, false);
+            });
+        };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);

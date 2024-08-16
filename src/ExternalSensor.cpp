@@ -59,8 +59,8 @@ ExternalSensor::ExternalSensor(
             objectServer.add_interface(objectPath, interface);
     }
 
-    association = objectServer.add_interface(objectPath,
-                                             association::interface);
+    association =
+        objectServer.add_interface(objectPath, association::interface);
     setInitialProperties(sensorUnits);
 
     if constexpr (debug)

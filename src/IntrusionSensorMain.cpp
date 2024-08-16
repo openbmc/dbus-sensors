@@ -201,9 +201,9 @@ static void createSensorsFromConfig(
                     pSensor->start();
                     if (debug)
                     {
-                        std::cout << "find matched bus " << busId
-                                  << ", matched slave addr " << slaveAddr
-                                  << "\n";
+                        std::cout
+                            << "find matched bus " << busId
+                            << ", matched slave addr " << slaveAddr << "\n";
                     }
                     return;
                 }
@@ -243,47 +243,48 @@ static void getNicNameInfo(
 {
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection, [](const ManagedObjectType& sensorConfigurations) {
-        // Get NIC name and save to map
-        lanInfoMap.clear();
-        for (const auto& [path, cfgData] : sensorConfigurations)
-        {
-            const std::pair<std::string, SensorBaseConfigMap>*
-                baseConfiguration = nullptr;
-
-            // find base configuration
-            auto sensorBase = cfgData.find(configInterfaceName(nicType));
-            if (sensorBase == cfgData.end())
+            // Get NIC name and save to map
+            lanInfoMap.clear();
+            for (const auto& [path, cfgData] : sensorConfigurations)
             {
-                continue;
-            }
-            baseConfiguration = &(*sensorBase);
+                const std::pair<std::string, SensorBaseConfigMap>*
+                    baseConfiguration = nullptr;
 
-            auto findEthIndex = baseConfiguration->second.find("EthIndex");
-            auto findName = baseConfiguration->second.find("Name");
-
-            if (findEthIndex != baseConfiguration->second.end() &&
-                findName != baseConfiguration->second.end())
-            {
-                const auto* pEthIndex =
-                    std::get_if<uint64_t>(&findEthIndex->second);
-                const auto* pName = std::get_if<std::string>(&findName->second);
-                if (pEthIndex != nullptr && pName != nullptr)
+                // find base configuration
+                auto sensorBase = cfgData.find(configInterfaceName(nicType));
+                if (sensorBase == cfgData.end())
                 {
-                    lanInfoMap[*pEthIndex] = *pName;
-                    if (debugLanLeash)
+                    continue;
+                }
+                baseConfiguration = &(*sensorBase);
+
+                auto findEthIndex = baseConfiguration->second.find("EthIndex");
+                auto findName = baseConfiguration->second.find("Name");
+
+                if (findEthIndex != baseConfiguration->second.end() &&
+                    findName != baseConfiguration->second.end())
+                {
+                    const auto* pEthIndex =
+                        std::get_if<uint64_t>(&findEthIndex->second);
+                    const auto* pName =
+                        std::get_if<std::string>(&findName->second);
+                    if (pEthIndex != nullptr && pName != nullptr)
                     {
-                        std::cout << "find name of eth" << *pEthIndex << " is "
-                                  << *pName << "\n";
+                        lanInfoMap[*pEthIndex] = *pName;
+                        if (debugLanLeash)
+                        {
+                            std::cout << "find name of eth" << *pEthIndex
+                                      << " is " << *pName << "\n";
+                        }
                     }
                 }
             }
-        }
 
-        if (lanInfoMap.empty())
-        {
-            std::cerr << "can't find matched NIC name. \n";
-        }
-    });
+            if (lanInfoMap.empty())
+            {
+                std::cerr << "can't find matched NIC name. \n";
+            }
+        });
 
     getter->getConfiguration(
         std::vector<std::string>{nicTypes.begin(), nicTypes.end()});
@@ -366,8 +367,8 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     {
         std::string strEthNum = "eth" + std::to_string(ethNum) + lanInfo;
         const auto* strState = newLanConnected ? "connected" : "lost";
-        const auto* strMsgId = newLanConnected ? "OpenBMC.0.1.LanRegained"
-                                               : "OpenBMC.0.1.LanLost";
+        const auto* strMsgId =
+            newLanConnected ? "OpenBMC.0.1.LanRegained" : "OpenBMC.0.1.LanLost";
 
         lg2::info("{ETHDEV} LAN leash {STATE}", "ETHDEV", strEthNum, "STATE",
                   strState, "REDFISH_MESSAGE_ID", strMsgId,
@@ -431,39 +432,38 @@ static bool initializeLanStatus(
         pathSuffixMap[pathSuffix] = ethNum;
         if (debugLanLeash)
         {
-            std::cout << "ethNum = " << std::to_string(ethNum)
-                      << ", ifindex = " << line
-                      << ", pathSuffix = " << pathSuffix << "\n";
+            std::cout << "ethNum = " << std::to_string(ethNum) << ", ifindex = "
+                      << line << ", pathSuffix = " << pathSuffix << "\n";
         }
 
         // init lan connected status from networkd
         conn->async_method_call(
             [ethNum](boost::system::error_code ec,
                      const std::variant<std::string>& property) {
-            lanStatusMap[ethNum] = false;
-            if (ec)
-            {
-                std::cerr << "Error reading init status of eth" << ethNum
-                          << "\n";
-                return;
-            }
-            const std::string* pState = std::get_if<std::string>(&property);
-            if (pState == nullptr)
-            {
-                std::cerr << "Unable to read lan status value\n";
-                return;
-            }
-            bool isLanConnected = (*pState == "routable" ||
-                                   *pState == "carrier" ||
-                                   *pState == "degraded");
-            if (debugLanLeash)
-            {
-                std::cout << "ethNum = " << std::to_string(ethNum)
-                          << ", init LAN status = "
-                          << (isLanConnected ? "true" : "false") << "\n";
-            }
-            lanStatusMap[ethNum] = isLanConnected;
-        },
+                lanStatusMap[ethNum] = false;
+                if (ec)
+                {
+                    std::cerr
+                        << "Error reading init status of eth" << ethNum << "\n";
+                    return;
+                }
+                const std::string* pState = std::get_if<std::string>(&property);
+                if (pState == nullptr)
+                {
+                    std::cerr << "Unable to read lan status value\n";
+                    return;
+                }
+                bool isLanConnected =
+                    (*pState == "routable" || *pState == "carrier" ||
+                     *pState == "degraded");
+                if (debugLanLeash)
+                {
+                    std::cout << "ethNum = " << std::to_string(ethNum)
+                              << ", init LAN status = "
+                              << (isLanConnected ? "true" : "false") << "\n";
+                }
+                lanStatusMap[ethNum] = isLanConnected;
+            },
             "org.freedesktop.network1",
             "/org/freedesktop/network1/link/_" + pathSuffix,
             "org.freedesktop.DBus.Properties", "Get",
@@ -493,23 +493,24 @@ int main()
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
-        if (message.is_method_error())
-        {
-            std::cerr << "callback method error\n";
-            return;
-        }
-        // this implicitly cancels the timer
-        filterTimer.expires_after(std::chrono::seconds(1));
-        filterTimer.async_wait([&](const boost::system::error_code& ec) {
-            if (ec == boost::asio::error::operation_aborted)
+            if (message.is_method_error())
             {
-                // timer was cancelled
+                std::cerr << "callback method error\n";
                 return;
             }
-            std::cout << "rescan due to configuration change \n";
-            createSensorsFromConfig(io, objServer, systemBus, intrusionSensor);
-        });
-    };
+            // this implicitly cancels the timer
+            filterTimer.expires_after(std::chrono::seconds(1));
+            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    // timer was cancelled
+                    return;
+                }
+                std::cout << "rescan due to configuration change \n";
+                createSensorsFromConfig(io, objServer, systemBus,
+                                        intrusionSensor);
+            });
+        };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(
@@ -532,13 +533,13 @@ int main()
                 std::string(inventoryPath) + "',arg0namespace='" +
                 configInterfaceName(nicType) + "'",
             [&systemBus](sdbusplus::message_t& msg) {
-            if (msg.is_method_error())
-            {
-                std::cerr << "callback method error\n";
-                return;
-            }
-            getNicNameInfo(systemBus);
-        });
+                if (msg.is_method_error())
+                {
+                    std::cerr << "callback method error\n";
+                    return;
+                }
+                getNicNameInfo(systemBus);
+            });
     }
 
     io.run();

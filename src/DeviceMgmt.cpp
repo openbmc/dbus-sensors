@@ -17,9 +17,8 @@
 
 namespace fs = std::filesystem;
 
-std::optional<I2CDeviceParams>
-    getI2CDeviceParams(const I2CDeviceTypeMap& dtmap,
-                       const SensorBaseConfigMap& cfg)
+std::optional<I2CDeviceParams> getI2CDeviceParams(
+    const I2CDeviceTypeMap& dtmap, const SensorBaseConfigMap& cfg)
 {
     auto findType = cfg.find("Type");
     auto findBus = cfg.find("Bus");

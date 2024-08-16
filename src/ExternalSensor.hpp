@@ -14,15 +14,14 @@ class ExternalSensor :
     public std::enable_shared_from_this<ExternalSensor>
 {
   public:
-    ExternalSensor(const std::string& objectType,
-                   sdbusplus::asio::object_server& objectServer,
-                   std::shared_ptr<sdbusplus::asio::connection>& conn,
-                   const std::string& sensorName,
-                   const std::string& sensorUnits,
-                   std::vector<thresholds::Threshold>&& thresholdsIn,
-                   const std::string& sensorConfiguration, double maxReading,
-                   double minReading, double timeoutSecs,
-                   const PowerState& powerState);
+    ExternalSensor(
+        const std::string& objectType,
+        sdbusplus::asio::object_server& objectServer,
+        std::shared_ptr<sdbusplus::asio::connection>& conn,
+        const std::string& sensorName, const std::string& sensorUnits,
+        std::vector<thresholds::Threshold>&& thresholdsIn,
+        const std::string& sensorConfiguration, double maxReading,
+        double minReading, double timeoutSecs, const PowerState& powerState);
     ~ExternalSensor() override;
 
     // Call this immediately after calling the constructor

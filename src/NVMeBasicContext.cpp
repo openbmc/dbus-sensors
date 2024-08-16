@@ -288,11 +288,11 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
     boost::asio::async_write(
         reqStream, boost::asio::buffer(command->data(), command->size()),
         [command](boost::system::error_code ec, std::size_t) {
-        if (ec)
-        {
-            std::cerr << "Got error writing basic query: " << ec << "\n";
-        }
-    });
+            if (ec)
+            {
+                std::cerr << "Got error writing basic query: " << ec << "\n";
+            }
+        });
 
     auto response = std::make_shared<boost::asio::streambuf>();
     response->prepare(1);
@@ -301,70 +301,70 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
     boost::asio::async_read(
         respStream, *response,
         [response](const boost::system::error_code& ec, std::size_t n) {
-        if (ec)
-        {
-            std::cerr << "Got error completing basic query: " << ec << "\n";
-            return static_cast<std::size_t>(0);
-        }
+            if (ec)
+            {
+                std::cerr << "Got error completing basic query: " << ec << "\n";
+                return static_cast<std::size_t>(0);
+            }
 
-        if (n == 0)
-        {
-            return static_cast<std::size_t>(1);
-        }
+            if (n == 0)
+            {
+                return static_cast<std::size_t>(1);
+            }
 
-        std::istream is(response.get());
-        size_t len = static_cast<std::size_t>(is.peek());
+            std::istream is(response.get());
+            size_t len = static_cast<std::size_t>(is.peek());
 
-        if (n > len + 1)
-        {
-            std::cerr << "Query stream has become unsynchronised: "
-                      << "n: " << n << ", "
-                      << "len: " << len << "\n";
-            return static_cast<std::size_t>(0);
-        }
+            if (n > len + 1)
+            {
+                std::cerr << "Query stream has become unsynchronised: "
+                          << "n: " << n << ", "
+                          << "len: " << len << "\n";
+                return static_cast<std::size_t>(0);
+            }
 
-        if (n == len + 1)
-        {
-            return static_cast<std::size_t>(0);
-        }
+            if (n == len + 1)
+            {
+                return static_cast<std::size_t>(0);
+            }
 
-        if (n > 1)
-        {
-            return len + 1 - n;
-        }
+            if (n > 1)
+            {
+                return len + 1 - n;
+            }
 
-        response->prepare(len);
-        return len;
-    },
+            response->prepare(len);
+            return len;
+        },
         [weakSelf{weak_from_this()}, sensor, response](
             const boost::system::error_code& ec, std::size_t length) mutable {
-        if (ec)
-        {
-            std::cerr << "Got error reading basic query: " << ec << "\n";
-            return;
-        }
+            if (ec)
+            {
+                std::cerr << "Got error reading basic query: " << ec << "\n";
+                return;
+            }
 
-        if (length == 0)
-        {
-            std::cerr << "Invalid message length: " << length << "\n";
-            return;
-        }
+            if (length == 0)
+            {
+                std::cerr << "Invalid message length: " << length << "\n";
+                return;
+            }
 
-        if (auto self = weakSelf.lock())
-        {
-            /* Deserialise the response */
-            response->consume(1); /* Drop the length byte */
-            std::istream is(response.get());
-            std::vector<char> data(response->size());
-            is.read(data.data(), response->size());
+            if (auto self = weakSelf.lock())
+            {
+                /* Deserialise the response */
+                response->consume(1); /* Drop the length byte */
+                std::istream is(response.get());
+                std::vector<char> data(response->size());
+                is.read(data.data(), response->size());
 
-            /* Update the sensor */
-            self->processResponse(sensor, data.data(), data.size());
+                /* Update the sensor */
+                self->processResponse(sensor, data.data(), data.size());
 
-            /* Enqueue processing of the next sensor */
-            self->readAndProcessNVMeSensor();
-        }
-    });
+                /* Enqueue processing of the next sensor */
+                self->readAndProcessNVMeSensor();
+            }
+        });
 }
 
 void NVMeBasicContext::pollNVMeDevices()

@@ -44,17 +44,16 @@ static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
 static constexpr bool debug = false;
 
-PSUSensor::PSUSensor(const std::string& path, const std::string& objectType,
-                     sdbusplus::asio::object_server& objectServer,
-                     std::shared_ptr<sdbusplus::asio::connection>& conn,
-                     boost::asio::io_context& io, const std::string& sensorName,
-                     std::vector<thresholds::Threshold>&& thresholdsIn,
-                     const std::string& sensorConfiguration,
-                     const PowerState& powerState,
-                     const std::string& sensorUnits, unsigned int factor,
-                     double max, double min, double offset,
-                     const std::string& label, size_t tSize, double pollRate,
-                     const std::shared_ptr<I2CDevice>& i2cDevice) :
+PSUSensor::PSUSensor(
+    const std::string& path, const std::string& objectType,
+    sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    boost::asio::io_context& io, const std::string& sensorName,
+    std::vector<thresholds::Threshold>&& thresholdsIn,
+    const std::string& sensorConfiguration, const PowerState& powerState,
+    const std::string& sensorUnits, unsigned int factor, double max, double min,
+    double offset, const std::string& label, size_t tSize, double pollRate,
+    const std::shared_ptr<I2CDevice>& i2cDevice) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState),
     i2cDevice(i2cDevice), objServer(objectServer),
@@ -168,14 +167,14 @@ void PSUSensor::setupRead()
         0, boost::asio::buffer(buffer->data(), buffer->size() - 1),
         [weak, buffer{buffer}](const boost::system::error_code& ec,
                                size_t bytesRead) {
-        std::shared_ptr<PSUSensor> self = weak.lock();
-        if (!self)
-        {
-            return;
-        }
+            std::shared_ptr<PSUSensor> self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
 
-        self->handleResponse(ec, bytesRead);
-    });
+            self->handleResponse(ec, bytesRead);
+        });
 }
 
 void PSUSensor::restartRead()

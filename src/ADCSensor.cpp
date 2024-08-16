@@ -48,15 +48,14 @@ static constexpr double roundFactor = 10000;     // 3 decimal places
 static constexpr double maxVoltageReading = 1.8; // pre sensor scaling
 static constexpr double minVoltageReading = 0;
 
-ADCSensor::ADCSensor(const std::string& path,
-                     sdbusplus::asio::object_server& objectServer,
-                     std::shared_ptr<sdbusplus::asio::connection>& conn,
-                     boost::asio::io_context& io, const std::string& sensorName,
-                     std::vector<thresholds::Threshold>&& thresholdsIn,
-                     const double scaleFactor, const float pollRate,
-                     PowerState readState,
-                     const std::string& sensorConfiguration,
-                     std::optional<BridgeGpio>&& bridgeGpio) :
+ADCSensor::ADCSensor(
+    const std::string& path, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    boost::asio::io_context& io, const std::string& sensorName,
+    std::vector<thresholds::Threshold>&& thresholdsIn, const double scaleFactor,
+    const float pollRate, PowerState readState,
+    const std::string& sensorConfiguration,
+    std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            "ADC", false, false, maxVoltageReading / scaleFactor,
            minVoltageReading / scaleFactor, conn, readState),
@@ -121,27 +120,27 @@ void ADCSensor::setupRead()
             std::chrono::milliseconds(bridgeGpio->setupTimeMs));
         waitTimer.async_wait(
             [weakRef, buffer](const boost::system::error_code& ec) {
-            std::shared_ptr<ADCSensor> self = weakRef.lock();
-            if (ec == boost::asio::error::operation_aborted)
-            {
-                return; // we're being canceled
-            }
+                std::shared_ptr<ADCSensor> self = weakRef.lock();
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    return; // we're being canceled
+                }
 
-            if (self)
-            {
-                boost::asio::async_read_until(
-                    self->inputDev, *buffer, '\n',
-                    [weakRef, buffer](const boost::system::error_code& ec,
-                                      std::size_t /*bytes_transfered*/) {
-                    std::shared_ptr<ADCSensor> self = weakRef.lock();
-                    if (self)
-                    {
-                        self->readBuf = buffer;
-                        self->handleResponse(ec);
-                    }
-                });
-            }
-        });
+                if (self)
+                {
+                    boost::asio::async_read_until(
+                        self->inputDev, *buffer, '\n',
+                        [weakRef, buffer](const boost::system::error_code& ec,
+                                          std::size_t /*bytes_transfered*/) {
+                            std::shared_ptr<ADCSensor> self = weakRef.lock();
+                            if (self)
+                            {
+                                self->readBuf = buffer;
+                                self->handleResponse(ec);
+                            }
+                        });
+                }
+            });
     }
     else
     {
@@ -149,13 +148,13 @@ void ADCSensor::setupRead()
             inputDev, *buffer, '\n',
             [weakRef, buffer](const boost::system::error_code& ec,
                               std::size_t /*bytes_transfered*/) {
-            std::shared_ptr<ADCSensor> self = weakRef.lock();
-            if (self)
-            {
-                self->readBuf = buffer;
-                self->handleResponse(ec);
-            }
-        });
+                std::shared_ptr<ADCSensor> self = weakRef.lock();
+                if (self)
+                {
+                    self->readBuf = buffer;
+                    self->handleResponse(ec);
+                }
+            });
     }
 }
 

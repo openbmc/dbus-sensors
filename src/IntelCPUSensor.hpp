@@ -70,8 +70,8 @@ inline bool cpuIsPresent(const SensorBaseConfigMap& gpioConfig)
     {
         return false;
     }
-    std::string gpioName = std::visit(VariantToStringVisitor(),
-                                      findName->second);
+    std::string gpioName =
+        std::visit(VariantToStringVisitor(), findName->second);
 
     auto findIndex = cpuPresence.find(gpioName);
     if (findIndex != cpuPresence.end())

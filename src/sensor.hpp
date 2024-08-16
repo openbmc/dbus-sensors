@@ -267,8 +267,8 @@ struct Sensor
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
             "Value", value, [this](const double& newValue, double& oldValue) {
-            return setSensorValue(newValue, oldValue);
-        });
+                return setSensorValue(newValue, oldValue);
+            });
 
         fillMissingThresholds();
 
@@ -288,36 +288,36 @@ struct Sensor
                 continue;
             }
 
-            std::string level = propertyLevel(threshold.level,
-                                              threshold.direction);
-            std::string alarm = propertyAlarm(threshold.level,
-                                              threshold.direction);
+            std::string level =
+                propertyLevel(threshold.level, threshold.direction);
+            std::string alarm =
+                propertyAlarm(threshold.level, threshold.direction);
 
             if ((level.empty()) || (alarm.empty()))
             {
                 continue;
             }
-            size_t thresSize = label.empty() ? thresholds.size()
-                                             : thresholdSize;
+            size_t thresSize =
+                label.empty() ? thresholds.size() : thresholdSize;
             iface->register_property(
                 level, threshold.value,
                 [&, label, thresSize](const double& request, double& oldValue) {
-                oldValue = request; // todo, just let the config do this?
-                threshold.value = request;
-                thresholds::persistThreshold(configurationPath, configInterface,
-                                             threshold, dbusConnection,
-                                             thresSize, label);
-                // Invalidate previously remembered value,
-                // so new thresholds will be checked during next update,
-                // even if sensor reading remains unchanged.
-                value = std::numeric_limits<double>::quiet_NaN();
+                    oldValue = request; // todo, just let the config do this?
+                    threshold.value = request;
+                    thresholds::persistThreshold(
+                        configurationPath, configInterface, threshold,
+                        dbusConnection, thresSize, label);
+                    // Invalidate previously remembered value,
+                    // so new thresholds will be checked during next update,
+                    // even if sensor reading remains unchanged.
+                    value = std::numeric_limits<double>::quiet_NaN();
 
-                // Although tempting, don't call checkThresholds() from here
-                // directly. Let the regular sensor monitor call the same
-                // using updateValue(), which can check conditions like
-                // poweron, etc., before raising any event.
-                return 1;
-            });
+                    // Although tempting, don't call checkThresholds() from here
+                    // directly. Let the regular sensor monitor call the same
+                    // using updateValue(), which can check conditions like
+                    // poweron, etc., before raising any event.
+                    return 1;
+                });
             iface->register_property(alarm, false);
         }
         if (!sensorInterface->initialize())
@@ -359,17 +359,17 @@ struct Sensor
                     availableInterfaceName);
             availableInterface->register_property(
                 "Available", true, [this](const bool propIn, bool& old) {
-                if (propIn == old)
-                {
+                    if (propIn == old)
+                    {
+                        return 1;
+                    }
+                    old = propIn;
+                    if (!propIn)
+                    {
+                        updateValue(std::numeric_limits<double>::quiet_NaN());
+                    }
                     return 1;
-                }
-                old = propIn;
-                if (!propIn)
-                {
-                    updateValue(std::numeric_limits<double>::quiet_NaN());
-                }
-                return 1;
-            });
+                });
             availableInterface->initialize();
         }
         if (!operationalInterface)

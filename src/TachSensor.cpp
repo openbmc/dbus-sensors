@@ -44,17 +44,17 @@
 
 static constexpr unsigned int pwmPollMs = 500;
 
-TachSensor::TachSensor(const std::string& path, const std::string& objectType,
-                       sdbusplus::asio::object_server& objectServer,
-                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       std::shared_ptr<PresenceSensor>& presenceSensor,
-                       std::optional<RedundancySensor>* redundancy,
-                       boost::asio::io_context& io, const std::string& fanName,
-                       std::vector<thresholds::Threshold>&& thresholdsIn,
-                       const std::string& sensorConfiguration,
-                       const std::pair<double, double>& limits,
-                       const PowerState& powerState,
-                       const std::optional<std::string>& ledIn) :
+TachSensor::TachSensor(
+    const std::string& path, const std::string& objectType,
+    sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    std::shared_ptr<PresenceSensor>& presenceSensor,
+    std::optional<RedundancySensor>* redundancy, boost::asio::io_context& io,
+    const std::string& fanName,
+    std::vector<thresholds::Threshold>&& thresholdsIn,
+    const std::string& sensorConfiguration,
+    const std::pair<double, double>& limits, const PowerState& powerState,
+    const std::optional<std::string>& ledIn) :
     Sensor(escapeName(fanName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, limits.second, limits.first, conn,
            powerState),
@@ -119,12 +119,12 @@ void TachSensor::setupRead()
     inputDev.async_read_some_at(
         0, boost::asio::buffer(readBuf),
         [weakRef](const boost::system::error_code& ec, std::size_t bytesRead) {
-        std::shared_ptr<TachSensor> self = weakRef.lock();
-        if (self)
-        {
-            self->handleResponse(ec, bytesRead);
-        }
-    });
+            std::shared_ptr<TachSensor> self = weakRef.lock();
+            if (self)
+            {
+                self->handleResponse(ec, bytesRead);
+            }
+        });
 }
 
 void TachSensor::restartRead(size_t pollTime)
@@ -173,8 +173,8 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
         {
             const char* bufEnd = readBuf.data() + bytesRead;
             int nvalue = 0;
-            std::from_chars_result ret = std::from_chars(readBuf.data(), bufEnd,
-                                                         nvalue);
+            std::from_chars_result ret =
+                std::from_chars(readBuf.data(), bufEnd, nvalue);
             if (ret.ec != std::errc())
             {
                 incrementError();
@@ -216,8 +216,7 @@ void TachSensor::checkThresholds()
 PresenceSensor::PresenceSensor(const std::string& gpioName, bool inverted,
                                boost::asio::io_context& io,
                                const std::string& name) :
-    gpioLine(gpiod::find_line(gpioName)),
-    gpioFd(io), name(name)
+    gpioLine(gpiod::find_line(gpioName)), gpioFd(io), name(name)
 {
     if (!gpioLine)
     {
@@ -261,21 +260,22 @@ void PresenceSensor::monitorPresence()
 {
     gpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
                       [this](const boost::system::error_code& ec) {
-        if (ec == boost::system::errc::bad_file_descriptor)
-        {
-            return; // we're being destroyed
-        }
-        if (ec)
-        {
-            std::cerr << "Error on presence sensor " << name << " \n";
-            ;
-        }
-        else
-        {
-            read();
-        }
-        monitorPresence();
-    });
+                          if (ec == boost::system::errc::bad_file_descriptor)
+                          {
+                              return; // we're being destroyed
+                          }
+                          if (ec)
+                          {
+                              std::cerr << "Error on presence sensor " << name
+                                        << " \n";
+                              ;
+                          }
+                          else
+                          {
+                              read();
+                          }
+                          monitorPresence();
+                      });
 }
 
 void PresenceSensor::read()

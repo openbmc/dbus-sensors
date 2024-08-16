@@ -45,8 +45,7 @@ PSUCombineEvent::PSUCombineEvent(
     boost::asio::io_context& io, const std::string& psuName,
     const PowerState& powerState, EventPathList& eventPathList,
     GroupEventPathList& groupEventPathList, const std::string& combineEventName,
-    double pollRate) :
-    objServer(objectServer)
+    double pollRate) : objServer(objectServer)
 {
     std::string psuNameEscaped = sensor_paths::escapePathForDbus(psuName);
     eventInterface = objServer.add_interface(
@@ -146,10 +145,9 @@ PSUSubEvent::PSUSubEvent(
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
     std::shared_ptr<bool> state, const std::string& psuName, double pollRate) :
-    eventInterface(std::move(eventInterface)),
-    asserts(std::move(asserts)), combineEvent(std::move(combineEvent)),
-    assertState(std::move(state)), path(path), eventName(eventName),
-    readState(powerState), waitTimer(io),
+    eventInterface(std::move(eventInterface)), asserts(std::move(asserts)),
+    combineEvent(std::move(combineEvent)), assertState(std::move(state)),
+    path(path), eventName(eventName), readState(powerState), waitTimer(io),
 
     inputDev(io, path, boost::asio::random_access_file::read_only),
     psuName(psuName), groupEventName(groupEventName), systemBus(conn)
@@ -210,12 +208,12 @@ void PSUSubEvent::setupRead()
         0, boost::asio::buffer(buffer->data(), buffer->size() - 1),
         [weakRef, buffer{buffer}](const boost::system::error_code& ec,
                                   std::size_t bytesTransferred) {
-        std::shared_ptr<PSUSubEvent> self = weakRef.lock();
-        if (self)
-        {
-            self->handleResponse(ec, bytesTransferred);
-        }
-    });
+            std::shared_ptr<PSUSubEvent> self = weakRef.lock();
+            if (self)
+            {
+                self->handleResponse(ec, bytesTransferred);
+            }
+        });
 }
 
 void PSUSubEvent::restartRead()

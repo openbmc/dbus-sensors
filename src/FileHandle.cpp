@@ -19,7 +19,7 @@ FileHandle::FileHandle(const std::filesystem::path& name,
     }
 }
 
-FileHandle::FileHandle(int fdIn) : fd(fdIn){};
+FileHandle::FileHandle(int fdIn) : fd(fdIn) {};
 
 FileHandle::FileHandle(FileHandle&& in) noexcept : fd(in.fd)
 {

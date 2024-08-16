@@ -169,13 +169,14 @@ void IntelCPUSensor::setupRead()
     std::weak_ptr<IntelCPUSensor> weakRef = weak_from_this();
     inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
                         [weakRef](const boost::system::error_code& ec) {
-        std::shared_ptr<IntelCPUSensor> self = weakRef.lock();
+                            std::shared_ptr<IntelCPUSensor> self =
+                                weakRef.lock();
 
-        if (self)
-        {
-            self->handleResponse(ec);
-        }
-    });
+                            if (self)
+                            {
+                                self->handleResponse(ec);
+                            }
+                        });
 }
 
 void IntelCPUSensor::updateMinMaxValues()
@@ -204,8 +205,8 @@ void IntelCPUSensor::updateMinMaxValues()
             {
                 const auto& [suffix, oldValue, dbusName] = vectorItem;
                 auto attrPath = boost::replace_all_copy(path, fileItem, suffix);
-                if (auto newVal = readFile(attrPath,
-                                           IntelCPUSensor::sensorScaleFactor))
+                if (auto newVal =
+                        readFile(attrPath, IntelCPUSensor::sensorScaleFactor))
                 {
                     updateProperty(sensorInterface, oldValue, *newVal,
                                    dbusName);

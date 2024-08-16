@@ -199,28 +199,30 @@ int ChassisIntrusionGpioSensor::readSensor()
 
 void ChassisIntrusionGpioSensor::pollSensorStatus()
 {
-    mGpioFd.async_wait(boost::asio::posix::stream_descriptor::wait_read,
-                       [this](const boost::system::error_code& ec) {
-        if (ec == boost::system::errc::bad_file_descriptor)
-        {
-            return; // we're being destroyed
-        }
-
-        if (ec)
-        {
-            std::cerr << "Error on GPIO based intrusion sensor wait event\n";
-        }
-        else
-        {
-            int value = readSensor();
-            if (value >= 0)
+    mGpioFd.async_wait(
+        boost::asio::posix::stream_descriptor::wait_read,
+        [this](const boost::system::error_code& ec) {
+            if (ec == boost::system::errc::bad_file_descriptor)
             {
-                updateValue(value);
+                return; // we're being destroyed
             }
-            // trigger next polling
-            pollSensorStatus();
-        }
-    });
+
+            if (ec)
+            {
+                std::cerr
+                    << "Error on GPIO based intrusion sensor wait event\n";
+            }
+            else
+            {
+                int value = readSensor();
+                if (value >= 0)
+                {
+                    updateValue(value);
+                }
+                // trigger next polling
+                pollSensorStatus();
+            }
+        });
 }
 
 int ChassisIntrusionHwmonSensor::readSensor()
@@ -349,8 +351,8 @@ void ChassisIntrusionSensor::start()
     mIface->register_property(
         "Status", mValue,
         [&](const std::string& req, std::string& propertyValue) {
-        return setSensorValue(req, propertyValue);
-    });
+            return setSensorValue(req, propertyValue);
+        });
     std::string rearmStr = mAutoRearm ? autoRearmStr : manualRearmStr;
     mIface->register_property("Rearm", rearmStr);
     mIface->initialize();
@@ -359,8 +361,7 @@ void ChassisIntrusionSensor::start()
 
 ChassisIntrusionSensor::ChassisIntrusionSensor(
     bool autoRearm, sdbusplus::asio::object_server& objServer) :
-    mValue(normalValStr),
-    mAutoRearm(autoRearm), mObjServer(objServer)
+    mValue(normalValStr), mAutoRearm(autoRearm), mObjServer(objServer)
 {
     mIface = mObjServer.add_interface("/xyz/openbmc_project/Chassis/Intrusion",
                                       "xyz.openbmc_project.Chassis.Intrusion");
@@ -369,14 +370,13 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
 ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
     bool autoRearm, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objServer, int busId, int slaveAddr) :
-    ChassisIntrusionSensor(autoRearm, objServer),
-    mPollTimer(io)
+    ChassisIntrusionSensor(autoRearm, objServer), mPollTimer(io)
 {
     if (busId < 0 || slaveAddr <= 0)
     {
-        throw std::invalid_argument("Invalid i2c bus " + std::to_string(busId) +
-                                    " address " + std::to_string(slaveAddr) +
-                                    "\n");
+        throw std::invalid_argument(
+            "Invalid i2c bus " + std::to_string(busId) + " address " +
+            std::to_string(slaveAddr) + "\n");
     }
 
     mSlaveAddr = slaveAddr;
@@ -413,14 +413,14 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
 ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
     bool autoRearm, boost::asio::io_context& io,
     sdbusplus::asio::object_server& objServer, bool gpioInverted) :
-    ChassisIntrusionSensor(autoRearm, objServer),
-    mGpioInverted(gpioInverted), mGpioFd(io)
+    ChassisIntrusionSensor(autoRearm, objServer), mGpioInverted(gpioInverted),
+    mGpioFd(io)
 {
     mGpioLine = gpiod::find_line(mPinName);
     if (!mGpioLine)
     {
-        throw std::invalid_argument("Error finding gpio pin name: " + mPinName +
-                                    "\n");
+        throw std::invalid_argument(
+            "Error finding gpio pin name: " + mPinName + "\n");
     }
     mGpioLine.request(
         {"ChassisIntrusionSensor", gpiod::line_request::EVENT_BOTH_EDGES,
@@ -450,8 +450,8 @@ ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
 
     if (paths.empty())
     {
-        throw std::invalid_argument("Hwmon file " + mHwmonName +
-                                    " can't be found in sysfs\n");
+        throw std::invalid_argument(
+            "Hwmon file " + mHwmonName + " can't be found in sysfs\n");
     }
 
     if (paths.size() > 1)

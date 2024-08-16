@@ -29,11 +29,11 @@ class BridgeGpio
         {
             try
             {
-                line.request({"adcsensor",
-                              gpiod::line_request::DIRECTION_OUTPUT,
-                              polarity == gpiod::line::ACTIVE_HIGH
-                                  ? 0
-                                  : gpiod::line_request::FLAG_ACTIVE_LOW});
+                line.request(
+                    {"adcsensor", gpiod::line_request::DIRECTION_OUTPUT,
+                     polarity == gpiod::line::ACTIVE_HIGH
+                         ? 0
+                         : gpiod::line_request::FLAG_ACTIVE_LOW});
             }
             catch (const std::system_error&)
             {

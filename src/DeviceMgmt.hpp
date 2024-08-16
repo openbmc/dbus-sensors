@@ -28,7 +28,7 @@ using I2CDeviceTypeMap =
 struct I2CDeviceParams
 {
     I2CDeviceParams(const I2CDeviceType& type, uint64_t bus, uint64_t address) :
-        type(&type), bus(bus), address(address){};
+        type(&type), bus(bus), address(address) {};
 
     const I2CDeviceType* type;
     uint64_t bus;
@@ -38,9 +38,8 @@ struct I2CDeviceParams
     bool deviceStatic() const;
 };
 
-std::optional<I2CDeviceParams>
-    getI2CDeviceParams(const I2CDeviceTypeMap& dtmap,
-                       const SensorBaseConfigMap& cfg);
+std::optional<I2CDeviceParams> getI2CDeviceParams(
+    const I2CDeviceTypeMap& dtmap, const SensorBaseConfigMap& cfg);
 
 class I2CDevice
 {
