@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5942eaeb_ed143b2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-20T14:24:20Z",
+      "side": 1,
+      "message": "Yes, please.  If you\u0027re taking over authorship please add your own S-O-B.",
+      "parentUuid": "f33be04d_5f46f687",
+      "revId": "03341d11e95b8b327b2b00a88872a5227c1dfd2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c725a3c6_fec974a3",
