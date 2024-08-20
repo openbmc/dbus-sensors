@@ -16,6 +16,24 @@
       "message": "These aren\u0027t valid message IDs per https://github.com/openbmc/bmcweb/blob/bd79bce8c3f1deb1fb2773868b9ece25233cf27b/redfish-core/include/registries/openbmc_message_registry.hpp .",
       "revId": "506e5c88c24edcb8097b22a5966df90d3eabc98b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c79f9f4_db987d1f",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-08-20T21:30:04Z",
+      "side": 1,
+      "message": "Good point.  It was ported from TachSensor.hpp, but I had changed the text.\nFixed.",
+      "parentUuid": "72fa1073_50335854",
+      "revId": "506e5c88c24edcb8097b22a5966df90d3eabc98b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
