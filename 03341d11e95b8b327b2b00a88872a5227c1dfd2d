@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f33be04d_5f46f687",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001896
+      },
+      "writtenOn": "2024-08-20T12:59:31Z",
+      "side": 1,
+      "message": "Maybe it is caused by Eason quitting Quanta recently, should I change the sign-off to me?",
+      "parentUuid": "6d568077_c0d6499d",
+      "revId": "03341d11e95b8b327b2b00a88872a5227c1dfd2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c725a3c6_fec974a3",
