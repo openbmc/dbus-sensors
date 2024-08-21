@@ -212,12 +212,14 @@ uint32_t PwmSensor::getValue(bool errThrow)
     std::ifstream ref(sysPath);
     if (!ref.good())
     {
-        return -1;
+        std::cerr << "Error opening " << sysPath << "\n";
+        return 0;
     }
     std::string line;
     if (!std::getline(ref, line))
     {
-        return -1;
+        std::cerr << "Error reading pwm at " << sysPath << "\n";
+        return 0;
     }
     try
     {
@@ -226,7 +228,7 @@ uint32_t PwmSensor::getValue(bool errThrow)
     }
     catch (const std::invalid_argument&)
     {
-        std::cerr << "Error reading pwm at " << sysPath << "\n";
+        std::cerr << "Error converting pwm\n";
         // throw if not initial read to be caught by dbus bindings
         if (errThrow)
         {
