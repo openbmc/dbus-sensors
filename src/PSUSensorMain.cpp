@@ -510,6 +510,7 @@ static void createSensorsCallback(
         checkGroupEvent(directory.string(), groupEventPathList);
 
         PowerState readState = getPowerState(*baseConfig);
+        size_t readSlot = getSlotId(*baseConfig);
 
         /* Check if there are more sensors in the same interface */
         int i = 1;
@@ -944,7 +945,7 @@ static void createSensorsCallback(
                 readState, findSensorUnit->second, factor,
                 psuProperty.maxReading, psuProperty.minReading,
                 psuProperty.sensorOffset, labelHead, thresholdConfSize,
-                pollRate, i2cDev);
+                pollRate, i2cDev, readSlot);
             sensors[sensorName]->setupRead();
             ++numCreated;
             if constexpr (debug)
@@ -1117,7 +1118,7 @@ void propertyInitialize()
 }
 
 static void powerStateChanged(
-    PowerState type, bool newState,
+    PowerState type, bool newState, size_t slotId,
     boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>&
         sensors)
 {
@@ -1127,7 +1128,14 @@ static void powerStateChanged(
         {
             if (sensor != nullptr && sensor->readState == type)
             {
-                sensor->activate();
+                if (slotId == sensor->slotId)
+                {
+                    if ((type == PowerState::chassisOn) &&
+                        (isChassisOn(sensor->slotId)))
+                    {
+                        sensor->activate();
+                    }
+                }
             }
         }
     }
@@ -1137,7 +1145,14 @@ static void powerStateChanged(
         {
             if (sensor != nullptr && sensor->readState == type)
             {
-                sensor->deactivate();
+                if (slotId == sensor->slotId)
+                {
+                    if ((type == PowerState::chassisOn) &&
+                        (!isChassisOn(sensor->slotId)))
+                    {
+                        sensor->deactivate();
+                    }
+                }
             }
         }
     }
@@ -1157,8 +1172,8 @@ int main()
 
     propertyInitialize();
 
-    auto powerCallBack = [](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors);
+    auto powerCallBack = [](PowerState type, bool state, size_t slotId) {
+        powerStateChanged(type, state, slotId, sensors);
     };
 
     setupPowerMatchCallback(systemBus, powerCallBack);
