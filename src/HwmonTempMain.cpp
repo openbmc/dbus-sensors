@@ -589,7 +589,11 @@ static void powerStateChanged(
         {
             if (sensor != nullptr && sensor->readState == type)
             {
-                sensor->deactivate();
+                if ((type == PowerState::chassisOn) &&
+                    (!isChassisOn(sensor->slotId)))
+                {
+                    sensor->deactivate();
+                }
             }
         }
     }
