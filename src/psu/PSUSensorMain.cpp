@@ -585,6 +585,7 @@ static void createSensorsCallback(
         checkGroupEvent(directory.string(), groupEventPathList);
 
         PowerState readState = getPowerState(*baseConfig);
+        size_t readSlot = getSlotId(*baseConfig);
 
         /* Check if there are more sensors in the same interface */
         int i = 1;
@@ -1065,7 +1066,7 @@ static void createSensorsCallback(
                     sensorName, std::move(sensorThresholds), *interfacePath,
                     readState, findSensorUnit->units, factor, maxReading,
                     minReading, sensorOffset, labelHead, thresholdConfSize,
-                    pollRate, i2cDev);
+                    pollRate, i2cDev, readSlot);
                 sensors[sensorName]->setupRead();
                 ++numCreated;
                 lg2::debug("Created '{NUM}' sensors so far", "NUM", numCreated);
@@ -1178,12 +1179,21 @@ void createSensors(
 }
 
 static void powerStateChanged(
-    PowerState type, bool newState,
+    PowerState type, bool newState, size_t slotId,
     boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>&
         sensors,
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
+    if constexpr (debug)
+    {
+        lg2::info(
+            "PowerStateChanged: Slot {SLOT}, newState: {STATE}, PowerState_type: {TYPE}",
+            "SLOT", slotId, "STATE",
+            static_cast<int>(newState) == 0 ? "Off" : "On", "TYPE",
+            toString(type));
+    }
+
     if (newState)
     {
         createSensors(io, objectServer, dbusConnection, nullptr, true);
@@ -1192,9 +1202,27 @@ static void powerStateChanged(
     {
         for (auto& [path, sensor] : sensors)
         {
+            if constexpr (debug)
+            {
+                lg2::info(
+                    "Checking slot {SLOT}, sensor {SENSOR}  PowerState_type: {TYPE}",
+                    "SENSOR", path, "SLOT", sensor->slotId, "TYPE",
+                    toString(type));
+            }
+
             if (sensor != nullptr && sensor->readState == type)
             {
-                sensor->deactivate();
+                if ((slotId == sensor->slotId) &&
+                    (type == PowerState::chassisOn))
+                {
+                    if constexpr (debug)
+                    {
+                        lg2::info(
+                            "Deactivating slot {SLOT}, sensor {SENSOR}, due to PowerState::chassisOn",
+                            "SENSOR", path, "SLOT", slotId);
+                    }
+                    sensor->deactivate();
+                }
             }
         }
     }
@@ -1212,9 +1240,13 @@ int main()
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
+    propertyInitialize();
+
     auto powerCallBack = [&io, &objectServer,
-                          &systemBus](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+                          &systemBus](PowerState type, bool state,
+                                      size_t slotId) {
+        powerStateChanged(type, state, slotId, sensors, io, objectServer,
+                          systemBus);
     };
 
     setupPowerMatchCallback(systemBus, powerCallBack);
