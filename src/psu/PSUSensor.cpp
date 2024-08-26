@@ -53,9 +53,9 @@ PSUSensor::PSUSensor(
     const std::string& sensorConfiguration, const PowerState& powerState,
     const std::string& sensorUnits, unsigned int factor, double max, double min,
     double offset, const std::string& label, size_t tSize, double pollRate,
-    const std::shared_ptr<I2CDevice>& i2cDevice) :
+    const std::shared_ptr<I2CDevice>& i2cDevice, const size_t slotId) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           objectType, false, false, max, min, conn, powerState),
+           objectType, false, false, max, min, conn, powerState, slotId),
     i2cDevice(i2cDevice), objServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), sensorFactor(factor), sensorOffset(offset),
