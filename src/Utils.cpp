@@ -35,10 +35,12 @@
 
 #include <algorithm>
 #include <array>
+#include <charconv>
 #include <chrono>
 #include <cstddef>
 #include <cstring>
 #include <filesystem>
+#include <format>
 #include <fstream>
 #include <functional>
 #include <iterator>
@@ -52,18 +54,29 @@
 #include <string_view>
 #include <system_error>
 #include <tuple>
+#include <unordered_map>
 #include <utility>
 #include <variant>
 #include <vector>
 
-static bool powerStatusOn = false;
-static bool biosHasPost = false;
+static constexpr bool debug = false;
 static bool manufacturingMode = false;
-static bool chassisStatusOn = false;
+static std::unordered_map<size_t, bool> powerStatusOn;
+static std::unordered_map<size_t, bool> biosHasPost;
+static std::unordered_map<size_t, bool> chassisStatusOn;
+static std::unordered_map<size_t, bool> chassisReqPowerTransOff;
 
-static std::unique_ptr<sdbusplus::bus::match_t> powerMatch = nullptr;
-static std::unique_ptr<sdbusplus::bus::match_t> postMatch = nullptr;
-static std::unique_ptr<sdbusplus::bus::match_t> chassisMatch = nullptr;
+static std::unordered_map<size_t, std::unique_ptr<sdbusplus::bus::match_t>>
+    powerMatchMap;
+static std::unordered_map<size_t, std::unique_ptr<sdbusplus::bus::match_t>>
+    postMatchMap;
+static std::unordered_map<size_t, std::unique_ptr<sdbusplus::bus::match_t>>
+    chassisMatchMap;
+static std::unordered_map<size_t, std::unique_ptr<sdbusplus::bus::match_t>>
+    chassisReqPowerTransOffMatchMap;
+static std::vector<std::shared_ptr<boost::asio::steady_timer>> timerVec;
+static std::vector<std::shared_ptr<boost::asio::steady_timer>>
+    timerChassisStatusVec;
 
 /**
  * return the contents of a file
@@ -304,44 +317,89 @@ bool findFiles(const std::filesystem::path& dirPath,
     return true;
 }
 
-bool isPowerOn()
+bool isPowerOn(const size_t slotId)
 {
-    if (!powerMatch)
+    auto matchIt = powerMatchMap.find(slotId);
+    if (matchIt == powerMatchMap.end())
     {
-        throw std::runtime_error("Power Match Not Created");
+        throw std::runtime_error(
+            "Slot " + std::to_string(slotId) + " Power Match Not Created");
     }
-    return powerStatusOn;
-}
-
-bool hasBiosPost()
-{
-    if (!postMatch)
-    {
-        throw std::runtime_error("Post Match Not Created");
-    }
-    return biosHasPost;
-}
-
-bool isChassisOn()
-{
-    if (!chassisMatch)
-    {
-        throw std::runtime_error("Chassis On Match Not Created");
-    }
-    return chassisStatusOn;
-}
-
-bool readingStateGood(const PowerState& powerState)
-{
-    if (powerState == PowerState::on && !isPowerOn())
+    auto it = powerStatusOn.find(slotId);
+    if (it == powerStatusOn.end())
     {
         return false;
     }
-    if (powerState == PowerState::biosPost && (!hasBiosPost() || !isPowerOn()))
+
+    return it->second;
+}
+
+bool hasBiosPost(const size_t slotId)
+{
+    auto matchIt = postMatchMap.find(slotId);
+    if (matchIt == postMatchMap.end())
+    {
+        throw std::runtime_error(
+            "Slot " + std::to_string(slotId) + "Post Match Not Created");
+    }
+    auto it = biosHasPost.find(slotId);
+    if (it == biosHasPost.end())
     {
         return false;
     }
-    if (powerState == PowerState::chassisOn && !isChassisOn())
+
+    return it->second;
+}
+
+bool isChassisOn(const size_t slotId)
+{
+    auto matchIt = chassisMatchMap.find(slotId);
+    if (matchIt == chassisMatchMap.end())
+    {
+        throw std::runtime_error(
+            "Slot " + std::to_string(slotId) + " Chassis On Match Not Created");
+    }
+    auto it = chassisStatusOn.find(slotId);
+    if (it == chassisStatusOn.end())
+    {
+        return false;
+    }
+    return it->second;
+}
+
+bool isChassisReqTransOff(const size_t slotId)
+{
+    auto matchIt = chassisReqPowerTransOffMatchMap.find(slotId);
+    if (matchIt == chassisReqPowerTransOffMatchMap.end())
+    {
+        throw std::runtime_error(
+            "Slot " + std::to_string(slotId) +
+            " Chassis Requested Transitioning to Off Match Not Created");
+    }
+    auto it = chassisReqPowerTransOff.find(slotId);
+    if (it == chassisReqPowerTransOff.end())
+    {
+        return false;
+    }
+    return it->second;
+}
+
+bool readingStateGood(const PowerState& powerState, const size_t slotId)
+{
+    if (powerState == PowerState::on && !isPowerOn(slotId))
+    {
+        return false;
+    }
+    if (powerState == PowerState::biosPost &&
+        (!hasBiosPost(slotId) || !isPowerOn(slotId)))
+    {
+        return false;
+    }
+    if (powerState == PowerState::chassisOn && !isChassisOn(slotId))
+    {
+        return false;
+    }
+    if (powerState == PowerState::chassisOn && isChassisReqTransOff(slotId))
     {
         return false;
     }
@@ -351,11 +409,17 @@ bool readingStateGood(const PowerState& powerState)
 
 static void getPowerStatus(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    size_t retries = 2)
+    const size_t slotNumber = 0, const size_t retries = 2)
 {
+    std::string busname =
+        std::format("{}{}", power::busname, std::to_string(slotNumber));
+    std::string path =
+        std::format("{}{}", power::path, std::to_string(slotNumber));
+
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
-                        const std::variant<std::string>& state) {
+        [conn, retries, slotNumber,
+         path](boost::system::error_code ec,
+               const std::variant<std::string>& state) {
             if (ec)
             {
                 if (retries != 0U)
@@ -363,10 +427,10 @@ static void getPowerStatus(
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
-                    timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getPowerStatus(conn, retries - 1);
-                        });
+                    timer->async_wait([timer, conn, retries,
+                                       slotNumber](boost::system::error_code) {
+                        getPowerStatus(conn, slotNumber, retries - 1);
+                    });
                     return;
                 }
 
@@ -376,19 +440,29 @@ static void getPowerStatus(
                            "ERROR_MESSAGE", ec.message());
                 return;
             }
-            powerStatusOn = std::get<std::string>(state).ends_with(".Running");
+            auto it = powerStatusOn.find(slotNumber);
+            if (it != powerStatusOn.end())
+            {
+                it->second = std::get<std::string>(state).ends_with(".Running");
+            }
         },
-        power::busname, power::path, properties::interface, properties::get,
-        power::interface, power::property);
+        busname, path, properties::interface, properties::get, power::interface,
+        power::property);
 }
 
 static void getPostStatus(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    size_t retries = 2)
+    const size_t slotNumber = 0, const size_t retries = 2)
 {
+    std::string busname =
+        std::format("{}{}", post::busname, std::to_string(slotNumber));
+    std::string path =
+        std::format("{}{}", post::path, std::to_string(slotNumber));
+
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
-                        const std::variant<std::string>& state) {
+        [conn, retries, slotNumber,
+         path](boost::system::error_code ec,
+               const std::variant<std::string>& state) {
             if (ec)
             {
                 if (retries != 0U)
@@ -396,10 +470,10 @@ static void getPostStatus(
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
-                    timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getPostStatus(conn, retries - 1);
-                        });
+                    timer->async_wait([timer, conn, retries,
+                                       slotNumber](boost::system::error_code) {
+                        getPostStatus(conn, slotNumber, retries - 1);
+                    });
                     return;
                 }
                 // we commonly come up before power control, we'll capture the
@@ -409,21 +483,32 @@ static void getPostStatus(
                 return;
             }
             const auto& value = std::get<std::string>(state);
-            biosHasPost = (value != "Inactive") &&
-                          (value != "xyz.openbmc_project.State.OperatingSystem."
-                                    "Status.OSStatus.Inactive");
+            auto it = biosHasPost.find(slotNumber);
+            if (it != biosHasPost.end())
+            {
+                it->second =
+                    (value != "Inactive") &&
+                    (value != "xyz.openbmc_project.State.OperatingSystem."
+                              "Status.OSStatus.Inactive");
+            }
         },
-        post::busname, post::path, properties::interface, properties::get,
-        post::interface, post::property);
+        busname, path, properties::interface, properties::get, post::interface,
+        post::property);
 }
 
 static void getChassisStatus(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    size_t retries = 2)
+    const size_t slotNumber = 0, size_t retries = 2)
 {
+    std::string busname =
+        std::format("{}{}", chassis::busname, std::to_string(slotNumber));
+    std::string path =
+        std::format("{}{}", chassis::path, std::to_string(slotNumber));
+
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
-                        const std::variant<std::string>& state) {
+        [conn, retries, slotNumber,
+         path](boost::system::error_code ec,
+               const std::variant<std::string>& state) {
             if (ec)
             {
                 if (retries != 0U)
@@ -431,10 +516,10 @@ static void getChassisStatus(
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
-                    timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getChassisStatus(conn, retries - 1);
-                        });
+                    timer->async_wait([timer, conn, retries,
+                                       slotNumber](boost::system::error_code) {
+                        getChassisStatus(conn, slotNumber, retries - 1);
+                    });
                     return;
                 }
 
@@ -445,140 +530,367 @@ static void getChassisStatus(
                     "ERROR_MESSAGE", ec.message());
                 return;
             }
-            chassisStatusOn =
-                std::get<std::string>(state).ends_with(chassis::sOn);
+            auto it = chassisStatusOn.find(slotNumber);
+            if (it != chassisStatusOn.end())
+            {
+                it->second =
+                    std::get<std::string>(state).ends_with(chassis::sOn);
+            }
         },
-        chassis::busname, chassis::path, properties::interface, properties::get,
+        busname, path, properties::interface, properties::get,
         chassis::interface, chassis::property);
 }
 
 void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    std::function<void(PowerState type, bool state)>&& hostStatusCallback)
+    const std::function<void(PowerState type, bool state, size_t slotId)>&
+        hostStatusCallback)
 {
-    static boost::asio::steady_timer timer(conn->get_io_context());
-    static boost::asio::steady_timer timerChassisOn(conn->get_io_context());
-    // create a match for powergood changes, first time do a method call to
-    // cache the correct value
-    if (powerMatch)
+    /* Get host paths */
+    static const int depth = 1;
+    GetSubTreePathsType hostSubTreePaths;
+
+    try
     {
+        auto method =
+            conn->new_method_call(mapper::busName, mapper::path,
+                                  mapper::interface, mapper::subtreepaths);
+        method.append("/xyz/openbmc_project/state", depth,
+                      GetSubTreePathsType({power::interface}));
+        auto reply = conn->call(method);
+        reply.read(hostSubTreePaths);
+    }
+    catch (sdbusplus::exception_t& e)
+    {
+        lg2::error("Error getting host subtree paths: '{ERROR_MESSAGE}'",
+                   "ERROR_MESSAGE", e.what());
         return;
     }
 
-    powerMatch = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*conn),
-        "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(power::path) + "',arg0='" +
-            std::string(power::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
-            std::string objectName;
-            boost::container::flat_map<std::string, std::variant<std::string>>
-                values;
-            message.read(objectName, values);
-            auto findState = values.find(power::property);
-            if (findState != values.end())
-            {
-                bool on = std::get<std::string>(findState->second)
-                              .ends_with(".Running");
-                if (!on)
+    for (const auto& path : hostSubTreePaths)
+    {
+        auto pos = path.rfind("/host");
+        if (pos == std::string::npos)
+        {
+            lg2::error("Missing '/host' in path: '{PATH}'", "PATH", path);
+            return;
+        }
+        pos += std::string("/host").size();
+        if (pos >= path.size())
+        {
+            lg2::error("No slot number after '/host' in path: '{PATH}'", "PATH",
+                       path);
+            return;
+        }
+        std::string_view numberStr(path.data() + pos, path.size() - pos);
+        size_t slotNumber = 0;
+        auto [ptr, ec] = std::from_chars(numberStr.data(),
+                                         numberStr.data() + numberStr.size(),
+                                         slotNumber, 10);
+        if (ec != std::errc{} || ptr != numberStr.data() + numberStr.size())
+        {
+            lg2::error("Error parsing slot number from path: '{PATH}'", "PATH",
+                       path);
+            return;
+        }
+
+        // create a match for powergood changes, first time do a method call to
+        // cache the correct value
+        auto matchIt = powerMatchMap.find(slotNumber);
+        if (matchIt != powerMatchMap.end())
+        {
+            continue;
+        }
+
+        if constexpr (debug)
+        {
+            lg2::info("Setting up Host {SLOTID} signal match", "SLOTID",
+                      slotNumber);
+        }
+
+        powerStatusOn.emplace(slotNumber, false);
+        biosHasPost.emplace(slotNumber, false);
+
+        auto timer =
+            timerVec.emplace_back(std::make_shared<boost::asio::steady_timer>(
+                conn->get_io_context()));
+
+        auto powerMatch = std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(*conn),
+            "type='signal',interface='" + std::string(properties::interface) +
+                "',path='" + std::string(path) + "',arg0='" +
+                std::string(power::interface) + "'",
+            [hostStatusCallback, slotNumber,
+             timer](sdbusplus::message_t& message) {
+                std::string objectName;
+                boost::container::flat_map<std::string,
+                                           std::variant<std::string>>
+                    values;
+                message.read(objectName, values);
+
+                if constexpr (debug)
                 {
-                    timer.cancel();
-                    powerStatusOn = false;
-                    hostStatusCallback(PowerState::on, powerStatusOn);
-                    return;
+                    lg2::info("Received Host {SLOTID} host power change signal",
+                              "SLOTID", slotNumber);
                 }
-                // on comes too quickly
-                timer.expires_after(std::chrono::seconds(10));
-                timer.async_wait(
-                    [hostStatusCallback](boost::system::error_code ec) {
-                        if (ec == boost::asio::error::operation_aborted)
+
+                auto findState = values.find(power::property);
+                if (findState != values.end())
+                {
+                    bool on = std::get<std::string>(findState->second)
+                                  .ends_with(".Running");
+                    auto it = powerStatusOn.find(slotNumber);
+                    if (it != powerStatusOn.end())
+                    {
+                        if (!on)
                         {
+                            timer->cancel();
+                            it->second = false;
+                            hostStatusCallback(PowerState::on, it->second,
+                                               slotNumber);
                             return;
                         }
-                        if (ec)
-                        {
-                            lg2::error("Timer error: '{ERROR_MESSAGE}'",
-                                       "ERROR_MESSAGE", ec.message());
-                            return;
-                        }
-                        powerStatusOn = true;
-                        hostStatusCallback(PowerState::on, powerStatusOn);
-                    });
-            }
-        });
-
-    postMatch = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*conn),
-        "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(post::path) + "',arg0='" +
-            std::string(post::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
-            std::string objectName;
-            boost::container::flat_map<std::string, std::variant<std::string>>
-                values;
-            message.read(objectName, values);
-            auto findState = values.find(post::property);
-            if (findState != values.end())
-            {
-                auto& value = std::get<std::string>(findState->second);
-                biosHasPost =
-                    (value != "Inactive") &&
-                    (value != "xyz.openbmc_project.State.OperatingSystem."
-                              "Status.OSStatus.Inactive");
-                hostStatusCallback(PowerState::biosPost, biosHasPost);
-            }
-        });
-
-    chassisMatch = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*conn),
-        "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(chassis::path) + "',arg0='" +
-            std::string(chassis::interface) + "'",
-        [hostStatusCallback = std::move(hostStatusCallback)](
-            sdbusplus::message_t& message) {
-            std::string objectName;
-            boost::container::flat_map<std::string, std::variant<std::string>>
-                values;
-            message.read(objectName, values);
-            auto findState = values.find(chassis::property);
-            if (findState != values.end())
-            {
-                bool on = std::get<std::string>(findState->second)
-                              .ends_with(chassis::sOn);
-                if (!on)
-                {
-                    timerChassisOn.cancel();
-                    chassisStatusOn = false;
-                    hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
-                    return;
-                }
-                // on comes too quickly
-                timerChassisOn.expires_after(std::chrono::seconds(10));
-                timerChassisOn.async_wait([hostStatusCallback](
+                        // on comes too quickly
+                        timer->expires_after(std::chrono::seconds(10));
+                        timer->async_wait([hostStatusCallback, it, slotNumber](
                                               boost::system::error_code ec) {
-                    if (ec == boost::asio::error::operation_aborted)
-                    {
-                        return;
+                            if (ec == boost::asio::error::operation_aborted)
+                            {
+                                return;
+                            }
+                            if (ec)
+                            {
+                                lg2::error("Timer error: '{ERROR_MESSAGE}'",
+                                           "ERROR_MESSAGE", ec.message());
+                                return;
+                            }
+                            it->second = true;
+                            hostStatusCallback(PowerState::on, it->second,
+                                               slotNumber);
+                        });
                     }
-                    if (ec)
+                }
+            });
+
+        powerMatchMap.emplace(slotNumber, std::move(powerMatch));
+
+        auto postMatch = std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(*conn),
+            "type='signal',interface='" + std::string(properties::interface) +
+                "',path='" + std::string(path) + "',arg0='" +
+                std::string(post::interface) + "'",
+            [hostStatusCallback, slotNumber](sdbusplus::message_t& message) {
+                std::string objectName;
+                boost::container::flat_map<std::string,
+                                           std::variant<std::string>>
+                    values;
+                message.read(objectName, values);
+                auto findState = values.find(post::property);
+                if (findState != values.end())
+                {
+                    auto& value = std::get<std::string>(findState->second);
+                    auto it = biosHasPost.find(slotNumber);
+                    if (it != biosHasPost.end())
                     {
-                        lg2::error("Timer error: '{ERROR_MESSAGE}'",
-                                   "ERROR_MESSAGE", ec.message());
-                        return;
+                        it->second =
+                            (value != "Inactive") &&
+                            (value !=
+                             "xyz.openbmc_project.State.OperatingSystem."
+                             "Status.OSStatus.Inactive");
+                        hostStatusCallback(PowerState::biosPost, it->second,
+                                           slotNumber);
                     }
-                    chassisStatusOn = true;
-                    hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
-                });
-            }
-        });
-    getPowerStatus(conn);
-    getPostStatus(conn);
-    getChassisStatus(conn);
+                }
+            });
+        postMatchMap.emplace(slotNumber, std::move(postMatch));
+        getPowerStatus(conn, slotNumber);
+        getPostStatus(conn, slotNumber);
+    }
+
+    /* Get chassis paths */
+    GetSubTreePathsType chassisSubTreePaths;
+
+    try
+    {
+        auto method =
+            conn->new_method_call(mapper::busName, mapper::path,
+                                  mapper::interface, mapper::subtreepaths);
+        method.append("/xyz/openbmc_project/state", depth,
+                      GetSubTreePathsType({chassis::interface}));
+        auto reply = conn->call(method);
+        reply.read(chassisSubTreePaths);
+    }
+    catch (sdbusplus::exception_t& e)
+    {
+        lg2::error("Error getting chassis subtree paths: '{ERROR_MESSAGE}'",
+                   "ERROR_MESSAGE", e.what());
+
+        return;
+    }
+
+    for (const auto& path : chassisSubTreePaths)
+    {
+        auto pos = path.rfind("/chassis");
+        if (pos == std::string::npos)
+        {
+            lg2::error("Missing '/chassis' in path: '{PATH}'", "PATH", path);
+            return;
+        }
+
+        pos += std::string("/chassis").size();
+        if (pos >= path.size())
+        {
+            lg2::error("No slot number after '/chassis' in path: '{PATH}'",
+                       "PATH", path);
+            return;
+        }
+
+        std::string_view numberStr(path.data() + pos, path.size() - pos);
+
+        size_t slotNumber = 0;
+
+        auto [ptr, ec] = std::from_chars(numberStr.data(),
+                                         numberStr.data() + numberStr.size(),
+                                         slotNumber, 10);
+        if (ec != std::errc{} || ptr != numberStr.data() + numberStr.size())
+        {
+            lg2::error("Error parsing slot number from path: '{PATH}'", "PATH",
+                       path);
+            return;
+        }
+
+        chassisStatusOn.emplace(slotNumber, false);
+        chassisReqPowerTransOff.emplace(slotNumber, false);
+
+        auto matchIt = chassisMatchMap.find(slotNumber);
+        if (matchIt != chassisMatchMap.end())
+        {
+            continue;
+        }
+
+        if constexpr (debug)
+        {
+            lg2::info("Setting up Chassis {SLOTID} signal match", "SLOTID",
+                      slotNumber);
+        }
+
+        auto timerChassisOn = timerChassisStatusVec.emplace_back(
+            std::make_shared<boost::asio::steady_timer>(
+                conn->get_io_context()));
+
+        auto chassisMatch = std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(*conn),
+            "type='signal',interface='" + std::string(properties::interface) +
+                "',path='" + std::string(path) + "',arg0='" +
+                std::string(chassis::interface) + "'",
+            [hostStatusCallback, timerChassisOn,
+             slotNumber](sdbusplus::message_t& message) {
+                std::string objectName;
+                boost::container::flat_map<std::string,
+                                           std::variant<std::string>>
+                    values;
+                message.read(objectName, values);
+
+                if constexpr (debug)
+                {
+                    lg2::info(
+                        "Received Chassis {SLOTID} chassis power change signal",
+                        "SLOTID", slotNumber);
+                }
+
+                auto findState = values.find(chassis::property);
+                if (findState != values.end())
+                {
+                    bool on = std::get<std::string>(findState->second)
+                                  .ends_with(chassis::sOn);
+                    auto it = chassisStatusOn.find(slotNumber);
+                    auto itReq = chassisReqPowerTransOff.find(slotNumber);
+                    if (it != chassisStatusOn.end())
+                    {
+                        if (!on)
+                        {
+                            timerChassisOn->cancel();
+                            it->second = false;
+                            hostStatusCallback(PowerState::chassisOn,
+                                               it->second, slotNumber);
+                            if (itReq != chassisReqPowerTransOff.end())
+                            {
+                                itReq->second = true;
+                            }
+                            return;
+                        }
+                        // on comes too quickly
+                        timerChassisOn->expires_after(std::chrono::seconds(10));
+                        timerChassisOn->async_wait(
+                            [hostStatusCallback, it,
+                             slotNumber](boost::system::error_code ec) {
+                                if (ec == boost::asio::error::operation_aborted)
+                                {
+                                    return;
+                                }
+                                if (ec)
+                                {
+                                    lg2::error("Timer error: '{ERROR_MESSAGE}'",
+                                               "ERROR_MESSAGE", ec.message());
+                                    return;
+                                }
+                                it->second = true;
+                                hostStatusCallback(PowerState::chassisOn,
+                                                   it->second, slotNumber);
+                                auto itReq =
+                                    chassisReqPowerTransOff.find(slotNumber);
+                                if (itReq != chassisReqPowerTransOff.end())
+                                {
+                                    itReq->second = false;
+                                }
+                            });
+                    }
+                }
+            });
+        chassisMatchMap.emplace(slotNumber, std::move(chassisMatch));
+        getChassisStatus(conn, slotNumber);
+
+        auto chassisReqPowerTransOffMatch = std::make_unique<
+            sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(*conn),
+            "type='signal',interface='" + std::string(properties::interface) +
+                "',path='" + std::string(path) + "',arg0='" +
+                std::string(chassis::interface) + "'",
+            [hostStatusCallback, slotNumber](sdbusplus::message_t& message) {
+                std::string objectName;
+                boost::container::flat_map<std::string,
+                                           std::variant<std::string>>
+                    values;
+                message.read(objectName, values);
+
+                if constexpr (debug)
+                {
+                    lg2::info(
+                        "Received Chassis {SLOTID} chassis power request signal",
+                        "SLOTID", slotNumber);
+                }
+
+                auto findRequested =
+                    values.find(chassis::propRequestedPowerTransition);
+                if (findRequested != values.end())
+                {
+                    bool rOff = std::get<std::string>(findRequested->second)
+                                    .ends_with(chassis::rOff);
+                    auto itReq = chassisReqPowerTransOff.find(slotNumber);
+                    if (itReq != chassisReqPowerTransOff.end())
+                    {
+                        itReq->second = rOff;
+                    }
+                }
+            });
+        chassisReqPowerTransOffMatchMap.emplace(
+            slotNumber, std::move(chassisReqPowerTransOffMatch));
+    }
 }
 
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
-    setupPowerMatchCallback(conn, [](PowerState, bool) {});
+    setupPowerMatchCallback(conn, [](PowerState, bool, size_t) {});
 }
 
 // replaces limits if MinReading and MaxReading are found.
