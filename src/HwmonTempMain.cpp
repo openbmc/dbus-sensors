@@ -428,6 +428,7 @@ void createSensors(
 
                 float pollRate = getPollRate(baseConfigMap, pollRateDefault);
                 PowerState readState = getPowerState(baseConfigMap);
+                size_t readSlot = getSlotId(baseConfigMap);
 
                 auto permitSet = getPermitSet(baseConfigMap);
                 auto& sensor = sensors[sensorName];
@@ -453,7 +454,8 @@ void createSensors(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
                             std::move(sensorThresholds), thisSensorParameters,
-                            pollRate, interfacePath, readState, i2cDev);
+                            pollRate, interfacePath, readState, i2cDev,
+                            readSlot);
                         sensor->setupRead();
                     }
                 }
@@ -515,7 +517,8 @@ void createSensors(
                                 *hwmonFile, sensorType, objectServer,
                                 dbusConnection, io, sensorName,
                                 std::move(thresholds), thisSensorParameters,
-                                pollRate, interfacePath, readState, i2cDev);
+                                pollRate, interfacePath, readState, i2cDev,
+                                readSlot);
                             sensor->setupRead();
                         }
                     }
@@ -589,7 +592,11 @@ static void powerStateChanged(
         {
             if (sensor != nullptr && sensor->readState == type)
             {
-                sensor->deactivate();
+                if ((type == PowerState::chassisOn) &&
+                    (!isChassisOn(sensor->slotId)))
+                {
+                    sensor->deactivate();
+                }
             }
         }
     }
