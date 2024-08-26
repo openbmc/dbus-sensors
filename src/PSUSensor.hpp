@@ -25,7 +25,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const PowerState& powerState, const std::string& sensorUnits,
               unsigned int factor, double max, double min, double offset,
               const std::string& label, size_t tSize, double pollRate,
-              const std::shared_ptr<I2CDevice>& i2cDevice);
+              const std::shared_ptr<I2CDevice>& i2cDevice,
+              const size_t& slotId);
     ~PSUSensor() override;
     void setupRead();
     void activate();
@@ -61,6 +62,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     static constexpr double defaultSensorPoll = 1.0;
     static constexpr unsigned int defaultSensorPollMs =
         static_cast<unsigned int>(defaultSensorPoll * 1000);
+    size_t slotId;
 };
 
 class PSUProperty

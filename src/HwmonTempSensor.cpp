@@ -57,16 +57,16 @@ HwmonTempSensor::HwmonTempSensor(
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const struct SensorParams& thisSensorParameters, const float pollRate,
     const std::string& sensorConfiguration, const PowerState powerState,
-    const std::shared_ptr<I2CDevice>& i2cDevice) :
+    const std::shared_ptr<I2CDevice>& i2cDevice, const size_t& slotId) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
-           conn, powerState),
+           conn, powerState, slotId),
     i2cDevice(i2cDevice), objServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), offsetValue(thisSensorParameters.offsetValue),
     scaleValue(thisSensorParameters.scaleValue),
-    sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
+    sensorPollMs(static_cast<unsigned int>(pollRate * 1000)), slotId(slotId)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName + "/" +
