@@ -32,15 +32,15 @@ class HwmonTempSensor :
     public std::enable_shared_from_this<HwmonTempSensor>
 {
   public:
-    HwmonTempSensor(const std::string& path, const std::string& objectType,
-                    sdbusplus::asio::object_server& objectServer,
-                    std::shared_ptr<sdbusplus::asio::connection>& conn,
-                    boost::asio::io_context& io, const std::string& sensorName,
-                    std::vector<thresholds::Threshold>&& thresholds,
-                    const struct SensorParams& thisSensorParameters,
-                    float pollRate, const std::string& sensorConfiguration,
-                    PowerState powerState,
-                    const std::shared_ptr<I2CDevice>& i2cDevice);
+    HwmonTempSensor(
+        const std::string& path, const std::string& objectType,
+        sdbusplus::asio::object_server& objectServer,
+        std::shared_ptr<sdbusplus::asio::connection>& conn,
+        boost::asio::io_context& io, const std::string& sensorName,
+        std::vector<thresholds::Threshold>&& thresholds,
+        const struct SensorParams& thisSensorParameters, float pollRate,
+        const std::string& sensorConfiguration, PowerState powerState,
+        const std::shared_ptr<I2CDevice>& i2cDevice, const size_t slotId);
     ~HwmonTempSensor() override;
     void setupRead();
     void activate(const std::string& newPath,
