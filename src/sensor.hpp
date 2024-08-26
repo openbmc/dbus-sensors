@@ -72,7 +72,7 @@ struct Sensor
            const std::string& configurationPath, const std::string& objectType,
            bool isSettable, bool isMutable, const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
-           PowerState readState = PowerState::always) :
+           PowerState readState = PowerState::always, size_t slotId = 0) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath),
         configInterface(configInterfaceName(objectType)),
@@ -80,7 +80,7 @@ struct Sensor
         minValue(min), thresholds(std::move(thresholdData)),
         hysteresisTrigger((max - min) * 0.01),
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
-        readState(readState),
+        readState(readState), slotId(slotId),
         instrumentation(enableInstrumentation
                             ? std::make_unique<SensorInstrumentation>()
                             : nullptr)
@@ -114,6 +114,7 @@ struct Sensor
     double hysteresisPublish;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
+    size_t slotId;
     size_t errCount{0};
     std::unique_ptr<SensorInstrumentation> instrumentation;
 
@@ -436,7 +437,7 @@ struct Sensor
 
     bool readingStateGood() const
     {
-        return ::readingStateGood(readState);
+        return ::readingStateGood(readState, slotId);
     }
 
     void markFunctional(bool isFunctional)
