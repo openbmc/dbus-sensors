@@ -435,6 +435,7 @@ void createSensors(
 
                 float pollRate = getPollRate(baseConfigMap, pollRateDefault);
                 PowerState readState = getPowerState(baseConfigMap);
+                size_t readSlot = getSlotId(baseConfigMap);
 
                 auto permitSet = getPermitSet(baseConfigMap);
                 auto& sensor = sensors[sensorName];
@@ -460,7 +461,8 @@ void createSensors(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
                             std::move(sensorThresholds), thisSensorParameters,
-                            pollRate, interfacePath, readState, i2cDev);
+                            pollRate, interfacePath, readState, i2cDev,
+                            readSlot);
                         sensor->setupRead();
                     }
                 }
@@ -522,7 +524,8 @@ void createSensors(
                                 *hwmonFile, sensorType, objectServer,
                                 dbusConnection, io, sensorName,
                                 std::move(thresholds), thisSensorParameters,
-                                pollRate, interfacePath, readState, i2cDev);
+                                pollRate, interfacePath, readState, i2cDev,
+                                readSlot);
                             sensor->setupRead();
                         }
                     }
@@ -580,7 +583,7 @@ void interfaceRemoved(
 }
 
 static void powerStateChanged(
-    PowerState type, bool newState,
+    PowerState type, bool newState, size_t slotId,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
         sensors,
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -596,7 +599,11 @@ static void powerStateChanged(
         {
             if (sensor != nullptr && sensor->readState == type)
             {
-                sensor->deactivate();
+                if ((slotId == sensor->slotId) &&
+                    (type == PowerState::chassisOn))
+                {
+                    sensor->deactivate();
+                }
             }
         }
     }
@@ -615,9 +622,10 @@ int main()
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
-    auto powerCallBack = [&sensors, &io, &objectServer,
-                          &systemBus](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+    auto powerCallBack = [&sensors, &io, &objectServer, &systemBus](
+                             PowerState type, bool state, size_t slotId) {
+        powerStateChanged(type, state, slotId, sensors, io, objectServer,
+                          systemBus);
     };
     setupPowerMatchCallback(systemBus, powerCallBack);
 
