@@ -179,6 +179,7 @@ static void handleSensorConfigurations(
         std::optional<std::string> sensorName =
             extractSensorName(interfacePath, sensorConfig);
         uint8_t slaveAddr = extractSlaveAddr(interfacePath, sensorConfig);
+        size_t readSlot = getSlotId(sensorConfig);
         std::optional<int> rootBus = deriveRootBus(busNumber);
 
         if (!(busNumber && sensorName && rootBus))
@@ -205,7 +206,7 @@ static void handleSensorConfigurations(
                 std::make_shared<NVMeSensor>(
                     objectServer, io, dbusConnection, *sensorName,
                     std::move(sensorThresholds), interfacePath, *busNumber,
-                    slaveAddr);
+                    slaveAddr, readSlot);
 
             context->addSensor(sensorPtr);
         }
