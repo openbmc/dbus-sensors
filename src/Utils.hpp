@@ -43,6 +43,7 @@ using ManagedObjectType =
 using GetSubTreeType = std::vector<
     std::pair<std::string,
               std::vector<std::pair<std::string, std::vector<std::string>>>>>;
+using GetSubTreePathsType = std::vector<std::string>;
 using Association = std::tuple<std::string, std::string, std::string>;
 
 inline std::string escapeName(const std::string& sensorName)
@@ -67,9 +68,9 @@ bool findFiles(const std::filesystem::path& dirPath,
                std::string_view matchString,
                std::vector<std::filesystem::path>& foundPaths,
                int symlinkDepth = 1);
-bool isPowerOn();
-bool hasBiosPost();
-bool isChassisOn();
+bool isPowerOn(const size_t& slotId = 0);
+bool hasBiosPost(const size_t& slotId = 0);
+bool isChassisOn(const size_t& slotId = 0);
 void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::function<void(PowerState type, bool state)>&& callback);
@@ -87,7 +88,7 @@ void createAssociation(
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
 
-bool readingStateGood(const PowerState& powerState);
+bool readingStateGood(const PowerState& powerState, const size_t& slotId = 0);
 
 constexpr const char* configInterfacePrefix =
     "xyz.openbmc_project.Configuration.";
@@ -103,6 +104,7 @@ constexpr const char* busName = "xyz.openbmc_project.ObjectMapper";
 constexpr const char* path = "/xyz/openbmc_project/object_mapper";
 constexpr const char* interface = "xyz.openbmc_project.ObjectMapper";
 constexpr const char* subtree = "GetSubTree";
+constexpr const char* subtreepaths = "GetSubTreePaths";
 } // namespace mapper
 
 namespace properties
@@ -114,27 +116,27 @@ constexpr const char* set = "Set";
 
 namespace power
 {
-const static constexpr char* busname = "xyz.openbmc_project.State.Host0";
+const static constexpr char* busname = "xyz.openbmc_project.State.Host";
 const static constexpr char* interface = "xyz.openbmc_project.State.Host";
-const static constexpr char* path = "/xyz/openbmc_project/state/host0";
+const static constexpr char* path = "/xyz/openbmc_project/state/host";
 const static constexpr char* property = "CurrentHostState";
 } // namespace power
 
 namespace chassis
 {
-const static constexpr char* busname = "xyz.openbmc_project.State.Chassis0";
+const static constexpr char* busname = "xyz.openbmc_project.State.Chassis";
 const static constexpr char* interface = "xyz.openbmc_project.State.Chassis";
-const static constexpr char* path = "/xyz/openbmc_project/state/chassis0";
+const static constexpr char* path = "/xyz/openbmc_project/state/chassis";
 const static constexpr char* property = "CurrentPowerState";
 const static constexpr char* sOn = ".On";
 } // namespace chassis
 
 namespace post
 {
-const static constexpr char* busname = "xyz.openbmc_project.State.Host0";
+const static constexpr char* busname = "xyz.openbmc_project.State.Host";
 const static constexpr char* interface =
     "xyz.openbmc_project.State.OperatingSystem.Status";
-const static constexpr char* path = "/xyz/openbmc_project/state/host0";
+const static constexpr char* path = "/xyz/openbmc_project/state/host";
 const static constexpr char* property = "OperatingSystemState";
 } // namespace post
 
@@ -204,6 +206,19 @@ inline PowerState getPowerState(const SensorBaseConfigMap& cfg)
     return state;
 }
 
+inline size_t getSlotId(const SensorBaseConfigMap& cfg)
+{
+    size_t slotId = 0; // If there's no slotId defined, default to chassis0
+    auto findSlotId = cfg.find("SlotId");
+    if (findSlotId != cfg.end())
+    {
+        std::string readSlot =
+            std::visit(VariantToStringVisitor(), findSlotId->second);
+        slotId = std::stod(readSlot);
+    }
+    return slotId;
+}
+
 inline float getPollRate(const SensorBaseConfigMap& cfg, float dflt)
 {
     float pollRate = dflt;
@@ -246,7 +261,8 @@ struct GetSensorConfiguration :
     GetSensorConfiguration(
         std::shared_ptr<sdbusplus::asio::connection> connection,
         std::function<void(ManagedObjectType& resp)>&& callbackFunc) :
-        dbusConnection(std::move(connection)), callback(std::move(callbackFunc))
+        dbusConnection(std::move(connection)),
+        callback(std::move(callbackFunc))
     {}
 
     void getPath(const std::string& path, const std::string& interface,
