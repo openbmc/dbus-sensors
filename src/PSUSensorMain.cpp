@@ -531,6 +531,24 @@ static void createSensorsCallback(
             }
         }
 
+        /* read highest value in sysfs for in, curr... */
+        if (!findFiles(directory, R"(\w\d+_highest$)", sensorPaths, 0))
+        {
+            if constexpr (debug)
+            {
+                std::cerr << "No highest name in PSU \n";
+            }
+        }
+
+        /* read highest value in sysfs for power only*/
+        if (!findFiles(directory, R"(\w\d+_input_highest$)", sensorPaths, 0))
+        {
+            if constexpr (debug)
+            {
+                std::cerr << "No highest name of power in PSU \n";
+            }
+        }
+
         float pollRate = getPollRate(*baseConfig, PSUSensor::defaultSensorPoll);
 
         /* Find array of labels to be exposed if it is defined in config */
@@ -548,6 +566,7 @@ static void createSensorsCallback(
         for (const auto& sensorPath : sensorPaths)
         {
             bool maxLabel = false;
+            bool highestLabel = false;
             std::string labelHead;
             std::string sensorPathStr = sensorPath.string();
             std::string sensorNameStr = sensorPath.filename();
@@ -582,11 +601,26 @@ static void createSensorsCallback(
                                                             "max", "label");
                         maxLabel = true;
                     }
+                     else if (sensorPathStrMax == "_highest")
+                    {
+                        labelPath = boost::replace_all_copy(sensorPathStr,
+                                                            "highest", "label");
+                        highestLabel = true;
+                    }
+                    else if (sensorPathStrMax ==
+                             "_input_highest") /*special handling for
+                                                  powerN_input_highest*/
+                    {
+                        labelPath = boost::replace_all_copy(
+                            sensorPathStr, "input_highest", "label");
+                        highestLabel = true;
+                    }
                     else
                     {
                         labelPath = boost::replace_all_copy(sensorPathStr,
                                                             "input", "label");
                         maxLabel = false;
+                        highestLabel = false;
                     }
                 }
                 else
@@ -684,24 +718,55 @@ static void createSensorsCallback(
             std::string keyMax = labelHead + "_Max";
             std::string keyOffset = labelHead + "_Offset";
             std::string keyPowerState = labelHead + "_PowerState";
+            std::string keyHighestName = labelHead + "_Highest_Name";
 
             bool customizedName = false;
-            auto findCustomName = baseConfig->find(keyName);
-            if (findCustomName != baseConfig->end())
+            bool customizedHighestName = false;
+            if (highestLabel)
             {
-                try
+                auto findCustomHighestName = baseConfig->find(keyHighestName);
+                if (findCustomHighestName != baseConfig->end())
                 {
-                    psuProperty.labelTypeName = std::visit(
-                        VariantToStringVisitor(), findCustomName->second);
+                    try
+                    {
+                        psuProperty.labelTypeName =
+                            std::visit(VariantToStringVisitor(),
+                                       findCustomHighestName->second);
+                    }
+                    catch (const std::invalid_argument&)
+                    {
+                        std::cerr << "Unable to parse " << keyHighestName << "\n";
+                        continue;
+                    }
+                    // All strings are valid, including empty string
+                    customizedHighestName = true;
                 }
-                catch (const std::invalid_argument&)
+                else
                 {
-                    std::cerr << "Unable to parse " << keyName << "\n";
+                    std::cout << "only accept customized highest name"
+                              << psuProperty.labelTypeName << "\n";
                     continue;
                 }
+            }
+            else
+            {
+                auto findCustomName = baseConfig->find(keyName);
+                if (findCustomName != baseConfig->end())
+                {
+                    try
+                    {
+                        psuProperty.labelTypeName = std::visit(
+                            VariantToStringVisitor(), findCustomName->second);
+                    }
+                    catch (const std::invalid_argument&)
+                    {
+                        std::cerr << "Unable to parse " << keyName << "\n";
+                        continue;
+                    }
 
-                // All strings are valid, including empty string
-                customizedName = true;
+                    // All strings are valid, including empty string
+                    customizedName = true;
+                }
             }
 
             bool customizedScale = false;
@@ -899,7 +964,7 @@ static void createSensorsCallback(
             }
 
             std::string sensorName = psuProperty.labelTypeName;
-            if (customizedName)
+            if (customizedName || customizedHighestName)
             {
                 if (sensorName.empty())
                 {
