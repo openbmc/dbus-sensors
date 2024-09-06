@@ -519,15 +519,15 @@ int main()
     if (initializeLanStatus(systemBus))
     {
         // add match to monitor lan status change
-        sdbusplus::bus::match_t lanStatusMatch(
+        matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
             static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal', member='PropertiesChanged',"
             "arg0namespace='org.freedesktop.network1.Link'",
-            [](sdbusplus::message_t& msg) { processLanStatusChange(msg); });
+            [](sdbusplus::message_t& msg) { processLanStatusChange(msg); }));
 
         // add match to monitor entity manager signal about nic name config
         // change
-        sdbusplus::bus::match_t lanConfigMatch(
+        matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
             static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal', member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" +
@@ -539,7 +539,7 @@ int main()
                     return;
                 }
                 getNicNameInfo(systemBus);
-            });
+            }));
     }
 
     io.run();
