@@ -325,7 +325,10 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     auto findEthNum = pathSuffixMap.find(suffixStr);
     if (findEthNum == pathSuffixMap.end())
     {
-        std::cerr << "unexpected eth for suffixStr " << suffixStr << "\n";
+        if (debugLanLeash)
+        {
+            std::cerr << "unexpected eth for suffixStr " << suffixStr << "\n";
+        }
         return;
     }
     int ethNum = findEthNum->second;
@@ -334,7 +337,10 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     auto findLanStatus = lanStatusMap.find(ethNum);
     if (findLanStatus == lanStatusMap.end())
     {
-        std::cerr << "unexpected eth " << ethNum << " in lanStatusMap \n";
+        if (debugLanLeash)
+        {
+            std::cerr << "unexpected eth " << ethNum << " in lanStatusMap \n";
+        }
         return;
     }
     bool oldLanConnected = findLanStatus->second;
