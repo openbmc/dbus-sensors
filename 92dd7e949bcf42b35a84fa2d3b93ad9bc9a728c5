@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2b44c3d_863463e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001816
+      },
+      "writtenOn": "2024-09-06T21:59:29Z",
+      "side": 1,
+      "message": "Hi Andrew, I\u0027m working on the upstream plan of SPDM Daemon. It has a dependency on Mctpreactor for getting Eid/Nid info. I\u0027m wondering what\u0027s the plan/timeline forward to get this patch merged? Thanks!",
+      "revId": "92dd7e949bcf42b35a84fa2d3b93ad9bc9a728c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb628127_934acb40",
