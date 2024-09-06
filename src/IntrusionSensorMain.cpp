@@ -346,7 +346,12 @@ static void processLanStatusChange(sdbusplus::message_t& message)
         auto findLanInfo = lanInfoMap.find(ethNum);
         if (findLanInfo == lanInfoMap.end())
         {
-            std::cerr << "unexpected eth " << ethNum << " in lanInfoMap \n";
+            if (debugLanLeash)
+            {
+                std::cerr << "unexpected eth " << ethNum << " in lanInfoMap \n";
+            }
+            // Not to update and show the status for unconfigured lan
+            return;
         }
         else
         {
