@@ -313,8 +313,11 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     auto findEthNum = pathSuffixMap.find(suffixStr);
     if (findEthNum == pathSuffixMap.end())
     {
-        lg2::error("unexpected eth for suffixStr '{SUFFIX}'", "SUFFIX",
-                   suffixStr);
+        if (debugLanLeash)
+        {
+            lg2::error("unexpected eth for suffixStr '{SUFFIX}'", "SUFFIX",
+                       suffixStr);
+        }
         return;
     }
     int ethNum = findEthNum->second;
@@ -323,8 +326,6 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     auto findLanStatus = lanStatusMap.find(ethNum);
     if (findLanStatus == lanStatusMap.end())
     {
-        lg2::error("unexpected eth{ETH_INDEX} is lanStatusMap", "ETH_INDEX",
-                   ethNum);
         return;
     }
     bool oldLanConnected = findLanStatus->second;
@@ -334,12 +335,7 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     if (!lanInfoMap.empty())
     {
         auto findLanInfo = lanInfoMap.find(ethNum);
-        if (findLanInfo == lanInfoMap.end())
-        {
-            lg2::error("unexpected eth{ETH_INDEX} is lanInfoMap", "ETH_INDEX",
-                       ethNum);
-        }
-        else
+        if (findLanInfo != lanInfoMap.end())
         {
             lanInfo = "(" + findLanInfo->second + ")";
         }
@@ -511,7 +507,9 @@ int main()
             "type='signal', member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" +
                 configInterfaceName(nicType) + "'",
-            [&systemBus](sdbusplus::message_t&) { getNicNameInfo(systemBus); }));
+            [&systemBus](sdbusplus::message_t&) {
+                getNicNameInfo(systemBus);
+            }));
     }
 
     io.run();
