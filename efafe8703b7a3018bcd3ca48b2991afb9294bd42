@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "becacef4_7aa99c02",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-10T18:15:21Z",
+      "side": 1,
+      "message": "These again should be rare and I think are valuable for failure analysis and it is maintaining same functionality as from before refactor.",
+      "parentUuid": "81c3bb5a_0c259f82",
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd6f1ab9_67e646bd",
@@ -66,6 +84,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "20984b40_0eb258bc",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-10T18:15:21Z",
+      "side": 1,
+      "message": "This commit was a refactor (no new features).",
+      "parentUuid": "fd6f1ab9_67e646bd",
+      "range": {
+        "startLine": 8,
+        "startChar": 21,
+        "endLine": 8,
+        "endChar": 49
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7c0e02b_571ec518",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-10T18:15:21Z",
+      "side": 1,
+      "message": "Are you saying the class needs to be renamed?",
+      "parentUuid": "15728dc1_fa730942",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 20
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd71d339_ddc8eb49",
         "filename": "src/PresenceSensor.hpp",
         "patchSetId": 19
@@ -77,6 +143,24 @@
       "writtenOn": "2024-09-10T17:26:02Z",
       "side": 1,
       "message": "This doesn\u0027t exist in the redfish message registry for all types, and this is certainly not an argument that can be taken directly from a string.  Where did this come from?\n\nnit: std::format would make this clearer",
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a44069f_7fcf1eb6",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-10T18:15:21Z",
+      "side": 1,
+      "message": "Anyone adding new types would need to add it to the registry. There is only one type in use today. Original code had it hardcoded as Fan, which also would not be correct for other new types.",
+      "parentUuid": "bd71d339_ddc8eb49",
       "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -94,6 +178,30 @@
       "writtenOn": "2024-09-10T17:26:02Z",
       "side": 1,
       "message": "why are we posted the type that got removed?  Generally we would post the name.",
+      "range": {
+        "startLine": 38,
+        "startChar": 30,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af6d4007_8d56c6e9",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-10T18:15:21Z",
+      "side": 1,
+      "message": "These should be rare (only during maintenance), but I would think it would be important to know that a device got removed. This was again just maintaining functionality from refactor (TachSensor.hpp). I can add name if you would like.",
+      "parentUuid": "8875385b_7f5f5aa9",
       "range": {
         "startLine": 38,
         "startChar": 30,
@@ -127,6 +235,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed47b7b_5ea12065",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-10T18:15:21Z",
+      "side": 1,
+      "message": "This is maintaining same functionality from refactor. This has to match the registry, so I would think we do not want name here.",
+      "parentUuid": "50d77d6d_d84237a6",
+      "range": {
+        "startLine": 39,
+        "startChar": 43,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eb7e660_37a7e149",
@@ -140,6 +272,30 @@
       "writtenOn": "2024-09-10T17:26:02Z",
       "side": 1,
       "message": "Please prefer composition here instead of (multiple) inheritance.\n\nAlso, any reason we separated the classes like this?  It\u0027s not really a problem, but I don\u0027t see any usage of PresenceSensor except for here.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3212b68_332c2a93",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-10T18:15:21Z",
+      "side": 1,
+      "message": "The reason it was separated was in preparation for the GPIO Polling presence detection. (this was part of same commit, but I split as requested into refactor / new function).",
+      "parentUuid": "6eb7e660_37a7e149",
       "range": {
         "startLine": 48,
         "startChar": 0,
