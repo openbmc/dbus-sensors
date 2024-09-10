@@ -216,6 +216,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
         if (readingStateGood())
         {
             std::cerr << name << " read failed\n";
+            incrementError();
         }
         restartRead();
         return;
