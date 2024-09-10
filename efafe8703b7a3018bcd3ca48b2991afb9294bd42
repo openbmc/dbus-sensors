@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81c3bb5a_0c259f82",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-10T17:26:02Z",
+      "side": 1,
+      "message": "Won\u0027t this cause it to spam the logs?",
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd6f1ab9_67e646bd",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-10T17:26:02Z",
+      "side": 1,
+      "message": "We generally don\u0027t use boost::noncopyable in dbus-sensors, we generally make things noncopyable manually by declaring the 4 constructors.\n\nI could certainly discuss something where we should use boost::noncopyable more, but not in a code review adding new features.  Please follow what we\u0027ve done elsewhere.",
+      "range": {
+        "startLine": 8,
+        "startChar": 21,
+        "endLine": 8,
+        "endChar": 49
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15728dc1_fa730942",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-10T17:26:02Z",
+      "side": 1,
+      "message": "this was wrong before, but worth calling out, Please don\u0027t use the term \"Sensor\" when referring the presence.  They are different things.",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 20
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd71d339_ddc8eb49",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-10T17:26:02Z",
+      "side": 1,
+      "message": "This doesn\u0027t exist in the redfish message registry for all types, and this is certainly not an argument that can be taken directly from a string.  Where did this come from?\n\nnit: std::format would make this clearer",
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8875385b_7f5f5aa9",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-10T17:26:02Z",
+      "side": 1,
+      "message": "why are we posted the type that got removed?  Generally we would post the name.",
+      "range": {
+        "startLine": 38,
+        "startChar": 30,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d77d6d_d84237a6",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-10T17:26:02Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 39,
+        "startChar": 43,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eb7e660_37a7e149",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-10T17:26:02Z",
+      "side": 1,
+      "message": "Please prefer composition here instead of (multiple) inheritance.\n\nAlso, any reason we separated the classes like this?  It\u0027s not really a problem, but I don\u0027t see any usage of PresenceSensor except for here.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
