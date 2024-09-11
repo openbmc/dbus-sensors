@@ -34,6 +34,24 @@
       "parentUuid": "bbecd11a_848f6ba3",
       "revId": "c9ca682039a646adee12bcb0af9209e346778f1a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0273fb_e18eecf4",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-11T23:58:49Z",
+      "side": 1,
+      "message": "The properties exposed on DBus by EM are an ABI that needs to be agreed on by both EM and any consuming applications such as those in dbus-sensors. In the EM repository are a set of json-schema files that define what EM can expose and what the applications can consume. If you want to add a new property such as `SlotId`, this first needs to be added to the json-schema in the EM repository. The point of _that_ exercise is that you get agreement from the community on whether this is an acceptable idea.",
+      "parentUuid": "0a859033_f2dd3a85",
+      "revId": "c9ca682039a646adee12bcb0af9209e346778f1a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
