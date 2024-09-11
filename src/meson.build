@@ -236,3 +236,19 @@ if get_option('external').allowed()
         install: true,
     )
 endif
+
+if get_option('gpio-presence').enabled()
+    executable(
+        'gpio-presence-sensor',
+        'GPIOPresenceSensor/Config.cpp',
+        'GPIOPresenceSensor/GPIOPresenceSensor.cpp',
+        'GPIOPresenceSensor/GPIOPresenceSensorMain.cpp',
+        dependencies: [
+            default_deps,
+            gpiodcxx,
+        ],
+        implicit_include_directories: false,
+        include_directories: '../include',
+        install: true
+    )
+endif
