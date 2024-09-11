@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbecd11a_848f6ba3",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-11T06:47:35Z",
+      "side": 1,
+      "message": "Have you proposed an EM schema update for this? Can you please provide the link to the patch?",
+      "revId": "c9ca682039a646adee12bcb0af9209e346778f1a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
