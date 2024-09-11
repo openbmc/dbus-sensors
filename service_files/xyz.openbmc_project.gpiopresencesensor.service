@@ -1,0 +1,12 @@
+[Unit]
+Description=Gpio Presence detect
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
+
+[Service]
+Restart=always
+RestartSec=5
+ExecStart=/usr/bin/gpio-presence-sensor
+
+[Install]
+WantedBy=multi-user.target
