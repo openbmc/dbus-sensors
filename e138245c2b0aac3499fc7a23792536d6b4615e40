@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a1357d9_fb011f40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-12T02:29:43Z",
+      "side": 1,
+      "message": "If hwmon uses \u0027highest\u0027, why are we choosing \u0027peak\u0027?",
+      "revId": "e138245c2b0aac3499fc7a23792536d6b4615e40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
