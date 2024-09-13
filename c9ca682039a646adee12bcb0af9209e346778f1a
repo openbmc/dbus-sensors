@@ -88,6 +88,24 @@
       "parentUuid": "43c87fab_be7c794a",
       "revId": "c9ca682039a646adee12bcb0af9209e346778f1a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b79136dc_1e2042b7",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-13T06:01:53Z",
+      "side": 1,
+      "message": "I added the link into commit message, thank you for the advice!",
+      "parentUuid": "fd58027f_14bf036d",
+      "revId": "c9ca682039a646adee12bcb0af9209e346778f1a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
