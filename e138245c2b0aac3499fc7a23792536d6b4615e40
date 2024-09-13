@@ -34,6 +34,24 @@
       "parentUuid": "9a1357d9_fb011f40",
       "revId": "e138245c2b0aac3499fc7a23792536d6b4615e40",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2e01e9_eb1a41e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-13T05:04:23Z",
+      "side": 1,
+      "message": "Which device\u0027s registers? You\u0027re talking through the hwmon abstraction here, it is less surprising to me if you follow its conventions.",
+      "parentUuid": "99e0cef7_a8ebf333",
+      "revId": "e138245c2b0aac3499fc7a23792536d6b4615e40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
