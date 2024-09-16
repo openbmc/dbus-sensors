@@ -70,6 +70,24 @@
       "parentUuid": "4a2e01e9_eb1a41e3",
       "revId": "e138245c2b0aac3499fc7a23792536d6b4615e40",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32f36174_8f12738d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-16T05:00:53Z",
+      "side": 1,
+      "message": "Right, but given this is abstracted via hwmon, I don\u0027t see why we shouldn\u0027t choose the hwmon vocabulary over that of some specific device. 0xd0 is in the manufacturer command space of PMBus. Some other device might make some other choice. hwmon is at least the focal point of consistency. You can point here:\n\nhttps://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/ABI/testing/sysfs-class-hwmon?h\u003dv6.11#n108",
+      "parentUuid": "eb918c17_3faff55d",
+      "revId": "e138245c2b0aac3499fc7a23792536d6b4615e40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
