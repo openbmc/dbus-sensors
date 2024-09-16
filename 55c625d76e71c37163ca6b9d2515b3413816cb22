@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49881e67_52599e37",
+        "filename": "src/GPIOPresenceSensor/Interfaces.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-09-16T22:49:13Z",
+      "side": 1,
+      "message": "Shouldn\u0027t all these come from phosphor-dbus-interfaces or there is no plan to add the Configuration interfaces there?",
+      "revId": "55c625d76e71c37163ca6b9d2515b3413816cb22",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
