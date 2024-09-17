@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b168a32a_020a4efb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T19:01:52Z",
+      "side": 1,
+      "message": "LGTM - leave it up for couple days to see if there is any additional comments. If, not, i will give +2 and merge",
+      "revId": "60d01be1d1555d9e7b48566df7c3189faa81437d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
