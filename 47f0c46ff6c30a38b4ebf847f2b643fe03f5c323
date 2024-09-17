@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07cf1974_c8374d9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T20:18:57Z",
+      "side": 1,
+      "message": "Is this required? Why is it a problem if eth is detected, but not configure in entity-manager to have a log message?",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "47f0c46ff6c30a38b4ebf847f2b643fe03f5c323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cd6769e_22c4eeb1",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T20:18:57Z",
+      "side": 1,
+      "message": "If the requirement is that NIC has to be configured in entity-manager to have log message (which i have a question in the commit message section), should it also return if the lanInfoMap is empty?",
+      "revId": "47f0c46ff6c30a38b4ebf847f2b643fe03f5c323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
