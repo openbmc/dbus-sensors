@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t all these come from phosphor-dbus-interfaces or there is no plan to add the Configuration interfaces there?",
       "revId": "55c625d76e71c37163ca6b9d2515b3413816cb22",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69aa2e99_d70acfe6",
+        "filename": "src/GPIOPresenceSensor/Interfaces.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-09-17T09:32:20Z",
+      "side": 1,
+      "message": "Ideally yes. But right now phosphor-dbus-interfaces does not have the configuration interfaces.\n\n```\nphosphor-dbus-interfaces/yaml/xyz/openbmc_project/\n```\ndoes not have \u0027Configuration\u0027 directory.\n\nThe second interface (when the hw is detected) can be done in PDI.\n(It will not be a \u0027Configuration\u0027 interface, since those belong to EM)\n\nI would not like to make an exception with our configuration interface here and put it into PDI. Without someone committed to make that effort for all the Configuration interfaces, it would just further increase the inconsistency.",
+      "parentUuid": "49881e67_52599e37",
+      "revId": "55c625d76e71c37163ca6b9d2515b3413816cb22",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
