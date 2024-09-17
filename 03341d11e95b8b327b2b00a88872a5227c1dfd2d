@@ -138,6 +138,24 @@
       "message": "The higher level code calling this function doesn\u0027t really handle errors correctly, since I thought we wanted errors to show up as a specific value (NaN), but this 0 is at least better than what it was previously doing.",
       "revId": "03341d11e95b8b327b2b00a88872a5227c1dfd2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd374e83_d0c5cb20",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T20:36:20Z",
+      "side": 1,
+      "message": "Agreed. +2 this patch as it is an improvement.",
+      "parentUuid": "05e0956d_2ac81893",
+      "revId": "03341d11e95b8b327b2b00a88872a5227c1dfd2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
