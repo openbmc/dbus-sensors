@@ -16,6 +16,24 @@
       "message": "I\u0027ve +2\u0027ed this, but is it really the case that the present field is absent? Is it optional?",
       "revId": "19dc7088f9ccfa6d7de707c8c4b9e1ca1c118671",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b88aa70f_5066ee31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T20:23:43Z",
+      "side": 1,
+      "message": "because it can be a property changed signal not related to present",
+      "parentUuid": "43e623eb_2c6bdbb5",
+      "revId": "19dc7088f9ccfa6d7de707c8c4b9e1ca1c118671",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
