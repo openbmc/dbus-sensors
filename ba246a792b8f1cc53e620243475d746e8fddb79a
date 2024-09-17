@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "736f500f_cbf78524",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T18:23:25Z",
+      "side": 1,
+      "message": "These lines are common with lines 53 - 65. Move it to base class",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 5
+      },
+      "revId": "ba246a792b8f1cc53e620243475d746e8fddb79a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cae63b1_cdbf4c56",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T18:23:25Z",
+      "side": 1,
+      "message": "move this logic inside updateAndTracePresence since it also calls gpioLine.get_value or remove the get_value call inside updateAndTracePresence and add a parameter for \"newStatus\"",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 5
+      },
+      "revId": "ba246a792b8f1cc53e620243475d746e8fddb79a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
