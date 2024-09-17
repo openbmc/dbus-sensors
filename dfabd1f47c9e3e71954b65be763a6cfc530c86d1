@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7dc67ec_6bc505b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T23:14:34Z",
+      "side": 1,
+      "message": "Have you thought about have different service instance for different host, i.e. have psusensor0.service, psusensor1.service etc? I am not suggesting it, rather just would like to know if you considered the option or not.",
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36d33b4a_da2e0861",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T23:14:34Z",
+      "side": 1,
+      "message": "which slotId is this newState for?",
+      "range": {
+        "startLine": 582,
+        "startChar": 8,
+        "endLine": 582,
+        "endChar": 16
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a01f182_2f41844f",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T23:14:34Z",
+      "side": 1,
+      "message": "Why are these not replaced by vector below?",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 71
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a72bd4_6f289e50",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-17T23:14:34Z",
+      "side": 1,
+      "message": "need to test it is valid. Multiple places in this patch",
+      "range": {
+        "startLine": 431,
+        "startChar": 12,
+        "endLine": 431,
+        "endChar": 16
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
