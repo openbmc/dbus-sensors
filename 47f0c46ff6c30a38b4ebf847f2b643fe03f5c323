@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e67dd4f_d2d87cec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2024-09-18T06:57:00Z",
+      "side": 1,
+      "message": "We used to have a issue that eth1 is unstable and it will make eth1 link up and down many times.\n\nDuring debug this issue we found that not only ```systemd-networkd``` will send a lot of log, but also ```intrusionsensor``` even if we have not add the NIC config for eth1.\n\nAnd then I add this change to make journal be cleaner so as to focus on the log in ```systemd-networkd``` and other journal message.\n\nThe log for ethernet in ```intrusionsensor``` looks similar as the log in ```systemd-networkd```.\n\nHowever, the log in ```systemd-networkd``` have more details, so the log in ```intrusionsensor``` is kind of duplicated to me.\n\nIt might not be required, but it can remove the unneeded log in this sensor.",
+      "parentUuid": "07cf1974_c8374d9d",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "47f0c46ff6c30a38b4ebf847f2b643fe03f5c323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cd6769e_22c4eeb1",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-09-17T20:18:57Z",
       "side": 1,
       "message": "If the requirement is that NIC has to be configured in entity-manager to have log message (which i have a question in the commit message section), should it also return if the lanInfoMap is empty?",
+      "revId": "47f0c46ff6c30a38b4ebf847f2b643fe03f5c323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfd155e1_07629ad1",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2024-09-18T06:57:00Z",
+      "side": 1,
+      "message": "Oh.. I miss this situation, it should not update and directly return when laninfoMap is empty.\nUpdate in newest patchset.",
+      "parentUuid": "0cd6769e_22c4eeb1",
       "revId": "47f0c46ff6c30a38b4ebf847f2b643fe03f5c323",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
