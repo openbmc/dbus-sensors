@@ -65,6 +65,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55711b5b_d2e3add9",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-19T20:16:39Z",
+      "side": 1,
+      "message": "What action should we be taking when we are not able to create the GPIO presence object? I will add catch in FanMain and that would basically ignore that GPIO missing (similar behavior to before)",
+      "parentUuid": "2c4638bd_173bb855",
+      "range": {
+        "startLine": 57,
+        "startChar": 1,
+        "endLine": 57,
+        "endChar": 68
+      },
+      "revId": "ba246a792b8f1cc53e620243475d746e8fddb79a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "736f500f_cbf78524",
@@ -112,6 +136,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b62a8d0f_8b1629c9",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-19T20:16:39Z",
+      "side": 1,
+      "message": "The gpioLine.request is different, which is the point of the two different objects (event driven uses EVENT_BOTH_EDGES and polling uses DIRECTION_INPUT).\nI can move the code up to that point to base class.",
+      "parentUuid": "0a71ae68_97d37d77",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 5
+      },
+      "revId": "ba246a792b8f1cc53e620243475d746e8fddb79a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cae63b1_cdbf4c56",
@@ -125,6 +173,30 @@
       "writtenOn": "2024-09-17T18:23:25Z",
       "side": 1,
       "message": "move this logic inside updateAndTracePresence since it also calls gpioLine.get_value or remove the get_value call inside updateAndTracePresence and add a parameter for \"newStatus\"",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 5
+      },
+      "revId": "ba246a792b8f1cc53e620243475d746e8fddb79a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d6cd1e6_6e75a962",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-19T20:16:39Z",
+      "side": 1,
+      "message": "The event based GPIOs do not need this check. If an event was triggered, that means that the state should have changed. In the polling case, we have to do the check because it may not have changed.",
+      "parentUuid": "3cae63b1_cdbf4c56",
       "range": {
         "startLine": 179,
         "startChar": 4,
