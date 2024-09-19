@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40032b15_5cf2e864",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 50
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-19T20:16:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23b88882_28f70b1a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "cc05c1adfa33235fa96c81fa849ac96a808abfa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a32bc1c3_7743de7d",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12d379b5_5828c89d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 50
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-19T20:16:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a32bc1c3_7743de7d",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "cc05c1adfa33235fa96c81fa849ac96a808abfa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7403a560_ca1a6731",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-09-17T18:36:24Z",
       "side": 1,
       "message": "Here is my comment on making the constructor throw in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/73043\n\nIt will cause the service crash and we don\u0027t want that.",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 497,
+        "endChar": 44
+      },
+      "revId": "cc05c1adfa33235fa96c81fa849ac96a808abfa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bba5a742_1ccb0261",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 50
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-19T20:16:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7403a560_ca1a6731",
       "range": {
         "startLine": 494,
         "startChar": 0,
