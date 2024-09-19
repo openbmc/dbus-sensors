@@ -156,6 +156,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2dbe9cb7_d1e7c99c",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-19T22:26:56Z",
+      "side": 1,
+      "message": "Eventually.",
+      "parentUuid": "d7c0e02b_571ec518",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 20
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd71d339_ddc8eb49",
         "filename": "src/PresenceSensor.hpp",
         "patchSetId": 19
@@ -344,6 +368,30 @@
       "side": 1,
       "message": "The reason it was separated was in preparation for the GPIO Polling presence detection. (this was part of same commit, but I split as requested into refactor / new function).",
       "parentUuid": "6eb7e660_37a7e149",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cb5e9e5_1a0f2d69",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-09-19T22:26:56Z",
+      "side": 1,
+      "message": "but gpio polling is going to have a completely different interface, right?  polling won\u0027t have a \"read()\" method?\n\nI would prefer they remain separate classes until we show that there\u0027s significant advantages to having them inherit from one another.",
+      "parentUuid": "c3212b68_332c2a93",
       "range": {
         "startLine": 48,
         "startChar": 0,
