@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46501ac2_83587970",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-19T04:06:34Z",
+      "side": 1,
+      "message": "Hi Zhikui,\nNo, I didn\u0027t consider the option you pointed. Does it need multiple configs if there\u0027re different service instances?",
+      "parentUuid": "a7dc67ec_6bc505b5",
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36d33b4a_da2e0861",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-09-17T23:14:34Z",
       "side": 1,
       "message": "which slotId is this newState for?",
+      "range": {
+        "startLine": 582,
+        "startChar": 8,
+        "endLine": 582,
+        "endChar": 16
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "037819f2_6f336b23",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-19T04:06:34Z",
+      "side": 1,
+      "message": "The newState is from the callback function of each slot. But I found HwmonTempSensor didn\u0027t get slotId in createSensors(), let me fix it and re-push patch.",
+      "parentUuid": "36d33b4a_da2e0861",
       "range": {
         "startLine": 582,
         "startChar": 8,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f8ad197b_b1568bb5",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-19T04:06:34Z",
+      "side": 1,
+      "message": "I think it can be replaced, I\u0027ll modify it and push the patch. Thanks!",
+      "parentUuid": "8a01f182_2f41844f",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 71
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e0a72bd4_6f289e50",
         "filename": "src/Utils.cpp",
         "patchSetId": 12
@@ -77,6 +143,30 @@
       "writtenOn": "2024-09-17T23:14:34Z",
       "side": 1,
       "message": "need to test it is valid. Multiple places in this patch",
+      "range": {
+        "startLine": 431,
+        "startChar": 12,
+        "endLine": 431,
+        "endChar": 16
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05f8f16a_f29d20c6",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-19T04:06:34Z",
+      "side": 1,
+      "message": "Do you have suggestion that we can test if it is valid?",
+      "parentUuid": "e0a72bd4_6f289e50",
       "range": {
         "startLine": 431,
         "startChar": 12,
