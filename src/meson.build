@@ -73,167 +73,49 @@ if get_option('intel-cpu').allowed()
 endif
 
 if get_option('adc').allowed()
-    executable(
-        'adcsensor',
-        'ADCSensor.cpp',
-        'ADCSensorMain.cpp',
-        dependencies: [
-            default_deps,
-            gpiodcxx,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('ADC')
 endif
 
 if get_option('intel-cpu').allowed()
-    executable(
-        'intelcpusensor',
-        'IntelCPUSensorMain.cpp',
-        'IntelCPUSensor.cpp',
-        dependencies: [
-            default_deps,
-            gpiodcxx,
-            thresholds_dep,
-            utils_dep,
-            peci_dep,
-        ],
-        include_directories: peci_incdirs,
-        install: true,
-    )
+    subdir('IntelCPU')
 endif
 
 if get_option('exit-air').allowed()
-    executable(
-        'exitairtempsensor',
-        'ExitAirTempSensor.cpp',
-        dependencies: [
-            default_deps,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('ExitAir')
 endif
 
 if get_option('fan').allowed()
-    executable(
-        'fansensor',
-        'FanMain.cpp',
-        'PresenceGpio.cpp',
-        'TachSensor.cpp',
-        'PwmSensor.cpp',
-        dependencies: [
-            default_deps,
-            gpiodcxx,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('Fan')
 endif
 
 if get_option('hwmon-temp').allowed()
-    executable(
-        'hwmontempsensor',
-        'HwmonTempMain.cpp',
-        'HwmonTempSensor.cpp',
-        dependencies: [
-            default_deps,
-            devicemgmt_dep,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('HwmonTemp')
 endif
 
 if get_option('intrusion').allowed()
-    executable(
-        'intrusionsensor',
-        'ChassisIntrusionSensor.cpp',
-        'IntrusionSensorMain.cpp',
-        dependencies: [
-            default_deps,
-            gpiodcxx,
-            i2c,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('Intrusion')
 endif
 
 if get_option('ipmb').allowed()
-    executable(
-        'ipmbsensor',
-        'IpmbSensorMain.cpp',
-        'IpmbSensor.cpp',
-        'IpmbSDRSensor.cpp',
-        dependencies: [
-            default_deps,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('IPMB')
 endif
 
 if get_option('mcu').allowed()
-    executable(
-        'mcutempsensor',
-        'MCUTempSensor.cpp',
-        dependencies: [
-            default_deps,
-            i2c,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('MCUTemp')
 endif
 
 if get_option('nvme').allowed()
-    nvme_srcs = files('NVMeSensor.cpp', 'NVMeSensorMain.cpp')
-    nvme_srcs += files('NVMeBasicContext.cpp')
-
-    nvme_deps = [default_deps, i2c, thresholds_dep, utils_dep, threads]
-
-    executable(
-        'nvmesensor',
-        sources: nvme_srcs,
-        dependencies: nvme_deps,
-        install: true,
-    )
+    subdir('NVME')
 endif
 
 if get_option('psu').allowed()
-    executable(
-        'psusensor',
-        'PSUEvent.cpp',
-        'PSUSensor.cpp',
-        'PSUSensorMain.cpp',
-        dependencies: [
-            default_deps,
-            devicemgmt_dep,
-            pwmsensor_dep,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('PSU')
 endif
 
 if get_option('external').allowed()
-    executable(
-        'externalsensor',
-        'ExternalSensor.cpp',
-        'ExternalSensorMain.cpp',
-        dependencies: [
-            default_deps,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('External')
+endif
+
+if get_option('tests').allowed()
+    subdir('tests')
 endif
