@@ -128,17 +128,7 @@ if get_option('ipmb').allowed()
 endif
 
 if get_option('mcu').allowed()
-    executable(
-        'mcutempsensor',
-        'MCUTempSensor.cpp',
-        dependencies: [
-            default_deps,
-            i2c,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('MCUTemp')
 endif
 
 if get_option('nvme').allowed()
