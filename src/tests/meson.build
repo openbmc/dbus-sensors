@@ -24,16 +24,17 @@ ut_deps_list = [
 ]
 
 ut_deps_list += default_deps
+src_inc = include_directories('..')
 
 test(
     'test_utils',
     executable(
         'test_utils',
         'test_Utils.cpp',
-        '../src/Utils.cpp',
+        '../Utils.cpp',
         dependencies: ut_deps_list,
         implicit_include_directories: false,
-        include_directories: '../src',
+        include_directories: src_inc,
     ),
 )
 
@@ -41,9 +42,9 @@ test(
     'test_ipmb',
     executable(
         'test_ipmb',
-        '../src/IpmbSensor.cpp',
-        '../src/Utils.cpp',
-        '../src/IpmbSDRSensor.cpp',
+        '../ipmb/IpmbSensor.cpp',
+        '../Utils.cpp',
+        '../ipmb/IpmbSDRSensor.cpp',
         'test_IpmbSensor.cpp',
         dependencies: ut_deps_list,
         link_with: [
@@ -52,6 +53,6 @@ test(
             devicemgmt_a
         ],
         implicit_include_directories: false,
-        include_directories: '../src',
+        include_directories: src_inc,
     ),
 )
