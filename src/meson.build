@@ -73,18 +73,7 @@ if get_option('intel-cpu').allowed()
 endif
 
 if get_option('adc').allowed()
-    executable(
-        'adcsensor',
-        'ADCSensor.cpp',
-        'ADCSensorMain.cpp',
-        dependencies: [
-            default_deps,
-            gpiodcxx,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('ADC')
 endif
 
 if get_option('intel-cpu').allowed()
