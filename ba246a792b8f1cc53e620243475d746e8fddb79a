@@ -205,6 +205,30 @@
       },
       "revId": "ba246a792b8f1cc53e620243475d746e8fddb79a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f35dfa22_fc3fad3d",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-20T17:41:36Z",
+      "side": 1,
+      "message": "Yes, my point is that get_value() is currently called within updateAndTracePresence()\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/73043/7..8/src/PresenceSensor.cpp#50",
+      "parentUuid": "1d6cd1e6_6e75a962",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 5
+      },
+      "revId": "ba246a792b8f1cc53e620243475d746e8fddb79a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
