@@ -105,18 +105,7 @@ if get_option('fan').allowed()
 endif
 
 if get_option('hwmon-temp').allowed()
-    executable(
-        'hwmontempsensor',
-        'HwmonTempMain.cpp',
-        'HwmonTempSensor.cpp',
-        dependencies: [
-            default_deps,
-            devicemgmt_dep,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('HwmonTemp')
 endif
 
 if get_option('intrusion').allowed()
