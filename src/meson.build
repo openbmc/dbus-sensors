@@ -89,19 +89,7 @@ if get_option('exit-air').allowed()
 endif
 
 if get_option('fan').allowed()
-    executable(
-        'fansensor',
-        'FanMain.cpp',
-        'TachSensor.cpp',
-        'PwmSensor.cpp',
-        dependencies: [
-            default_deps,
-            gpiodcxx,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('Fan')
 endif
 
 if get_option('hwmon-temp').allowed()
