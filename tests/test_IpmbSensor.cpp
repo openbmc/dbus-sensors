@@ -1,4 +1,4 @@
-#include "IpmbSensor.hpp"
+#include "IPMB/IpmbSensor.hpp"
 
 #include <cstddef>
 #include <cstdint>
