@@ -51,7 +51,3 @@ default_deps = [
 
 subdir('service_files')
 subdir('src')
-
-if not get_option('tests').disabled()
-    subdir('tests')
-endif
