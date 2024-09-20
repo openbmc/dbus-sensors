@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eac35ff_67ae662c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-20T16:56:34Z",
+      "side": 1,
+      "message": "Is this an issue itself? Should this be fixed - only one of the match should be used?",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 13,
+        "endChar": 63
+      },
+      "revId": "416c96a673bdd484985b6a91f2c32bd090a50a08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "397135ac_bab211af",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-20T16:56:34Z",
+      "side": 1,
+      "message": "Hopefully, there is not a use case that activate() can be called with a newPath without deactivate() is called with the \"oldPath\".\n\n+1 this patch since i think it is reasonable to assume that if the driver is deleted and create again, potentially with a newPath, deactivate is called before activate.",
+      "revId": "416c96a673bdd484985b6a91f2c32bd090a50a08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
