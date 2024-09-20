@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "93f9c81b_a53e72e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2024-09-20T05:51:37Z",
+      "side": 1,
+      "message": "Doesn\u0027t mctpd already implement OpenBMC D-Bus API such as the MCTP.Endpoint?",
+      "revId": "92dd7e949bcf42b35a84fa2d3b93ad9bc9a728c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8425198e_6a169f06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2024-09-20T05:51:37Z",
+      "side": 1,
+      "message": "Is the expected entity-manager configuration similar to same as the one in https://gerrit.openbmc.org/c/openbmc/entity-manager/+/66750? Is the expected configuration (what keys can be in the config, etc.) mentioned in an openbmc/codeconstruct design document?\n\nAre we going to document the configuration D-Bus interface?\n\nEDIT: I see that https://github.com/CodeConstruct/mctp/pull/17#issuecomment-1963187104 answers some of the questions above, but I think it would be good to update the commit message here/or add an openbmc design doc, and document the configuration D-Bus API.",
+      "revId": "92dd7e949bcf42b35a84fa2d3b93ad9bc9a728c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f2b44c3d_863463e3",
