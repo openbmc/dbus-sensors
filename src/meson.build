@@ -207,20 +207,7 @@ if get_option('nvme').allowed()
 endif
 
 if get_option('psu').allowed()
-    executable(
-        'psusensor',
-        'PSUEvent.cpp',
-        'PSUSensor.cpp',
-        'PSUSensorMain.cpp',
-        dependencies: [
-            default_deps,
-            devicemgmt_dep,
-            pwmsensor_dep,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('PSU')
 endif
 
 if get_option('external').allowed()
