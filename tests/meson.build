@@ -41,9 +41,9 @@ test(
     'test_ipmb',
     executable(
         'test_ipmb',
-        '../src/IpmbSensor.cpp',
+        '../src/IPMB/IpmbSensor.cpp',
         '../src/Utils.cpp',
-        '../src/IpmbSDRSensor.cpp',
+        '../src/IPMB/IpmbSDRSensor.cpp',
         'test_IpmbSensor.cpp',
         dependencies: ut_deps_list,
         link_with: [

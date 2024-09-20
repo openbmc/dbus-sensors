@@ -124,18 +124,7 @@ if get_option('intrusion').allowed()
 endif
 
 if get_option('ipmb').allowed()
-    executable(
-        'ipmbsensor',
-        'IpmbSensorMain.cpp',
-        'IpmbSensor.cpp',
-        'IpmbSDRSensor.cpp',
-        dependencies: [
-            default_deps,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('IPMB')
 endif
 
 if get_option('mcu').allowed()
