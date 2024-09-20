@@ -46,6 +46,30 @@
       },
       "revId": "2d6e44be34417cf0e09f64f929b93a691e1451cb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ca7a171_64ba0cb2",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-20T15:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7cb5636_2edcf158",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 23
+      },
+      "revId": "2d6e44be34417cf0e09f64f929b93a691e1451cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
