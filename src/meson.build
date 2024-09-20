@@ -76,16 +76,7 @@ if get_option('intel-cpu').allowed()
 endif
 
 if get_option('exit-air').allowed()
-    executable(
-        'exitairtempsensor',
-        'ExitAirTempSensor.cpp',
-        dependencies: [
-            default_deps,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('ExitAir')
 endif
 
 if get_option('fan').allowed()
