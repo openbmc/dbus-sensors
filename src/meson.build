@@ -63,11 +63,6 @@ pwmsensor_dep = declare_dependency(
     dependencies: [default_deps, thresholds_dep],
 )
 
-peci_incdirs = []
-if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
-    peci_incdirs = ['../include']
-endif
-
 if get_option('intel-cpu').allowed()
     peci_dep = dependency('libpeci', required: true)
 endif
@@ -77,20 +72,7 @@ if get_option('adc').allowed()
 endif
 
 if get_option('intel-cpu').allowed()
-    executable(
-        'intelcpusensor',
-        'IntelCPUSensorMain.cpp',
-        'IntelCPUSensor.cpp',
-        dependencies: [
-            default_deps,
-            gpiodcxx,
-            thresholds_dep,
-            utils_dep,
-            peci_dep,
-        ],
-        include_directories: peci_incdirs,
-        install: true,
-    )
+    subdir('IntelCPU')
 endif
 
 if get_option('exit-air').allowed()
