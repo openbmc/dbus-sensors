@@ -150,15 +150,5 @@ if get_option('psu').allowed()
 endif
 
 if get_option('external').allowed()
-    executable(
-        'externalsensor',
-        'ExternalSensor.cpp',
-        'ExternalSensorMain.cpp',
-        dependencies: [
-            default_deps,
-            thresholds_dep,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('External')
 endif
