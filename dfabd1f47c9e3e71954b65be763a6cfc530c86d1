@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3873332_e03ecc25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-20T17:37:15Z",
+      "side": 1,
+      "message": "I assume each host has the same set of sensors. Some examples in openbmc projects here:\nhttps://github.com/openbmc/x86-power-control/blame/master/service_files/xyz.openbmc_project.Chassis.Control.Power%40.service\n\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-state-manager/+/51465",
+      "parentUuid": "46501ac2_83587970",
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36d33b4a_da2e0861",
@@ -215,6 +233,30 @@
       "side": 1,
       "message": "Do you have suggestion that we can test if it is valid?",
       "parentUuid": "e0a72bd4_6f289e50",
+      "range": {
+        "startLine": 431,
+        "startChar": 12,
+        "endLine": 431,
+        "endChar": 16
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f8172d0_be50fbc4",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-20T17:37:15Z",
+      "side": 1,
+      "message": "if (it !\u003d powerStatusOn.end())",
+      "parentUuid": "05f8f16a_f29d20c6",
       "range": {
         "startLine": 431,
         "startChar": 12,
