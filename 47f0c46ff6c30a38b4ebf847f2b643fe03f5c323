@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69fb529b_66ee5ff7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-20T17:16:15Z",
+      "side": 1,
+      "message": "I am OK with reduce duplicated journal log, but I am not sure about redfish message. This change would require user to add lan config into their system json to be able to see the redfish events, so it can break system that currently does not have this config.",
+      "parentUuid": "6e67dd4f_d2d87cec",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "47f0c46ff6c30a38b4ebf847f2b643fe03f5c323",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cd6769e_22c4eeb1",

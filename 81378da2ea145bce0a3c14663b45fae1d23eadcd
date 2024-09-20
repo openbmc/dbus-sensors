@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb2d2529_aa9ddde8",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-20T17:16:15Z",
+      "side": 1,
+      "message": "reorder like this :\nif (lanInfoMap.empty()) return;\n//continue with lanInMap search",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 361,
+        "endChar": 5
+      },
+      "revId": "81378da2ea145bce0a3c14663b45fae1d23eadcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5222b386_03ed8aef",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-20T17:16:15Z",
+      "side": 1,
+      "message": "I am concerned that redfish message is skipped without config in the json file with this change. There might be existing systems that have been using it without the config.",
+      "range": {
+        "startLine": 372,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 5
+      },
+      "revId": "81378da2ea145bce0a3c14663b45fae1d23eadcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
