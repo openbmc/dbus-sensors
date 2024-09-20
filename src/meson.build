@@ -109,18 +109,7 @@ if get_option('hwmon-temp').allowed()
 endif
 
 if get_option('intrusion').allowed()
-    executable(
-        'intrusionsensor',
-        'ChassisIntrusionSensor.cpp',
-        'IntrusionSensorMain.cpp',
-        dependencies: [
-            default_deps,
-            gpiodcxx,
-            i2c,
-            utils_dep,
-        ],
-        install: true,
-    )
+    subdir('Intrusion')
 endif
 
 if get_option('ipmb').allowed()
