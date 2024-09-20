@@ -22,6 +22,30 @@
       },
       "revId": "2d6e44be34417cf0e09f64f929b93a691e1451cb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7cb5636_2edcf158",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-20T04:55:08Z",
+      "side": 1,
+      "message": "Should be.  I can remove",
+      "parentUuid": "94c3ee15_f1faa10b",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 23
+      },
+      "revId": "2d6e44be34417cf0e09f64f929b93a691e1451cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

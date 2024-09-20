@@ -400,6 +400,30 @@
       },
       "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "779d78c2_e1011327",
+        "filename": "src/PresenceSensor.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-20T04:55:08Z",
+      "side": 1,
+      "message": "The read() was changed to isPresent() due to request from other reviewers and yes it is required for both polling and event.\nPlease look at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/73043/8 which was updated to add the gpio polling. The full enablement w/polling is in commit https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/54740/51\n(both of which I will rebase onto this commit once it gets approved)",
+      "parentUuid": "2cb5e9e5_1a0f2d69",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
