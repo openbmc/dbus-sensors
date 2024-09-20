@@ -83,6 +83,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0855848_b02ede8d",
+        "filename": "src/HwmonTempMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-20T03:04:46Z",
+      "side": 1,
+      "message": "Fixed by patchset13.",
+      "parentUuid": "037819f2_6f336b23",
+      "range": {
+        "startLine": 582,
+        "startChar": 8,
+        "endLine": 582,
+        "endChar": 16
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a01f182_2f41844f",
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "I think it can be replaced, I\u0027ll modify it and push the patch. Thanks!",
       "parentUuid": "8a01f182_2f41844f",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 71
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0efa695a_065f0b60",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-20T03:04:46Z",
+      "side": 1,
+      "message": "Modified by patchset13.",
+      "parentUuid": "f8ad197b_b1568bb5",
       "range": {
         "startLine": 70,
         "startChar": 0,
