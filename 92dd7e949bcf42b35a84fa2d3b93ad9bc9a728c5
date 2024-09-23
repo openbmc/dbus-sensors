@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3229818f_79068205",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-23T02:17:30Z",
+      "side": 1,
+      "message": "As a convenience, yes, but you should be aware of this:\n\nhttps://codeconstruct.com.au/docs/mctp-utils-v2-0-release/",
+      "parentUuid": "93f9c81b_a53e72e7",
+      "revId": "92dd7e949bcf42b35a84fa2d3b93ad9bc9a728c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8425198e_6a169f06",
         "filename": "/COMMIT_MSG",
         "patchSetId": 18
@@ -31,6 +49,24 @@
       "writtenOn": "2024-09-20T05:51:37Z",
       "side": 1,
       "message": "Is the expected entity-manager configuration similar to same as the one in https://gerrit.openbmc.org/c/openbmc/entity-manager/+/66750? Is the expected configuration (what keys can be in the config, etc.) mentioned in an openbmc/codeconstruct design document?\n\nAre we going to document the configuration D-Bus interface?\n\nEDIT: I see that https://github.com/CodeConstruct/mctp/pull/17#issuecomment-1963187104 answers some of the questions above, but I think it would be good to update the commit message here/or add an openbmc design doc, and document the configuration D-Bus API.",
+      "revId": "92dd7e949bcf42b35a84fa2d3b93ad9bc9a728c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8674c20b_9209e2d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-23T02:17:30Z",
+      "side": 1,
+      "message": "\u003e Is the expected entity-manager configuration similar to same as the one in https://gerrit.openbmc.org/c/openbmc/entity-manager/+/66750? \n\nNo. That EM change has been reverted:\n\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/70572\n\n\u003e Is the expected configuration (what keys can be in the config, etc.) mentioned in an openbmc/codeconstruct design document?\n\nThe new schemas are still under discussion here:\n\nhttps://gerrit.openbmc.org/q/topic:%22mctpreactor%22+repo:openbmc/entity-manager+status:open",
+      "parentUuid": "8425198e_6a169f06",
       "revId": "92dd7e949bcf42b35a84fa2d3b93ad9bc9a728c5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
