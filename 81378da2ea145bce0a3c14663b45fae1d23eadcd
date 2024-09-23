@@ -45,6 +45,30 @@
       },
       "revId": "81378da2ea145bce0a3c14663b45fae1d23eadcd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c4a404_2a60b575",
+        "filename": "src/IntrusionSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2024-09-23T02:29:22Z",
+      "side": 1,
+      "message": "Yeah, it might break the systems who is using these redfish messages since these code is not changed for a long time.\n\nIt seems it want to send every lan status change in refish message, so taking that entity-manager have no corresponding config is a bug and send error log ```unexpected eth XXX in lanInfoMap```.\n\nI might abandoned this change and add all lan config to prevent this unexpected error in journal.\n\nThanks.",
+      "parentUuid": "5222b386_03ed8aef",
+      "range": {
+        "startLine": 372,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 5
+      },
+      "revId": "81378da2ea145bce0a3c14663b45fae1d23eadcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
