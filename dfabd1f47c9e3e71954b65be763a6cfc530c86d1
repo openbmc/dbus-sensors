@@ -54,6 +54,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2fdb88_33127ac8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-23T02:50:43Z",
+      "side": 1,
+      "message": "The case we met is that psu sensors (hot-swap controller of each host) in the same power board, so we need slotId to indicate the hsc is for which host.",
+      "parentUuid": "d3873332_e03ecc25",
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36d33b4a_da2e0861",
@@ -257,6 +275,30 @@
       "side": 1,
       "message": "if (it !\u003d powerStatusOn.end())",
       "parentUuid": "05f8f16a_f29d20c6",
+      "range": {
+        "startLine": 431,
+        "startChar": 12,
+        "endLine": 431,
+        "endChar": 16
+      },
+      "revId": "dfabd1f47c9e3e71954b65be763a6cfc530c86d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fb881bc_1824b901",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-23T02:50:43Z",
+      "side": 1,
+      "message": "Thanks for the suggestion!",
+      "parentUuid": "9f8172d0_be50fbc4",
       "range": {
         "startLine": 431,
         "startChar": 12,
