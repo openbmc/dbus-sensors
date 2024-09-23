@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91a5b26e_34ef6fd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-09-23T03:16:56Z",
+      "side": 1,
+      "message": "This is implemented in Util, to adapt to the config of \"PowerState\", \"ChassisState\" from EM, so I don\u0027t think it can be changed. PSUSensorMain will check the power state type of each sensor on a power-off to decide whether to deactivate, but on a power-on, it will call createSensors directly (with onlyActivate set to true).",
+      "parentUuid": "3eac35ff_67ae662c",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 13,
+        "endChar": 63
+      },
+      "revId": "416c96a673bdd484985b6a91f2c32bd090a50a08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "397135ac_bab211af",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2024-09-20T16:56:34Z",
       "side": 1,
       "message": "Hopefully, there is not a use case that activate() can be called with a newPath without deactivate() is called with the \"oldPath\".\n\n+1 this patch since i think it is reasonable to assume that if the driver is deleted and create again, potentially with a newPath, deactivate is called before activate.",
+      "revId": "416c96a673bdd484985b6a91f2c32bd090a50a08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "276e089e_95a3be37",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-09-23T03:16:56Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the case since activate() and deativate() are simply used in on construction/destruction and power change, and not for hosting more than one i2c device info for one sensor. Just my thought. Hope this fix covers correctly all the cases.",
+      "parentUuid": "397135ac_bab211af",
       "revId": "416c96a673bdd484985b6a91f2c32bd090a50a08",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
