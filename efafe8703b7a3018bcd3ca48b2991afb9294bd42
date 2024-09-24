@@ -22,6 +22,30 @@
       },
       "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a986af_7e6f2d29",
+        "filename": "src/PresenceSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-09-24T19:05:39Z",
+      "side": 0,
+      "message": "good catch",
+      "parentUuid": "4d8df667_62f157ff",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 12
+      },
+      "revId": "efafe8703b7a3018bcd3ca48b2991afb9294bd42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
