@@ -16,6 +16,10 @@ std::string getPathForUnits(const std::string& units)
     {
         return "temperature";
     }
+    if (units == "DegreesF" || units == unitDegreesF)
+    {
+        return "temperature";
+    }
     if (units == "RPMS" || units == unitRPMs)
     {
         return "fan_tach";
@@ -47,6 +51,46 @@ std::string getPathForUnits(const std::string& units)
     if (units == "Pascals" || units == unitPascals)
     {
         return "pressure";
+    }
+    if (units == "CF" || units == unitCF)
+    {
+        return "volume";
+    }
+    if (units == "CM" || units == unitCM)
+    {
+        return "volume";
+    }
+    if (units == "CMH" || units == unitCMH)
+    {
+        return "volume";
+    }
+    if (units == "CMS" || units == unitCMS)
+    {
+        return "volume";
+    }
+    if (units == "Gallon" || units == unitGallon)
+    {
+        return "volume";
+    }
+    if (units == "GPM" || units == unitGPM)
+    {
+        return "volume";
+    }
+    if (units == "Liter" || units == unitLiter)
+    {
+        return "volume";
+    }
+    if (units == "LPH" || units == unitLPH)
+    {
+        return "volume";
+    }
+    if (units == "LPM" || units == unitLPM)
+    {
+        return "volume";
+    }
+    if (units == "LPS" || units == unitLPS)
+    {
+        return "volume";
     }
     return "";
 }
