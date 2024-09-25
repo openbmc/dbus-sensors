@@ -34,6 +34,24 @@
       "parentUuid": "6721dc8f_0951ff26",
       "revId": "d7bf03aba2e0443f80d6e39deecd228b7c8bf17b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6e9f67e_ec49a3b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-25T02:50:11Z",
+      "side": 1,
+      "message": "I don\u0027t think you have consensus on this, you\u0027ve just pushed the patches affecting all of the apps. Can you please get consensus on this new organisation from the maintainers and the community.",
+      "parentUuid": "dba9ff6b_9ff83d7d",
+      "revId": "d7bf03aba2e0443f80d6e39deecd228b7c8bf17b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
