@@ -72,6 +72,10 @@ if get_option('intel-cpu').allowed()
     peci_dep = dependency('libpeci', required: true)
 endif
 
+if get_option('modbus').allowed()
+    modbus_dep = dependency('libmodbus', required: true)
+endif
+
 if get_option('adc').allowed()
     executable(
         'adcsensor',
@@ -189,6 +193,21 @@ if get_option('mcu').allowed()
             utils_dep,
         ],
         install: true,
+    )
+endif
+
+if get_option('modbus').allowed()
+    executable(
+        'modbussensor',
+        'ModbusSensor.cpp',
+        dependencies: [
+            default_deps,
+            thresholds_dep,
+            utils_dep,
+            modbus_dep,
+        ],
+        install: true,
+        install_dir: '/usr/libexec',
     )
 endif
 

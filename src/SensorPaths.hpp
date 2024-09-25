@@ -29,6 +29,10 @@ constexpr const char* unitPascals =
     "xyz.openbmc_project.Sensor.Value.Unit.Pascals";
 constexpr const char* unitPercentRH =
     "xyz.openbmc_project.Sensor.Value.Unit.PercentRH";
+constexpr const char* unitLiter =
+    "xyz.openbmc_project.Sensor.Value.Unit.Liter";
+constexpr const char* unitLPM =
+    "xyz.openbmc_project.Sensor.Value.Unit.LPM";
 
 std::string getPathForUnits(const std::string& units);
 

@@ -48,6 +48,14 @@ std::string getPathForUnits(const std::string& units)
     {
         return "pressure";
     }
+    if (units == "Liter" || units == unitLiter)
+    {
+        return "volume";
+    }
+    if (units == "LPM" || units == unitLPM)
+    {
+        return "volume";
+    }
     return "";
 }
 
