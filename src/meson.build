@@ -103,6 +103,11 @@ if get_option('mcu').allowed()
     subdir('mcu')
 endif
 
+if get_option('modbus').allowed()
+    modbus_dep = dependency('libmodbus', required: true)
+    subdir('modbus')
+endif
+
 if get_option('nvme').allowed()
     subdir('nvme')
 endif

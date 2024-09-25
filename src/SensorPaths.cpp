@@ -2,6 +2,7 @@
 
 #include <regex>
 #include <string>
+#include <unordered_map>
 
 namespace sensor_paths
 {
@@ -47,6 +48,37 @@ std::string getPathForUnits(const std::string& units)
     if (units == "Pascals" || units == unitPascals)
     {
         return "pressure";
+    }
+    if (units == "LPM" || units == unitLPM)
+    {
+        return "liquidflow";
+    }
+    if (units == "Unclassified" || units == unitUnclassified)
+    {
+        return "unclassified";
+    }
+    return "";
+}
+
+static const std::unordered_map<std::string, std::string> unitMap = {
+    {"DegreesC", unitDegreesC},
+    {"RPMS", unitRPMs},
+    {"Volts", unitVolts},
+    {"Meters", unitMeters},
+    {"Amperes", unitAmperes},
+    {"Watts", unitWatts},
+    {"Joules", unitJoules},
+    {"Percent", unitPercent},
+    {"Pascals", unitPascals},
+    {"LPM", unitLPM},
+    {"Unclassified", unitUnclassified}};
+
+std::string getUnitPath(const std::string& unitName)
+{
+    auto it = unitMap.find(unitName);
+    if (it != unitMap.end())
+    {
+        return it->second;
     }
     return "";
 }

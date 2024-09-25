@@ -53,6 +53,12 @@ option(
     description: 'Enable MCU sensor.',
 )
 option(
+    'modbus',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable Modbus sensor.',
+)
+option(
     'nvme',
     type: 'feature',
     value: 'enabled',

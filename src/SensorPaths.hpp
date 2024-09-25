@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstring>
+#include <regex>
 #include <string>
 
 namespace sensor_paths
@@ -28,8 +29,13 @@ constexpr const char* unitPascals =
     "xyz.openbmc_project.Sensor.Value.Unit.Pascals";
 constexpr const char* unitPercentRH =
     "xyz.openbmc_project.Sensor.Value.Unit.PercentRH";
+constexpr const char* unitLPM = "xyz.openbmc_project.Sensor.Value.Unit.LPM";
+constexpr const char* unitUnclassified =
+    "xyz.openbmc_project.Sensor.Value.Unit.Unclassified";
 
 std::string getPathForUnits(const std::string& units);
+
+std::string getUnitPath(const std::string& unitName);
 
 std::string escapePathForDbus(const std::string& name);
 
