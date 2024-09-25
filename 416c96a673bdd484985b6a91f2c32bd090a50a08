@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2bf7c0b6_b4293e92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-09-25T02:33:12Z",
+      "side": 1,
+      "message": "No, the matches are defined in PSUSensorMain (https://github.com/openbmc/dbus-sensors/blob/e1dcb5c1f2d33048a55b20fc1a9830ea02c9d814/src/PSUSensorMain.cpp#L1156), not for each sensor, and both matches are fired on a power change.\n\nOn a power off, as it checks the power type (https://github.com/openbmc/dbus-sensors/blob/e1dcb5c1f2d33048a55b20fc1a9830ea02c9d814/src/PSUSensorMain.cpp#L1129), so each sensor is deactivated one time corresponding to the power match type they are defined with.\n\nBut on a power on, it calls createSensors directly (https://github.com/openbmc/dbus-sensors/blob/e1dcb5c1f2d33048a55b20fc1a9830ea02c9d814/src/PSUSensorMain.cpp#L1123), so all sensors will be activated TWICE, as we have 2 signals here. You can see here.",
+      "parentUuid": "b8731e4c_09ce5804",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 13,
+        "endChar": 63
+      },
+      "revId": "416c96a673bdd484985b6a91f2c32bd090a50a08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "397135ac_bab211af",
         "filename": "src/PSUSensor.cpp",
         "patchSetId": 1
