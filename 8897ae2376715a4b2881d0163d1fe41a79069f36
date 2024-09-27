@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49989cf4_69afedfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-27T21:09:10Z",
+      "side": 1,
+      "message": "on?",
+      "range": {
+        "startLine": 28,
+        "startChar": 45,
+        "endLine": 28,
+        "endChar": 48
+      },
+      "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89185a35_43ff99cb",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-27T21:09:10Z",
+      "side": 1,
+      "message": "Why? I think you want to skip when the match has already been created for the slotNumber. But I don\u0027t think this logic is correct",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 558,
+        "endChar": 0
+      },
+      "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f75cb721_6bd7e444",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-27T21:09:10Z",
+      "side": 1,
+      "message": "can we captured the slotId als, so you can add slotId as a parameter to hostStatusCallback",
+      "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
