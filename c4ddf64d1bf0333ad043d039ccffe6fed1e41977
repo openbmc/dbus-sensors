@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b10379_f0ce613a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-09-27T21:13:55Z",
+      "side": 1,
+      "message": "There is no additional comments for several weeks. Merge it now",
+      "revId": "c4ddf64d1bf0333ad043d039ccffe6fed1e41977",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
