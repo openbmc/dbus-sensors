@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6e6cc1be_d47ba12a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-30T05:46:36Z",
+      "side": 1,
+      "message": "https://codeconstruct.com.au/docs/mctp-utils-v2-0-release/",
+      "parentUuid": "fb0ea37e_d630a0b9",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 71
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7b40b679_a4a1f23d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 16
@@ -155,6 +179,30 @@
       "side": 1,
       "message": "Need the config object path though",
       "parentUuid": "f2df0669_bea8b355",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "175502c9_5de56473",
+        "filename": "src/MCTPDeviceRepository.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-30T05:46:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f434f100_def275f6",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -344,6 +392,30 @@
       "side": 1,
       "message": "The only OpenBMC-specific bits in it are the bus and object names, and some OpenBMC-defined interfaces are implemented as a defacto standard for certain pieces of information.\n\nAs mentioned earlier, the bus and object names need to be fixed to not infer a relationship to OpenBMC. I\u0027ve already discussed this with Jeremy.",
       "parentUuid": "41ba3446_a6db0d81",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63e43a91_00d76391",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-30T05:46:36Z",
+      "side": 1,
+      "message": "See https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/69111/comment/1915439d_5d63872f/",
+      "parentUuid": "db4ad628_91b175e7",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -783,6 +855,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9cfdc48_2c33528e",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-30T05:46:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38a1a0a7_1aaa6daf",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 38
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e319c285_34e6a99b",
@@ -820,6 +916,30 @@
       "side": 1,
       "message": "The explicit values are the values defined by DSP0239 v1.9.0 Table 3.",
       "parentUuid": "e319c285_34e6a99b",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 16
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdea8c5c_80442947",
+        "filename": "src/MCTPEndpoint.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-30T05:46:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44b71369_73b877f8",
       "range": {
         "startLine": 47,
         "startChar": 9,
@@ -1172,6 +1292,30 @@
       "side": 1,
       "message": "\u003e The fact that we need to do something every 5 seconds is a little scary. The expectation for reactors is that if there\u0027s no config, we\u0027re not taking any resources aside from starting and realizing there\u0027s no config.\n\nIf there\u0027s no config the timer callback has nothing to do.\n\n\u003e It seems a little odd that this timer is in main. Couldn\u0027t it go in MCTPDevice itself?\n\nPerhaps, but then we\u0027re embedding active behaviour deep in the implementation, and that makes testing the code harder. Configuring the timer in main means we can drive time in the test suite on our own terms (so we don\u0027t have to wait for a timer to fire in any way). We\u0027re externalising time to become an event on a state machine.\n\n\u003e That way adding/removing won\u0027t have any impact on existing devices, and we won\u0027t see blocking behavior where all devices run their logic at the same time.\n\nI\u0027m not sure I follow what you\u0027re getting at there. We only use a single thread, if anything blocks then we\u0027re hosed anyway. The DBus calls are async, and on alarm the timer only sets up any known devices that have lost their endpoint.",
       "parentUuid": "53864d15_28da080a",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 6
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdce827c_8bdc30f0",
+        "filename": "src/MCTPReactorMain.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-30T05:46:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2440706_7e8008d1",
       "range": {
         "startLine": 151,
         "startChar": 0,
