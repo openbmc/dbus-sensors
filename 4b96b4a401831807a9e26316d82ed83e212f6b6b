@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3fd8a912_45313749",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-30T14:38:23Z",
+      "side": 1,
+      "message": "\u003e Since I found the unit CFM (Cubic Feet per Minute) in the Value.interface.yaml, which is not a metric unit, I assumed it would be fine to add the missing units.\n\nGenerally we only use metric units.  CFM, I agree, is not metric but was added because everyone working with thermal controls said that is the \"standard\" unit of measurement in that space.\n\n\u003e  CM (Cubic Meters), Liter\n\nHow can you have a sensor that detects Cubic Meters or Liter?  That is a volume.  If we need to add one, we should add Liter.\n\n\u003e CMH (Cubic Meters per Hour), CMS (Cubic Meters per Second), LPH (Liters Per Hour), LPM (Liters Per Minute), and LPS (Liters Per Second)?\n\nThose are all the same measurement.  It would be best to determine what industry is using for measuring liquid cooling and pick one of them.",
+      "parentUuid": "fc04c852_abeb5d5f",
+      "revId": "4b96b4a401831807a9e26316d82ed83e212f6b6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "801dc9df_2d53b0d7",
         "filename": "service_files/xyz.openbmc_project.modbussensor.service",
         "patchSetId": 3
