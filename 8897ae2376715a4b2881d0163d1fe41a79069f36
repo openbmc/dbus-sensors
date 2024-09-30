@@ -90,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "073fceb2_26780e2a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-30T14:21:20Z",
+      "side": 1,
+      "message": "This is a poor assumption because we can have less slots populated than the slot you are checking for.  (what if only slot 8 has a device in it?)",
+      "parentUuid": "d6ec18c2_35b6132f",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 558,
+        "endChar": 0
+      },
+      "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f75cb721_6bd7e444",
         "filename": "src/Utils.cpp",
         "patchSetId": 14
