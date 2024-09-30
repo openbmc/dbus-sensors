@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6ec18c2_35b6132f",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-30T03:01:03Z",
+      "side": 1,
+      "message": "I assume the match vector should be created in order, I think if the slotNumber is less than vector size, it means the corresponding element is created.",
+      "parentUuid": "89185a35_43ff99cb",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 558,
+        "endChar": 0
+      },
+      "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f75cb721_6bd7e444",
         "filename": "src/Utils.cpp",
         "patchSetId": 14
@@ -77,6 +101,24 @@
       "writtenOn": "2024-09-27T21:09:10Z",
       "side": 1,
       "message": "can we captured the slotId als, so you can add slotId as a parameter to hostStatusCallback",
+      "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d8c9ca9_d0b783b7",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-09-30T03:01:03Z",
+      "side": 1,
+      "message": "I don\u0027t think we need slotId in hostStatusCallback. Following is my opinion: we add a property slotId in sensor class so that we can get slotId directly.\n```c++\nstatic void powerStateChanged(\n    PowerState type, bool newState,\n    boost::container::flat_map\u003cstd::string, std::shared_ptr\u003cPSUSensor\u003e\u003e\u0026\n        sensors)\n{\n    if (newState)\n    {\n        for (auto\u0026 [path, sensor] : sensors)\n        {\n            if (sensor !\u003d nullptr \u0026\u0026 sensor-\u003ereadState \u003d\u003d type)\n            {\n                if ((type \u003d\u003d PowerState::chassisOn) \u0026\u0026\n                    (isChassisOn(sensor-\u003eslotId)))\n                {\n                    sensor-\u003eactivate();\n                }\n            }\n        }\n    }\n    else\n```\nIf there\u0027re any omissions, please provide your guidance. Let me know if there\u0027s anything needed to be modified, thanks!",
+      "parentUuid": "f75cb721_6bd7e444",
       "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
