@@ -88,6 +88,24 @@
       "parentUuid": "eb918c17_3faff55d",
       "revId": "e138245c2b0aac3499fc7a23792536d6b4615e40",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0b8cf4c_36410733",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002089
+      },
+      "writtenOn": "2024-09-30T00:58:31Z",
+      "side": 1,
+      "message": "Sorry for late repling. After our discussion, we decided to replace the label \"label_Peak_Name\" with \"label_Highest_Name\" to align to hwmon.",
+      "parentUuid": "32f36174_8f12738d",
+      "revId": "e138245c2b0aac3499fc7a23792536d6b4615e40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
