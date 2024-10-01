@@ -16,6 +16,23 @@
       "message": "Expected error messages do clutter the journal/log file",
       "revId": "97b088457a172ddafc420bf8ae219c9339807027",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f75ad377_c6e25c23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000934
+      },
+      "writtenOn": "2024-10-01T02:08:29Z",
+      "side": 1,
+      "message": "Hi all, friendly pings.",
+      "revId": "97b088457a172ddafc420bf8ae219c9339807027",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
