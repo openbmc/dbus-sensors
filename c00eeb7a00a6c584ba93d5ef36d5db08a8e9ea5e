@@ -16,6 +16,24 @@
       "message": "what was the need to separate curr/vol/temp with power? any requirement supporting this change?",
       "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68791543_a6bc31d7",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1002089
+      },
+      "writtenOn": "2024-10-04T02:32:25Z",
+      "side": 1,
+      "message": "To follow the naming rules of hwmon from the following linux kernel spec https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/ABI/testing/sysfs-class-hwmon?h\u003dv6.11#n108",
+      "parentUuid": "0a557b19_2b03efcf",
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
