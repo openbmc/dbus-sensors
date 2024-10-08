@@ -211,6 +211,24 @@
       "parentUuid": "1d8c9ca9_d0b783b7",
       "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62e2e143_cc72f54c",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-10-08T18:39:26Z",
+      "side": 1,
+      "message": "Ideally \"newState\" here is for a host with a particular \"slotId\", there is no need to do isChassisOn(sensor-\u003eslotId), only need to find all sensors with the slotId.\n\nAnd your logic is not quite right: for exaample chassis1 powerState changed to be on while chassis2 powerState was on already, but did not change, activate should be called only for chassis1 sensor. But, if I read it correctly, your logic here will call sensor-\u003eactivate for both chassis1 and chassis2 sensors.",
+      "parentUuid": "561c1b40_ad66cd77",
+      "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
