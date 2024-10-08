@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eb90bf0_d3d9cb74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-10-08T17:04:36Z",
+      "side": 1,
+      "message": "Please squash these into a single review.  Moving these applications one at a time makes it hard to review the overall structure.",
+      "revId": "648cf3d655111e4128c9daf3bbd6ed9482089c67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
