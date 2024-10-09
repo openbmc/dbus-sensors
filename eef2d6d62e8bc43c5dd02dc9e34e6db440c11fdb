@@ -16,6 +16,24 @@
       "message": "`git grep isl28022` doesn\u0027t turn up anything as of v6.11-rc7. Can you please work to upstream support for the device in Linux?",
       "revId": "eef2d6d62e8bc43c5dd02dc9e34e6db440c11fdb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13da40dc_253137fd",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002143
+      },
+      "writtenOn": "2024-10-09T09:22:09Z",
+      "side": 1,
+      "message": "OK, I have pushed isl28022 driver to lore.\nhttps://lore.kernel.org/lkml/20241002081133.13123-1-yikai.tsai.wiwynn@gmail.com/",
+      "parentUuid": "25aafa3e_b3f9d116",
+      "revId": "eef2d6d62e8bc43c5dd02dc9e34e6db440c11fdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
