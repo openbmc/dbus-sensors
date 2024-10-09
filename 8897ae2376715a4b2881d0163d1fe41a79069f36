@@ -229,6 +229,24 @@
       "parentUuid": "561c1b40_ad66cd77",
       "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b6cde3_c71dc1f8",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-09T02:33:38Z",
+      "side": 1,
+      "message": "Got it, if add slotId as a parameter to hostStatusCallback, then activate() will be called if slotId \u003d\u003d sensor-\u003eslotId. Did I understand correctly?\nBesides, there\u0027s a judgement in activate() to avoid repetition.\n```\nvoid PSUSensor::activate()\n{\n    if (isActive())\n    {\n        // Avoid activating an active sensor\n        return;\n    }\n\n    inputDev.open(path, boost::asio::random_access_file::read_only);\n    markAvailable(true);\n    setupRead();\n}\n```",
+      "parentUuid": "62e2e143_cc72f54c",
+      "revId": "8897ae2376715a4b2881d0163d1fe41a79069f36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
