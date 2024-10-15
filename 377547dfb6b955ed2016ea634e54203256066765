@@ -56,6 +56,23 @@
       },
       "revId": "377547dfb6b955ed2016ea634e54203256066765",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7673ef0b_e6397031",
+        "filename": "tests/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-10-15T20:38:12Z",
+      "side": 1,
+      "message": "does test_IpmbSensor.cpp need to move as well to keep the folder structure the same? (and this test() stanza move into test/src?",
+      "revId": "377547dfb6b955ed2016ea634e54203256066765",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
