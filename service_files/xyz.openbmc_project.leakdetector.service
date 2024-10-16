@@ -1,0 +1,13 @@
+
+[Unit]
+Description=Leak Detector for Liquid Cooling
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
+
+[Service]
+Restart=always
+RestartSec=5
+ExecStart=/usr/bin/leakdetector
+
+[Install]
+WantedBy=multi-user.target
