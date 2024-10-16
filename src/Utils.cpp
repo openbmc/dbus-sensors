@@ -871,3 +871,23 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     }
     return setupPropertiesChangedMatches(bus, {types}, handler);
 }
+
+void startUnit(sdbusplus::bus_t& bus, const std::string& sysdUnit)
+{
+    if (sysdUnit.empty())
+    {
+        return;
+    }
+    sdbusplus::message_t msg = bus.new_method_call(
+        "org.freedesktop.systemd1", "/org/freedesktop/systemd1",
+        "org.freedesktop.systemd1.Manager", "StartUnit");
+    msg.append(sysdUnit, "replace");
+    try
+    {
+        bus.call_noreply(msg);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Failed to start " << sysdUnit << ": " << e.what() << "\n";
+    }
+}
