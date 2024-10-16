@@ -89,6 +89,9 @@ void findLimits(std::pair<double, double>& limits,
 
 bool readingStateGood(const PowerState& powerState);
 
+/* @brief Start a systemd unit */
+void startUnit(sdbusplus::bus_t& bus, const std::string& sysdUnit);
+
 constexpr const char* configInterfacePrefix =
     "xyz.openbmc_project.Configuration.";
 
