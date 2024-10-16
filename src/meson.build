@@ -61,6 +61,32 @@ pwmsensor_dep = declare_dependency(
     dependencies: [default_deps, thresholds_dep],
 )
 
+systemdinterface_src = files('SystemdInterface.cpp')
+
+gpiointerface_a = static_library(
+    'gpiointerface_a',
+    'GPIOInterface.cpp',
+    dependencies: default_deps,
+)
+
+gpiointerface_dep = declare_dependency(
+    include_directories: ['.'],
+    link_with: [gpiointerface_a],
+    dependencies: default_deps,
+)
+
+entitymanagerinterface_a = static_library(
+    'entitymanagerinterface_a',
+    'EntityManagerInterface.cpp',
+    dependencies: default_deps,
+)
+
+entitymanagerinterface_dep = declare_dependency(
+    include_directories: ['.'],
+    link_with: [entitymanagerinterface_a],
+    dependencies: default_deps,
+)
+
 peci_incdirs = []
 if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
     peci_incdirs = ['../include']
@@ -117,4 +143,8 @@ endif
 
 if get_option('tests').allowed()
     subdir('tests')
+endif
+
+if get_option('leakdetector').allowed()
+    subdir('leakdetector')
 endif
