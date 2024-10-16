@@ -236,3 +236,7 @@ if get_option('external').allowed()
         install: true,
     )
 endif
+
+if get_option('leakdetection').allowed()
+    subdir('LeakDetection')
+endif
