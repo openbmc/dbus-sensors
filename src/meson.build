@@ -61,6 +61,8 @@ pwmsensor_dep = declare_dependency(
     dependencies: [default_deps, thresholds_dep],
 )
 
+systemd_src = files('Systemd.cpp')
+
 peci_incdirs = []
 if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
     peci_incdirs = ['../include']
@@ -117,4 +119,8 @@ endif
 
 if get_option('tests').allowed()
     subdir('tests')
+endif
+
+if get_option('leakdetector').allowed()
+    subdir('leakdetector')
 endif
