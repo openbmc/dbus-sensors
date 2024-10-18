@@ -52,6 +52,24 @@
       "parentUuid": "076a0efe_8b3f004d",
       "revId": "417b775869f664769fbd860f6ef85d9830585189",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b0ef5f3_ee4b854f",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000238
+      },
+      "writtenOn": "2024-10-18T21:22:15Z",
+      "side": 1,
+      "message": "The only changes are lines 472-487 (the other is just formatting).  If you turn on \"Ignore Whitespace\" changes, the differences are really minimized.",
+      "parentUuid": "8ff51fb0_beedcab1",
+      "revId": "417b775869f664769fbd860f6ef85d9830585189",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
