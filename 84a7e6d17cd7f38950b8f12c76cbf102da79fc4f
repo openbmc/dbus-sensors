@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80752bcd_22bf80cd",
+        "filename": "src/PSUSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "got it, also fixed other derived classes.",
+      "parentUuid": "c544da0f_33a49c66",
+      "range": {
+        "startLine": 62,
+        "startChar": 24,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c232df8_092fa7ed",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8b8af1d_e43b1384",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Modified to\n```\nif ((slotId \u003d\u003d sensor-\u003eslotId) \u0026\u0026 (type \u003d\u003d PowerState::chassisOn))\n```",
+      "parentUuid": "0c232df8_092fa7ed",
+      "range": {
+        "startLine": 1134,
+        "startChar": 24,
+        "endLine": 1134,
+        "endChar": 52
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49f4ffc1_6adf10de",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-10-18T18:21:10Z",
       "side": 1,
       "message": "should this be vector or map since path is expected to be unique, right?",
+      "range": {
+        "startLine": 66,
+        "startChar": 7,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5549a11e_74f53011",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Yes, the path of chassis/host is expected to be unique.",
+      "parentUuid": "49f4ffc1_6adf10de",
       "range": {
         "startLine": 66,
         "startChar": 7,
@@ -116,6 +188,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c81b7d14_f7b26f66",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7828457f_893227ae",
+      "range": {
+        "startLine": 316,
+        "startChar": 9,
+        "endLine": 316,
+        "endChar": 14
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a729d09e_b46e936a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07616d21_8cc00797",
+      "range": {
+        "startLine": 316,
+        "startChar": 57,
+        "endLine": 316,
+        "endChar": 74
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3379a60f_f659b9e9",
@@ -129,6 +249,30 @@
       "writtenOn": "2024-10-18T18:21:10Z",
       "side": 1,
       "message": "const size_t",
+      "range": {
+        "startLine": 398,
+        "startChar": 19,
+        "endLine": 398,
+        "endChar": 25
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b342a03f_ff7473dc",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3379a60f_f659b9e9",
       "range": {
         "startLine": 398,
         "startChar": 19,
@@ -162,6 +306,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "970c2897_34a800f7",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Both getPowerStatus() and getPostStatus() are called after vector powerStatusOn and biosHasPost are added new element. I don\u0027t think it need to create for the container if \"it\" does not exist.",
+      "parentUuid": "c45d613b_c14da65d",
+      "range": {
+        "startLine": 428,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 13
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e9a4ee8_13afe16e",
@@ -175,6 +343,30 @@
       "writtenOn": "2024-10-18T18:21:10Z",
       "side": 1,
       "message": "const",
+      "range": {
+        "startLine": 439,
+        "startChar": 18,
+        "endLine": 439,
+        "endChar": 24
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d71d7bdd_b3655baf",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e9a4ee8_13afe16e",
       "range": {
         "startLine": 439,
         "startChar": 18,
@@ -208,6 +400,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b026bb7d_3b360ba2",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e84dca53_e7337f9e",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 475,
+        "endChar": 13
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32f8d4b4_072eebca",
@@ -231,6 +447,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f00b77e_fcbb2f3f",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Because the slotId is defined as string in schema of entity-manager.",
+      "parentUuid": "32f8d4b4_072eebca",
+      "range": {
+        "startLine": 217,
+        "startChar": 23,
+        "endLine": 217,
+        "endChar": 45
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de8728a6_d1c31b69",
@@ -244,6 +484,30 @@
       "writtenOn": "2024-10-18T18:21:10Z",
       "side": 1,
       "message": "Since it is in base class, slotId does not have to be added to the derived class. Please check all the derived classes",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51101ee_4bcfedfc",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-10-21T15:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de8728a6_d1c31b69",
       "range": {
         "startLine": 108,
         "startChar": 0,
