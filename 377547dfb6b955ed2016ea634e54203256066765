@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bba0127_6d975726",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2024-10-21T11:29:01Z",
+      "side": 1,
+      "message": "\u003e Is it the meson.build?\nYes",
+      "parentUuid": "30ecce40_de35afb7",
+      "range": {
+        "startLine": 23,
+        "startChar": 41,
+        "endLine": 23,
+        "endChar": 67
+      },
+      "revId": "377547dfb6b955ed2016ea634e54203256066765",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9eb14050_1a4bdf7a",
@@ -81,6 +105,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26e649ac_abbf9be8",
+        "filename": "src/ADC/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2024-10-21T11:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bea9ced4_65020858",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "377547dfb6b955ed2016ea634e54203256066765",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7673ef0b_e6397031",
@@ -94,6 +142,24 @@
       "writtenOn": "2024-10-15T20:38:12Z",
       "side": 1,
       "message": "does test_IpmbSensor.cpp need to move as well to keep the folder structure the same? (and this test() stanza move into test/src?",
+      "revId": "377547dfb6b955ed2016ea634e54203256066765",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cbe7b1e_11303af6",
+        "filename": "tests/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2024-10-21T11:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7673ef0b_e6397031",
       "revId": "377547dfb6b955ed2016ea634e54203256066765",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
