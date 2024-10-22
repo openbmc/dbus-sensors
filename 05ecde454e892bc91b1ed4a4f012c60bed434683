@@ -308,6 +308,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaad9176_a93f2caf",
+        "filename": "src/MCTPDeviceRepository.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Okay, so I\u0027ve had a bit of a think about this and have performed some rework around it. There\u0027s now a test case that covers the behaviour, so if there are further queries it should be possible to frame them as suggestions on the expected behaviour.\n\nMarking this as resolved for now.",
+      "parentUuid": "88865e7f_b0c0af07",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27013532_97d5b56a",
@@ -345,6 +369,30 @@
       "side": 1,
       "message": "I\u0027m fairly certain I\u0027m not throwing in deferred tasks, and that I\u0027m catching exceptions in the same call stack, but I\u0027ll audit the code for this concern.\n\nUltimately I want to use [std::expected](https://en.cppreference.com/w/cpp/utility/expected) but we\u0027re can\u0027t yet set `-std\u003dc++23`.",
       "parentUuid": "27013532_97d5b56a",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a6536c0_cdca089f",
+        "filename": "src/MCTPDeviceRepository.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "I\u0027ve addressed the throws in both `add()` and `remove()` by inspection, and removed the unused `remove()` definition (the latter one above). There\u0027s no async task submission in the stack between the exception handling and the throws, so I believe there\u0027s currently no concern for blowing up an executor. I\u0027ve also addressed exception handling shortcomings at the job boundaries (which would have caused the issue you highlighted).\n\nMarking this as resolved for now.",
+      "parentUuid": "4cdb197f_56baa53e",
       "range": {
         "startLine": 32,
         "startChar": 0,
@@ -473,6 +521,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea676c9b_a8022f98",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e85ea5e_2dd8cb1f",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 5
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8a30ddc_2f8ebff9",
@@ -504,6 +576,24 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "b8a30ddc_2f8ebff9",
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72bf3763_ccba7c7c",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69ab59c7_2baa3caa",
       "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -714,6 +804,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8151861_36e31310",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48eaa1ee_582b0656",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 5
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b67f1b5_106d735b",
@@ -761,6 +875,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3643fae5_df5da343",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d69dd0a9_5a5a22fe",
+      "range": {
+        "startLine": 224,
+        "startChar": 27,
+        "endLine": 224,
+        "endChar": 35
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83891050_86601b45",
@@ -798,6 +936,30 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "83891050_86601b45",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 55
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91f9e5a0_6f9c42ac",
+        "filename": "src/MCTPEndpoint.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Actually, this one is required, as we only want to perform the async method call if the match succeeds. Constructing a match can throw an `SdBusError()`, hence the try/catch.",
+      "parentUuid": "ee1a995f_d079cce5",
       "range": {
         "startLine": 259,
         "startChar": 0,
@@ -997,6 +1159,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6637ff73_952e6e01",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "520c918c_6f061c90",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 52
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a2a7b47_0ffa7f0a",
@@ -1034,6 +1220,30 @@
       "side": 1,
       "message": "Because if the inventory is gone then the device has gone with it? There\u0027s no point trying to poll it at that point.",
       "parentUuid": "3a2a7b47_0ffa7f0a",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 73
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48c8dd38_e1434e09",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd2a511f_9a29ee0f",
       "range": {
         "startLine": 58,
         "startChar": 0,
@@ -1245,6 +1455,30 @@
       "side": 1,
       "message": "\u003e this is doing a redundant map lookup.\n\u003e\n\u003e Do you just want to separate your deviceFor into two methods,\n\u003e\n\u003e deviceFor (which returns nullptr if the device doesn\u0027t exist)\n\u003e deviceAt (which throws if the device doesn\u0027t exist).\n\nLet me consider that.\n\n\u003e nit, might also want to log that this happened. in theory should never happen.\n\nThere\u0027s a startup race where it could, between registering the signal handler and processing the result of getting the relevant config type.",
       "parentUuid": "ce220cd9_619a2b88",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 5
+      },
+      "revId": "05ecde454e892bc91b1ed4a4f012c60bed434683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32d1ed3a_a0211de8",
+        "filename": "src/MCTPReactor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-22T06:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c1f7926_fbf903b4",
       "range": {
         "startLine": 222,
         "startChar": 0,
