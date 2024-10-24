@@ -42,7 +42,7 @@ std::string getPathForUnits(const std::string& units)
     }
     if (units == "Percent" || units == unitPercent)
     {
-        return "Utilization";
+        return "utilization";
     }
     if (units == "Pascals" || units == unitPascals)
     {
