@@ -8,6 +8,8 @@
 #include <optional>
 #include <string_view>
 
+namespace fs = std::filesystem;
+
 struct I2CDeviceType
 {
     const char* name;
@@ -52,6 +54,75 @@ class I2CDevice
 
     int create() const;
     int destroy() const;
+};
+
+class I2CBus
+{
+  public:
+    I2CBus() = default;
+    I2CBus(int logicalBus) : logicalBus(logicalBus) {}
+    bool operator!=(const I2CBus& other) const
+    {
+        return (logicalBus != other.getBus());
+    }
+    bool operator<(const I2CBus& other) const
+    {
+        return (logicalBus < other.getBus());
+    }
+    bool operator<(const int& num) const
+    {
+        return (logicalBus < num);
+    }
+    int getBus() const
+    {
+        return logicalBus;
+    }
+    void setBus(const int& bus)
+    {
+        logicalBus = bus;
+    }
+    ~I2CBus() = default;
+
+  private:
+    int logicalBus;
+};
+
+class I2CMux
+{
+  public:
+    I2CMux() = delete;
+    I2CMux(const SensorBaseConfigMap& muxChIntf)
+    {
+        auto findMuxName = muxChIntf.find("MuxName");
+        if (findMuxName == muxChIntf.end())
+        {
+            throw std::runtime_error("Can't find 'MuxName'");
+        }
+        if (std::get_if<std::string>(&findMuxName->second) == nullptr)
+        {
+            throw std::runtime_error("MuxName invalid");
+        }
+        std::string muxName = std::get<std::string>(findMuxName->second);
+        muxName = std::regex_replace(muxName, illegalDbusRegex, "_");
+        muxPath = "/dev/i2c-mux/" + muxName;
+    }
+
+    I2CBus getLogicalBus(std::string chName) const
+    {
+        fs::path busLink(muxPath / chName);
+        if (busLink.empty() || !fs::is_symlink(busLink))
+        {
+            throw std::runtime_error("ChannelName symlink is missing");
+        }
+        std::string busPath(fs::read_symlink(busLink));
+        // Remove the "/dev/i2c-"
+        busPath.replace(busPath.begin(), busPath.begin() + 9, "");
+        return std::stoi(busPath);
+    }
+    ~I2CMux() = default;
+
+  private:
+    fs::path muxPath;
 };
 
 // HACK: this declaration "should" live in Utils.hpp, but that leads to a
