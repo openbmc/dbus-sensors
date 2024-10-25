@@ -36,6 +36,7 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
@@ -783,8 +784,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
                 auto itr = propertyList.find("SpecialMode");
                 if (itr == propertyList.end())
                 {
-                    std::cerr << "error getting  SpecialMode property "
-                              << "\n";
+                    std::cerr << "error getting  SpecialMode property " << "\n";
                     return;
                 }
                 auto* manufacturingModeStatus =
