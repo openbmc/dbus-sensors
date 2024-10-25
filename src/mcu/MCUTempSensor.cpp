@@ -16,6 +16,7 @@
 
 #include "MCUTempSensor.hpp"
 
+#include "DeviceMgmt.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -43,6 +44,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -66,7 +68,7 @@ MCUTempSensor::MCUTempSensor(
     boost::asio::io_context& io, const std::string& sensorName,
     const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData, uint8_t busId,
+    std::vector<thresholds::Threshold>&& thresholdData, I2CBus busId,
     uint8_t mcuAddress, uint8_t tempReg) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "MCUTempSensor", false, false,
@@ -114,7 +116,7 @@ void MCUTempSensor::checkThresholds()
 
 int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int32_t* pu32data) const
 {
-    std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
+    std::string i2cBus = "/dev/i2c-" + std::to_string(busId.getBus());
 
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(i2cBus.c_str(), O_RDWR);
@@ -235,8 +237,31 @@ void createSensors(
                         lg2::error("error populating thresholds for '{NAME}'",
                                    "NAME", name);
                     }
-
-                    uint8_t busId = loadVariant<uint8_t>(cfg, "Bus");
+                    I2CBus busId{};
+                    if (cfg.find("Bus") == cfg.end())
+                    {
+                        std::string channelName;
+                        if (auto mux = I2CMux::findMux(
+                                configInterfaceName(sensorType), interfaces,
+                                path.filename(), channelName))
+                        {
+                            std::optional<I2CBus> bus =
+                                mux.value().getBusFromChannel(channelName);
+                            if (!bus)
+                            {
+                                continue;
+                            }
+                            busId = bus.value();
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        busId = I2CBus(loadVariant<int>(cfg, "Bus"));
+                    }
                     uint8_t mcuAddress = loadVariant<uint8_t>(cfg, "Address");
                     uint8_t tempReg = loadVariant<uint8_t>(cfg, "Reg");
 
@@ -248,9 +273,10 @@ void createSensors(
                         lg2::error(
                             "Configuration parsed for '{INTERFACE}' with Name: {NAME}, Bus: {BUS}, "
                             "Address: {ADDRESS}, Reg: {REG}, Class: {CLASS}",
-                            "INTERFACE", intf, "NAME", name, "BUS", busId,
-                            "ADDRESS", mcuAddress, "REG", tempReg, "CLASS",
-                            sensorClass);
+                            "INTERFACE", intf, "NAME", name, "BUS",
+                            busId.getBus(), "ADDRESS",
+                            static_cast<int>mcuAddress, "REG", tempReg,
+                            "CLASS", sensorClass);
                     }
 
                     auto& sensor = sensors[name];

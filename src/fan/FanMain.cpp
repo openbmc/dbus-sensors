@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "DeviceMgmt.hpp"
 #include "PresenceGpio.hpp"
 #include "PwmSensor.hpp"
 #include "TachSensor.hpp"
@@ -365,6 +366,7 @@ void createSensors(
 
                     size_t bus = 0;
                     size_t addr = 0;
+                    I2CBus configBus{};
                     if (!getDeviceBusAddr(deviceName, bus, addr))
                     {
                         continue;
@@ -373,19 +375,41 @@ void createSensors(
                     auto findBus = baseConfiguration->second.find("Bus");
                     auto findAddress =
                         baseConfiguration->second.find("Address");
-                    if (findBus == baseConfiguration->second.end() ||
-                        findAddress == baseConfiguration->second.end())
+                    if (findAddress == baseConfiguration->second.end())
                     {
-                        lg2::error("'{INTERFACE}' missing bus or address",
-                                   "INTERFACE", baseConfiguration->first);
+                        lg2::error("'{INTERFACE}' missing address", "INTERFACE",
+                                   baseConfiguration->first);
                         continue;
                     }
-                    unsigned int configBus = std::visit(
-                        VariantToUnsignedIntVisitor(), findBus->second);
+                    if (findBus == baseConfiguration->second.end())
+                    {
+                        std::string channelName;
+                        if (auto mux = I2CMux::findMux(
+                                cfgIntf, cfgData, path.filename(), channelName))
+                        {
+                            std::optional<I2CBus> busNumber =
+                                mux.value().getBusFromChannel(channelName);
+                            if (!busNumber)
+                            {
+                                continue;
+                            }
+                            configBus = busNumber.value();
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        configBus = I2CBus(
+                            std::visit(VariantToIntVisitor(), findBus->second));
+                    }
                     unsigned int configAddress = std::visit(
                         VariantToUnsignedIntVisitor(), findAddress->second);
 
-                    if (configBus == bus && configAddress == addr)
+                    if ((static_cast<size_t>(configBus.getBus()) == bus) &&
+                        (configAddress == addr))
                     {
                         sensorData = &cfgData;
                         break;

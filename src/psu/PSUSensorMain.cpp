@@ -53,6 +53,7 @@
 #include <functional>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <regex>
 #include <stdexcept>
 #include <string>
@@ -397,6 +398,7 @@ static void createSensorsCallback(
 
         for (const auto& [path, cfgData] : sensorConfigs)
         {
+            I2CBus confBus{};
             sensorData = &cfgData;
             for (const auto& [type, dt] : sensorTypes)
             {
@@ -414,35 +416,63 @@ static void createSensorsCallback(
                            "NAME", deviceName);
                 continue;
             }
-
-            auto configBus = baseConfig->find("Bus");
             auto configAddress = baseConfig->find("Address");
 
-            if (configBus == baseConfig->end() ||
-                configAddress == baseConfig->end())
+            if (configAddress == baseConfig->end())
             {
                 lg2::error("error finding necessary entry in configuration");
                 continue;
             }
 
-            const uint64_t* confBus =
-                std::get_if<uint64_t>(&(configBus->second));
             const uint64_t* confAddr =
                 std::get_if<uint64_t>(&(configAddress->second));
-            if (confBus == nullptr || confAddr == nullptr)
+            if (confAddr == nullptr)
             {
-                lg2::error("Cannot get bus or address, invalid configuration");
+                lg2::error("Cannot get address, invalid configuration");
                 continue;
             }
 
-            if ((*confBus != bus) || (*confAddr != addr))
+            auto configBus = baseConfig->find("Bus");
+            if (configBus == baseConfig->end())
+            {
+                std::string channelName;
+                if (auto mux =
+                        I2CMux::findMux(configInterfaceName(sensorType),
+                                        cfgData, path.filename(), channelName))
+                {
+                    std::optional<I2CBus> bus =
+                        mux.value().getBusFromChannel(channelName);
+                    if (!bus)
+                    {
+                        continue;
+                    }
+                    confBus = bus.value();
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else
+            {
+                if (std::get_if<uint64_t>(&(configBus->second)) == nullptr)
+                {
+                    lg2::error("Cannot get bus, invalid configuration");
+                    continue;
+                }
+                confBus = I2CBus(
+                    static_cast<int>(std::get<uint64_t>(configBus->second)));
+            }
+
+            if ((static_cast<size_t>(confBus.getBus()) != bus) ||
+                (*confAddr != addr))
             {
                 if constexpr (debug)
                 {
                     lg2::error(
                         "Configuration skipping '{CONFBUS}'-'{CONFADDR}' because not {BUS}-{ADDR}",
-                        "CONFBUS", *confBus, "CONFADDR", *confAddr, "BUS", bus,
-                        "ADDR", addr);
+                        "CONFBUS", confBus.getBus(), "CONFADDR", *confAddr,
+                        "BUS", bus, "ADDR", addr);
                 }
                 continue;
             }

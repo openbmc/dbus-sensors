@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DeviceMgmt.hpp"
 #include "Thresholds.hpp"
 
 #include <boost/asio/io_context.hpp>
@@ -22,7 +23,7 @@ class NVMeSensor : public Sensor
                std::shared_ptr<sdbusplus::asio::connection>& conn,
                const std::string& sensorName,
                std::vector<thresholds::Threshold>&& thresholds,
-               const std::string& sensorConfiguration, int busNumber,
+               const std::string& sensorConfiguration, I2CBus busNumber,
                uint8_t slaveAddr);
     ~NVMeSensor() override;
 
@@ -30,7 +31,7 @@ class NVMeSensor : public Sensor
 
     bool sample();
 
-    const int bus;
+    const I2CBus bus;
     const uint8_t address;
 
   private:
