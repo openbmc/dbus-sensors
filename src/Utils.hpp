@@ -161,6 +161,10 @@ inline T loadVariant(const SensorBaseConfigMap& data, const std::string& key)
     {
         return std::visit(VariantToUnsignedIntVisitor(), it->second);
     }
+    else if constexpr (std::is_same_v<T, int>)
+    {
+        return std::visit(VariantToIntVisitor(), it->second);
+    }
     else if constexpr (std::is_same_v<T, std::string>)
     {
         return std::visit(VariantToStringVisitor(), it->second);

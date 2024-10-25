@@ -6,6 +6,7 @@ executable(
     'IntrusionSensorMain.cpp',
     dependencies: [
         default_deps,
+        devicemgmt_dep,
         gpiodcxx,
         i2c,
         utils_dep,
