@@ -182,13 +182,13 @@ static struct SensorParams getSensorParameters(
 
 struct SensorConfigKey
 {
-    uint64_t bus;
+    I2CBus bus;
     uint64_t addr;
     bool operator<(const SensorConfigKey& other) const
     {
-        if (bus != other.bus)
+        if (bus.getBus() != other.bus.getBus())
         {
-            return bus < other.bus;
+            return bus.getBus() < other.bus.getBus();
         }
         return addr < other.addr;
     }
@@ -214,19 +214,51 @@ static SensorConfigMap buildSensorConfigMap(
     {
         for (const auto& [intf, cfg] : cfgData)
         {
+            I2CBus busKey{};
             auto busCfg = cfg.find("Bus");
+            if (busCfg == cfg.end())
+            {
+                std::string channelName;
+                if (auto mux = I2CMux::findMux(intf, cfgData, path.filename(),
+                                               channelName))
+                {
+                    std::optional<I2CBus> bus =
+                        mux.value().getBusFromChannel(channelName);
+                    if (!bus)
+                    {
+                        continue;
+                    }
+                    busKey = bus.value();
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else
+            {
+                if (std::get_if<uint64_t>(&busCfg->second) == nullptr)
+                {
+                    lg2::error("'{PATH}' Bus invalid", "PATH", path.str);
+                    continue;
+                }
+                busKey = I2CBus(
+                    static_cast<int>(std::get<uint64_t>(busCfg->second)));
+            }
+
             auto addrCfg = cfg.find("Address");
-            if ((busCfg == cfg.end()) || (addrCfg == cfg.end()))
+            if (addrCfg == cfg.end())
             {
                 continue;
             }
 
-            if ((std::get_if<uint64_t>(&busCfg->second) == nullptr) ||
-                (std::get_if<uint64_t>(&addrCfg->second) == nullptr))
+            if (std::get_if<uint64_t>(&addrCfg->second) == nullptr)
             {
-                lg2::error("'{PATH}' Bus or Address invalid", "PATH", path.str);
+                lg2::error("'{PATH}' Address invalid", "PATH", path.str);
                 continue;
             }
+            uint64_t addr = std::get<uint64_t>(addrCfg->second);
+            SensorConfigKey key{busKey, addr};
 
             std::vector<std::string> hwmonNames;
             auto nameCfg = cfg.find("Name");
@@ -246,9 +278,6 @@ static SensorConfigMap buildSensorConfigMap(
                     i++;
                 }
             }
-
-            SensorConfigKey key = {std::get<uint64_t>(busCfg->second),
-                                   std::get<uint64_t>(addrCfg->second)};
             SensorConfig val = {path.str, cfgData, intf, cfg, hwmonNames};
 
             auto [it, inserted] = configMap.emplace(key, std::move(val));
@@ -256,7 +285,7 @@ static SensorConfigMap buildSensorConfigMap(
             {
                 lg2::error(
                     "'{PATH}': ignoring duplicate entry for '{BUS}', '{ADDR}'",
-                    "PATH", path.str, "BUS", key.bus, "ADDR", lg2::hex,
+                    "PATH", path.str, "BUS", key.bus.getBus(), "ADDR", lg2::hex,
                     key.addr);
             }
         }
@@ -343,8 +372,9 @@ void createSensors(
                     continue;
                 }
 
+                I2CBus deviceBus(bus);
                 auto thisSensorParameters = getSensorParameters(path);
-                auto findSensorCfg = configMap.find({bus, addr});
+                auto findSensorCfg = configMap.find({deviceBus, addr});
                 if (findSensorCfg == configMap.end())
                 {
                     continue;
