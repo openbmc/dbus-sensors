@@ -359,6 +359,7 @@ void createSensors(
 
                         size_t bus = 0;
                         size_t addr = 0;
+                        unsigned int configBus = 0;
                         if (!getDeviceBusAddr(deviceName, bus, addr))
                         {
                             continue;
@@ -367,15 +368,35 @@ void createSensors(
                         auto findBus = baseConfiguration->second.find("Bus");
                         auto findAddress =
                             baseConfiguration->second.find("Address");
-                        if (findBus == baseConfiguration->second.end() ||
-                            findAddress == baseConfiguration->second.end())
+                        if (findAddress == baseConfiguration->second.end())
                         {
                             std::cerr << baseConfiguration->first
-                                      << " missing bus or address\n";
+                                      << " missing address\n";
                             continue;
                         }
-                        unsigned int configBus = std::visit(
-                            VariantToUnsignedIntVisitor(), findBus->second);
+                        if (findBus == baseConfiguration->second.end())
+                        {
+                            uint64_t busId = 0;
+                            const auto& muxChannelBase =
+                                cfgData.find(cfgIntf + ".MuxChannel");
+                            if (muxChannelBase == cfgData.end())
+                            {
+                                std::cerr << "No Bus or MuxChannel in "
+                                          << path.filename() << std::endl;
+                                continue;
+                            }
+                            if (!(getBusFromMuxChannel(muxChannelBase->second,
+                                                       busId)))
+                            {
+                                continue;
+                            }
+                            configBus = static_cast<unsigned int>(busId);
+                        }
+                        else
+                        {
+                            configBus = std::visit(
+                                VariantToUnsignedIntVisitor(), findBus->second);
+                        }
                         unsigned int configAddress = std::visit(
                             VariantToUnsignedIntVisitor(), findAddress->second);
 
