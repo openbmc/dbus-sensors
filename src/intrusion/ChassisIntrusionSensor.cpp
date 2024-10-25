@@ -369,19 +369,19 @@ ChassisIntrusionSensor::ChassisIntrusionSensor(
 
 ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
     bool autoRearm, boost::asio::io_context& io,
-    sdbusplus::asio::object_server& objServer, int busId, int slaveAddr) :
+    sdbusplus::asio::object_server& objServer, I2CBus busId, int slaveAddr) :
     ChassisIntrusionSensor(autoRearm, objServer), mPollTimer(io)
 {
-    if (busId < 0 || slaveAddr <= 0)
+    if (busId.getBus() < 0 || slaveAddr <= 0)
     {
         throw std::invalid_argument(
-            "Invalid i2c bus " + std::to_string(busId) + " address " +
+            "Invalid i2c bus " + std::to_string(busId.getBus()) + " address " +
             std::to_string(slaveAddr) + "\n");
     }
 
     mSlaveAddr = slaveAddr;
 
-    std::string devPath = "/dev/i2c-" + std::to_string(busId);
+    std::string devPath = "/dev/i2c-" + std::to_string(busId.getBus());
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     mBusFd = open(devPath.c_str(), O_RDWR | O_CLOEXEC);
     if (mBusFd < 0)

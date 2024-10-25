@@ -5,6 +5,7 @@ executable(
     'MCUTempSensor.cpp',
     dependencies: [
         default_deps,
+        devicemgmt_dep,
         i2c,
         thresholds_dep,
         utils_dep,

@@ -9,6 +9,7 @@ executable(
     'IntelCPUSensor.cpp',
     dependencies: [
         default_deps,
+        devicemgmt_dep,
         gpiodcxx,
         thresholds_dep,
         utils_dep,

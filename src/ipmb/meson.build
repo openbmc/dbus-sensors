@@ -7,6 +7,7 @@ executable(
     'IpmbSDRSensor.cpp',
     dependencies: [
         default_deps,
+        devicemgmt_dep,
         thresholds_dep,
         utils_dep,
     ],
