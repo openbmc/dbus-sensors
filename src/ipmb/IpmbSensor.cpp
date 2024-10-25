@@ -16,6 +16,7 @@
 
 #include "IpmbSensor.hpp"
 
+#include "DeviceMgmt.hpp"
 #include "IpmbSDRSensor.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
@@ -42,6 +43,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -643,14 +645,35 @@ void createSensors(
 
                     float pollRate = getPollRate(cfg, pollRateDefault);
 
-                    uint8_t ipmbBusIndex = ipmbBusIndexDefault;
+                    I2CBus ipmbBusIndex(ipmbBusIndexDefault);
                     auto findBusType = cfg.find("Bus");
                     if (findBusType != cfg.end())
                     {
-                        ipmbBusIndex = std::visit(VariantToUnsignedIntVisitor(),
-                                                  findBusType->second);
+                        ipmbBusIndex = I2CBus(std::visit(VariantToIntVisitor(),
+                                                         findBusType->second));
                         lg2::error("Ipmb Bus Index for '{NAME}' is '{INDEX}'",
-                                   "NAME", name, "INDEX", ipmbBusIndex);
+                                   "NAME", name, "INDEX",
+                                   ipmbBusIndex.getBus());
+                    }
+                    else
+                    {
+                        std::string channelName;
+                        if (auto mux = I2CMux::findMux(
+                                configInterfaceName(sensorType), interfaces,
+                                path.filename(), channelName))
+                        {
+                            std::optional<I2CBus> bus =
+                                mux.value().getBusFromChannel(channelName);
+                            if (!bus)
+                            {
+                                continue;
+                            }
+                            ipmbBusIndex = bus.value();
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
 
                     /* Default sensor type is "temperature" */

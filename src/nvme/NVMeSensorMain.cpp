@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "DeviceMgmt.hpp"
 #include "NVMeBasicContext.hpp"
 #include "NVMeContext.hpp"
 #include "NVMeSensor.hpp"
@@ -57,17 +58,18 @@ NVMEMap& getNVMEMap()
     return nvmeDeviceMap;
 }
 
-static std::optional<int> extractBusNumber(
-    const std::string& path, const SensorBaseConfigMap& properties)
+bool extractBusNumber(const std::string& path,
+                      const SensorBaseConfigMap& properties, I2CBus& busNumber)
 {
     auto findBus = properties.find("Bus");
     if (findBus == properties.end())
     {
-        lg2::error("could not determine bus number for '{PATH}'", "PATH", path);
-        return std::nullopt;
+        lg2::error("could not find \"Bus\" config for '{PATH}'", "PATH", path);
+        return false;
     }
 
-    return std::visit(VariantToIntVisitor(), findBus->second);
+    busNumber = I2CBus(std::visit(VariantToIntVisitor(), findBus->second));
+    return true;
 }
 
 static uint8_t extractSlaveAddr(const std::string& path,
@@ -106,18 +108,13 @@ static std::filesystem::path deriveRootBusPath(int busNumber)
            "/mux_device";
 }
 
-static std::optional<int> deriveRootBus(std::optional<int> busNumber)
+static std::optional<int> deriveRootBus(I2CBus busNumber)
 {
-    if (!busNumber)
-    {
-        return std::nullopt;
-    }
-
-    std::filesystem::path muxPath = deriveRootBusPath(*busNumber);
+    std::filesystem::path muxPath = deriveRootBusPath(busNumber.getBus());
 
     if (!std::filesystem::is_symlink(muxPath))
     {
-        return busNumber;
+        return busNumber.getBus();
     }
 
     std::string rootName = std::filesystem::read_symlink(muxPath).filename();
@@ -174,14 +171,33 @@ static void handleSensorConfigurations(
         }
 
         const SensorBaseConfigMap& sensorConfig = sensorBase->second;
-        std::optional<int> busNumber =
-            extractBusNumber(interfacePath, sensorConfig);
+        I2CBus busNumber{};
+        if (!(extractBusNumber(interfacePath, sensorConfig, busNumber)))
+        {
+            std::string channelName;
+            if (auto mux = I2CMux::findMux(
+                    configInterfaceName(NVMeSensor::sensorType), sensorData,
+                    interfacePath.filename(), channelName))
+            {
+                std::optional<I2CBus> bus =
+                    mux.value().getBusFromChannel(channelName);
+                if (!bus)
+                {
+                    continue;
+                }
+                busNumber = bus.value();
+            }
+            else
+            {
+                continue;
+            }
+        }
         std::optional<std::string> sensorName =
             extractSensorName(interfacePath, sensorConfig);
         uint8_t slaveAddr = extractSlaveAddr(interfacePath, sensorConfig);
         std::optional<int> rootBus = deriveRootBus(busNumber);
 
-        if (!(busNumber && sensorName && rootBus))
+        if (!(sensorName && rootBus))
         {
             continue;
         }
@@ -204,7 +220,7 @@ static void handleSensorConfigurations(
             std::shared_ptr<NVMeSensor> sensorPtr =
                 std::make_shared<NVMeSensor>(
                     objectServer, io, dbusConnection, *sensorName,
-                    std::move(sensorThresholds), interfacePath, *busNumber,
+                    std::move(sensorThresholds), interfacePath, busNumber,
                     slaveAddr);
 
             context->addSensor(sensorPtr);
