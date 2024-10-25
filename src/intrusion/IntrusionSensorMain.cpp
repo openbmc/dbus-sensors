@@ -15,6 +15,7 @@
 */
 
 #include "ChassisIntrusionSensor.hpp"
+#include "DeviceMgmt.hpp"
 #include "Utils.hpp"
 
 #include <boost/asio/error.hpp>
@@ -39,6 +40,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <system_error>
 #include <utility>
@@ -184,17 +186,46 @@ static void createSensorsFromConfig(
             }
             else
             {
+                I2CBus busId{};
                 auto findBus = baseConfiguration->second.find("Bus");
                 auto findAddress = baseConfiguration->second.find("Address");
-                if (findBus == baseConfiguration->second.end() ||
-                    findAddress == baseConfiguration->second.end())
+                if (findAddress == baseConfiguration->second.end())
                 {
-                    lg2::error("error finding bus or address in configuration");
+                    lg2::error("error finding address in configuration");
                     continue;
+                }
+                if (findBus == baseConfiguration->second.end())
+                {
+                    std::string channelName;
+                    if (auto mux = I2CMux::findMux(
+                            configInterfaceName(sensorType), cfgData,
+                            path.filename(), channelName))
+                    {
+                        std::optional<I2CBus> bus =
+                            mux.value().getBusFromChannel(channelName);
+                        if (!bus)
+                        {
+                            continue;
+                        }
+                        busId = bus.value();
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (std::get_if<uint64_t>(&findBus->second) == nullptr)
+                    {
+                        lg2::error("invalid value for bus in config");
+                        continue;
+                    }
+                    busId = I2CBus(
+                        static_cast<int>(std::get<uint64_t>(findBus->second)));
                 }
                 try
                 {
-                    int busId = std::get<uint64_t>(findBus->second);
                     int slaveAddr = std::get<uint64_t>(findAddress->second);
                     pSensor = std::make_shared<ChassisIntrusionPchSensor>(
                         autoRearm, io, objServer, busId, slaveAddr);
@@ -203,13 +234,13 @@ static void createSensorsFromConfig(
                     {
                         lg2::info(
                             "find matched bus '{BUS}', matched slave addr '{ADDR}'",
-                            "BUS", busId, "ADDR", slaveAddr);
+                            "BUS", busId.getBus(), "ADDR", slaveAddr);
                     }
                     return;
                 }
                 catch (const std::bad_variant_access& e)
                 {
-                    lg2::error("invalid value for bus or address in config.");
+                    lg2::error("invalid value for address in config.");
                     continue;
                 }
                 catch (const std::exception& e)
