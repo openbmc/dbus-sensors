@@ -16,6 +16,7 @@
 
 #include "NVMeSensor.hpp"
 
+#include "DeviceMgmt.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -42,13 +43,13 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
                        const std::string& sensorName,
                        std::vector<thresholds::Threshold>&& thresholdsIn,
                        const std::string& sensorConfiguration,
-                       const int busNumber, const uint8_t slaveAddr) :
+                       const I2CBus busNumber, const uint8_t slaveAddr) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,
            PowerState::on),
     bus(busNumber), address(slaveAddr), objServer(objectServer)
 {
-    if (bus < 0)
+    if (bus.getBus() < 0)
     {
         throw std::invalid_argument("Invalid bus: Bus ID must not be negative");
     }
