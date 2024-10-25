@@ -1,7 +1,9 @@
 #pragma once
 #include "Thresholds.hpp"
+#include "DeviceMgmt.hpp"
 
 #include <boost/asio/io_context.hpp>
+
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -19,14 +21,14 @@ struct MCUTempSensor : public Sensor
                   const std::string& sensorConfiguration,
                   sdbusplus::asio::object_server& objectServer,
                   std::vector<thresholds::Threshold>&& thresholdData,
-                  uint8_t busId, uint8_t mcuAddress, uint8_t tempReg);
+                  I2CBus busId, uint8_t mcuAddress, uint8_t tempReg);
     ~MCUTempSensor() override;
 
     void checkThresholds() override;
     void read();
     void init();
 
-    uint8_t busId;
+    I2CBus busId;
     uint8_t mcuAddress;
     uint8_t tempReg;
 

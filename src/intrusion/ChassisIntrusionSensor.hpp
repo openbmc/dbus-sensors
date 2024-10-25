@@ -1,5 +1,7 @@
 #pragma once
 
+#include "DeviceMgmt.hpp"
+
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -45,7 +47,7 @@ class ChassisIntrusionPchSensor :
   public:
     ChassisIntrusionPchSensor(bool autoRearm, boost::asio::io_context& io,
                               sdbusplus::asio::object_server& objServer,
-                              int busId, int slaveAddr);
+                              I2CBus busId, int slaveAddr);
 
     ~ChassisIntrusionPchSensor() override;
 

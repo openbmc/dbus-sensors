@@ -1,7 +1,7 @@
 nvme_srcs = files('NVMeSensor.cpp', 'NVMeSensorMain.cpp')
 nvme_srcs += files('NVMeBasicContext.cpp')
 
-nvme_deps = [default_deps, i2c, thresholds_dep, utils_dep, threads]
+nvme_deps = [default_deps, devicemgmt_deps, i2c, thresholds_dep, utils_dep, threads]
 src_inc = include_directories('..')
 
 executable(
