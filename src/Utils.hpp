@@ -409,3 +409,5 @@ bool getDeviceBusAddr(const std::string& deviceName, T& bus, T& addr)
 
     return true;
 }
+
+bool getBusFromMuxChannel(const SensorBaseConfigMap& muxChIntf, uint64_t& bus);
