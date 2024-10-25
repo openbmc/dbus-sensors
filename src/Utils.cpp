@@ -783,8 +783,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
                 auto itr = propertyList.find("SpecialMode");
                 if (itr == propertyList.end())
                 {
-                    std::cerr << "error getting  SpecialMode property "
-                              << "\n";
+                    std::cerr << "error getting  SpecialMode property " << "\n";
                     return;
                 }
                 auto* manufacturingModeStatus =
@@ -870,4 +869,36 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
         types.push_back(type.data());
     }
     return setupPropertiesChangedMatches(bus, {types}, handler);
+}
+
+bool getBusFromMuxChannel(const SensorBaseConfigMap& muxChIntf, uint64_t& bus)
+{
+    auto findMuxName = muxChIntf.find("MuxName");
+    auto findChName = muxChIntf.find("ChannelName");
+    if (findMuxName == muxChIntf.end() || findChName == muxChIntf.end())
+    {
+        std::cerr << "Can't find 'MuxName' or 'ChannelName'" << std::endl;
+        return false;
+    }
+    if ((std::get_if<std::string>(&findMuxName->second) == nullptr) ||
+        (std::get_if<std::string>(&findChName->second) == nullptr))
+    {
+        std::cerr << " Mux or Channel name invalid" << std::endl;
+        return false;
+    }
+    std::string muxName = std::get<std::string>(findMuxName->second);
+    std::string chName = std::get<std::string>(findChName->second);
+    fs::path busLink = "/dev/i2c-mux";
+    busLink /= muxName;
+    busLink /= chName;
+    if (busLink.empty() || !fs::is_symlink(busLink))
+    {
+        std::cerr << "ChannelName symlink is missing" << std::endl;
+        return false;
+    }
+    std::string busPath(fs::read_symlink(busLink));
+    // Remove the "/dev/i2c-"
+    busPath.replace(busPath.begin(), busPath.begin() + 9, "");
+    bus = std::stoull(busPath);
+    return true;
 }

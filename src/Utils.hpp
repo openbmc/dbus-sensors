@@ -9,6 +9,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/types.hpp>
 
+#include <cstdint>
 #include <filesystem>
 #include <functional>
 #include <iostream>
@@ -409,3 +410,5 @@ bool getDeviceBusAddr(const std::string& deviceName, T& bus, T& addr)
 
     return true;
 }
+
+bool getBusFromMuxChannel(const SensorBaseConfigMap& muxChIntf, uint64_t& bus);
