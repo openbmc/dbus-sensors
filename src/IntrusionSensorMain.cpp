@@ -183,18 +183,43 @@ static void createSensorsFromConfig(
             }
             else
             {
+                int busId;
                 auto findBus = baseConfiguration->second.find("Bus");
                 auto findAddress = baseConfiguration->second.find("Address");
-                if (findBus == baseConfiguration->second.end() ||
-                    findAddress == baseConfiguration->second.end())
+                if (findAddress == baseConfiguration->second.end())
                 {
-                    std::cerr
-                        << "error finding bus or address in configuration \n";
+                    std::cerr << "error finding address in configuration \n";
                     continue;
+                }
+                if (findBus == baseConfiguration->second.end())
+                {
+                    uint64_t bus;
+                    const auto& muxChannelBase = sensorData->find(
+                        configInterfaceName(sensorType) + ".MuxChannel");
+                    if (muxChannelBase == sensorData->end())
+                    {
+                        std::cerr << "No Bus or MuxChannel in "
+                                  << path.filename() << std::endl;
+                        continue;
+                    }
+                    if (!(getBusFromMuxChannel(muxChannelBase->second, bus)))
+                    {
+                        continue;
+                    }
+                    busId = static_cast<int>(bus);
+                }
+                else
+                {
+                    if (std::get_if<uint64_t>(&findBus->second) == nullptr)
+                    {
+                        std::cerr
+                            << "invalid value for bus in config" << std::endl;
+                        continue;
+                    }
+                    busId = std::get<uint64_t>(findBus->second);
                 }
                 try
                 {
-                    int busId = std::get<uint64_t>(findBus->second);
                     int slaveAddr = std::get<uint64_t>(findAddress->second);
                     pSensor = std::make_shared<ChassisIntrusionPchSensor>(
                         autoRearm, io, objServer, busId, slaveAddr);
@@ -209,8 +234,7 @@ static void createSensorsFromConfig(
                 }
                 catch (const std::bad_variant_access& e)
                 {
-                    std::cerr
-                        << "invalid value for bus or address in config. \n";
+                    std::cerr << "invalid value for address in config. \n";
                     continue;
                 }
                 catch (const std::exception& e)

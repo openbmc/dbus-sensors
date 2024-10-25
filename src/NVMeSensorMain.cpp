@@ -175,6 +175,23 @@ static void handleSensorConfigurations(
         const SensorBaseConfigMap& sensorConfig = sensorBase->second;
         std::optional<int> busNumber =
             extractBusNumber(interfacePath, sensorConfig);
+        if (!(busNumber))
+        {
+            uint64_t busId;
+            const auto& muxChannelBase = sensorData.find(
+                configInterfaceName(NVMeSensor::sensorType) + ".MuxChannel");
+            if (muxChannelBase == sensorData.end())
+            {
+                std::cerr << "No Bus or MuxChannel in "
+                          << interfacePath.filename() << std::endl;
+                continue;
+            }
+            if (!(getBusFromMuxChannel(muxChannelBase->second, busId)))
+            {
+                continue;
+            }
+            busNumber = static_cast<int>(busId);
+        }
         std::optional<std::string> sensorName =
             extractSensorName(interfacePath, sensorConfig);
         uint8_t slaveAddr = extractSlaveAddr(interfacePath, sensorConfig);

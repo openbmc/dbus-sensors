@@ -718,72 +718,83 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
         {
             for (const auto& [intf, cfg] : cfgData)
             {
-                if (intf != configInterfaceName(type))
+                if (intf == configInterfaceName(type))
                 {
-                    continue;
-                }
-
-                auto findName = cfg.find("Name");
-                if (findName == cfg.end())
-                {
-                    continue;
-                }
-                std::string nameRaw =
-                    std::visit(VariantToStringVisitor(), findName->second);
-                std::string name =
-                    std::regex_replace(nameRaw, illegalDbusRegex, "_");
-
-                auto present = std::optional<bool>();
-                // if we can't detect it via gpio, we set presence later
-                for (const auto& [suppIntf, suppCfg] : cfgData)
-                {
-                    if (suppIntf.find("PresenceGpio") != std::string::npos)
+                    uint64_t bus;
+                    auto findName = cfg.find("Name");
+                    if (findName == cfg.end())
                     {
-                        present = cpuIsPresent(suppCfg);
-                        break;
+                        continue;
                     }
-                }
+                    std::string nameRaw =
+                        std::visit(VariantToStringVisitor(), findName->second);
+                    std::string name =
+                        std::regex_replace(nameRaw, illegalDbusRegex, "_");
 
-                if (inventoryIfaces.find(name) == inventoryIfaces.end() &&
-                    present)
-                {
-                    auto iface = objectServer.add_interface(
-                        cpuInventoryPath + std::string("/") + name,
-                        "xyz.openbmc_project.Inventory.Item");
-                    iface->register_property("PrettyName", name);
-                    iface->register_property("Present", *present);
-                    iface->initialize();
-                    inventoryIfaces[name] = std::move(iface);
-                }
+                    auto present = std::optional<bool>();
+                    // if we can't detect it via gpio, we set presence later
+                    for (const auto& [suppIntf, suppCfg] : cfgData)
+                    {
+                        if (suppIntf.find("PresenceGpio") != std::string::npos)
+                        {
+                            present = cpuIsPresent(suppCfg);
+                            break;
+                        }
+                    }
 
-                auto findBus = cfg.find("Bus");
-                if (findBus == cfg.end())
-                {
-                    std::cerr << "Can't find 'Bus' setting in " << name << "\n";
-                    continue;
-                }
-                uint64_t bus =
-                    std::visit(VariantToUnsignedIntVisitor(), findBus->second);
+                    if (inventoryIfaces.find(name) == inventoryIfaces.end() &&
+                        present)
+                    {
+                        auto iface = objectServer.add_interface(
+                            cpuInventoryPath + std::string("/") + name,
+                            "xyz.openbmc_project.Inventory.Item");
+                        iface->register_property("PrettyName", name);
+                        iface->register_property("Present", *present);
+                        iface->initialize();
+                        inventoryIfaces[name] = std::move(iface);
+                    }
 
-                auto findAddress = cfg.find("Address");
-                if (findAddress == cfg.end())
-                {
-                    std::cerr
-                        << "Can't find 'Address' setting in " << name << "\n";
-                    continue;
-                }
-                uint64_t addr = std::visit(VariantToUnsignedIntVisitor(),
-                                           findAddress->second);
+                    auto findAddress = cfg.find("Address");
+                    if (findAddress == cfg.end())
+                    {
+                        std::cerr << "Can't find 'Address' setting in " << name
+                                  << "\n";
+                        continue;
+                    }
+                    uint64_t addr = std::visit(VariantToUnsignedIntVisitor(),
+                                               findAddress->second);
 
-                if (debug)
-                {
-                    std::cout << "bus: " << bus << "\n";
-                    std::cout << "addr: " << addr << "\n";
-                    std::cout << "name: " << name << "\n";
-                    std::cout << "type: " << type << "\n";
-                }
+                    auto findBus = cfg.find("Bus");
+                    if (findBus == cfg.end())
+                    {
+                        const auto& findMuxCh = cfgData.find(
+                            configInterfaceName(type) + ".MuxChannel");
+                        if (findMuxCh == cfgData.end())
+                        {
+                            std::cerr << "No Bus or MuxChannel in "
+                                      << path.filename() << std::endl;
+                            continue;
+                        }
+                        if (!getBusFromMuxChannel(findMuxCh->second, bus))
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        bus = std::visit(VariantToUnsignedIntVisitor(),
+                                         findBus->second);
+                    }
+                    if (debug)
+                    {
+                        std::cout << "bus: " << bus << "\n";
+                        std::cout << "addr: " << addr << "\n";
+                        std::cout << "name: " << name << "\n";
+                        std::cout << "type: " << type << "\n";
+                    }
 
-                cpuConfigs.emplace(bus, addr, name, State::OFF);
+                    cpuConfigs.emplace(bus, addr, name, State::OFF);
+                }
             }
         }
     }

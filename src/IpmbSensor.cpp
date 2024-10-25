@@ -648,6 +648,19 @@ void createSensors(
                         std::cerr << "Ipmb Bus Index for " << name << " is "
                                   << static_cast<int>(ipmbBusIndex) << "\n";
                     }
+                    else
+                    {
+                        const auto& findMuxCh = interfaces.find(
+                            configInterfaceName(sensorType) + ".MuxChannel");
+                        if (findMuxCh != interfaces.end())
+                        {
+                            uint64_t bus;
+                            if (getBusFromMuxChannel(findMuxCh->second, bus))
+                            {
+                                ipmbBusIndex = static_cast<uint8_t>(bus);
+                            }
+                        }
+                    }
 
                     /* Default sensor type is "temperature" */
                     std::string sensorTypeName = "temperature";

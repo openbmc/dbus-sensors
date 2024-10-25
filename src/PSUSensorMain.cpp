@@ -389,6 +389,7 @@ static void createSensorsCallback(
 
         for (const auto& [path, cfgData] : sensorConfigs)
         {
+            uint64_t confBus;
             sensorData = &cfgData;
             for (const auto& [type, dt] : sensorTypes)
             {
@@ -406,33 +407,55 @@ static void createSensorsCallback(
                           << deviceName << "\n";
                 continue;
             }
-
-            auto configBus = baseConfig->find("Bus");
             auto configAddress = baseConfig->find("Address");
 
-            if (configBus == baseConfig->end() ||
-                configAddress == baseConfig->end())
+            if (configAddress == baseConfig->end())
             {
                 std::cerr << "error finding necessary entry in configuration\n";
                 continue;
             }
 
-            const uint64_t* confBus =
-                std::get_if<uint64_t>(&(configBus->second));
             const uint64_t* confAddr =
                 std::get_if<uint64_t>(&(configAddress->second));
-            if (confBus == nullptr || confAddr == nullptr)
+            if (confAddr == nullptr)
             {
-                std::cerr
-                    << "Cannot get bus or address, invalid configuration\n";
+                std::cerr << "Cannot address, invalid configuration"
+                          << std::endl;
                 continue;
             }
 
-            if ((*confBus != bus) || (*confAddr != addr))
+            auto configBus = baseConfig->find("Bus");
+            if (configBus == baseConfig->end())
+            {
+                std::string muxIntfStr(
+                    configInterfacePrefix + sensorType + ".MuxChannel");
+                const auto& findMuxCh = cfgData.find(muxIntfStr);
+                if (findMuxCh == cfgData.end())
+                {
+                    std::cerr << "No Bus or MuxChannel config in "
+                              << path.filename() << std::endl;
+                    continue;
+                }
+                if (!(getBusFromMuxChannel(findMuxCh->second, confBus)))
+                {
+                    continue;
+                }
+            }
+            else
+            {
+                if (std::get_if<uint64_t>(&(configBus->second)) == nullptr)
+                {
+                    std::cerr << "Cannot get bus, invalid configuration\n";
+                    continue;
+                }
+                confBus = std::get<uint64_t>(configBus->second);
+            }
+
+            if ((confBus != bus) || (*confAddr != addr))
             {
                 if constexpr (debug)
                 {
-                    std::cerr << "Configuration skipping " << *confBus << "-"
+                    std::cerr << "Configuration skipping " << confBus << "-"
                               << *confAddr << " because not " << bus << "-"
                               << addr << "\n";
                 }

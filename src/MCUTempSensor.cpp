@@ -236,8 +236,43 @@ void createSensors(
                         std::cerr << "error populating thresholds for " << name
                                   << "\n";
                     }
-
-                    uint8_t busId = loadVariant<uint8_t>(cfg, "Bus");
+                    uint8_t busId;
+                    if (cfg.find("Bus") == cfg.end())
+                    {
+                        const auto& findMuxCh = interfaces.find(
+                            configInterfaceName(sensorType) + ".MuxChannel");
+                        if (findMuxCh == interfaces.end())
+                        {
+                            std::cerr << "No Bus or MuxChannel in "
+                                      << path.filename() << std::endl;
+                            continue;
+                        }
+                        std::string muxName = loadVariant<std::string>(
+                            findMuxCh->second, "MuxName");
+                        std::string chName = loadVariant<std::string>(
+                            findMuxCh->second, "ChannelName");
+                        std::filesystem::path busLink = "/dev/i2c-mux";
+                        busLink /= muxName;
+                        busLink /= chName;
+                        if (busLink.empty() ||
+                            !std::filesystem::is_symlink(busLink))
+                        {
+                            std::cerr << "ChannelName symlink is missing"
+                                      << std::endl;
+                            continue;
+                        }
+                        std::string busPath(
+                            std::filesystem::read_symlink(busLink));
+                        // Remove the "/dev/i2c-"
+                        busPath.replace(busPath.begin(), busPath.begin() + 9,
+                                        "");
+                        std::cout << "buspath: " << busPath << std::endl;
+                        busId = std::stoi(busPath);
+                    }
+                    else
+                    {
+                        busId = loadVariant<uint8_t>(cfg, "Bus");
+                    }
                     uint8_t mcuAddress = loadVariant<uint8_t>(cfg, "Address");
                     uint8_t tempReg = loadVariant<uint8_t>(cfg, "Reg");
 
