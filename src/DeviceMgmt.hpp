@@ -12,15 +12,25 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <functional>
 #include <iostream>
 #include <memory>
 #include <optional>
+#include <regex>
 #include <stdexcept>
 #include <string>
 #include <utility>
 #include <variant>
 #include <vector>
+
+namespace fs = std::filesystem;
+
+// the /dev/i2c-mux/ directory should contain the symbolic links between the
+// ChannelNames of the mux and the logical bus number as created in
+// entity-manager linkMux function
+// https://github.com/openbmc/entity-manager/blob/master/src/overlay.cpp#L71
+static constexpr const char* defaultMuxDir = "/dev/i2c-mux/";
 
 struct I2CDeviceType
 {
@@ -41,7 +51,8 @@ using I2CDeviceTypeMap =
 
 struct I2CDeviceParams
 {
-    I2CDeviceParams(const I2CDeviceType& type, uint64_t bus, uint64_t address) :
+    I2CDeviceParams(const I2CDeviceType& type, uint64_t& bus,
+                    uint64_t address) :
         type(&type), bus(bus), address(address) {};
 
     const I2CDeviceType* type;
@@ -53,7 +64,8 @@ struct I2CDeviceParams
 };
 
 std::optional<I2CDeviceParams> getI2CDeviceParams(
-    const I2CDeviceTypeMap& dtmap, const SensorBaseConfigMap& cfg);
+    const I2CDeviceTypeMap& dtmap, const SensorBaseConfigMap& cfg,
+    const SensorData& sensor);
 
 class I2CDevice
 {
@@ -66,6 +78,100 @@ class I2CDevice
 
     int create() const;
     int destroy() const;
+};
+
+class I2CBus
+{
+  public:
+    explicit I2CBus() = default;
+    explicit I2CBus(int logicalBus) : logicalBus(logicalBus) {}
+
+    int getBus() const
+    {
+        return logicalBus;
+    }
+
+    ~I2CBus() = default;
+
+  private:
+    int logicalBus;
+};
+
+class I2CMux
+{
+  public:
+    I2CMux() = delete;
+
+    std::optional<I2CBus> getBusFromChannel(const std::string& chName) const
+    {
+        fs::path busLink(muxPath / chName);
+        if (busLink.empty() || !fs::is_symlink(busLink))
+        {
+            std::cerr << "ChannelName symlink is missing" << std::endl;
+            return std::nullopt;
+        }
+        // retrieve the i2c-#
+        std::string busPath(fs::read_symlink(busLink).filename());
+
+        // remove "i2c-"
+        std::string i2cPrefix = "i2c-";
+        auto findPrefix = busPath.find(i2cPrefix);
+        busPath.erase(findPrefix, i2cPrefix.size());
+        I2CBus bus(std::stoi(busPath));
+        return bus;
+    }
+    ~I2CMux() = default;
+
+    static std::optional<I2CMux> findMux(
+        const std::string& baseIntf, const SensorData& cfgData,
+        const std::string& path, std::string& channelName,
+        const std::string& muxDir = defaultMuxDir)
+    {
+        const auto& muxChannelBase = cfgData.find(baseIntf + ".MuxChannel");
+        std::string muxName;
+
+        if (muxChannelBase == cfgData.end())
+        {
+            std::cerr << "No Bus or MuxChannel config for " + path << std::endl;
+            return std::nullopt;
+        }
+        const SensorBaseConfigMap& muxChannelIntf = muxChannelBase->second;
+        auto findMuxName = muxChannelIntf.find("MuxName");
+        auto findChName = muxChannelIntf.find("ChannelName");
+        if (findMuxName == muxChannelIntf.end() ||
+            findChName == muxChannelIntf.end())
+        {
+            std::cerr << "Can't find Mux or Channel name for " + path
+                      << std::endl;
+            return std::nullopt;
+        }
+        if (std::get_if<std::string>(&findMuxName->second) == nullptr ||
+            std::get_if<std::string>(&findChName->second) == nullptr)
+        {
+            std::cerr << "Mux or Channel name invalid for " + path << std::endl;
+            return std::nullopt;
+        }
+        channelName = std::get<std::string>(findChName->second);
+        muxName = std::get<std::string>(findMuxName->second);
+        muxName = std::regex_replace(muxName, illegalDbusRegex, "_");
+        fs::path muxPath = fs::path(muxDir) / muxName;
+        if (muxPath.empty())
+        {
+            std::cerr << muxPath.string() + "does not exist" << std::endl;
+            return std::nullopt;
+        }
+        I2CMux mux(muxName, muxDir);
+        return mux;
+    }
+
+  private:
+    explicit I2CMux(const std::string& muxName,
+                    const std::string& muxDir = defaultMuxDir)
+    {
+        muxPath = fs::path(muxDir) / muxName;
+    }
+
+    fs::path muxPath;
 };
 
 // HACK: this declaration "should" live in Utils.hpp, but that leads to a
@@ -144,7 +250,7 @@ boost::container::flat_map<std::string,
             }
 
             std::optional<I2CDeviceParams> params =
-                getI2CDeviceParams(sensorTypes, cfg);
+                getI2CDeviceParams(sensorTypes, cfg, sensor);
             if (params.has_value() && !params->deviceStatic())
             {
                 // There exist error cases in which a sensor device that we
