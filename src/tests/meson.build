@@ -58,6 +58,18 @@ test(
 )
 
 test(
+    'test_i2c',
+    executable(
+        'test_i2c',
+        'test_I2C.cpp',
+        '../DeviceMgmt.hpp',
+        dependencies: ut_deps_list,
+        implicit_include_directories: false,
+        include_directories: src_inc,
+    ),
+)
+
+test(
     'MCTPReactor',
     executable(
         'test_MCTPReactor',
