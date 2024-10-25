@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "DeviceMgmt.hpp"
 #include "IpmbSensor.hpp"
 
 #include "IpmbSDRSensor.hpp"
@@ -639,14 +640,42 @@ void createSensors(
 
                     float pollRate = getPollRate(cfg, pollRateDefault);
 
-                    uint8_t ipmbBusIndex = ipmbBusIndexDefault;
+                    I2CBus ipmbBusIndex(ipmbBusIndexDefault);
                     auto findBusType = cfg.find("Bus");
                     if (findBusType != cfg.end())
                     {
-                        ipmbBusIndex = std::visit(VariantToUnsignedIntVisitor(),
+                        ipmbBusIndex = std::visit(VariantToIntVisitor(),
                                                   findBusType->second);
                         std::cerr << "Ipmb Bus Index for " << name << " is "
-                                  << static_cast<int>(ipmbBusIndex) << "\n";
+                                  << static_cast<int>(ipmbBusIndex.getBus())
+                                  << "\n";
+                    }
+                    else
+                    {
+                        const auto& findMuxCh = interfaces.find(
+                            configInterfaceName(sensorType) + ".MuxChannel");
+                        if (findMuxCh != interfaces.end())
+                        {
+                            try
+                            {
+                                I2CMux mux(findMuxCh->second);
+                                auto findChName =
+                                    findMuxCh->second.find("ChannelName");
+                                if (std::get_if<std::string>(
+                                    &findChName->second) == nullptr)
+                                {
+                                    throw std::runtime_error(
+                                        "Channel name invalid");
+                                }
+                                ipmbBusIndex = mux.getLogicalBus(
+                                    std::get<std::string>(findChName->second));
+                            }
+                            catch (const std::exception& e)
+                            {
+                                std::cerr << e.what() << '\n';
+                                continue;
+                            }
+                        }
                     }
 
                     /* Default sensor type is "temperature" */

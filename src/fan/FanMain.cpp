@@ -14,6 +14,7 @@
 // limitations under the License.
 */
 
+#include "DeviceMgmt.hpp"
 #include "PresenceGpio.hpp"
 #include "PwmSensor.hpp"
 #include "TachSensor.hpp"
@@ -360,6 +361,7 @@ void createSensors(
 
                         size_t bus = 0;
                         size_t addr = 0;
+                        I2CBus configBus = 0;
                         if (!getDeviceBusAddr(deviceName, bus, addr))
                         {
                             continue;
@@ -368,19 +370,53 @@ void createSensors(
                         auto findBus = baseConfiguration->second.find("Bus");
                         auto findAddress =
                             baseConfiguration->second.find("Address");
-                        if (findBus == baseConfiguration->second.end() ||
-                            findAddress == baseConfiguration->second.end())
+                        if (findAddress == baseConfiguration->second.end())
                         {
                             std::cerr << baseConfiguration->first
-                                      << " missing bus or address\n";
+                                      << " missing address\n";
                             continue;
                         }
-                        unsigned int configBus = std::visit(
-                            VariantToUnsignedIntVisitor(), findBus->second);
+                        if (findBus == baseConfiguration->second.end())
+                        {
+                            const auto& muxChannelBase =
+                                cfgData.find(cfgIntf + ".MuxChannel");
+                            if (muxChannelBase == cfgData.end())
+                            {
+                                std::cerr << "No Bus or MuxChannel config for "
+                                          << path.filename() << std::endl;
+                                continue;
+                            }
+                            try
+                            {
+                                I2CMux mux(muxChannelBase->second);
+                                auto findChName =
+                                    muxChannelBase->second.find("ChannelName");
+                                if (std::get_if<std::string>(
+                                        &findChName->second) == nullptr)
+                                {
+                                    throw std::runtime_error(
+                                        "Channel name invalid");
+                                }
+                                configBus = mux.getLogicalBus(
+                                    std::get<std::string>(findChName->second));
+                            }
+                            catch (const std::exception& e)
+                            {
+                                std::cerr << e.what() << std::endl;
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            configBus.setBus(
+                                std::visit(VariantToIntVisitor(),
+                                findBus->second));
+                        }
                         unsigned int configAddress = std::visit(
                             VariantToUnsignedIntVisitor(), findAddress->second);
 
-                        if (configBus == bus && configAddress == addr)
+                        if ((static_cast<size_t>(configBus.getBus()) == bus) &&
+                            (configAddress == addr))
                         {
                             sensorData = &cfgData;
                             break;

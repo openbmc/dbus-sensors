@@ -390,6 +390,7 @@ static void createSensorsCallback(
 
         for (const auto& [path, cfgData] : sensorConfigs)
         {
+            I2CBus confBus;
             sensorData = &cfgData;
             for (const auto& [type, dt] : sensorTypes)
             {
@@ -407,35 +408,72 @@ static void createSensorsCallback(
                           << deviceName << "\n";
                 continue;
             }
-
-            auto configBus = baseConfig->find("Bus");
             auto configAddress = baseConfig->find("Address");
 
-            if (configBus == baseConfig->end() ||
-                configAddress == baseConfig->end())
+            if (configAddress == baseConfig->end())
             {
                 std::cerr << "error finding necessary entry in configuration\n";
                 continue;
             }
 
-            const uint64_t* confBus =
-                std::get_if<uint64_t>(&(configBus->second));
             const uint64_t* confAddr =
                 std::get_if<uint64_t>(&(configAddress->second));
-            if (confBus == nullptr || confAddr == nullptr)
+            if (confAddr == nullptr)
             {
-                std::cerr
-                    << "Cannot get bus or address, invalid configuration\n";
+                std::cerr << "Cannot address, invalid configuration"
+                          << std::endl;
                 continue;
             }
 
-            if ((*confBus != bus) || (*confAddr != addr))
+            auto configBus = baseConfig->find("Bus");
+            if (configBus == baseConfig->end())
+            {
+                std::string muxIntfStr(configInterfacePrefix + sensorType +
+                                       ".MuxChannel");
+                const auto& findMuxCh = cfgData.find(muxIntfStr);
+                if (findMuxCh == cfgData.end())
+                {
+                    std::cerr << "No Bus or MuxChannel config in "
+                              << path.filename() << std::endl;
+                    continue;
+                }
+                try
+                {
+                    I2CMux mux(findMuxCh->second);
+                    auto findChName = findMuxCh->second.find("ChannelName");
+                    if (std::get_if<std::string>(&findChName->second) ==
+                        nullptr)
+                    {
+                        throw std::runtime_error("Channel name invalid");
+                    }
+                    confBus = mux.getLogicalBus(
+                        std::get<std::string>(findChName->second));
+                }
+                catch (const std::exception& e)
+                {
+                    std::cerr << e.what() << '\n';
+                    continue;
+                }
+            }
+            else
+            {
+                if (std::get_if<uint64_t>(&(configBus->second)) == nullptr)
+                {
+                    std::cerr << "Cannot get bus, invalid configuration\n";
+                    continue;
+                }
+                confBus.setBus(
+                    static_cast<int>(std::get<uint64_t>(configBus->second)));
+            }
+
+            if ((static_cast<size_t>(confBus.getBus()) != bus) ||
+                (*confAddr != addr))
             {
                 if constexpr (debug)
                 {
-                    std::cerr << "Configuration skipping " << *confBus << "-"
-                              << *confAddr << " because not " << bus << "-"
-                              << addr << "\n";
+                    std::cerr << "Configuration skipping " << confBus.getBus()
+                              << "-" << *confAddr << " because not " << bus
+                              << "-" << addr << "\n";
                 }
                 continue;
             }

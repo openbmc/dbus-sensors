@@ -282,7 +282,7 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         return;
     }
 
-    auto command = encodeBasicQuery(sensor->bus, sensor->address, 0x00);
+    auto command = encodeBasicQuery(sensor->bus.getBus(), sensor->address, 0x00);
 
     /* Issue the request */
     boost::asio::async_write(

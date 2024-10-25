@@ -40,6 +40,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -61,13 +62,14 @@ static constexpr double mcuTempMinReading = 0;
 
 boost::container::flat_map<std::string, std::unique_ptr<MCUTempSensor>> sensors;
 
-MCUTempSensor::MCUTempSensor(
-    std::shared_ptr<sdbusplus::asio::connection>& conn,
-    boost::asio::io_context& io, const std::string& sensorName,
-    const std::string& sensorConfiguration,
-    sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData, uint8_t busId,
-    uint8_t mcuAddress, uint8_t tempReg) :
+MCUTempSensor::MCUTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                             boost::asio::io_context& io,
+                             const std::string& sensorName,
+                             const std::string& sensorConfiguration,
+                             sdbusplus::asio::object_server& objectServer,
+                             std::vector<thresholds::Threshold>&& thresholdData,
+                             I2CBus busId, uint8_t mcuAddress,
+                             uint8_t tempReg) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "MCUTempSensor", false, false,
            mcuTempMaxReading, mcuTempMinReading, conn),
@@ -114,7 +116,7 @@ void MCUTempSensor::checkThresholds()
 
 int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int32_t* pu32data) const
 {
-    std::string i2cBus = "/dev/i2c-" + std::to_string(busId);
+    std::string i2cBus = "/dev/i2c-" + std::to_string(busId.getBus());
 
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     int fd = open(i2cBus.c_str(), O_RDWR);
@@ -236,8 +238,41 @@ void createSensors(
                         std::cerr << "error populating thresholds for " << name
                                   << "\n";
                     }
-
-                    uint8_t busId = loadVariant<uint8_t>(cfg, "Bus");
+                    I2CBus busId;
+                    if (cfg.find("Bus") == cfg.end())
+                    {
+                        const auto& findMuxCh = interfaces.find(
+                            configInterfaceName(sensorType) + ".MuxChannel");
+                        if (findMuxCh == interfaces.end())
+                        {
+                            std::cerr << "No Bus or MuxChannel in "
+                                      << path.filename() << std::endl;
+                            continue;
+                        }
+                        try
+                        {
+                            I2CMux mux(findMuxCh->second);
+                            auto findChName = findMuxCh->second.find(
+                                              "ChannelName");
+                            if (std::get_if<std::string>(&findChName->second) ==
+                                nullptr)
+                            {
+                                throw std::runtime_error(
+                                    "Channel name invalid");
+                            }
+                            busId = mux.getLogicalBus(
+                                std::get<std::string>(findChName->second));
+                        }
+                        catch (const std::exception& e)
+                        {
+                            std::cerr << e.what() << '\n';
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        busId.setBus(loadVariant<int>(cfg, "Bus"));
+                    }
                     uint8_t mcuAddress = loadVariant<uint8_t>(cfg, "Address");
                     uint8_t tempReg = loadVariant<uint8_t>(cfg, "Reg");
 
@@ -250,7 +285,7 @@ void createSensors(
                             << "Configuration parsed for \n\t" << intf << "\n"
                             << "with\n"
                             << "\tName: " << name << "\n"
-                            << "\tBus: " << static_cast<int>(busId) << "\n"
+                            << "\tBus: " << busId.getBus() << "\n"
                             << "\tAddress: " << static_cast<int>(mcuAddress)
                             << "\n"
                             << "\tReg: " << static_cast<int>(tempReg) << "\n"
