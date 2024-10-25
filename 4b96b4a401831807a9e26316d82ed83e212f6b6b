@@ -90,6 +90,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8e3edd3_9dffadd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2024-10-25T09:55:00Z",
+      "side": 1,
+      "message": "For the PR of `LiquidFlowLPM` in `phosphor-dbus-interfaces`, please refer to https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/75325",
+      "parentUuid": "f302e973_1452e1a9",
+      "revId": "4b96b4a401831807a9e26316d82ed83e212f6b6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "801dc9df_2d53b0d7",
@@ -103,6 +121,24 @@
       "writtenOn": "2024-09-25T12:25:02Z",
       "side": 1,
       "message": "Do other service files do this?  They shouldn\u0027t.",
+      "revId": "4b96b4a401831807a9e26316d82ed83e212f6b6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03a5bdfd_6f32df0b",
+        "filename": "service_files/xyz.openbmc_project.modbussensor.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2024-10-25T09:55:00Z",
+      "side": 1,
+      "message": "Yes, other service files all require xyz.openbmc_project.EntityManager.service",
+      "parentUuid": "801dc9df_2d53b0d7",
       "revId": "4b96b4a401831807a9e26316d82ed83e212f6b6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -124,6 +160,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46d26207_bb56d0b3",
+        "filename": "service_files/xyz.openbmc_project.modbussensor.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2024-10-25T09:55:00Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d1cd8c7b_4562de74",
+      "revId": "4b96b4a401831807a9e26316d82ed83e212f6b6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45d0206e_a8ecc598",
@@ -137,6 +191,24 @@
       "writtenOn": "2024-09-25T12:25:02Z",
       "side": 1,
       "message": "13 lines of constructor parameters??!  Something should be refactored here.",
+      "revId": "4b96b4a401831807a9e26316d82ed83e212f6b6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e382cea3_b9e68cef",
+        "filename": "src/ModbusSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2024-10-25T09:55:00Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "45d0206e_a8ecc598",
       "revId": "4b96b4a401831807a9e26316d82ed83e212f6b6b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
