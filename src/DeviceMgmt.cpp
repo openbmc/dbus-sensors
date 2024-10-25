@@ -15,23 +15,25 @@
 #include <system_error>
 #include <variant>
 
+namespace fs = std::filesystem;
+
 std::optional<I2CDeviceParams> getI2CDeviceParams(
-    const I2CDeviceTypeMap& dtmap, const SensorBaseConfigMap& cfg)
+    const I2CDeviceTypeMap& dtmap, const SensorBaseConfigMap& cfg,
+    const SensorData& sensor)
 {
     auto findType = cfg.find("Type");
     auto findBus = cfg.find("Bus");
     auto findAddr = cfg.find("Address");
 
-    if (findType == cfg.end() || findBus == cfg.end() || findAddr == cfg.end())
+    if (findType == cfg.end() || findAddr == cfg.end())
     {
         return std::nullopt;
     }
 
     const std::string* type = std::get_if<std::string>(&findType->second);
-    const uint64_t* bus = std::get_if<uint64_t>(&findBus->second);
     const uint64_t* addr = std::get_if<uint64_t>(&findAddr->second);
 
-    if (type == nullptr || bus == nullptr || addr == nullptr)
+    if (type == nullptr || addr == nullptr)
     {
         return std::nullopt;
     }
@@ -42,10 +44,39 @@ std::optional<I2CDeviceParams> getI2CDeviceParams(
         return std::nullopt;
     }
 
-    return I2CDeviceParams(findDevType->second, *bus, *addr);
+    if (findBus == cfg.end())
+    {
+        for (const auto& [name, intf] : sensor)
+        {
+            if (intf == cfg)
+            {
+                std::string channel;
+                auto mux = I2CMux::findMux(
+                    name, sensor, std::get<std::string>(findType->second),
+                    channel);
+                if (!mux)
+                {
+                    return std::nullopt;
+                }
+                auto busCfg = mux.value().getLogicalBus(channel);
+                if (!busCfg)
+                {
+                    return std::nullopt;
+                }
+                uint64_t bus = busCfg.value().getBus();
+                return I2CDeviceParams(findDevType->second, bus, *addr);
+            }
+        }
+    }
+    else if (std::get_if<std::uint64_t>(&findBus->second) != nullptr)
+    {
+        uint64_t bus = std::get<uint64_t>(findBus->second);
+        return I2CDeviceParams(findDevType->second, bus, *addr);
+    }
+    return std::nullopt;
 }
 
-static std::filesystem::path i2cBusPath(uint64_t bus)
+static fs::path i2cBusPath(uint64_t bus)
 {
     return {"/sys/bus/i2c/devices/i2c-" + std::to_string(bus)};
 }
@@ -60,7 +91,7 @@ static std::string deviceDirName(uint64_t bus, uint64_t address)
 
 bool I2CDeviceParams::devicePresent() const
 {
-    std::filesystem::path path = i2cBusPath(bus) / deviceDirName(bus, address);
+    fs::path path = i2cBusPath(bus) / deviceDirName(bus, address);
 
     if (type->createsHWMon)
     {
