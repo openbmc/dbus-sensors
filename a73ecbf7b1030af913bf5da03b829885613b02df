@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d465f26_03694809",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-10-27T04:59:25Z",
+      "side": 1,
+      "message": "Because EM has a replacement of spaces in \"Name\" value (https://github.com/openbmc/entity-manager/blob/2826f40187e4090acd761b59bc4c6f0036b7be8c/src/overlay.cpp#L241), mux name in the symlink can be different from the config. I think you should do it too here to ensure consistency, as users can use space-separated strings in \"Name\" of a mux, and \"MuxName\".",
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec52f2f0_55c43e50",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-10-27T04:59:25Z",
+      "side": 1,
+      "message": "I think this should be predefined as constexpr or something.",
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
