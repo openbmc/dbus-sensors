@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6329ed6_1cc62333",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-28T00:07:09Z",
+      "side": 1,
+      "message": "What do you mean by the \"MuxChannel interface\"? There\u0027s no such type in the codebase. Are you referring to an EM property?\n\nIf so, can you provide a link to the EM schema or change introducing it in the commit message so it is clear what you\u0027re discussing?",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5a5d119_fb1b1ebf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-28T00:07:09Z",
+      "side": 1,
+      "message": "Please avoid describing the implementation details in the commit message. Prefer to comment the code instead, if that\u0027s necessary.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35e8170c_2639b00d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-28T00:07:09Z",
+      "side": 1,
+      "message": "What sensors plan on this? Can you unpack in the commit message when this alternative is necessary?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d465f26_03694809",
         "filename": "src/Utils.cpp",
         "patchSetId": 3
@@ -31,6 +100,63 @@
       "writtenOn": "2024-10-27T04:59:25Z",
       "side": 1,
       "message": "I think this should be predefined as constexpr or something.",
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9b37ec5_969ca428",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-28T00:07:09Z",
+      "side": 1,
+      "message": "Why `uint64_t`? Seems excessive?",
+      "range": {
+        "startLine": 413,
+        "startChar": 64,
+        "endLine": 413,
+        "endChar": 77
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "466608ab_430eaa9d",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-28T00:07:09Z",
+      "side": 1,
+      "message": "This has no documentation or tests. Can you please add both?",
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "300f7ffc_dcab6ca3",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-28T00:07:09Z",
+      "side": 1,
+      "message": "My preference is that we don\u0027t add yet more free functions to Utils.h. It\u0027s not a maintainable path forward.\n\nRather, keeping things that are together together via a coherent object model makes this all much more comprehensible, and allows us to encode relationships between concepts in the type system. I\u0027d much prefer we create a `I2CMux` object that has a `const` `bus()` method that returns an `I2CBus` object, from which you can retrieve the bus index (... because it\u0027s a property of a Linux I2C bus ...).",
       "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
