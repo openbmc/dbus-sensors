@@ -389,6 +389,7 @@ bool createSensors(boost::asio::io_context& io,
                 {
                     std::cerr << "error populating thresholds for "
                               << sensorName << "\n";
+                    return false;
                 }
             }
             auto& sensorPtr = gCpuSensors[sensorName];
@@ -661,6 +662,9 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
                                sensorConfigs) ||
                 keepPinging)
             {
+                for (CPUConfig& config : cpuConfigs)
+                    config.state = State::OFF;
+
                 detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                                dbusConnection, cpuConfigs, sensorConfigs);
             }

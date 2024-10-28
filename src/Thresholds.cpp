@@ -517,6 +517,8 @@ bool parseThresholdsFromAttr(
                 const auto& [suffix, level, direction, offset] = t;
                 auto attrPath =
                     boost::replace_all_copy(inputPath, item, suffix);
+                if (!std::filesystem::exists(attrPath))
+                    continue;
                 if (auto val = readFile(attrPath, scaleFactor))
                 {
                     *val += offset;
@@ -527,6 +529,10 @@ bool parseThresholdsFromAttr(
                     }
                     thresholdVector.emplace_back(level, direction, *val,
                                                  hysteresis);
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
