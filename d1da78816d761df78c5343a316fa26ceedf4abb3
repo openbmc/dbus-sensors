@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "861c4cdf_90a28964",
+        "filename": "src/LeakDetection/LeakUtils.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-10-31T16:38:10Z",
+      "side": 1,
+      "message": "Currently, the LeakUtils module only contains functionality related to events. We can create a new class called LeakEvents that will provide the necessary methods for handling events?",
+      "parentUuid": "f75cf032_f56525fb",
+      "revId": "d1da78816d761df78c5343a316fa26ceedf4abb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b1c20d15_c52bf097",
         "filename": "src/Utils.hpp",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2024-10-28T00:30:40Z",
       "side": 1,
       "message": "I really prefer we do not continue to pile free functions into Utils.h.\n\nPlease try to start forming some object models that represent the things we\u0027re interacting with, and do the interactions via methods on the resulting classes. That way we can start enforcing relationships between types via the type system and not have this shotgun-scatter of unrelated functions.",
+      "revId": "d1da78816d761df78c5343a316fa26ceedf4abb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdd676c6_bf007875",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-10-31T16:38:10Z",
+      "side": 1,
+      "message": "I assume you are suggesting creating a class (lets say system) within dbus-sensors that can provide methods or functions for this purpose. Can you please confirm?",
+      "parentUuid": "b1c20d15_c52bf097",
       "revId": "d1da78816d761df78c5343a316fa26ceedf4abb3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
