@@ -1,0 +1,57 @@
+#include "CableEvent.hpp"
+
+#include <phosphor-logging/commit.hpp>
+#include <phosphor-logging/lg2.hpp>
+#include <xyz/openbmc_project/Logging/Entry/client.hpp>
+#include <xyz/openbmc_project/State/Cable/event.hpp>
+
+PHOSPHOR_LOG2_USING;
+
+namespace phosphor::cable::event
+{
+
+auto Event::resolveLeakEvent(sdbusplus::message::object_path& eventPath)
+    -> sdbusplus::async::task<>
+{
+    using LoggingEntry =
+        sdbusplus::client::xyz::openbmc_project::logging::Entry<>;
+
+    auto entryClient = LoggingEntry(ctx)
+                           .service(LoggingEntry::default_service)
+                           .path(eventPath.str);
+    co_await entryClient.resolved(true);
+}
+
+auto Event::generateCableEvent(Type type,
+                               std::string& name) -> sdbusplus::async::task<>
+{
+    if (type == Type::connected)
+    {
+        auto pendingEvent = pendingEvents.find(name);
+        if (pendingEvent != pendingEvents.end())
+        {
+            co_await resolveLeakEvent(pendingEvent->second);
+
+            using CableConnected = sdbusplus::event::xyz::openbmc_project::
+                state::Cable::CableConnected;
+            co_await lg2::commit(ctx, CableConnected("PORT_ID", name));
+            pendingEvents.erase(pendingEvent);
+        }
+    }
+    else if (type == Type::disconnected)
+    {
+        using CableDisconnected = sdbusplus::error::xyz::openbmc_project::
+            state::Cable::CableDisconnected;
+        auto eventPath =
+            co_await lg2::commit(ctx, CableDisconnected("PORT_ID", name));
+        warning("Generate CableDisconnected for {NAME}", "NAME", name);
+        pendingEvents.emplace(name, eventPath);
+    }
+    else
+    {
+        error("Unknown cable event type");
+    }
+    co_return;
+}
+
+} // namespace phosphor::cable::event
