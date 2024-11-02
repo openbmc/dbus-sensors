@@ -124,3 +124,7 @@ endif
 if get_option('leakdetector').allowed()
     subdir('leakdetector')
 endif
+
+if get_option('cable-monitor').allowed()
+    subdir('cable-monitor')
+endif
