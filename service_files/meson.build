@@ -6,6 +6,7 @@ systemd_system_unit_dir = systemd.get_variable(
 
 unit_files = [
     ['adc', 'xyz.openbmc_project.adcsensor.service'],
+    ['cable-monitor', 'xyz.openbmc_project.cablemonitor.service'],
     ['exit-air', 'xyz.openbmc_project.exitairsensor.service'],
     ['external', 'xyz.openbmc_project.externalsensor.service'],
     ['fan', 'xyz.openbmc_project.fansensor.service'],
