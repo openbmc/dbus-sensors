@@ -237,3 +237,7 @@ if get_option('external').allowed()
         install: true,
     )
 endif
+
+if get_option('cable-monitor').allowed()
+    subdir('CableMonitor')
+endif
