@@ -18,6 +18,7 @@ unit_files = [
     ['psu', 'xyz.openbmc_project.psusensor.service'],
     ['external', 'xyz.openbmc_project.externalsensor.service'],
     ['leakdetector', 'xyz.openbmc_project.leakdetector.service'],
+    ['cable-monitor', 'xyz.openbmc_project.cablemonitor.service'],
 ]
 
 fs = import('fs')
