@@ -87,6 +87,18 @@ entitymanagerinterface_dep = declare_dependency(
     dependencies: default_deps,
 )
 
+notifywatch_a = static_library(
+    'notifywatch_a',
+    'NotifyWatch.cpp',
+    dependencies: default_deps,
+)
+
+notifywatch_dep = declare_dependency(
+    include_directories: ['.'],
+    link_with: [notifywatch_a],
+    dependencies: default_deps,
+)
+
 peci_incdirs = []
 if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
     peci_incdirs = ['../include']
@@ -155,4 +167,8 @@ endif
 
 if get_option('leakdetector').allowed()
     subdir('leakdetector')
+endif
+
+if get_option('cable-monitor').allowed()
+    subdir('cable-monitor')
 endif
