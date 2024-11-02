@@ -89,3 +89,9 @@ option(
     value: 'enabled',
     description: 'Enable Liquid Leak Detector.',
 )
+option(
+    'cable-monitor',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable Cable monitor.',
+)
