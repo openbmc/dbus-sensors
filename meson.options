@@ -101,3 +101,9 @@ option(
     value: 'enabled',
     description: 'Enable SMBPBI sensor.',
 )
+option(
+    'cable-monitor',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable Cable monitor.',
+)
