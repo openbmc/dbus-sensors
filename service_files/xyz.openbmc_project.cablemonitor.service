@@ -1,0 +1,12 @@
+[Unit]
+Description=Cable Monitor for Cable Detection
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
+
+[Service]
+Restart=always
+RestartSec=5
+ExecStart=/usr/libexec/dbus-sensors/cablemonitor
+
+[Install]
+WantedBy=multi-user.target
