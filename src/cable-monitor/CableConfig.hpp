@@ -1,0 +1,34 @@
+#pragma once
+
+#include <nlohmann/json.hpp>
+#include <sdbusplus/async/task.hpp>
+
+#include <set>
+#include <string>
+
+namespace phosphor::cable::config
+{
+
+static constexpr auto configFileDir = "/var/lib/cablemonitor.d";
+static constexpr auto configFileName = "cable-config.json";
+
+class Config
+{
+    using json = nlohmann::json;
+
+  public:
+    explicit Config() = default;
+
+    using Cables = std::set<std::string>;
+
+    /** Process the configuration file */
+    static auto processConfig(std::string configFile)
+        -> sdbusplus::async::task<Cables>;
+
+  private:
+    /** @brief Parse the configuration file */
+    static auto parseConfigFile(std::string configFile)
+        -> sdbusplus::async::task<json>;
+};
+
+} // namespace phosphor::cable::config
