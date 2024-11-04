@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db3d74c6_0ede2ec0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-04T08:17:44Z",
+      "side": 1,
+      "message": "This daemon seems to ignore most of the existing code we have that already does a majority of these generic operations (read a config file, read a gpio, etc).\n\nPlease familiarize yourself with how entity-manager reactors are intended to work, and rewrite this application appropriately.",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40c853fa_a494ee28",
+        "filename": "src/CableMonitor/CableMonitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-04T08:17:44Z",
+      "side": 1,
+      "message": "remove.  Using namespace is against the coding standard.",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 15
+      },
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66561c0a_995b20bd",
+        "filename": "src/CableMonitor/CableMonitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-04T08:17:44Z",
+      "side": 1,
+      "message": "Please look at and understand how entity manager reactors are intended to operate.  This daemon appears to have ignored basically all the existing things.",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44736899_b8679333",
+        "filename": "subprojects/phosphor-dbus-interfaces.wrap",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-04T08:17:44Z",
+      "side": 1,
+      "message": "We already have things that can monitor gpios without this dependency.  I don\u0027t really want to add it here unless there\u0027s a holistic plan, ideally in a design doc documenting:\n1. Why taking the new dependency is required.\n2. How the new dependency is going to be rolled out.",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
