@@ -43,6 +43,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43f98d8e_95ea172f",
+        "filename": "src/CableMonitor/CableMonitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-04T08:20:42Z",
+      "side": 1,
+      "message": "Using coroutines means that basically all the utility functions available for reactors are now not usable in a coroutine.  That doesn\u0027t really seem workable at this point, unless you\u0027re planning on reworking all the utils classes to support both coroutine and not?",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "66561c0a_995b20bd",
         "filename": "src/CableMonitor/CableMonitor.cpp",
         "patchSetId": 1
