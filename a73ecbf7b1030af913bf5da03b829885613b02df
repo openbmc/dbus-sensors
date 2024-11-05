@@ -159,6 +159,48 @@
       "message": "My preference is that we don\u0027t add yet more free functions to Utils.h. It\u0027s not a maintainable path forward.\n\nRather, keeping things that are together together via a coherent object model makes this all much more comprehensible, and allows us to encode relationships between concepts in the type system. I\u0027d much prefer we create a `I2CMux` object that has a `const` `bus()` method that returns an `I2CBus` object, from which you can retrieve the bus index (... because it\u0027s a property of a Linux I2C bus ...).",
       "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e8694d2_b08ef1c4",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2024-11-05T17:08:54Z",
+      "side": 1,
+      "message": "`uint64_t` was used since entity-manager and most of the sensors in dbus-sensors uses `uint64_t` when it comes to describing the bus. However, looking into the kernel, it looks like `int` is used:\nhttps://github.com/torvalds/linux/blob/6c52d4da1c742cd01a797a4d0a2d3c5a60dc9bfe/drivers/i2c/i2c-core-base.c#L1644\n\n`int` could be used instead, but perhaps a separate CL to change all the variables that describe bus in dbus-sensors and entity-manager to `int`.",
+      "parentUuid": "a9b37ec5_969ca428",
+      "range": {
+        "startLine": 413,
+        "startChar": 64,
+        "endLine": 413,
+        "endChar": 77
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af4bc319_bcf352ba",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2024-11-05T17:08:54Z",
+      "side": 1,
+      "message": "What if I moved it into DeviceMgmt.cpp as it seems more fitting to have a function that retrieves the bus in that file. I don\u0027t think we need to create an `I2CMux` and `I2CBus` object for a function, but perhaps I don\u0027t see what you are trying to illustrate.",
+      "parentUuid": "300f7ffc_dcab6ca3",
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
