@@ -33,6 +33,23 @@
       "message": "lgtm",
       "revId": "458164dd495fc0761ea73a5b4f96806c2d80880f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0eb00b3c_e3fe974a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-05T05:18:33Z",
+      "side": 1,
+      "message": "I think splitting the source into application-specific subdirectories is a good move, however, can you please match the directory names to the associated meson options (including making them all lower-case).\n\nhttps://discord.com/channels/775381525260664832/867820390406422538/1303217796821553214",
+      "revId": "458164dd495fc0761ea73a5b4f96806c2d80880f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
