@@ -201,6 +201,30 @@
       "parentUuid": "300f7ffc_dcab6ca3",
       "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93ea9e5f_3e9996ca",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-06T01:07:23Z",
+      "side": 1,
+      "message": "Part of where I was going with the other comment about an `I2CBus` object was that with that the representation would be encapsulated (and we can collect operations related to I2C buses on the class).\n\nIn the past I\u0027ve written this, which probably provides some context for my position:\n\nhttps://github.com/ibm-openbmc/platform-fru-detect/blob/main/src/sysfs/i2c.hpp",
+      "parentUuid": "0e8694d2_b08ef1c4",
+      "range": {
+        "startLine": 413,
+        "startChar": 64,
+        "endLine": 413,
+        "endChar": 77
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
