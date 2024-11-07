@@ -34,6 +34,24 @@
       "parentUuid": "a9219080_74782301",
       "revId": "77e81c84ca93e1db29f60d1f66e4beaa705cbb4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e78c2f1_edf2cb1f",
+        "filename": "src/meson.build",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-07T12:32:48Z",
+      "side": 1,
+      "message": "That is not something we want in the committed code though.  That just means that now all your code is uncompiled in CI.\n\nWe generally want all meson options \"enabled\" to get the maximal amount of CI coverage on a repository.",
+      "parentUuid": "6b27802e_db203c44",
+      "revId": "77e81c84ca93e1db29f60d1f66e4beaa705cbb4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
