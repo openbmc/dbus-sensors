@@ -52,6 +52,24 @@
       "parentUuid": "6b27802e_db203c44",
       "revId": "77e81c84ca93e1db29f60d1f66e4beaa705cbb4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185e37a9_1b28a628",
+        "filename": "src/meson.build",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2024-11-08T09:59:09Z",
+      "side": 1,
+      "message": "Could I use the External Project module to build the autotools subproject for libmodbus? I noticed in the .gitignore that files other than *.wrap are not allowed under the subprojects/ directory.",
+      "parentUuid": "8e78c2f1_edf2cb1f",
+      "revId": "77e81c84ca93e1db29f60d1f66e4beaa705cbb4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
