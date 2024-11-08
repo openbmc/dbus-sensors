@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c963e86a_287afde0",
+        "filename": "src/meson.build",
+        "patchSetId": 14
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-08T17:31:29Z",
+      "side": 1,
+      "message": "Is there a reason to use `libmodbus` over `liblightmodbus`?  Both exist in meta-openembedded already but `liblightmodbus` is header-only which seems easier to deal with.",
+      "range": {
+        "startLine": 76,
+        "startChar": 29,
+        "endLine": 76,
+        "endChar": 38
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
